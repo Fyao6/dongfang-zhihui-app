@@ -1,0 +1,25 @@
+东方智慧 Netlify 公网演示（已部署）
+
+APP：https://eastern-wisdom-demo-fuyao.netlify.app/
+管理后台：https://eastern-wisdom-demo-fuyao.netlify.app/admin
+电脑查看页：https://eastern-wisdom-demo-fuyao.netlify.app/app
+Netlify管理面板：https://app.netlify.com/projects/eastern-wisdom-demo-fuyao
+
+站点创建在用户本人Netlify账号下，账号套餐为Free，没有启用自动付费充值。站点ID：1d4967d8-cb7c-4106-a092-03b716c3340c；本次部署ID：6ae8443269aa967942f6bd59。后续更新必须复用此站点，不重复创建。
+
+当前本机已通过无代理实际公网验证：前台/后台/健康接口200、管理员登录与HTTPS Cookie、匿名权限隔离、真实素材上传、内容发布同步前台、归档与素材访问恢复保护。浏览器使用--no-proxy-server，HTTP请求不使用系统代理。本次验证不代表已覆盖全部国内运营商和地区。
+
+源码沿用04_研发源码/app/cloud。netlify.toml定义发布目录和Edge Function；prepare-netlify.mjs从当前页面生成部署文件；worker/netlify-api.js提供同源API入口。56组本地完整前后台回归与6组网关检查通过。证据见06目录Netlify相关报告和两张已部署截图。
+
+数据与权限校验继续由原有Sites Worker/D1/R2负责，原后端地址为https://eastern-wisdom-demo-20261102.sturdyebony2.chatgpt.site。Netlify负责页面素材和API入口；浏览器通过新站同源接口访问。不是将数据库迁移到了Netlify。原云服务不能关闭，否则Netlify上的后台接口也会不可用。前台后台均不依赖本电脑开机。
+
+部署：在cloud目录运行node prepare-netlify.mjs，然后使用已授权Netlify CLI对上述site_id执行deploy --prod --no-build --dir .netlify/public。CLI位于.sites-runtime/netlify-tool/node_modules/netlify-cli/bin/run.js，使用现有Node运行时。项目绑定在.netlify/state.json，备查身份在本目录Netlify站点身份.json。
+
+仅上传.netlify/public页面素材和生成的Edge Function；不要上传账号配置、.env、.dev.vars、.wrangler或本机数据库。云端管理员账号沿用之前建立的fyao，密码不存此文档；页面与网关源码没有内嵌管理员凭据。
+
+真实AI、实体设备、正式支付仍待接入；部分偏好和学习记录仍为浏览器本机存储。免费托管额度和服务政策以Netlify后台为准。cpolar不再需要配置或启动。
+
+已通过Netlify项目配置关闭Powered by Netlify悬浮标记，避免遮挡APP底部导航；新浏览器无代理刷新验证无注入浮层。该开关无需重新部署。
+
+2026年11月3日：待发布版本已上线
+原Sites发布通道恢复，最新源码已推送并完成云后台和原Netlify站点发布。公网地址 https://eastern-wisdom-demo-fuyao.netlify.app/ ，后台 /admin，电脑查看 /app。课程动态分类、老师推荐入口、视频适配及标题精简已上线。原账号与云端数据保留。实际无代理只读核验通过：三入口、健康接口、匿名权限、原管理员登录、后台分类与课程多选、四语课程列表与社群四标签和视频自动播放；浏览器无运行异常。本轮未重新执行完整业务回归，沿用发布前已通过的回归证据。本次发布与公网验证详情见06_验证与后续工作/本次公网发布核验.json。此前待发布和工具阻塞描述为历史状态。

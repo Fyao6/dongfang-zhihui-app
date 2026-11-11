@@ -1,0 +1,289 @@
+{
+  "latest": {
+    "schemaVersion": 2,
+    "module": "基础框架F02",
+    "at": "2026-11-06T10:03:56.434Z",
+    "generatedAt": "2026-11-06T10:03:56.434Z",
+    "mode": "source-overlay-single-module",
+    "base": "http://127.0.0.1:63142",
+    "scope": "Source overlay preparation only; not a built-version acceptance.",
+    "productionWrites": false,
+    "pass": true,
+    "passed": 13,
+    "failed": 0,
+    "results": [
+      {
+        "name": "已登录首个public未返回时不读取或显示guest遗留资料，不向uid写入",
+        "pass": true
+      },
+      {
+        "name": "旧资料幂等留guest，A/B完整个人字段隔离，退出恢复guest且偏好引用不丢",
+        "pass": true
+      },
+      {
+        "name": "persist单次个人快照，失败后render不重试，表单和草稿保留且手动保存成功",
+        "pass": true
+      },
+      {
+        "name": "签到/抽卡setItem失败不锁一次性动作，可原动作重试",
+        "pass": true
+      },
+      {
+        "name": "练习结束保存失败停留原页且无记录，重试只存一条",
+        "pass": true
+      },
+      {
+        "name": "合成音乐与媒体音乐保存失败不推进saved/recorded，重试不重记",
+        "pass": true
+      },
+      {
+        "name": "出生入口配额失败保留表单/旧资料且显示本地化可重试错误",
+        "pass": true
+      },
+      {
+        "name": "A好友真实旧响应在切B后丢弃，读取失败保留原列表并可重试",
+        "pass": true
+      },
+      {
+        "name": "时长缓存按账号归属，旧A heartbeat迟到不覆盖B账本或pending",
+        "pass": true
+      },
+      {
+        "name": "A设备读取及真实未连接AI错误迟到后不污染B数据或反馈",
+        "pass": true
+      },
+      {
+        "name": "保存错误英/繁/藏文可读，pending公共偏好保存不弹个人身份错误",
+        "pass": true
+      },
+      {
+        "name": "未变化feed读取保留现有DOM，聊天已导航后不再二次render",
+        "pass": true
+      },
+      {
+        "name": "真实媒体迟拒绝按账号及实例丢弃，不覆盖新播放器状态",
+        "pass": true
+      }
+    ],
+    "errors": [],
+    "captures": [],
+    "sourceHashes": {
+      "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+      "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+      "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+      "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d",
+      "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+      "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+      "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+      "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+      "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+      "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+      "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+      "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+      "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+      "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+      "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+      "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "4d419d33fddccb4413092686193e8038aa0d9f798cebc9a697ad8827b5ac4bfa",
+      "发给负责人-东方智慧首页R4.html": "00d41f18436b03f22b69f1f9870ef637fb2c06d8aab2b705ad5d99627ece486c",
+      "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "95a4da6c4db1de5923839e955286d184386377ef2094359d106b91bb1552736b",
+      "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "6af69b27f07fb2388263a7fb702fdfd522b2822fb3a08f959caa80eac2e1ffee"
+    }
+  },
+  "runs": [
+    {
+      "schemaVersion": 1,
+      "module": "F02",
+      "mode": "source-overlay-single-module",
+      "base": "http://127.0.0.1:61591",
+      "generatedAt": "2026-11-06T09:54:00.244Z",
+      "pass": 11,
+      "fail": 0,
+      "results": [
+        {
+          "name": "已登录首个public未返回时不读取或显示guest遗留资料，不向uid写入",
+          "pass": true
+        },
+        {
+          "name": "旧资料幂等留guest，A/B完整个人字段隔离，退出恢复guest且偏好引用不丢",
+          "pass": true
+        },
+        {
+          "name": "persist单次个人快照，失败后render不重试，表单和草稿保留且手动保存成功",
+          "pass": true
+        },
+        {
+          "name": "签到/抽卡setItem失败不锁一次性动作，可原动作重试",
+          "pass": true
+        },
+        {
+          "name": "练习结束保存失败停留原页且无记录，重试只存一条",
+          "pass": true
+        },
+        {
+          "name": "合成音乐与媒体音乐保存失败不推进saved/recorded，重试不重记",
+          "pass": true
+        },
+        {
+          "name": "出生入口配额失败保留表单/旧资料且显示本地化可重试错误",
+          "pass": true
+        },
+        {
+          "name": "A好友真实旧响应在切B后丢弃，读取失败保留原列表并可重试",
+          "pass": true
+        },
+        {
+          "name": "时长缓存按账号归属，旧A heartbeat迟到不覆盖B账本或pending",
+          "pass": true
+        },
+        {
+          "name": "A设备读取及真实未连接AI错误迟到后不污染B数据或反馈",
+          "pass": true
+        },
+        {
+          "name": "保存错误英/繁/藏文可读，pending公共偏好保存不弹个人身份错误",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "71ec518fc254c67c426e427d8d70880d99d65b591016fe0bb436de955acead3b",
+        "04_研发源码/app/r4/music.js": "063d59ba4ab1cf048499066492eee0e635db88ed3ef6332d5dc5836ee43bca67",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+        "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+      }
+    },
+    {
+      "schemaVersion": 2,
+      "module": "基础框架F02",
+      "at": "2026-11-06T10:03:56.434Z",
+      "generatedAt": "2026-11-06T10:03:56.434Z",
+      "mode": "source-overlay-single-module",
+      "base": "http://127.0.0.1:63142",
+      "scope": "Source overlay preparation only; not a built-version acceptance.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 13,
+      "failed": 0,
+      "results": [
+        {
+          "name": "已登录首个public未返回时不读取或显示guest遗留资料，不向uid写入",
+          "pass": true
+        },
+        {
+          "name": "旧资料幂等留guest，A/B完整个人字段隔离，退出恢复guest且偏好引用不丢",
+          "pass": true
+        },
+        {
+          "name": "persist单次个人快照，失败后render不重试，表单和草稿保留且手动保存成功",
+          "pass": true
+        },
+        {
+          "name": "签到/抽卡setItem失败不锁一次性动作，可原动作重试",
+          "pass": true
+        },
+        {
+          "name": "练习结束保存失败停留原页且无记录，重试只存一条",
+          "pass": true
+        },
+        {
+          "name": "合成音乐与媒体音乐保存失败不推进saved/recorded，重试不重记",
+          "pass": true
+        },
+        {
+          "name": "出生入口配额失败保留表单/旧资料且显示本地化可重试错误",
+          "pass": true
+        },
+        {
+          "name": "A好友真实旧响应在切B后丢弃，读取失败保留原列表并可重试",
+          "pass": true
+        },
+        {
+          "name": "时长缓存按账号归属，旧A heartbeat迟到不覆盖B账本或pending",
+          "pass": true
+        },
+        {
+          "name": "A设备读取及真实未连接AI错误迟到后不污染B数据或反馈",
+          "pass": true
+        },
+        {
+          "name": "保存错误英/繁/藏文可读，pending公共偏好保存不弹个人身份错误",
+          "pass": true
+        },
+        {
+          "name": "未变化feed读取保留现有DOM，聊天已导航后不再二次render",
+          "pass": true
+        },
+        {
+          "name": "真实媒体迟拒绝按账号及实例丢弃，不覆盖新播放器状态",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "4d419d33fddccb4413092686193e8038aa0d9f798cebc9a697ad8827b5ac4bfa",
+        "发给负责人-东方智慧首页R4.html": "00d41f18436b03f22b69f1f9870ef637fb2c06d8aab2b705ad5d99627ece486c",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "95a4da6c4db1de5923839e955286d184386377ef2094359d106b91bb1552736b",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "6af69b27f07fb2388263a7fb702fdfd522b2822fb3a08f959caa80eac2e1ffee"
+      }
+    }
+  ]
+}

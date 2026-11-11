@@ -1,0 +1,30 @@
+{
+  "atBeijing": "2026-11-09T15:55:06.372741+08:00",
+  "pass": true,
+  "cause": "8879静态查看页无同源/api账号接口，且先前8880互动后台已停止。",
+  "action": "恢复8880隔离互动预览，原浏览器标签已切到/experience并实际显示生命地图四入口；效果页互动链接已修正。",
+  "url": "http://127.0.0.1:8880/experience?lang=zh-Hans&page=lifeResult",
+  "httpChecks": [
+    {
+      "port": 8879,
+      "path": "/api/public",
+      "status": 404
+    },
+    {
+      "port": 8880,
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "port": 8880,
+      "path": "/api/auth/status",
+      "status": 200
+    }
+  ],
+  "visibleLifeMapVerified": true,
+  "screenshot": "06_验证与后续工作/本地预览恢复-生命地图.png",
+  "businessSourceChanged": false,
+  "publicDeploymentAttempted": false,
+  "previewServiceKeptRunningForUser": true,
+  "scope": "仅预览服务和交付导航修正，未改业务源/构建或切换生产数据库。"
+}

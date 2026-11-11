@@ -1,0 +1,109 @@
+{
+  "modules": [
+    {
+      "module": 1,
+      "name": "当前节令年/月定位与档案视点",
+      "completed_beijing": "2026-11-05T15:42:08.274713+08:00",
+      "pass": true,
+      "app_sha256": "3b73abd43908764d3a0f9223b8331269648159b2d4099f551501e20d4b12512d",
+      "checks": {
+        "python": {
+          "report": "06_验证与后续工作/本轮全量回归结果.json",
+          "at": "2026-11-05T07:38:01.031Z",
+          "module": "国学智慧M1当前定位",
+          "passed": 57,
+          "failed": 0
+        },
+        "cloudflare": {
+          "report": "06_验证与后续工作/公网适配全量回归结果.json",
+          "at": "2026-11-05T07:38:28.579Z",
+          "module": "国学智慧M1当前定位修正验收",
+          "passed": 57,
+          "failed": 0
+        }
+      },
+      "boundary_report": "06_验证与后续工作/八字当前运程边界核验.json",
+      "boundary_passed": 20,
+      "notes": "First QA selector matched the dynamic back key and business card; test corrected and both full suites rerun."
+    },
+    {
+      "module": 2,
+      "name": "本命与大运流年流月七列对照",
+      "completed_beijing": "2026-11-05T15:54:18.232347+08:00",
+      "pass": true,
+      "app_sha256": "b2da6316beb9d72903ad10e78da1ece35eff847de709c4d2d2bf652b5d9d5f9d",
+      "checks": {
+        "python": {
+          "report": "06_验证与后续工作/本轮全量回归结果.json",
+          "at": "2026-11-05T07:50:14.688Z",
+          "module": "国学智慧M2七列对照",
+          "passed": 58,
+          "failed": 0
+        },
+        "cloudflare": {
+          "report": "06_验证与后续工作/公网适配全量回归结果.json",
+          "at": "2026-11-05T07:50:29.027Z",
+          "module": "国学智慧M2七列对照",
+          "passed": 58,
+          "failed": 0
+        }
+      },
+      "comparison_report": "06_验证与后续工作/八字本命运程对照核验.json",
+      "comparison_passed": 160
+    },
+    {
+      "module": 3,
+      "name": "四柱等宽竖排、资料层级与术语释义",
+      "completed_beijing": "2026-11-05T16:24:08.170850+08:00",
+      "pass": true,
+      "app_sha256": "de8ca33070095933114cfd0dc94fdbeb80c23b4fee64b8e08a6dd2be5a7516b9",
+      "checks": {
+        "python": {
+          "report": "06_验证与后续工作/本轮全量回归结果.json",
+          "at": "2026-11-05T08:19:08.540Z",
+          "module": "国学智慧M3排版术语",
+          "passed": 59,
+          "failed": 0
+        },
+        "cloudflare": {
+          "report": "06_验证与后续工作/公网适配全量回归结果.json",
+          "at": "2026-11-05T08:19:05.872Z",
+          "module": "国学智慧M3排版术语修复收尾",
+          "passed": 59,
+          "failed": 0
+        }
+      },
+      "glossary_report": "06_验证与后续工作/八字术语词典定点核验.json",
+      "glossary_passed": 10,
+      "notes": "An actual manual-view bug showed today's solar-term interval in the selected historical month card; fixed to the selected year/month interval and regression added. Earlier UTC expectation omitted seconds and was corrected in the test; failure history retained."
+    },
+    {
+      "module": 4,
+      "name": "胎元胎息、八字命身宫与小运",
+      "completed_beijing": "2026-11-05T16:51:00.986228+08:00",
+      "pass": true,
+      "app_sha256": "89fdd8b497fd4d2746b44d6945f5ea49cecd0b8820efb8069e8d2e64087fb3e8",
+      "checks": {
+        "python": {
+          "report": "06_验证与后续工作/本轮全量回归结果.json",
+          "at": "2026-11-05T08:46:00.124Z",
+          "module": "国学智慧M4辅助资料小运",
+          "passed": 60,
+          "failed": 0
+        },
+        "cloudflare": {
+          "report": "06_验证与后续工作/公网适配全量回归结果.json",
+          "at": "2026-11-05T08:47:13.633Z",
+          "module": "国学智慧M4辅助小运最终集成",
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "auxiliary_report": "06_验证与后续工作/八字辅助与小运核验.json",
+      "auxiliary_passed": 26,
+      "glossary_report": "06_验证与后续工作/八字术语词典定点核验.json",
+      "glossary_passed": 12,
+      "notes": "Twenty-five glossary entries; four auxiliary pairs plus real minor periods. Standalone4 and existing three-chart14 also passed on this final build."
+    }
+  ]
+}

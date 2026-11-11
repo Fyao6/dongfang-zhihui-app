@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-05T11:00:27.068Z",
+  "pass": true,
+  "checks": [
+    "Python真实本地HTTP与Cloud Request处理器均通过同一确定性数据集",
+    "北京时间午夜切分、周一起始自然周、自然月与自然年",
+    "跨天/跨功能/跨月用户去重，未把日活相加",
+    "30秒重复访问去重、心跳跨日续活跃且不增加访问",
+    "匿名及角色权限、公司管理操作不计入活跃",
+    "非法功能/事件/客户端身份时间、非法日期/未来/超长范围拒绝",
+    "完整观察期的次日/七日留存，旧注册及未成熟样本排除",
+    "历史未采集null、覆盖不足partial、已覆盖无使用0",
+    "持久化采集起点、接口仅返回汇总、不暴露用户资料",
+    "Python与Cloud所有响应逐字段一致"
+  ],
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+    "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+    "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525"
+  },
+  "scope": "Isolated SQLite fixtures, actual Python HTTP and Cloud API Request handler; no production writes or synthetic historical backfill."
+}

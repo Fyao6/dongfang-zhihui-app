@@ -1,0 +1,62 @@
+{
+  "latest": {
+    "at": "2026-11-05T10:10:04.950Z",
+    "pass": true,
+    "scope": "Isolated Python/SQLite and real browser workflows; production untouched",
+    "mode": "python",
+    "sourceSha256": "65f50331ef9c531eeeba5cff9c49a0db6abd3db843575b5eae36b39f2251088f",
+    "checks": [
+      "实际浏览器注册、申请、管理员审批与创作者工作台开通",
+      "真实新建与提交作品，未配置AI时进入人工队列",
+      "公司总后台实际人工复核界面通过并发布作品",
+      "APP真实创作者主页关注、图文浏览、点赞与收藏",
+      "工作台读取真实关注/浏览/点赞/收藏数据，不使用本地模拟统计",
+      "真实内容桌面及手机布局与截图",
+      "实际文件上传自动读取时长，完整播放后播放量、有效观看时长和完播统计入库",
+      "普通学员与老师角色在真实服务中无总后台权限"
+    ],
+    "errors": [],
+    "stats": {
+      "followers": 1,
+      "views": 1,
+      "likes": 1,
+      "favorites": 1
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-05T10:08:23.010Z",
+      "pass": false,
+      "mode": "python",
+      "checks": [
+        "实际浏览器注册、申请、管理员审批与创作者工作台开通"
+      ],
+      "errors": [],
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-do=new]').first()\u001b[22m\n\u001b[2m    - locator resolved to <button data-do=\"new\" class=\"btn mobile-publish\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者精简真实联调.cjs:15:45"
+    },
+    {
+      "at": "2026-11-05T10:10:04.950Z",
+      "pass": true,
+      "scope": "Isolated Python/SQLite and real browser workflows; production untouched",
+      "mode": "python",
+      "sourceSha256": "65f50331ef9c531eeeba5cff9c49a0db6abd3db843575b5eae36b39f2251088f",
+      "checks": [
+        "实际浏览器注册、申请、管理员审批与创作者工作台开通",
+        "真实新建与提交作品，未配置AI时进入人工队列",
+        "公司总后台实际人工复核界面通过并发布作品",
+        "APP真实创作者主页关注、图文浏览、点赞与收藏",
+        "工作台读取真实关注/浏览/点赞/收藏数据，不使用本地模拟统计",
+        "真实内容桌面及手机布局与截图",
+        "实际文件上传自动读取时长，完整播放后播放量、有效观看时长和完播统计入库",
+        "普通学员与老师角色在真实服务中无总后台权限"
+      ],
+      "errors": [],
+      "stats": {
+        "followers": 1,
+        "views": 1,
+        "likes": 1,
+        "favorites": 1
+      }
+    }
+  ]
+}

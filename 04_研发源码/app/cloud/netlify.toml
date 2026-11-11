@@ -1,0 +1,39 @@
+[build]
+  command = "node prepare-netlify.mjs"
+  publish = ".netlify/public"
+  edge_functions = ".netlify/edge-source"
+
+[[edge_functions]]
+  path = "/api/*"
+  function = "api"
+
+[[redirects]]
+  from = "/experience"
+  to = "/experience.html"
+  status = 200
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
+  status = 200
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[headers]]
+  for = "/creator*"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[redirects]]
+  from = "/creator"
+  to = "/creator.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"

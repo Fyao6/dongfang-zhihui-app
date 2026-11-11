@@ -1,0 +1,21 @@
+const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const {chromium,request}=require(path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+const root=path.resolve(__dirname,'..'),creds=JSON.parse(fs.readFileSync(path.join(root,'04_研发源码/app/cloud/.env.test'),'utf8'));
+const base=process.argv[2];if(!base||!base.startsWith('https://'))throw Error('HTTPS site URL required');
+const network=process.env.EW_TEST_PROXY?{proxy:{server:process.env.EW_TEST_PROXY}}:{};const results=[];let browser,admin,anon,item;
+(async()=>{try{
+ admin=await request.newContext(network);anon=await request.newContext(network);
+ const health=await anon.get(base+'/api/health');assert.equal(health.status(),200);assert.equal((await health.json()).deployment,'cloud');results.push('云端Worker与D1可用');
+ assert.equal((await anon.get(base+'/api/admin/users')).status(),401);results.push('匿名用户无后台权限');
+ const login=await admin.post(base+'/api/auth/login',{data:creds});assert.equal(login.status(),200);assert.equal((await login.json()).user.role,'admin');const cookies=(await admin.storageState()).cookies;assert(cookies.some(c=>c.name==='ew_session'&&c.httpOnly&&c.secure));results.push('HTTPS管理员登录与安全会话');
+ const bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZQAAAABJRU5ErkJggg==','base64');
+ const up=await admin.post(base+'/api/media',{data:bytes,headers:{'Content-Type':'image/png','X-Filename':'cloud-smoke.png'}});assert.equal(up.status(),200);const media=await up.json();assert.equal((await anon.get(base+media.url)).status(),403);assert.equal((await admin.get(base+media.url)).status(),200);results.push('R2真实上传与未发布访问保护');
+ item={id:'cloud_connectivity_check',zh:'公网连通验证',en:'Cloud connectivity verification',coverUrl:media.url};
+ assert.equal((await admin.post(base+'/api/admin/content/quotes',{data:{item,status:'published'}})).status(),200);
+ const content=(await (await anon.get(base+'/api/public')).json()).content;assert(content.quotes.some(q=>q.id===item.id));assert.equal((await anon.get(base+media.url)).status(),200);results.push('后台发布同步前台及媒体公开');
+ assert.equal((await admin.post(base+'/api/admin/content/quotes',{data:{item,status:'archived'}})).status(),200);assert(!(await (await anon.get(base+'/api/public')).json()).content.quotes.some(q=>q.id===item.id));assert.equal((await anon.get(base+media.url)).status(),403);results.push('内容归档同步与素材恢复保护');
+ browser=await chromium.launch({headless:true,...network});const c=await browser.newContext({viewport:{width:390,height:844},locale:'zh-CN'});const page=await c.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof px!=='undefined'&&px.loaded,{},{timeout:30000});await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(1000);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(__dirname,'公网已部署-首页.png')});
+ const ac=await browser.newContext({storageState:await admin.storageState(),viewport:{width:1280,height:900}});const ap=await ac.newPage();ap.on('pageerror',e=>errors.push(e.message));await ap.goto(base+'/admin');await ap.locator('.sidebar [data-nav="cards"]').click();await ap.locator('[data-edit]').first().waitFor();await ap.screenshot({path:path.join(__dirname,'公网已部署-后台.png'),fullPage:true});assert.deepEqual(errors,[]);results.push('真实公网手机首页与后台界面加载');
+ console.log(JSON.stringify({pass:true,checks:results},null,2));
+ fs.writeFileSync(path.join(__dirname,'公网部署验收.json'),JSON.stringify({at:new Date().toISOString(),base,pass:true,checks:results,limits:['真实AI未配置','实体设备未接入','正式支付未接入','部分偏好与学习记录仍为浏览器本机存储']},null,2));
+}catch(e){console.error(JSON.stringify({completed:results,error:e.stack}));process.exitCode=1;}finally{if(item&&admin)await admin.post(base+'/api/admin/content/quotes',{data:{item,status:'archived'}}).catch(()=>{});if(browser)await browser.close();if(admin)await admin.dispose();if(anon)await anon.dispose();}})();

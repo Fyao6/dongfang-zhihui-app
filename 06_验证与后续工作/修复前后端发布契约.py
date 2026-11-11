@@ -1,0 +1,17 @@
+from pathlib import Path
+p=Path(__file__).resolve().parents[1];src=p/'04_研发源码/app/r4';f=src/'platform.js';s=f.read_text(encoding='utf-8')
+s=s.replace("if(old)Object.assign(old,item,{price:Number(item.price)||0});", "if(old)Object.assign(old,item,{price:Number(item.price)||0});else memberPlans.push({en:item.en||item.zh,periodZh:'月',periodEn:'month',copyZh:'',copyEn:item.copyEn||item.copyZh||'',...item,price:Number(item.price)||0});")
+s=s.replace(" for(const [k,v] of Object.entries(px.settings", " window.ewPublishedPlans=(px.content.membership||[]).map(item=>memberPlans.find(p=>p.id===item.id)).filter(Boolean);window.ewPublishedCourseIds=(px.content.courses||[]).map(item=>item.id);\n for(const [k,v] of Object.entries(px.settings")
+s=s.replace("const items=pxAcademyResultsOriginal();return px.loaded?items.filter(x=>(px.content.courses||[]).some(c=>c.id===x.id)):items;", "const items=pxAcademyResultsOriginal();if(!px.loaded)return items;const order=new Map((px.content.courses||[]).map((c,i)=>[c.id,i]));return items.filter(x=>order.has(x.id)).sort((a,b)=>order.get(a.id)-order.get(b.id));")
+s=s.replace("if(!quotes.length)return pxQuoteOriginal(date);", "if(!quotes.length)return px.loaded?{id:'cms_no_quote',zh:'每日一句准备中',en:'Daily thoughts are being prepared'}:pxQuoteOriginal(date);")
+a=s.index('function ewMainHeader');s=s[:a]+"async function pxSaveRecord(record){if(!pxOnline)return false;try{await pxApi('records',record);return true;}catch{toast(pxText('已保存在本机，暂未同步到后台；恢复连接后可再次保存。','Saved on this device; not synced to the server. Save again after reconnecting.'));return false;}}\n"+s[a:]
+s=s.replace("pxApi('records',{kind:'card',date:today(),data:draw}).catch(()=>{});", "pxSaveRecord({kind:'card',date:today(),data:draw});")
+s=s.replace("pxApi('records',{kind:'checkin',date:today(),data:state.daily.checkins[today()]}).catch(()=>{});", "pxSaveRecord({kind:'checkin',date:today(),data:state.daily.checkins[today()]});")
+s=s.replace("pxApi('records',{kind:'body',date:today(),data:values}).catch(()=>{});", "pxSaveRecord({kind:'body',date:today(),data:values});")
+s=s.replace("pxApi('records',{kind:'life',date:today(),data:state.wellness.intentions[today()]}).catch(()=>{});", "pxSaveRecord({kind:'life',date:today(),data:state.wellness.intentions[today()]});")
+s=s.replace("pxApi('records',{kind:'mind',date:today(),data:values}).catch(()=>{});", "pxSaveRecord({kind:'mind',date:today(),data:values});")
+f.write_text(s,encoding='utf-8')
+f=src/'membership.js';s=f.read_text(encoding='utf-8');s=s.replace('function memberPlansGrid(){return',"function memberPlansGrid(){const plans=Array.isArray(window.ewPublishedPlans)?window.ewPublishedPlans:memberPlans;return")
+s=s.replace('${memberPlans.map(p=>','${plans.map(p=>',1)
+s=s.replace('function memberCourseGrid(items){return',"function memberCourseGrid(items){if(Array.isArray(window.ewPublishedCourseIds))items=items.filter(x=>window.ewPublishedCourseIds.includes(x.id));return")
+f.write_text(s,encoding='utf-8');print('Aligned new/archived membership, member-course visibility, course ordering, empty published quotes and failed record-sync feedback.')

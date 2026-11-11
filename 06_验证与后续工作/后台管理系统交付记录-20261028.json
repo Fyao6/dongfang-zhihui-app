@@ -1,0 +1,55 @@
+{
+  "atBeijing": "2026-10-28T11:42:23.624315+08:00",
+  "status": "本机统一后台已实现并通过验收，服务已启动，等待用户创建管理员并实际操作",
+  "adminUrl": "http://127.0.0.1:8765/admin",
+  "scope": [
+    "内容与素材维护：每日一句、三地图、卡池、课程、音乐、签到、老师、会员套餐与权益",
+    "草稿/发布/归档/排序、关键词和编号查找、状态筛选、素材预览、历史版本恢复",
+    "社群审核、原因反馈、服务需求处理、管理员/运营/审核员/老师/学员权限",
+    "业务记录总数、最近500条列表、完整JSON和CSV元数据/计时导出、审计日志",
+    "AI与设备配置、保留/清除密钥、供应商映射编辑",
+    "在线SQLite备份脚本、管理员首次创建、中文操作手册"
+  ],
+  "regression": {
+    "module": "后台管理最终交付验收",
+    "pass": true,
+    "passed": 46,
+    "failed": 0,
+    "coverage": {
+      "browser": "Playwright Chromium headless",
+      "sizes": [
+        "390×844",
+        "360×740",
+        "430×932"
+      ],
+      "localFile": true,
+      "backend": true,
+      "adminUi": true,
+      "liveAi": false,
+      "realHardware": false
+    },
+    "extraCase": "独立测试库520条批量记录；完整导出总数与接口一致，不泄露正文"
+  },
+  "productionEntry": {
+    "reachable": true,
+    "url": "http://127.0.0.1:8765/admin",
+    "setupRequired": true,
+    "productionMutation": false,
+    "browserErrors": []
+  },
+  "rollback": {
+    "archive": "07_历史版本仅供追溯\\后台收尾前可回退-20261028-113314.zip",
+    "files": 72,
+    "databaseExcluded": true,
+    "sha256": "b94520f7e7d5dc3c7ef45ac8ddd4c5245f4a09b677341a0df2c634522a0d8bc5"
+  },
+  "databaseBackup": "07_历史版本仅供追溯\\后台数据库备份-20261028-114114-080059.sqlite3",
+  "databaseIntegrity": "ok",
+  "guide": "05_后台与研发说明/后台管理使用手册.txt",
+  "boundaries": [
+    "仅本机运行，未部署公网服务",
+    "真实AI凭据、硬件SDK与供应商联调待提供",
+    "真实老师/媒体与正式支付服务需外部配置，不用模拟数据冒充验收"
+  ],
+  "productionTestDataWritten": false
+}

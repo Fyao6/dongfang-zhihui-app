@@ -1,0 +1,17 @@
+本方案已停止采用。用户已选择自有Netlify账号，当前入口：https://eastern-wisdom-demo-fuyao.netlify.app/。cpolar无需填写Token或启动。以下仅为此前准备记录。
+
+国内访问接入准备（2026-11-02）
+
+状态：客户端和国内HTTPS隧道配置已准备，尚未获得账号授权，尚未产生可交付国内网址。不能用之前海外链接代替国内验收。
+
+客户端：04_研发源码/app/cloud/.sites-runtime/cpolar/cpolar.exe
+版本3.3.12；下载自cpolar官方，Windows数字签名有效，北京嘉迅科技有限公司。
+配置：04_研发源码/app/cloud/.env.cpolar.yml（含认证信息的本地文件，不进入源码或压缩包）。
+仅准备映射127.0.0.1:8877的APP服务；没有启动远程桌面、SSH、数据库或文件目录映射。关闭请求内容检查。尚未启动隧道。
+
+需要用户完成：在https://dashboard.cpolar.com/signup 注册/登录，按平台提示验证，在“验证”页获得自己的Authtoken，将其填入上述配置文件的authtoken引号内。不要提供账号密码或验证码，不要将Token发给负责人或放入交付包。
+
+授权后继续：启动独立演示数据环境；运行指定的eastern_wisdom隧道；确认分配的HTTPS域名；对该域名校验Host、Origin与Cookie适配；通过不使用系统代理的请求验证国内入口、后台登录、上传和发布同步；再交付真实可用链接。
+
+临时穿透依赖本电脑开机联网和客户端运行；免费随机域名可能变化。平台资格、区域和费用以账号后台实际显示为准，未购买任何套餐。海外站点目前保留。
+官方文档：https://www.cpolar.com/docs

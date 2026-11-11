@@ -1,0 +1,321 @@
+.lcb-page{--lcb-accent:var(--cta);--lcb-rule:var(--line)}
+body[data-mode=day] .lcb-page{--lcb-accent:#b23f28;--lcb-rule:#b7733c}
+/* Original Ba Zi view: four natal columns and three linked time scales.
+   Scoped to Ba Zi; chart values and calendar rules remain in the adapters. */
+.lcb-page .lcb-section-kicker{display:block;color:var(--lcb-accent);font:10px/1.8 var(--sans);letter-spacing:.08em;margin-bottom:4px;overflow-wrap:anywhere}
+.lcb-page .lcb-axis-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 10px}
+.lcb-page .lcb-axis-heading>div{min-width:0}
+.lcb-page .lcb-axis-heading h2{font:500 23px/1.5 var(--serif);margin:0;color:var(--ink)}
+.lcb-page .lcb-natal{border-top:1px solid var(--lcb-accent);border-bottom:1px solid var(--lcb-rule);padding:4px 0 2px;margin:16px 0}
+.lcb-page .lcb-natal>.lcb-axis-heading>.lcb-term-button{flex-shrink:0;font-size:12px;color:var(--lcb-accent);max-width:46%;white-space:normal}
+.lcb-page .lcb-table-wrap{border:0;border-radius:0;background:transparent;overflow-x:auto;margin:12px 0 8px}
+.lcb-page .lcb-pillars{border-collapse:separate;border-spacing:0;table-layout:fixed;min-width:0}
+.lcb-page .lcb-pillars .lcb-label-col{width:47px}
+.lcb-page .lcb-pillars th,.lcb-page .lcb-pillars td{border-right:1px solid var(--lcb-rule);border-bottom:1px solid var(--lcb-rule);padding:7px 3px;background:transparent}
+.lcb-page .lcb-pillars th{font-size:11px;font-weight:400;color:var(--muted)}
+.lcb-page .lcb-pillars thead th{padding:10px 3px;border-bottom:0;vertical-align:bottom}
+.lcb-page .lcb-pillars tbody th{width:auto;font-size:10px}
+.lcb-page .lcb-pillars td[data-field=ganZhi]{height:109px;border-bottom:0}
+.lcb-page .lcb-pillars [data-field=ganZhi] .lcb-term-button{font:500 32px/1.5 var(--serif);min-height:89px;letter-spacing:.12em;writing-mode:vertical-lr;text-orientation:upright;color:var(--ink)}
+.lcb-page .lcb-pillars .is-day-master{background:color-mix(in srgb,var(--lcb-accent) 10%,transparent);box-shadow:inset 1px 0 var(--lcb-accent),inset -1px 0 var(--lcb-accent)}
+.lcb-page .lcb-pillars th.is-day-master,.lcb-page .lcb-pillars .is-day-master[data-field=ganZhi] .lcb-term-button{color:var(--lcb-accent);font-weight:600}
+.lcb-page .lcb-pillars tr>*:last-child{border-right:0}
+.lcb-page .lcb-pillars tbody:last-child tr:last-child>*{border-bottom:0}
+.lcb-page .lcb-detail-toggle{font-size:11px;letter-spacing:.02em;margin:0;min-height:44px;padding:10px 5px}
+.lcb-page .lcb-term-note{font-size:10px;line-height:1.9}
+.lcb-page .lcb-start-detail{border-bottom:1px solid var(--lcb-rule);padding-bottom:4px}
+.lcb-page .lcb-start-detail>summary{min-height:44px}
+.lcb-page .lcb-time-axis{border-top:1px solid var(--lcb-accent);margin:24px 0 0;padding-top:4px;min-width:0}
+.lcb-page .lcb-time-panel{border:0;border-left:2px solid var(--lcb-accent);border-radius:0;background:var(--soft);padding:12px 13px;margin:13px 0 23px}
+.lcb-page .lcb-time-panel>div{gap:10px;align-items:flex-start}
+.lcb-page .lcb-time-panel>div>span{line-height:1.8;min-width:0}
+.lcb-page .lcb-time-panel>div>.btn{flex:none;font-size:11px;padding:7px 10px;max-width:45%;border-radius:3px}
+.lcb-page .lcb-time-panel>strong{font:500 18px/1.8 var(--serif);overflow-wrap:anywhere;margin-top:5px}
+.lcb-page .lcb-time-panel p{margin:5px 0 0}
+.lcb-page .lcb-time-stage{position:relative;padding:0 0 22px 29px;min-width:0}
+.lcb-page .lcb-time-stage:not(:last-child):before{content:'';position:absolute;left:10px;top:27px;bottom:0;width:1px;background:var(--lcb-rule)}
+.lcb-page .lcb-stage-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;margin-bottom:5px}
+.lcb-page .lcb-stage-number{position:absolute;left:0;top:1px;width:22px;height:24px;border-top:1px solid var(--lcb-accent);border-bottom:1px solid var(--lcb-rule);font:13px/22px Georgia,serif;text-align:center;color:var(--lcb-accent)}
+.lcb-page .lcb-stage-heading>div{min-width:0}
+.lcb-page .lcb-stage-heading h3{font-size:14px;font-weight:500;line-height:1.8;color:var(--ink);margin:0}
+.lcb-page .lcb-stage-heading p{font-size:11px;line-height:1.8;color:var(--muted);margin:2px 0 0;overflow-wrap:anywhere}
+.lcb-page .lcb-stage-heading>strong{font:500 24px/1.5 var(--serif);color:var(--lcb-accent);max-width:42%;text-align:right;overflow-wrap:anywhere;flex-shrink:0}
+.lcb-page .lcb-timeline-help{font-size:10px;line-height:1.9;color:var(--muted);margin:6px 0 9px}
+.lcb-page .lcb-time-rail{position:relative;display:flex;gap:4px;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;padding:10px 2px 12px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--lcb-accent) transparent}
+.lcb-page .lcb-time-rail>button{position:relative;display:flex;flex:0 0 83px;flex-direction:column;gap:4px;min-height:96px;min-width:0;justify-content:flex-start;align-items:center;scroll-snap-align:center;border:0;border-top:1px solid var(--lcb-rule);border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--muted);box-shadow:none;padding:17px 4px 9px;font:11px/1.7 var(--sans);overflow-wrap:anywhere}
+.lcb-page .lcb-time-rail>button:before{content:'';position:absolute;left:calc(50% - 3px);top:-4px;width:7px;height:7px;box-sizing:border-box;background:var(--bg);border:1px solid var(--muted);border-radius:50%}
+.lcb-page .lcb-time-rail>button>b{font:500 21px/1.5 var(--serif);color:var(--ink)}
+.lcb-page .lcb-time-rail>button>small{font-size:10px;line-height:1.8;color:var(--muted)}
+.lcb-page .lcb-time-rail>button[aria-pressed=true]{background:linear-gradient(180deg,color-mix(in srgb,var(--lcb-accent) 12%,transparent),transparent);border-top-color:var(--lcb-accent);border-bottom-color:var(--lcb-accent);box-shadow:none;color:var(--ink)}
+.lcb-page .lcb-time-rail>button[aria-pressed=true]:before{background:var(--lcb-accent);border-color:var(--lcb-accent)}
+.lcb-page .lcb-time-rail>button[aria-pressed=true]>b{color:var(--lcb-accent)}
+.lcb-page .lcb-time-rail>button:focus-visible,.lcb-page .lcb-detail-toggle:focus-visible{outline:2px solid var(--lcb-accent);outline-offset:2px}
+.lcb-page .lcb-time-rail>button:hover{background-color:var(--soft)}
+.lcb-page .lcb-months>button{flex-basis:89px;min-height:86px}
+.lcb-page .lcb-months>button>small{font-size:10px}
+.lcb-page .lcb-flow-summary{gap:0;border-top:1px solid var(--lcb-rule);border-bottom:1px solid var(--lcb-rule);margin:2px 0 8px}
+.lcb-page .lcb-flow-summary>article{border:0;border-right:1px solid var(--lcb-rule);border-radius:0;background:transparent;padding:12px 4px;gap:4px}
+.lcb-page .lcb-flow-summary>article:last-child{border-right:0}
+.lcb-page .lcb-flow-summary strong{font-size:24px;font-weight:500}
+.lcb-page .lcb-comparison{margin-top:8px}
+.lcb-page .lcb-comparison-scroll{border-radius:4px}
+.lcb-page .lcb-selected-month{border:0;border-left:2px solid var(--lcb-accent);border-radius:0;background:var(--soft);padding:13px 15px}
+.lcb-page .lcb-selected-month strong{font-size:30px;font-weight:500}
+html[lang=bo] .lcb-page .lcb-axis-heading{align-items:flex-start}
+html[lang=bo] .lcb-page .lcb-axis-heading h2{font-size:19px;line-height:1.9}
+html[lang=bo] .lcb-page .lcb-stage-heading h3{line-height:1.9}
+html[lang=bo] .lcb-page .lcb-time-rail>button{flex-basis:112px}
+html[lang=bo] .lcb-page .lcb-pillars th{font-size:10px;line-height:1.9}
+html[lang=bo] .lcb-page .lcb-section-kicker{letter-spacing:0}
+@media(max-width:360px){.lcb-page .lcb-axis-heading{gap:8px}.lcb-page .lcb-axis-heading h2{font-size:21px}.lcb-page .lcb-pillars .lcb-label-col{width:42px}.lcb-page .lcb-pillars th,.lcb-page .lcb-pillars td{padding-left:2px;padding-right:2px}.lcb-page .lcb-pillars [data-field=ganZhi] .lcb-term-button{font-size:29px}.lcb-page .lcb-time-stage{padding-left:26px}.lcb-page .lcb-time-rail>button{flex-basis:78px}.lcb-page .lcb-stage-heading>strong{font-size:22px}.lcb-page .lcb-months>button{flex-basis:84px}}
+
+/* Three reachable reading views; inactive panels are empty shells, not long hidden charts. */
+.lcb-page .lcb-view-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-bottom:1px solid var(--lcb-rule);margin:8px 0 15px;padding:0}
+.lcb-page .lcb-view-tabs>button{min-width:0;min-height:46px;padding:10px 5px;border:0;border-bottom:3px solid transparent;border-radius:0;background:transparent;color:var(--muted);font:500 14px/1.7 var(--sans);overflow-wrap:anywhere;cursor:pointer}
+.lcb-page .lcb-view-tabs>button[aria-selected=true]{color:var(--lcb-accent);border-bottom-color:var(--lcb-accent);background:color-mix(in srgb,var(--lcb-accent) 8%,transparent)}
+.lcb-page .lcb-view-tabs>button:hover{background-color:var(--soft)}
+.lcb-page .lcb-view-tabs>button:focus-visible{outline:2px solid var(--lcb-accent);outline-offset:2px}
+.lcb-page .lcb-view-panel{min-width:0;padding:0;background:transparent}
+.lcb-page .lcb-view-panel[hidden]{display:none!important}
+.lcb-page .lcb-view-panel>.lcb-natal{margin-top:6px}
+.lcb-page .lcb-view-panel>.lcb-time-axis{margin-top:10px}
+.lcb-page .lcb-view-panel .lcb-time-panel{margin:8px 0 16px;padding:10px 12px}
+.lcb-page .lcb-view-panel .lcb-time-stage{padding-bottom:13px}
+.lcb-page .lcb-view-panel .lcb-start-detail{margin:5px 0}
+.lcb-page .lcb-compare-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:7px 0 12px;font-size:12px;line-height:1.8;color:var(--muted)}
+.lcb-page .lcb-compare-toolbar>span{min-width:0;overflow-wrap:anywhere}
+.lcb-page .lcb-compare-toolbar>.btn{min-height:44px;padding:8px 12px;font-size:12px;flex-shrink:0;max-width:45%;white-space:normal;border-color:var(--lcb-rule);color:var(--lcb-accent)}
+.lcb-page .lcb-comparison th,.lcb-page .lcb-comparison td{border-color:var(--lcb-rule)}
+.lcb-page .lcb-comparison-scroll{border-color:var(--lcb-rule)}
+.lcb-page .lcb-comparison .is-period-start{border-left-color:var(--lcb-accent)}
+.lcb-page .lcb-pillars tbody th,.lcb-page .lcb-term-note,.lcb-page .lcb-section-kicker,.lcb-page .lcb-time-rail>button>small,.lcb-page .lcb-months>button>small{font-size:11px}
+html[lang=bo] .lcb-page .lcb-view-tabs>button{font-size:14px;line-height:1.95;padding-left:3px;padding-right:3px}
+
+/* Compact tables: shared six-column board above four reading tabs. */
+.lcb-page{--lcb-rule:color-mix(in srgb,var(--ink) 17%,transparent);--lcb-selection:#343d43;--lcb-wood:#6ac4a1;--lcb-fire:#efa06c;--lcb-earth:#b6bdc8;--lcb-metal:#eccb69;--lcb-water:#a5b5ff}
+body[data-mode=day] .lcb-page{--lcb-rule:#d7dade;--lcb-selection:#d2e8ed;--lcb-accent:#225f6b;--lcb-wood:#24835c;--lcb-fire:#ba5819;--lcb-earth:#6b7280;--lcb-metal:#9b7100;--lcb-water:#5061c7}
+.lcb-page [data-element=wood]{color:var(--lcb-wood)}.lcb-page [data-element=fire]{color:var(--lcb-fire)}.lcb-page [data-element=earth]{color:var(--lcb-earth)}.lcb-page [data-element=metal]{color:var(--lcb-metal)}.lcb-page [data-element=water]{color:var(--lcb-water)}
+.lcb-page .lcb-board{margin:0 -10px;border-bottom:1px solid var(--lcb-rule);background:var(--bg)}
+.lcb-page .lcb-board-scroll,.lcb-page .lcb-star-scroll{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--lcb-accent) transparent;max-width:100%;border:0}
+.lcb-page .lcb-board table,.lcb-page .lcb-star-scroll table{width:100%;min-width:calc(36px + var(--lcb-columns)*46px);table-layout:fixed;border-collapse:collapse;border:0;font:13px/1.6 var(--sans)}
+.lcb-page .lcb-board-label{width:36px}
+.lcb-page .lcb-board th,.lcb-page .lcb-board td,.lcb-page .lcb-star-scroll th,.lcb-page .lcb-star-scroll td{border:0;padding:5px 2px;text-align:center;vertical-align:top;background:transparent;font-weight:400;overflow-wrap:anywhere}
+.lcb-page .lcb-board th,.lcb-page .lcb-star-scroll th{color:var(--muted);font-size:12px}
+.lcb-page .lcb-board thead{background:var(--soft)}
+.lcb-page .lcb-board thead th{padding:8px 2px 6px;vertical-align:middle}
+.lcb-page .lcb-board thead th>span{display:block;color:var(--ink);font-size:15px;font-weight:500}
+.lcb-page .lcb-board thead small{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:2px}
+.lcb-page .lcb-board .is-period-start{border-left:1px solid var(--lcb-rule)}
+.lcb-page .lcb-board .lcb-term-button{min-height:30px;padding:3px 0;border-radius:2px;text-decoration:none;font-size:inherit;line-height:1.5;display:inline;white-space:normal}
+.lcb-page .lcb-board tr.lcb-board-gods th,.lcb-page .lcb-board tr.lcb-board-gods td{padding-top:7px;padding-bottom:2px;font-size:12px}
+.lcb-page .lcb-board tr.lcb-board-symbol td{font:500 31px/1.5 var(--sans);padding:0 2px}
+.lcb-page .lcb-board tr.lcb-board-symbol th{vertical-align:middle}
+.lcb-page .lcb-board .lcb-board-hidden{background:var(--soft)}
+.lcb-page .lcb-board tr.lcb-board-hidden>*{padding-top:9px;padding-bottom:9px;height:77px}
+.lcb-page .lcb-hidden-pair{display:flex;align-items:baseline;justify-content:center;gap:3px;min-height:20px;white-space:nowrap;font-size:13px;line-height:1.6}
+.lcb-page .lcb-hidden-pair>span+span{color:var(--ink);font-size:11px}
+.lcb-page .lcb-board tr.lcb-board-meta>*{padding:5px 1px;vertical-align:middle;font-size:11px;color:var(--muted);height:28px}
+.lcb-page .lcb-board-options{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 8px;border-top:1px solid var(--lcb-rule);font-size:11px;color:var(--muted);min-height:32px}
+.lcb-page .lcb-board-options button,.lcb-page .lcb-flow-toolbar button,.lcb-page .lcb-archive>header button{border:0;background:transparent;color:var(--lcb-accent);font:inherit;padding:7px 4px;min-height:34px;cursor:pointer}
+.lcb-page .lcb-view-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--lcb-rule);border-radius:28px;padding:3px;margin:12px 0 10px;gap:3px;background:var(--soft)}
+.lcb-page .lcb-view-tabs>button{border:0;border-radius:22px;min-height:38px;padding:6px 2px;font-size:15px;line-height:1.5}
+.lcb-page .lcb-view-tabs>button[aria-selected=true]{background:var(--lcb-selection);color:var(--ink);font-weight:600}
+.lcb-page .lcb-time-axis{border:0;margin:0;padding:0}
+.lcb-page .lcb-flow-toolbar{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);margin-top:-5px}
+.lcb-page .lcb-time-stage{padding:0;margin:0 0 11px}
+.lcb-page .lcb-time-stage:before{display:none}
+.lcb-page .lcb-stage-heading{display:flex;gap:5px;align-items:center;min-height:32px;margin:0}
+.lcb-page .lcb-stage-heading h3{font:600 16px/1.6 var(--sans);flex-shrink:0}
+.lcb-page .lcb-stage-heading>span{font-size:10px;color:var(--muted);margin-left:auto;text-align:right;line-height:1.6;min-width:0}
+.lcb-page .lcb-stage-heading>strong{font:500 13px/1.6 var(--sans);color:var(--lcb-accent);flex-shrink:0;text-align:right;max-width:30%}
+.lcb-page .lcb-time-rail{gap:0;padding:0 0 2px;border-top:1px solid var(--lcb-rule);border-bottom:1px solid var(--lcb-rule);scroll-padding:0;scrollbar-width:thin}
+.lcb-page .lcb-time-rail>button{flex:0 0 54px;border:0;border-right:1px solid var(--lcb-rule);border-radius:0;min-height:122px;gap:1px;padding:5px 3px 4px;font:12px/1.5 var(--sans);scroll-snap-align:center;color:var(--ink)}
+.lcb-page .lcb-time-rail>button:before{display:none}
+.lcb-page .lcb-time-rail>button>b{font:400 13px/1.5 var(--sans);color:var(--ink)}
+.lcb-page .lcb-time-rail>button>small{font-size:10px;line-height:1.5;color:var(--muted)}
+.lcb-page .lcb-time-rail>button[aria-pressed=true]{background:var(--lcb-selection);border:0;border-right:1px solid var(--lcb-rule);box-shadow:inset 0 -2px var(--lcb-accent);color:var(--ink)}
+.lcb-page .lcb-time-rail>button[aria-pressed=true]>b{color:var(--ink)}
+.lcb-page .lcb-rail-symbols{display:flex;flex-direction:column;gap:0;width:100%;margin-top:3px}
+.lcb-page .lcb-rail-symbols>span{display:flex;justify-content:center;align-items:flex-start;gap:3px}
+.lcb-page .lcb-rail-symbols .lcb-element{font-size:23px;line-height:1.45;font-weight:500}
+.lcb-page .lcb-rail-symbols small{font-size:10px;line-height:1.4;display:flex;flex-direction:column;padding-top:3px;color:var(--ink)}
+.lcb-page .lcb-rail-symbols small i{font-style:normal}
+.lcb-page .lcb-rail-before{font-size:18px;line-height:1.7;writing-mode:vertical-lr;margin-top:3px}
+.lcb-page .lcb-months>button{min-height:108px}
+.lcb-page .lcb-months>button>b{font-size:12px}
+.lcb-page .lcb-months .lcb-rail-symbols small{display:none}
+.lcb-page .lcb-month-detail{font-size:11px;line-height:1.8;padding:0;border-bottom:1px solid var(--lcb-rule)}
+.lcb-page .lcb-month-detail>summary{cursor:pointer;padding:7px 0;min-height:34px}
+.lcb-page .lcb-month-detail article{padding:10px;background:var(--soft)}
+.lcb-page .lcb-archive>header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0 10px}
+.lcb-page .lcb-archive>header h2{font:600 21px/1.5 var(--sans);margin:0;overflow-wrap:anywhere}
+.lcb-page .lcb-archive>header button{font-size:12px;flex-shrink:0}
+.lcb-page .lcb-archive-meta{font-size:13px;line-height:1.8;background:var(--soft);padding:9px 10px;margin:0}
+.lcb-page .lcb-archive>dl{margin:0;font-size:13px;line-height:1.8}
+.lcb-page .lcb-archive>dl>div{display:grid;grid-template-columns:45px minmax(0,1fr);gap:6px;padding:10px 8px}
+.lcb-page .lcb-archive>dl>div:nth-child(2n){background:var(--soft)}
+.lcb-page .lcb-archive dt{color:var(--muted)}
+.lcb-page .lcb-archive dt button{min-height:0;padding:0;text-decoration:none;font-size:inherit}
+.lcb-page .lcb-archive dd{margin:0;overflow-wrap:anywhere}
+.lcb-page .lcb-archive dd small{display:block;color:var(--muted);font-size:11px}
+.lcb-page .lcb-archive>.lcb-birth-brief{display:none}
+.lcb-page .lcb-archive>.lcb-birth-detail{margin-top:10px}
+.lcb-page .lcb-natal-details>summary,.lcb-page .lcb-extra>summary,.lcb-page .lcb-annotation-rules>summary{padding:10px 0;min-height:42px;cursor:pointer;color:var(--muted);font-size:12px;line-height:1.8}
+.lcb-page .lcb-star-scroll{margin:0 -10px}
+.lcb-page .lcb-star-scroll thead th{font-size:11px;padding:8px 2px;border-bottom:1px solid var(--lcb-rule)}
+.lcb-page .lcb-star-scroll tbody th{font-size:12px;padding-top:12px}
+.lcb-page .lcb-star-scroll td{padding:10px 2px;font-size:12px;line-height:1.8}
+.lcb-page [data-lcb-self-stage]{color:var(--lcb-fire)}
+.lcb-page .lcb-star-scroll td details{padding:0;margin:0 0 8px;border:0;background:transparent}
+.lcb-page .lcb-star-scroll summary{font-size:12px;list-style:none;cursor:pointer;min-height:30px;line-height:1.9}
+.lcb-page .lcb-star-scroll summary::-webkit-details-marker{display:none}
+.lcb-page .lcb-star-scroll td details[open]{background:var(--soft)}
+.lcb-page .lcb-star-scroll td details p{font-size:10px;line-height:1.8;overflow-wrap:anywhere;margin-top:6px;color:var(--muted)}
+.lcb-page .lcb-no-star{color:var(--muted)}
+.lcb-page .lcb-annotation-rules{font-size:12px;line-height:1.9;color:var(--muted)}
+.lcb-page .lcb-panel-caption{font-size:11px;line-height:1.9;color:var(--muted);margin:10px 0}
+.lcb-page .lcb-board-scroll:focus-visible,.lcb-page .lcb-star-scroll:focus-visible,.lcb-page .lcb-board-options button:focus-visible{outline:2px solid var(--lcb-accent);outline-offset:2px}
+html[lang=en] .lcb-page .lcb-board table,html[lang=bo] .lcb-page .lcb-board table,html[lang=en] .lcb-page .lcb-star-scroll table,html[lang=bo] .lcb-page .lcb-star-scroll table{min-width:calc(50px + var(--lcb-columns)*64px)}
+html[lang=en] .lcb-page .lcb-board-label,html[lang=bo] .lcb-page .lcb-board-label{width:50px}
+html[lang=bo] .lcb-page .lcb-board thead th>span{font-size:12px;line-height:1.9}
+html[lang=bo] .lcb-page .lcb-view-tabs>button{font-size:12px;line-height:1.95}
+html[lang=bo] .lcb-page .lcb-time-rail>button{flex-basis:68px}
+/* The APP remains a narrow canvas on desktop; window width must not enlarge it. */
+body[data-page=classicsWisdom] .page.lcb-page{padding:0 14px 8px;min-height:0}
+body[data-page=classicsWisdom] .lcb-page>.px-top{padding:3px 0;min-height:48px;gap:8px}
+body[data-page=classicsWisdom] .lcb-page>.px-top h1{font-size:22px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page>.px-top .ew-page-back{min-height:44px;padding:5px 9px;font-size:12px}
+body[data-page=classicsWisdom] .lcb-page>.px-top>.icon-btn{width:44px;height:44px;min-height:44px}
+body[data-page=classicsWisdom] .lcb-page .lc-workspace{margin:0 0 3px;border-top:0}
+body[data-page=classicsWisdom] .lcb-page .lc-profile-context{padding:2px 0;gap:6px;min-height:28px}
+body[data-page=classicsWisdom] .lcb-page .lc-profile-context>div{flex-direction:row;align-items:baseline;gap:5px;flex-wrap:wrap}
+body[data-page=classicsWisdom] .lcb-page .lc-profile-context strong{font:500 12px/1.5 var(--sans);max-width:110px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+body[data-page=classicsWisdom] .lcb-page .lc-profile-context span{font-size:10px;line-height:1.5}
+body[data-page=classicsWisdom] .lcb-page .lc-profile-context>.link{font-size:10px;min-height:28px;line-height:1.5;max-width:30%;padding:3px 0}
+body[data-page=classicsWisdom] .lcb-page .lc-tool-nav{gap:8px}
+body[data-page=classicsWisdom] .lcb-page .lc-tool-nav button{min-height:30px;padding:3px 1px;justify-content:center;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lc-tool-nav button span{font-size:12px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lc-result{margin:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-board{margin:0 -6px}
+body[data-page=classicsWisdom] .lcb-page .lcb-board thead th{padding:4px 2px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-board thead th>span{font-size:14px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-board thead small{font-size:10px;line-height:1.4;margin-top:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-board .lcb-term-button{min-height:24px;padding:1px 0;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-board tr.lcb-board-gods>*{padding:1px 2px;font-size:12px;vertical-align:middle}
+body[data-page=classicsWisdom] .lcb-page .lcb-board tr.lcb-board-symbol td{font:500 30px/1.25 var(--sans);padding:0 2px}
+body[data-page=classicsWisdom] .lcb-page .lcb-board tr.lcb-board-symbol th{padding:0 2px}
+body[data-page=classicsWisdom] .lcb-page .lcb-board tr.lcb-board-symbol:last-child td{padding-bottom:4px}
+body[data-page=classicsWisdom] .lcb-page .lcb-board-scroll{overflow-y:hidden}
+.lcb-page #lcb-board-extra[hidden]{display:none!important}
+body[data-page=classicsWisdom] .lcb-page .lcb-board-options{min-height:28px;padding:0 6px}
+body[data-page=classicsWisdom] .lcb-page .lcb-board-options button{min-height:28px;padding:3px 1px;font-size:11px;line-height:1.5}
+.lcb-page .lcb-tabbar{display:flex;align-items:center;gap:6px;margin:3px 0}
+.lcb-page .lcb-tabbar>.lcb-view-tabs{flex:1;min-width:0;margin:0;padding:2px;gap:1px}
+.lcb-page .lcb-tabbar .lcb-view-tabs>button{min-height:34px;padding:4px 1px;font-size:14px;line-height:1.5}
+.lcb-page .lcb-tools-trigger{flex:0 0 37px;min-height:38px;border:0;border-radius:6px;background:var(--soft);color:var(--ink);padding:0 3px;cursor:pointer;line-height:1}
+.lcb-page .lcb-tools-trigger>span{display:block;font-size:24px;line-height:16px;font-weight:600;letter-spacing:2px}
+.lcb-page .lcb-tools-trigger>small{display:block;font-size:10px;line-height:15px;color:var(--muted)}
+body[data-page=classicsWisdom] .lcb-page .lcb-view-panel>.lcb-time-axis{margin:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-flow-toolbar{margin:0;min-height:26px;line-height:1.5}
+body[data-page=classicsWisdom] .lcb-page .lcb-flow-toolbar button{min-height:26px;padding:2px 1px;line-height:1.5}
+body[data-page=classicsWisdom] .lcb-page .lcb-view-panel .lcb-time-stage{padding:0;margin:0 0 3px}
+body[data-page=classicsWisdom] .lcb-page .lcb-stage-heading{min-height:24px;margin:0;gap:5px}
+body[data-page=classicsWisdom] .lcb-page .lcb-stage-heading h3{font:600 14px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page .lcb-stage-heading>span{font-size:10px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-stage-heading>strong{font-size:12px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail{padding:0;gap:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail>button{min-height:0;flex-basis:52px;padding:3px 2px;gap:0;line-height:1.25}
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail>button>small{font-size:10px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail>button>b{font:400 12px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page .lcb-rail-symbols{margin-top:1px}
+body[data-page=classicsWisdom] .lcb-page .lcb-rail-symbols .lcb-element{font-size:24px;line-height:1.2}
+body[data-page=classicsWisdom] .lcb-page .lcb-rail-symbols small{font-size:10px;line-height:1.05;padding-top:1px}
+body[data-page=classicsWisdom] .lcb-page .lcb-rail-before{font-size:13px;line-height:1.5;writing-mode:horizontal-tb;margin:12px 0 0;white-space:normal}
+body[data-page=classicsWisdom] .lcb-page .lcb-months>button{min-height:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-month-detail>summary{min-height:28px;padding:3px 0;line-height:1.8}
+body[data-page=classicsWisdom] .lcb-page .lcb-panel-caption{margin:5px 0;font-size:11px;line-height:1.7}
+.lcb-tools-panel .lc-result-actions{margin:12px 0 18px;padding:0;border-top:0}
+.lcb-tools-panel .lb-options{padding:0 0 12px;border:0;border-radius:0;background:transparent;margin:0}
+.lcb-tools-panel .lb-options>summary,.lcb-tools-panel .lcb-notes>summary{font-size:14px;line-height:1.8;padding:10px 0;min-height:44px;cursor:pointer}
+.lcb-tools-panel .lc-birth-form{margin:8px 0;padding:0}
+.lcb-tools-panel .lc-birth-form select{max-width:100%}
+.lcb-tools-panel .lcb-notes{margin:0;padding:0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent}
+.lcb-tools-panel .lcb-notes p{font-size:12px;line-height:1.8}
+.lcb-tools-panel .mx-form{margin:10px 0;padding:12px}
+.lcb-tools-panel .mx-history h2,.lcb-tools-panel .mx-form h2{font-size:18px;line-height:1.6}
+.lcb-tools-panel .mx-history-card{padding:12px;margin:8px 0}
+html[lang=en] .lcb-page .lcb-tools-trigger,html[lang=bo] .lcb-page .lcb-tools-trigger{flex-basis:50px}
+html[lang=bo] .lcb-page .lcb-tabbar .lcb-view-tabs>button{font-size:12px;line-height:1.95}
+html[lang=bo] .lcb-page .lcb-tools-trigger>small{font-size:9px;line-height:1.8}
+
+/* Native desktop scrollbars should not add a row under every touch time rail. */
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail{scrollbar-width:none}
+body[data-page=classicsWisdom] .lcb-page .lcb-time-rail::-webkit-scrollbar{display:none;height:0}
+.lcb-tools-panel .lcb-month-detail{margin:0 0 10px;border-bottom:1px solid var(--line);padding:0}
+.lcb-tools-panel .lcb-month-detail>summary{cursor:pointer;font-size:14px;min-height:44px;padding:10px 0;line-height:1.8}
+.lcb-tools-panel .lcb-month-detail article{padding:10px 0;font-size:12px;line-height:1.8}
+.lcb-tools-panel .lcb-month-range{font-size:12px;line-height:1.8}
+.lcb-tools-panel .lcb-time-panel{padding:10px;margin:8px 0;border:1px solid var(--line)}
+
+/* The complete comparison now lives inside the real tools dialog. */
+.lcb-tools-panel,.lcb-tools-panel .lcb-analysis-overview{min-width:0;max-width:100%}
+.lcb-tools-panel .lcb-comparison-scroll{min-width:0;max-width:100%;overscroll-behavior-x:contain}
+.lcb-tools-panel .lcb-flow-summary{margin-top:10px}
+.lcb-page .lcb-star-scroll td details p{font-size:12px;line-height:1.9}
+.lcb-page .lcb-rule-list details{padding:8px 0;border-bottom:1px solid var(--line)}
+.lcb-page .lcb-rule-list summary{min-height:36px;cursor:pointer;line-height:1.8}
+.lcb-page .lcb-rule-list p{margin:6px 0;overflow-wrap:anywhere}
+
+/* 2026-11-11 reference proportions. Full fields are the starting view;
+   readability takes priority over the historical folded-table scroll target.
+   All selectors stay on this explicit layout, including overrides of density. */
+body[data-page=classicsWisdom][data-mode=day]{--bg:#fff;--card:#fff;--soft:#eff1f5;--ink:#202a33;--muted:#6a737c;--line:#e0e4e8;--cta:#225f6b;--oncta:#fff}
+body[data-page=classicsWisdom][data-mode=day] #app{background:#fff;background-image:none}
+body[data-page=classicsWisdom] .page.lcb-page[data-lcb-layout=reference]{padding:0 8px 18px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference]>.px-top{margin:0 6px;padding-top:5px;padding-bottom:5px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lc-workspace{margin:0 6px 5px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board{margin:0 -8px;border:0;border-bottom:1px solid var(--lcb-rule);border-radius:0;background:var(--bg);box-shadow:none}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board table{width:100%;min-width:calc(36px + var(--lcb-columns)*48px);font:13px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-label{width:36px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board thead{background:var(--bg)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board thead th{height:36px;padding:3px 2px;line-height:1.4}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board thead th>span{font:500 13px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board thead small{font:11px/1.4 var(--sans);margin-top:0}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-gods>*{height:30px;padding:4px 2px;font-size:14px;line-height:1.5;vertical-align:middle}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board .lcb-term-button{min-height:24px;padding:1px 0;font-size:inherit;line-height:1.5}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-symbol td{height:44px;padding:0 2px;font:500 32px/1.3 var(--sans);vertical-align:middle}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-symbol th{padding:0 2px;font:400 13px/1.5 var(--sans);vertical-align:middle}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-symbol:last-child td{padding-bottom:2px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-hidden>*{height:80px;padding:8px 2px;vertical-align:top;background:var(--soft)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-hidden-pair{gap:3px;min-height:21px;font:400 13px/1.6 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-hidden-pair>span+span{font:400 13px/1.6 var(--sans);color:var(--ink)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board tr.lcb-board-meta>*{height:29px;padding:5px 1px;font:400 13px/1.4 var(--sans);vertical-align:middle;color:var(--muted)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-options{gap:8px;padding:0 8px;border-top:1px solid var(--lcb-rule);background:var(--bg)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-options button{min-height:44px;padding:6px 5px;border:0;border-radius:0;background:transparent;color:var(--muted);font:400 13px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-tabbar{margin:8px 0 5px;gap:8px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-view-tabs{border:0;padding:3px;background:var(--soft)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-view-tabs>button{min-height:44px;padding:6px 2px;font:500 15px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-tools-trigger{border:0;background:transparent;min-height:44px;padding:4px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-flow-toolbar{min-height:36px;margin:0;font-size:12px;padding:0 2px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-flow-toolbar button{min-height:36px;font:400 12px/1.5 var(--sans);padding:6px 0}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-view-panel .lcb-time-stage{margin:0 -8px 8px;padding:0}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-stage-heading{min-height:34px;padding:0 8px;gap:6px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-stage-heading h3{font:500 16px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-stage-heading>span{font:400 11px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-stage-heading>strong{font:500 13px/1.5 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail{gap:0;padding:0;border-top:1px solid var(--lcb-rule);border-bottom:1px solid var(--lcb-rule);background:var(--bg)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button{flex:0 0 40px;min-height:112px;padding:4px 2px 6px;gap:2px;border:0;border-right:1px solid var(--lcb-rule);background:transparent;font:400 12px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button>small{font:400 11px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button>b{font:400 13px/1.4 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button[aria-pressed=true]{background:var(--lcb-selection);border-right:1px solid var(--lcb-rule);box-shadow:inset 0 -2px var(--lcb-accent)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-rail-symbols{margin-top:2px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-rail-symbols>span{gap:2px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-rail-symbols .lcb-element{font:500 22px/1.25 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-rail-symbols small{display:flex;font:400 10px/1.15 var(--sans);padding-top:2px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-months .lcb-rail-symbols small{display:none}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-rail-before{font:400 18px/1.5 var(--sans);writing-mode:vertical-lr;margin:5px 0 0}
+html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board table{min-width:calc(50px + var(--lcb-columns)*64px)}
+html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board table{min-width:calc(50px + var(--lcb-columns)*74px)}
+html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-label,html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-label{width:50px}
+html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-view-tabs>button{font:500 13px/1.9 var(--sans)}
+html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button{flex-basis:52px}

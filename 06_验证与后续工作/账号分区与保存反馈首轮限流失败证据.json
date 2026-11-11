@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "module": "F02",
+  "mode": "source-overlay-single-module",
+  "base": "http://127.0.0.1:60410",
+  "generatedAt": "2026-11-06T09:42:05.827Z",
+  "pass": 8,
+  "fail": 1,
+  "results": [
+    {
+      "name": "已登录首个public未返回时不读取或显示guest遗留资料，不向uid写入",
+      "pass": true
+    },
+    {
+      "name": "旧资料幂等留guest，A/B完整个人字段隔离，退出恢复guest且偏好引用不丢",
+      "pass": true
+    },
+    {
+      "name": "persist单次个人快照，失败后render不重试，表单和草稿保留且手动保存成功",
+      "pass": true
+    },
+    {
+      "name": "签到/抽卡setItem失败不锁一次性动作，可原动作重试",
+      "pass": true
+    },
+    {
+      "name": "练习结束保存失败停留原页且无记录，重试只存一条",
+      "pass": true
+    },
+    {
+      "name": "合成音乐与媒体音乐保存失败不推进saved/recorded，重试不重记",
+      "pass": true
+    },
+    {
+      "name": "出生入口配额失败保留表单/旧资料且显示本地化可重试错误",
+      "pass": true
+    },
+    {
+      "name": "A好友真实旧响应在切B后丢弃，读取失败保留原列表并可重试",
+      "pass": false,
+      "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at login (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\账号分区与保存反馈核验.cjs:14:280)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\账号分区与保存反馈核验.cjs:33:84\n    at async fixture (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\账号分区与保存反馈核验.cjs:23:261)\n    at async test (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\账号分区与保存反馈核验.cjs:11:34)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\账号分区与保存反馈核验.cjs:33:1"
+    },
+    {
+      "name": "时长缓存按账号归属，旧A heartbeat迟到不覆盖B账本或pending",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "captures": [],
+  "sourceHashes": {
+    "04_研发源码/app/r4/base.js": "a3d0c3877dc343060d9b15d3e9e775ed8d20f4fd453ffbbdaaac7eb03cc31be4",
+    "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+    "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+    "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+    "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+    "04_研发源码/app/r4/profile.js": "e9c32700862f4a2f1788062f051651382e6909fc2e7c80c873431ff9125460d8",
+    "04_研发源码/app/r4/time-bank.js": "f1069c3d5e08f29807815e3a9d118b099e604592ad020f9476cdc89bde743981",
+    "04_研发源码/app/r4/platform.js": "fe243d61e3d7352910dc28491c0a8931f606464be1ab582ccb3f4bc2516145fd",
+    "04_研发源码/app/r4/music.js": "884e87aae6da33faf66e578d994e029681a1429540fc174c7a13e332fc8ec3de",
+    "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+    "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+    "04_研发源码/app/r4/life-birth-entry.js": "87a32d3046c4dac1ff2e983f7c8b8e565a1bb29f3c53df563f655ef7c29f7f2d"
+  },
+  "buildHashes": {
+    "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+    "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7"
+  },
+  "cloudBuildHashes": {
+    "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+    "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+    "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+  }
+}

@@ -1,0 +1,1094 @@
+{
+  "at": "2026-11-10T16:59:21.863534+08:00",
+  "module": "20261110改动反馈·M4八字真实数据与神煞来源只读核查",
+  "status": "研究与实施建议，尚未实施M4；须主代理确认M3双端全量通过后才可修改业务",
+  "businessChanged": false,
+  "engineUpgraded": false,
+  "productionWrites": false,
+  "servicesStarted": false,
+  "deployed": false,
+  "scope": "核对用户改动.docx八字档案/流运/神煞诉求，浏览指定官方lunar-javascript仓库与原文来源；仅保存只读结论，不将方案或内存探针称为本轮业务验收。",
+  "userEvidence": {
+    "extraction": "06_验证与后续工作/20261110改动文档逐项原文.json",
+    "sourceSha256": "0fafb580bdad11287d74f35f80464affa5b3f850882572328ae1cadb8a95bd1c",
+    "inspectedImages": [
+      "02_需求与设计参考/用户改动反馈-20261110-image5.png",
+      "02_需求与设计参考/用户改动反馈-20261110-image6.png",
+      "02_需求与设计参考/用户改动反馈-20261110-image7.png",
+      "02_需求与设计参考/用户改动反馈-20261110-image8.png"
+    ],
+    "requested": [
+      "档案、流运、神煞必须按用户本人实际保存的生辰计算",
+      "查明指定lunar-javascript库实际能力，不能展示固定示例结果",
+      "去掉关系页"
+    ],
+    "unchangedConstraints": [
+      "出生资料仍仅生日、性别、称呼、可选准确时间；不恢复地域输入",
+      "未知时间不推定时柱、起运或完整运表",
+      "计算流派与固定UTC+8规则不自行改变",
+      "AI继续暂缓",
+      "每模块双后端完整回归通过后才推进下一模块"
+    ]
+  },
+  "engine": {
+    "fixed": {
+      "name": "lunar-javascript",
+      "version": "1.7.7",
+      "license": "MIT",
+      "local": "04_研发源码/app/r4/vendor/lunar-1.7.7.js",
+      "sha256": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+      "source": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js"
+    },
+    "officialMasterObserved": {
+      "version": "1.7.8",
+      "releaseDateFromChangelog": "2026-11-05",
+      "changes": [
+        "2027年法定假日数据",
+        "JS版本号头部"
+      ],
+      "source": "https://github.com/6tail/lunar-javascript/blob/master/CHANGELOG.md",
+      "scope": "只说明本次浏览的官方master现状，不建议或执行升级；M4沿用固定1.7.7。"
+    },
+    "apiMap": [
+      {
+        "object": "Solar/Lunar/EightChar",
+        "calls": [
+          "Solar.fromYmdHms",
+          "Solar.getLunar",
+          "Lunar.getEightChar",
+          "EightChar.setSect"
+        ],
+        "currentAdapter": "04_研发源码/app/r4/life-chart-bazi.js:lcBaziCalculate",
+        "input": "实际normalized.china出生年月日时分秒、normalized.birth.sex及既有daySect/yunSect",
+        "output": "实际四柱；年柱按立春交接、月柱按节交接，日界按既有选项"
+      },
+      {
+        "object": "EightChar四柱",
+        "calls": [
+          "getYear/getMonth/getDay/getTime",
+          "get*Gan/get*Zhi",
+          "get*HideGan",
+          "get*WuXing",
+          "get*ShiShenGan/get*ShiShenZhi",
+          "get*NaYin",
+          "get*DiShi",
+          "get*Xun/get*XunKong"
+        ],
+        "result": "result.pillars[].ganZhi/stem/branch/hiddenStems/fiveElements/stemTenGod/branchTenGods/naYin/growthStage/xun/voidBranches",
+        "scope": "*为Year/Month/Day/Time。地势依据本命日干对各目标支，不等于各柱自坐。"
+      },
+      {
+        "object": "EightChar辅助",
+        "calls": [
+          "getTaiYuan/getTaiYuanNaYin",
+          "getTaiXi/getTaiXiNaYin",
+          "getMingGong/getMingGongNaYin",
+          "getShenGong/getShenGongNaYin"
+        ],
+        "result": "result.auxiliary.taiYuan/taiXi/mingGong/shenGong",
+        "scope": "现有档案页已读取这些实际结果，非固定文案模板。"
+      },
+      {
+        "object": "Yun",
+        "calls": [
+          "EightChar.getYun(gender,sect)",
+          "isForward",
+          "getStartYear/getStartMonth/getStartDay/getStartHour",
+          "getStartSolar",
+          "getDaYun(10)"
+        ],
+        "result": "result.startFortune及result.periods",
+        "scope": "性别参数男1女0，顺逆与起运按固定库和既有yunSect。不能因本轮UI诉求默改流派。"
+      },
+      {
+        "object": "DaYun",
+        "calls": [
+          "getIndex",
+          "getStartYear/getEndYear",
+          "getStartAge/getEndAge",
+          "getGanZhi",
+          "getXun/getXunKong",
+          "getLiuNian",
+          "getXiaoYun"
+        ],
+        "result": "result.periods[].index/startYear/endYear/startAge/endAge/ganZhi/xun/voidBranches/years/smallFortunes",
+        "scope": "index0起运前阶段可无大运干支，必须保留缺项，不用月柱补值。"
+      },
+      {
+        "object": "LiuNian",
+        "calls": [
+          "getYear",
+          "getAge",
+          "getIndex",
+          "getGanZhi",
+          "getXun/getXunKong",
+          "getLiuYue"
+        ],
+        "result": "result.periods[].years[].year/age/ganZhi/xun/voidBranches/months",
+        "scope": "现有流年已来自所选实际大运，非静态年份列。"
+      },
+      {
+        "object": "LiuYue",
+        "calls": [
+          "getIndex",
+          "getMonthInChinese",
+          "getGanZhi",
+          "getXun/getXunKong"
+        ],
+        "result": "result.periods[].years[].months[].index/ordinal/monthName/ganZhi/xun/voidBranches",
+        "scope": "12个节令月序列；具体起止节气时刻由既有bazi-time.js使用同库getJieQiList/getJieQiTable派生，不能把公历1月至12月直接等同流月。"
+      },
+      {
+        "object": "LunarUtil及既有比较层",
+        "calls": [
+          "ZHI_HIDE_GAN",
+          "SHI_SHEN",
+          "NAYIN",
+          "CHANG_SHENG_OFFSET/CHANG_SHENG",
+          "getXun/getXunKong"
+        ],
+        "currentAdapter": "04_研发源码/app/r4/bazi-compare.js:lcbBuildComparison/lcbDescribePillar",
+        "result": "实际本命四柱+当前所选大运/流年/流月的6/7列明细",
+        "scope": "流运十神仍以固定本命日干为基准，不以流运干反向替换日主。"
+      }
+    ],
+    "nativeFourPillarShenShaApi": false,
+    "nativeFourPillarShenShaFinding": "已核固定库EightChar、Yun、DaYun、LiuNian、LiuYue的方法清单，无返回完整逐柱神煞集合的原生API。此结论仅针对所核1.7.7与本次浏览master，不等于库没有任何名为神煞的数据。",
+    "calendarOnlyApi": {
+      "calls": [
+        "Lunar.getDayJiShen",
+        "Lunar.getDayXiongSha",
+        "LunarUtil.SHEN_SHA",
+        "LunarUtil.DAY_SHEN_SHA"
+      ],
+      "basis": "月支索引+当日干支",
+      "scope": "黄历日级吉神宜趋/凶煞宜忌，不能填进本命四柱或大运流年神煞表；不以库README含神煞二字推定是四柱神煞。"
+    },
+    "officialSources": [
+      "https://github.com/6tail/lunar-javascript",
+      "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js",
+      "https://6tail.cn/calendar/lunar.bazi.html",
+      "https://6tail.cn/calendar/lunar.jishenxiongsha.html",
+      "https://github.com/6tail/lunar-javascript/blob/v1.7.7/__tests__/EightChar.test.js",
+      "https://github.com/6tail/lunar-javascript/blob/v1.7.7/__tests__/Yun.test.js"
+    ]
+  },
+  "exampleDataBoundary": {
+    "businessDefaults": {
+      "file": "04_研发源码/app/r4/life-birth-entry.js",
+      "functions": [
+        "lbDefaults",
+        "lbValidate",
+        "lbProfile",
+        "lbSaveProfile"
+      ],
+      "finding": "默认name/date/sex/time均为空；不会在空称呼时补“示例档案”，不会默认1995或2005生日。lbValidate保留实际trim后的输入；lbProfile仅读已确认当前scope下ew-life-birth-v1资料；无资料时仍走必填门禁。"
+    },
+    "archiveTitle": {
+      "file": "04_研发源码/app/r4/life-chart-bazi-layout.js",
+      "function": "lcbArchivePanel",
+      "finding": "显示state.normalized.birth.name；空称呼回退“自己”。"
+    },
+    "knownQaFixtures": [
+      {
+        "file": "06_验证与后续工作/八字参考排版核验.cjs",
+        "birth": {
+          "name": "示例档案",
+          "date": "2005-12-23",
+          "sex": "male",
+          "time": "08:37"
+        },
+        "scope": "测试在fresh browserContext通过真实四字段表单填写，未将该姓名写成业务默认。"
+      },
+      {
+        "file": "06_验证与后续工作/页面长度与日间命盘优化核验.cjs",
+        "birth": {
+          "name": "示例档案",
+          "date": "2005-12-23",
+          "sex": "male",
+          "time": "08:37"
+        },
+        "scope": "独立浏览器的合成资料和截图，不代表用户个人资料。"
+      }
+    ],
+    "screenshotFinding": "image6的“示例档案”、1995-01-01 12:00来自截图当时已保存或实际填写的资料；本次未读取用户现有标签或本地存储，未查明何时/由谁填入，不能断言由当前QA写入。对06现有.cjs/.js/.json检索未发现1995-01-01文本。",
+    "readOnlyMemoryChecks": [
+      {
+        "input": {
+          "date": "1995-01-01",
+          "time": "12:00",
+          "sex": "male",
+          "name": ""
+        },
+        "rules": {
+          "daySect": 2,
+          "yunSect": 2
+        },
+        "actual": {
+          "pillars": [
+            "甲戌",
+            "丙子",
+            "壬辰",
+            "丙午"
+          ],
+          "auxiliary": {
+            "mingGong": [
+              "乙亥",
+              "山头火"
+            ],
+            "taiYuan": [
+              "丁卯",
+              "炉中火"
+            ],
+            "taiXi": [
+              "丁酉",
+              "山下火"
+            ],
+            "shenGong": [
+              "辛未",
+              "路旁土"
+            ]
+          },
+          "startFortune": {
+            "forward": true,
+            "years": 1,
+            "months": 6,
+            "days": 17,
+            "hours": 20,
+            "solar": "1996-07-19 08:00:00"
+          }
+        },
+        "finding": "用现有纯适配器重算，辅助字段与起运逐项等于image6。证明该图数据按此生辰实际计算，不证明该生辰属于当前用户。"
+      },
+      {
+        "input": {
+          "date": "2005-12-23",
+          "time": "08:37",
+          "sex": "male",
+          "name": ""
+        },
+        "rules": {
+          "daySect": 2,
+          "yunSect": 2
+        },
+        "actual": {
+          "pillars": [
+            "乙酉",
+            "戊子",
+            "辛巳",
+            "壬辰"
+          ],
+          "startFortune": {
+            "forward": false,
+            "years": 5,
+            "months": 4,
+            "days": 0,
+            "hours": 10,
+            "solar": "2011-04-23 18:37:00"
+          }
+        },
+        "finding": "四柱与官方固定版本EightChar测试常量一致；更换实际生辰会得到不同数据。"
+      }
+    ],
+    "recommendedBehaviour": [
+      "fresh无有效资料仍必须本人填写保存；不得自动载入示例档案放行",
+      "空称呼保留空值，界面显示自己或本人资料，不填入示例姓名",
+      "已有真实保存资料继续提供编辑/新建；不按姓名等于示例档案就静默删除或改写",
+      "完整旧档案按其自身birth独立打开，不能被当前共享资料强盖",
+      "验收覆盖修改生辰后档案/流运/神煞同步更新，不能只检验卡片有文字"
+    ]
+  },
+  "annotations": {
+    "current": {
+      "file": "04_研发源码/app/r4/life-chart-bazi-annotations.js",
+      "function": "lcbBuildAnnotations(result,comparison)",
+      "rulesVersion": "eastern-bazi-annotations-1",
+      "includedCount": 6,
+      "finding": "原六类是按本命日干或年支的固定查表，输入来自实际计算柱；空数组是已收录规则未命中，并非示例占位，也不表示四柱绝无其他流派神煞。"
+    },
+    "proposed": {
+      "includedCount": 12,
+      "implementation": "尚未实施；维持原六类，并按下方已核表增加六类",
+      "completeShenShaCoverage": false,
+      "interface": "保留columns[].stars及每条name/basis/rule/source；建议补明确anchor.pillar/anchor.field/anchor.value与目标字段，rulesVersion单独升版。",
+      "targetPolicy": "统一使用已经计算且available的year/month/day/time/period/flowYear及可选flowMonth；固定本命锚点，不把当前大运/流年反过来当新本命。",
+      "flowApplicationBoundary": "原书查表条件应用到所选流运柱，是本APP明确的呈现口径，不声称lunar-javascript原生返回这些神煞，也不声称每部原书均逐一规定相同流运展示。",
+      "deduplication": "同一目标列同名只显示一次；如未来引入另一锚点，必须保留各依据，不可无提示合并年干和日干规则。",
+      "unknownTime": "只有完整有效的实际四柱才能生成这些逐柱标记；未知时间继续现有安全缺项，不猜时柱或运表。"
+    },
+    "rules": [
+      {
+        "name": "禄神",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "day",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "寅"
+          ],
+          "乙": [
+            "卯"
+          ],
+          "丙": [
+            "巳"
+          ],
+          "丁": [
+            "午"
+          ],
+          "戊": [
+            "巳"
+          ],
+          "己": [
+            "午"
+          ],
+          "庚": [
+            "申"
+          ],
+          "辛": [
+            "酉"
+          ],
+          "壬": [
+            "亥"
+          ],
+          "癸": [
+            "子"
+          ]
+        },
+        "sourceIds": [
+          "lunar177",
+          "sanming03"
+        ],
+        "scope": "沿用现有本命日干查禄，非本轮新增年干规则。"
+      },
+      {
+        "name": "驿马",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "year",
+          "field": "branch"
+        },
+        "target": "branch",
+        "groups": [
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "寅"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "申"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "亥"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "巳"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "sanming03"
+        ],
+        "scope": "沿用已有年支法，不悄然改为《命理探源》的日支查法。"
+      },
+      {
+        "name": "将星",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "year",
+          "field": "branch"
+        },
+        "target": "branch",
+        "groups": [
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "子"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "午"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "酉"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "卯"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "sanming02"
+        ],
+        "scope": "沿用本命年支所属三合中位。"
+      },
+      {
+        "name": "华盖",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "year",
+          "field": "branch"
+        },
+        "target": "branch",
+        "groups": [
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "辰"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "戌"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "丑"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "未"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "sanming02"
+        ],
+        "scope": "沿用本命年支所属三合库支。"
+      },
+      {
+        "name": "劫煞",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "year",
+          "field": "branch"
+        },
+        "target": "branch",
+        "groups": [
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "巳"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "亥"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "寅"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "申"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "sanming03markers"
+        ],
+        "scope": "沿用原年支法，不混日支法。"
+      },
+      {
+        "name": "亡神",
+        "status": "现有保留",
+        "anchor": {
+          "pillar": "year",
+          "field": "branch"
+        },
+        "target": "branch",
+        "groups": [
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "亥"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "巳"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "申"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "寅"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "sanming03markers"
+        ],
+        "scope": "沿用原年支法，不混日支法。"
+      },
+      {
+        "name": "天乙贵人",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "day",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "丑",
+            "未"
+          ],
+          "乙": [
+            "子",
+            "申"
+          ],
+          "丙": [
+            "亥",
+            "酉"
+          ],
+          "丁": [
+            "亥",
+            "酉"
+          ],
+          "戊": [
+            "丑",
+            "未"
+          ],
+          "己": [
+            "子",
+            "申"
+          ],
+          "庚": [
+            "丑",
+            "未"
+          ],
+          "辛": [
+            "寅",
+            "午"
+          ],
+          "壬": [
+            "卯",
+            "巳"
+          ],
+          "癸": [
+            "卯",
+            "巳"
+          ]
+        },
+        "sourceIds": [
+          "mingli"
+        ],
+        "scope": "《命理探源》明确日主查法；固定兼列两支，不引入昼夜贵/冬夏贵的新计算选项，不并入Lunar吉神方位。"
+      },
+      {
+        "name": "文昌",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "day",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "巳"
+          ],
+          "乙": [
+            "午"
+          ],
+          "丙": [
+            "申"
+          ],
+          "丁": [
+            "酉"
+          ],
+          "戊": [
+            "申"
+          ],
+          "己": [
+            "酉"
+          ],
+          "庚": [
+            "亥"
+          ],
+          "辛": [
+            "子"
+          ],
+          "壬": [
+            "寅"
+          ],
+          "癸": [
+            "卯"
+          ]
+        },
+        "sourceIds": [
+          "mingli"
+        ],
+        "scope": "采用《命理探源》日主表及作者说明；同名文昌在《三命通会》有另一表，不能混用或冒称两表相同。电子转录含中宫/己等字形错误，核定表应以同段巳/申/酉明确按语及庚猪辛鼠壬虎癸兔歌诀互核。"
+      },
+      {
+        "name": "羊刃",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "day",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "卯"
+          ],
+          "乙": [
+            "辰"
+          ],
+          "丙": [
+            "午"
+          ],
+          "丁": [
+            "未"
+          ],
+          "戊": [
+            "午"
+          ],
+          "己": [
+            "未"
+          ],
+          "庚": [
+            "酉"
+          ],
+          "辛": [
+            "戌"
+          ],
+          "壬": [
+            "子"
+          ],
+          "癸": [
+            "丑"
+          ]
+        },
+        "sourceIds": [
+          "mingli"
+        ],
+        "scope": "采用《命理探源》所列《渊海子平》逐日十干表；该书也讨论其他版本。阴干不能直接以现有阴干逆行的十二长生帝旺替代这张表；不增加飞刃或预测。"
+      },
+      {
+        "name": "月德",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "month",
+          "field": "branch"
+        },
+        "target": "stem",
+        "groups": [
+          {
+            "anchorBranches": [
+              "寅",
+              "午",
+              "戌"
+            ],
+            "targets": [
+              "丙"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "申",
+              "子",
+              "辰"
+            ],
+            "targets": [
+              "壬"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "亥",
+              "卯",
+              "未"
+            ],
+            "targets": [
+              "甲"
+            ]
+          },
+          {
+            "anchorBranches": [
+              "巳",
+              "酉",
+              "丑"
+            ],
+            "targets": [
+              "庚"
+            ]
+          }
+        ],
+        "sourceIds": [
+          "mingli",
+          "sanming03"
+        ],
+        "scope": "锚点来自实际EightChar月支，即节令月，不能以农历月份数字或公历月份代替。原书以日上见为主；在其他有效列显示相同查表条件须标明本APP展示口径，不声称该列获得同等吉凶效力。"
+      },
+      {
+        "name": "国印",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "year",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "戌"
+          ],
+          "乙": [
+            "亥"
+          ],
+          "丙": [
+            "丑"
+          ],
+          "丁": [
+            "寅"
+          ],
+          "戊": [
+            "丑"
+          ],
+          "己": [
+            "寅"
+          ],
+          "庚": [
+            "辰"
+          ],
+          "辛": [
+            "巳"
+          ],
+          "壬": [
+            "未"
+          ],
+          "癸": [
+            "申"
+          ]
+        },
+        "sourceIds": [
+          "gujintushu"
+        ],
+        "scope": "采用星命起例年干禄位系统；原表逐干列出国印位置。本APP明确固定为本命年干，UI依据必须写出年干和值；不暗换为现代常见日干同表，源表本段不等于给出日干取用授权。"
+      },
+      {
+        "name": "金舆",
+        "status": "拟新增，未实施",
+        "anchor": {
+          "pillar": "year",
+          "field": "stem"
+        },
+        "target": "branch",
+        "table": {
+          "甲": [
+            "辰"
+          ],
+          "乙": [
+            "巳"
+          ],
+          "丙": [
+            "未"
+          ],
+          "丁": [
+            "申"
+          ],
+          "戊": [
+            "未"
+          ],
+          "己": [
+            "申"
+          ],
+          "庚": [
+            "戌"
+          ],
+          "辛": [
+            "亥"
+          ],
+          "壬": [
+            "丑"
+          ],
+          "癸": [
+            "寅"
+          ]
+        },
+        "sourceIds": [
+          "sanming03",
+          "lunar177"
+        ],
+        "scope": "选《三命通会》禄前二辰法：本命年干禄支顺进2位，原文以甲子人举例。UI明确年干；不混同书所述驿马前二辰另一法或现代日干取法。"
+      }
+    ],
+    "sources": [
+      {
+        "id": "lunar177",
+        "kind": "指定官方源码，固定版本",
+        "title": "lunar-javascript v1.7.7",
+        "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js",
+        "usedFor": [
+          "实际四柱/起运/大运/流年/流月/辅助数据",
+          "LunarUtil.LU及逐柱十二长生的固定引擎表"
+        ],
+        "notEvidenceFor": "完整四柱神煞API或全部神煞规则"
+      },
+      {
+        "id": "sanming02",
+        "kind": "传统原著电子转录",
+        "title": "三命通会（四库全书本）卷二",
+        "url": "https://zh.wikisource.org/w/index.php?oldid=761691",
+        "usedFor": [
+          "将星三合中位",
+          "华盖三合库支"
+        ],
+        "boundary": "年支锚点仍按原产品已明示版本，不据原文古代断语输出吉凶。"
+      },
+      {
+        "id": "sanming03",
+        "kind": "传统原著电子转录",
+        "title": "三命通会（四库全书本）卷三",
+        "url": "https://zh.wikisource.org/w/index.php?oldid=657369",
+        "usedFor": [
+          "十干禄",
+          "驿马",
+          "金舆禄前二辰",
+          "天乙及天月德的不同版本边界"
+        ],
+        "boundary": "金舆采用年干禄位法；不混该书另提马前二辰。"
+      },
+      {
+        "id": "sanming03markers",
+        "kind": "传统原著电子转录",
+        "title": "三命通会·卷三·论劫煞亡神",
+        "url": "https://zh.wikisource.org/wiki/三命通會/卷三#论劫煞亡神",
+        "usedFor": [
+          "劫煞、亡神四组三合目标表"
+        ]
+      },
+      {
+        "id": "mingli",
+        "kind": "传统原著电子转录，非官方库API",
+        "title": "袁树珊《命理探源》卷三·神煞",
+        "url": "https://book.taiyi.me/命/命理探源",
+        "usedFor": [
+          "天乙日主查法",
+          "文昌日主查法与作者按语",
+          "羊刃逐日十干表",
+          "月德节令月支查干"
+        ],
+        "boundary": "使用所列核定表，不照搬命运断语。电子转录存在个别字形错误，文昌依据须连同解释互核，不把三命同名另一表混进来。"
+      },
+      {
+        "id": "gujintushu",
+        "kind": "传统原著数字化原文",
+        "title": "古今图书集成·艺术典·禄勋阳刃唐符国印",
+        "url": "https://www.shidianguji.com/zh/book/GJTS17/chapter/1lpfcu0bj3602",
+        "usedFor": [
+          "国印逐干对应原表"
+        ],
+        "boundary": "明确本项目选年干星命起例口径，不声称现代日干法同源同义。"
+      }
+    ],
+    "deferred": [
+      {
+        "name": "天德",
+        "reason": "已有可核原文但坤/乾/艮/巽有不同支位解释：《渊海》申亥寅巳与《考原》未戌丑辰不同，部分月表又无对应。当前12类先不增加；若后续采用须固定版本及混合干/支目标，不能拿黄历天德填充。",
+        "source": "https://book.taiyi.me/命/命理探源"
+      },
+      {
+        "name": "太极贵人",
+        "reason": "《三命通会》描述始终两支、戊己正库等条件；仅按流行单支表扩展会混入取用差异。当前12类不纳入，后续需核年/日干及齐支条件。",
+        "source": "https://zh.wikisource.org/w/index.php?oldid=657369"
+      }
+    ],
+    "plannedFixedOracle": {
+      "status": "仅按上述新规则手工列出的未来期望，未实现/未运行新规则",
+      "birth": {
+        "date": "2005-12-23",
+        "time": "08:37",
+        "sex": "male"
+      },
+      "selectedColumns": {
+        "year": "乙酉",
+        "month": "戊子",
+        "day": "辛巳",
+        "time": "壬辰",
+        "period": "丁亥",
+        "flowYear": "甲午",
+        "flowMonth": "辛未"
+      },
+      "newOnlyExpected": {
+        "year": [],
+        "month": [
+          "文昌"
+        ],
+        "day": [
+          "金舆"
+        ],
+        "time": [
+          "月德"
+        ],
+        "period": [
+          "国印"
+        ],
+        "flowYear": [
+          "天乙贵人"
+        ],
+        "flowMonth": []
+      },
+      "anchorCheck": "天乙/文昌/羊刃固定辛日干；月德固定子月支；国印/金舆固定乙年干。羊刃目标戌，在这些列中未出现。"
+    }
+  },
+  "minimumImplementationAdvice": [
+    "不替换已有lcBaziCalculate和bazi-time历法链；档案从当前实际birth/result读取，流运继续同一selection驱动上表和神煞。",
+    "明确去掉关系tab及其可达入口，键盘3页循环；旧瞬时panel值relations回退flow，避免无面板。不得连带删完整七列真实对照字段；可移至档案或更多中的明确展开入口。",
+    "仅在annotations增加已核六类及来源、锚点，原六类版本保留说明；国印与金舆在UI逐条明确本命年干，其他日干/月支也逐条写明。",
+    "神煞页显示当前所选大运/流年/流月上下文，实际点击运年月后重新派生；未命中显示未命中已收录规则，不写示例或完整神煞。",
+    "不清除用户旧资料、不静默导入示例、不以QA截图出生资料作业务默认；按现有scope与严格门禁使用本人保存输入。"
+  ],
+  "suggestedAcceptance": [
+    "fresh匿名/登录上下文无资料时都进入实际四字段表单；空称呼保存后显示自己、实际生日且存储name为空，不能出现示例档案或预填日期。",
+    "真实填写两套不同合成出生，验证档案四柱、命宫/胎元/胎息/身宫、起运及顺逆按官方固定常量变化；打开独立旧档案后保持该档案birth，不被共享资料覆盖。",
+    "实际点击大运/流年/流月以及回到当前，核上表、选择摘要、神煞同一context更新；起运前空大运/未知时间继续缺项。",
+    "对新增十干表逐锚点做命中/不命中常量、月德四组节令月支、国印/金舆年干与日干不同的反例；不得从被测helper反推expected。",
+    "保留2005-12-23 08:37官方四柱常量与既有六类、藏干十神/纳音/旬空/自坐断言；增加计划oracle的六个新标记定位。",
+    "验证只有档案/流运/神煞三页可实际进入，键盘焦点/aria/宽度/横滑/更多真实操作保持；完整对照和规则不因移除关系而不可达。",
+    "继续生日/性别门禁、准确时间自动紫微、未知不造盘、四语及本地账号隔离；固定日柱/起运规则不变。",
+    "M4完成后由主代理统一构建；本机及Cloudflare各60项完整回归和本轮真实专项通过后才记录完成。当前未执行M4专项或全量。"
+  ],
+  "readOnlyValidation": {
+    "performed": [
+      "核对正文与image5–8",
+      "浏览官方固定tag及master源码、官方API文档和测试",
+      "枚举本机固定库EightChar/Yun/DaYun/LiuNian/LiuYue真实方法",
+      "内存调用既有纯适配器比较两套合成出生"
+    ],
+    "notPerformed": [
+      "未读写用户现有浏览器资料",
+      "未修改业务/引擎/参数/构建/清单",
+      "未启动服务或执行双端全量",
+      "未实现或验收新增六类",
+      "未发布或打包"
+    ]
+  },
+  "sourceHashes": {
+    "04_研发源码/app/r4/life-chart-bazi.js": "b5a3265d66b8dbcb1dc5a9c49b1584dafd1de0c2742d052b23612c441702e4bf",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js": "d5de97f34d95ed46adb3bee2d58ebc9b5a45247d96ec0c25b350be1770662f3f",
+    "04_研发源码/app/r4/life-chart-bazi-annotations.js": "b40884f0e3d8c01d79995c826f882d3a7420ba7b0cfe8fd0933dc7749517b48b",
+    "04_研发源码/app/r4/bazi-compare.js": "fcafec07c99c34613fd47caa975095c50f59d0244d1b4938f6988bf3c371f7a4",
+    "04_研发源码/app/r4/bazi-time.js": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+    "04_研发源码/app/r4/life-birth-entry.js": "3cbe4d9035cf72ad4df009fb68ae60f2bfd5b203a25ad10e9e0b1e3b7df26c39",
+    "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa"
+  }
+}

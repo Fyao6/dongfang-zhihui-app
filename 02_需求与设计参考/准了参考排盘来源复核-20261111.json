@@ -1,0 +1,90 @@
+{
+  "checked_beijing": "2026-11-11T10:05:59.429790+08:00",
+  "scope": "只读来源及固定计算适配复核；非本轮UI验收，不升级依赖，不发布。",
+  "sources": [
+    {
+      "url": "https://github.com/6tail/lunar-javascript",
+      "kind": "官方仓库，已浏览"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/6tail/lunar-javascript/v1.7.7/package.json",
+      "kind": "官方固定标签，version=1.7.7",
+      "sha256": "39b062864077ca2980683db5f209cb78339f74e4d5c1dea77b4a6263da116c02"
+    },
+    {
+      "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js#L5615-L6008",
+      "kind": "固定源码，EightChar及运年月构造"
+    },
+    {
+      "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/__tests__/EightChar.test.js",
+      "kind": "官方固定版本测试，已浏览"
+    },
+    {
+      "url": "https://github.com/cosinekitty/astronomy/blob/v2.1.19/source/js/astronomy.js",
+      "kind": "Astronomy Engine官方固定源码，已浏览"
+    }
+  ],
+  "lunar": {
+    "version": "1.7.7",
+    "local_file": "04_研发源码/app/r4/vendor/lunar-1.7.7.js",
+    "local_sha256": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "official_raw_url": "https://raw.githubusercontent.com/6tail/lunar-javascript/v1.7.7/lunar.js",
+    "official_raw_sha256": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "official_equals_local_bytes": true,
+    "api_mapping": {
+      "four_pillars": "Solar.fromYmdHms→getLunar→getEightChar；年/月依精确节令干支，日界由setSect(1|2)选择",
+      "details": "各柱Gan/Zhi/HideGan/WuXing/ShiShenGan/ShiShenZhi/NaYin/DiShi/Xun/XunKong",
+      "fortune": "EightChar.getYun(gender,sect)→getDaYun→getLiuNian→getLiuYue；起运日期取getStartSolar，方向取isForward",
+      "auxiliary": "EightChar.getTaiYuan/getTaiXi/getMingGong/getShenGong，及DaYun.getXiaoYun"
+    },
+    "app_rules_unchanged": {
+      "time_zone": "固定北京时间UTC+08:00",
+      "daySect_default": 2,
+      "yunSect_default": 2,
+      "yearBoundary": "立春",
+      "monthBoundary": "节令月",
+      "gender_mapping": "male=1，female=0"
+    },
+    "probe": {
+      "fixture": "合成2005-12-23 08:37 male，daySect=2/yunSect=2，非业务默认或用户本人资料",
+      "adapter_equals_official_direct_call": true,
+      "pillars": [
+        "乙酉",
+        "戊子",
+        "辛巳",
+        "壬辰"
+      ],
+      "startFortune": "2011-04-23 18:37:00",
+      "forward": false,
+      "selected_indices": {
+        "period": 1,
+        "year": 3,
+        "month": 5
+      },
+      "flow": [
+        "丁亥",
+        "甲午",
+        "辛未"
+      ]
+    },
+    "star_boundary": "EightChar没有完整四柱神煞列表API；既有12类由APP独立固定传统查表补充，逐项明示锚点和来源。不把Lunar日历吉凶神当四柱神煞。"
+  },
+  "western": {
+    "engine": "Astronomy Engine",
+    "version": "2.1.19",
+    "local_file": "04_研发源码/app/r4/vendor/astronomy-engine-2.1.19.min.js",
+    "local_sha256": "f41139a87941ea017ab902b954c9389fa27ea72083d7fab4971756d7769d14e6",
+    "api_mapping": "GeoVector+Ecliptic计算真实地心黄道位置，既有Observer/Equator用于有实际坐标旧完整档案",
+    "not_lunar_eightchar": true,
+    "unknown_boundary": "无准确时刻沿保存日期按固定北京时间逐小时25样本；不假造单一出生位置、确定相位、ASC或宫位。无坐标准确时刻地心模式也不推测宫位。"
+  },
+  "previous_research": {
+    "report": "06_验证与后续工作/八字真实数据与神煞来源核对.json",
+    "sha256": "cfad5ff87d5afd67a58e08648485185c188982a26bec6c5f0e57da6f689eeba9"
+  },
+  "limits": [
+    "纯算法夹具仅证明适配字段与固定库直调一致，不能替代本轮双端完整/专项。",
+    "本轮只调整比例与样式；保留本人资料门槛、未知不造精确盘、四字段生辰与12类已收录规则。",
+    "AI/托管/飞书继续暂停；旧交付记录、阶段台账与ZIP不改。"
+  ]
+}

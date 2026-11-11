@@ -1,0 +1,15 @@
+const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const {chromium,request}=require(path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+const root=path.resolve(__dirname,'..'),base='https://eastern-wisdom-demo-fuyao.netlify.app';
+(async()=>{const api=await request.newContext(),browser=await chromium.launch({headless:true,args:['--no-proxy-server']});const checks=[],errors=[];try{
+for(const route of ['/','/admin','/app','/api/health'])assert.equal((await api.get(base+route)).status(),200);checks.push('无代理前台、后台、电脑查看页与健康接口200');
+assert.equal((await api.get(base+'/api/admin/users')).status(),401);
+const content=(await (await api.get(base+'/api/public')).json()).content;assert(Array.isArray(content.courseCategories));checks.push('动态分类接口已上线，匿名后台访问受限');
+const creds=JSON.parse(fs.readFileSync(path.join(root,'04_研发源码/app/cloud/.env.test'),'utf8'));assert.equal((await api.post(base+'/api/auth/login',{data:creds})).status(),200);
+assert.equal((await api.get(base+'/api/admin/content/courseCategories')).status(),200);
+const ac=await browser.newContext({storageState:await api.storageState()});const ap=await ac.newPage();ap.on('pageerror',e=>errors.push(e.message));await ap.goto(base+'/admin');await ap.locator('[data-nav=courseCategories]').click();await ap.locator('[data-nav=courses]').click();await ap.locator('[data-edit]').first().click();assert.equal(await ap.locator('[name=categoryIds]').count(),1);checks.push('原管理员登录成功，后台分类入口与课程分类多选可用（只读）');
+const p=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});p.on('pageerror',e=>errors.push(e.message));
+for(const lang of ['zh','zh-Hant','en','bo']){await p.goto(base+'/experience?lang='+lang+'&page=academy');await p.waitForFunction(()=>typeof px!=='undefined'&&px.loaded);await p.locator('.academy-category-strip').waitFor();assert((await p.locator('.academy-course').count())>0);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));if(lang==='zh')assert.equal(await p.locator('.academy-category-options button').first().innerText(),'全部课程');await p.evaluate(()=>navigate('community'));assert.equal(await p.locator('.community-tab-label').count(),4);await p.waitForFunction(()=>{const v=document.querySelector('video');return !v||(!v.paused&&v.readyState>=2)},null,{timeout:30000});checks.push(lang+'课程分类、图文列表、四标签、自动播放与手机宽度');}
+await p.screenshot({path:path.join(__dirname,'本次公网发布-社群.png')});assert.deepEqual(errors,[]);
+const report={at:new Date().toISOString(),base,pass:true,checks,errors,scope:'Actual production read-only API and browser checks; no content changed',netlify_deploy_id:'6ae9a52f150fcbdc0feba5e4',sites_deployment_id:'appgdep_6ae9a503b04881918c1bbdc7b55d1265',commit_sha:'585040e987fedc30ee18623f4d149005726c69b8'};fs.writeFileSync(path.join(__dirname,'本次公网发布核验.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}finally{await browser.close();await api.dispose();}})().catch(e=>{console.error(e);process.exitCode=1;});

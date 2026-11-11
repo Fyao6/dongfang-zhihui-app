@@ -1,0 +1,1198 @@
+{
+  "latest": {
+    "at": "2026-11-11T07:46:37.146Z",
+    "module": "真实星盘W1-出生城市与完整档案",
+    "productionWrites": false,
+    "pass": true,
+    "passed": 8,
+    "failed": 0,
+    "results": [
+      {
+        "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+        "pass": true
+      },
+      {
+        "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+        "pass": true
+      },
+      {
+        "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+        "pass": true
+      },
+      {
+        "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+        "pass": true
+      },
+      {
+        "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+        "pass": true
+      },
+      {
+        "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+        "pass": true
+      },
+      {
+        "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+        "pass": true
+      },
+      {
+        "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+        "pass": true
+      }
+    ],
+    "errors": [],
+    "birthRequests": [],
+    "captures": [
+      "本机-地域移除-四字段入口.png",
+      "本机-地域移除-无地点星盘.png",
+      "本机-地域移除-最终四字段手机.png"
+    ],
+    "syntheticClientOnly": true,
+    "legacyArchiveFixtures": true,
+    "harnessAdaptation": {
+      "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+      "realLoginAcceptance": false,
+      "assertionsPreserved": true
+    },
+    "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+    "sourceHashes": {
+      "04_研发源码/app/r4/life-western-profile.js": "2b2f27ad668cebd9cc0335f636a0782cfef04f55c6f0025d409bf97d9720c3e4",
+      "04_研发源码/app/r4/life-western-cities.js": "1c0dc5b3ef28f428f1bd1026fe6037c66181f91ed9e05f8b45d17044fe8242c5",
+      "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+      "04_研发源码/app/r4/life-chart-core.js": "b02ac3d58eed193c5ca01dd44541a15ec09901dfc5f20002e14a6ab89887abb9",
+      "04_研发源码/app/r4/life-chart-western.js": "bd19aa6953f47bf738d58358ef9a60e005ca002bbc4bffc1cba3c30bb9a37cf3",
+      "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d"
+    },
+    "buildSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65"
+  },
+  "runs": [
+    {
+      "at": "2026-11-06T01:38:21.352Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "dedeb22dd7277e6eb5e4247e36e2be5349e7e5269264cdc4e9b7633d5896347c",
+        "04_研发源码/app/r4/life-chart-core.js": "fbedcd64add931d02fe2e2dd3b6014571205f457a05266fd27c0cf86e507dda6",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildSha256": "c004e173283ab9d425b3eff39bdf58f6e4eac14177d553741aa852bf9b925628"
+    },
+    {
+      "at": "2026-11-09T02:06:53.732Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec"
+    },
+    {
+      "at": "2026-11-09T07:35:08.391Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "bb6b5e4dfb0168261d2e71d7d99c0e78c012f6d09826f62c58f8a43edce26a6c",
+        "04_研发源码/app/r4/life-chart-core.js": "9166e9abc65c5aace97d4fa88c198836cf2f9bdcf6005ed0e27c2839d4c7328c",
+        "04_研发源码/app/r4/life-chart-western.js": "e410e8adbcd3382d3d93cba6ef13773edcc558a713a354431f8c8e220a92b39a"
+      },
+      "buildSha256": "d72a83e600bb4f92fa4a9eeac29de32fe25bc639cee1c08e6284fc7cc79dff37"
+    },
+    {
+      "at": "2026-11-09T07:43:33.315Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "bb6b5e4dfb0168261d2e71d7d99c0e78c012f6d09826f62c58f8a43edce26a6c",
+        "04_研发源码/app/r4/life-chart-core.js": "9166e9abc65c5aace97d4fa88c198836cf2f9bdcf6005ed0e27c2839d4c7328c",
+        "04_研发源码/app/r4/life-chart-western.js": "e410e8adbcd3382d3d93cba6ef13773edcc558a713a354431f8c8e220a92b39a"
+      },
+      "buildSha256": "b65b5e1680da0bca44f6bda02838bb54c74446bb0d054edc4c921edf46564e1d"
+    },
+    {
+      "at": "2026-11-09T08:31:24.744Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "bb6b5e4dfb0168261d2e71d7d99c0e78c012f6d09826f62c58f8a43edce26a6c",
+        "04_研发源码/app/r4/life-chart-core.js": "87e052514acfbbb81225c406a9e0932a722e41ba9ce5a773c21d8e87da7fec6f",
+        "04_研发源码/app/r4/life-chart-western.js": "60b9b196951cc2f9cc10fecf5945c685b32424cb53dd66a2b2e1d09bfca3299e"
+      },
+      "buildSha256": "3c11c19cff4b788073bd5e079cfa81c2e004826105836150679815ac919011f0"
+    },
+    {
+      "at": "2026-11-09T10:38:12.469Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "bb6b5e4dfb0168261d2e71d7d99c0e78c012f6d09826f62c58f8a43edce26a6c",
+        "04_研发源码/app/r4/life-chart-core.js": "87e052514acfbbb81225c406a9e0932a722e41ba9ce5a773c21d8e87da7fec6f",
+        "04_研发源码/app/r4/life-chart-western.js": "60b9b196951cc2f9cc10fecf5945c685b32424cb53dd66a2b2e1d09bfca3299e"
+      },
+      "buildSha256": "44a328b1238a7dd652d87d7a95989deae5bd9312b12203227b5a838bbf4707eb"
+    },
+    {
+      "at": "2026-11-10T07:41:34.885Z",
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "Actual four-field form and exact engines, with explicit pre-existing legacy shared-profile/archive fixtures; isolated local service only, no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "3cbe4d9035cf72ad4df009fb68ae60f2bfd5b203a25ad10e9e0b1e3b7df26c39",
+        "04_研发源码/app/r4/life-chart-core.js": "87e052514acfbbb81225c406a9e0932a722e41ba9ce5a773c21d8e87da7fec6f",
+        "04_研发源码/app/r4/life-chart-western.js": "60b9b196951cc2f9cc10fecf5945c685b32424cb53dd66a2b2e1d09bfca3299e"
+      },
+      "buildSha256": "2a6c21b2a764604c2803e14b21926d1e4758112431f0dd2eec594a5964120759"
+    },
+    {
+      "at": "2026-11-10T09:32:32.777Z",
+      "module": "改动文档M2-三盘独立与真实星盘",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "385dbb419534b1178cb8a6661eef5aa151f7f20b5a71f0748e33d51134f62e9d",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+        "04_研发源码/app/r4/life-chart-western.css": "4d8e990ecb86cbf99f142d5f38c019d1a6e322756c340f4310fb976f1c7b96a8"
+      },
+      "buildSha256": "580f0aa258082de2adef304940b6abb43a47ab17f725c3894797bb2d6e62b86a"
+    },
+    {
+      "at": "2026-11-10T09:39:13.841Z",
+      "module": "改动文档M2-三盘独立与真实星盘",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+        "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0"
+      },
+      "buildSha256": "d0b78667ede04f7c4d03c249f0d3f8b0edaaf401f3e664fcfe8798ba5c08a6c6"
+    },
+    {
+      "at": "2026-11-10T09:51:47.254Z",
+      "module": "改动文档M2-三盘独立与真实星盘",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+        "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0"
+      },
+      "buildSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64"
+    },
+    {
+      "at": "2026-11-10T10:27:02.894Z",
+      "module": "改动文档M5-展开控件统一",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+        "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0"
+      },
+      "buildSha256": "508a751b38686af7bb418ab056620d1acafffa99dc992f2916e81254ea2317a3"
+    },
+    {
+      "at": "2026-11-10T10:32:05.644Z",
+      "module": "改动文档M5-展开控件统一",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+        "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0"
+      },
+      "buildSha256": "939c700e3400b97cc2ab914a1d1a41a0e917b71220dc9b4d796605967f9c8066"
+    },
+    {
+      "at": "2026-11-11T02:31:07.863Z",
+      "module": "准了参考C2-八字比例重做",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "6df476326dbffe49b3f0d2a0b6aeedaa2f4969ddde700b2bc78a20c18820dfda",
+        "04_研发源码/app/r4/life-chart-western.css": "a1098a321899a7699e1cccfd7e53818869d11d1eb05805b2f2803f0ed7c81f4f"
+      },
+      "buildSha256": "ac5fa7d3ba5eebd39640ac9e18527da76ccdbc0350ccf04856fdc0022ee93c17"
+    },
+    {
+      "at": "2026-11-11T02:35:56.132Z",
+      "module": "准了参考C2-八字比例重做",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "6df476326dbffe49b3f0d2a0b6aeedaa2f4969ddde700b2bc78a20c18820dfda",
+        "04_研发源码/app/r4/life-chart-western.css": "a1098a321899a7699e1cccfd7e53818869d11d1eb05805b2f2803f0ed7c81f4f"
+      },
+      "buildSha256": "f34bac197b1be8f9b9b11a08f4911fd0d41813af1d6e7fba58822e0cc448447a"
+    },
+    {
+      "at": "2026-11-11T02:39:56.249Z",
+      "module": "准了参考C2-八字比例重做",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "6df476326dbffe49b3f0d2a0b6aeedaa2f4969ddde700b2bc78a20c18820dfda",
+        "04_研发源码/app/r4/life-chart-western.css": "a1098a321899a7699e1cccfd7e53818869d11d1eb05805b2f2803f0ed7c81f4f"
+      },
+      "buildSha256": "d23799bb2b06ca71552dd95ecfbc2a8fb5261da9477c8316cc903ec3efd59701"
+    },
+    {
+      "at": "2026-11-11T03:48:27.309Z",
+      "module": "完整星盘S1-盘面结构与连线",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "ced7bd15116bc3f1ed713b7a9fee7e438ad00b8477127477ebdea54dbced1024",
+        "04_研发源码/app/r4/life-chart-western.css": "483f19600dab610904a92dd5f7425900c7a78f914d0c570eb54b65d18ee6e50b"
+      },
+      "buildSha256": "fa8994b30e63a5a9c1f3c695701cef0dab04b6cfb1497af190355a5557a47419"
+    },
+    {
+      "at": "2026-11-11T03:53:03.994Z",
+      "module": "完整星盘S1-盘面结构与连线",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+        "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+        "04_研发源码/app/r4/life-chart-western.js": "1b5b5a16480847ff21124621e033a18cf851dc872b54782378060a29cbd0b139",
+        "04_研发源码/app/r4/life-chart-western.css": "483f19600dab610904a92dd5f7425900c7a78f914d0c570eb54b65d18ee6e50b"
+      },
+      "buildSha256": "43ba3aae0409acc3c07f5d56224af266da6fb2fe0959057061ef92440b6abc4b"
+    },
+    {
+      "at": "2026-11-11T07:46:37.146Z",
+      "module": "真实星盘W1-出生城市与完整档案",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-western-profile.js": "2b2f27ad668cebd9cc0335f636a0782cfef04f55c6f0025d409bf97d9720c3e4",
+        "04_研发源码/app/r4/life-western-cities.js": "1c0dc5b3ef28f428f1bd1026fe6037c66181f91ed9e05f8b45d17044fe8242c5",
+        "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+        "04_研发源码/app/r4/life-chart-core.js": "b02ac3d58eed193c5ca01dd44541a15ec09901dfc5f20002e14a6ab89887abb9",
+        "04_研发源码/app/r4/life-chart-western.js": "bd19aa6953f47bf738d58358ef9a60e005ca002bbc4bffc1cba3c30bb9a37cf3",
+        "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d"
+      },
+      "buildSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65"
+    }
+  ]
+}

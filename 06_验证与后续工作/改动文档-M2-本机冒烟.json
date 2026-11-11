@@ -1,0 +1,1563 @@
+{
+  "at": "2026-11-10T09:51:35.153Z",
+  "module": "改动文档M2-三盘独立与真实星盘",
+  "moduleId": "M2",
+  "partial": false,
+  "target": "local",
+  "productionWrites": false,
+  "syntheticClientOnly": true,
+  "sourceHashes": {
+    "04_研发源码/app/r4/life-chart-bazi.js": "9b14b5bad8e8f021284f8d9fdc2d9fe9ab09d67e7e8c343d8562ecc09ad3a546",
+    "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+    "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+    "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+    "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0",
+    "04_研发源码/app/r4/life-chart-workspace.css": "67f7ed0d48fc118b6cf4ceef8e2ed6b02b5e4d75e6dc8766d6e4de5b5bfeeafa",
+    "04_研发源码/app/r4/build.py": "64d06e3a9e402c79cdcfd876d88847814a2f91898ead4228ebe92e01870c1ca9"
+  },
+  "buildHashes": {
+    "东方智慧-首页体验R4.html": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+    "发给负责人-东方智慧首页R4.html": "0cc06bf699bc034741e6276965406df7ca44da7c4d39ebe690e43fe321333077",
+    "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+    "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+  },
+  "buildSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+  "harnessSha256": "f19e5af3a9ef157de09d764ee6a0cccb39732b57d142c39c8f18b143bb0d851b",
+  "scope": "Real constructed APP four-field UI; exact geocentric/legacy full positions, date-only sampled ranges, local archive/export and synthetic client owner scope. No production writes; synthetic owner switching is not real login acceptance.",
+  "isolation": {
+    "ownedBackend": true,
+    "externalFixtureExplicit": false,
+    "userPreviewPortsForbidden": [
+      8880,
+      8879
+    ],
+    "ownedServiceStopped": true,
+    "servicesStopped": true,
+    "externalServiceRetained": false,
+    "ownedDatabaseRemoved": true
+  },
+  "base": "http://127.0.0.1:61021",
+  "servedSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+  "results": [
+    {
+      "name": "M2四字段保存门禁与三盘独立入口",
+      "pass": true,
+      "detail": {
+        "fields": 4,
+        "optionalTime": true,
+        "autoZiwei": true,
+        "standaloneCharts": 3,
+        "nativeDisclosureImmediateRestoredReads": [
+          true,
+          true,
+          true
+        ],
+        "nativeCloseAndResizePreserved": true
+      }
+    },
+    {
+      "name": "M2地心十天体与同UTC旧完整盘及独立Swiss数值一致",
+      "pass": true,
+      "detail": {
+        "utc": "2000-01-01T12:00:00.000Z",
+        "bodies": 10,
+        "independentToleranceDegrees": 0.02,
+        "noHouses": true,
+        "noAngles": true
+      }
+    },
+    {
+      "name": "M2地心圆盘天体相位图例与键盘实际联动",
+      "pass": true,
+      "detail": {
+        "planetKeyboard": true,
+        "legendKeyboard": true,
+        "actualAspect": true
+      }
+    },
+    {
+      "name": "M2地心盘真实保存重开和JSON导出保留模式与精确UTC",
+      "pass": true,
+      "detail": {
+        "schema": 1,
+        "savedMode": "geocentric",
+        "recomputedNotCached": true,
+        "jsonExport": true
+      }
+    },
+    {
+      "name": "M2未知时间是真实北京时间全天25样本而非假精确盘",
+      "pass": true,
+      "detail": {
+        "timeStillEmpty": true,
+        "startUtc": "1999-12-31T16:00:00.000Z",
+        "endUtc": "2000-01-01T16:00:00.000Z",
+        "endExclusive": true,
+        "hourlySamples": 25,
+        "actualPositions": 250
+      }
+    },
+    {
+      "name": "M2全天圆图跨零度范围正确且不能保存导出为完整盘",
+      "pass": true,
+      "detail": {
+        "wrapCases": 2,
+        "hourPoints": 250,
+        "completeChartActions": 0,
+        "noFabricatedTime": true,
+        "dayNightRangePresentation": [
+          {
+            "mode": "day",
+            "appWidth": 390,
+            "navTop": 768,
+            "background": "rgb(255, 250, 240)",
+            "svg": {
+              "x": 34,
+              "y": 276.09375,
+              "width": 322,
+              "height": 322,
+              "left": 34,
+              "right": 356,
+              "top": 276.09375,
+              "bottom": 598.09375
+            },
+            "circle": {
+              "x": 50.603126525878906,
+              "y": 292.6968688964844,
+              "width": 288.79376220703125,
+              "height": 288.7937316894531,
+              "left": 50.603126525878906,
+              "right": 339.39688873291016,
+              "top": 292.6968688964844,
+              "bottom": 581.4906005859375
+            },
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 723,
+              "bottom": 759
+            },
+            "timerOverlapsCircle": false,
+            "paths": [
+              {
+                "id": "Sun",
+                "stroke": "rgb(122, 45, 219)",
+                "strokeWidth": 5,
+                "fill": "rgb(122, 45, 219)",
+                "glyphFill": "rgb(122, 45, 219)",
+                "strokeContrast": 6.25727625130597,
+                "fillContrast": 6.25727625130597
+              },
+              {
+                "id": "Moon",
+                "stroke": "rgb(8, 122, 58)",
+                "strokeWidth": 5,
+                "fill": "rgb(8, 122, 58)",
+                "glyphFill": "rgb(8, 122, 58)",
+                "strokeContrast": 5.235606199448666,
+                "fillContrast": 5.235606199448666
+              },
+              {
+                "id": "Mercury",
+                "stroke": "rgb(173, 87, 6)",
+                "strokeWidth": 5,
+                "fill": "rgb(173, 87, 6)",
+                "glyphFill": "rgb(173, 87, 6)",
+                "strokeContrast": 4.87223998687738,
+                "fillContrast": 4.87223998687738
+              },
+              {
+                "id": "Venus",
+                "stroke": "rgb(21, 86, 202)",
+                "strokeWidth": 5,
+                "fill": "rgb(21, 86, 202)",
+                "glyphFill": "rgb(21, 86, 202)",
+                "strokeContrast": 6.276557128181225,
+                "fillContrast": 6.276557128181225
+              },
+              {
+                "id": "Mars",
+                "stroke": "rgb(213, 29, 56)",
+                "strokeWidth": 5,
+                "fill": "rgb(213, 29, 56)",
+                "glyphFill": "rgb(213, 29, 56)",
+                "strokeContrast": 4.969008355228457,
+                "fillContrast": 4.969008355228457
+              },
+              {
+                "id": "Jupiter",
+                "stroke": "rgb(122, 45, 219)",
+                "strokeWidth": 5,
+                "fill": "rgb(122, 45, 219)",
+                "glyphFill": "rgb(122, 45, 219)",
+                "strokeContrast": 6.25727625130597,
+                "fillContrast": 6.25727625130597
+              },
+              {
+                "id": "Saturn",
+                "stroke": "rgb(8, 122, 58)",
+                "strokeWidth": 5,
+                "fill": "rgb(8, 122, 58)",
+                "glyphFill": "rgb(8, 122, 58)",
+                "strokeContrast": 5.235606199448666,
+                "fillContrast": 5.235606199448666
+              },
+              {
+                "id": "Uranus",
+                "stroke": "rgb(173, 87, 6)",
+                "strokeWidth": 5,
+                "fill": "rgb(173, 87, 6)",
+                "glyphFill": "rgb(173, 87, 6)",
+                "strokeContrast": 4.87223998687738,
+                "fillContrast": 4.87223998687738
+              },
+              {
+                "id": "Neptune",
+                "stroke": "rgb(21, 86, 202)",
+                "strokeWidth": 5,
+                "fill": "rgb(21, 86, 202)",
+                "glyphFill": "rgb(21, 86, 202)",
+                "strokeContrast": 6.276557128181225,
+                "fillContrast": 6.276557128181225
+              },
+              {
+                "id": "Pluto",
+                "stroke": "rgb(213, 29, 56)",
+                "strokeWidth": 5,
+                "fill": "rgb(213, 29, 56)",
+                "glyphFill": "rgb(213, 29, 56)",
+                "strokeContrast": 4.969008355228457,
+                "fillContrast": 4.969008355228457
+              }
+            ],
+            "legend": [
+              {
+                "border": "rgb(122, 45, 219)",
+                "glyph": "rgb(122, 45, 219)",
+                "visible": true
+              },
+              {
+                "border": "rgb(8, 122, 58)",
+                "glyph": "rgb(8, 122, 58)",
+                "visible": true
+              },
+              {
+                "border": "rgb(173, 87, 6)",
+                "glyph": "rgb(173, 87, 6)",
+                "visible": true
+              },
+              {
+                "border": "rgb(21, 86, 202)",
+                "glyph": "rgb(21, 86, 202)",
+                "visible": true
+              },
+              {
+                "border": "rgb(213, 29, 56)",
+                "glyph": "rgb(213, 29, 56)",
+                "visible": true
+              },
+              {
+                "border": "rgb(122, 45, 219)",
+                "glyph": "rgb(122, 45, 219)",
+                "visible": true
+              },
+              {
+                "border": "rgb(8, 122, 58)",
+                "glyph": "rgb(8, 122, 58)",
+                "visible": true
+              },
+              {
+                "border": "rgb(173, 87, 6)",
+                "glyph": "rgb(173, 87, 6)",
+                "visible": true
+              },
+              {
+                "border": "rgb(21, 86, 202)",
+                "glyph": "rgb(21, 86, 202)",
+                "visible": true
+              },
+              {
+                "border": "rgb(213, 29, 56)",
+                "glyph": "rgb(213, 29, 56)",
+                "visible": true
+              }
+            ]
+          },
+          {
+            "mode": "night",
+            "appWidth": 390,
+            "navTop": 768,
+            "background": "rgb(23, 38, 48)",
+            "svg": {
+              "x": 34,
+              "y": 276.09375,
+              "width": 322,
+              "height": 322,
+              "left": 34,
+              "right": 356,
+              "top": 276.09375,
+              "bottom": 598.09375
+            },
+            "circle": {
+              "x": 50.603126525878906,
+              "y": 292.6968688964844,
+              "width": 288.79376220703125,
+              "height": 288.7937316894531,
+              "left": 50.603126525878906,
+              "right": 339.39688873291016,
+              "top": 292.6968688964844,
+              "bottom": 581.4906005859375
+            },
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 723,
+              "bottom": 759
+            },
+            "timerOverlapsCircle": false,
+            "paths": [
+              {
+                "id": "Sun",
+                "stroke": "rgb(197, 147, 255)",
+                "strokeWidth": 5,
+                "fill": "rgb(197, 147, 255)",
+                "glyphFill": "rgb(197, 147, 255)",
+                "strokeContrast": 6.629191659436165,
+                "fillContrast": 6.629191659436165
+              },
+              {
+                "id": "Moon",
+                "stroke": "rgb(92, 217, 153)",
+                "strokeWidth": 5,
+                "fill": "rgb(92, 217, 153)",
+                "glyphFill": "rgb(92, 217, 153)",
+                "strokeContrast": 8.729401766280215,
+                "fillContrast": 8.729401766280215
+              },
+              {
+                "id": "Mercury",
+                "stroke": "rgb(255, 189, 101)",
+                "strokeWidth": 5,
+                "fill": "rgb(255, 189, 101)",
+                "glyphFill": "rgb(255, 189, 101)",
+                "strokeContrast": 9.37729167380231,
+                "fillContrast": 9.37729167380231
+              },
+              {
+                "id": "Venus",
+                "stroke": "rgb(121, 172, 255)",
+                "strokeWidth": 5,
+                "fill": "rgb(121, 172, 255)",
+                "glyphFill": "rgb(121, 172, 255)",
+                "strokeContrast": 6.751908896025454,
+                "fillContrast": 6.751908896025454
+              },
+              {
+                "id": "Mars",
+                "stroke": "rgb(255, 124, 146)",
+                "strokeWidth": 5,
+                "fill": "rgb(255, 124, 146)",
+                "glyphFill": "rgb(255, 124, 146)",
+                "strokeContrast": 6.303742328663533,
+                "fillContrast": 6.303742328663533
+              },
+              {
+                "id": "Jupiter",
+                "stroke": "rgb(197, 147, 255)",
+                "strokeWidth": 5,
+                "fill": "rgb(197, 147, 255)",
+                "glyphFill": "rgb(197, 147, 255)",
+                "strokeContrast": 6.629191659436165,
+                "fillContrast": 6.629191659436165
+              },
+              {
+                "id": "Saturn",
+                "stroke": "rgb(92, 217, 153)",
+                "strokeWidth": 5,
+                "fill": "rgb(92, 217, 153)",
+                "glyphFill": "rgb(92, 217, 153)",
+                "strokeContrast": 8.729401766280215,
+                "fillContrast": 8.729401766280215
+              },
+              {
+                "id": "Uranus",
+                "stroke": "rgb(255, 189, 101)",
+                "strokeWidth": 5,
+                "fill": "rgb(255, 189, 101)",
+                "glyphFill": "rgb(255, 189, 101)",
+                "strokeContrast": 9.37729167380231,
+                "fillContrast": 9.37729167380231
+              },
+              {
+                "id": "Neptune",
+                "stroke": "rgb(121, 172, 255)",
+                "strokeWidth": 5,
+                "fill": "rgb(121, 172, 255)",
+                "glyphFill": "rgb(121, 172, 255)",
+                "strokeContrast": 6.751908896025454,
+                "fillContrast": 6.751908896025454
+              },
+              {
+                "id": "Pluto",
+                "stroke": "rgb(255, 124, 146)",
+                "strokeWidth": 5,
+                "fill": "rgb(255, 124, 146)",
+                "glyphFill": "rgb(255, 124, 146)",
+                "strokeContrast": 6.303742328663533,
+                "fillContrast": 6.303742328663533
+              }
+            ],
+            "legend": [
+              {
+                "border": "rgb(197, 147, 255)",
+                "glyph": "rgb(197, 147, 255)",
+                "visible": true
+              },
+              {
+                "border": "rgb(92, 217, 153)",
+                "glyph": "rgb(92, 217, 153)",
+                "visible": true
+              },
+              {
+                "border": "rgb(255, 189, 101)",
+                "glyph": "rgb(255, 189, 101)",
+                "visible": true
+              },
+              {
+                "border": "rgb(121, 172, 255)",
+                "glyph": "rgb(121, 172, 255)",
+                "visible": true
+              },
+              {
+                "border": "rgb(255, 124, 146)",
+                "glyph": "rgb(255, 124, 146)",
+                "visible": true
+              },
+              {
+                "border": "rgb(197, 147, 255)",
+                "glyph": "rgb(197, 147, 255)",
+                "visible": true
+              },
+              {
+                "border": "rgb(92, 217, 153)",
+                "glyph": "rgb(92, 217, 153)",
+                "visible": true
+              },
+              {
+                "border": "rgb(255, 189, 101)",
+                "glyph": "rgb(255, 189, 101)",
+                "visible": true
+              },
+              {
+                "border": "rgb(121, 172, 255)",
+                "glyph": "rgb(121, 172, 255)",
+                "visible": true
+              },
+              {
+                "border": "rgb(255, 124, 146)",
+                "glyph": "rgb(255, 124, 146)",
+                "visible": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "M2无mode完整旧档案保留原UTC地点宫制而不降为地心盘",
+      "pass": true,
+      "detail": {
+        "legacyModeAbsent": true,
+        "recomputedMode": "full",
+        "houses": 12,
+        "preservedUtc": true,
+        "preservedCoordinates": true
+      }
+    },
+    {
+      "name": "M2账号分区与已知未知切换清除旧结果",
+      "pass": true,
+      "detail": {
+        "syntheticOwners": 2,
+        "realLoginAcceptance": false,
+        "geoAndRangeDoNotLeak": true,
+        "archivesIsolated": true
+      }
+    },
+    {
+      "name": "M2三视口四语日夜独立命盘和全天图均无横溢",
+      "pass": true,
+      "detail": {
+        "viewports": 3,
+        "languages": 4,
+        "modes": 2,
+        "renderedScreens": 96
+      }
+    },
+    {
+      "name": "M2出生不上传且运行计时正常，无浏览器错误",
+      "pass": true,
+      "detail": {
+        "birthUploads": 0,
+        "chartWrites": 0,
+        "isolatedSyntheticOwnerTimeBankHeartbeats": 6,
+        "isolatedFeatureTelemetry": 5,
+        "pageErrors": 0,
+        "timerContinues": true
+      }
+    }
+  ],
+  "errors": [],
+  "birthRequests": [],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat"
+    }
+  ],
+  "captures": [
+    {
+      "file": "改动文档M2-local-准确时刻地心盘.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "改动文档M2-local-时间未知全天范围.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 547,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 126,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 701,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 547,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 126,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 701,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 547,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 126,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 701,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 547,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 126,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 701,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 641,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 210,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 810,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 641,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 210,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 810,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 660,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 149,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 799,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 350,
+      "extraScroll": 660,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 350,
+      "extraScroll": 149,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 350,
+      "extraScroll": 799,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 350,
+      "height": 740,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 443,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 22,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 612,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 443,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 22,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 612,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 443,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 22,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 612,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 443,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 22,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 612,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 493,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 90,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 739,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 493,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 90,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 739,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 496,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 45,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 688,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 390,
+      "extraScroll": 496,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 390,
+      "extraScroll": 45,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 390,
+      "extraScroll": 688,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 702,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 190,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 830,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 702,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 190,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 830,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 702,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 190,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 830,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 702,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 190,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 830,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "zh-Hant",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 836,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 258,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 927,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 836,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 258,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 927,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "en",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 806,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 213,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 906,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "day",
+      "kind": "western-date-range",
+      "overflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "ziwei",
+      "appWidth": 440,
+      "extraScroll": 806,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "bazi",
+      "appWidth": 440,
+      "extraScroll": 213,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western",
+      "appWidth": 440,
+      "extraScroll": 906,
+      "documentOverflow": false,
+      "appOverflow": false
+    },
+    {
+      "width": 958,
+      "height": 676,
+      "lang": "bo",
+      "mode": "night",
+      "kind": "western-date-range",
+      "overflow": false
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "pass": true
+}

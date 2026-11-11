@@ -1,0 +1,38 @@
+{
+  "at": "2026-11-06T10:08:49.713544+00:00",
+  "module": "基础框架F02",
+  "pass": false,
+  "passed": 0,
+  "failed": 1,
+  "scope": "Fresh isolated Playwright file URL; real current build, no source overlay",
+  "productionWrites": false,
+  "input": {
+    "sharedPreference": {
+      "lang": "en",
+      "mode": "day",
+      "appearanceRevision": "xuanliu-1"
+    },
+    "existingGuestLegacyData": {
+      "lang": "zh",
+      "mode": "night",
+      "user": "returning"
+    }
+  },
+  "observed": {
+    "lang": "zh",
+    "mode": "night",
+    "scope": "guest",
+    "savedPreference": "en"
+  },
+  "expected": {
+    "lang": "en",
+    "mode": "day",
+    "scope": "guest"
+  },
+  "cause": "safeRead spreads shared preferences before legacy guest snapshot; old personal language/mode wins on offline open.",
+  "sourceHashes": {
+    "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d"
+  },
+  "buildSha256": "76b2f3857ad2de93390737fe27a8e5c7ceaae4ec59f1a54deb9c36196df43353",
+  "evidence": "Root executed isolated Playwright with actual file URL and addInitScript fixture; result observed directly from state and stored shared preferences. No real account, local profile or service data used."
+}

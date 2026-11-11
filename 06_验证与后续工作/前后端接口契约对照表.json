@@ -1,0 +1,194 @@
+{
+  "generatedAt": "2026-10-28 14:36 北京时间",
+  "scope": "当前本机前后端契约，不表示真实外部服务联调完成",
+  "publicBusiness": [
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "caller": "APP启动 pxBootstrap",
+      "contract": "content settings user aiReady；只下发已发布配置，会员媒体按权限移除",
+      "evidence": "内容发布与同步"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "caller": "登录与后台初始化",
+      "contract": "user setupRequired；首次管理员入口状态",
+      "evidence": "账号初始化与隔离"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/setup",
+      "caller": "后台首次初始化",
+      "contract": "username password name → user；仅首次可创建管理员",
+      "evidence": "账号初始化与隔离"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register 和 /login",
+      "caller": "APP账号表单及后台登录",
+      "contract": "账号凭据 → user 和会话Cookie；失败返回error",
+      "evidence": "账号初始化与隔离"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "caller": "APP及后台退出",
+      "contract": "清理服务端会话及Cookie → ok",
+      "evidence": "会话及角色边界"
+    },
+    {
+      "method": "POST",
+      "path": "/api/records",
+      "caller": "签到 抽卡 身体 生命 情绪",
+      "contract": "kind date data → ok；五种记录类型；签到和抽卡同日去重",
+      "evidence": "实际提交与断网反馈"
+    },
+    {
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "caller": "APP自动计时",
+      "contract": "zone → runs summary serverNow accountId zone",
+      "evidence": "计时 去重 跨天"
+    },
+    {
+      "method": "GET",
+      "path": "/api/time-bank/state 和 /export",
+      "caller": "计时账本查询",
+      "contract": "当前账号或访客账本；不暴露其他人的累计",
+      "evidence": "计时及权限检查"
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "caller": "AI对话 pxAsk",
+      "contract": "messages 可选context → text；未配置明确报错",
+      "evidence": "适配单测 未配置与重试"
+    },
+    {
+      "method": "GET",
+      "path": "/api/community/posts 和 /mine",
+      "caller": "公开动态与我的发布",
+      "contract": "items；公开流仅published，mine需登录",
+      "evidence": "发布 审核及越权检查"
+    },
+    {
+      "method": "POST PATCH",
+      "path": "/api/community/posts 和 /{id}",
+      "caller": "APP发布 编辑 撤回",
+      "contract": "title body mediaUrl status → id status；修改重审",
+      "evidence": "真实视频发布审核播放"
+    },
+    {
+      "method": "GET POST PATCH DELETE",
+      "path": "/api/friends 和 /{id}",
+      "caller": "好友申请 接受 移除",
+      "contract": "username 或status；items含incoming status",
+      "evidence": "真实好友权限"
+    },
+    {
+      "method": "GET POST",
+      "path": "/api/messages 和 /{friendId}",
+      "caller": "会话列表 读取与发送",
+      "contract": "items；发送body；双方必须为已接受好友",
+      "evidence": "真实会话及越权检查"
+    },
+    {
+      "method": "GET POST PATCH",
+      "path": "/api/service-requests 和 /{id}",
+      "caller": "老师服务 提交及取消",
+      "contract": "teacherId date body → id status；查询限本人",
+      "evidence": "前台提交 后台受理 前台回看"
+    },
+    {
+      "method": "GET POST DELETE",
+      "path": "/api/devices /link /{id}",
+      "caller": "设备列表 授权与解除",
+      "contract": "provider deviceId map consent → id status；无授权不接收",
+      "evidence": "设备授权 数据来源"
+    },
+    {
+      "method": "POST",
+      "path": "/api/integrations/measurements",
+      "caller": "供应商服务端推送",
+      "contract": "Bearer鉴权；connectionId metric value unit measuredAt；字段映射",
+      "evidence": "本地模拟供应商数据"
+    },
+    {
+      "method": "POST GET",
+      "path": "/api/media 和 /{id}",
+      "caller": "素材上传及音视频读取",
+      "contract": "上传为二进制；返回id url mime size；GET支持Range和权限",
+      "evidence": "真实浏览器上传 播放"
+    },
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "caller": "运行健康检查",
+      "contract": "ok version time；不返回凭据",
+      "evidence": "正式入口只读核验"
+    }
+  ],
+  "admin": [
+    {
+      "method": "GET",
+      "path": "/api/admin/dashboard",
+      "roles": "管理员 运营 审核员",
+      "contract": "counts role；展示实际总量，不生成经营数据"
+    },
+    {
+      "method": "GET POST",
+      "path": "/api/admin/content/{kind}",
+      "roles": "管理员 运营",
+      "contract": "item status position → ok id；10类配置；修改保留历史"
+    },
+    {
+      "method": "GET PATCH",
+      "path": "/api/admin/posts 和 /{id}",
+      "roles": "管理员 运营 审核员",
+      "contract": "items 或 status reason；驳回/下架原因必填"
+    },
+    {
+      "method": "GET PATCH",
+      "path": "/api/admin/users 和 /{id}",
+      "roles": "仅管理员",
+      "contract": "角色变更；不能撤销自身管理员；不存在账号返回404"
+    },
+    {
+      "method": "GET POST",
+      "path": "/api/admin/settings",
+      "roles": "仅管理员",
+      "contract": "ai theme integrations；只返回hasApiKey/hasSecret，不回传密钥"
+    },
+    {
+      "method": "GET PATCH",
+      "path": "/api/admin/service-requests 和 /{id}",
+      "roles": "管理员 运营",
+      "contract": "items；status为accepted closed cancelled；不存在需求404"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/records",
+      "roles": "管理员 运营",
+      "contract": "items timers total limit；最近500条元数据，明确总数"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/records/export",
+      "roles": "管理员 运营",
+      "contract": "全部记录元数据及计时汇总；不含自评正文/私信/凭据；留审计"
+    },
+    {
+      "method": "GET POST",
+      "path": "/api/admin/revisions 和 /{id}",
+      "roles": "管理员 运营",
+      "contract": "查看版本及恢复；恢复内容和发布状态，保留当前版本"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/audits",
+      "roles": "管理员 运营 审核员",
+      "contract": "操作时间 操作者 对象及说明；不记录密钥"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+/* Calculated chart: wide astronomical wheel, with its own dark drawing surface. */
+body[data-page=westernAstrology][data-mode=day]{--bg:#fff;--card:#fff;--soft:#f2f5f8;--ink:#172b3a;--muted:#526578;--line:#d4dde5;--cta:#175f73;--oncta:#fff}
+body[data-page=westernAstrology][data-mode=day] #app,body[data-page=westernAstrology][data-mode=day] .lc-western{background:#fff;background-image:none}
+body[data-page=westernAstrology] .lc-western{padding-left:6px;padding-right:6px;--lcw-conjunction:#7035b5;--lcw-sextile:#08734d;--lcw-square:#9a5209;--lcw-trine:#2258b6;--lcw-opposition:#b72c4b}
+body[data-page=westernAstrology][data-mode=night] .lc-western{--lcw-conjunction:#cba4ff;--lcw-sextile:#66e2b4;--lcw-square:#ffc27d;--lcw-trine:#8db9ff;--lcw-opposition:#ff99ae}
+body[data-page=westernAstrology] .lc-western>.px-top{margin:0 8px;padding-top:12px;padding-bottom:12px}
+body[data-page=westernAstrology] .lc-western>.lc-workspace{margin:0 8px 7px}
+body[data-page=westernAstrology] .lc-western .lc-profile-context{padding:8px 0;gap:10px}
+body[data-page=westernAstrology] .lc-western .lc-profile-context>div{gap:2px}
+body[data-page=westernAstrology] .lc-western .lc-profile-context strong{font:600 16px/1.5 var(--sans)}
+body[data-page=westernAstrology] .lc-western .lc-profile-context span{font:12px/1.6 var(--sans);color:var(--muted)}
+body[data-page=westernAstrology] .lc-western .lc-profile-context button{font:13px/1.5 var(--sans);min-height:44px}
+.lc-western .lcw-result-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 8px 2px}
+.lc-western .lcw-result-heading h2{font:600 19px/1.5 var(--sans);margin:0}
+.lcw-result-heading .lcw-eyebrow{display:none}.lcw-eyebrow{font:12px/1.6 var(--sans);color:var(--muted)}
+.lcw-system-tag{font:12px/1.5 var(--sans);color:var(--muted);text-align:right}
+.lc-western .lcw-time-summary{font:12px/1.6 var(--sans);margin:3px 8px 8px;color:var(--muted);overflow-wrap:anywhere}
+.lcw-caption{font:12px/1.7 var(--sans);color:var(--muted);margin:8px 0;overflow-wrap:anywhere}
+.lc-western [data-lcw-scope]{margin:7px 8px;font-size:12px}
+body[data-page=westernAstrology] .lcw-wheel.lcw-orbit{padding:0;margin:8px 0 12px;border:0;border-radius:0;background:none}
+body[data-page=westernAstrology] .lcw-orbit svg{display:block;width:100%;max-width:600px;height:auto;margin:auto;overflow:visible;--lcw-wheel-bg:#0c1728;--lcw-wheel-conjunction:#cfacff;--lcw-wheel-sextile:#69e2bb;--lcw-wheel-square:#ffc281;--lcw-wheel-trine:#8ab6ff;--lcw-wheel-opposition:#ff94a6}
+body[data-page=westernAstrology] .lcw-orbit .lcw-wheel-base{fill:#030913;stroke:#26384c;stroke-width:1}
+body[data-page=westernAstrology] .lcw-orbit .lcw-inner-disc{fill:var(--lcw-wheel-bg);stroke:#43566d;stroke-width:1.2}
+body[data-page=westernAstrology] .lcw-orbit .lcw-ring-edge{fill:none;stroke:#344a63;stroke-width:1}
+body[data-page=westernAstrology] .lcw-orbit .lcw-sign-divider{stroke:#61768d;stroke-width:1.1;stroke-opacity:.85}
+body[data-page=westernAstrology] .lcw-orbit .lcw-sign{font:500 24px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;fill:#bad7ff}
+body[data-page=westernAstrology] .lcw-orbit .lcw-element-0{fill:#ff9a9f}body[data-page=westernAstrology] .lcw-orbit .lcw-element-1{fill:#8ddaa7}body[data-page=westernAstrology] .lcw-orbit .lcw-element-2{fill:#ffdc8b}body[data-page=westernAstrology] .lcw-orbit .lcw-element-3{fill:#8ebdff}
+body[data-page=westernAstrology] .lcw-orbit .lcw-tick{stroke:#72869e;stroke-width:.8;stroke-opacity:.9}
+body[data-page=westernAstrology] .lcw-orbit .lcw-tick.is-major{stroke:#c6d6ea;stroke-width:1.4;stroke-opacity:1}
+body[data-page=westernAstrology] .lcw-orbit .lcw-house-sector{fill:transparent;stroke:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-house-sector.is-selected{fill:#84bdff;fill-opacity:.13}
+body[data-page=westernAstrology] .lcw-orbit .lcw-house-line{stroke:#657d98;stroke-width:1.1;stroke-opacity:.85}
+body[data-page=westernAstrology] .lcw-orbit .lcw-house-line.is-selected{stroke:#bfddff;stroke-width:2}
+body[data-page=westernAstrology] .lcw-orbit .lcw-house-label{fill:#ccdaec;font:500 17px/1 var(--sans);pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-axis{stroke:#adbed2;stroke-width:1.5;stroke-dasharray:none;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-axis-label{fill:#d3e6ff;font:600 18px/1 var(--sans);paint-order:stroke;stroke:var(--lcw-wheel-bg);stroke-width:4;stroke-linejoin:round}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect{stroke:var(--lcw-wheel-conjunction);stroke-width:1.6;opacity:.85;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-conjunction{stroke:var(--lcw-wheel-conjunction)}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-sextile{stroke:var(--lcw-wheel-sextile);stroke-dasharray:3 2}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-square{stroke:var(--lcw-wheel-square);stroke-dasharray:6 3}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-trine{stroke:var(--lcw-wheel-trine)}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-opposition{stroke:var(--lcw-wheel-opposition)}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect.is-highlighted{opacity:1;stroke-width:3}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect.is-muted{opacity:.22;stroke-width:1.2}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-hit{stroke:transparent;stroke-width:12;fill:none;pointer-events:stroke}
+body[data-page=westernAstrology] .lcw-orbit .lcw-aspect-hit:focus{stroke:#fff;stroke-opacity:.25;outline:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet-link{stroke:var(--lcw-body-color,#c4d7ee);stroke-width:1;stroke-opacity:.75;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet-link.is-highlighted{stroke-width:2;stroke-opacity:1}
+body[data-page=westernAstrology] .lcw-orbit .lcw-position-dot{fill:var(--lcw-body-color,#fff);stroke:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet .lcw-planet-hit{fill:transparent;stroke:none}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet text{font:500 28px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;fill:var(--lcw-body-color);paint-order:stroke;stroke:var(--lcw-wheel-bg);stroke-width:4;stroke-linejoin:round}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet .lcw-retrograde{font:500 12px/1 var(--sans);stroke-width:2}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet.is-selected .lcw-planet-hit,body[data-page=westernAstrology] .lcw-orbit .lcw-planet:focus .lcw-planet-hit{fill:#94c5ff;fill-opacity:.16;stroke:var(--lcw-body-color);stroke-width:1.6}
+body[data-page=westernAstrology] .lcw-orbit .lcw-planet.is-muted{opacity:.55}
+body[data-page=westernAstrology] .lcw-orbit [role=button]{cursor:pointer;outline:none}
+.lc-western .lcw-legend-panel{margin:8px 8px 12px}.lcw-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:5px 0}
+.lcw-panel-heading h3{font:600 14px/1.5 var(--sans);margin:0}.lcw-panel-heading button{font:13px/1.5 var(--sans);min-height:44px;padding:5px 0}
+.lcw-legend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.lcw-legend-item{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62px;padding:6px 3px;gap:4px;border:1px solid var(--line);border-radius:6px;color:var(--ink);background:var(--card);font:12px/1.5 var(--sans);min-width:0;overflow-wrap:anywhere}
+.lcw-legend-item b{font-weight:500}.lcw-legend-item small{color:var(--muted);font-size:11px}.lcw-line-sample{width:24px;border-top:2px solid var(--lcw-conjunction)}
+.lcw-line-conjunction{border-color:var(--lcw-conjunction)}.lcw-line-sextile{border-color:var(--lcw-sextile);border-top-style:dotted}.lcw-line-square{border-color:var(--lcw-square);border-top-style:dashed}.lcw-line-trine{border-color:var(--lcw-trine)}.lcw-line-opposition{border-color:var(--lcw-opposition)}
+.lcw-legend-item[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--cta);border-color:var(--cta);background:var(--soft)}
+.lc-western .lcw-detail{margin:10px 8px;padding:12px;border:1px solid var(--line);border-radius:7px;background:var(--card)}
+.lc-western .lcw-detail h3{font:600 18px/1.5 var(--sans);margin:4px 0}.lc-western .lcw-detail p{font:13px/1.7 var(--sans);margin:4px 0}
+.lcw-detail-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.lcw-detail-fields>div{min-width:0}.lcw-detail-fields dt{font:12px/1.6 var(--sans);color:var(--muted)}.lcw-detail-fields dd{font:14px/1.7 var(--sans);margin:3px 0;overflow-wrap:anywhere}
+.lc-western .lcw-table-section,.lc-western .lcw-house-table,.lc-western .lcw-aspect-table{margin:9px 8px;padding:0 12px;border:1px solid var(--line);border-radius:7px;background:var(--card)}
+.lcw-position-body{padding-bottom:8px}.lc-western .lcw-planet-row b{display:flex;align-items:center;gap:8px}.lc-western .lcw-planet-row b i{font:22px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;font-style:normal;color:var(--cta);width:22px;text-align:center}
+.lc-western :is(.lcw-table-section,.lcw-house-table,.lcw-aspect-table) button{font:13px/1.6 var(--sans);min-height:48px;padding:10px 0}
+.lc-western :is(.lcw-table-section,.lcw-house-table,.lcw-aspect-table) button small{font-size:12px}
+.lc-western :is(.lcw-table-section,.lcw-house-table,.lcw-aspect-table) button[aria-pressed=true]{background:var(--soft);box-shadow:inset 2px 0 var(--cta);padding-left:8px;padding-right:8px}
+.lcw-angle-grid{margin:5px 0 12px}.lcw-angle-grid b{font-size:14px}.lcw-angle-grid small{font-size:12px}
+.lc-western .fl-guide-details,.lc-western>.lc-editor{margin:8px}
+.lcw-reading-guide dl>div{margin:10px 0}.lcw-reading-guide dt{font:600 14px/1.6 var(--sans);color:var(--cta)}.lcw-reading-guide dd{font:13px/1.8 var(--sans);margin:4px 0}
+.lc-western .lc-result-actions{margin:12px 8px;gap:8px}.lc-western .lc-result-actions .btn{min-height:44px;font:13px/1.6 var(--sans);padding:9px 10px}
+.lc-western .lcw-reference{margin:6px 0;padding:0;border:0;background:transparent}
+.lc-western .lcw-reference>.lcw-eyebrow,.lc-western .lcw-reference>h2,.lc-western .lcw-reference>.lcw-caption{margin-left:8px;margin-right:8px}
+.lc-western .lcw-reference>h2{font:600 19px/1.5 var(--sans);margin-top:4px;margin-bottom:3px}
+.lc-western .lcw-reference>.lcw-eyebrow{font-size:11px}
+.lcw-reference-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 8px}.lcw-reference-actions>.btn{flex:1;min-width:130px;min-height:44px;font-size:13px;padding:9px}
+body[data-page=westernAstrology] .lcw-range-orbit{max-width:600px}
+body[data-page=westernAstrology] .lcw-range-orbit .lcw-range-path{fill:none;stroke:var(--lcw-range-color);stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+body[data-page=westernAstrology] .lcw-range-orbit .lcw-range-sample{fill:var(--lcw-range-color);stroke:var(--lcw-wheel-bg);stroke-width:.3}
+body[data-page=westernAstrology] .lcw-range-orbit .lcw-range-glyph{fill:var(--lcw-range-color);font:500 28px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;paint-order:stroke;stroke:var(--lcw-wheel-bg);stroke-width:4;stroke-linejoin:round}
+body[data-page=westernAstrology] .lcw-range-orbit .lcw-range-center{fill:#e1ecfa;font:500 26px/1.5 var(--sans)}
+body[data-page=westernAstrology] .lcw-range-orbit .lcw-range-center-small{fill:#a5bad2;font:18px/1.5 var(--sans)}
+.lcw-range-tone-0{--lcw-range-color:var(--lcw-conjunction)}.lcw-range-tone-1{--lcw-range-color:var(--lcw-sextile)}.lcw-range-tone-2{--lcw-range-color:var(--lcw-square)}.lcw-range-tone-3{--lcw-range-color:var(--lcw-trine)}.lcw-range-tone-4{--lcw-range-color:var(--lcw-opposition)}
+.lcw-orbit .lcw-range-tone-0{--lcw-range-color:var(--lcw-wheel-conjunction)}.lcw-orbit .lcw-range-tone-1{--lcw-range-color:var(--lcw-wheel-sextile)}.lcw-orbit .lcw-range-tone-2{--lcw-range-color:var(--lcw-wheel-square)}.lcw-orbit .lcw-range-tone-3{--lcw-range-color:var(--lcw-wheel-trine)}.lcw-orbit .lcw-range-tone-4{--lcw-range-color:var(--lcw-wheel-opposition)}
+.lcw-range-keys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lcw-range-key{min-width:0;border-left:2px solid var(--lcw-range-color);padding-left:9px}.lcw-range-key b,.lcw-range-key span{display:block}.lcw-range-key b{font:600 14px/1.6 var(--sans)}.lcw-range-key i{font-style:normal;color:var(--lcw-range-color);margin-right:5px}.lcw-range-key span{font:12px/1.7 var(--sans);overflow-wrap:anywhere}
+html[lang=bo] .lcw-legend{grid-template-columns:repeat(3,minmax(0,1fr))}html[lang=bo] .lcw-legend-item,html[lang=bo] .lcw-detail h3,html[lang=bo] .lcw-reference h2{line-height:1.9}html[lang=bo] .lcw-range-keys{grid-template-columns:1fr}
+@media(prefers-reduced-motion:reduce){.lcw-orbit *{transition:none}}
+
+/* Full radial structure: sector scaffolding and astronomical aspect geometry. */
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2]{--lcw-wheel-bg:#091423;--lcw-wheel-conjunction:#c4a2ee;--lcw-wheel-sextile:#72cdb9;--lcw-wheel-square:#e5b06e;--lcw-wheel-trine:#82a8e0;--lcw-wheel-opposition:#f18996}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-inner-disc{stroke:#60738c;stroke-width:1.1}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-tick{stroke:#6f85a2;stroke-width:.8;stroke-opacity:.85}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-inner-tick{fill:none;stroke:#72849d;stroke-width:.65;stroke-opacity:.8;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-inner-tick.is-major{stroke:#a5b9d1;stroke-width:1.1;stroke-opacity:1}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-reference-ray{stroke:#657d98;stroke-width:1.1;stroke-opacity:.85;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-reference-axis{stroke:#b2c4da;stroke-width:1.35;stroke-opacity:.9;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-reference-value{font:500 15px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;fill:#b3c5df;paint-order:stroke;stroke:var(--lcw-wheel-bg);stroke-width:3;stroke-linejoin:round;pointer-events:none}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-reference-value.is-cardinal{font-size:16px;fill:#d0ddef}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-house-label{font:500 16px/1 'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;fill:#bdd0e8;paint-order:stroke;stroke:var(--lcw-wheel-bg);stroke-width:3;stroke-linejoin:round}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-axis-label{font-family:'Segoe UI Symbol','Apple Symbols','Noto Sans Symbols 2',system-ui,sans-serif;fill:#d3dfef;stroke-width:3}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-aspect{stroke-width:1.6;stroke-dasharray:none;opacity:.9}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-aspect.is-highlighted{stroke-width:2.7;opacity:1}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-aspect.is-muted{stroke-width:1.1;opacity:.22}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-planet text{font-size:24px;stroke-width:3}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-planet .lcw-retrograde{font-size:10px;stroke-width:2}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-planet-link{stroke-width:.9;stroke-opacity:.7}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-position-dot{r:3.1}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-range-glyph{font-size:24px;stroke-width:3}
+body[data-page=westernAstrology] .lcw-orbit svg[data-lcw-geometry=radial-v2] .lcw-range-path{stroke-width:3.5}
+.lc-western .lcw-line-sample{border-top-style:solid}
+/* Western-only city archive: compact result, explicit edit and offline city selection. */
+.lc-western .lwp-pending{display:flex;align-items:center;gap:12px;margin:8px 0 14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.lc-western .lwp-pending>div{min-width:0;flex:1}.lc-western .lwp-pending strong{font-size:14px}.lc-western .lwp-pending p{font-size:12px;line-height:1.5;margin:4px 0 0;color:var(--muted)}
+.lc-western .lwp-pending .btn{font-size:12px;padding:10px;flex-shrink:0;white-space:normal;max-width:112px;min-height:44px}
+.lwp-editor-page #lwp-birth-form{margin-top:14px}.lwp-editor-page .lwp-city-field{display:flex;gap:8px;align-items:flex-end}.lwp-editor-page .lwp-city-field label{flex:1;min-width:0}.lwp-editor-page .lwp-city-field button{min-height:44px;padding:10px 14px;margin:0 0 0 0;max-width:125px;white-space:normal}
+.lwp-editor-page .lwp-city-results{max-height:240px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;padding:4px}
+.lwp-editor-page .lwp-city-results button{display:block;width:100%;text-align:left;padding:10px;background:transparent;color:var(--ink);border:0;border-bottom:1px solid var(--line);min-height:48px;cursor:pointer}
+.lwp-editor-page .lwp-city-results strong,.lwp-editor-page .lwp-city-results span{display:block;overflow-wrap:anywhere}.lwp-editor-page .lwp-city-results span{font-size:12px;line-height:1.4;color:var(--muted);margin-top:3px}
+.lwp-editor-page .lwp-city-results button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}.lwp-editor-page .lwp-chosen-city{font-size:13px;line-height:1.5;margin:0;color:var(--cta);overflow-wrap:anywhere}
+.lwp-city-context{overflow-wrap:anywhere}.lc-western .lwp-restore{display:block;margin:0 0 12px auto;min-height:36px}.lwp-city-source p{line-height:1.65}
+@media(max-width:380px){.lwp-editor-page .lc-form-pair{grid-template-columns:1fr}.lc-western .lwp-pending{align-items:flex-start}.lc-western .lwp-pending .btn{max-width:96px}}

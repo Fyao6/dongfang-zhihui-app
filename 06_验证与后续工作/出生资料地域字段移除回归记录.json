@@ -1,0 +1,61 @@
+{
+  "checked_beijing": "2026-11-06T09:44:27.507507+08:00",
+  "backup": "06_验证与后续工作/出生资料去除地域字段前备份核验.json",
+  "modules": [
+    {
+      "module": 1,
+      "name": "出生资料只保留四字段并兼容旧地域档案",
+      "completed_beijing": "2026-11-06T09:44:27.507507+08:00",
+      "pass": true,
+      "source_sha256": {
+        "04_研发源码/app/r4/life-birth-entry.js": "dedeb22dd7277e6eb5e4247e36e2be5349e7e5269264cdc4e9b7633d5896347c",
+        "04_研发源码/app/r4/life-chart-core.js": "fbedcd64add931d02fe2e2dd3b6014571205f457a05266fd27c0cf86e507dda6",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838",
+        "04_研发源码/app/r4/life-charts.css": "7ce9cccccbb3eb30351288f4c7272f61b1ca6e615d3bd52e7579f39ddfa2414b",
+        "04_研发源码/app/r4/build.py": "40d3b5e732485be98003d324b6474ffe890ae422530879232fce6890fc8006f1",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+      },
+      "build_sha256": {
+        "03_当前APP/东方智慧-首页体验R4.html": "c004e173283ab9d425b3eff39bdf58f6e4eac14177d553741aa852bf9b925628",
+        "03_当前APP/发给负责人-东方智慧首页R4.html": "54ff3454b7f2eecf43d8a3a6c4465c94abacf2564078f653b0742aabf04c0a8e",
+        "03_当前APP/创作者中心.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+        "03_当前APP/计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa",
+        "04_研发源码/app/cloud/generated/experience.html": "8fc6319d144b66267933862f5a80ccc48ebd0fd99737478578755eabf471e16a",
+        "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "04_研发源码/app/cloud/generated/creator.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+        "04_研发源码/app/cloud/generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "04_研发源码/app/cloud/dist/server/index.js": "f720bbfabf1f0c7abe43269cbcc8b8ad9add519bc8f7c1367bd204f7cf5908f1"
+      },
+      "checks": {
+        "python": {
+          "report": "06_验证与后续工作/本轮全量回归结果.json",
+          "at": "2026-11-06T01:39:29.724Z",
+          "module": "生辰地域字段移除最终",
+          "passed": 60,
+          "failed": 0,
+          "report_sha256": "e2b9592f313eaa606fbbaddedcf358437a429d8b9bd80c48368c3b723b0dbc84"
+        },
+        "cloudflare": {
+          "report": "06_验证与后续工作/公网适配全量回归结果.json",
+          "at": "2026-11-06T01:39:39.927Z",
+          "module": "生辰地域字段移除最终",
+          "passed": 60,
+          "failed": 0,
+          "report_sha256": "5519005614ceca72e6414abcc46e7194e3a1938d8d67d3d5d8af62944e0ae4f7"
+        }
+      },
+      "specialty": {
+        "birth_local": "06_验证与后续工作/出生资料地域移除核验-本机.json",
+        "birth_cloud": "06_验证与后续工作/出生资料地域移除核验-云端.json",
+        "charts_local": "06_验证与后续工作/三盘实际排盘联调.json"
+      },
+      "notes": [
+        "最终本机/本地Cloudflare完整回归各60通过；本轮地域移除专项双端各8通过；三盘新入口与旧地域档案兼容14通过。",
+        "新表单仅公历出生日期/性别/选填称呼/选填时间，无隐藏地域字段或折叠控件；新资料固定UTC+8且位置为空，不替新西盘猜地点宫位。普通编辑已有共享资料保留内部旧地域，新建排盘不继承；旧完整档案按原UTC和地点实际复算。",
+        "旧三盘的地域/西方数值检查使用明确的既有archive fixture，经实际档案按钮重开；没有在新表单填入被删除字段。容量与保存检查仍要求新记录增加、旧记录更新、打开数量不变。",
+        "本机首轮59/1为旧测试仍要求显示已删除的Asia/Shanghai/UTC技术摘要；三盘首轮13/1为旧测试将总档案数硬编码3，新增既有档案fixture后应断言打开前后不变。均只调整测试，失败历史保留，当前通过重跑不是旧报告复用。",
+        "全部测试在隔离SQLite、独立cdc6本地Worker和新浏览器配置中进行，未发布或修改生产数据。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2755 @@
+{
+  "latest": {
+    "at": "2026-11-06T10:25:48.689Z",
+    "module": "基础框架F01",
+    "base": "http://127.0.0.1:8877",
+    "cloudWorker": true,
+    "scope": "Disposable local backend and fresh browser contexts; transport faults are route-scoped, all fixture registration stays loopback, no production writes.",
+    "productionWrites": false,
+    "pass": true,
+    "passed": 14,
+    "failed": 0,
+    "results": [
+      {
+        "name": "首次public网络失败保留目标页，重试成功且无首页跳转",
+        "pass": true,
+        "observed": {
+          "page": "academy",
+          "loaded": true,
+          "status": "ready",
+          "user": null,
+          "pending": false,
+          "lifeLoading": false,
+          "lifeForm": false,
+          "lifeCards": 0
+        }
+      },
+      {
+        "name": "并发bootstrap共享同一promise，loading重试禁用且只请求一次",
+        "pass": true,
+        "observed": {
+          "publicRequests": 1,
+          "samePromise": true
+        }
+      },
+      {
+        "name": "503非JSON不能确认身份或放行生命地图，且能真实重试",
+        "pass": true,
+        "observed": {
+          "page": "lifeResult",
+          "loaded": false,
+          "status": "error",
+          "user": null,
+          "pending": false,
+          "lifeLoading": true,
+          "lifeForm": false,
+          "lifeCards": 0
+        }
+      },
+      {
+        "name": "200空对象不能确认身份或放行生命地图，且能真实重试",
+        "pass": true,
+        "observed": {
+          "page": "lifeResult",
+          "loaded": false,
+          "status": "error",
+          "user": null,
+          "pending": false,
+          "lifeLoading": true,
+          "lifeForm": false,
+          "lifeCards": 0
+        }
+      },
+      {
+        "name": "200内容集合类型错误不能确认身份或放行生命地图，且能真实重试",
+        "pass": true,
+        "observed": {
+          "page": "lifeResult",
+          "loaded": false,
+          "status": "error",
+          "user": null,
+          "pending": false,
+          "lifeLoading": true,
+          "lifeForm": false,
+          "lifeCards": 0
+        }
+      },
+      {
+        "name": "200内容条目为null不能确认身份或放行生命地图，且能真实重试",
+        "pass": true,
+        "observed": {
+          "page": "lifeResult",
+          "loaded": false,
+          "status": "error",
+          "user": null,
+          "pending": false,
+          "lifeLoading": true,
+          "lifeForm": false,
+          "lifeCards": 0
+        }
+      },
+      {
+        "name": "读取真实登录身份前不闪现guest出生资料，成功后仍为本人生日门禁",
+        "pass": true,
+        "observed": {
+          "confirmedActor": "182da158-0720-40ae-8a20-75872b567d27",
+          "guestFlash": false
+        }
+      },
+      {
+        "name": "已登录页面刷新失败保留本人及未提交生辰，成功恢复同页非密码字段",
+        "pass": true,
+        "observed": {
+          "before": {
+            "page": "lifeResult",
+            "loaded": true,
+            "status": "ready",
+            "user": "cd9a4268-e726-4f56-a8e7-64ebe232d4cd",
+            "pending": false,
+            "lifeLoading": false,
+            "lifeForm": true,
+            "lifeCards": 0
+          },
+          "after": {
+            "page": "lifeResult",
+            "loaded": true,
+            "status": "ready",
+            "user": "cd9a4268-e726-4f56-a8e7-64ebe232d4cd",
+            "pending": false,
+            "lifeLoading": false,
+            "lifeForm": true,
+            "lifeCards": 0
+          },
+          "businessWritesDuringRecovery": 0
+        }
+      },
+      {
+        "name": "离线保持页面与登录态，online只恢复失败连接不重放业务写入",
+        "pass": true,
+        "observed": {
+          "readyOnlineRefetches": 0,
+          "errorOnlineRefetches": 1,
+          "businessReplays": 0
+        }
+      },
+      {
+        "name": "身份未确认时离线按钮禁用，恢复联网自动继续生日门禁",
+        "pass": true
+      },
+      {
+        "name": "public真实12秒超时退出loading，单次请求且可重连",
+        "pass": true,
+        "observed": {
+          "elapsedMs": 11945,
+          "publicRequests": 2
+        }
+      },
+      {
+        "name": "四语窄屏错误加载反馈可见且无溢出或缺译键",
+        "pass": true,
+        "observed": {
+          "samples": [
+            {
+              "lang": "zh-Hans",
+              "width": 350,
+              "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+            },
+            {
+              "lang": "zh-Hans",
+              "width": 390,
+              "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+            },
+            {
+              "lang": "zh-Hant",
+              "width": 350,
+              "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+            },
+            {
+              "lang": "zh-Hant",
+              "width": 390,
+              "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+            },
+            {
+              "lang": "en",
+              "width": 350,
+              "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+            },
+            {
+              "lang": "en",
+              "width": 390,
+              "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+            },
+            {
+              "lang": "bo",
+              "width": 350,
+              "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+            },
+            {
+              "lang": "bo",
+              "width": 390,
+              "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+            }
+          ],
+          "languageReview": "Browser text/layout only; Tibetan has not received native-language review."
+        }
+      },
+      {
+        "name": "失效revision的延迟响应返回false且不覆盖新连接状态",
+        "pass": true,
+        "observed": {
+          "staleResult": false,
+          "currentResult": true,
+          "contentApplications": 1
+        }
+      },
+      {
+        "name": "连接恢复没有浏览器运行错误，测试起止源码构建一致",
+        "pass": true,
+        "observed": {
+          "pageErrors": 0
+        }
+      }
+    ],
+    "errors": [],
+    "captures": [],
+    "apiTraffic": [
+      {
+        "case": 0,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 0,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 0,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 0,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 1,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 1,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 1,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 2,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 2,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 2,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 2,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 3,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 3,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 3,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 3,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 4,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 4,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 4,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 4,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 5,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 5,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 5,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 5,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 6,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 6,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 6,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 6,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 6,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 6,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 6,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 7,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 7,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/community/mine"
+      },
+      {
+        "case": 7,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 7,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 8,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 8,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 8,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/community/mine"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 8,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 8,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 8,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 9,
+        "method": "POST",
+        "path": "/api/analytics/activity"
+      },
+      {
+        "case": 9,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/friends"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/messages"
+      },
+      {
+        "case": 9,
+        "method": "GET",
+        "path": "/api/service-requests"
+      },
+      {
+        "case": 10,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 10,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 10,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 10,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 11,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 11,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 12,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 12,
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat"
+      },
+      {
+        "case": 12,
+        "method": "GET",
+        "path": "/api/community/posts"
+      },
+      {
+        "case": 12,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 12,
+        "method": "GET",
+        "path": "/api/public"
+      },
+      {
+        "case": 12,
+        "method": "GET",
+        "path": "/api/community/posts"
+      }
+    ],
+    "sourceHashes": {
+      "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+      "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+      "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+      "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+      "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+      "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+      "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-06T09:23:16.486Z",
+      "module": "基础框架F01",
+      "base": "http://127.0.0.1:8877",
+      "cloudWorker": true,
+      "scope": "Disposable local backend and fresh browser contexts; transport faults are route-scoped, all fixture registration stays loopback, no production writes.",
+      "productionWrites": false,
+      "pass": false,
+      "passed": 13,
+      "failed": 1,
+      "results": [
+        {
+          "name": "首次public网络失败保留目标页，重试成功且无首页跳转",
+          "pass": true,
+          "observed": {
+            "page": "academy",
+            "loaded": true,
+            "status": "ready",
+            "user": null,
+            "pending": false,
+            "lifeLoading": false,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "并发bootstrap共享同一promise，loading重试禁用且只请求一次",
+          "pass": true,
+          "observed": {
+            "publicRequests": 1,
+            "samePromise": true
+          }
+        },
+        {
+          "name": "503非JSON不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200空对象不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容集合类型错误不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容条目为null不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "读取真实登录身份前不闪现guest出生资料，成功后仍为本人生日门禁",
+          "pass": true,
+          "observed": {
+            "confirmedActor": "3f3df27d-a558-47a5-84b0-55a767478aa4",
+            "guestFlash": false
+          }
+        },
+        {
+          "name": "已登录页面刷新失败保留本人及未提交生辰，成功恢复同页非密码字段",
+          "pass": true,
+          "observed": {
+            "before": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "67a786d6-aba4-48be-aab2-46c7d8899528",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "after": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "67a786d6-aba4-48be-aab2-46c7d8899528",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "businessWritesDuringRecovery": 0
+          }
+        },
+        {
+          "name": "离线保持页面与登录态，online只恢复失败连接不重放业务写入",
+          "pass": true,
+          "observed": {
+            "readyOnlineRefetches": 0,
+            "errorOnlineRefetches": 1,
+            "businessReplays": 0
+          }
+        },
+        {
+          "name": "身份未确认时离线按钮禁用，恢复联网自动继续生日门禁",
+          "pass": true
+        },
+        {
+          "name": "public真实12秒超时退出loading，单次请求且可重连",
+          "pass": true,
+          "observed": {
+            "elapsedMs": 11931,
+            "publicRequests": 2
+          }
+        },
+        {
+          "name": "四语窄屏错误加载反馈可见且无溢出或缺译键",
+          "pass": true,
+          "observed": {
+            "samples": [
+              {
+                "lang": "zh-Hans",
+                "width": 350,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hans",
+                "width": 390,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 350,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 390,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "en",
+                "width": 350,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "en",
+                "width": 390,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "bo",
+                "width": 350,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              },
+              {
+                "lang": "bo",
+                "width": 390,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              }
+            ],
+            "languageReview": "Browser text/layout only; Tibetan has not received native-language review."
+          }
+        },
+        {
+          "name": "失效revision的延迟响应返回false且不覆盖新连接状态",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 2\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F01连接恢复核验.cjs:36:449\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:541:9)\n    at async fixture (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F01连接恢复核验.cjs:19:242)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F01连接恢复核验.cjs:13:50)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F01连接恢复核验.cjs:36:2"
+        },
+        {
+          "name": "连接恢复没有浏览器运行错误，测试起止源码构建一致",
+          "pass": true,
+          "observed": {
+            "pageErrors": 0
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "apiTraffic": [
+        {
+          "case": 0,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 1,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 2,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 3,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 4,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 5,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 10,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 12,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        }
+      ],
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "177a5e851ce36c51317390b39fefd7f35741bf7aaba30ea31e3f03b6536c3d25",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "d038a353263337df839448973e5a5a872b4cc7fab174932d9cfff269f243c933",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+        "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+      },
+      "testHarnessDiagnosis": "The browser synchronously sets loading before Playwright dispatches its route callback. The test incorrectly asserted hits=2 immediately; changed only the harness to wait up to 3 seconds for the actual request before invalidation. Original failed result and screenshot are retained; final rerun determines resolution."
+    },
+    {
+      "at": "2026-11-06T09:24:23.118Z",
+      "module": "基础框架F01",
+      "base": "http://127.0.0.1:8877",
+      "cloudWorker": true,
+      "scope": "Disposable local backend and fresh browser contexts; transport faults are route-scoped, all fixture registration stays loopback, no production writes.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 14,
+      "failed": 0,
+      "results": [
+        {
+          "name": "首次public网络失败保留目标页，重试成功且无首页跳转",
+          "pass": true,
+          "observed": {
+            "page": "academy",
+            "loaded": true,
+            "status": "ready",
+            "user": null,
+            "pending": false,
+            "lifeLoading": false,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "并发bootstrap共享同一promise，loading重试禁用且只请求一次",
+          "pass": true,
+          "observed": {
+            "publicRequests": 1,
+            "samePromise": true
+          }
+        },
+        {
+          "name": "503非JSON不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200空对象不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容集合类型错误不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容条目为null不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "读取真实登录身份前不闪现guest出生资料，成功后仍为本人生日门禁",
+          "pass": true,
+          "observed": {
+            "confirmedActor": "f085a221-9d3e-4e12-bdeb-f69866ade826",
+            "guestFlash": false
+          }
+        },
+        {
+          "name": "已登录页面刷新失败保留本人及未提交生辰，成功恢复同页非密码字段",
+          "pass": true,
+          "observed": {
+            "before": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "bedbbe94-71e1-41f7-bf89-9bd0a62cc4c2",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "after": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "bedbbe94-71e1-41f7-bf89-9bd0a62cc4c2",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "businessWritesDuringRecovery": 0
+          }
+        },
+        {
+          "name": "离线保持页面与登录态，online只恢复失败连接不重放业务写入",
+          "pass": true,
+          "observed": {
+            "readyOnlineRefetches": 0,
+            "errorOnlineRefetches": 1,
+            "businessReplays": 0
+          }
+        },
+        {
+          "name": "身份未确认时离线按钮禁用，恢复联网自动继续生日门禁",
+          "pass": true
+        },
+        {
+          "name": "public真实12秒超时退出loading，单次请求且可重连",
+          "pass": true,
+          "observed": {
+            "elapsedMs": 11933,
+            "publicRequests": 2
+          }
+        },
+        {
+          "name": "四语窄屏错误加载反馈可见且无溢出或缺译键",
+          "pass": true,
+          "observed": {
+            "samples": [
+              {
+                "lang": "zh-Hans",
+                "width": 350,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hans",
+                "width": 390,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 350,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 390,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "en",
+                "width": 350,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "en",
+                "width": 390,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "bo",
+                "width": 350,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              },
+              {
+                "lang": "bo",
+                "width": 390,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              }
+            ],
+            "languageReview": "Browser text/layout only; Tibetan has not received native-language review."
+          }
+        },
+        {
+          "name": "失效revision的延迟响应返回false且不覆盖新连接状态",
+          "pass": true,
+          "observed": {
+            "staleResult": false,
+            "currentResult": true,
+            "contentApplications": 1
+          }
+        },
+        {
+          "name": "连接恢复没有浏览器运行错误，测试起止源码构建一致",
+          "pass": true,
+          "observed": {
+            "pageErrors": 0
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "apiTraffic": [
+        {
+          "case": 0,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 1,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 2,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 3,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 4,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 5,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 10,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 12,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/community/posts"
+        }
+      ],
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "177a5e851ce36c51317390b39fefd7f35741bf7aaba30ea31e3f03b6536c3d25",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "d038a353263337df839448973e5a5a872b4cc7fab174932d9cfff269f243c933",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+        "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+      }
+    },
+    {
+      "at": "2026-11-06T10:25:48.689Z",
+      "module": "基础框架F01",
+      "base": "http://127.0.0.1:8877",
+      "cloudWorker": true,
+      "scope": "Disposable local backend and fresh browser contexts; transport faults are route-scoped, all fixture registration stays loopback, no production writes.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 14,
+      "failed": 0,
+      "results": [
+        {
+          "name": "首次public网络失败保留目标页，重试成功且无首页跳转",
+          "pass": true,
+          "observed": {
+            "page": "academy",
+            "loaded": true,
+            "status": "ready",
+            "user": null,
+            "pending": false,
+            "lifeLoading": false,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "并发bootstrap共享同一promise，loading重试禁用且只请求一次",
+          "pass": true,
+          "observed": {
+            "publicRequests": 1,
+            "samePromise": true
+          }
+        },
+        {
+          "name": "503非JSON不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200空对象不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容集合类型错误不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "200内容条目为null不能确认身份或放行生命地图，且能真实重试",
+          "pass": true,
+          "observed": {
+            "page": "lifeResult",
+            "loaded": false,
+            "status": "error",
+            "user": null,
+            "pending": false,
+            "lifeLoading": true,
+            "lifeForm": false,
+            "lifeCards": 0
+          }
+        },
+        {
+          "name": "读取真实登录身份前不闪现guest出生资料，成功后仍为本人生日门禁",
+          "pass": true,
+          "observed": {
+            "confirmedActor": "182da158-0720-40ae-8a20-75872b567d27",
+            "guestFlash": false
+          }
+        },
+        {
+          "name": "已登录页面刷新失败保留本人及未提交生辰，成功恢复同页非密码字段",
+          "pass": true,
+          "observed": {
+            "before": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "cd9a4268-e726-4f56-a8e7-64ebe232d4cd",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "after": {
+              "page": "lifeResult",
+              "loaded": true,
+              "status": "ready",
+              "user": "cd9a4268-e726-4f56-a8e7-64ebe232d4cd",
+              "pending": false,
+              "lifeLoading": false,
+              "lifeForm": true,
+              "lifeCards": 0
+            },
+            "businessWritesDuringRecovery": 0
+          }
+        },
+        {
+          "name": "离线保持页面与登录态，online只恢复失败连接不重放业务写入",
+          "pass": true,
+          "observed": {
+            "readyOnlineRefetches": 0,
+            "errorOnlineRefetches": 1,
+            "businessReplays": 0
+          }
+        },
+        {
+          "name": "身份未确认时离线按钮禁用，恢复联网自动继续生日门禁",
+          "pass": true
+        },
+        {
+          "name": "public真实12秒超时退出loading，单次请求且可重连",
+          "pass": true,
+          "observed": {
+            "elapsedMs": 11945,
+            "publicRequests": 2
+          }
+        },
+        {
+          "name": "四语窄屏错误加载反馈可见且无溢出或缺译键",
+          "pass": true,
+          "observed": {
+            "samples": [
+              {
+                "lang": "zh-Hans",
+                "width": 350,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hans",
+                "width": 390,
+                "text": "连接暂未成功，请重试以读取当前账号与内容。\n重新连接"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 350,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "zh-Hant",
+                "width": 390,
+                "text": "連線暫未成功，請重試以讀取目前帳號與內容。\n重新連線"
+              },
+              {
+                "lang": "en",
+                "width": 350,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "en",
+                "width": 390,
+                "text": "Connection failed. Retry to load current account and content.\nRetry connection"
+              },
+              {
+                "lang": "bo",
+                "width": 350,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              },
+              {
+                "lang": "bo",
+                "width": 390,
+                "text": "མཐུད་མ་ཐུབ། རྩིས་ཐོ་དང་ནང་དོན་ཀློག་ཕྱིར་བསྐྱར་ཚོད་བྱོས།\nབསྐྱར་མཐུད།"
+              }
+            ],
+            "languageReview": "Browser text/layout only; Tibetan has not received native-language review."
+          }
+        },
+        {
+          "name": "失效revision的延迟响应返回false且不覆盖新连接状态",
+          "pass": true,
+          "observed": {
+            "staleResult": false,
+            "currentResult": true,
+            "contentApplications": 1
+          }
+        },
+        {
+          "name": "连接恢复没有浏览器运行错误，测试起止源码构建一致",
+          "pass": true,
+          "observed": {
+            "pageErrors": 0
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "apiTraffic": [
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 0,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 0,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 1,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 1,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 2,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 2,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 3,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 3,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 4,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 4,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 5,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 5,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 6,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 6,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 7,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 7,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/mine"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 8,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 8,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/analytics/activity"
+        },
+        {
+          "case": 9,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/friends"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/messages"
+        },
+        {
+          "case": 9,
+          "method": "GET",
+          "path": "/api/service-requests"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 10,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 10,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 11,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 11,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/community/posts"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/public"
+        },
+        {
+          "case": 12,
+          "method": "GET",
+          "path": "/api/community/posts"
+        }
+      ],
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+        "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+      }
+    }
+  ]
+}

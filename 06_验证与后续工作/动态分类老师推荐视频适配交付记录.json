@@ -1,0 +1,103 @@
+{
+  "at": "2026-11-03T16:37:29.715305+08:00",
+  "status": "implemented_and_validated_locally_publication_blocked",
+  "approved_tasks": [
+    "智慧馆恢复图文全部课程列表",
+    "后台动态课程分类CRUD和课程多分类关联",
+    "初始有声书与视频教程分类及一次性迁移",
+    "社群四入口及老师推荐",
+    "真实认证推荐老师资料与咨询需求流程",
+    "竖屏方形横屏自适应和透明导航",
+    "保留自动播放暂停静音进度和左下标题",
+    "四语及完整回归"
+  ],
+  "backup": "07_历史版本仅供追溯\\课程动态分类与老师推荐改前-20261103-160740.zip",
+  "verification": {
+    "local_full": {
+      "module": "动态课程分类认证老师推荐视频适配最终验收",
+      "at": "2026-11-03T08:25:56.539Z",
+      "passed": 56,
+      "failed": 0,
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "5f318ce25bd5f9992c163e76330e45231af29886ce4a83942393ee3c500a3f50",
+        "发给负责人-东方智慧首页R4.html": "252687ed0c005c2fd6a9ffdc468e8d26f791655647131a3c891f8e67ba1ebb5e",
+        "计时后台-开发联调.html": "cd351ef214c9d1bc91324bbe98b6f1532fa4b4168bc5b073d7484853af461bc6"
+      }
+    },
+    "cloud_full": {
+      "module": "动态分类认证老师推荐视频适配云端最终验收",
+      "at": "2026-11-03T08:28:58.883Z",
+      "passed": 56,
+      "failed": 0,
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "5f318ce25bd5f9992c163e76330e45231af29886ce4a83942393ee3c500a3f50",
+        "发给负责人-东方智慧首页R4.html": "252687ed0c005c2fd6a9ffdc468e8d26f791655647131a3c891f8e67ba1ebb5e",
+        "计时后台-开发联调.html": "cd351ef214c9d1bc91324bbe98b6f1532fa4b4168bc5b073d7484853af461bc6"
+      }
+    },
+    "api_local_checks": 28,
+    "api_cloud_checks": 29,
+    "browser_course_checks": [
+      "真实后台页面创建隔离管理员",
+      "后台界面新增发布四语分类并查找",
+      "后台课程编辑器多选分类并发布两门课程",
+      "直接打开page=academy无初始化错误，图文列表、动态分类、组合筛选、计数与空结果重置",
+      "四语言与三种手机尺寸的分类名称、筛选和页面宽度",
+      "停用当前选中分类后前台自动回到全部，课程保留",
+      "后台修改名称与排序后刷新仍生效",
+      "后台删除分类清理引用且全部课程与原分类关联保留"
+    ],
+    "video_teacher_checks": [
+      "四入口与已认证、真实、推荐老师筛选",
+      "老师详情及咨询表单传递真实目标、提交后显示记录（隔离API）",
+      "老师推荐四语言与360/390/430/550宽度布局无溢出",
+      "四种真实录制比例×四语言×四尺寸共64例，自动播放且只播放当前视频，保留底部进度和左下文案",
+      "手动暂停在页面重绘后保留",
+      "从已暂停视频切换下一条自动播放",
+      "离开推荐视频切换老师页立即暂停",
+      "无认证推荐老师时显示真实空状态"
+    ],
+    "admin_teacher_ui_checks": [
+      "管理员通过实际表单勾选真实老师认证及推荐并发布，API持久化为true",
+      "示例资料实际勾选认证发布被拒，未写入内容",
+      "取消推荐并发布后持久化为false，原认证仍为true",
+      "运营编辑界面的认证和推荐控件均禁用",
+      "运营更新其他字段后禁用控件未被误提交为false，认证状态保留"
+    ],
+    "real_ratio_cases": 64,
+    "four_language_page_states": 332
+  },
+  "preview": {
+    "app": "http://127.0.0.1:8765/experience?lang=zh-Hans&page=academy&v=dynamic-categories-20261103",
+    "admin": "http://127.0.0.1:8765/admin",
+    "community": "http://127.0.0.1:8765/experience?lang=zh-Hans&page=community&v=dynamic-categories-20261103"
+  },
+  "publication": {
+    "at": "2026-11-03T09:12:52.792Z",
+    "base": "https://eastern-wisdom-demo-fuyao.netlify.app",
+    "pass": true,
+    "checks": [
+      "无代理前台、后台、电脑查看页与健康接口200",
+      "动态分类接口已上线，匿名后台访问受限",
+      "原管理员登录成功，后台分类入口与课程分类多选可用（只读）",
+      "zh课程分类、图文列表、四标签、自动播放与手机宽度",
+      "zh-Hant课程分类、图文列表、四标签、自动播放与手机宽度",
+      "en课程分类、图文列表、四标签、自动播放与手机宽度",
+      "bo课程分类、图文列表、四标签、自动播放与手机宽度"
+    ],
+    "errors": [],
+    "scope": "Actual production read-only API and browser checks; no content changed",
+    "netlify_deploy_id": "6ae9a52f150fcbdc0feba5e4",
+    "sites_deployment_id": "appgdep_6ae9a503b04881918c1bbdc7b55d1265",
+    "commit_sha": "585040e987fedc30ee18623f4d149005726c69b8"
+  },
+  "limits": [
+    "现有老师均为示例，不自动认证；推荐页显示真实空状态，等待管理员配置实际认证老师",
+    "咨询沿用提交需求、后台受理与状态回看，未伪造成实时真人回复",
+    "藏文新界面词条为初稿修订，仍待母语审校",
+    "未重新打包旧桌面ZIP"
+  ],
+  "public_deployment_pending": false,
+  "cloud_prepared_not_deployed": false,
+  "source_sync_pending": false
+}

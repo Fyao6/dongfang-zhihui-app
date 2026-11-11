@@ -1,0 +1,14 @@
+{
+  "checked_utc": "2026-11-11T07:40:12.960478+00:00",
+  "source": "https://data.iana.org/time-zones/tzdb/asia",
+  "supporting_lines": [
+    612,
+    614,
+    617,
+    618,
+    619,
+    620
+  ],
+  "finding": "IANA distinguishes Beijing time (Asia/Shanghai) from Xinjiang time (Asia/Urumqi); a city alone cannot determine which clock a birth record used.",
+  "implementation": "GeoNames raw IANA field unchanged. Only cities whose catalog zone is Asia/Urumqi show a required record-clock choice (Beijing/Xinjiang), no raw time zone or coordinates fields. Choice determines normalized timezone; archive includes both catalogTimeZone and selected clockBasis. Missing choice never assumes either convention. Other cities automatically use catalog IANA rules; source historical uncertainty remains."
+}

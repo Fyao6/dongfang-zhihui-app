@@ -1,0 +1,30 @@
+
+/* Categories are CMS content; legacy teacher details retain shared portrait styles. */
+.academy-category-strip{display:flex;align-items:center;gap:14px;margin:18px 0 20px;min-width:0;border-bottom:1px solid var(--line)}
+.academy-category-options{display:flex;flex:1;min-width:0;align-items:stretch;gap:22px;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding:0 0 1px}
+.academy-category-count{flex-shrink:0;font-size:10px;line-height:1.8;color:var(--muted);white-space:nowrap}
+.academy-category-options>button{flex:0 0 auto;position:relative;min-height:48px;max-width:100%;padding:11px 2px;border:0;background:transparent;color:var(--muted);font:600 14px/1.6 var(--sans);white-space:nowrap;text-align:left}
+.academy-category-options>button[aria-pressed=true]{color:var(--cta)}
+.academy-category-options>button[aria-pressed=true]:after{content:"";position:absolute;left:2px;right:2px;bottom:0;height:2px;background:currentColor}
+.academy-category-options>button:focus-visible{outline:2px solid var(--cta);outline-offset:-3px}
+.academy-category-strip+.academy-results-heading{margin:20px 0 16px}
+.academy-category-strip+.academy-results-heading h2{font-size:18px}
+.at-teacher-list{display:grid;gap:12px}
+.at-teacher-card{display:grid;grid-template-columns:62px minmax(0,1fr);gap:16px;width:100%;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);text-align:left;padding:20px 16px;font-family:var(--sans)}
+.at-portrait{display:flex;align-items:center;justify-content:center;width:62px;height:74px;overflow:hidden;border-radius:8px;background:color-mix(in srgb,var(--cta) 14%,transparent);color:var(--cta);border:1px solid color-mix(in srgb,var(--cta) 24%,transparent)}
+.at-avatar-image{width:100%;height:100%;object-fit:cover}
+.at-copy{min-width:0;display:flex;flex-direction:column;gap:8px}
+.at-name{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.at-name>b{font-family:var(--serif);font-size:23px;line-height:1.45;font-weight:400}
+.at-demo{font-size:10px;font-family:var(--sans);font-weight:400;color:var(--muted);padding:2px 6px;border:1px solid var(--line);border-radius:4px;white-space:normal}
+.at-specialty{font-size:12px;color:var(--cta)}.at-preview{font-size:12px;line-height:1.8;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.at-foot{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:11px;padding-top:9px}.at-foot>span:last-child{display:flex;align-items:center;gap:6px;color:var(--cta)}.at-foot svg{width:14px;height:14px}
+.at-profile{display:flex;gap:18px;align-items:center;padding:16px 0 20px;border-bottom:1px solid var(--line)}
+.at-profile h2{font:400 30px/1.5 var(--serif);margin:6px 0}.at-profile p{font-size:12px;color:var(--cta);margin:0}
+.at-bio{font:14px/1.9 var(--sans);color:var(--muted);padding:18px 0;margin:0}
+.at-course-author{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:14px;width:100%;text-align:left;border-radius:10px;margin:18px 0}
+.at-author-symbol{color:var(--cta)}.at-course-author>span:nth-child(2){flex:1}.at-course-author b{display:block;font-size:14px}.at-course-author small{display:block;font-size:11px;line-height:1.8;color:var(--muted);margin-top:4px}
+.at-teacher-card:focus-visible,.at-course-author:focus-visible{outline:2px solid var(--cta);outline-offset:3px}
+.at-teacher-page .academy-empty{padding-top:22px}
+html[lang=bo] .at-name>b,html[lang=bo] .at-profile h2{font-family:"EW Tibetan",serif;line-height:1.8}
+html[lang=bo] .academy-category-options{gap:18px}html[lang=bo] .academy-category-options>button{font-family:"EW Tibetan",serif;line-height:1.9}html[lang=bo] .at-teacher-card{grid-template-columns:48px minmax(0,1fr);gap:12px}html[lang=bo] .at-teacher-card .at-portrait{width:48px;height:60px}
+

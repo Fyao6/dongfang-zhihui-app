@@ -1,0 +1,73 @@
+{
+  "at": "2026-11-10T09:51:12.474469+00:00",
+  "module": "改动文档M2-三盘独立与真实星盘",
+  "result": "confirmed_read_restore_click_race",
+  "reproduced": true,
+  "productionWrites": false,
+  "syntheticClientOnly": true,
+  "isolation": "New anonymous Playwright contexts against dedicated QA loopback 8881; no user-preview browser or database used. No business source was modified by the probe.",
+  "baselineIdentity": {
+    "buildSha256": "d0b78667ede04f7c4d03c249f0d3f8b0edaaf401f3e664fcfe8798ba5c08a6c6",
+    "sourceHashes": {
+      "04_研发源码/app/r4/life-chart-bazi.js": "b5a3265d66b8dbcb1dc5a9c49b1584dafd1de0c2742d052b23612c441702e4bf"
+    }
+  },
+  "probe": {
+    "toolSession": 36362,
+    "trial": 1,
+    "stage": 3,
+    "method": "Existing stage3 loaded in memory with observational helper-read/RAF/toggle logs. No render or disclosure behavior replaced. Two bounded contexts; trial0 passed, trial1 reproduced.",
+    "failure": "openNatalDetails .lcb-pillars waitFor visible timed out after 5000ms; native disclosure was closed."
+  },
+  "traceExcerpt": [
+    {
+      "type": "schedule-restore",
+      "id": 17,
+      "at": 6043,
+      "saved": true,
+      "panel": "archive"
+    },
+    {
+      "type": "helper-read-open",
+      "at": 6060,
+      "value": false
+    },
+    {
+      "type": "before-restore",
+      "id": 17,
+      "at": 6066,
+      "dom": false,
+      "saved": true,
+      "panel": "archive"
+    },
+    {
+      "type": "after-restore",
+      "id": 17,
+      "at": 6067,
+      "dom": true,
+      "saved": true,
+      "panel": "archive"
+    },
+    {
+      "type": "native-toggle",
+      "at": 6067,
+      "open": true,
+      "connected": true
+    },
+    {
+      "type": "native-summary-click",
+      "at": 6091,
+      "dom": true,
+      "saved": true,
+      "panel": "archive"
+    },
+    {
+      "type": "native-toggle",
+      "at": 6105,
+      "open": false,
+      "connected": true
+    }
+  ],
+  "diagnosis": "The helper read the rebuilt default-closed disclosure before restoration. RAF restored the saved open=true before the native click, so the click based on the earlier false observation closed it. The later visible-table wait cannot fix this reversed click. This confirms the read/restore/input ordering race, rather than a guessed click-open then false-restore sequence.",
+  "scopeLimit": "A separate stable archive-open then resize probe stayed open; the current resize listener is gated on visible rails. That probe does not prove a universal archive-resize regression."
+}

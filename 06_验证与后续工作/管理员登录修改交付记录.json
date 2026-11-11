@@ -1,0 +1,88 @@
+{
+  "at": "2026-11-03T10:53:17.484723+08:00",
+  "username": "fyao",
+  "user_id_preserved": true,
+  "role": "admin",
+  "public_checks": {
+    "at": "2026-11-03T02:51:49.980Z",
+    "pass": true,
+    "username": "fyao",
+    "same_user_id": true,
+    "role": "admin",
+    "old_session_revoked": true,
+    "old_credentials_rejected": true,
+    "content_unchanged": true,
+    "browser_login_pass": true,
+    "netlify_deploy": "6ae94bed1c4907a7c9274d6a",
+    "sites_deployment": "appgdep_6ae94bd9b4688191a3d2624aeba86cfd"
+  },
+  "checks": {
+    "登录信息修改-本机核验.json": {
+      "at": "2026-11-03T02:46:45.044Z",
+      "pass": true,
+      "checks": [
+        "匿名拒绝",
+        "非管理员拒绝",
+        "原密码校验",
+        "修改密码至少8位",
+        "用户名格式校验",
+        "重复用户名回滚且会话保留",
+        "只修改本人，忽略额外目标和角色",
+        "全部旧会话注销",
+        "新8位密码有效、旧凭据失效、原ID权限昵称保留",
+        "真实后台登录表单接受8位密码",
+        "审计不包含密码"
+      ]
+    },
+    "登录信息修改-云端适配核验.json": {
+      "at": "2026-11-03T02:48:32.153Z",
+      "pass": true,
+      "checks": [
+        "匿名拒绝",
+        "非管理员拒绝",
+        "原密码校验",
+        "修改密码至少8位",
+        "用户名格式校验",
+        "重复用户名回滚且会话保留",
+        "只修改本人，忽略额外目标和角色",
+        "全部旧会话注销",
+        "新8位密码有效、旧凭据失效、原ID权限昵称保留",
+        "真实后台登录表单接受8位密码",
+        "审计不包含密码"
+      ]
+    }
+  },
+  "full_regressions": {
+    "本轮全量回归结果.json": {
+      "module": "管理员登录信息修改支持",
+      "at": "2026-11-03T02:43:26.595Z",
+      "passed": 56,
+      "failed": 0,
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "3b928f41ca094dc7168e02aac4b740420b711f92cc83f4237b1857b8b7ab378f",
+        "发给负责人-东方智慧首页R4.html": "8e055b2017f97ac16766547195f6a762a519194ec4f3d441ecc7d00be91731b1",
+        "计时后台-开发联调.html": "133727ca30267c43d88ee56cc5c34db41b5fae0ce026365a41029fe3caf48fba"
+      }
+    },
+    "Netlify适配全量回归结果.json": {
+      "module": "管理员登录信息修改支持",
+      "at": "2026-11-03T02:46:42.354Z",
+      "passed": 56,
+      "failed": 0,
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "3b928f41ca094dc7168e02aac4b740420b711f92cc83f4237b1857b8b7ab378f",
+        "发给负责人-东方智慧首页R4.html": "8e055b2017f97ac16766547195f6a762a519194ec4f3d441ecc7d00be91731b1",
+        "计时后台-开发联调.html": "133727ca30267c43d88ee56cc5c34db41b5fae0ce026365a41029fe3caf48fba"
+      }
+    }
+  },
+  "api": "POST /api/auth/credentials",
+  "source_commit": "09482ccf6a3db0f7fc87afe4d19b38ca7cc19cb4",
+  "notes": [
+    "仅管理员本人经当前密码校验后可修改登录信息",
+    "修改后撤销本人全部旧会话；用户ID、权限、内容保留",
+    "登录接受现有密码；新管理员密码修改最少8位，原注册及首次建号策略保留",
+    "公网凭据只存排除打包的.env.test，隔离回归使用.env.local-test；不在源码和交付记录写入密码",
+    "未重新打包桌面旧ZIP"
+  ]
+}

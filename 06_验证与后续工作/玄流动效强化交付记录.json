@@ -1,0 +1,29 @@
+{
+  "atBeijing": "2026-10-28T16:28:50.725252+08:00",
+  "feedback": "原金色流动缓慢、不明显，交互缺乏感受",
+  "status": "强化动效和触摸反馈已实现，完整复验50通过0失败，待用户评价",
+  "changes": [
+    "山水主波形时间相位由0.24提高为2.1，约8.75倍，强化位移幅度",
+    "三路高亮金线沿山脊行进，并有随地形移动的金色微粒",
+    "指针移动产生局部波动；触摸按下产生即时椭圆涟漪，最多3个并逐步消退",
+    "30fps上限、DPR上限1.75、离页/隐藏停止，减少动态效果静帧并清空涟漪",
+    "练习场景降低流速并保留真实计时、暂停及引导"
+  ],
+  "regression": {
+    "module": "玄流光流与触摸强化环境恢复后完整复验",
+    "passed": 50,
+    "failed": 0
+  },
+  "motionEvidence": {
+    "passed": true,
+    "alphaDifferenceOver300ms": 12.295681740904454,
+    "framesAtCapture": 69,
+    "evidence": "玄流-动效增强实录.webm",
+    "note": "平均像素透明度差验证持续流动，不代表用户视觉认可"
+  },
+  "video": "06_验证与后续工作/玄流-动效增强实录.webm",
+  "rollback": "07_历史版本仅供追溯\\玄流动效强化前-20261028-161108.zip",
+  "environmentIncident": "为录制安装FFmpeg时，安装器清理了正在使用的浏览器缓存，导致中间批次8项新页面崩溃；已恢复相同revision的Chromium headless并完整重跑通过。该失败批次保留，不作为代码通过证据。",
+  "productionRecordsModified": false,
+  "noClinicalDataSimulation": true
+}

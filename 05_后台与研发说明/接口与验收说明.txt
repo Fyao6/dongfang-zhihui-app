@@ -1,0 +1,74 @@
+东方智慧 APP 本地后台与接口说明
+更新日期 2026年10月23日 北京时间
+
+启动与查看
+双击本目录“启动APP与后台.cmd”，或使用Python3运行原有“启动本地计时后台.py”。该兼容入口现启动整个APP与统一后台。
+负责人查看页：http://127.0.0.1:8765/app
+独立APP：http://127.0.0.1:8765/experience
+统一后台：http://127.0.0.1:8765/admin
+首次打开后台，由使用者自行创建管理员。没有预设管理密码。管理角色分为管理员、运营、审核员、老师、学员。
+
+数据库
+默认在既有源码backend目录内生成 eastern-wisdom.sqlite3；SQLite可能同时产生同名-wal和-shm文件。不另建data目录。
+初始内容从同目录 initial-content.json 导入。重启使用 INSERT OR IGNORE 保留已修改的配置。
+当前服务只绑定本机127.0.0.1。正式外网部署、HTTPS、运维备份与真实支付不是本轮本地联调验收范围。
+
+后台可配置
+每日一句及首页封面；三大地图名称、短介绍和入口图片；卡池、卡面图、解读与行动建议；音乐及签到音频；课程分类、摘要、学习目标、章节和媒体；老师资料；会员套餐价格和权益说明。
+社群审核、账号角色、老师服务需求、计时与签到查询、内容版本恢复和操作日志。
+AI模型、提示词、知识内容及服务端密钥；设备供应商、字段映射及接口密钥。
+固定在代码中的内容包括页面结构、路由、首页结束位置、组件行为、抽卡中心锁定、签到去重、计时记账与权限校验。
+
+接口概览
+GET  /api/public：公开内容、当前账号和AI连接状态，不返回服务端密钥。
+GET  /api/auth/status：登录及首次初始化状态。
+POST /api/auth/setup：仅首次建立管理员。
+POST /api/auth/register、/api/auth/login、/api/auth/logout：学员注册与会话管理。
+POST /api/time-bank/heartbeat：APP自动计时心跳。
+GET  /api/time-bank/state、/api/time-bank/export：个人计时状态及导出。
+POST /api/records：签到、抽卡、自评、生活与情绪记录；签到和抽卡按账号、日期去重。
+POST /api/ai/chat：服务端转发AI问答，需配置供应商并登录；未连接时返回明确状态。
+GET/POST /api/community/posts、GET /api/community/mine、PATCH /api/community/posts/{id}：自主发布、草稿、提交及撤回。
+GET/POST /api/friends、PATCH/DELETE /api/friends/{id}：申请、接收及移除好友。
+GET /api/messages、GET/POST /api/messages/{friendId}：已接受好友之间的真实文字会话。
+GET/POST /api/service-requests、PATCH /api/service-requests/{id}：老师服务需求及取消。
+GET /api/devices、POST /api/devices/link、DELETE /api/devices/{id}：授权与设备连接。
+POST /api/media：登录后上传音视频或图片，最大50MB；检查内容类型与文件签名。
+GET /api/media/{id}：按权限读取媒体，支持Range；未公开素材只允许本人或管理角色读取。
+/api/admin/*：管理接口，按角色在服务端校验。内容修改保留历史版本；日志不记录密码及接口密钥。
+
+设备测量接口
+POST /api/integrations/measurements
+请求头 Authorization: Bearer <后台配置的供应商密钥>
+JSON字段：provider、connectionId、metric、value、unit、measuredAt。
+measuredAt使用包含时区的ISO8601时间。connectionId必须属于已经同意授权且尚未解除的设备连接。
+后台fieldMap可将供应商的指标名映射到统一指标名。接到有效数据前，前台显示等待接入，不生成检测数值。
+三个地图分别保留life、body、mind接口位置。实际供应商OAuth、SDK及硬件联调需相应资料。
+
+AI接口
+按OpenAI Responses API格式实现服务端适配，模型不写死；凭据只保存在服务端配置。
+实际请求 store=false，读取output中的message/output_text，支持输出中先出现reasoning项目的情况。
+官方参考：https://developers.openai.com/api/docs/guides/text
+单元回归使用模拟响应核对请求及响应适配，没有使用真实API密钥或进行付费调用。真实模型联调仍待凭据。
+
+计时口径
+打开APP即发送心跳并自动累计，无用户手动暂停或停止接口；隐藏、拖动和页面切换不停止累计。
+悬浮计时轻点切换长方形与56×56像素小正方形，小方块也显示每秒更新的完整时分秒。拖动过程跟手，超过6像素视为拖动；松手后在260毫秒内平滑吸附最近的左右屏幕边缘，并保留释放高度，贴边安全间距6像素。缩放保留贴边方向和纵向中心，边界处自动约束；拖动后不会误触切换。形态、贴边方向和高度保存在当前浏览器，原有居中位置按最近侧迁移。动画过程中可再次拖动，减少动态效果模式关闭吸附和缩放动画；这些操作不修改计时会话。
+多个窗口共用账号的同一活动会话，避免重复计时。超过45秒未收到心跳时，在最后一次心跳位置结算旧会话，重开创建新会话；活动展示最多外推20秒。
+此规则用于识别实际退出和断线，不将两次打开之间的所有离线时间补算为使用时长。系统挂起与移动端后台限制需在真实设备上继续验证。
+原版已有的结束计时段保留；无法确定真实结束时间的旧活动段不补算多天离线时间。
+音乐和练习播放器具有各自的播放控制；它们的暂停不影响全局计时。
+
+回归方式
+用本机Codex捆绑的Node运行现有“06_验证与后续工作/全量回归.cjs --admin --module=模块名称”。
+该脚本优先使用已安装Edge，否则使用Playwright Chromium无头浏览器和独立SQLite测试库，检查浏览器交互、三种手机尺寸、中英文日夜模式、后台API、权限、内容发布、视频音频、账本和持久化等。
+另运行“后台单元回归.py”检查并发计时、跨天、重启保留配置和AI适配；它已纳入全量脚本。
+每个模块完成均运行整套检查，有失败先修复并重跑。结果追加到“本轮全量回归结果.json”，截图使用固定文件名更新。
+测试账号、素材和数据库在独立回归环境中使用，结束后清理专用数据库，不写入正式本地后台。
+
+仍需外部配置
+真实AI供应商凭据与模型权限；检测设备及手环的品牌、SDK和真实授权数据；真实老师资料及课程媒体。接口和管理位置已准备，不能把模拟响应或测试素材当作正式接入验收。
+
+2026-10-28后台运营收尾
+GET /api/admin/records 返回最近500条元数据及total总数；GET /api/admin/records/export返回全部元数据与计时汇总，管理员/运营可读，审核员及普通用户不可读。两者不返回自评正文和私密消息。导出操作留审计记录。
+设备配置新增clearSecret显式清除凭据，留空仍保留；错误账号或服务编号返回404，供应商编号校验格式。前台支持完整JSON/CSV导出、列表查找及筛选、素材预览和已存供应商配置编辑。后台JS已纳入构建前语法验证。

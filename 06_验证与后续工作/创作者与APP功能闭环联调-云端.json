@@ -1,0 +1,192 @@
+{
+  "latest": {
+    "at": "2026-11-05T11:07:56.814Z",
+    "pass": true,
+    "mode": "cloud",
+    "scope": "Actual isolated creator/company/APP browser workflows and HTTP persistence; no production data",
+    "checks": [
+      "实际浏览器账号注册、入驻申请和公司开通，工作台仅本人可用",
+      "图文、真实视频上传和多章节课程通过工作台提交并经公司实际复核发布",
+      "修改作者资料同步APP作者、老师、课程和社群展示，登录账号与认证推荐保留",
+      "APP作者主页关注和图文真实浏览、点赞、收藏入库",
+      "APP推荐视频实际自动循环播放形成有效观看与完播，预览媒体不冒充统计",
+      "智慧馆真实课程学习与收藏，课程导读实际学习计入作者数据",
+      "我的收藏和我的课程可跨全新浏览器会话恢复，按账号隔离且取消收藏同步",
+      "APP作者发起咨询、创作者受理和结束、学员回看与统计贯通",
+      "创作者指标读取APP真实曝光、浏览、播放、完播、学习、关注与咨询，作品撤回隐藏收藏",
+      "同一浏览器切换A/B账号后收藏隔离，第二位学员实际学习独立计数"
+    ],
+    "layouts": [
+      {
+        "name": "creator analytics",
+        "width": 1440,
+        "pass": true
+      },
+      {
+        "name": "creator analytics",
+        "width": 390,
+        "pass": true
+      },
+      {
+        "name": "creator analytics",
+        "width": 360,
+        "pass": true
+      },
+      {
+        "name": "APP author",
+        "width": 390,
+        "pass": true
+      }
+    ],
+    "errors": [],
+    "apiErrors": [],
+    "eventRequests": {
+      "play": 1,
+      "watch": 4,
+      "complete": 2,
+      "learn": 2
+    },
+    "sourceHashes": {
+      "04_研发源码/app/r4/creator-center.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+      "04_研发源码/app/r4/creator-app.js": "e9021b628e25d4700ee28a577ccdd5c6f7daada2db040529761bdfd5c2680d4e",
+      "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+      "04_研发源码/app/cloud/lib/creator-api.ts": "a8a2e5133e65fd4947237019b6ae793c37c6f0833b912a01cb0c4d7389d2600c"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "1946b221047971c376b3cd873efc4200c4fe42e93afdd5cd48dc0ee9358e3a75",
+      "创作者中心.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+      "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-05T10:45:16.769Z",
+      "pass": false,
+      "mode": "cloud",
+      "checks": [
+        "实际浏览器账号注册、入驻申请和公司开通，工作台仅本人可用",
+        "图文、真实视频上传和多章节课程通过工作台提交并经公司实际复核发布",
+        "修改作者资料同步APP作者、老师、课程和社群展示，登录账号与认证推荐保留",
+        "APP作者主页关注和图文真实浏览、点赞、收藏入库"
+      ],
+      "layouts": [],
+      "errors": [],
+      "error": "Error: Timed out waiting for real creator analytics: feed loop completion\n    at waitStats (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:16:204)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:69:438\n    at async step (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:13:30)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:68:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:94:16"
+    },
+    {
+      "at": "2026-11-05T11:04:09.220Z",
+      "pass": false,
+      "mode": "cloud",
+      "checks": [
+        "实际浏览器账号注册、入驻申请和公司开通，工作台仅本人可用",
+        "图文、真实视频上传和多章节课程通过工作台提交并经公司实际复核发布",
+        "修改作者资料同步APP作者、老师、课程和社群展示，登录账号与认证推荐保留",
+        "APP作者主页关注和图文真实浏览、点赞、收藏入库",
+        "APP推荐视频实际自动循环播放形成有效观看与完播，预览媒体不冒充统计",
+        "智慧馆真实课程学习与收藏，课程导读实际学习计入作者数据"
+      ],
+      "layouts": [],
+      "errors": [],
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(!(await api(reader,'creator-saved',undefined,'GET')).items.some(x=>x.id===works.course.id))\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:77:868\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:541:9)\n    at async step (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:13:30)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:75:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:96:16"
+    },
+    {
+      "at": "2026-11-05T11:05:30.278Z",
+      "pass": false,
+      "mode": "cloud",
+      "checks": [
+        "实际浏览器账号注册、入驻申请和公司开通，工作台仅本人可用",
+        "图文、真实视频上传和多章节课程通过工作台提交并经公司实际复核发布",
+        "修改作者资料同步APP作者、老师、课程和社群展示，登录账号与认证推荐保留",
+        "APP作者主页关注和图文真实浏览、点赞、收藏入库",
+        "APP推荐视频实际自动循环播放形成有效观看与完播，预览媒体不冒充统计",
+        "智慧馆真实课程学习与收藏，课程导读实际学习计入作者数据",
+        "我的收藏和我的课程可跨全新浏览器会话恢复，按账号隔离且取消收藏同步",
+        "APP作者发起咨询、创作者受理和结束、学员回看与统计贯通",
+        "创作者指标读取APP真实曝光、浏览、播放、完播、学习、关注与咨询，作品撤回隐藏收藏"
+      ],
+      "layouts": [
+        {
+          "name": "creator analytics",
+          "width": 1440,
+          "pass": true
+        },
+        {
+          "name": "creator analytics",
+          "width": 390,
+          "pass": true
+        },
+        {
+          "name": "creator analytics",
+          "width": 360,
+          "pass": true
+        },
+        {
+          "name": "APP author",
+          "width": 390,
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "error": "AssertionError [ERR_ASSERTION]: creator-saved {\"error\":\"请先登录账号。\"}\n\n401 !== 200\n\n    at api (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:12:145)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:91:832\n    at async step (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:13:30)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:88:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\创作者与APP功能闭环联调.cjs:96:16"
+    },
+    {
+      "at": "2026-11-05T11:07:56.814Z",
+      "pass": true,
+      "mode": "cloud",
+      "scope": "Actual isolated creator/company/APP browser workflows and HTTP persistence; no production data",
+      "checks": [
+        "实际浏览器账号注册、入驻申请和公司开通，工作台仅本人可用",
+        "图文、真实视频上传和多章节课程通过工作台提交并经公司实际复核发布",
+        "修改作者资料同步APP作者、老师、课程和社群展示，登录账号与认证推荐保留",
+        "APP作者主页关注和图文真实浏览、点赞、收藏入库",
+        "APP推荐视频实际自动循环播放形成有效观看与完播，预览媒体不冒充统计",
+        "智慧馆真实课程学习与收藏，课程导读实际学习计入作者数据",
+        "我的收藏和我的课程可跨全新浏览器会话恢复，按账号隔离且取消收藏同步",
+        "APP作者发起咨询、创作者受理和结束、学员回看与统计贯通",
+        "创作者指标读取APP真实曝光、浏览、播放、完播、学习、关注与咨询，作品撤回隐藏收藏",
+        "同一浏览器切换A/B账号后收藏隔离，第二位学员实际学习独立计数"
+      ],
+      "layouts": [
+        {
+          "name": "creator analytics",
+          "width": 1440,
+          "pass": true
+        },
+        {
+          "name": "creator analytics",
+          "width": 390,
+          "pass": true
+        },
+        {
+          "name": "creator analytics",
+          "width": 360,
+          "pass": true
+        },
+        {
+          "name": "APP author",
+          "width": 390,
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "apiErrors": [],
+      "eventRequests": {
+        "play": 1,
+        "watch": 4,
+        "complete": 2,
+        "learn": 2
+      },
+      "sourceHashes": {
+        "04_研发源码/app/r4/creator-center.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+        "04_研发源码/app/r4/creator-app.js": "e9021b628e25d4700ee28a577ccdd5c6f7daada2db040529761bdfd5c2680d4e",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "a8a2e5133e65fd4947237019b6ae793c37c6f0833b912a01cb0c4d7389d2600c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "1946b221047971c376b3cd873efc4200c4fe42e93afdd5cd48dc0ee9358e3a75",
+        "创作者中心.html": "80c29df2549607f9d580968b832fd34c532bf6b71f48831c173b7bae3643eb1e",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      }
+    }
+  ]
+}

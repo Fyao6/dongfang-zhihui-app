@@ -1,0 +1,47 @@
+{
+  "checked_beijing": "2026-11-11T11:24:18.958789+08:00",
+  "scope": "官方README与固定lunar1.7.7只读来源核实，非UI验收。",
+  "official_sources": [
+    {
+      "url": "https://github.com/6tail/lunar-javascript",
+      "finding": "官方描述为历法/干支/八字工具，并非西方天体星历或宫制引擎。"
+    },
+    {
+      "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/README.md",
+      "finding": "固定版本说明支持公农历、节气、干支、八字等；未声明西方星盘宫位/相位API。"
+    },
+    {
+      "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js#L265-L291",
+      "finding": "Solar.getXingZuo按月日区间返回星座名，不计算天体经度/上升点/宫位。"
+    },
+    {
+      "url": "https://github.com/6tail/lunar-javascript/blob/v1.7.7/lunar.js#L5614-L6008",
+      "finding": "EightChar及getYun用于四柱与运年月；没有西方宫位/行星相位接口。"
+    },
+    {
+      "url": "https://github.com/cosinekitty/astronomy/blob/v2.1.19/source/js/astronomy.js#L3879-L3893",
+      "finding": "GeoVector取得指定天体时刻的地心位置向量。"
+    },
+    {
+      "url": "https://github.com/cosinekitty/astronomy/blob/v2.1.19/source/js/astronomy.js#L2744-L2770",
+      "finding": "Ecliptic将位置转换为当日真黄道坐标/经纬度。"
+    }
+  ],
+  "fixed_vendors": {
+    "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "04_研发源码/app/r4/vendor/astronomy-engine-2.1.19.min.js": "f41139a87941ea017ab902b954c9389fa27ea72083d7fab4971756d7769d14e6"
+  },
+  "actual_app_mapping": {
+    "bazi": "lunar1.7.7 EightChar/getYun/DaYun/LiuNian/LiuYue；既有12类神煞是APP明确锚点与来源的补充表。",
+    "western_positions": "Astronomy Engine2.1.19 GeoVector→Ecliptic，沿本人已保存时刻计算。",
+    "western_aspects": "本APP lcwAspects按天体真实黄经夹角和既定0/60/90/120/180度容许度筛选，不来自lunar，也非为填满图形补连线。",
+    "western_houses": "有实际存档位置的旧完整档案：本APP lcWesternAngles基于Astronomy时空旋转求ASC/MC，再按既定整宫/等宫几何分宫；不称lunar或Astronomy原生完整占星宫制API。",
+    "unknown": "无时刻为本人保存生日按固定北京时间25个整点样本；无确定出生相位、ASC或宫位。",
+    "structural_lines": "为可读性增加的黄道结构分区线应明示结构参考，不冒充真实宫位/未知相位；真实黄经anchor及相位数据不变。"
+  },
+  "limits": [
+    "未升级依赖，未改业务、计算、日界/起运、出生四字段或后台。",
+    "此为来源核实而非本轮验收；S1仍须真实冒烟、双端60及最终专项绑定。",
+    "AI/托管/飞书暂缓；旧receipt/台账/ZIP不改，不打包不发布。"
+  ]
+}

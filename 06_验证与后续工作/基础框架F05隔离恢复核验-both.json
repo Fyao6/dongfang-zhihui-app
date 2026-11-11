@@ -1,0 +1,1588 @@
+{
+  "latest": {
+    "at": "2026-11-09T02:22:18.053Z",
+    "module": "基础框架F05",
+    "mode": "both",
+    "scope": "Actual checkout-local SQLite backup restoration and local D1 CLI SQL export/import with fresh HTTP authentication, persisted data and ACL comparisons. No production or remote writes.",
+    "productionWrites": false,
+    "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+    "isolation": {
+      "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+      "originalState": "ff04",
+      "onlyLoopback": true,
+      "ownedStates": [
+        {
+          "role": "source-copy",
+          "path": "04_研发源码/app/cloud/.wrangler/s3"
+        },
+        {
+          "role": "CLI-export-config",
+          "path": "04_研发源码/app/cloud/.wrangler/e2"
+        },
+        {
+          "role": "CLI-import-target",
+          "path": "04_研发源码/app/cloud/.wrangler/r2"
+        }
+      ],
+      "sourceStateIsReadOnlyInput": true,
+      "servicesStopped": true
+    },
+    "databaseRestoreOnly": true,
+    "r2ObjectsRestored": false,
+    "browserDataRestored": false,
+    "productionRestoreTested": false,
+    "hardwareTested": false,
+    "pass": true,
+    "passed": 4,
+    "failed": 0,
+    "results": [
+      {
+        "name": "SQLite真实backup→全新库恢复→HTTP数据与权限完整对照",
+        "pass": true,
+        "evidence": {
+          "method": "sqlite3.Connection.backup to backup, then backup to a fresh restore database",
+          "backup": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3",
+          "sourceSha256": "e0b9863bc2b8a112940099cf8509623bbf52bed3d0167f827bed31a396427eaa",
+          "backupSha256": "fd29c9f25b659ea8eb4fb75379c24d53fc78c7a78a62305dc64d70789270cadc",
+          "tables": 22,
+          "rows": 90,
+          "dataAndSchemaMatch": true,
+          "http": {
+            "endpointCount": 17,
+            "sha256": "da4380303dcaa58a7b0701ad93130bcb3182ce3b54e94b25f3fbc4530df721da",
+            "allPayloadsAndPermissionsMatch": true
+          }
+        }
+      },
+      {
+        "name": "D1停机原库只读副本→CLI local export/import→HTTP完整恢复",
+        "pass": true,
+        "evidence": {
+          "method": "Read-only SQLite backup staging; preserve full official dump; official --no-data schema and --no-schema data exports; two real CLI local execute batches into fresh state with original foreign-key deferral, no foreign_keys disable",
+          "originalState": "04_研发源码/app/cloud/.wrangler/ff04",
+          "originalMainSha256": "470159266c25d6d7f121436e991977ceb75b6cb9583a9a36cd5ab807272a79ec",
+          "originalMainUnchanged": true,
+          "sql": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/dump.sql",
+          "sqlBytes": 181165,
+          "sqlSha256": "af035c80ff740a6d6153c3b607c62239df9724d57c14b68c6d3388c7672dd626",
+          "schemaExport": {
+            "file": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql",
+            "bytes": 6033,
+            "sha256": "fb7e4d56cecea2e730f17085b9ec7faa77856dcff7cafc5caa9f707d4005127b"
+          },
+          "dataExport": {
+            "file": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql",
+            "bytes": 175163,
+            "sha256": "f9334c0a36e959b83a3fb8abf7ada3e82c5fc41424b8dac1535df6b900473e67"
+          },
+          "foreignKeysDisabled": false,
+          "exportDefaultState": "04_研发源码/app/cloud/.wrangler/e2/.wrangler/state",
+          "stagingPlacement": "Actual SQLite backup checkpointed at a short path then renamed inside the isolated runtime to the Miniflare filename; final restoration uses CLI SQL import.",
+          "stagingDatabasePathCharacters": 254,
+          "restoredState": "04_研发源码/app/cloud/.wrangler/r2",
+          "tables": 23,
+          "rows": 864,
+          "dataAndSchemaMatch": true,
+          "http": {
+            "endpointCount": 17,
+            "sha256": "ad154a3fe62d7f5c1e68e8e3a2a17a98e25022b4f766d77dead973ac8791eabf",
+            "allPayloadsAndPermissionsMatch": true
+          }
+        }
+      },
+      {
+        "name": "SQLite与D1选定HTTP接口字段类型、角色与业务契约一致",
+        "pass": true,
+        "evidence": {
+          "compared": {
+            "responseRootKeys": {
+              "public": [
+                "aiReady",
+                "content",
+                "settings",
+                "user"
+              ],
+              "adminIdentity": [
+                "setupRequired",
+                "user"
+              ],
+              "readerIdentity": [
+                "setupRequired",
+                "user"
+              ],
+              "users": [
+                "items"
+              ],
+              "friends": [
+                "items"
+              ],
+              "chat": [
+                "items"
+              ],
+              "creatorMe": [
+                "eligible",
+                "profile",
+                "user"
+              ],
+              "works": [
+                "items"
+              ],
+              "review": [
+                "item",
+                "reviews"
+              ],
+              "records": [
+                "items",
+                "limit",
+                "timers",
+                "total"
+              ],
+              "analytics": [
+                "collectedSince",
+                "features",
+                "range",
+                "retention",
+                "summary",
+                "timezone",
+                "trend",
+                "windows"
+              ]
+            },
+            "publicUser": null,
+            "adminUserShape": {
+              "id": "string",
+              "name": "string",
+              "role": "string",
+              "username": "string"
+            },
+            "friendShape": {
+              "id": "string",
+              "incoming": "boolean",
+              "name": "string",
+              "status": "string",
+              "username": "string"
+            },
+            "messageShape": {
+              "at": "string",
+              "body": "string",
+              "id": "string",
+              "senderId": "string"
+            },
+            "recordShape": {
+              "created": "number",
+              "day": "string",
+              "kind": "string",
+              "name": "string",
+              "owner": "string",
+              "username": "string"
+            },
+            "workFieldTypes": {
+              "id": "string",
+              "title": "string",
+              "body": "string",
+              "type": "string",
+              "format": "string",
+              "duration": "number",
+              "version": "number",
+              "status": "string",
+              "sections": "array"
+            },
+            "creator": {
+              "status": "approved",
+              "eligible": true,
+              "role": "teacher"
+            },
+            "work": {
+              "status": "published",
+              "type": "article",
+              "format": "article",
+              "body": "F05 mw8my6du-833b 中文 ' quote \\\nnext line",
+              "sections": [
+                [
+                  "章节",
+                  "Chapter",
+                  "F05 mw8my6du-833b 中文 ' quote \\\nnext line",
+                  "Restore fixture"
+                ]
+              ],
+              "versionPositive": true
+            },
+            "friendAccepted": true,
+            "following": true,
+            "recordPresent": true,
+            "analytics": {
+              "timezone": "Asia/Shanghai",
+              "grain": "day",
+              "summaryKeys": [
+                "activeUsers",
+                "coverage",
+                "newUsers",
+                "registeredUsers",
+                "visits"
+              ],
+              "homeFeaturePresent": true
+            },
+            "acl": {
+              "anonymousAdmin": 401,
+              "ordinaryAdmin": 403,
+              "ordinaryCreator": 403
+            }
+          }
+        }
+      },
+      {
+        "name": "恢复验证起止源码与构建一致，未执行远程或生产恢复",
+        "pass": true,
+        "evidence": {
+          "productionWrites": false,
+          "remoteCommands": 0
+        }
+      }
+    ],
+    "commands": [
+      {
+        "purpose": "SQLite fingerprint",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "fingerprint",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/source.sqlite3"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-0.log"
+      },
+      {
+        "purpose": "SQLite backup",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "backup",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/source.sqlite3",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-1.log"
+      },
+      {
+        "purpose": "SQLite backup",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "backup",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/restored.sqlite3"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-2.log"
+      },
+      {
+        "purpose": "SQLite fingerprint",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "fingerprint",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/restored.sqlite3"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-3.log"
+      },
+      {
+        "purpose": "SQLite backup",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "backup",
+          "04_研发源码/app/cloud/.wrangler/ff04/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+          "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-4.log"
+      },
+      {
+        "purpose": "SQLite fingerprint",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "fingerprint",
+          "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-5.log"
+      },
+      {
+        "purpose": "SQLite backup",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "backup",
+          "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/export-backup.sqlite3"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-6.log"
+      },
+      {
+        "purpose": "Wrangler real local D1 export",
+        "program": "node.exe",
+        "args": [
+          "--import",
+          "./scripts/sites-env.mjs",
+          "./node_modules/wrangler/bin/wrangler.js",
+          "d1",
+          "export",
+          "DB",
+          "--local",
+          "--config",
+          "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+          "--output",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/dump.sql"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-7.log"
+      },
+      {
+        "purpose": "Wrangler real local D1 schema export",
+        "program": "node.exe",
+        "args": [
+          "--import",
+          "./scripts/sites-env.mjs",
+          "./node_modules/wrangler/bin/wrangler.js",
+          "d1",
+          "export",
+          "DB",
+          "--local",
+          "--no-data",
+          "--config",
+          "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+          "--output",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-8.log"
+      },
+      {
+        "purpose": "Wrangler real local D1 data export",
+        "program": "node.exe",
+        "args": [
+          "--import",
+          "./scripts/sites-env.mjs",
+          "./node_modules/wrangler/bin/wrangler.js",
+          "d1",
+          "export",
+          "DB",
+          "--local",
+          "--no-schema",
+          "--config",
+          "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+          "--output",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-9.log"
+      },
+      {
+        "purpose": "Wrangler real local D1 schema import",
+        "program": "node.exe",
+        "args": [
+          "--import",
+          "./scripts/sites-env.mjs",
+          "./node_modules/wrangler/bin/wrangler.js",
+          "d1",
+          "execute",
+          "DB",
+          "--local",
+          "--persist-to",
+          "04_研发源码/app/cloud/.wrangler/r2",
+          "--config",
+          "dist/server/wrangler.json",
+          "--file",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-10.log"
+      },
+      {
+        "purpose": "Wrangler real local D1 data import",
+        "program": "node.exe",
+        "args": [
+          "--import",
+          "./scripts/sites-env.mjs",
+          "./node_modules/wrangler/bin/wrangler.js",
+          "d1",
+          "execute",
+          "DB",
+          "--local",
+          "--persist-to",
+          "04_研发源码/app/cloud/.wrangler/r2",
+          "--config",
+          "dist/server/wrangler.json",
+          "--file",
+          "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-11.log"
+      },
+      {
+        "purpose": "SQLite fingerprint",
+        "program": "python.exe",
+        "args": [
+          "-B",
+          "-X",
+          "utf8",
+          "06_验证与后续工作/基础框架F05恢复辅助.py",
+          "fingerprint",
+          "04_研发源码/app/cloud/.wrangler/r2/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+        ],
+        "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-12.log"
+      }
+    ],
+    "notes": [
+      "Only generated analytics.generatedAt and records.exportedAt timestamps are omitted from HTTP equality. Record export is a real read/export API and creates its normal audit row; all database cell/schema comparisons happen before restored HTTP logins/exports."
+    ],
+    "runtime": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b",
+    "sourceHashes": {
+      "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+      "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+      "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+      "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+      "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+      "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+      "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+      "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+      "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+      "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+      "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+      "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+      "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+      "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+      "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+      "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+      "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+      "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+      "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+      "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+      "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+      "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+      "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+      "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+      "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+      "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+      "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+      "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+      "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+      "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+      "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+      "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+      "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "testHashes": {
+      "06_验证与后续工作/基础框架F05隔离恢复核验.cjs": "80389230524dff9c9777e92e862ddb06b51298321864f5af3da03042f2c99984",
+      "06_验证与后续工作/基础框架F05恢复辅助.py": "0eca15787c8409b2501fe18a5b92ddece7ccdcd4c2d696e5a2fda6cef4659b78"
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-09T02:13:56.243Z",
+      "module": "基础框架F05",
+      "mode": "both",
+      "scope": "Actual checkout-local SQLite backup restoration and local D1 CLI SQL export/import with fresh HTTP authentication, persisted data and ACL comparisons. No production or remote writes.",
+      "productionWrites": false,
+      "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "databaseRestoreOnly": true,
+      "r2ObjectsRestored": false,
+      "browserDataRestored": false,
+      "productionRestoreTested": false,
+      "hardwareTested": false,
+      "pass": false,
+      "passed": 1,
+      "failed": 3,
+      "results": [
+        {
+          "name": "SQLite真实backup→全新库恢复→HTTP数据与权限完整对照",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: POST /api/auth/setup\n\n400 !== 200\n\n    at Client.call (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:28:640)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async fixture (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:30:185)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:38:393\n    at async test (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:36:49)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:38:16"
+        },
+        {
+          "name": "D1停机原库只读副本→CLI local export/import→HTTP完整恢复",
+          "pass": false,
+          "error": "Error: SQLite backup exited 1; inspect excluded runtime log 04_研发源码/app/cloud/.wrangler/f05-mw8mns54-e6fd/command-0.log\n    at ChildProcess.<anonymous> (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:21:711)\n    at ChildProcess.wrapper (node:events:639:12)\n    at ChildProcess.emit (node:events:514:28)\n    at ChildProcess._handle.onexit (node:internal/child_process:324:12)"
+        },
+        {
+          "name": "SQLite与D1选定HTTP接口字段类型、角色与业务契约一致",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Both actual restored backends must be verified first\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:40:73\n    at test (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:36:55)\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:40:24\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+        },
+        {
+          "name": "恢复验证起止源码与构建一致，未执行远程或生产恢复",
+          "pass": true,
+          "evidence": {
+            "productionWrites": false,
+            "remoteCommands": 0
+          }
+        }
+      ],
+      "commands": [
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/ff04/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mns54-e6fd/d1-source-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mns54-e6fd/command-0.log"
+        }
+      ],
+      "notes": [
+        "Only generated analytics.generatedAt and records.exportedAt timestamps are omitted from HTTP equality. Record export is a real read/export API and creates its normal audit row; all database cell/schema comparisons happen before restored HTTP logins/exports."
+      ],
+      "runtime": "04_研发源码/app/cloud/.wrangler/f05-mw8mns54-e6fd",
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F05隔离恢复核验.cjs": "94c35ef805f9ef549b87aeccca5e6bb726607b2ce046c55b17c3e3637ed6c792",
+        "06_验证与后续工作/基础框架F05恢复辅助.py": "f7b049618659a5c753b10cda31bc3e5d263a301eb6408414d6e6481918dc1dbb"
+      }
+    },
+    {
+      "at": "2026-11-09T02:16:05.445Z",
+      "module": "基础框架F05",
+      "mode": "both",
+      "scope": "Actual checkout-local SQLite backup restoration and local D1 CLI SQL export/import with fresh HTTP authentication, persisted data and ACL comparisons. No production or remote writes.",
+      "productionWrites": false,
+      "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "databaseRestoreOnly": true,
+      "r2ObjectsRestored": false,
+      "browserDataRestored": false,
+      "productionRestoreTested": false,
+      "hardwareTested": false,
+      "pass": false,
+      "passed": 2,
+      "failed": 2,
+      "results": [
+        {
+          "name": "SQLite真实backup→全新库恢复→HTTP数据与权限完整对照",
+          "pass": true,
+          "evidence": {
+            "method": "sqlite3.Connection.backup to backup, then backup to a fresh restore database",
+            "backup": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/backup.sqlite3",
+            "sourceSha256": "6563a3c66f6e28ce3a658bc77407b7b9299bcc008cd9b9269343fa88d0a1e62e",
+            "backupSha256": "b52dec6179e7a108eb040b32a036a9d39ea3b3a50dab688b850394e6d2b66529",
+            "tables": 22,
+            "rows": 90,
+            "dataAndSchemaMatch": true,
+            "http": {
+              "endpointCount": 17,
+              "sha256": "28b8ff0c8f384f56c43773f6d2f6e7b7d061ca0548637880eb14ce4f48a4f1c7",
+              "allPayloadsAndPermissionsMatch": true
+            }
+          }
+        },
+        {
+          "name": "D1停机原库只读副本→CLI local export/import→HTTP完整恢复",
+          "pass": false,
+          "error": "Error: SQLite backup exited 1; inspect excluded runtime log 04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-4.log\n    at ChildProcess.<anonymous> (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:21:711)\n    at ChildProcess.wrapper (node:events:639:12)\n    at ChildProcess.emit (node:events:514:28)\n    at ChildProcess._handle.onexit (node:internal/child_process:324:12)"
+        },
+        {
+          "name": "SQLite与D1选定HTTP接口字段类型、角色与业务契约一致",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Both actual restored backends must be verified first\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:40:73\n    at test (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:36:55)\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:40:24\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+        },
+        {
+          "name": "恢复验证起止源码与构建一致，未执行远程或生产恢复",
+          "pass": true,
+          "evidence": {
+            "productionWrites": false,
+            "remoteCommands": 0
+          }
+        }
+      ],
+      "commands": [
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/source.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-0.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/source.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/backup.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-1.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/backup.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-2.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-3.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/ff04/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/d1-source-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359/command-4.log"
+        }
+      ],
+      "notes": [
+        "Only generated analytics.generatedAt and records.exportedAt timestamps are omitted from HTTP equality. Record export is a real read/export API and creates its normal audit row; all database cell/schema comparisons happen before restored HTTP logins/exports."
+      ],
+      "runtime": "04_研发源码/app/cloud/.wrangler/f05-mw8mqhvm-a359",
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F05隔离恢复核验.cjs": "1078e4dd0236ceb080050cb657fda83eb72752b8539a83d6622b718552727e7b",
+        "06_验证与后续工作/基础框架F05恢复辅助.py": "6e2f657c2f4b47d176d081799b17bea88f43794fa10b24bac2a664bb04084176"
+      }
+    },
+    {
+      "at": "2026-11-09T02:18:55.522Z",
+      "module": "基础框架F05",
+      "mode": "both",
+      "scope": "Actual checkout-local SQLite backup restoration and local D1 CLI SQL export/import with fresh HTTP authentication, persisted data and ACL comparisons. No production or remote writes.",
+      "productionWrites": false,
+      "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "ownedStates": [
+          {
+            "role": "source-copy",
+            "path": "04_研发源码/app/cloud/.wrangler/s2"
+          },
+          {
+            "role": "CLI-export-config",
+            "path": "04_研发源码/app/cloud/.wrangler/e1"
+          },
+          {
+            "role": "CLI-import-target",
+            "path": "04_研发源码/app/cloud/.wrangler/r1"
+          }
+        ],
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "databaseRestoreOnly": true,
+      "r2ObjectsRestored": false,
+      "browserDataRestored": false,
+      "productionRestoreTested": false,
+      "hardwareTested": false,
+      "pass": false,
+      "passed": 2,
+      "failed": 2,
+      "results": [
+        {
+          "name": "SQLite真实backup→全新库恢复→HTTP数据与权限完整对照",
+          "pass": true,
+          "evidence": {
+            "method": "sqlite3.Connection.backup to backup, then backup to a fresh restore database",
+            "backup": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/backup.sqlite3",
+            "sourceSha256": "7c01e05fdbbc2cce27c914cdf21a195a0c9d4774c4872c3cf5616226a1a0b7a9",
+            "backupSha256": "677e9ac570775c4678e786e0a4d48a979b85234268a46209db81b3c77e5bf03b",
+            "tables": 22,
+            "rows": 90,
+            "dataAndSchemaMatch": true,
+            "http": {
+              "endpointCount": 17,
+              "sha256": "677136f703fb8731d07f7cd52cd0bbd212c554a1310c8e7eea50335ea14bcea5",
+              "allPayloadsAndPermissionsMatch": true
+            }
+          }
+        },
+        {
+          "name": "D1停机原库只读副本→CLI local export/import→HTTP完整恢复",
+          "pass": false,
+          "error": "Error: Wrangler real local D1 import exited 1; inspect excluded runtime log 04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-8.log\n    at ChildProcess.<anonymous> (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:22:711)\n    at ChildProcess.wrapper (node:events:639:12)\n    at ChildProcess.emit (node:events:514:28)\n    at ChildProcess._handle.onexit (node:internal/child_process:324:12)"
+        },
+        {
+          "name": "SQLite与D1选定HTTP接口字段类型、角色与业务契约一致",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Both actual restored backends must be verified first\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:41:73\n    at test (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:37:55)\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\基础框架F05隔离恢复核验.cjs:41:24\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+        },
+        {
+          "name": "恢复验证起止源码与构建一致，未执行远程或生产恢复",
+          "pass": true,
+          "evidence": {
+            "productionWrites": false,
+            "remoteCommands": 0
+          }
+        }
+      ],
+      "commands": [
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/source.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-0.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/source.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/backup.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-1.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/backup.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-2.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-3.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/ff04/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/s2/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-4.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/s2/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-5.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/s2/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/export-backup.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-6.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 export",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "export",
+            "DB",
+            "--local",
+            "--config",
+            "04_研发源码/app/cloud/.wrangler/e1/wrangler.json",
+            "--output",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/dump.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-7.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 import",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "execute",
+            "DB",
+            "--local",
+            "--persist-to",
+            "04_研发源码/app/cloud/.wrangler/r1",
+            "--config",
+            "dist/server/wrangler.json",
+            "--file",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/dump.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a/command-8.log"
+        }
+      ],
+      "notes": [
+        "Only generated analytics.generatedAt and records.exportedAt timestamps are omitted from HTTP equality. Record export is a real read/export API and creates its normal audit row; all database cell/schema comparisons happen before restored HTTP logins/exports."
+      ],
+      "runtime": "04_研发源码/app/cloud/.wrangler/f05-mw8mtz6l-5c3a",
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F05隔离恢复核验.cjs": "47beb2228aca5b1ee584be5c0d18b7f332b9bdef378dedc9b49644ef9abb9373",
+        "06_验证与后续工作/基础框架F05恢复辅助.py": "0eca15787c8409b2501fe18a5b92ddece7ccdcd4c2d696e5a2fda6cef4659b78"
+      }
+    },
+    {
+      "at": "2026-11-09T02:22:18.053Z",
+      "module": "基础框架F05",
+      "mode": "both",
+      "scope": "Actual checkout-local SQLite backup restoration and local D1 CLI SQL export/import with fresh HTTP authentication, persisted data and ACL comparisons. No production or remote writes.",
+      "productionWrites": false,
+      "buildSha256": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "ownedStates": [
+          {
+            "role": "source-copy",
+            "path": "04_研发源码/app/cloud/.wrangler/s3"
+          },
+          {
+            "role": "CLI-export-config",
+            "path": "04_研发源码/app/cloud/.wrangler/e2"
+          },
+          {
+            "role": "CLI-import-target",
+            "path": "04_研发源码/app/cloud/.wrangler/r2"
+          }
+        ],
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "databaseRestoreOnly": true,
+      "r2ObjectsRestored": false,
+      "browserDataRestored": false,
+      "productionRestoreTested": false,
+      "hardwareTested": false,
+      "pass": true,
+      "passed": 4,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SQLite真实backup→全新库恢复→HTTP数据与权限完整对照",
+          "pass": true,
+          "evidence": {
+            "method": "sqlite3.Connection.backup to backup, then backup to a fresh restore database",
+            "backup": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3",
+            "sourceSha256": "e0b9863bc2b8a112940099cf8509623bbf52bed3d0167f827bed31a396427eaa",
+            "backupSha256": "fd29c9f25b659ea8eb4fb75379c24d53fc78c7a78a62305dc64d70789270cadc",
+            "tables": 22,
+            "rows": 90,
+            "dataAndSchemaMatch": true,
+            "http": {
+              "endpointCount": 17,
+              "sha256": "da4380303dcaa58a7b0701ad93130bcb3182ce3b54e94b25f3fbc4530df721da",
+              "allPayloadsAndPermissionsMatch": true
+            }
+          }
+        },
+        {
+          "name": "D1停机原库只读副本→CLI local export/import→HTTP完整恢复",
+          "pass": true,
+          "evidence": {
+            "method": "Read-only SQLite backup staging; preserve full official dump; official --no-data schema and --no-schema data exports; two real CLI local execute batches into fresh state with original foreign-key deferral, no foreign_keys disable",
+            "originalState": "04_研发源码/app/cloud/.wrangler/ff04",
+            "originalMainSha256": "470159266c25d6d7f121436e991977ceb75b6cb9583a9a36cd5ab807272a79ec",
+            "originalMainUnchanged": true,
+            "sql": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/dump.sql",
+            "sqlBytes": 181165,
+            "sqlSha256": "af035c80ff740a6d6153c3b607c62239df9724d57c14b68c6d3388c7672dd626",
+            "schemaExport": {
+              "file": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql",
+              "bytes": 6033,
+              "sha256": "fb7e4d56cecea2e730f17085b9ec7faa77856dcff7cafc5caa9f707d4005127b"
+            },
+            "dataExport": {
+              "file": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql",
+              "bytes": 175163,
+              "sha256": "f9334c0a36e959b83a3fb8abf7ada3e82c5fc41424b8dac1535df6b900473e67"
+            },
+            "foreignKeysDisabled": false,
+            "exportDefaultState": "04_研发源码/app/cloud/.wrangler/e2/.wrangler/state",
+            "stagingPlacement": "Actual SQLite backup checkpointed at a short path then renamed inside the isolated runtime to the Miniflare filename; final restoration uses CLI SQL import.",
+            "stagingDatabasePathCharacters": 254,
+            "restoredState": "04_研发源码/app/cloud/.wrangler/r2",
+            "tables": 23,
+            "rows": 864,
+            "dataAndSchemaMatch": true,
+            "http": {
+              "endpointCount": 17,
+              "sha256": "ad154a3fe62d7f5c1e68e8e3a2a17a98e25022b4f766d77dead973ac8791eabf",
+              "allPayloadsAndPermissionsMatch": true
+            }
+          }
+        },
+        {
+          "name": "SQLite与D1选定HTTP接口字段类型、角色与业务契约一致",
+          "pass": true,
+          "evidence": {
+            "compared": {
+              "responseRootKeys": {
+                "public": [
+                  "aiReady",
+                  "content",
+                  "settings",
+                  "user"
+                ],
+                "adminIdentity": [
+                  "setupRequired",
+                  "user"
+                ],
+                "readerIdentity": [
+                  "setupRequired",
+                  "user"
+                ],
+                "users": [
+                  "items"
+                ],
+                "friends": [
+                  "items"
+                ],
+                "chat": [
+                  "items"
+                ],
+                "creatorMe": [
+                  "eligible",
+                  "profile",
+                  "user"
+                ],
+                "works": [
+                  "items"
+                ],
+                "review": [
+                  "item",
+                  "reviews"
+                ],
+                "records": [
+                  "items",
+                  "limit",
+                  "timers",
+                  "total"
+                ],
+                "analytics": [
+                  "collectedSince",
+                  "features",
+                  "range",
+                  "retention",
+                  "summary",
+                  "timezone",
+                  "trend",
+                  "windows"
+                ]
+              },
+              "publicUser": null,
+              "adminUserShape": {
+                "id": "string",
+                "name": "string",
+                "role": "string",
+                "username": "string"
+              },
+              "friendShape": {
+                "id": "string",
+                "incoming": "boolean",
+                "name": "string",
+                "status": "string",
+                "username": "string"
+              },
+              "messageShape": {
+                "at": "string",
+                "body": "string",
+                "id": "string",
+                "senderId": "string"
+              },
+              "recordShape": {
+                "created": "number",
+                "day": "string",
+                "kind": "string",
+                "name": "string",
+                "owner": "string",
+                "username": "string"
+              },
+              "workFieldTypes": {
+                "id": "string",
+                "title": "string",
+                "body": "string",
+                "type": "string",
+                "format": "string",
+                "duration": "number",
+                "version": "number",
+                "status": "string",
+                "sections": "array"
+              },
+              "creator": {
+                "status": "approved",
+                "eligible": true,
+                "role": "teacher"
+              },
+              "work": {
+                "status": "published",
+                "type": "article",
+                "format": "article",
+                "body": "F05 mw8my6du-833b 中文 ' quote \\\nnext line",
+                "sections": [
+                  [
+                    "章节",
+                    "Chapter",
+                    "F05 mw8my6du-833b 中文 ' quote \\\nnext line",
+                    "Restore fixture"
+                  ]
+                ],
+                "versionPositive": true
+              },
+              "friendAccepted": true,
+              "following": true,
+              "recordPresent": true,
+              "analytics": {
+                "timezone": "Asia/Shanghai",
+                "grain": "day",
+                "summaryKeys": [
+                  "activeUsers",
+                  "coverage",
+                  "newUsers",
+                  "registeredUsers",
+                  "visits"
+                ],
+                "homeFeaturePresent": true
+              },
+              "acl": {
+                "anonymousAdmin": 401,
+                "ordinaryAdmin": 403,
+                "ordinaryCreator": 403
+              }
+            }
+          }
+        },
+        {
+          "name": "恢复验证起止源码与构建一致，未执行远程或生产恢复",
+          "pass": true,
+          "evidence": {
+            "productionWrites": false,
+            "remoteCommands": 0
+          }
+        }
+      ],
+      "commands": [
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/source.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-0.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/source.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-1.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/backup.sqlite3",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-2.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/sqlite/restored.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-3.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/ff04/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-4.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-5.log"
+        },
+        {
+          "purpose": "SQLite backup",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "backup",
+            "04_研发源码/app/cloud/.wrangler/s3/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/export-backup.sqlite3"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-6.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 export",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "export",
+            "DB",
+            "--local",
+            "--config",
+            "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+            "--output",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/dump.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-7.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 schema export",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "export",
+            "DB",
+            "--local",
+            "--no-data",
+            "--config",
+            "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+            "--output",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-8.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 data export",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "export",
+            "DB",
+            "--local",
+            "--no-schema",
+            "--config",
+            "04_研发源码/app/cloud/.wrangler/e2/wrangler.json",
+            "--output",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-9.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 schema import",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "execute",
+            "DB",
+            "--local",
+            "--persist-to",
+            "04_研发源码/app/cloud/.wrangler/r2",
+            "--config",
+            "dist/server/wrangler.json",
+            "--file",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/schema.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-10.log"
+        },
+        {
+          "purpose": "Wrangler real local D1 data import",
+          "program": "node.exe",
+          "args": [
+            "--import",
+            "./scripts/sites-env.mjs",
+            "./node_modules/wrangler/bin/wrangler.js",
+            "d1",
+            "execute",
+            "DB",
+            "--local",
+            "--persist-to",
+            "04_研发源码/app/cloud/.wrangler/r2",
+            "--config",
+            "dist/server/wrangler.json",
+            "--file",
+            "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/data.sql"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-11.log"
+        },
+        {
+          "purpose": "SQLite fingerprint",
+          "program": "python.exe",
+          "args": [
+            "-B",
+            "-X",
+            "utf8",
+            "06_验证与后续工作/基础框架F05恢复辅助.py",
+            "fingerprint",
+            "04_研发源码/app/cloud/.wrangler/r2/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite"
+          ],
+          "log": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b/command-12.log"
+        }
+      ],
+      "notes": [
+        "Only generated analytics.generatedAt and records.exportedAt timestamps are omitted from HTTP equality. Record export is a real read/export API and creates its normal audit row; all database cell/schema comparisons happen before restored HTTP logins/exports."
+      ],
+      "runtime": "04_研发源码/app/cloud/.wrangler/f05-mw8my6du-833b",
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F05隔离恢复核验.cjs": "80389230524dff9c9777e92e862ddb06b51298321864f5af3da03042f2c99984",
+        "06_验证与后续工作/基础框架F05恢复辅助.py": "0eca15787c8409b2501fe18a5b92ddece7ccdcd4c2d696e5a2fda6cef4659b78"
+      }
+    }
+  ]
+}

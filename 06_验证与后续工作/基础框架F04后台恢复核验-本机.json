@@ -1,0 +1,1402 @@
+{
+  "latest": {
+    "at": "2026-11-09T02:09:22.848Z",
+    "module": "基础框架F04",
+    "pass": true,
+    "passed": 17,
+    "failed": 0,
+    "mode": "python",
+    "scope": "Isolated served-built company-admin recovery, authentication/authorization and delayed-request handling; analytics definitions/CSV are verified separately",
+    "productionWrites": false,
+    "isolation": {
+      "base": "http://127.0.0.1:55155",
+      "pythonDatabase": "06_验证与后续工作/F04后台恢复-mw8mfmqg.sqlite3",
+      "cloudFixture": null
+    },
+    "checks": [
+      {
+        "name": "初始auth/status网络、非JSON及无效结构失败可重试，不误入登录或首位管理员",
+        "pass": true,
+        "observed": {
+          "modes": [
+            "network",
+            "nonjson",
+            "invalid"
+          ]
+        }
+      },
+      {
+        "name": "初始身份读取真实12秒超时，单次请求且重新连接恢复",
+        "pass": true,
+        "observed": {
+          "elapsedMs": 12120,
+          "hits": 2
+        }
+      },
+      {
+        "name": "普通后台GET真实12秒超时后可重读，失败不展示空成功页",
+        "pass": true,
+        "observed": {
+          "elapsedMs": 12522,
+          "hits": 2
+        }
+      },
+      {
+        "name": "真实会话401后明确重登，恢复原数据中心页面和原起止/粒度",
+        "pass": true,
+        "observed": {
+          "restored": "analytics",
+          "range": {
+            "start": "2026-11-03",
+            "end": "2026-11-09",
+            "grain": "week"
+          }
+        }
+      },
+      {
+        "name": "401重登为审核员只回允许页面，不恢复数据中心或导出",
+        "pass": true
+      },
+      {
+        "name": "真实403保留已登录审核员身份，不当作401或显示越权统计",
+        "pass": true
+      },
+      {
+        "name": "503统计读取保留原筛选，可重试当前查询且失败无旧CSV",
+        "pass": true
+      },
+      {
+        "name": "旧身份统计真实响应晚到不覆盖新登录账号",
+        "pass": true
+      },
+      {
+        "name": "旧身份统计网络拒绝晚到不覆盖新登录账号",
+        "pass": true
+      },
+      {
+        "name": "旧身份点击导出的迟网络失败不写入新账号错误或触发下载",
+        "pass": true
+      },
+      {
+        "name": "旧auth/status迟到不能把已确认新账号覆盖回旧身份",
+        "pass": true
+      },
+      {
+        "name": "旧上传真实成功响应不能写入新账号编辑器或显示成功反馈",
+        "pass": true
+      },
+      {
+        "name": "迟login真实成功后后台、APP与实际cookie重新一致",
+        "pass": true
+      },
+      {
+        "name": "迟login真实Set-Cookie但正文解析失败后后台、APP与实际cookie重新一致",
+        "pass": true
+      },
+      {
+        "name": "迟login真实401失败后后台、APP与实际cookie重新一致",
+        "pass": true
+      },
+      {
+        "name": "迟logout真实Set-Cookie失效后后台和APP均回到实际游客身份",
+        "pass": true
+      },
+      {
+        "name": "POST/PATCH/DELETE慢响应超过12秒不取消或重发，每个写入仅一次",
+        "pass": true,
+        "observed": {
+          "heldMs": 12500,
+          "requests": {
+            "POST": 1,
+            "PATCH": 1,
+            "DELETE": 1
+          }
+        }
+      }
+    ],
+    "errors": [],
+    "captures": [],
+    "traffic": [
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 0,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 1,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 1,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 1,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 2,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 2,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 2,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 2,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 3,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 3,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 4,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 4,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 5,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 5,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 5,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 6,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 7,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 7,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 7,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 7,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 7,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 7,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 8,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 8,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 8,
+        "method": "GET",
+        "path": "/api/admin/analytics"
+      },
+      {
+        "check": 8,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 8,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 8,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 9,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 9,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 9,
+        "method": "GET",
+        "path": "/api/admin/records"
+      },
+      {
+        "check": 9,
+        "method": "GET",
+        "path": "/api/admin/records/export"
+      },
+      {
+        "check": 9,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 9,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 9,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 10,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 10,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 10,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/courses"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/teachers"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/courseCategories"
+      },
+      {
+        "check": 11,
+        "method": "POST",
+        "path": "/api/media"
+      },
+      {
+        "check": 11,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 11,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/courses"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/teachers"
+      },
+      {
+        "check": 11,
+        "method": "GET",
+        "path": "/api/admin/content/courseCategories"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 12,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 12,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 12,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 13,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 13,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 13,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 14,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 14,
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 14,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 15,
+        "method": "POST",
+        "path": "/api/auth/logout"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 15,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 16,
+        "method": "GET",
+        "path": "/api/auth/status"
+      },
+      {
+        "check": 16,
+        "method": "GET",
+        "path": "/api/admin/dashboard"
+      },
+      {
+        "check": 16,
+        "method": "POST",
+        "path": "/api/admin/content/cards"
+      },
+      {
+        "check": 16,
+        "method": "PATCH",
+        "path": "/api/admin/users/2993c463-dcc2-4ef5-9b67-1afbc032ce51"
+      },
+      {
+        "check": 16,
+        "method": "DELETE",
+        "path": "/api/admin/content/courseCategories/f04_slow_missing_f04_slow_mw8mfmqg"
+      }
+    ],
+    "sourceHashes": {
+      "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+      "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+      "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+      "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+      "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+      "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+      "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+      "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+      "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+      "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b"
+    },
+    "testHashes": {
+      "06_验证与后续工作/基础框架F04后台恢复核验.cjs": "4a7b7da312fc7961f2541d44376c37e70c1205eb5f3a0220b03a10970abeaefa"
+    },
+    "limits": [
+      "No production writes or deployment.",
+      "No AI/provider or hardware activation.",
+      "No new analytics metrics; existing real analytics suite remains required."
+    ]
+  },
+  "runs": [
+    {
+      "at": "2026-11-09T02:09:22.848Z",
+      "module": "基础框架F04",
+      "pass": true,
+      "passed": 17,
+      "failed": 0,
+      "mode": "python",
+      "scope": "Isolated served-built company-admin recovery, authentication/authorization and delayed-request handling; analytics definitions/CSV are verified separately",
+      "productionWrites": false,
+      "isolation": {
+        "base": "http://127.0.0.1:55155",
+        "pythonDatabase": "06_验证与后续工作/F04后台恢复-mw8mfmqg.sqlite3",
+        "cloudFixture": null
+      },
+      "checks": [
+        {
+          "name": "初始auth/status网络、非JSON及无效结构失败可重试，不误入登录或首位管理员",
+          "pass": true,
+          "observed": {
+            "modes": [
+              "network",
+              "nonjson",
+              "invalid"
+            ]
+          }
+        },
+        {
+          "name": "初始身份读取真实12秒超时，单次请求且重新连接恢复",
+          "pass": true,
+          "observed": {
+            "elapsedMs": 12120,
+            "hits": 2
+          }
+        },
+        {
+          "name": "普通后台GET真实12秒超时后可重读，失败不展示空成功页",
+          "pass": true,
+          "observed": {
+            "elapsedMs": 12522,
+            "hits": 2
+          }
+        },
+        {
+          "name": "真实会话401后明确重登，恢复原数据中心页面和原起止/粒度",
+          "pass": true,
+          "observed": {
+            "restored": "analytics",
+            "range": {
+              "start": "2026-11-03",
+              "end": "2026-11-09",
+              "grain": "week"
+            }
+          }
+        },
+        {
+          "name": "401重登为审核员只回允许页面，不恢复数据中心或导出",
+          "pass": true
+        },
+        {
+          "name": "真实403保留已登录审核员身份，不当作401或显示越权统计",
+          "pass": true
+        },
+        {
+          "name": "503统计读取保留原筛选，可重试当前查询且失败无旧CSV",
+          "pass": true
+        },
+        {
+          "name": "旧身份统计真实响应晚到不覆盖新登录账号",
+          "pass": true
+        },
+        {
+          "name": "旧身份统计网络拒绝晚到不覆盖新登录账号",
+          "pass": true
+        },
+        {
+          "name": "旧身份点击导出的迟网络失败不写入新账号错误或触发下载",
+          "pass": true
+        },
+        {
+          "name": "旧auth/status迟到不能把已确认新账号覆盖回旧身份",
+          "pass": true
+        },
+        {
+          "name": "旧上传真实成功响应不能写入新账号编辑器或显示成功反馈",
+          "pass": true
+        },
+        {
+          "name": "迟login真实成功后后台、APP与实际cookie重新一致",
+          "pass": true
+        },
+        {
+          "name": "迟login真实Set-Cookie但正文解析失败后后台、APP与实际cookie重新一致",
+          "pass": true
+        },
+        {
+          "name": "迟login真实401失败后后台、APP与实际cookie重新一致",
+          "pass": true
+        },
+        {
+          "name": "迟logout真实Set-Cookie失效后后台和APP均回到实际游客身份",
+          "pass": true
+        },
+        {
+          "name": "POST/PATCH/DELETE慢响应超过12秒不取消或重发，每个写入仅一次",
+          "pass": true,
+          "observed": {
+            "heldMs": 12500,
+            "requests": {
+              "POST": 1,
+              "PATCH": 1,
+              "DELETE": 1
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "traffic": [
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 0,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 1,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 1,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 1,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 2,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 2,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 2,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 2,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 3,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 3,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 4,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 4,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 5,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 5,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 5,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 6,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 7,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 7,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 7,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 7,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 7,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 7,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 8,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 8,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 8,
+          "method": "GET",
+          "path": "/api/admin/analytics"
+        },
+        {
+          "check": 8,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 8,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 8,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 9,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 9,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 9,
+          "method": "GET",
+          "path": "/api/admin/records"
+        },
+        {
+          "check": 9,
+          "method": "GET",
+          "path": "/api/admin/records/export"
+        },
+        {
+          "check": 9,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 9,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 9,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 10,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 10,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 10,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/courses"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/teachers"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/courseCategories"
+        },
+        {
+          "check": 11,
+          "method": "POST",
+          "path": "/api/media"
+        },
+        {
+          "check": 11,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 11,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/courses"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/teachers"
+        },
+        {
+          "check": 11,
+          "method": "GET",
+          "path": "/api/admin/content/courseCategories"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 12,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 12,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 12,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 13,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 13,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 13,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 14,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 14,
+          "method": "POST",
+          "path": "/api/auth/login"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 14,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 15,
+          "method": "POST",
+          "path": "/api/auth/logout"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 15,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 16,
+          "method": "GET",
+          "path": "/api/auth/status"
+        },
+        {
+          "check": 16,
+          "method": "GET",
+          "path": "/api/admin/dashboard"
+        },
+        {
+          "check": 16,
+          "method": "POST",
+          "path": "/api/admin/content/cards"
+        },
+        {
+          "check": 16,
+          "method": "PATCH",
+          "path": "/api/admin/users/2993c463-dcc2-4ef5-9b67-1afbc032ce51"
+        },
+        {
+          "check": 16,
+          "method": "DELETE",
+          "path": "/api/admin/content/courseCategories/f04_slow_missing_f04_slow_mw8mfmqg"
+        }
+      ],
+      "sourceHashes": {
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F04后台恢复核验.cjs": "4a7b7da312fc7961f2541d44376c37e70c1205eb5f3a0220b03a10970abeaefa"
+      },
+      "limits": [
+        "No production writes or deployment.",
+        "No AI/provider or hardware activation.",
+        "No new analytics metrics; existing real analytics suite remains required."
+      ]
+    }
+  ]
+}

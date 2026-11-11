@@ -1,0 +1,171 @@
+{
+  "project_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a",
+  "version_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a~appgver_817691395c3c819183223e7831846cbd",
+  "sites_deployment_id": "appgdep_6aeadeadb8788191bcc80889c2ba1186",
+  "netlify_deploy_id": "6aeadece0c6682effd62baa4",
+  "commit_sha": "2cf3949df11bbab6d136a3e66c147f1dd5dedf68",
+  "url": "https://eastern-wisdom-demo-fuyao.netlify.app/creator",
+  "at": "2026-11-04T15:31:38.757363+08:00",
+  "pass": true,
+  "public_deployment_pending": false,
+  "changes": [
+    "工作台说明不再展示公开简介或以学员视角描述后台",
+    "登录身份与APP作者展示资料分区",
+    "公开页预览、作者页访问、作品效果预览、发布说明等明确APP语境",
+    "内部运营/审核员入口不显示工作台和入驻表单",
+    "创作者恢复中断审核仅作用于本人作品",
+    "公司审核接口拒绝未提交草稿详情",
+    "草稿/未引用素材仅上传者本人可预览，已提交素材由授权人员复核",
+    "APP公开接口采用明确字段白名单"
+  ],
+  "local_full": {
+    "passed": 56,
+    "failed": 0,
+    "at": "2026-11-04T07:22:02.601Z",
+    "hashes": {
+      "东方智慧-首页体验R4.html": "30249d85bbafe60f9ac19e5b66477e68247c0ef84e8a12009a2fd66be1c10094",
+      "发给负责人-东方智慧首页R4.html": "0383f783f2898a6aacf995cca719755e357bedaa211d042067381ada125a659e",
+      "计时后台-开发联调.html": "a4904909912757cc2c3928cf15f78efc9e694559264c05c9763bc3ae07228983"
+    }
+  },
+  "cloud_full": {
+    "passed": 56,
+    "failed": 0,
+    "at": "2026-11-04T07:24:10.973Z",
+    "hashes": {
+      "generated/experience.html": "09c1306921bba71874e484d022cdf0e2efd2b9358435543252e872169f6b27b6",
+      "generated/admin.html": "5b73ed0174ee8b4cd2a39558564e67407ad662f83ba016e70bbb381b75b69770",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "298261bf8db01553cc4397df71df7b486679e058a5258891e32dff2fae0ce796",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "5769570e5aa1fc524a0946e5601ba41f3ff9b3c4d7b466e9b8fd4da28f9bdc30"
+    }
+  },
+  "ui": {
+    "at": "2026-11-04T07:24:03.479Z",
+    "pass": true,
+    "scope": "Actual browser with isolated owner API fixtures; no production requests",
+    "checks": [
+      "账号首页使用私人工作台说明，不再展示公开简介或面向学员的个人宣传；URL不能切换为其他账号",
+      "未填写公开简介时也保持私人工作台语境",
+      "对外资料预览明确指向APP作者展示页，和工作台入口区分",
+      "账号设置分清本人登录信息与APP作者公开展示资料，原资料仍可编辑",
+      "作者页访问指标明确统计APP公开页面，不混入后台访问",
+      "编辑器预览与审核后展示均明确为APP作品，草稿留在本人工作台",
+      "归属说明区分本人工作台和公司独立复核，不暗示其他人员进入创作者后台",
+      "私人工作台首页、资料与数据页在桌面和手机均无横向溢出",
+      "运营与审核员账号即使被错误标记eligible也不显示入驻或私人工作台，且不请求数据；可退出切换创作者账号"
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "tab": "overview",
+        "pass": true
+      },
+      {
+        "width": 1440,
+        "tab": "profile",
+        "pass": true
+      },
+      {
+        "width": 1440,
+        "tab": "analytics",
+        "pass": true
+      },
+      {
+        "width": 390,
+        "tab": "overview",
+        "pass": true
+      },
+      {
+        "width": 390,
+        "tab": "profile",
+        "pass": true
+      },
+      {
+        "width": 390,
+        "tab": "analytics",
+        "pass": true
+      },
+      {
+        "width": 360,
+        "tab": "overview",
+        "pass": true
+      },
+      {
+        "width": 360,
+        "tab": "profile",
+        "pass": true
+      },
+      {
+        "width": 360,
+        "tab": "analytics",
+        "pass": true
+      }
+    ],
+    "errors": [],
+    "sourceSha256": "92596f4e5b20ed435a07973a8384db1ba61e1e9dbafb9cb7656c3114d8d4ff6c",
+    "builtCreatorSha256": "92596f4e5b20ed435a07973a8384db1ba61e1e9dbafb9cb7656c3114d8d4ff6c"
+  },
+  "api": {
+    "at": "2026-11-04T07:20:43.132Z",
+    "pass": true,
+    "scope": "Cloud handler with in-memory SQLite/R2 adapter plus real local Python HTTP; no production requests",
+    "backends": [
+      {
+        "backend": "cloud-handler",
+        "pass": true,
+        "checks": [
+          "其他创作者与运营/审核人员不能通过私人接口读取别人的草稿、统计或审核记录",
+          "未提交草稿不出现在公司审核列表，也不能凭作品编号读取详情",
+          "私人作品列表只恢复本人中断审核，公司审核队列才可处理提交中的全平台任务",
+          "未引用上传与未提交草稿素材仅本人可见；提交后可供复核，撤回后收回复核预览",
+          "APP公开接口仅返回展示资料和已发布内容，不返回工作台资格、登录身份、内部字段、草稿或审核信息",
+          "咨询与联系方式按本人老师关联隔离，其他创作者或内部人员不能借私人接口访问"
+        ]
+      },
+      {
+        "backend": "local-http",
+        "pass": true,
+        "checks": [
+          "其他创作者与运营/审核人员不能通过私人接口读取别人的草稿、统计或审核记录",
+          "未提交草稿不出现在公司审核列表，也不能凭作品编号读取详情",
+          "私人作品列表只恢复本人中断审核，公司审核队列才可处理提交中的全平台任务",
+          "未引用上传与未提交草稿素材仅本人可见；提交后可供复核，撤回后收回复核预览",
+          "APP公开接口仅返回展示资料和已发布内容，不返回工作台资格、登录身份、内部字段、草稿或审核信息",
+          "咨询与联系方式按本人老师关联隔离，其他创作者或内部人员不能借私人接口访问"
+        ]
+      }
+    ],
+    "checks": [
+      "cloud-handler: 其他创作者与运营/审核人员不能通过私人接口读取别人的草稿、统计或审核记录",
+      "cloud-handler: 未提交草稿不出现在公司审核列表，也不能凭作品编号读取详情",
+      "cloud-handler: 私人作品列表只恢复本人中断审核，公司审核队列才可处理提交中的全平台任务",
+      "cloud-handler: 未引用上传与未提交草稿素材仅本人可见；提交后可供复核，撤回后收回复核预览",
+      "cloud-handler: APP公开接口仅返回展示资料和已发布内容，不返回工作台资格、登录身份、内部字段、草稿或审核信息",
+      "cloud-handler: 咨询与联系方式按本人老师关联隔离，其他创作者或内部人员不能借私人接口访问",
+      "local-http: 其他创作者与运营/审核人员不能通过私人接口读取别人的草稿、统计或审核记录",
+      "local-http: 未提交草稿不出现在公司审核列表，也不能凭作品编号读取详情",
+      "local-http: 私人作品列表只恢复本人中断审核，公司审核队列才可处理提交中的全平台任务",
+      "local-http: 未引用上传与未提交草稿素材仅本人可见；提交后可供复核，撤回后收回复核预览",
+      "local-http: APP公开接口仅返回展示资料和已发布内容，不返回工作台资格、登录身份、内部字段、草稿或审核信息",
+      "local-http: 咨询与联系方式按本人老师关联隔离，其他创作者或内部人员不能借私人接口访问"
+    ]
+  },
+  "public": {
+    "at": "2026-11-04T07:30:13.042Z",
+    "pass": true,
+    "base": "https://eastern-wisdom-demo-fuyao.netlify.app",
+    "checks": [
+      "原admin账号密码登录与本人工作台可用",
+      "首页说明为私人账号管理用途",
+      "登录账号信息与APP作者资料明确分区",
+      "公网公开资料接口不返回资格、审核和内部信息",
+      "数据中心可正常读取本人数据",
+      "实际浏览器无运行错误"
+    ],
+    "errors": []
+  },
+  "account_credentials_changed": false,
+  "role_model_changed": false
+}

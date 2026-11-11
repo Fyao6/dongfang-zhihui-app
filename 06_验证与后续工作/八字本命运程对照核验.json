@@ -1,0 +1,1247 @@
+{
+  "executedAt": "2026-11-05T07:47:46.966Z",
+  "engine": {
+    "name": "lunar-javascript",
+    "version": "1.7.7"
+  },
+  "scope": "M2 pillar descriptors and selected natal/fortune/year/month comparison; no UI or full application regression",
+  "sources": {
+    "commit": "4c45a59f79b856125516f31aefa8295035c16afd",
+    "eightChar": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/lunar.js#L5636-L5733",
+    "officialGrowthTable": "https://6tail.cn/calendar/lunar.bazi.html",
+    "officialTenGods": "https://6tail.cn/calendar/lunar.shishen.html",
+    "officialNaYin": "https://6tail.cn/calendar/lunar.nayin.html",
+    "officialXun": "https://6tail.cn/calendar/lunar.xun.html"
+  },
+  "methodology": {
+    "fixed": "20 hand-entered expected pillar records; expectations are constants, not calculated from the helper or LunarUtil at run time.",
+    "adapter": "120 natal-day-stem × target-branch comparisons with the existing public EightChar API. This is same-library adapter compatibility, not independent astronomical accuracy certification.",
+    "limits": "Traditional table relationships only. No strength, favorable-element inference or prediction. Full UI and application regression are separate."
+  },
+  "fixedFixtures": [
+    {
+      "dayMaster": "甲",
+      "ganZhi": "甲子",
+      "expected": {
+        "hiddenStems": [
+          "癸"
+        ],
+        "stemTenGod": "比肩",
+        "branchTenGods": [
+          "正印"
+        ],
+        "fiveElements": "木水",
+        "naYin": "海中金",
+        "growthStage": "沐浴",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "乙丑",
+      "expected": {
+        "hiddenStems": [
+          "己",
+          "癸",
+          "辛"
+        ],
+        "stemTenGod": "劫财",
+        "branchTenGods": [
+          "正财",
+          "正印",
+          "正官"
+        ],
+        "fiveElements": "木土",
+        "naYin": "海中金",
+        "growthStage": "冠带",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "丙寅",
+      "expected": {
+        "hiddenStems": [
+          "甲",
+          "丙",
+          "戊"
+        ],
+        "stemTenGod": "食神",
+        "branchTenGods": [
+          "比肩",
+          "食神",
+          "偏财"
+        ],
+        "fiveElements": "火木",
+        "naYin": "炉中火",
+        "growthStage": "临官",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "丁卯",
+      "expected": {
+        "hiddenStems": [
+          "乙"
+        ],
+        "stemTenGod": "伤官",
+        "branchTenGods": [
+          "劫财"
+        ],
+        "fiveElements": "火木",
+        "naYin": "炉中火",
+        "growthStage": "帝旺",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "戊辰",
+      "expected": {
+        "hiddenStems": [
+          "戊",
+          "乙",
+          "癸"
+        ],
+        "stemTenGod": "偏财",
+        "branchTenGods": [
+          "偏财",
+          "劫财",
+          "正印"
+        ],
+        "fiveElements": "土土",
+        "naYin": "大林木",
+        "growthStage": "衰",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "己巳",
+      "expected": {
+        "hiddenStems": [
+          "丙",
+          "庚",
+          "戊"
+        ],
+        "stemTenGod": "正财",
+        "branchTenGods": [
+          "食神",
+          "七杀",
+          "偏财"
+        ],
+        "fiveElements": "土火",
+        "naYin": "大林木",
+        "growthStage": "病",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "庚午",
+      "expected": {
+        "hiddenStems": [
+          "丁",
+          "己"
+        ],
+        "stemTenGod": "七杀",
+        "branchTenGods": [
+          "伤官",
+          "正财"
+        ],
+        "fiveElements": "金火",
+        "naYin": "路旁土",
+        "growthStage": "死",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "辛未",
+      "expected": {
+        "hiddenStems": [
+          "己",
+          "丁",
+          "乙"
+        ],
+        "stemTenGod": "正官",
+        "branchTenGods": [
+          "正财",
+          "伤官",
+          "劫财"
+        ],
+        "fiveElements": "金土",
+        "naYin": "路旁土",
+        "growthStage": "墓",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "壬申",
+      "expected": {
+        "hiddenStems": [
+          "庚",
+          "壬",
+          "戊"
+        ],
+        "stemTenGod": "偏印",
+        "branchTenGods": [
+          "七杀",
+          "偏印",
+          "偏财"
+        ],
+        "fiveElements": "水金",
+        "naYin": "剑锋金",
+        "growthStage": "绝",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "甲",
+      "ganZhi": "癸酉",
+      "expected": {
+        "hiddenStems": [
+          "辛"
+        ],
+        "stemTenGod": "正印",
+        "branchTenGods": [
+          "正官"
+        ],
+        "fiveElements": "水金",
+        "naYin": "剑锋金",
+        "growthStage": "胎",
+        "xun": "甲子",
+        "voidBranches": "戌亥"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "甲戌",
+      "expected": {
+        "hiddenStems": [
+          "戊",
+          "辛",
+          "丁"
+        ],
+        "stemTenGod": "劫财",
+        "branchTenGods": [
+          "正财",
+          "七杀",
+          "食神"
+        ],
+        "fiveElements": "木土",
+        "naYin": "山头火",
+        "growthStage": "墓",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "乙亥",
+      "expected": {
+        "hiddenStems": [
+          "壬",
+          "甲"
+        ],
+        "stemTenGod": "比肩",
+        "branchTenGods": [
+          "正印",
+          "劫财"
+        ],
+        "fiveElements": "木水",
+        "naYin": "山头火",
+        "growthStage": "死",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "丙子",
+      "expected": {
+        "hiddenStems": [
+          "癸"
+        ],
+        "stemTenGod": "伤官",
+        "branchTenGods": [
+          "偏印"
+        ],
+        "fiveElements": "火水",
+        "naYin": "涧下水",
+        "growthStage": "病",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "丁丑",
+      "expected": {
+        "hiddenStems": [
+          "己",
+          "癸",
+          "辛"
+        ],
+        "stemTenGod": "食神",
+        "branchTenGods": [
+          "偏财",
+          "偏印",
+          "七杀"
+        ],
+        "fiveElements": "火土",
+        "naYin": "涧下水",
+        "growthStage": "衰",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "戊寅",
+      "expected": {
+        "hiddenStems": [
+          "甲",
+          "丙",
+          "戊"
+        ],
+        "stemTenGod": "正财",
+        "branchTenGods": [
+          "劫财",
+          "伤官",
+          "正财"
+        ],
+        "fiveElements": "土木",
+        "naYin": "城头土",
+        "growthStage": "帝旺",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "己卯",
+      "expected": {
+        "hiddenStems": [
+          "乙"
+        ],
+        "stemTenGod": "偏财",
+        "branchTenGods": [
+          "比肩"
+        ],
+        "fiveElements": "土木",
+        "naYin": "城头土",
+        "growthStage": "临官",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "庚辰",
+      "expected": {
+        "hiddenStems": [
+          "戊",
+          "乙",
+          "癸"
+        ],
+        "stemTenGod": "正官",
+        "branchTenGods": [
+          "正财",
+          "比肩",
+          "偏印"
+        ],
+        "fiveElements": "金土",
+        "naYin": "白蜡金",
+        "growthStage": "冠带",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "辛巳",
+      "expected": {
+        "hiddenStems": [
+          "丙",
+          "庚",
+          "戊"
+        ],
+        "stemTenGod": "七杀",
+        "branchTenGods": [
+          "伤官",
+          "正官",
+          "正财"
+        ],
+        "fiveElements": "金火",
+        "naYin": "白蜡金",
+        "growthStage": "沐浴",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "壬午",
+      "expected": {
+        "hiddenStems": [
+          "丁",
+          "己"
+        ],
+        "stemTenGod": "正印",
+        "branchTenGods": [
+          "食神",
+          "偏财"
+        ],
+        "fiveElements": "水火",
+        "naYin": "杨柳木",
+        "growthStage": "长生",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    },
+    {
+      "dayMaster": "乙",
+      "ganZhi": "癸未",
+      "expected": {
+        "hiddenStems": [
+          "己",
+          "丁",
+          "乙"
+        ],
+        "stemTenGod": "偏印",
+        "branchTenGods": [
+          "偏财",
+          "食神",
+          "比肩"
+        ],
+        "fiveElements": "水土",
+        "naYin": "杨柳木",
+        "growthStage": "养",
+        "xun": "甲戌",
+        "voidBranches": "申酉"
+      }
+    }
+  ],
+  "totals": {
+    "fixed": 20,
+    "adapter": 120,
+    "other": 20,
+    "total": 160,
+    "passed": 160,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "category": "fixed",
+      "name": "甲日干对甲子",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对乙丑",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对丙寅",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对丁卯",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对戊辰",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对己巳",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对庚午",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对辛未",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对壬申",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "甲日干对癸酉",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对甲戌",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对乙亥",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对丙子",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对丁丑",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对戊寅",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对己卯",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对庚辰",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对辛巳",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对壬午",
+      "passed": true
+    },
+    {
+      "category": "fixed",
+      "name": "乙日干对癸未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙午",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛未",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁申",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬酉",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁戌",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬亥",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊子",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸丑",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊寅",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸卯",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己辰",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "乙巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丙巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "丁巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "戊巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "己巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "庚巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "辛巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "壬巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "癸巳",
+      "passed": true
+    },
+    {
+      "category": "adapter",
+      "name": "甲巳",
+      "passed": true
+    },
+    {
+      "category": "structure",
+      "name": "seven ordered columns reuse calculated natal values",
+      "passed": true
+    },
+    {
+      "category": "selection",
+      "name": "flow columns follow actual selected source records",
+      "passed": true
+    },
+    {
+      "category": "selection",
+      "name": "empty pre-fortune pillar stays unavailable",
+      "passed": true
+    },
+    {
+      "category": "selection",
+      "name": "current before exact first start hides period only",
+      "passed": true
+    },
+    {
+      "category": "selection",
+      "name": "manual viewing remains available before first start",
+      "passed": true
+    },
+    {
+      "category": "selection",
+      "name": "no selection uses first records without guessing another pillar",
+      "passed": true
+    },
+    {
+      "category": "rules",
+      "name": "late Zi sect changes comparison day master from result",
+      "passed": true
+    },
+    {
+      "category": "rules",
+      "name": "flow stem equal to natal day stem is 比肩, not 日主",
+      "passed": true
+    },
+    {
+      "category": "rules",
+      "name": "growth uses natal day stem rather than target stem",
+      "passed": true
+    },
+    {
+      "category": "rules",
+      "name": "own-pillar xun and void are not natal-hit predictions",
+      "passed": true
+    },
+    {
+      "category": "mutation",
+      "name": "building and editing output does not mutate source or selection",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid sexagenary pair rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid natal day stem rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid explicit period index rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid explicit year index rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid explicit month index rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "fractional and string selection indices rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "missing or duplicate calculated day pillar rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "invalid selection object rejected",
+      "passed": true
+    },
+    {
+      "category": "validation",
+      "name": "unsupported fields such as strength and favorable elements absent",
+      "passed": true
+    }
+  ]
+}

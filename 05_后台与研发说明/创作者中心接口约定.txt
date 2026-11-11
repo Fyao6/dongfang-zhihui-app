@@ -1,0 +1,32 @@
+创作者中心开发合同（2026-11-04）
+沿用原登录与角色，账号user可申请，teacher/admin进入创作者中心；admin在公司后台批准申请/关联真实老师资料，不能自行升级。所有creator接口按当前用户ID隔离；管理接口允许admin/operator/reviewer读取与复核，只有admin修改资格、规则和知识库。
+页面 /creator；总后台 /admin 内新增创作者与审核入口。
+API JSON:
+GET /api/creator/me -> {user, profile:null|{userId,displayName,bio,avatarUrl,teacherId,status,reason},eligible:boolean}
+POST /api/creator/apply {displayName,bio,avatarUrl} -> {profile} (pending;不可自批)
+PATCH /api/creator/profile {displayName,bio,avatarUrl} -> {profile}
+GET /api/creator/works -> {items:[work]}
+POST /api/creator/works {type:'video'|'article'|'course',title,body,mediaUrl,coverUrl,theme:'ziwei'|'tcm'|'healing',format:'audio'|'video'|'article',categoryIds:[],sections:[],duration:0} -> {item}
+PATCH /api/creator/works/:id 同上+version；更新后为draft，已发布旧版本下架；版本冲突409
+POST /api/creator/works/:id/submit {version} -> {item}; 审核状态 ai_review -> published/rejected/manual_review。提交不可绕过审核，超时/未配置/媒体无法分析转人工。
+POST /api/creator/works/:id/withdraw {version} -> {item}; 下架为draft
+POST /api/creator/works/:id/appeal {reason,version} -> {item}; rejected -> manual_review
+GET /api/creator/works/:id/reviews -> {items:[{id,stage,decision,reason,ruleVersion,created}]}
+work={id,ownerId,type,title,body,mediaUrl,coverUrl,theme,format,categoryIds,sections,duration,status,reason,version,createdAt,updatedAt}
+GET /api/creator/analytics?days=7|30|90 -> {days,totals:{followers,newFollowers,profileViews,impressions,views,plays,watchSeconds,completions,likes,favorites,shares,learners,consultations},daily:[{date,views,plays,watchSeconds,followers}],works:[{id,title,type,status,views,plays,watchSeconds,completions,likes,favorites,shares,learners}],startedAt}
+GET /api/creator/consultations -> {items:[{id,name,body,date,status}]}; PATCH /api/creator/consultations/:id {status:'accepted'|'closed'}
+GET /api/admin/creators -> {items:[profile+username+role]}; PATCH /api/admin/creators/:userId {status:'approved'|'rejected'|'suspended',teacherId,reason} admin only. teacherId may blank; approval creates real verified teacher profile when blank. Suspended stops creator access and public content.
+GET /api/admin/creator-reviews -> {items:[work+displayName]}; POST /api/admin/creator-reviews/:id {decision:'approve'|'reject',reason,version} human review of manual_review/rejected/published; reason required. Publish both course and community posts using id work.id. Always record audit.
+GET /api/admin/moderation-settings -> {enabled,autoApprove,rules,knowledge,version,aiReady}; PUT /api/admin/moderation-settings {enabled,autoApprove,rules,knowledge} admin only. Provider/key/model reuse existing AI settings, never output key. No knowledge/rules => no auto pass; video/audio => manual until full media support.
+GET /api/creators/:userId -> {profile,works:[published work],followers,following}; POST /api/creators/:userId/follow {active:boolean} requires login, no self-follow.
+POST /api/creator-events {workId OR creatorId,event:'impression'|'view'|'play'|'watch'|'complete'|'profile_view'|'learn',sessionId,seconds:0}; only visible published targets, dedupe per visitor+target+event+session, watch cumulative clamped to elapsed server session time, bounded; no raw personal analytics returned to creators.
+POST /api/creator-actions {workId,action:'like'|'favorite'|'share',active:true|false}; login for like/favorite, share can anonymous dedupe. GET /api/creator-actions?workId=... -> {likes,favorites,shares,liked,favorited}. All published target check.
+Existing public posts/courses published from creator carry creatorId in public serialized response so frontend can track and open profile.
+Implementation files: cloud/lib/creator-api.ts root owns, local backend/creator.py delegated; standalone r4/creator-center.html + creator-app.js delegated; admin r4/creator-admin.js delegated. Main root integrates build.py, prepare.py, worker, netlify and server adapters, coordinates tests. No new subdirectories.
+
+2026-11-04 数据中心升级（保持原字段兼容）
+GET /api/creator/analytics?days=7|30|90 增加 previousTotals、comparisonAvailable、period {from,to,previousFrom,previousTo,timeZone}。period 为北京时间日历周期；只有创作者采集起点早于前期起点时 comparisonAvailable 为 true。
+daily 每天包含 views/plays/watchSeconds/followers/newFollowers/impressions/likes/favorites/shares/completions/learners/profileViews/consultations，学习人数按当天不同访客去重；跨日相加不必等于周期去重人数。
+works 增加 coverUrl、duration、createdAt、updatedAt 与 impressions，仍只属于当前创作者。
+previousTotals.followers 返回 null，因为当前关注关系不能还原历史粉丝存量；newFollowers 是当前保留的关注关系在该期建立的数量，不等于净增粉丝。
+两个周期都排除未来时间，前周期截止当前周期起点之前。观看时长按有效播放秒数累计；完播率等派生值须以有效播放为分母，分母为0时显示无数据或0，不可伪造同类作者基准。

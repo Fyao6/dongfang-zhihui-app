@@ -1,0 +1,162 @@
+{
+  "at": "2026-11-02T19:26:08.265540+08:00",
+  "site": "https://eastern-wisdom-demo-fuyao.netlify.app",
+  "deploy_id": "6ae8729c67cc19e2d23c1777",
+  "previous_deploy_id": "6ae86574436a9c3518edaa5e",
+  "changes": [
+    "智慧馆默认按老师分类，老师页展示全部已发布相关课程，详情可返回老师页",
+    "后台老师资料四语字段、头像、示例/真实标识和课程所属老师选择",
+    "社群顶部三个入口：我的好友、我的对话、推荐视频",
+    "一屏一视频，进度/声音/播放与暂停，滑动切换和离页/隐藏暂停",
+    "去除社群分享心得与旧工具区，发布管理移入我的",
+    "保留四语言、原课程编号、权益和审核权限"
+  ],
+  "checks": {
+    "local_full": {
+      "passed": 56,
+      "failed": 0,
+      "at": "2026-11-02T11:20:09.952Z"
+    },
+    "cloud_full": {
+      "passed": 56,
+      "failed": 0,
+      "at": "2026-11-02T11:07:00.239Z"
+    },
+    "teacher_ui": [
+      "老师分类与示例标记",
+      "老师课程归属",
+      "课程详情返回老师",
+      "四语布局",
+      "按老师姓名搜索"
+    ],
+    "teacher_api": [
+      "后台选择课程所属老师",
+      "发布后的课程归属更新",
+      "原老师课程同步移除",
+      "归档课程不再出现在老师页",
+      "老师归档后平台课程仍可访问"
+    ],
+    "community": [
+      "三标签导航与精简入口",
+      "真实视频播放及声音开关",
+      "好友与对话导航",
+      "只展示视频内容",
+      "上下切换仅一个视频播放",
+      "进度拖动",
+      "隐藏页面及离页暂停",
+      "四语言布局"
+    ],
+    "public": [
+      "默认老师分类与已发布课程归属",
+      "课程详情与返回老师",
+      "四语言页面与视频布局",
+      "移除分享心得与旧社群大头部",
+      "真实视频播放及离页停止",
+      "好友与对话入口",
+      "我的发布入口",
+      "后台老师归属下拉框"
+    ],
+    "four_language_checks": 9,
+    "pages_and_locales": 324,
+    "catalog": {
+      "catalogEntries": 2300,
+      "TibetanEntries": 2300,
+      "missing": [],
+      "placeholderMismatches": [],
+      "missingTibetanGlyphs": [],
+      "unexpectedMarkup": [],
+      "nativeSpeakerReview": false
+    },
+    "public_at": "2026-11-02T11:25:38.965Z",
+    "poster": "真实公网四语预览视频封面均成功加载，尺寸1080×1920；社群播放专项与本机56项回归重新通过。",
+    "cloud_full_scope": "云端56项回归对应同一老师/社群业务实现；随后只增加预览视频poster及静态图片资源，该差异由公网真实加载、四语页面及播放专项再次核验。"
+  },
+  "content_migration": {
+    "at": "2026-11-02T11:10:28.991Z",
+    "base": "https://eastern-wisdom-demo-fuyao.netlify.app",
+    "pass": true,
+    "changed": [
+      {
+        "kind": "teachers",
+        "id": "demo-qinghe"
+      },
+      {
+        "kind": "teachers",
+        "id": "demo-anran"
+      },
+      {
+        "kind": "teachers",
+        "id": "demo-zhiwei"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-healing-video"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-healing-audio"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-healing-practice"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-tcm-video"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-tcm-audio"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-tcm-practice"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-ziwei-video"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-ziwei-audio"
+      },
+      {
+        "kind": "courses",
+        "id": "academy-ziwei-practice"
+      }
+    ],
+    "counts": [
+      {
+        "id": "demo-qinghe",
+        "courses": 3
+      },
+      {
+        "id": "demo-anran",
+        "courses": 3
+      },
+      {
+        "id": "demo-zhiwei",
+        "courses": 3
+      }
+    ]
+  },
+  "backup": "07_历史版本仅供追溯\\老师课程与社群改版前-20261102-183731.zip",
+  "content_backup": "06_验证与后续工作/老师分类内容迁移备份-公网.json",
+  "limits": [
+    "清和、安然、知微为明确标注的示例老师，非真人任教或资质声明",
+    "推荐视频使用审核通过的视频及原有预览，未引入个性化推荐算法",
+    "新增藏文沿用初译与术语修订流程，尚待母语审校",
+    "未重新生成交付ZIP；真实AI、设备和正式支付接入状态不变"
+  ],
+  "output_sha256": {
+    "东方智慧-首页体验R4.html": "6f6dff6bd808fe484edc3b3f515223271480b759654d7a34667aa46327ccf106",
+    "发给负责人-东方智慧首页R4.html": "875b71564e41e2bf26679329f60119ce70037a1011990fa9fc819222101bb8f4",
+    "计时后台-开发联调.html": "97dd071c0a4292219be3e1bcce1417c6c1de72da9f6b6f6479c34e60ce9dc69a"
+  },
+  "asset_hotfix_previous_deploy_id": "6ae86fd243806001ba18176e",
+  "poster": {
+    "source": "用户此前提供并已保存的community-preview.mp4实际视频帧",
+    "path": "04_研发源码\\app\\r4\\images\\community-preview-poster.jpg",
+    "sha256": "755b2f794aa76ff36c5d8ffe6b4a506fd0c4c5af7d39c26f6bd30baf1478e675"
+  }
+}

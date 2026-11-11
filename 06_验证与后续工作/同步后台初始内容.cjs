@@ -1,0 +1,8 @@
+// Export existing authored content as initial CMS data. Restart never overwrites edits.
+const fs=require('fs');const path=require('path');const vm=require('vm');
+const root=path.resolve(__dirname,'..');const source=path.join(root,'04_研发源码','app','r4');
+function array(file,name){const code=fs.readFileSync(path.join(source,file),'utf8');const marker=new RegExp('const\\s+'+name+'\\s*=\\s*\\[').exec(code);if(!marker)throw Error('Missing '+name);const start=marker.index+marker[0].lastIndexOf('[');let depth=0,quote=null,escape=false,end=start;for(;end<code.length;end++){const c=code[end];if(quote){if(escape)escape=false;else if(c==='\\')escape=true;else if(c===quote)quote=null;}else if("'\"`".includes(c))quote=c;else if(c==='[')depth++;else if(c===']'&&--depth===0){end++;break;}}return vm.runInNewContext('('+code.slice(start,end)+')',{}, {timeout:1500});}
+const seed={quotes:array('daily.js','dailyQuotes'),cards:array('daily.js','dailyCards'),music:array('music.js','musicTracks'),courses:array('academy.js','academyCatalog'),membership:array('membership.js','memberPlans'),benefits:array('membership.js','memberBenefits'),teachers:[],devices:[],signin:[{id:'daily-bell',name:'每日钟声签到',audioUrl:'',description:'默认使用原创合成铜钟音色，可上传音频替换。'}]};
+seed.maps=[{id:'life',name:'生命地图',heroTitle:'认识自己',heroText:'从此刻需要的方向开始',coverUrl:''},{id:'body',name:'身体地图',heroTitle:'修复自己',heroText:'从此刻需要的方向开始',coverUrl:''},{id:'mind',name:'心智地图',heroTitle:'提升自己',heroText:'从此刻需要的方向开始',coverUrl:''}];
+fs.writeFileSync(path.join(source,'backend','initial-content.json'),JSON.stringify(seed,null,2),'utf8');
+console.log(JSON.stringify({counts:Object.fromEntries(Object.entries(seed).map(([k,v])=>[k,v.length])),courseFields:Object.keys(seed.courses[0])},null,2));

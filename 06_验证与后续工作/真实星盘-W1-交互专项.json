@@ -1,0 +1,7294 @@
+{
+  "at": "2026-11-11T07:48:36.247Z",
+  "module": "真实星盘W1-出生城市与完整档案",
+  "base": "http://127.0.0.1:8881",
+  "scope": "Final constructed APP; anonymous isolated browser; synthetic localStorage birth/archive only",
+  "syntheticClientOnly": true,
+  "legacyArchiveFixtures": true,
+  "productionWrites": false,
+  "fixtureScope": "Display matrix changes language/theme in isolated state; archive uses approved synthetic legacy UTC/location record, not a geographic input or login proof",
+  "sourceHashes": {
+    "04_研发源码/app/r4/life-chart-core.js": "b02ac3d58eed193c5ca01dd44541a15ec09901dfc5f20002e14a6ab89887abb9",
+    "04_研发源码/app/r4/life-chart-ziwei.js": "8f975904427dbcfd0563e182cd1d02c51feed2ad91043019dc1a315bd76d9c53",
+    "04_研发源码/app/r4/life-chart-bazi.js": "e85ec9c31a7cb76988ccbfd7c5e4c6d0b067c6d5e817f9b359dadd3d748892b9",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js": "defdc2078c1780f033f16a87719aab587280f8b92baf31534a31d80f4f74d7a9",
+    "04_研发源码/app/r4/life-chart-bazi-annotations.js": "b948c64faefc402e074559fa0b17fec4ae1b0281ee6a0c1887379afb7e09b257",
+    "04_研发源码/app/r4/life-chart-western.js": "bd19aa6953f47bf738d58358ef9a60e005ca002bbc4bffc1cba3c30bb9a37cf3",
+    "04_研发源码/app/r4/life-charts.css": "7ce9cccccbb3eb30351288f4c7272f61b1ca6e615d3bd52e7579f39ddfa2414b",
+    "04_研发源码/app/r4/life-chart-workspace.css": "6dbc1164913e8ff3645facb4a666a0c3a31005817f8663feb10efaa96b89a798",
+    "04_研发源码/app/r4/life-chart-bazi.css": "fd6b3cc36f19d47c6a9d0d99efc6d5c73cbc8a3e4ea4c3fa5db146543e1961c8",
+    "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d",
+    "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+    "04_研发源码/app/r4/life-western-cities.js": "1c0dc5b3ef28f428f1bd1026fe6037c66181f91ed9e05f8b45d17044fe8242c5",
+    "04_研发源码/app/r4/life-western-profile.js": "2b2f27ad668cebd9cc0335f636a0782cfef04f55c6f0025d409bf97d9720c3e4",
+    "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+    "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+    "04_研发源码/app/r4/academy.js": "ec8665c97a56625ac68837dd50672bbb00e1a9a9e98d96001e95ef200a8a3a7d",
+    "04_研发源码/app/r4/app-density.css": "cd55599fa26716ca12e683d4f558b92bb89f6b089c06704202fb13aa79cfcf79",
+    "04_研发源码/app/r4/build.py": "8f12b3861daa674f6328fef7e300976aa66cbdbdd501d360f08146fe1f6c0d29"
+  },
+  "buildSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65",
+  "buildHashes": {
+    "东方智慧-首页体验R4.html": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65"
+  },
+  "results": [
+    {
+      "name": "最终源码与实际服务构建同一身份",
+      "pass": true,
+      "ms": 744,
+      "detail": {
+        "servedSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65",
+        "embedded": 17
+      }
+    },
+    {
+      "name": "真实四字段保存、自动紫微和三个独立排盘入口",
+      "pass": true,
+      "ms": 1392,
+      "detail": {
+        "automaticZiwei": true,
+        "sharedBirthUnchanged": true,
+        "independentEntries": 3,
+        "crossChartNavigation": 0
+      }
+    },
+    {
+      "name": "紫微十二宫完整资料、命身标记和弹层焦点",
+      "pass": true,
+      "ms": 1160,
+      "detail": {
+        "palaces": 12,
+        "completeRecords": 12,
+        "focusReturns": 12
+      }
+    },
+    {
+      "name": "紫微选宫放大适屏和语言宽度后保留选择",
+      "pass": true,
+      "ms": 899,
+      "detail": {
+        "index": 6,
+        "zoomVisible": {
+          "left": 22,
+          "right": 368,
+          "cellLeft": 207.75,
+          "cellRight": 367,
+          "ok": true
+        }
+      }
+    },
+    {
+      "name": "八字三级时间尺键盘选择和焦点滚位",
+      "pass": true,
+      "ms": 1751,
+      "detail": {
+        "rails": 3,
+        "keysPerRail": 4
+      }
+    },
+    {
+      "name": "八字相同上下文保留手动横滑、尺寸变化重定位",
+      "pass": true,
+      "ms": 425,
+      "detail": {
+        "manualScroll": 10,
+        "retained": 10
+      }
+    },
+    {
+      "name": "八字页签键盘和内容分层仍保留完整数据",
+      "pass": true,
+      "ms": 2527,
+      "detail": {
+        "tabs": 3,
+        "relationUiRemoved": true,
+        "comparisonInTools": true,
+        "compareCells": 63,
+        "auxiliary": 4,
+        "selectionPreserved": true,
+        "detailsActuallyOpened": true,
+        "toolsActions": 4,
+        "notesAndSettingsReachable": true,
+        "glossaryRoundTrip": true
+      }
+    },
+    {
+      "name": "旧完整西盘天体相位图例实际联动和键盘焦点",
+      "pass": true,
+      "ms": 981,
+      "detail": {
+        "bodies": 10,
+        "houses": 12,
+        "planetAspectCount": 2,
+        "type": "sextile"
+      }
+    },
+    {
+      "name": "西盘折叠资料仍实际访问十天体与宫界相位",
+      "pass": true,
+      "ms": 515,
+      "detail": {
+        "positions": 10,
+        "houses": 12,
+        "detailsSurviveSelection": true
+      }
+    },
+    {
+      "name": "日间三盘线色和西盘图例一致并加强",
+      "pass": true,
+      "ms": 539,
+      "detail": {
+        "ziwei": "rgb(132, 151, 168)",
+        "bazi": {
+          "rule": "#d7dade",
+          "accent": "#225f6b",
+          "elements": [
+            {
+              "element": "wood",
+              "color": "rgb(36, 131, 92)",
+              "contrast": 4.69161059874223
+            },
+            {
+              "element": "fire",
+              "color": "rgb(186, 88, 25)",
+              "contrast": 4.669003757372409
+            },
+            {
+              "element": "earth",
+              "color": "rgb(107, 114, 128)",
+              "contrast": 4.834490081424352
+            },
+            {
+              "element": "metal",
+              "color": "rgb(155, 113, 0)",
+              "contrast": 4.415694875543438
+            },
+            {
+              "element": "water",
+              "color": "rgb(80, 97, 199)",
+              "contrast": 5.418408744454093
+            }
+          ]
+        },
+        "western": [
+          {
+            "type": "conjunction",
+            "color": "112,53,181",
+            "expectedOuter": "112,53,181",
+            "expectedInner": "196,162,238",
+            "lineContrast": 7.328744769566513,
+            "background": [
+              255,
+              255,
+              255
+            ],
+            "texts": [
+              {
+                "text": "合相",
+                "color": "rgb(23, 43, 58)",
+                "contrast": 14.552206551498765
+              },
+              {
+                "text": "0° · 0",
+                "color": "rgb(82, 101, 120)",
+                "contrast": 6.014687851809166
+              }
+            ]
+          },
+          {
+            "type": "sextile",
+            "color": "8,115,77",
+            "expectedOuter": "8,115,77",
+            "expectedInner": "114,205,185",
+            "lineContrast": 5.882711059046533,
+            "background": [
+              255,
+              255,
+              255
+            ],
+            "texts": [
+              {
+                "text": "六合",
+                "color": "rgb(23, 43, 58)",
+                "contrast": 14.552206551498765
+              },
+              {
+                "text": "60° · 5",
+                "color": "rgb(82, 101, 120)",
+                "contrast": 6.014687851809166
+              }
+            ]
+          },
+          {
+            "type": "square",
+            "color": "154,82,9",
+            "expectedOuter": "154,82,9",
+            "expectedInner": "229,176,110",
+            "lineContrast": 5.857958087176091,
+            "background": [
+              255,
+              255,
+              255
+            ],
+            "texts": [
+              {
+                "text": "四分相",
+                "color": "rgb(23, 43, 58)",
+                "contrast": 14.552206551498765
+              },
+              {
+                "text": "90° · 3",
+                "color": "rgb(82, 101, 120)",
+                "contrast": 6.014687851809166
+              }
+            ]
+          },
+          {
+            "type": "trine",
+            "color": "34,88,182",
+            "expectedOuter": "34,88,182",
+            "expectedInner": "130,168,224",
+            "lineContrast": 6.689207268238868,
+            "background": [
+              255,
+              255,
+              255
+            ],
+            "texts": [
+              {
+                "text": "三分相",
+                "color": "rgb(23, 43, 58)",
+                "contrast": 14.552206551498765
+              },
+              {
+                "text": "120° · 1",
+                "color": "rgb(82, 101, 120)",
+                "contrast": 6.014687851809166
+              }
+            ]
+          },
+          {
+            "type": "opposition",
+            "color": "183,44,75",
+            "expectedOuter": "183,44,75",
+            "expectedInner": "241,137,150",
+            "lineContrast": 6.042593829699554,
+            "background": [
+              255,
+              255,
+              255
+            ],
+            "texts": [
+              {
+                "text": "对分相",
+                "color": "rgb(23, 43, 58)",
+                "contrast": 14.552206551498765
+              },
+              {
+                "text": "180° · 1",
+                "color": "rgb(82, 101, 120)",
+                "contrast": 6.014687851809166
+              }
+            ]
+          }
+        ],
+        "house": {
+          "stroke": "rgb(101, 125, 152)",
+          "width": 1.1,
+          "contrast": 3.479102265213652
+        },
+        "westernPalette": {
+          "viewBox": "0 0 600 600",
+          "base": {
+            "rgba": [
+              3,
+              9,
+              19,
+              255
+            ],
+            "luminance": 0.0026175049530399266
+          },
+          "inner": {
+            "rgba": [
+              9,
+              20,
+              35,
+              255
+            ],
+            "luminance": 0.006797378425613019
+          },
+          "rules": [
+            "conjunction",
+            "sextile",
+            "square",
+            "trine",
+            "opposition"
+          ],
+          "legend": [
+            {
+              "type": "conjunction",
+              "color": "112,53,181",
+              "expectedOuter": "112,53,181",
+              "expectedInner": "196,162,238",
+              "lineContrast": 7.328744769566513,
+              "background": [
+                255,
+                255,
+                255
+              ],
+              "texts": [
+                {
+                  "text": "合相",
+                  "color": "rgb(23, 43, 58)",
+                  "contrast": 14.552206551498765
+                },
+                {
+                  "text": "0° · 0",
+                  "color": "rgb(82, 101, 120)",
+                  "contrast": 6.014687851809166
+                }
+              ]
+            },
+            {
+              "type": "sextile",
+              "color": "8,115,77",
+              "expectedOuter": "8,115,77",
+              "expectedInner": "114,205,185",
+              "lineContrast": 5.882711059046533,
+              "background": [
+                255,
+                255,
+                255
+              ],
+              "texts": [
+                {
+                  "text": "六合",
+                  "color": "rgb(23, 43, 58)",
+                  "contrast": 14.552206551498765
+                },
+                {
+                  "text": "60° · 5",
+                  "color": "rgb(82, 101, 120)",
+                  "contrast": 6.014687851809166
+                }
+              ]
+            },
+            {
+              "type": "square",
+              "color": "154,82,9",
+              "expectedOuter": "154,82,9",
+              "expectedInner": "229,176,110",
+              "lineContrast": 5.857958087176091,
+              "background": [
+                255,
+                255,
+                255
+              ],
+              "texts": [
+                {
+                  "text": "四分相",
+                  "color": "rgb(23, 43, 58)",
+                  "contrast": 14.552206551498765
+                },
+                {
+                  "text": "90° · 3",
+                  "color": "rgb(82, 101, 120)",
+                  "contrast": 6.014687851809166
+                }
+              ]
+            },
+            {
+              "type": "trine",
+              "color": "34,88,182",
+              "expectedOuter": "34,88,182",
+              "expectedInner": "130,168,224",
+              "lineContrast": 6.689207268238868,
+              "background": [
+                255,
+                255,
+                255
+              ],
+              "texts": [
+                {
+                  "text": "三分相",
+                  "color": "rgb(23, 43, 58)",
+                  "contrast": 14.552206551498765
+                },
+                {
+                  "text": "120° · 1",
+                  "color": "rgb(82, 101, 120)",
+                  "contrast": 6.014687851809166
+                }
+              ]
+            },
+            {
+              "type": "opposition",
+              "color": "183,44,75",
+              "expectedOuter": "183,44,75",
+              "expectedInner": "241,137,150",
+              "lineContrast": 6.042593829699554,
+              "background": [
+                255,
+                255,
+                255
+              ],
+              "texts": [
+                {
+                  "text": "对分相",
+                  "color": "rgb(23, 43, 58)",
+                  "contrast": 14.552206551498765
+                },
+                {
+                  "text": "180° · 1",
+                  "color": "rgb(82, 101, 120)",
+                  "contrast": 6.014687851809166
+                }
+              ]
+            }
+          ],
+          "lines": [
+            {
+              "type": "sextile",
+              "actualType": "sextile",
+              "stroke": "114,205,185",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 8.124382340684784
+            },
+            {
+              "type": "trine",
+              "actualType": "trine",
+              "stroke": "130,168,224",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 6.356835068629611
+            },
+            {
+              "type": "opposition",
+              "actualType": "opposition",
+              "stroke": "241,137,150",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 6.42061528205405
+            },
+            {
+              "type": "square",
+              "actualType": "square",
+              "stroke": "229,176,110",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 7.837542381096537
+            },
+            {
+              "type": "sextile",
+              "actualType": "sextile",
+              "stroke": "114,205,185",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 8.124382340684784
+            },
+            {
+              "type": "square",
+              "actualType": "square",
+              "stroke": "229,176,110",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 7.837542381096537
+            },
+            {
+              "type": "sextile",
+              "actualType": "sextile",
+              "stroke": "114,205,185",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 8.124382340684784
+            },
+            {
+              "type": "sextile",
+              "actualType": "sextile",
+              "stroke": "114,205,185",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 8.124382340684784
+            },
+            {
+              "type": "square",
+              "actualType": "square",
+              "stroke": "229,176,110",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 7.837542381096537
+            },
+            {
+              "type": "sextile",
+              "actualType": "sextile",
+              "stroke": "114,205,185",
+              "width": 1.6,
+              "opacity": 0.9,
+              "contrast": 8.124382340684784
+            }
+          ],
+          "aspectCount": 10,
+          "house": {
+            "stroke": "rgb(101, 125, 152)",
+            "width": 1.1,
+            "contrast": 3.479102265213652
+          },
+          "text": [
+            {
+              "class": "lcw-sign lcw-element-0",
+              "text": "白羊座白羊",
+              "fill": "rgb(255, 154, 159)",
+              "contrast": 9.858773358588255
+            },
+            {
+              "class": "lcw-sign lcw-element-1",
+              "text": "金牛座金牛",
+              "fill": "rgb(141, 218, 167)",
+              "contrast": 12.08638608726418
+            },
+            {
+              "class": "lcw-sign lcw-element-2",
+              "text": "双子座双子",
+              "fill": "rgb(255, 220, 139)",
+              "contrast": 15.073021692134668
+            },
+            {
+              "class": "lcw-sign lcw-element-3",
+              "text": "巨蟹座巨蟹",
+              "fill": "rgb(142, 189, 255)",
+              "contrast": 10.332298187267373
+            },
+            {
+              "class": "lcw-sign lcw-element-0",
+              "text": "狮子座狮子",
+              "fill": "rgb(255, 154, 159)",
+              "contrast": 9.858773358588255
+            },
+            {
+              "class": "lcw-sign lcw-element-1",
+              "text": "处女座处女",
+              "fill": "rgb(141, 218, 167)",
+              "contrast": 12.08638608726418
+            },
+            {
+              "class": "lcw-sign lcw-element-2",
+              "text": "天秤座天秤",
+              "fill": "rgb(255, 220, 139)",
+              "contrast": 15.073021692134668
+            },
+            {
+              "class": "lcw-sign lcw-element-3",
+              "text": "天蝎座天蝎",
+              "fill": "rgb(142, 189, 255)",
+              "contrast": 10.332298187267373
+            },
+            {
+              "class": "lcw-sign lcw-element-0",
+              "text": "射手座射手",
+              "fill": "rgb(255, 154, 159)",
+              "contrast": 9.858773358588255
+            },
+            {
+              "class": "lcw-sign lcw-element-1",
+              "text": "摩羯座摩羯",
+              "fill": "rgb(141, 218, 167)",
+              "contrast": 12.08638608726418
+            },
+            {
+              "class": "lcw-sign lcw-element-2",
+              "text": "水瓶座水瓶",
+              "fill": "rgb(255, 220, 139)",
+              "contrast": 15.073021692134668
+            },
+            {
+              "class": "lcw-sign lcw-element-3",
+              "text": "双鱼座双鱼",
+              "fill": "rgb(142, 189, 255)",
+              "contrast": 10.332298187267373
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "1",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "2",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "3",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "4",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "5",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "6",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "7",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "8",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "9",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "10",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "11",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": "lcw-house-label",
+              "text": "12",
+              "fill": "rgb(189, 208, 232)",
+              "contrast": 11.753493633628706
+            },
+            {
+              "class": null,
+              "text": "日",
+              "fill": "rgb(244, 130, 135)",
+              "contrast": 7.385486961162071
+            },
+            {
+              "class": null,
+              "text": "月",
+              "fill": "rgb(127, 184, 255)",
+              "contrast": 8.9815774622072
+            },
+            {
+              "class": null,
+              "text": "水",
+              "fill": "rgb(119, 211, 158)",
+              "contrast": 10.208057717861113
+            },
+            {
+              "class": null,
+              "text": "金",
+              "fill": "rgb(226, 198, 120)",
+              "contrast": 11.076740789334261
+            },
+            {
+              "class": null,
+              "text": "火",
+              "fill": "rgb(244, 130, 135)",
+              "contrast": 7.385486961162071
+            },
+            {
+              "class": null,
+              "text": "木",
+              "fill": "rgb(242, 139, 133)",
+              "contrast": 7.753163887308468
+            },
+            {
+              "class": null,
+              "text": "土",
+              "fill": "rgb(217, 181, 101)",
+              "contrast": 9.461536344047436
+            },
+            {
+              "class": null,
+              "text": "天",
+              "fill": "rgb(119, 211, 183)",
+              "contrast": 10.375367421352562
+            },
+            {
+              "class": null,
+              "text": "海",
+              "fill": "rgb(131, 168, 245)",
+              "contrast": 7.821334641987734
+            },
+            {
+              "class": null,
+              "text": "冥",
+              "fill": "rgb(131, 180, 245)",
+              "contrast": 8.637790066118919
+            },
+            {
+              "class": "lcw-axis-label",
+              "text": "ASC升",
+              "fill": "rgb(211, 223, 239)",
+              "contrast": 13.707715659812951
+            },
+            {
+              "class": "lcw-axis-label",
+              "text": "DSC降",
+              "fill": "rgb(211, 223, 239)",
+              "contrast": 13.707715659812951
+            },
+            {
+              "class": "lcw-axis-label",
+              "text": "MC顶",
+              "fill": "rgb(211, 223, 239)",
+              "contrast": 13.707715659812951
+            },
+            {
+              "class": "lcw-axis-label",
+              "text": "IC底",
+              "fill": "rgb(211, 223, 239)",
+              "contrast": 13.707715659812951
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "档案A与共享资料B上下文、编辑范围明确",
+      "pass": true,
+      "ms": 4866,
+      "detail": {
+        "archiveDate": "2000-01-01",
+        "sharedDate": "2005-12-23",
+        "independentDate": "2000-01-02",
+        "independentCityId": "2643743",
+        "sharedUnchanged": true,
+        "archiveUnchanged": true,
+        "oldUtcRecalculated": true,
+        "currentProfileRestored": true
+      }
+    },
+    {
+      "name": "未知全天图、准确无坐标地心盘与四字段隐私",
+      "pass": true,
+      "ms": 1355,
+      "detail": {
+        "unknownExactResult": null,
+        "unknownBodies": 10,
+        "hoursPerBody": 25,
+        "knownGeocentricBodies": 10,
+        "guessedHousesOrAngles": 0
+      }
+    },
+    {
+      "name": "四语日夜四尺寸三盘无页面横溢",
+      "pass": true,
+      "ms": 36492,
+      "detail": {
+        "layouts": 256,
+        "westernModes": [
+          "legacy-complete",
+          "geocentric",
+          "date-range"
+        ],
+        "widths": [
+          350,
+          390,
+          430,
+          1280
+        ],
+        "languages": [
+          "zh",
+          "zh-Hant",
+          "en",
+          "bo"
+        ],
+        "modes": [
+          "day",
+          "night"
+        ],
+        "baziViews": [
+          "archive",
+          "flow",
+          "stars"
+        ],
+        "baziToolsStates": [
+          "comparison-tools"
+        ]
+      }
+    },
+    {
+      "name": "真实计时浮条开启仍可操作、刷新390展示截图",
+      "pass": true,
+      "ms": 1492,
+      "detail": {
+        "timerReachableControls": true,
+        "captures": 3
+      }
+    },
+    {
+      "name": "零脚本错误、零出生上传与结束身份一致",
+      "pass": true,
+      "ms": 111,
+      "detail": {
+        "pageErrors": 0,
+        "birthRequests": 0,
+        "sourceFiles": 18
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "file": "原创命盘-展示-390-紫微.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    },
+    {
+      "file": "原创命盘-展示-390-八字时间尺.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    },
+    {
+      "file": "原创命盘-展示-390-完整旧星盘.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    }
+  ],
+  "birthRequests": [],
+  "blockedWrites": [
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    }
+  ],
+  "servedSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65",
+  "embeddedFiles": [
+    "life-chart-core.js",
+    "life-chart-ziwei.js",
+    "life-chart-bazi.js",
+    "life-chart-bazi-layout.js",
+    "life-chart-bazi-annotations.js",
+    "life-chart-western.js",
+    "life-charts.css",
+    "life-chart-workspace.css",
+    "life-chart-bazi.css",
+    "life-chart-western.css",
+    "life-birth-entry.js",
+    "life-western-cities.js",
+    "life-western-profile.js",
+    "life.js",
+    "base.js",
+    "academy.js",
+    "app-density.css"
+  ],
+  "baziLayoutContract": {
+    "layout": "reference",
+    "defaultVisibleCells": 42,
+    "legacyDefaultVisibleCells": 18,
+    "detailRowsDefaultVisible": true
+  },
+  "westernStructure": {
+    "full": {
+      "mode": "full",
+      "flag": "radial-v2",
+      "gridKind": "natal-houses",
+      "referenceValues": [],
+      "primaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "secondaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "primary": 360,
+      "secondary": 360,
+      "referenceRays": [],
+      "referenceAxes": [],
+      "houses": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 77.558,
+          "y2": 199.722,
+          "radius": 244.00024722938295,
+          "longitude": 3.5716432535082276e-05,
+          "expectedLongitude": 0
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 57.221,
+          "y2": 324.378,
+          "radius": 243.99985599380997,
+          "longitude": 30.000114665055833,
+          "expectedLongitude": 30
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 101.936,
+          "y2": 442.501,
+          "radius": 243.99976044455454,
+          "longitude": 59.999995629352156,
+          "expectedLongitude": 60
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 199.722,
+          "y2": 522.442,
+          "radius": 244.00024722938295,
+          "longitude": 90.00003571643248,
+          "expectedLongitude": 90
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 324.378,
+          "y2": 542.779,
+          "radius": 243.99985599380997,
+          "longitude": 120.00011466505578,
+          "expectedLongitude": 120
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 442.501,
+          "y2": 498.064,
+          "radius": 243.99976044455454,
+          "longitude": 149.99999562935216,
+          "expectedLongitude": 150
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 522.442,
+          "y2": 400.278,
+          "radius": 244.00024722938295,
+          "longitude": 180.00003571643242,
+          "expectedLongitude": 180
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 542.779,
+          "y2": 275.622,
+          "radius": 243.99985599380997,
+          "longitude": 210.00011466505578,
+          "expectedLongitude": 210
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 498.064,
+          "y2": 157.499,
+          "radius": 243.99976044455457,
+          "longitude": 239.99999562935216,
+          "expectedLongitude": 240
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 400.278,
+          "y2": 77.558,
+          "radius": 244.00024722938295,
+          "longitude": 270.0000357164324,
+          "expectedLongitude": 270
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 275.622,
+          "y2": 57.221,
+          "radius": 243.99985599380997,
+          "longitude": 300.0001146650558,
+          "expectedLongitude": 300
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 157.499,
+          "y2": 101.936,
+          "radius": 243.99976044455454,
+          "longitude": 329.99999562935216,
+          "expectedLongitude": 330
+        }
+      ],
+      "axes": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 56,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 24.26613280700076,
+          "expectedLongitude": 24.26613280700076
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 544,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 204.26613280700076,
+          "expectedLongitude": 204.26613280700076
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 361.732,
+          "y2": 63.938,
+          "radius": 244.0002206310478,
+          "longitude": 279.6110383382379,
+          "expectedLongitude": 279.6110618554224
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 238.268,
+          "y2": 536.062,
+          "radius": 244.0002206310478,
+          "longitude": 99.6110383382379,
+          "expectedLongitude": 99.6110618554224
+        }
+      ],
+      "anchors": [
+        {
+          "id": "Sun",
+          "x": 339.39015856539487,
+          "y": 140.80070537784079,
+          "radius": 164,
+          "longitude": 280.3687386398185,
+          "expectedLongitude": 280.3687386398185,
+          "error": 0
+        },
+        {
+          "id": "Moon",
+          "x": 455.01114340489613,
+          "y": 246.45053295963882,
+          "radius": 164,
+          "longitude": 223.3238911274741,
+          "expectedLongitude": 223.3238911274741,
+          "error": 0
+        },
+        {
+          "id": "Mercury",
+          "x": 362.43525454733253,
+          "y": 148.3496159265998,
+          "radius": 164,
+          "longitude": 271.88891206646304,
+          "expectedLongitude": 271.88891206646304,
+          "error": 0
+        },
+        {
+          "id": "Venus",
+          "x": 430.45921170313113,
+          "y": 200.61995128901572,
+          "radius": 164,
+          "longitude": 241.56523294036208,
+          "expectedLongitude": 241.56523294036208,
+          "error": 0
+        },
+        {
+          "id": "Mars",
+          "x": 209.01083322616506,
+          "y": 163.55597656986492,
+          "radius": 164,
+          "longitude": 327.96389907790285,
+          "expectedLongitude": 327.96389907790285,
+          "error": 0
+        },
+        {
+          "id": "Jupiter",
+          "x": 136.02438544287216,
+          "y": 302.82804360154546,
+          "radius": 163.99999999999997,
+          "longitude": 25.254199844874222,
+          "expectedLongitude": 25.254199844874222,
+          "error": 0
+        },
+        {
+          "id": "Saturn",
+          "x": 142.45604648632067,
+          "y": 345.5620753618582,
+          "radius": 164,
+          "longitude": 40.39612413717839,
+          "expectedLongitude": 40.39612413717839,
+          "error": 0
+        },
+        {
+          "id": "Uranus",
+          "x": 242.45883604102414,
+          "y": 146.42586659776896,
+          "radius": 164,
+          "longitude": 314.8061046271607,
+          "expectedLongitude": 314.8061046271607,
+          "error": 0
+        },
+        {
+          "id": "Neptune",
+          "x": 274.544617008775,
+          "y": 137.98758233774163,
+          "radius": 163.99999999999997,
+          "longitude": 303.1954420594734,
+          "expectedLongitude": 303.1954420594734,
+          "error": 0
+        },
+        {
+          "id": "Pluto",
+          "x": 411.45230885372933,
+          "y": 179.69047065517657,
+          "radius": 164.00000000000003,
+          "longitude": 251.45473515991364,
+          "expectedLongitude": 251.45473515991364,
+          "error": 0
+        }
+      ],
+      "aspects": [
+        {
+          "index": 0,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.0004885608080800199
+        },
+        {
+          "index": 1,
+          "type": "trine",
+          "mappedType": true,
+          "error": 0.0003345821291519172
+        },
+        {
+          "index": 2,
+          "type": "opposition",
+          "mappedType": true,
+          "error": 0.0004885608080800199
+        },
+        {
+          "index": 3,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.0004885608080800199
+        },
+        {
+          "index": 4,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.00046076753492262605
+        },
+        {
+          "index": 5,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.00021723484002332438
+        },
+        {
+          "index": 6,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.0005666780748478006
+        },
+        {
+          "index": 7,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.00038790115038011094
+        },
+        {
+          "index": 8,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.000211373368731477
+        },
+        {
+          "index": 9,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.0005629448652913742
+        }
+      ],
+      "aspectCount": 10,
+      "sampleErrors": [],
+      "houseLabels": 12,
+      "angleLabels": 4,
+      "range": null,
+      "text": {
+        "labels": [
+          {
+            "id": "Sun",
+            "x": 339.0931554959269,
+            "y": 105.89764248373675,
+            "radius": 197.99999999999997,
+            "angle": 258.61269254614,
+            "box": {
+              "left": 212.06619262695312,
+              "right": 227.19119262695312,
+              "top": 370.65301513671875,
+              "bottom": 390.65301513671875
+            },
+            "text": "日"
+          },
+          {
+            "id": "Moon",
+            "x": 487.14759996444775,
+            "y": 235.34881418297857,
+            "radius": 197.99999999999997,
+            "angle": 199.05775832047334,
+            "box": {
+              "left": 305.3404846191406,
+              "right": 320.4654846191406,
+              "top": 452.207275390625,
+              "bottom": 472.207275390625
+            },
+            "text": "月"
+          },
+          {
+            "id": "Mercury",
+            "x": 383.32530397334153,
+            "y": 120.38682198193183,
+            "radius": 198.00000000000003,
+            "angle": 245.11269254614012,
+            "box": {
+              "left": 239.93246459960938,
+              "right": 255.93246459960938,
+              "top": 379.78118896484375,
+              "bottom": 399.78118896484375
+            },
+            "text": "水"
+          },
+          {
+            "id": "Venus",
+            "x": 461.207210818548,
+            "y": 185.03811422865303,
+            "radius": 198,
+            "angle": 215.4938512431371,
+            "box": {
+              "left": 287.998046875,
+              "right": 304.998046875,
+              "top": 420.5115051269531,
+              "bottom": 440.5115051269531
+            },
+            "text": "金"
+          },
+          {
+            "id": "Mars",
+            "x": 187.69303581862061,
+            "y": 136.93208225907105,
+            "radius": 198.00000000000003,
+            "angle": 304.5556824478449,
+            "box": {
+              "left": 115.68412017822266,
+              "right": 132.68411254882812,
+              "top": 390.2047119140625,
+              "bottom": 410.2047119140625
+            },
+            "text": "火"
+          },
+          {
+            "id": "Jupiter",
+            "x": 102.02944096151637,
+            "y": 303.4143453238171,
+            "radius": 197.99999999999997,
+            "angle": 0.9880670378734635,
+            "box": {
+              "left": 61.71604919433594,
+              "right": 78.71604919433594,
+              "top": 495.0885314941406,
+              "bottom": 515.0885009765625
+            },
+            "text": "木"
+          },
+          {
+            "id": "Saturn",
+            "x": 109.79449514811887,
+            "y": 355.007871473463,
+            "radius": 198,
+            "angle": 16.12999133017769,
+            "box": {
+              "left": 67.6080322265625,
+              "right": 88.36054229736328,
+              "top": 527.5924682617188,
+              "bottom": 547.782470703125
+            },
+            "text": "土"
+          },
+          {
+            "id": "Uranus",
+            "x": 228.86353556910348,
+            "y": 115.22012168996378,
+            "radius": 198,
+            "angle": 291.0556824478449,
+            "box": {
+              "left": 141.6215362548828,
+              "right": 158.6215362548828,
+              "top": 376.52618408203125,
+              "bottom": 396.52618408203125
+            },
+            "text": "天"
+          },
+          {
+            "id": "Neptune",
+            "x": 273.96504766929326,
+            "y": 103.71912661408439,
+            "radius": 198,
+            "angle": 277.5556824478449,
+            "box": {
+              "left": 170.03550720214844,
+              "right": 187.03550720214844,
+              "top": 369.2805480957031,
+              "bottom": 389.2805480957031
+            },
+            "text": "海"
+          },
+          {
+            "id": "Pluto",
+            "x": 429.9157234977099,
+            "y": 150.58144429801703,
+            "radius": 198,
+            "angle": 228.9938512431371,
+            "box": {
+              "left": 269.2843933105469,
+              "right": 284.4093933105469,
+              "top": 398.8038330078125,
+              "bottom": 418.8038330078125
+            },
+            "text": "冥"
+          }
+        ],
+        "overlaps": [],
+        "gaps": [
+          15.141924292304225,
+          182.9277669902956,
+          16.43609292266376,
+          13.5,
+          16.118841303003023,
+          13.499999999999886,
+          18.94298990170489,
+          13.5,
+          13.5,
+          56.43238459002856
+        ],
+        "actualOrder": [
+          "Jupiter",
+          "Saturn",
+          "Moon",
+          "Venus",
+          "Pluto",
+          "Mercury",
+          "Sun",
+          "Neptune",
+          "Uranus",
+          "Mars"
+        ],
+        "expectedOrder": [
+          "Jupiter",
+          "Saturn",
+          "Moon",
+          "Venus",
+          "Pluto",
+          "Mercury",
+          "Sun",
+          "Neptune",
+          "Uranus",
+          "Mars"
+        ],
+        "lang": "zh",
+        "signs": [
+          {
+            "index": 0,
+            "letters": [
+              "白",
+              "羊"
+            ],
+            "name": "白羊座",
+            "glyph": ""
+          },
+          {
+            "index": 1,
+            "letters": [
+              "金",
+              "牛"
+            ],
+            "name": "金牛座",
+            "glyph": ""
+          },
+          {
+            "index": 2,
+            "letters": [
+              "双",
+              "子"
+            ],
+            "name": "双子座",
+            "glyph": ""
+          },
+          {
+            "index": 3,
+            "letters": [
+              "巨",
+              "蟹"
+            ],
+            "name": "巨蟹座",
+            "glyph": ""
+          },
+          {
+            "index": 4,
+            "letters": [
+              "狮",
+              "子"
+            ],
+            "name": "狮子座",
+            "glyph": ""
+          },
+          {
+            "index": 5,
+            "letters": [
+              "处",
+              "女"
+            ],
+            "name": "处女座",
+            "glyph": ""
+          },
+          {
+            "index": 6,
+            "letters": [
+              "天",
+              "秤"
+            ],
+            "name": "天秤座",
+            "glyph": ""
+          },
+          {
+            "index": 7,
+            "letters": [
+              "天",
+              "蝎"
+            ],
+            "name": "天蝎座",
+            "glyph": ""
+          },
+          {
+            "index": 8,
+            "letters": [
+              "射",
+              "手"
+            ],
+            "name": "射手座",
+            "glyph": ""
+          },
+          {
+            "index": 9,
+            "letters": [
+              "摩",
+              "羯"
+            ],
+            "name": "摩羯座",
+            "glyph": ""
+          },
+          {
+            "index": 10,
+            "letters": [
+              "水",
+              "瓶"
+            ],
+            "name": "水瓶座",
+            "glyph": ""
+          },
+          {
+            "index": 11,
+            "letters": [
+              "双",
+              "鱼"
+            ],
+            "name": "双鱼座",
+            "glyph": ""
+          }
+        ]
+      }
+    },
+    "date-range": {
+      "mode": "date-range",
+      "flag": "radial-v2",
+      "gridKind": "zodiac-reference",
+      "referenceValues": [
+        {
+          "value": 0,
+          "text": "0°"
+        },
+        {
+          "value": 30,
+          "text": "30°"
+        },
+        {
+          "value": 60,
+          "text": "60°"
+        },
+        {
+          "value": 90,
+          "text": "90°"
+        },
+        {
+          "value": 120,
+          "text": "120°"
+        },
+        {
+          "value": 150,
+          "text": "150°"
+        },
+        {
+          "value": 180,
+          "text": "180°"
+        },
+        {
+          "value": 210,
+          "text": "210°"
+        },
+        {
+          "value": 240,
+          "text": "240°"
+        },
+        {
+          "value": 270,
+          "text": "270°"
+        },
+        {
+          "value": 300,
+          "text": "300°"
+        },
+        {
+          "value": 330,
+          "text": "330°"
+        }
+      ],
+      "primaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "secondaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "primary": 360,
+      "secondary": 360,
+      "referenceRays": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 56,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 0
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 88.69,
+          "y2": 422,
+          "radius": 243.99982807370992,
+          "longitude": 30.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 178,
+          "y2": 511.31,
+          "radius": 243.99982807370992,
+          "longitude": 59.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 544,
+          "radius": 244,
+          "longitude": 90
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 422,
+          "y2": 511.31,
+          "radius": 243.99982807370992,
+          "longitude": 120.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 511.31,
+          "y2": 422,
+          "radius": 243.99982807370992,
+          "longitude": 149.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 544,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 180
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 511.31,
+          "y2": 178,
+          "radius": 243.99982807370992,
+          "longitude": 210.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 422,
+          "y2": 88.69,
+          "radius": 243.99982807370992,
+          "longitude": 239.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 56,
+          "radius": 244,
+          "longitude": 270
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 178,
+          "y2": 88.69,
+          "radius": 243.99982807370992,
+          "longitude": 300.0000233085269
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 88.69,
+          "y2": 178,
+          "radius": 243.99982807370992,
+          "longitude": 329.9999766914731
+        }
+      ],
+      "referenceAxes": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 56,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 0
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 544,
+          "radius": 244,
+          "longitude": 90
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 544,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 180
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 56,
+          "radius": 244,
+          "longitude": 270
+        }
+      ],
+      "houses": [],
+      "axes": [],
+      "anchors": [],
+      "aspects": [],
+      "aspectCount": 0,
+      "sampleErrors": [
+        {
+          "body": "Sun",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 1,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 4,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 5,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 6,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 12,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 14,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 16,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 17,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 20,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 21,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 22,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Sun",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Sun",
+          "constantRadius": true
+        },
+        {
+          "body": "Moon",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 1,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 4,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 6,
+          "error": 5.684341886080802e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 14,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 16,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 20,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 21,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 22,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Moon",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Moon",
+          "constantRadius": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 0,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 1,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 2,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 4,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 6,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 8,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 13,
+          "error": 5.684341886080802e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 14,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 16,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 20,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 21,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 22,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mercury",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Mercury",
+          "constantRadius": true
+        },
+        {
+          "body": "Venus",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 1,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 2,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 4,
+          "error": 4.0194366942304644e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 6,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 10,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 11,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 14,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 15,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 16,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 20,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 21,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 22,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Venus",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Venus",
+          "constantRadius": true
+        },
+        {
+          "body": "Mars",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 1,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 2,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 3,
+          "error": 2.2198064686752604e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 4,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 5,
+          "error": 1.6077746776921858e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 6,
+          "error": 4.099037227506403e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 7,
+          "error": 1.4210854715202004e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 8,
+          "error": 3.4693117685644956e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 9,
+          "error": 3.2155493553843715e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 10,
+          "error": 3.0212691549237007e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 11,
+          "error": 3.0212691549237007e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 12,
+          "error": 5.684341886080801e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 13,
+          "error": 7.105427357601002e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 14,
+          "error": 6.659419406025781e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 15,
+          "error": 8.700014782910993e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 16,
+          "error": 9.866059234417311e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 17,
+          "error": 1.1899840851275667e-12,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 18,
+          "error": 1.1899840851275667e-12,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 19,
+          "error": 1.2518464442078563e-12,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 20,
+          "error": 1.048140854583481e-12,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 21,
+          "error": 8.700014782910993e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 22,
+          "error": 9.498975809417745e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 23,
+          "error": 8.700014782910993e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Mars",
+          "hour": 24,
+          "error": 7.279509460923746e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Mars",
+          "constantRadius": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 1,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 4,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 5,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 6,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 7,
+          "error": 6.355287432313019e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 12,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 13,
+          "error": 5.684341886080802e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 14,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 15,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 16,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 18,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 20,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 21,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 22,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 23,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Jupiter",
+          "hour": 24,
+          "error": 5.684341886080802e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Jupiter",
+          "constantRadius": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 1,
+          "error": 5.684341886080802e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 2,
+          "error": 2.411662016538279e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 3,
+          "error": 1.2710574864626038e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 4,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 6,
+          "error": 2.0495186137532014e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 7,
+          "error": 1.2710574864626038e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 8,
+          "error": 2.0495186137532014e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 10,
+          "error": 2.411662016538279e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 11,
+          "error": 1.2710574864626038e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 12,
+          "error": 2.411662016538279e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 13,
+          "error": 1.6077746776921858e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 14,
+          "error": 2.8421709430404007e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 15,
+          "error": 1.6077746776921858e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 16,
+          "error": 1.6077746776921858e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 19,
+          "error": 1.6077746776921858e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 20,
+          "error": 3.639754730461873e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 21,
+          "error": 3.639754730461873e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 22,
+          "error": 5.240704272917405e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 23,
+          "error": 5.684341886080801e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Saturn",
+          "hour": 24,
+          "error": 4.889855783314162e-13,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Saturn",
+          "constantRadius": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 1,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 3,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 4,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 5,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 6,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 7,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 8,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 10,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 14,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 16,
+          "error": 4.0194366942304644e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 20,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 21,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 22,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Uranus",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Uranus",
+          "constantRadius": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 1,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 4,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 6,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 9,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 11,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 14,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 16,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 20,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 21,
+          "error": 4.0194366942304644e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 22,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Neptune",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Neptune",
+          "constantRadius": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 0,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 1,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 2,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 3,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 4,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 5,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 6,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 7,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 8,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 9,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 10,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 11,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 12,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 13,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 14,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 15,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 16,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 17,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 18,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 19,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 20,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 21,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 22,
+          "error": 2.842170943040401e-14,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 23,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "body": "Pluto",
+          "hour": 24,
+          "error": 0,
+          "utcMatches": true,
+          "longitudeMatches": true
+        },
+        {
+          "lane": "Pluto",
+          "constantRadius": true
+        }
+      ],
+      "houseLabels": 0,
+      "angleLabels": 0,
+      "range": "date-range",
+      "text": {
+        "labels": [
+          {
+            "id": "Sun",
+            "x": 279.15971065330655,
+            "y": 103.09981630291429,
+            "radius": 198.00000000000003,
+            "angle": 276.0418000071543,
+            "box": {
+              "left": 174.30810546875,
+              "right": 189.43310546875,
+              "top": 414.421630859375,
+              "bottom": 434.421630859375
+            },
+            "text": "日"
+          },
+          {
+            "id": "Moon",
+            "x": 493.94147775615147,
+            "y": 339.883620770439,
+            "radius": 197.99999999999997,
+            "angle": 168.37926396246314,
+            "box": {
+              "left": 309.6206359863281,
+              "right": 324.7456359863281,
+              "top": 563.595458984375,
+              "bottom": 583.595458984375
+            },
+            "text": "月"
+          },
+          {
+            "id": "Mercury",
+            "x": 370.8219790215713,
+            "y": 115.09935833678642,
+            "radius": 197.99999999999997,
+            "angle": 249.04180000715428,
+            "box": {
+              "left": 232.05535888671875,
+              "right": 248.05535888671875,
+              "top": 421.9813537597656,
+              "bottom": 441.9813537597656
+            },
+            "text": "水"
+          },
+          {
+            "id": "Venus",
+            "x": 196.82086257422418,
+            "y": 131.00868187959222,
+            "radius": 198,
+            "angle": 301.4065197312658,
+            "box": {
+              "left": 121.43464660644531,
+              "right": 138.4346466064453,
+              "top": 432.00421142578125,
+              "bottom": 452.00421142578125
+            },
+            "text": "金"
+          },
+          {
+            "id": "Mars",
+            "x": 146.59128077143893,
+            "y": 425.1789313928367,
+            "radius": 198.00000000000003,
+            "angle": 39.21386591098366,
+            "box": {
+              "left": 89.79000091552734,
+              "right": 106.79000091552734,
+              "top": 617.3314819335938,
+              "bottom": 637.3314819335938
+            },
+            "text": "火"
+          },
+          {
+            "id": "Jupiter",
+            "x": 447.7831729620347,
+            "y": 168.22696106838347,
+            "radius": 197.99999999999997,
+            "angle": 221.72226134988364,
+            "box": {
+              "left": 279.5408935546875,
+              "right": 296.5408935546875,
+              "top": 455.45172119140625,
+              "bottom": 475.45172119140625
+            },
+            "text": "木"
+          },
+          {
+            "id": "Saturn",
+            "x": 428.53326546028046,
+            "y": 450.6094275605517,
+            "radius": 198,
+            "angle": 130.47814167252722,
+            "box": {
+              "left": 268.4134521484375,
+              "right": 283.5384521484375,
+              "top": 633.3526611328125,
+              "bottom": 653.3526611328125
+            },
+            "text": "土"
+          },
+          {
+            "id": "Uranus",
+            "x": 117.19476185687171,
+            "y": 223.93262915392597,
+            "radius": 197.99999999999997,
+            "angle": 337.4072412669519,
+            "box": {
+              "left": 71.27020263671875,
+              "right": 88.27021026611328,
+              "top": 490.54632568359375,
+              "bottom": 510.54632568359375
+            },
+            "text": "天"
+          },
+          {
+            "id": "Neptune",
+            "x": 158.30428365216974,
+            "y": 161.70204640460065,
+            "radius": 198,
+            "angle": 315.69525825426535,
+            "box": {
+              "left": 97.16920471191406,
+              "right": 114.1692123413086,
+              "top": 451.3410339355469,
+              "bottom": 471.3410339355469
+            },
+            "text": "海"
+          },
+          {
+            "id": "Pluto",
+            "x": 325.700964533352,
+            "y": 103.67511512277568,
+            "radius": 198.00000000000003,
+            "angle": 262.5418000071543,
+            "box": {
+              "left": 203.6291046142578,
+              "right": 218.7541046142578,
+              "top": 414.7840576171875,
+              "bottom": 434.7840576171875
+            },
+            "text": "冥"
+          }
+        ],
+        "overlaps": [],
+        "gaps": [
+          91.26427576154356,
+          37.90112228993593,
+          53.342997387420496,
+          27.31953865727064,
+          13.5,
+          13.5,
+          25.364719724111524,
+          14.288738522999552,
+          21.711983012686574,
+          61.80662464403173
+        ],
+        "actualOrder": [
+          "Mars",
+          "Saturn",
+          "Moon",
+          "Jupiter",
+          "Mercury",
+          "Pluto",
+          "Sun",
+          "Venus",
+          "Neptune",
+          "Uranus"
+        ],
+        "expectedOrder": [
+          "Mars",
+          "Saturn",
+          "Moon",
+          "Jupiter",
+          "Mercury",
+          "Pluto",
+          "Sun",
+          "Venus",
+          "Neptune",
+          "Uranus"
+        ],
+        "lang": "zh",
+        "signs": [
+          {
+            "index": 0,
+            "letters": [
+              "白",
+              "羊"
+            ],
+            "name": "白羊座",
+            "glyph": ""
+          },
+          {
+            "index": 1,
+            "letters": [
+              "金",
+              "牛"
+            ],
+            "name": "金牛座",
+            "glyph": ""
+          },
+          {
+            "index": 2,
+            "letters": [
+              "双",
+              "子"
+            ],
+            "name": "双子座",
+            "glyph": ""
+          },
+          {
+            "index": 3,
+            "letters": [
+              "巨",
+              "蟹"
+            ],
+            "name": "巨蟹座",
+            "glyph": ""
+          },
+          {
+            "index": 4,
+            "letters": [
+              "狮",
+              "子"
+            ],
+            "name": "狮子座",
+            "glyph": ""
+          },
+          {
+            "index": 5,
+            "letters": [
+              "处",
+              "女"
+            ],
+            "name": "处女座",
+            "glyph": ""
+          },
+          {
+            "index": 6,
+            "letters": [
+              "天",
+              "秤"
+            ],
+            "name": "天秤座",
+            "glyph": ""
+          },
+          {
+            "index": 7,
+            "letters": [
+              "天",
+              "蝎"
+            ],
+            "name": "天蝎座",
+            "glyph": ""
+          },
+          {
+            "index": 8,
+            "letters": [
+              "射",
+              "手"
+            ],
+            "name": "射手座",
+            "glyph": ""
+          },
+          {
+            "index": 9,
+            "letters": [
+              "摩",
+              "羯"
+            ],
+            "name": "摩羯座",
+            "glyph": ""
+          },
+          {
+            "index": 10,
+            "letters": [
+              "水",
+              "瓶"
+            ],
+            "name": "水瓶座",
+            "glyph": ""
+          },
+          {
+            "index": 11,
+            "letters": [
+              "双",
+              "鱼"
+            ],
+            "name": "双鱼座",
+            "glyph": ""
+          }
+        ]
+      }
+    },
+    "geocentric": {
+      "mode": "geocentric",
+      "flag": "radial-v2",
+      "gridKind": "zodiac-reference",
+      "referenceValues": [
+        {
+          "value": 0,
+          "text": "0°"
+        },
+        {
+          "value": 30,
+          "text": "30°"
+        },
+        {
+          "value": 60,
+          "text": "60°"
+        },
+        {
+          "value": 90,
+          "text": "90°"
+        },
+        {
+          "value": 120,
+          "text": "120°"
+        },
+        {
+          "value": 150,
+          "text": "150°"
+        },
+        {
+          "value": 180,
+          "text": "180°"
+        },
+        {
+          "value": 210,
+          "text": "210°"
+        },
+        {
+          "value": 240,
+          "text": "240°"
+        },
+        {
+          "value": 270,
+          "text": "270°"
+        },
+        {
+          "value": 300,
+          "text": "300°"
+        },
+        {
+          "value": 330,
+          "text": "330°"
+        }
+      ],
+      "primaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "secondaryDegrees": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359
+      ],
+      "primary": 360,
+      "secondary": 360,
+      "referenceRays": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 56,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 0
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 88.69,
+          "y2": 422,
+          "radius": 243.99982807370992,
+          "longitude": 30.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 178,
+          "y2": 511.31,
+          "radius": 243.99982807370992,
+          "longitude": 59.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 544,
+          "radius": 244,
+          "longitude": 90
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 422,
+          "y2": 511.31,
+          "radius": 243.99982807370992,
+          "longitude": 120.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 511.31,
+          "y2": 422,
+          "radius": 243.99982807370992,
+          "longitude": 149.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 544,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 180
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 511.31,
+          "y2": 178,
+          "radius": 243.99982807370992,
+          "longitude": 210.00002330852692
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 422,
+          "y2": 88.69,
+          "radius": 243.99982807370992,
+          "longitude": 239.99997669147308
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 56,
+          "radius": 244,
+          "longitude": 270
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 178,
+          "y2": 88.69,
+          "radius": 243.99982807370992,
+          "longitude": 300.0000233085269
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 88.69,
+          "y2": 178,
+          "radius": 243.99982807370992,
+          "longitude": 329.9999766914731
+        }
+      ],
+      "referenceAxes": [
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 56,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 0
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 544,
+          "radius": 244,
+          "longitude": 90
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 544,
+          "y2": 300,
+          "radius": 244,
+          "longitude": 180
+        },
+        {
+          "x1": 300,
+          "y1": 300,
+          "x2": 300,
+          "y2": 56,
+          "radius": 244,
+          "longitude": 270
+        }
+      ],
+      "houses": [],
+      "axes": [],
+      "anchors": [
+        {
+          "id": "Sun",
+          "x": 296.3527283627103,
+          "y": 136.04056169404635,
+          "radius": 164,
+          "longitude": 271.2743323264099,
+          "expectedLongitude": 271.2743323264099,
+          "error": 0
+        },
+        {
+          "id": "Moon",
+          "x": 462.6477577360122,
+          "y": 321.01682429501386,
+          "radius": 163.99999999999997,
+          "longitude": 172.63722004369254,
+          "expectedLongitude": 172.63722004369254,
+          "error": 0
+        },
+        {
+          "id": "Mercury",
+          "x": 348.85085108642875,
+          "y": 143.4445965540264,
+          "radius": 164,
+          "longitude": 252.67022217543672,
+          "expectedLongitude": 252.67022217543672,
+          "error": 0
+        },
+        {
+          "id": "Venus",
+          "x": 214.48367921407845,
+          "y": 160.06087438018145,
+          "radius": 163.99999999999997,
+          "longitude": 301.4289593381309,
+          "expectedLongitude": 301.4289593381309,
+          "error": 0
+        },
+        {
+          "id": "Mars",
+          "x": 173.03391117240938,
+          "y": 403.8056467049089,
+          "radius": 163.99999999999997,
+          "longitude": 39.268938447567564,
+          "expectedLongitude": 39.268938447567564,
+          "error": 0
+        },
+        {
+          "id": "Jupiter",
+          "x": 422.2858528894478,
+          "y": 190.71976307172315,
+          "radius": 164,
+          "longitude": 221.78543229172067,
+          "expectedLongitude": 221.78543229172067,
+          "error": 0
+        },
+        {
+          "id": "Saturn",
+          "x": 406.4202787957496,
+          "y": 424.78270818120166,
+          "radius": 164.00000000000003,
+          "longitude": 130.459029518639,
+          "expectedLongitude": 130.459029518639,
+          "error": 0
+        },
+        {
+          "id": "Uranus",
+          "x": 148.57362297531415,
+          "y": 237.02339846278068,
+          "radius": 164,
+          "longitude": 337.41809933167906,
+          "expectedLongitude": 337.41809933167906,
+          "error": 0
+        },
+        {
+          "id": "Neptune",
+          "x": 182.61501370720495,
+          "y": 185.47155378230124,
+          "radius": 164,
+          "longitude": 315.70569182794145,
+          "expectedLongitude": 315.70569182794145,
+          "error": 0
+        },
+        {
+          "id": "Pluto",
+          "x": 315.5539286472321,
+          "y": 136.73924138471972,
+          "radius": 164,
+          "longitude": 264.5578299052613,
+          "expectedLongitude": 264.5578299052613,
+          "error": 0
+        }
+      ],
+      "aspects": [
+        {
+          "index": 0,
+          "type": "conjunction",
+          "mappedType": true,
+          "error": 0.0005156538821352884
+        },
+        {
+          "index": 1,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.00029927258804980796
+        },
+        {
+          "index": 2,
+          "type": "trine",
+          "mappedType": true,
+          "error": 0.000430051049666999
+        },
+        {
+          "index": 3,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.0005485619393794457
+        },
+        {
+          "index": 4,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.00044642818253245407
+        },
+        {
+          "index": 5,
+          "type": "opposition",
+          "mappedType": true,
+          "error": 0.0003642907660669208
+        },
+        {
+          "index": 6,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.00040359048683014727
+        },
+        {
+          "index": 7,
+          "type": "sextile",
+          "mappedType": true,
+          "error": 0.0005485619393794457
+        },
+        {
+          "index": 8,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.00040359048683014727
+        },
+        {
+          "index": 9,
+          "type": "trine",
+          "mappedType": true,
+          "error": 0.0005485619393794457
+        },
+        {
+          "index": 10,
+          "type": "square",
+          "mappedType": true,
+          "error": 0.00044642818253245407
+        },
+        {
+          "index": 11,
+          "type": "opposition",
+          "mappedType": true,
+          "error": 0.00044642818253245407
+        }
+      ],
+      "aspectCount": 12,
+      "sampleErrors": [],
+      "houseLabels": 0,
+      "angleLabels": 0,
+      "range": null,
+      "text": {
+        "labels": [
+          {
+            "id": "Sun",
+            "x": 278.1553841299394,
+            "y": 103.20870761771621,
+            "radius": 198,
+            "angle": 276.3341281357026,
+            "box": {
+              "left": 173.67539978027344,
+              "right": 188.80039978027344,
+              "top": 385.693359375,
+              "bottom": 405.693359375
+            },
+            "text": "日"
+          },
+          {
+            "id": "Moon",
+            "x": 496.36741482762443,
+            "y": 325.3739707951997,
+            "radius": 197.99999999999997,
+            "angle": 172.63722004369254,
+            "box": {
+              "left": 311.1489562988281,
+              "right": 326.2739562988281,
+              "top": 525.657470703125,
+              "bottom": 545.657470703125
+            },
+            "text": "月"
+          },
+          {
+            "id": "Mercury",
+            "x": 369.87768191441154,
+            "y": 114.74042650845729,
+            "radius": 197.99999999999997,
+            "angle": 249.3341281357026,
+            "box": {
+              "left": 231.46044921875,
+              "right": 247.46043395996094,
+              "top": 392.9583435058594,
+              "bottom": 412.9583435058594
+            },
+            "text": "水"
+          },
+          {
+            "id": "Venus",
+            "x": 196.75468588041178,
+            "y": 131.0491044346093,
+            "radius": 198,
+            "angle": 301.4289593381309,
+            "box": {
+              "left": 121.3929672241211,
+              "right": 138.39297485351562,
+              "top": 403.2328186035156,
+              "bottom": 423.2328186035156
+            },
+            "text": "金"
+          },
+          {
+            "id": "Mars",
+            "x": 146.711673244738,
+            "y": 425.32632955836544,
+            "radius": 197.99999999999997,
+            "angle": 39.26893844756751,
+            "box": {
+              "left": 89.86585998535156,
+              "right": 106.86585998535156,
+              "top": 588.62744140625,
+              "bottom": 608.62744140625
+            },
+            "text": "火"
+          },
+          {
+            "id": "Jupiter",
+            "x": 447.6377980006748,
+            "y": 168.06410419634867,
+            "radius": 198,
+            "angle": 221.78543229172067,
+            "box": {
+              "left": 279.4493103027344,
+              "right": 296.4493103027344,
+              "top": 426.55224609375,
+              "bottom": 446.55224609375
+            },
+            "text": "木"
+          },
+          {
+            "id": "Saturn",
+            "x": 428.48301952169766,
+            "y": 450.65229402364594,
+            "radius": 198,
+            "angle": 130.459029518639,
+            "box": {
+              "left": 268.3818054199219,
+              "right": 289.1343078613281,
+              "top": 604.5828247070312,
+              "bottom": 624.7728271484375
+            },
+            "text": "土"
+          },
+          {
+            "id": "Uranus",
+            "x": 117.18034968970855,
+            "y": 223.96727375384495,
+            "radius": 198,
+            "angle": 337.41809933167906,
+            "box": {
+              "left": 71.26112365722656,
+              "right": 88.26112365722656,
+              "top": 461.771240234375,
+              "bottom": 481.771240234375
+            },
+            "text": "天"
+          },
+          {
+            "id": "Neptune",
+            "x": 158.27910191479623,
+            "y": 161.72785151765638,
+            "radius": 198,
+            "angle": 315.70569182794145,
+            "box": {
+              "left": 97.15332794189453,
+              "right": 114.15332794189453,
+              "top": 422.5604248046875,
+              "bottom": 442.5604248046875
+            },
+            "text": "海"
+          },
+          {
+            "id": "Pluto",
+            "x": 324.6989674591676,
+            "y": 103.54654239120407,
+            "radius": 198,
+            "angle": 262.8341281357026,
+            "box": {
+              "left": 202.9978485107422,
+              "right": 218.1228485107422,
+              "top": 385.90618896484375,
+              "bottom": 405.90618896484375
+            },
+            "text": "冥"
+          }
+        ],
+        "overlaps": [],
+        "gaps": [
+          91.19009107107149,
+          42.17819052505354,
+          49.14821224802813,
+          27.548695843981932,
+          13.5,
+          13.5,
+          25.09483120242828,
+          14.27673248981057,
+          21.71240750373761,
+          61.85083911588845
+        ],
+        "actualOrder": [
+          "Mars",
+          "Saturn",
+          "Moon",
+          "Jupiter",
+          "Mercury",
+          "Pluto",
+          "Sun",
+          "Venus",
+          "Neptune",
+          "Uranus"
+        ],
+        "expectedOrder": [
+          "Mars",
+          "Saturn",
+          "Moon",
+          "Jupiter",
+          "Mercury",
+          "Pluto",
+          "Sun",
+          "Venus",
+          "Neptune",
+          "Uranus"
+        ],
+        "lang": "zh",
+        "signs": [
+          {
+            "index": 0,
+            "letters": [
+              "白",
+              "羊"
+            ],
+            "name": "白羊座",
+            "glyph": ""
+          },
+          {
+            "index": 1,
+            "letters": [
+              "金",
+              "牛"
+            ],
+            "name": "金牛座",
+            "glyph": ""
+          },
+          {
+            "index": 2,
+            "letters": [
+              "双",
+              "子"
+            ],
+            "name": "双子座",
+            "glyph": ""
+          },
+          {
+            "index": 3,
+            "letters": [
+              "巨",
+              "蟹"
+            ],
+            "name": "巨蟹座",
+            "glyph": ""
+          },
+          {
+            "index": 4,
+            "letters": [
+              "狮",
+              "子"
+            ],
+            "name": "狮子座",
+            "glyph": ""
+          },
+          {
+            "index": 5,
+            "letters": [
+              "处",
+              "女"
+            ],
+            "name": "处女座",
+            "glyph": ""
+          },
+          {
+            "index": 6,
+            "letters": [
+              "天",
+              "秤"
+            ],
+            "name": "天秤座",
+            "glyph": ""
+          },
+          {
+            "index": 7,
+            "letters": [
+              "天",
+              "蝎"
+            ],
+            "name": "天蝎座",
+            "glyph": ""
+          },
+          {
+            "index": 8,
+            "letters": [
+              "射",
+              "手"
+            ],
+            "name": "射手座",
+            "glyph": ""
+          },
+          {
+            "index": 9,
+            "letters": [
+              "摩",
+              "羯"
+            ],
+            "name": "摩羯座",
+            "glyph": ""
+          },
+          {
+            "index": 10,
+            "letters": [
+              "水",
+              "瓶"
+            ],
+            "name": "水瓶座",
+            "glyph": ""
+          },
+          {
+            "index": 11,
+            "letters": [
+              "双",
+              "鱼"
+            ],
+            "name": "双鱼座",
+            "glyph": ""
+          }
+        ]
+      }
+    }
+  },
+  "dayColors": {
+    "ziwei": "rgb(132, 151, 168)",
+    "bazi": {
+      "rule": "#d7dade",
+      "accent": "#225f6b",
+      "elements": [
+        {
+          "element": "wood",
+          "color": "rgb(36, 131, 92)",
+          "contrast": 4.69161059874223
+        },
+        {
+          "element": "fire",
+          "color": "rgb(186, 88, 25)",
+          "contrast": 4.669003757372409
+        },
+        {
+          "element": "earth",
+          "color": "rgb(107, 114, 128)",
+          "contrast": 4.834490081424352
+        },
+        {
+          "element": "metal",
+          "color": "rgb(155, 113, 0)",
+          "contrast": 4.415694875543438
+        },
+        {
+          "element": "water",
+          "color": "rgb(80, 97, 199)",
+          "contrast": 5.418408744454093
+        }
+      ]
+    },
+    "western": [
+      {
+        "type": "conjunction",
+        "color": "112,53,181",
+        "expectedOuter": "112,53,181",
+        "expectedInner": "196,162,238",
+        "lineContrast": 7.328744769566513,
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "texts": [
+          {
+            "text": "合相",
+            "color": "rgb(23, 43, 58)",
+            "contrast": 14.552206551498765
+          },
+          {
+            "text": "0° · 0",
+            "color": "rgb(82, 101, 120)",
+            "contrast": 6.014687851809166
+          }
+        ]
+      },
+      {
+        "type": "sextile",
+        "color": "8,115,77",
+        "expectedOuter": "8,115,77",
+        "expectedInner": "114,205,185",
+        "lineContrast": 5.882711059046533,
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "texts": [
+          {
+            "text": "六合",
+            "color": "rgb(23, 43, 58)",
+            "contrast": 14.552206551498765
+          },
+          {
+            "text": "60° · 5",
+            "color": "rgb(82, 101, 120)",
+            "contrast": 6.014687851809166
+          }
+        ]
+      },
+      {
+        "type": "square",
+        "color": "154,82,9",
+        "expectedOuter": "154,82,9",
+        "expectedInner": "229,176,110",
+        "lineContrast": 5.857958087176091,
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "texts": [
+          {
+            "text": "四分相",
+            "color": "rgb(23, 43, 58)",
+            "contrast": 14.552206551498765
+          },
+          {
+            "text": "90° · 3",
+            "color": "rgb(82, 101, 120)",
+            "contrast": 6.014687851809166
+          }
+        ]
+      },
+      {
+        "type": "trine",
+        "color": "34,88,182",
+        "expectedOuter": "34,88,182",
+        "expectedInner": "130,168,224",
+        "lineContrast": 6.689207268238868,
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "texts": [
+          {
+            "text": "三分相",
+            "color": "rgb(23, 43, 58)",
+            "contrast": 14.552206551498765
+          },
+          {
+            "text": "120° · 1",
+            "color": "rgb(82, 101, 120)",
+            "contrast": 6.014687851809166
+          }
+        ]
+      },
+      {
+        "type": "opposition",
+        "color": "183,44,75",
+        "expectedOuter": "183,44,75",
+        "expectedInner": "241,137,150",
+        "lineContrast": 6.042593829699554,
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "texts": [
+          {
+            "text": "对分相",
+            "color": "rgb(23, 43, 58)",
+            "contrast": 14.552206551498765
+          },
+          {
+            "text": "180° · 1",
+            "color": "rgb(82, 101, 120)",
+            "contrast": 6.014687851809166
+          }
+        ]
+      }
+    ],
+    "house": {
+      "stroke": "rgb(101, 125, 152)",
+      "width": 1.1,
+      "contrast": 3.479102265213652
+    },
+    "westernPalette": {
+      "viewBox": "0 0 600 600",
+      "base": {
+        "rgba": [
+          3,
+          9,
+          19,
+          255
+        ],
+        "luminance": 0.0026175049530399266
+      },
+      "inner": {
+        "rgba": [
+          9,
+          20,
+          35,
+          255
+        ],
+        "luminance": 0.006797378425613019
+      },
+      "rules": [
+        "conjunction",
+        "sextile",
+        "square",
+        "trine",
+        "opposition"
+      ],
+      "legend": [
+        {
+          "type": "conjunction",
+          "color": "112,53,181",
+          "expectedOuter": "112,53,181",
+          "expectedInner": "196,162,238",
+          "lineContrast": 7.328744769566513,
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "texts": [
+            {
+              "text": "合相",
+              "color": "rgb(23, 43, 58)",
+              "contrast": 14.552206551498765
+            },
+            {
+              "text": "0° · 0",
+              "color": "rgb(82, 101, 120)",
+              "contrast": 6.014687851809166
+            }
+          ]
+        },
+        {
+          "type": "sextile",
+          "color": "8,115,77",
+          "expectedOuter": "8,115,77",
+          "expectedInner": "114,205,185",
+          "lineContrast": 5.882711059046533,
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "texts": [
+            {
+              "text": "六合",
+              "color": "rgb(23, 43, 58)",
+              "contrast": 14.552206551498765
+            },
+            {
+              "text": "60° · 5",
+              "color": "rgb(82, 101, 120)",
+              "contrast": 6.014687851809166
+            }
+          ]
+        },
+        {
+          "type": "square",
+          "color": "154,82,9",
+          "expectedOuter": "154,82,9",
+          "expectedInner": "229,176,110",
+          "lineContrast": 5.857958087176091,
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "texts": [
+            {
+              "text": "四分相",
+              "color": "rgb(23, 43, 58)",
+              "contrast": 14.552206551498765
+            },
+            {
+              "text": "90° · 3",
+              "color": "rgb(82, 101, 120)",
+              "contrast": 6.014687851809166
+            }
+          ]
+        },
+        {
+          "type": "trine",
+          "color": "34,88,182",
+          "expectedOuter": "34,88,182",
+          "expectedInner": "130,168,224",
+          "lineContrast": 6.689207268238868,
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "texts": [
+            {
+              "text": "三分相",
+              "color": "rgb(23, 43, 58)",
+              "contrast": 14.552206551498765
+            },
+            {
+              "text": "120° · 1",
+              "color": "rgb(82, 101, 120)",
+              "contrast": 6.014687851809166
+            }
+          ]
+        },
+        {
+          "type": "opposition",
+          "color": "183,44,75",
+          "expectedOuter": "183,44,75",
+          "expectedInner": "241,137,150",
+          "lineContrast": 6.042593829699554,
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "texts": [
+            {
+              "text": "对分相",
+              "color": "rgb(23, 43, 58)",
+              "contrast": 14.552206551498765
+            },
+            {
+              "text": "180° · 1",
+              "color": "rgb(82, 101, 120)",
+              "contrast": 6.014687851809166
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "type": "sextile",
+          "actualType": "sextile",
+          "stroke": "114,205,185",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 8.124382340684784
+        },
+        {
+          "type": "trine",
+          "actualType": "trine",
+          "stroke": "130,168,224",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 6.356835068629611
+        },
+        {
+          "type": "opposition",
+          "actualType": "opposition",
+          "stroke": "241,137,150",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 6.42061528205405
+        },
+        {
+          "type": "square",
+          "actualType": "square",
+          "stroke": "229,176,110",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 7.837542381096537
+        },
+        {
+          "type": "sextile",
+          "actualType": "sextile",
+          "stroke": "114,205,185",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 8.124382340684784
+        },
+        {
+          "type": "square",
+          "actualType": "square",
+          "stroke": "229,176,110",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 7.837542381096537
+        },
+        {
+          "type": "sextile",
+          "actualType": "sextile",
+          "stroke": "114,205,185",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 8.124382340684784
+        },
+        {
+          "type": "sextile",
+          "actualType": "sextile",
+          "stroke": "114,205,185",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 8.124382340684784
+        },
+        {
+          "type": "square",
+          "actualType": "square",
+          "stroke": "229,176,110",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 7.837542381096537
+        },
+        {
+          "type": "sextile",
+          "actualType": "sextile",
+          "stroke": "114,205,185",
+          "width": 1.6,
+          "opacity": 0.9,
+          "contrast": 8.124382340684784
+        }
+      ],
+      "aspectCount": 10,
+      "house": {
+        "stroke": "rgb(101, 125, 152)",
+        "width": 1.1,
+        "contrast": 3.479102265213652
+      },
+      "text": [
+        {
+          "class": "lcw-sign lcw-element-0",
+          "text": "白羊座白羊",
+          "fill": "rgb(255, 154, 159)",
+          "contrast": 9.858773358588255
+        },
+        {
+          "class": "lcw-sign lcw-element-1",
+          "text": "金牛座金牛",
+          "fill": "rgb(141, 218, 167)",
+          "contrast": 12.08638608726418
+        },
+        {
+          "class": "lcw-sign lcw-element-2",
+          "text": "双子座双子",
+          "fill": "rgb(255, 220, 139)",
+          "contrast": 15.073021692134668
+        },
+        {
+          "class": "lcw-sign lcw-element-3",
+          "text": "巨蟹座巨蟹",
+          "fill": "rgb(142, 189, 255)",
+          "contrast": 10.332298187267373
+        },
+        {
+          "class": "lcw-sign lcw-element-0",
+          "text": "狮子座狮子",
+          "fill": "rgb(255, 154, 159)",
+          "contrast": 9.858773358588255
+        },
+        {
+          "class": "lcw-sign lcw-element-1",
+          "text": "处女座处女",
+          "fill": "rgb(141, 218, 167)",
+          "contrast": 12.08638608726418
+        },
+        {
+          "class": "lcw-sign lcw-element-2",
+          "text": "天秤座天秤",
+          "fill": "rgb(255, 220, 139)",
+          "contrast": 15.073021692134668
+        },
+        {
+          "class": "lcw-sign lcw-element-3",
+          "text": "天蝎座天蝎",
+          "fill": "rgb(142, 189, 255)",
+          "contrast": 10.332298187267373
+        },
+        {
+          "class": "lcw-sign lcw-element-0",
+          "text": "射手座射手",
+          "fill": "rgb(255, 154, 159)",
+          "contrast": 9.858773358588255
+        },
+        {
+          "class": "lcw-sign lcw-element-1",
+          "text": "摩羯座摩羯",
+          "fill": "rgb(141, 218, 167)",
+          "contrast": 12.08638608726418
+        },
+        {
+          "class": "lcw-sign lcw-element-2",
+          "text": "水瓶座水瓶",
+          "fill": "rgb(255, 220, 139)",
+          "contrast": 15.073021692134668
+        },
+        {
+          "class": "lcw-sign lcw-element-3",
+          "text": "双鱼座双鱼",
+          "fill": "rgb(142, 189, 255)",
+          "contrast": 10.332298187267373
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "1",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "2",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "3",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "4",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "5",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "6",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "7",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "8",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "9",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "10",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "11",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": "lcw-house-label",
+          "text": "12",
+          "fill": "rgb(189, 208, 232)",
+          "contrast": 11.753493633628706
+        },
+        {
+          "class": null,
+          "text": "日",
+          "fill": "rgb(244, 130, 135)",
+          "contrast": 7.385486961162071
+        },
+        {
+          "class": null,
+          "text": "月",
+          "fill": "rgb(127, 184, 255)",
+          "contrast": 8.9815774622072
+        },
+        {
+          "class": null,
+          "text": "水",
+          "fill": "rgb(119, 211, 158)",
+          "contrast": 10.208057717861113
+        },
+        {
+          "class": null,
+          "text": "金",
+          "fill": "rgb(226, 198, 120)",
+          "contrast": 11.076740789334261
+        },
+        {
+          "class": null,
+          "text": "火",
+          "fill": "rgb(244, 130, 135)",
+          "contrast": 7.385486961162071
+        },
+        {
+          "class": null,
+          "text": "木",
+          "fill": "rgb(242, 139, 133)",
+          "contrast": 7.753163887308468
+        },
+        {
+          "class": null,
+          "text": "土",
+          "fill": "rgb(217, 181, 101)",
+          "contrast": 9.461536344047436
+        },
+        {
+          "class": null,
+          "text": "天",
+          "fill": "rgb(119, 211, 183)",
+          "contrast": 10.375367421352562
+        },
+        {
+          "class": null,
+          "text": "海",
+          "fill": "rgb(131, 168, 245)",
+          "contrast": 7.821334641987734
+        },
+        {
+          "class": null,
+          "text": "冥",
+          "fill": "rgb(131, 180, 245)",
+          "contrast": 8.637790066118919
+        },
+        {
+          "class": "lcw-axis-label",
+          "text": "ASC升",
+          "fill": "rgb(211, 223, 239)",
+          "contrast": 13.707715659812951
+        },
+        {
+          "class": "lcw-axis-label",
+          "text": "DSC降",
+          "fill": "rgb(211, 223, 239)",
+          "contrast": 13.707715659812951
+        },
+        {
+          "class": "lcw-axis-label",
+          "text": "MC顶",
+          "fill": "rgb(211, 223, 239)",
+          "contrast": 13.707715659812951
+        },
+        {
+          "class": "lcw-axis-label",
+          "text": "IC底",
+          "fill": "rgb(211, 223, 239)",
+          "contrast": 13.707715659812951
+        }
+      ]
+    }
+  },
+  "fixtureContexts": [
+    {
+      "reason": "Independent Western profile intentionally persists; subsequent no-city cases use a separate real browser context",
+      "birthEnteredThroughActualForm": true,
+      "storageDeleted": false
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "pass": true
+}

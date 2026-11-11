@@ -1,0 +1,12 @@
+import {mkdir,copyFile,cp,writeFile,readFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=path.dirname(fileURLToPath(import.meta.url));
+const out=path.join(root,'.netlify/public'),edge=path.join(root,'.netlify/edge-source');
+await mkdir(out,{recursive:true}); await mkdir(edge,{recursive:true});
+for(const [source,dest] of [['experience.html','index.html'],['experience.html','experience.html'],['review.html','app.html'],['admin.html','admin.html'],['creator.html','creator.html']]) await copyFile(path.join(root,'generated',source),path.join(out,dest));
+await cp(path.join(root,'public/assets'),path.join(out,'assets'),{recursive:true});
+await copyFile(path.join(root,'worker/netlify-api.js'),path.join(edge,'api.js'));
+await writeFile(path.join(out,'robots.txt'),'User-agent: *\nDisallow: /\n');
+await writeFile(path.join(out,'404.html'),'<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>东方智慧</title><p>页面不存在。</p><a href="/">返回首页</a></html>');
+console.log('Netlify publish files ready: public pages, assets, and one API gateway.');

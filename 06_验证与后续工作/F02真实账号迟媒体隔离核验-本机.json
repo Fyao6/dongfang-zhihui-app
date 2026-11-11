@@ -1,0 +1,162 @@
+{
+  "latest": {
+    "at": "2026-11-06T10:24:48.822Z",
+    "module": "基础框架F02",
+    "base": "http://127.0.0.1:50863",
+    "productionWrites": false,
+    "scope": "Independent real built-version loopback A/B accounts. Browser-native closed-context InvalidStateError and play/pause AbortError are delayed by the test harness. Local generated PCM stays in browser and is never uploaded.",
+    "pass": true,
+    "passed": 4,
+    "failed": 0,
+    "results": [
+      {
+        "name": "真实A的closed AudioContext.resume迟拒绝不能覆盖B的新音景",
+        "pass": true,
+        "observed": {
+          "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "error": "",
+          "playing": true,
+          "sameContext": true,
+          "contextState": "running",
+          "oldError": "InvalidStateError"
+        }
+      },
+      {
+        "name": "真实A原生open play/AbortError迟拒绝不污染B媒体",
+        "pass": true,
+        "observed": {
+          "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "error": "",
+          "sameAudio": true,
+          "paused": false,
+          "oldError": "AbortError",
+          "oldNodes": 1
+        }
+      },
+      {
+        "name": "真实A原生toggle play/AbortError迟拒绝不污染B媒体",
+        "pass": true,
+        "observed": {
+          "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+          "error": "",
+          "sameAudio": true,
+          "paused": false,
+          "oldError": "AbortError",
+          "oldNodes": 1
+        }
+      },
+      {
+        "name": "媒体独立核验无浏览器运行错误且起止构建一致",
+        "pass": true,
+        "observed": {
+          "pageErrors": 0
+        }
+      }
+    ],
+    "errors": [],
+    "captures": [],
+    "sourceHashes": {
+      "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+      "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+      "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+      "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+      "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+      "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-06T10:24:48.822Z",
+      "module": "基础框架F02",
+      "base": "http://127.0.0.1:50863",
+      "productionWrites": false,
+      "scope": "Independent real built-version loopback A/B accounts. Browser-native closed-context InvalidStateError and play/pause AbortError are delayed by the test harness. Local generated PCM stays in browser and is never uploaded.",
+      "pass": true,
+      "passed": 4,
+      "failed": 0,
+      "results": [
+        {
+          "name": "真实A的closed AudioContext.resume迟拒绝不能覆盖B的新音景",
+          "pass": true,
+          "observed": {
+            "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "error": "",
+            "playing": true,
+            "sameContext": true,
+            "contextState": "running",
+            "oldError": "InvalidStateError"
+          }
+        },
+        {
+          "name": "真实A原生open play/AbortError迟拒绝不污染B媒体",
+          "pass": true,
+          "observed": {
+            "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "error": "",
+            "sameAudio": true,
+            "paused": false,
+            "oldError": "AbortError",
+            "oldNodes": 1
+          }
+        },
+        {
+          "name": "真实A原生toggle play/AbortError迟拒绝不污染B媒体",
+          "pass": true,
+          "observed": {
+            "actor": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "scope": "60f84126-0f00-48f7-a2ff-ddaa0ce29b74",
+            "error": "",
+            "sameAudio": true,
+            "paused": false,
+            "oldError": "AbortError",
+            "oldNodes": 1
+          }
+        },
+        {
+          "name": "媒体独立核验无浏览器运行错误且起止构建一致",
+          "pass": true,
+          "observed": {
+            "pageErrors": 0
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "sourceHashes": {
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+        "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+      }
+    }
+  ]
+}

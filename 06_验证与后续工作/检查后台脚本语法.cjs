@@ -1,0 +1,1 @@
+const fs=require('fs'),path=require('path');const p=path.resolve(process.argv[2]);const html=fs.readFileSync(p,'utf8');new Function(html.match(/<script>([\s\S]*)<\/script>/)[1]);console.log('Admin JavaScript syntax passed');

@@ -1,0 +1,81 @@
+/* Shorten measured long pages; keep existing short home/map screens unchanged. */
+.lc-page .px-top{padding-top:12px;padding-bottom:12px}
+.lc-page .px-top p{display:none}
+.lc-page .lc-profile-context{padding:8px 0;gap:8px}
+.lc-page .lc-profile-context>div{gap:1px}
+.lc-page .lc-profile-context:not(.is-archive) small{display:none}
+.lc-page .lc-profile-context strong{font-size:17px;line-height:1.5}
+.lc-page .lc-workspace{margin-bottom:12px}
+.lc-page .lc-tool-nav button{padding-bottom:7px;min-height:44px}
+.lc-page .lc-tool-nav small{display:none}
+.lc-page .lc-tool-nav button span{font-size:13px}
+.lc-page .lc-result{margin-top:10px}
+.lcz-toolbar{margin:10px 0 6px}.lcz-toolbar h2{font-size:23px;margin:0}
+.lcz-toolbar>div>small{display:none}.lcz-legend{padding:6px 0 9px}
+.lcz-grid{grid-template-rows:repeat(4,minmax(120px,auto))}
+.lcz-grid .lcz-palace{min-height:120px;padding-top:8px;gap:4px}
+.lcz-scroll:not(.is-zoomed) .lcz-palace-stars .lcz-star:not(.lcz-star-major),.lcz-scroll:not(.is-zoomed) .lcz-palace-other{display:none}
+.lcz-palace-counts{display:block;font-size:9px;line-height:1.7;color:var(--muted);margin-top:auto}
+.lcz-scroll.is-zoomed .lcz-palace-counts{display:none}
+.lcz-grid .lcz-center{gap:4px;padding:10px 7px}
+.lcz-grid .lcz-center h3{font-size:18px;line-height:1.5}
+.lcz-grid .lcz-center>span:not(.eyebrow){font-size:10px;line-height:1.7}
+.lcz-grid .lcz-center>small{font-size:9px;line-height:1.7}
+.lcz-grid .lcz-center dl{margin:2px 0;padding:5px 0}
+.lcz-grid .lcz-center strong{font-size:15px}
+.lcz-grid .lcz-center>.eyebrow{display:none}
+.lcz-focus{margin:10px 0;padding-top:0}
+.lcz-focus>summary{cursor:pointer;min-height:48px;list-style:none;margin:0;padding:8px 0}
+.lcz-focus>summary::-webkit-details-marker{display:none}
+.lcz-focus .lcz-focus-title h3{font-size:18px;margin:0}
+.lcz-focus .lcz-focus-title small{font-size:10px}
+.lc-page .lc-result-actions{margin:12px 0;gap:7px;padding-top:10px}
+.lc-page .fl-guide-details{margin-top:8px;margin-bottom:8px}
+body[data-mode=day] .lcz-workspace{--atlas-lu:#047857;--atlas-quan:#b45309;--atlas-ke:#6d28d9;--atlas-ji:#be123c}
+body[data-mode=day] .lcz-scroll{border-color:#64748b;background:#64748b}
+body[data-mode=day] .lcz-grid{background:#64748b}
+body[data-mode=day] .lcz-palace-foot,body[data-mode=day] .lcz-center dl{border-color:#94a3b8}
+body[data-mode=day] .lcz-grid .lcz-palace.is-selected{box-shadow:inset 0 3px #7c3aed}
+.ew-learning-page .ew-learning-intro{margin-top:10px;margin-bottom:12px;padding-top:8px;padding-bottom:8px}
+body[data-theme=xuanliu] .ew-learning-page .ew-learning-intro h2{font-size:24px;line-height:1.45}
+.ew-learning-page .academy-search{margin:12px 0}
+.ew-learning-page .academy-filters{gap:8px;padding-bottom:10px}
+.ew-learning-page .academy-category-strip{margin:10px 0}
+.ew-learning-page .academy-catalog{gap:9px}
+.ew-learning-page .academy-course{padding-top:9px;padding-bottom:9px}
+.ew-learning-page .academy-course-content>b{margin-bottom:4px}
+.ew-learning-page .academy-course-content>small{margin-bottom:6px}
+.academy-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0 4px}
+.academy-pagination button{min-height:44px;padding:8px 12px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:7px;font-size:12px;line-height:1.8}
+.academy-pagination>span{font-size:11px;color:var(--muted);text-align:center;line-height:1.8}
+.academy-pagination button:disabled{opacity:.45}
+.fl-profile .profile-summary{margin-top:10px;margin-bottom:10px;padding-top:8px;padding-bottom:8px}
+body[data-theme=xuanliu] .fl-profile .fl-profile-list .fl-row{min-height:56px;padding-top:10px;padding-bottom:10px}
+.fl-profile-quick .fl-card{min-height:76px}
+@media(min-width:700px){.lcz-grid .lcz-palace{min-height:135px}.lcz-grid .lcz-center{padding:12px}.lcz-grid .lcz-center h3{font-size:22px}}
+html[lang=bo] .lc-page .lc-tool-nav button span{font-size:13px;line-height:1.95}
+html[lang=bo] .lcz-focus>summary,html[lang=bo] .academy-pagination button{line-height:1.95}
+
+/* Shared disclosure affordances. Compact table markers and inline video copy
+   deliberately stay outside these block-summary selectors. */
+:root{--ew-disclosure-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)>summary,body .page>details>summary,body .academy-chapters>details>summary{--ew-disclosure-angle:0deg;display:flex;align-items:center;gap:10px;box-sizing:border-box;min-height:44px;padding:10px 0;list-style:none;cursor:pointer;font:500 14px/1.5 var(--sans);color:var(--ink);overflow-wrap:anywhere}
+body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)>summary::-webkit-details-marker,body .page>details>summary::-webkit-details-marker,body .academy-chapters>details>summary::-webkit-details-marker{display:none}
+body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)>summary::marker,body .page>details>summary::marker,body .academy-chapters>details>summary::marker{content:''}
+body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)>summary::after,body .page>details>summary::after,body .academy-chapters>details>summary::after{content:'';display:block;flex:0 0 16px;width:16px;height:16px;margin-left:auto;background:currentColor;-webkit-mask:var(--ew-disclosure-mask) center/16px 16px no-repeat;mask:var(--ew-disclosure-mask) center/16px 16px no-repeat;opacity:.85;transform:rotate(var(--ew-disclosure-angle));transition:transform .14s ease}
+body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)[open]>summary,body .page>details[open]>summary,body .academy-chapters>details[open]>summary{--ew-disclosure-angle:180deg}
+body .fl-guide-row>summary>b,body .academy-chapters>details>summary>b{font:inherit;min-width:0}
+body .fl-guide-row>summary>.icon:last-child{display:none}
+body .profile-preferences>summary>.icon{width:18px;height:18px;flex:none}
+body[data-page=classicsWisdom] .lcb-page .lcb-board-options{align-items:stretch;gap:8px;padding:2px 0;min-height:0}
+body[data-page=classicsWisdom] .lcb-page .lcb-board-options button{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:1;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--lcb-rule);border-radius:7px;background:var(--soft);color:var(--ink);font:500 14px/1.5 var(--sans);text-align:left}
+.ew-disclosure-label{min-width:0;overflow-wrap:anywhere}.ew-disclosure-icon{width:16px;height:16px;flex:0 0 16px;stroke-width:1.8;transition:transform .14s ease}
+[aria-expanded=true]>.ew-disclosure-icon,[aria-pressed=true]>.ew-disclosure-icon{transform:rotate(180deg)}
+body[data-page=classicsWisdom] .lcb-page .lcb-tools-trigger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:0 0 48px;min-width:48px;min-height:44px;padding:4px;border:1px solid var(--lcb-rule);border-radius:7px;background:var(--soft);color:var(--ink);font:500 14px/1.2 var(--sans)}
+body[data-page=classicsWisdom] .lcb-page .lcb-tools-trigger>.ew-more-icon{display:block;width:18px;height:18px;stroke-width:2.5}
+body[data-page=classicsWisdom] .lcb-page .lcb-tools-trigger>small{font:500 14px/1.2 var(--sans);color:var(--ink);overflow-wrap:anywhere}
+html[lang=bo] body :is(.page,.lcb-tools-panel) :is(details.fl-guide-details,details.fl-guide-row,details.academy-references,details.mind4-sources,details.profile-preferences,details.lc-editor,details.lcb-extra,details.lcb-birth-detail,details.lcb-natal-details,details.lcb-annotation-rules,details.lcb-month-detail,details.lcb-comparison,details.lcw-table-section,details.lcw-house-table,details.lcw-aspect-table,details.lcw-birth-date-reference,details.lcw-range-data,details.lcz-focus)>summary,html[lang=bo] body .page>details>summary{line-height:1.9}
+html[lang=bo] body[data-page=classicsWisdom] .lcb-page .lcb-tools-trigger{flex-basis:64px;min-width:64px}
+html[lang=bo] body[data-page=classicsWisdom] .lcb-page .lcb-tools-trigger>small{line-height:1.7}
+@media(prefers-reduced-motion:reduce){.ew-disclosure-icon,body summary::after{transition:none}}
+

@@ -1,0 +1,21 @@
+{
+  "at": "2026-11-05T11:00:26.815Z",
+  "pass": true,
+  "checks": [
+    "完播首报未达阈值可重试，watch参数/时间/素材时长上界和counted契约双端一致",
+    "服务端本人收藏唯一真源与跨账号隔离，普通用户可查，匿名401",
+    "收藏排除草稿、撤回、下架课程及停用创作者，不返回审核/登录字段",
+    "收藏增删幂等，隐藏内容自动不再出现在列表",
+    "公开teacherId仅映射已发布、real且verified的本创作者老师资料",
+    "公开展示名/简介/头像同步老师与视频作者，清除失效翻译回退同源",
+    "PATCH不改登录username/name和平台verified/recommended/profileType/特长",
+    "Python真实HTTP与Cloud Request+SQLite关键响应逐字段一致"
+  ],
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+    "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+    "04_研发源码/app/cloud/lib/creator-api.ts": "a8a2e5133e65fd4947237019b6ae793c37c6f0833b912a01cb0c4d7389d2600c",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525"
+  },
+  "scope": "Isolated synthetic fixtures; no production changes."
+}

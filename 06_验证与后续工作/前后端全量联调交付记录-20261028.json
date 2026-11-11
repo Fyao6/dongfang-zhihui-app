@@ -1,0 +1,33 @@
+{
+  "atBeijing": "2026-10-28T14:37:48.909390+08:00",
+  "status": "本机主要业务接口已核对，修复发布契约差异，49组全量及联调通过",
+  "report": "05_后台与研发说明\\后台架构规划与前后端联调报告.pdf",
+  "reportPages": 10,
+  "reportSha256": "38b155b74015b136875a76c91573e5f96854ea2be15be6fefbbd1f07209063cb",
+  "visualReview": "10页全部渲染检查，无空白续页、裁切或表格溢出",
+  "passed": 49,
+  "failed": 0,
+  "backendUnitChecks": 5,
+  "browserRequests": 174,
+  "browserMethodPathCombinations": 35,
+  "buildHashes": {
+    "东方智慧-首页体验R4.html": "9f1ed576a920e4c3a965bbcf8966232021dca8b2cc858d97d0217a2eaf672af8",
+    "发给负责人-东方智慧首页R4.html": "0d681819253a44a36bce768421a05a537f58fe63f9b27e4681e6b1d132aff6bf",
+    "计时后台-开发联调.html": "05daad0f4f54ecef416b4f0d7b2d57b9ea67724353f8beb2fcf15ddf6f45b183"
+  },
+  "fixes": [
+    "新增套餐与发布顺序",
+    "套餐及会员课程归档可见性",
+    "课程顺序",
+    "每日一句全量下架空状态",
+    "前台记录失败反馈"
+  ],
+  "testHarnessCorrection": "老师表单按钮为默认submit；将定位器改为实际按钮，使用Promise.all绑定响应等待，避免超时未处理。最终全量重跑通过。",
+  "remaining": [
+    "真实AI及设备、支付和公网部署未验收",
+    "浏览器本地档案尚无完整账号级隔离、访客迁移和跨设备读回",
+    "记录断网缺统一自动补传队列；已明确本机保存与未同步状态"
+  ],
+  "testDatabaseClean": true,
+  "productionDatabaseTestWrites": false
+}

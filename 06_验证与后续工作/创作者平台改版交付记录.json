@@ -1,0 +1,100 @@
+{
+  "creator_url": "https://eastern-wisdom-demo-fuyao.netlify.app/creator",
+  "admin_url": "https://eastern-wisdom-demo-fuyao.netlify.app/admin",
+  "netlify_deploy_id": "6aeaaa9d07bf883bd457c102",
+  "sites_project_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a",
+  "sites_version_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a~appgver_f787663b5e9c819187e0dcc04ec681d0",
+  "sites_deployment_id": "appgdep_6aeaaa7d01348191af8c1c9d34832212",
+  "commit_sha": "a5009a6e01a71823505685018642a28bc464def5",
+  "archive": "06_验证与后续工作/创作者平台改版部署.tar.gz",
+  "at": "2026-11-04T11:47:57.024912+08:00",
+  "status": "published_and_verified",
+  "public_deployment_pending": false,
+  "reference": "06_验证与后续工作/创作者平台参考拆解.json",
+  "scope": [
+    "整体登录与桌面导航重构",
+    "账号条、组合首页、审核动态与创作服务",
+    "封面作品列表与类型/状态/日期/排序/搜索",
+    "安全CSV导出与可交互指标趋势图",
+    "真实前一周期分析与每日指标",
+    "视频上传进度/预览与课程编辑"
+  ],
+  "local_full": {
+    "passed": 56,
+    "failed": 0,
+    "at": "2026-11-04T03:42:45.137Z",
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "30249d85bbafe60f9ac19e5b66477e68247c0ef84e8a12009a2fd66be1c10094",
+      "发给负责人-东方智慧首页R4.html": "0383f783f2898a6aacf995cca719755e357bedaa211d042067381ada125a659e",
+      "计时后台-开发联调.html": "a4904909912757cc2c3928cf15f78efc9e694559264c05c9763bc3ae07228983"
+    }
+  },
+  "cloud_full": {
+    "passed": 56,
+    "failed": 0,
+    "at": "2026-11-04T03:42:03.912Z",
+    "buildHashes": {
+      "generated/experience.html": "09c1306921bba71874e484d022cdf0e2efd2b9358435543252e872169f6b27b6",
+      "generated/admin.html": "5b73ed0174ee8b4cd2a39558564e67407ad662f83ba016e70bbb381b75b69770",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "94b48e1aaa5bb909ad00c2c84740eb769c903cdb5ce7f5ff797ca319c873e749",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "c0f0c0587209bc9aff9c0471b684edd7529796c7f77ded1c4679b1e5db3ee7ad"
+    }
+  },
+  "specialized": {
+    "创作者数据分析改版核验": {
+      "pass": true,
+      "at": "2026-11-04T03:29:24.772Z",
+      "checks": 5,
+      "scope": "Actual local/cloud analytics SQL with fixed-clock seeded SQLite fixtures; no production activity or model calls",
+      "errors": []
+    },
+    "创作者平台改版界面核验": {
+      "pass": true,
+      "at": "2026-11-04T03:42:19.729Z",
+      "checks": 12,
+      "scope": "Isolated fixtures and actual local Python service/browser; no production data",
+      "errors": []
+    },
+    "创作者平台改版云端界面核验": {
+      "pass": true,
+      "at": "2026-11-04T03:44:03.053Z",
+      "checks": 12,
+      "scope": "Isolated fixtures and actual local Cloudflare Worker service/browser; no production data",
+      "errors": []
+    }
+  },
+  "public": {
+    "at": "2026-11-04T03:47:20.165Z",
+    "pass": true,
+    "base": "https://eastern-wisdom-demo-fuyao.netlify.app",
+    "checks": [
+      "五个正式入口与接口无代理直连200",
+      "公网创作者页面移除Netlify注入的托管注释后，与最终本地文件SHA256一致",
+      "匿名访问不能读取创作者数据及公司管理接口",
+      "原管理员登录及创作者、审核、知识库接口可用且无密钥返回",
+      "公司后台三个新增页面真实浏览器加载",
+      "创作者独立登录页桌面和手机可用",
+      "APP我的页已出现创作者中心入口"
+    ],
+    "errors": [],
+    "ai": {
+      "enabled": false,
+      "autoApprove": false,
+      "aiReady": false,
+      "rulesConfigured": false,
+      "knowledgeConfigured": false
+    },
+    "scope": "Actual public browser and API verification, only existing admin login and read operations; no creator accounts/content changed"
+  },
+  "creator_source_sha256": "67dedfba51d2d86b3985a3f7eeb2df0ce564d3dc2f114e6cff34ae5488a5b062",
+  "visual_approval": "实现仍待用户视觉评价",
+  "limits": [
+    "AI模型/知识库当前未配置，仍由人工审核",
+    "图片与音视频自动识别审核尚未接入",
+    "无同类作者或外部平台基准、无收益结算数据",
+    "历史未采集数据不补算，上一周期不足时不生成涨幅"
+  ],
+  "backup": "07_历史版本仅供追溯\\创作者平台重做前-20261104-112222.zip"
+}

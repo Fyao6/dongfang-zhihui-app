@@ -1,0 +1,132 @@
+/* Layout from the supplied functional-frame reference. Existing appearance remains user controlled. */
+body[data-theme=xuanliu] .page.fl-home,body[data-theme=xuanliu] .page.fl-map,body[data-theme=xuanliu] .page.fl-profile{padding-left:18px;padding-right:18px}
+.fl-hero,.fl-card,.fl-archive,.fl-today{color:var(--ink);text-align:left;min-width:0;border:1px solid var(--line);background:var(--card);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 3%,transparent);border-radius:14px}
+.fl-copy,.fl-row-copy{position:relative;z-index:1;display:flex;flex-direction:column;min-width:0;gap:5px}
+.fl-copy b{font:600 18px/1.4 var(--serif);letter-spacing:.025em;overflow-wrap:anywhere}
+.fl-copy small,.fl-row-copy small{color:var(--muted);font:400 11px/1.65 var(--sans);overflow-wrap:anywhere}
+.fl-symbol{position:relative;z-index:1;flex:none;display:grid;place-items:center;width:48px;height:48px;color:var(--cta);border-radius:50%;background:color-mix(in srgb,var(--cta) 8%,var(--card))}
+.fl-symbol .icon{width:28px;height:28px}
+body[data-theme=xuanliu] .fl-map .fl-hero,body[data-theme=xuanliu] .fl-map .fl-hero.px-map-hero{position:relative;display:flex;align-items:center;gap:15px;isolation:isolate;width:100%;height:auto;min-height:118px;padding:20px 16px;margin:0;border:1px solid var(--line);border-radius:14px;background:linear-gradient(115deg,var(--soft),var(--card));overflow:hidden}
+body[data-theme=xuanliu] .fl-map .fl-hero:before,body[data-theme=xuanliu] .fl-map .fl-hero:after{display:none}
+.fl-hero .fl-copy{flex:1}.fl-hero .fl-copy b{font-size:21px}.fl-hero .xl-canvas{opacity:.3}
+.fl-arrow,.fl-play{z-index:1;flex:none;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;color:var(--on-cta);background:var(--cta)}
+.fl-arrow .icon,.fl-play .icon{width:14px;height:14px}
+.fl-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.fl-card{width:100%;min-height:148px;padding:16px 14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:14px;background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--soft) 55%,var(--card)))}
+.fl-card .fl-symbol{width:42px;height:42px}.fl-card .fl-symbol .icon{width:25px;height:25px}
+.fl-card .fl-copy b{font-size:17px}.fl-card .fl-copy small{font-size:10px}
+.fl-archive{display:flex;align-items:center;gap:12px;padding:14px 12px;width:100%;min-height:77px;margin:12px 0}
+.fl-archive .fl-symbol{width:40px;height:40px;border-radius:10px}.fl-archive .fl-symbol .icon{width:25px;height:25px}
+.fl-archive .fl-copy{flex:1}.fl-archive .fl-copy b{font-size:17px}.fl-end-arrow{width:17px;height:17px;color:var(--cta);flex:none;margin-left:auto}
+body[data-theme=xuanliu] .fl-tabs.ew-map-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:9px 0 14px;padding:12px 0 0;border:0;border-top:1px solid var(--line);background:none;border-radius:0}
+body[data-theme=xuanliu] .fl-tabs.ew-map-flow button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;min-width:0;min-height:50px;padding:4px 2px;border:0;border-radius:0;background:none;text-align:center;color:var(--ink)}
+.fl-tabs .icon{width:21px;height:21px;color:var(--cta)}.fl-tabs span{font:500 11px/1.5 var(--sans);overflow-wrap:anywhere}
+body[data-theme=xuanliu] .fl-map .fl-tabs.ew-map-flow button .icon{position:static;width:21px;height:21px;color:var(--cta)}
+body[data-theme=xuanliu] .fl-map .fl-tabs.ew-map-flow button span{font:500 11px/1.5 var(--sans);color:var(--ink);white-space:normal;overflow-wrap:anywhere}
+.fl-map .px-top{align-items:flex-start;padding:16px 0 20px}.fl-map .px-top h1{font-size:28px;letter-spacing:.06em;line-height:1.4}.fl-map .px-top p{font-size:12px;line-height:1.7;margin-top:6px}
+.fl-map .px-top>.icon-btn:first-child{width:25px;padding:0;margin-top:7px}.fl-map .px-top>.icon-btn:last-child{width:30px;margin-top:4px}
+.fl-map .j-archive-line{font-size:10px;color:var(--muted);line-height:1.65;margin:10px 0}
+.fl-map .px-mini-row{border-radius:12px;padding:12px;margin-top:12px}.fl-map .px-mini-row p{font-size:10px}
+.fl-mind>.fl-hero+.fl-hero{margin-top:12px!important}.fl-mind .j-mind-actions{margin:10px 0}.fl-mind .j-mind-actions .btn{border-radius:999px;min-height:41px}
+.fl-stack{display:grid;grid-template-columns:1fr;gap:12px}.fl-archive-tools{display:flex;justify-content:space-between;gap:10px;margin:10px 0;font-size:11px}
+.fl-list{padding:4px 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.fl-list-row{display:flex;align-items:center;gap:10px;width:100%;min-height:66px;padding:12px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;text-align:left;color:var(--ink)}
+.fl-list-row:last-child{border-bottom:0}.fl-row-icon{display:grid;place-items:center;flex:none;width:34px;height:34px;border:1px solid color-mix(in srgb,var(--cta) 22%,var(--line));border-radius:9px;color:var(--cta)}
+.fl-row-icon .icon{width:21px;height:21px}.fl-row-copy{flex:1;gap:2px}.fl-row-copy b{font:600 15px/1.5 var(--serif);overflow-wrap:anywhere}
+.fl-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.fl-actions>button{min-width:0;white-space:normal}
+.fl-detail .card,.fl-detail .history-card,.fl-detail .px-quick-form,.fl-detail .j-recommend,.fl-detail .j-state-summary{border-radius:14px}
+.fl-detail .fl-list-row.history-card{display:flex;margin:0;border:0;border-bottom:1px solid var(--line);border-radius:0}.fl-detail .fl-list-row.history-card:last-child{border-bottom:0}
+.fl-detail .fl-list.px-practice-choices{display:block;margin:14px 0;padding:0 12px;gap:0}.fl-detail .fl-list.px-practice-choices>.fl-list-row{display:flex;min-height:68px;margin:0;padding:12px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}.fl-detail .fl-list.px-practice-choices>.fl-list-row:last-child{border-bottom:0}.fl-detail .fl-list.px-practice-choices .fl-row-copy{display:flex;flex-direction:column;align-items:flex-start;text-align:left}.fl-detail .fl-list.px-practice-choices>.fl-list-row>.icon{width:20px;height:20px;flex:none;color:var(--cta)}
+.fl-detail-card{padding:16px!important;margin:10px 0!important}.fl-detail-card>h2{font-size:20px;line-height:1.5}.fl-detail-card>.btn,.fl-detail-card>button.full,.fl-detail .full.mt24{border-radius:999px;white-space:normal;line-height:1.65;min-height:42px}
+.fl-guide-details{padding:12px;border:1px solid var(--line);border-radius:12px;font-size:12px;margin:12px 0}.fl-guide-details summary{cursor:pointer;font-weight:600;line-height:1.8}.fl-guide-details p{font-size:12px;line-height:1.9;padding:12px 0}.fl-guide-details a{font-size:11px;color:var(--cta)}
+.fl-course-intro{display:flex;align-items:center;gap:10px}.fl-course-intro>div{flex:1;min-width:0}.fl-course-intro h2{font-size:20px;line-height:1.5}.fl-course-intro p{font-size:11px;color:var(--muted);line-height:1.8;margin-top:4px}
+.fl-record-metrics>div{min-width:0;display:flex;flex-direction:column;gap:5px;background:var(--card);padding:10px;border:1px solid var(--line);border-radius:9px}.fl-record-metrics small{font-size:11px;color:var(--muted);line-height:1.8}.fl-record-metrics b{font-size:20px;font-weight:500;overflow-wrap:anywhere}
+.fl-mind-courses .fl-list .mind4-course{padding:16px 0;margin:0;border-radius:0;background:none;box-shadow:none;align-items:flex-start}.fl-mind-courses .mind4-course>div{flex:1;min-width:0}.fl-mind-courses .mind4-course h3{font-size:17px;line-height:1.5}.fl-mind-courses .mind4-course p{font-size:12px;line-height:1.9;color:var(--muted);margin-top:5px}.fl-mind-courses .mind4-course .eyebrow{font-size:10px}
+.fl-guide-row{border-bottom:1px solid var(--line)}.fl-guide-row:last-child{border-bottom:0}.fl-guide-row>summary{display:flex;align-items:center;gap:10px;min-height:64px;padding:12px 0;cursor:pointer;list-style:none}.fl-guide-row>summary::-webkit-details-marker{display:none}.fl-guide-row>summary>b{flex:1;min-width:0;font:600 15px/1.5 var(--serif)}.fl-guide-row>summary>.icon{width:17px;height:17px;flex:none}.fl-guide-row[open]>summary>.icon{transform:rotate(90deg)}.fl-guide-row>p{padding:0 0 14px;font-size:12px;line-height:1.8;color:var(--muted)}
+.fl-section-heading{margin:14px 0 8px}.fl-section-heading h2{font:600 17px/1.5 var(--serif);letter-spacing:.06em}
+body[data-theme=xuanliu] .fl-home .home-v4-header{padding:15px 0 12px}.fl-home .home-v4-header h1{font-size:26px!important}.fl-home .ew-brand-mark{display:none}
+body[data-theme=xuanliu] .fl-home .quote-banner-wrap{border-radius:13px;margin:0 0 10px}
+body[data-theme=xuanliu] .fl-home .quote-banner{height:155px;min-height:155px;padding:12px 12px 59px;border-radius:13px}
+body[data-theme=xuanliu] .fl-home .quote-banner-text{font-size:22px;line-height:1.5;max-width:94%;margin-top:7px}
+body[data-theme=xuanliu] .fl-home .quote-signature{left:12px;bottom:42px;font-size:9px;margin-top:4px}
+body[data-theme=xuanliu] .fl-home .quote-pagination{padding-left:12px}.fl-home .xl-scene-label{left:12px;font-size:6px}.fl-home .xl-practice-entry{right:9px;bottom:17px;font-size:9px;padding:6px 8px;min-height:29px}
+.fl-today{display:flex;align-items:center;gap:12px;width:100%;padding:10px;min-height:80px;border-radius:13px;margin-bottom:13px}
+.fl-today-symbol{display:grid;place-items:center;flex:none;width:53px;height:53px;border-radius:10px;background:var(--soft);color:var(--cta)}.fl-today-symbol .icon{width:29px;height:29px}
+.fl-today .fl-copy{flex:1;gap:4px}.fl-today .fl-copy b{font-size:15px}.fl-today .fl-copy small{font-size:10px}.fl-today .fl-play{width:25px;height:25px}
+body[data-theme=xuanliu] .fl-home .fl-home-maps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;gap:9px;height:auto;margin:0 0 12px}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map{height:auto;min-height:134px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;padding:13px 7px 10px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(150deg,var(--card),var(--soft));text-align:center;box-shadow:inset 0 1px 0 color-mix(in srgb,var(--card) 85%,transparent);overflow:hidden}
+body[data-theme=xuanliu] .fl-home .home-map:before,body[data-theme=xuanliu] .fl-home .home-map:after{display:none}
+body[data-theme=xuanliu] .fl-home .home-map .map-portrait{display:grid;place-items:center;position:static;width:34px;height:34px;margin:0;opacity:1;background:none;color:var(--cta)}
+body[data-theme=xuanliu] .fl-home .home-map .map-portrait .icon{width:30px;height:30px}
+body[data-theme=xuanliu] .fl-home .home-map-top{position:static;display:block;padding:0;color:var(--ink)}
+body[data-theme=xuanliu] .fl-home .home-map-index{font:600 16px/1.4 var(--serif);letter-spacing:.02em;white-space:normal;overflow-wrap:anywhere}
+body[data-theme=xuanliu] .fl-home .home-map-copy{position:static;display:block;margin:0;padding:0;width:auto}
+body[data-theme=xuanliu] .fl-home .home-map-copy small{display:block;font-size:9px;line-height:1.6;color:var(--muted);white-space:normal;overflow-wrap:anywhere}
+body[data-theme=xuanliu] .fl-home .home-draw-banner{border:1px solid var(--line);border-radius:12px;padding:10px;min-height:62px;margin:0;background:var(--card)}
+body[data-theme=xuanliu] .fl-home .home-shortcuts{border:0;padding-top:14px;min-height:66px}
+body[data-theme=xuanliu] .fl-profile .ew-main-header{padding:14px 0}.fl-profile .ew-personal-ledger{padding:8px 0 0!important}
+body[data-theme=xuanliu] .fl-profile .profile-person{margin:0;padding:0;gap:14px}.fl-profile .profile-avatar{width:65px;height:65px;flex-basis:65px;border-radius:50%}
+.fl-profile .profile-person-copy{min-width:0}.fl-profile .profile-name{font:600 24px/1.4 var(--serif)}.fl-profile .profile-person-copy p{margin-top:4px}
+body[data-theme=xuanliu] .fl-profile .profile-summary{margin:15px 0;padding:12px 0;border-top:0;border-bottom:1px solid var(--line)}
+.fl-profile .profile-summary strong{font-size:18px}.fl-profile .profile-summary span{font-size:10px}
+.fl-profile-quick{gap:10px}.fl-profile-quick .fl-card{min-height:83px;flex-direction:row;align-items:center;justify-content:flex-start;gap:9px;padding:12px 10px}
+.fl-profile-quick .fl-symbol{width:32px;height:32px}.fl-profile-quick .fl-symbol .icon{width:23px;height:23px}.fl-profile-quick .fl-copy b{font-size:15px}.fl-profile-quick .fl-copy small{font-size:9px}
+body[data-theme=xuanliu] .fl-profile .fl-profile-list{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:2px 13px;margin:12px 0}
+.fl-profile-list .fl-list-row{min-height:62px}.fl-profile .profile-preferences{margin-top:16px}.fl-profile .creator-entry{margin:12px 0;border-radius:12px}
+@media(max-width:360px){body[data-theme=xuanliu] .page.fl-home,body[data-theme=xuanliu] .page.fl-map,body[data-theme=xuanliu] .page.fl-profile{padding-left:14px;padding-right:14px}.fl-pair{gap:9px}.fl-card{padding:13px 11px}.fl-copy b{font-size:16px}.fl-profile-quick .fl-card{padding:10px 8px;gap:7px}.fl-profile-quick .fl-copy b{font-size:14px}.fl-map .px-top h1{font-size:26px}}
+html[lang=bo] .fl-copy b,html[lang=bo] .fl-row-copy b,html[lang=bo] .fl-home .home-map-index{font-family:var(--sans);line-height:1.9;font-size:15px}
+html[lang=bo] .fl-copy small,html[lang=bo] .fl-row-copy small,html[lang=bo] .fl-tabs span{line-height:2}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .map-portrait .icon{position:static;inset:auto;transform:none;margin:0;width:30px;height:30px}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .home-map-top{position:static;inset:auto;display:block;width:100%;height:auto;margin:0;transform:none}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .home-map-index{font:600 16px/1.4 var(--serif);letter-spacing:.02em;padding:0;color:var(--ink);background:none;max-width:100%;white-space:normal}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .home-map-copy{position:static;inset:auto;transform:none;flex:none;margin:0;width:100%;padding:0}
+body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .home-map-copy small{font:400 10px/1.65 var(--sans);color:var(--muted);white-space:normal}
+body[data-theme=xuanliu] .fl-profile .ew-personal-ledger{border:0;border-radius:0;background:none;box-shadow:none}body[data-theme=xuanliu] .fl-profile .profile-person{border:0}
+@media(max-height:780px){body[data-theme=xuanliu] .fl-home .home-v4-header{padding-top:9px;padding-bottom:8px}body[data-theme=xuanliu] .fl-home .quote-banner{height:125px;min-height:125px;padding-top:8px}body[data-theme=xuanliu] .fl-home .quote-banner-text{font-size:20px;line-height:1.4;margin-top:5px}body[data-theme=xuanliu] .fl-home .quote-banner-wrap{margin-bottom:5px}.fl-home .fl-section-heading{margin:7px 0 6px}.fl-home .fl-today{min-height:68px;padding:8px;margin-bottom:8px}.fl-home .fl-today-symbol{width:46px;height:46px}body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map{min-height:111px;padding:10px 6px 8px;gap:6px}body[data-theme=xuanliu] .fl-home .home-draw-banner{min-height:52px;padding:7px 9px}body[data-theme=xuanliu] .fl-home .mini-card-stack{width:32px;height:35px}body[data-theme=xuanliu] .fl-home .home-shortcuts{padding-top:7px;min-height:55px}}
+html[lang=bo] body[data-theme=xuanliu] .fl-home .fl-home-maps .home-map .home-map-index{font-family:var(--sans);font-size:14px;line-height:1.9}
+@media(prefers-reduced-motion:reduce){.fl-hero,.fl-card,.fl-archive,.fl-today{transition:none}}
+
+/* The three map entrance screens contain only the frames named in the supplied references. */
+body[data-theme=xuanliu] .fl-map-exact .fl-map-heading{padding:22px 6px 30px}
+body[data-theme=xuanliu] .fl-map-exact .fl-map-heading h1{font:600 34px/1.4 var(--serif);letter-spacing:.055em;color:var(--ink)}
+body[data-theme=xuanliu] .fl-map-exact .fl-map-heading p{font:400 13px/1.85 var(--sans);margin-top:10px;color:var(--muted);overflow-wrap:anywhere}
+body[data-theme=xuanliu] .fl-map-exact .fl-map-heading{position:relative;isolation:isolate}
+.fl-map-heading .xl-map-scene{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:0;contain:paint}
+.fl-map-heading .xl-map-scene .xl-canvas{opacity:.85}
+.fl-map-heading>h1,.fl-map-heading>p,.fl-map-heading>.ew-map-title-row{position:relative;z-index:1;text-shadow:0 1px 5px var(--bg)}
+body[data-theme=xuanliu] .ew-page-back{position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:none;width:auto;min-width:68px;min-height:44px;margin:0;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--ink);font:500 13px/1.5 var(--sans);text-shadow:none;white-space:nowrap}
+body[data-theme=xuanliu] .ew-page-back .icon{position:static;inset:auto;width:17px;height:17px;flex:none;color:var(--cta)}
+.ew-map-title-row{display:flex;align-items:center;gap:11px;min-width:0}.ew-map-title-row h1{flex:1;min-width:0;overflow-wrap:anywhere}
+.ew-page-back-row{position:relative;z-index:1;display:flex;align-items:center;margin:12px 0}
+body[data-theme=xuanliu] .page:not(.fl-map-exact)>:is(header,.page-head,.ew-page-back-row):has(.ew-page-back){position:sticky;top:0;z-index:8;background:var(--bg);border-bottom:1px solid var(--line)}
+.px-top:has(.ew-page-back),.page-head:has(.ew-page-back){gap:10px;align-items:center}.px-top:has(.ew-page-back)>div{min-width:0}.px-top:has(.ew-page-back) h1,.page-head:has(.ew-page-back) h1{overflow-wrap:anywhere}
+html[lang=bo] .ew-page-back{line-height:1.9;font-size:12px}
+body[data-theme=xuanliu] .fl-map-exact .fl-hero,body[data-theme=xuanliu] .fl-map-exact .fl-hero.px-map-hero{min-height:124px;border-radius:15px;padding:20px 16px;gap:16px}
+body[data-theme=xuanliu] .fl-map-exact .fl-hero .fl-copy b{font:600 24px/1.45 var(--serif);letter-spacing:.02em}
+body[data-theme=xuanliu] .fl-map-exact .fl-hero .fl-copy small{font-size:12px;line-height:1.8}
+body[data-theme=xuanliu] .fl-map-exact .fl-pair{gap:14px;margin:15px 0}
+body[data-theme=xuanliu] .fl-map-exact .fl-pair .fl-card{min-height:163px;padding:18px 13px;border-radius:15px;gap:16px}
+body[data-theme=xuanliu] .fl-map-exact .fl-card .fl-copy b{font:600 22px/1.4 var(--serif);letter-spacing:.025em}
+body[data-theme=xuanliu] .fl-map-exact .fl-card .fl-copy small{font-size:11px;line-height:1.85}
+body[data-theme=xuanliu] .fl-map-exact .fl-archive{min-height:85px;border-radius:15px;padding:15px 12px;margin:17px 0 0;gap:12px}
+body[data-theme=xuanliu] .fl-map-exact .fl-archive .fl-copy b{font:600 19px/1.5 var(--serif);letter-spacing:.015em}
+body[data-theme=xuanliu] .fl-map-exact .fl-archive .fl-copy small{font-size:11px;line-height:1.8}
+body[data-theme=xuanliu] .fl-map-exact.fl-mind .fl-stack{gap:17px}
+body[data-theme=xuanliu] .fl-map-exact.fl-mind .fl-hero{min-height:132px}
+body[data-theme=xuanliu] .fl-map-exact.fl-mind .fl-archive{margin-top:30px}
+.mx-form,.mx-status-card,.mx-guide,.mx-history-card{margin:14px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.mx-form label{display:flex;flex-direction:column;gap:7px;font-size:13px;margin-bottom:14px}.mx-form input,.mx-form textarea,.mx-form select{width:100%;min-width:0;padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink)}
+.mx-form textarea{min-height:104px;resize:vertical}.mx-form .btn{border-radius:999px;min-height:43px;white-space:normal}
+.mx-guide h2,.mx-status-card h2,.mx-history h2,.mx-history-card h3{font-size:20px;line-height:1.6}.mx-guide p,.mx-status-card p,.mx-history-card p{font-size:13px;line-height:1.9;overflow-wrap:anywhere;white-space:pre-wrap}.mx-guide p+p{margin-top:10px}
+.mx-history-card small{font-size:11px;color:var(--muted)}.mx-history-card button{margin-top:10px}.mx-guide summary{cursor:pointer;font-size:15px;line-height:1.8}
+.mx-history-card>header{display:flex;align-items:center;justify-content:space-between;gap:12px}.mx-history-card>header>b{flex:1;min-width:0;overflow-wrap:anywhere}.mx-history-card>header>button{flex:none;margin:0}.mx-form h2{font-size:21px;line-height:1.6;margin-bottom:15px}.mx-form .mx-local-note,.mx-original-note,.mx-empty{font-size:12px;line-height:1.9;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}.map-local-archive{margin:22px 0}.map-learning-record h3{font-size:19px;line-height:1.7;margin:12px 0}.map-learning-record .btn{margin-top:12px;white-space:normal}.map-care-page .j-mind-actions{margin:16px 0}
+@media(max-width:360px){body[data-theme=xuanliu] .fl-map-exact .fl-map-heading{padding-left:3px;padding-right:3px}body[data-theme=xuanliu] .fl-map-exact .fl-map-heading h1{font-size:32px}body[data-theme=xuanliu] .fl-map-exact .fl-hero .fl-copy b{font-size:22px}body[data-theme=xuanliu] .fl-map-exact .fl-pair{gap:11px}body[data-theme=xuanliu] .fl-map-exact .fl-card .fl-copy b{font-size:21px}body[data-theme=xuanliu] .fl-map-exact .fl-archive .fl-copy b{font-size:18px}}
+html[lang=bo] body[data-theme=xuanliu] .fl-map-exact .fl-map-heading h1{font:600 28px/1.9 var(--sans);letter-spacing:0}
+html[lang=bo] body[data-theme=xuanliu] .fl-map-exact .fl-map-heading p{font-size:12px;line-height:2}
+html[lang=bo] body[data-theme=xuanliu] .fl-map-exact .fl-copy b{font:600 17px/1.95 var(--sans);letter-spacing:0}
+html[lang=bo] body[data-theme=xuanliu] .fl-map-exact .fl-copy small{font-size:11px;line-height:2}
+
+/* November feedback: one daily card above the maps and three daily tools. */
+body[data-theme=xuanliu] .fl-home .home-draw-banner{margin-bottom:10px}
+body[data-theme=xuanliu] .fl-home .home-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr))}
+html:lang(bo) body[data-theme=xuanliu][data-page=home] .fl-home{padding-bottom:56px}

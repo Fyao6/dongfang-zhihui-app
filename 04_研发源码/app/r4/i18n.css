@@ -1,0 +1,54 @@
+/* Tibetan stacks need full height, natural spacing and syllable-aware wrapping. */
+@font-face{font-family:"EW Tibetan";src:url('__TIBETAN_FONT__') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+.ew-language-button{font-family:system-ui,"EW Tibetan",sans-serif;font-size:12px;white-space:nowrap;min-width:38px}
+.ew-language-options{display:grid;gap:8px;margin:16px 0}
+.ew-language-options button{display:flex;align-items:center;justify-content:space-between;text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);padding:14px 16px;min-height:52px;font-size:16px}
+.ew-language-options button[aria-pressed="true"]{border-color:var(--gold);background:var(--soft)}
+.ew-language-options [lang="bo"],#language-select option[value="bo"]{font-family:"EW Tibetan",serif;line-height:2}
+html:lang(bo) body,html:lang(bo) button,html:lang(bo) input,html:lang(bo) select,html:lang(bo) textarea,html:lang(bo) h1,html:lang(bo) h2,html:lang(bo) h3,html:lang(bo) h4,html:lang(bo) p,html:lang(bo) span,html:lang(bo) small,html:lang(bo) b,html:lang(bo) strong,html:lang(bo) label,html:lang(bo) summary,html:lang(bo) a{font-family:"EW Tibetan",system-ui,serif;letter-spacing:normal;text-transform:none;word-break:normal;overflow-wrap:normal}
+html:lang(bo) body{line-height:1.95}
+html:lang(bo) h1,html:lang(bo) h2,html:lang(bo) h3{line-height:1.9}
+html:lang(bo) button,html:lang(bo) label,html:lang(bo) p,html:lang(bo) small,html:lang(bo) .eyebrow{line-height:1.9}
+html:lang(bo) .nav{height:auto;min-height:86px;padding-bottom:max(8px,env(safe-area-inset-bottom));align-items:stretch}
+html:lang(bo) .nav button{padding:8px 2px;min-width:0;gap:3px}
+html:lang(bo) .nav button span{font-size:11px;line-height:1.9;white-space:normal}
+html:lang(bo) .app{padding-bottom:105px}
+html:lang(bo) .home-v4-header,html:lang(bo) .ew-main-header{gap:10px;align-items:flex-start}
+html:lang(bo) .home-header-actions{gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:88px}
+html:lang(bo) .ew-brand h1{font-size:24px;line-height:1.8}
+html:lang(bo) .ew-brand p{font-size:11px;line-height:1.9}
+html:lang(bo) .quote-banner h2,html:lang(bo) .quote-text{font-size:22px;line-height:1.9}
+html:lang(bo) .map-card,html:lang(bo) .home-map,html:lang(bo) .px-tile{height:auto;min-height:150px}
+html:lang(bo) .btn{min-height:48px;height:auto;padding-top:11px;padding-bottom:11px;white-space:normal}
+html:lang(bo) .input,html:lang(bo) select{height:auto;min-height:48px;padding-block:10px;line-height:1.9}
+html:lang(bo) .academy-tab,html:lang(bo) .academy-theme-tabs button{height:auto;white-space:normal}
+html:lang(bo) .ss-message p{line-height:2.05}
+html:lang(bo) .sheet{line-height:2}
+html:lang(bo) .toast{line-height:1.9;max-height:35vh;overflow:auto}
+html:lang(en) .nav button span{font-size:11px}
+html:lang(en) .btn{white-space:normal;height:auto;min-height:44px}
+html:lang(en) .ew-brand h1{font-size:24px}
+
+html:lang(bo) body{--serif:"EW Tibetan",serif;--sans:"EW Tibetan",sans-serif}
+html:lang(bo) :is(h1,h2,h3,h4,p,span,b,small,button,input,textarea,select,label,summary,a){font-family:"EW Tibetan",system-ui,serif!important;letter-spacing:normal!important}
+html:lang(en) body[data-theme=xuanliu] .ew-brand h1{font-size:21px;letter-spacing:0;line-height:1.5}
+html:is(:lang(en),:lang(bo)) body[data-theme=xuanliu] .home .ew-pathways{height:auto;grid-template-rows:minmax(158px,auto)}
+html:is(:lang(en),:lang(bo)) body[data-theme=xuanliu] .home .ew-pathways .home-map{height:158px}
+html:is(:lang(en),:lang(bo)) body[data-theme=xuanliu] .home .ew-pathways .home-map-copy>b{white-space:normal;font-size:16px;letter-spacing:0;line-height:1.4;margin-bottom:7px}
+html:lang(bo) body[data-theme=xuanliu] .home .ew-pathways .home-map-copy>b{font-size:13px;line-height:1.9}
+html:lang(bo) body[data-theme=xuanliu] .home .ew-pathways .home-map-index{font-size:9px;line-height:1.8}
+html:lang(bo) body[data-theme=xuanliu] .home .ew-pathways .home-map-copy>small{font-size:10px;line-height:1.9}
+html:lang(bo) body[data-theme=xuanliu] .quote-banner{height:300px;padding-bottom:110px}
+html:lang(bo) body[data-theme=xuanliu] .quote-banner-text{font-size:23px;line-height:1.9;-webkit-line-clamp:3}
+html:lang(bo) body[data-theme=xuanliu] .quote-signature{bottom:78px;font-size:11px;max-width:48%}
+html:lang(bo) body[data-theme=xuanliu] .quote-pagination{align-items:flex-start;min-height:38px}
+html:lang(bo) body[data-theme=xuanliu] .quote-pagination .home-banner-pause{width:auto;max-width:100px;line-height:1.9;font-size:10px;padding:0 3px}
+html:lang(bo) body[data-theme=xuanliu] .xl-practice-entry{bottom:46px;font-size:12px;line-height:1.9;padding:10px;max-width:48%;white-space:normal}
+html:lang(bo) body[data-theme=xuanliu] .xl-scene-label{bottom:48px;font-size:10px;line-height:1.9;max-width:45%}
+html:lang(bo) .home-section-heading h2{font-size:12px;line-height:1.9}
+html:lang(bo) .home-shortcuts{gap:2px}
+html:lang(bo) .home-shortcuts button{font-size:10px;white-space:normal}
+html:lang(bo) .academy-row-title{line-height:1.9}
+html:lang(bo) .ew-main-header h1{font-size:29px}
+
+

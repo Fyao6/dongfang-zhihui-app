@@ -1,0 +1,208 @@
+{
+  "latest": {
+    "at": "2026-11-05T07:32:47.940Z",
+    "module": "M1 Ba Zi current/manual selection and exact solar-term boundaries",
+    "pass": true,
+    "passed": 20,
+    "failed": 0,
+    "engine": "lunar-javascript 1.7.7",
+    "sources": {
+      "commit": "4c45a59f79b856125516f31aefa8295035c16afd",
+      "terms": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/__tests__/JieQi.test.js",
+      "fortune": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/__tests__/Yun.test.js",
+      "implementation": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/lunar.js#L3887"
+    },
+    "sourceSha256": {
+      "helper": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+      "adapter": "8440b512195881bb855acc4e30087c474a07cc920d05acc0a1fe72ab69a2c635",
+      "vendor": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa"
+    },
+    "scope": "Numerical navigation and deterministic fixtures. Official fixed second expectations cover 2012 White Dew and 2050 Great Snow; 2026 boundaries are pinned engine regression values. Period/year rows retain the source library calendar-year convention; beforeStart is separately gated by the actual first start instant. No UI, service, archive, or publication operation is performed.",
+    "results": [
+      {
+        "name": "Official White Dew fixture has the fixed second and correct UTC offset",
+        "pass": true
+      },
+      {
+        "name": "Official 2050 Great Snow fixture also resolves the next-year alias edge",
+        "pass": true
+      },
+      {
+        "name": "White Dew is half-open: one second before, exact, and one second after",
+        "pass": true
+      },
+      {
+        "name": "January Small Cold belongs to the previous solar-term year, not month one",
+        "pass": true
+      },
+      {
+        "name": "Li Chun changes both solar-term year and month precisely at its second",
+        "pass": true
+      },
+      {
+        "name": "A middle solar term does not start another month",
+        "pass": true
+      },
+      {
+        "name": "Late Zi and civil midnight do not prematurely change month or year",
+        "pass": true
+      },
+      {
+        "name": "All twelve intervals are contiguous across English next-year keys",
+        "pass": true
+      },
+      {
+        "name": "1900 and 2099 input-year edges retain valid adjacent-year boundaries",
+        "pass": true
+      },
+      {
+        "name": "UTC instants and boundaries do not depend on the machine timezone",
+        "pass": true
+      },
+      {
+        "name": "Current navigation chooses the real current year and solar-term month",
+        "pass": true
+      },
+      {
+        "name": "Legal manual selections remain unchanged across renders and Li Chun",
+        "pass": true
+      },
+      {
+        "name": "Current mode refreshes at Li Chun and persists only four navigation fields",
+        "pass": true
+      },
+      {
+        "name": "Invalid manual values and an empty initial selection fall back to current",
+        "pass": true
+      },
+      {
+        "name": "Future birth is explicitly outside and never described as a current fortune",
+        "pass": true
+      },
+      {
+        "name": "Dates after the final represented Li Chun year are explicitly outside",
+        "pass": true
+      },
+      {
+        "name": "Official first-start date gates beforeStart even within its table start year",
+        "pass": true
+      },
+      {
+        "name": "A January birth before Li Chun does not invent a missing earlier flow year",
+        "pass": true
+      },
+      {
+        "name": "Zero-wait start skips the empty pre-start period without an invalid selection",
+        "pass": true
+      },
+      {
+        "name": "Invalid helper arguments reject instead of creating fictitious periods",
+        "pass": true
+      }
+    ]
+  },
+  "runs": [
+    {
+      "at": "2026-11-05T07:32:47.940Z",
+      "module": "M1 Ba Zi current/manual selection and exact solar-term boundaries",
+      "pass": true,
+      "passed": 20,
+      "failed": 0,
+      "engine": "lunar-javascript 1.7.7",
+      "sources": {
+        "commit": "4c45a59f79b856125516f31aefa8295035c16afd",
+        "terms": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/__tests__/JieQi.test.js",
+        "fortune": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/__tests__/Yun.test.js",
+        "implementation": "https://github.com/6tail/lunar-javascript/blob/4c45a59f79b856125516f31aefa8295035c16afd/lunar.js#L3887"
+      },
+      "sourceSha256": {
+        "helper": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+        "adapter": "8440b512195881bb855acc4e30087c474a07cc920d05acc0a1fe72ab69a2c635",
+        "vendor": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa"
+      },
+      "scope": "Numerical navigation and deterministic fixtures. Official fixed second expectations cover 2012 White Dew and 2050 Great Snow; 2026 boundaries are pinned engine regression values. Period/year rows retain the source library calendar-year convention; beforeStart is separately gated by the actual first start instant. No UI, service, archive, or publication operation is performed.",
+      "results": [
+        {
+          "name": "Official White Dew fixture has the fixed second and correct UTC offset",
+          "pass": true
+        },
+        {
+          "name": "Official 2050 Great Snow fixture also resolves the next-year alias edge",
+          "pass": true
+        },
+        {
+          "name": "White Dew is half-open: one second before, exact, and one second after",
+          "pass": true
+        },
+        {
+          "name": "January Small Cold belongs to the previous solar-term year, not month one",
+          "pass": true
+        },
+        {
+          "name": "Li Chun changes both solar-term year and month precisely at its second",
+          "pass": true
+        },
+        {
+          "name": "A middle solar term does not start another month",
+          "pass": true
+        },
+        {
+          "name": "Late Zi and civil midnight do not prematurely change month or year",
+          "pass": true
+        },
+        {
+          "name": "All twelve intervals are contiguous across English next-year keys",
+          "pass": true
+        },
+        {
+          "name": "1900 and 2099 input-year edges retain valid adjacent-year boundaries",
+          "pass": true
+        },
+        {
+          "name": "UTC instants and boundaries do not depend on the machine timezone",
+          "pass": true
+        },
+        {
+          "name": "Current navigation chooses the real current year and solar-term month",
+          "pass": true
+        },
+        {
+          "name": "Legal manual selections remain unchanged across renders and Li Chun",
+          "pass": true
+        },
+        {
+          "name": "Current mode refreshes at Li Chun and persists only four navigation fields",
+          "pass": true
+        },
+        {
+          "name": "Invalid manual values and an empty initial selection fall back to current",
+          "pass": true
+        },
+        {
+          "name": "Future birth is explicitly outside and never described as a current fortune",
+          "pass": true
+        },
+        {
+          "name": "Dates after the final represented Li Chun year are explicitly outside",
+          "pass": true
+        },
+        {
+          "name": "Official first-start date gates beforeStart even within its table start year",
+          "pass": true
+        },
+        {
+          "name": "A January birth before Li Chun does not invent a missing earlier flow year",
+          "pass": true
+        },
+        {
+          "name": "Zero-wait start skips the empty pre-start period without an invalid selection",
+          "pass": true
+        },
+        {
+          "name": "Invalid helper arguments reject instead of creating fictitious periods",
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

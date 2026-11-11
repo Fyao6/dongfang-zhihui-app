@@ -1,0 +1,1743 @@
+{
+  "modules": [
+    {
+      "at": "2026-11-06T09:25:51.812Z",
+      "id": "F01",
+      "module": "F01",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "177a5e851ce36c51317390b39fefd7f35741bf7aaba30ea31e3f03b6536c3d25",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "d038a353263337df839448973e5a5a872b4cc7fab174932d9cfff269f243c933",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+        "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F01连接恢复核验.cjs": "7d8e39f844add6fc0b26dc5b00a11743562ad5a5e4807fa095fe11995df4dfe8"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T09:19:41.819Z",
+          "module": "基础框架F01最终结构校验",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T09:20:27.633Z",
+          "module": "基础框架F01最终结构校验",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "connection_local": {
+          "report": "基础框架F01连接恢复核验-本机.json",
+          "at": "2026-11-06T09:25:09.673Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "connection_cloud": {
+          "report": "基础框架F01连接恢复核验-云端.json",
+          "at": "2026-11-06T09:24:23.118Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "fresh disposable SQLite",
+        "cloud": "ff01c local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        {
+          "evidence": "基础框架F01结构异常初轮失败证据.json",
+          "cause": "Bootstrap marked loaded before rejecting malformed 200 {}.",
+          "resolution": "Validate public shape before assigning px, reject unknown identity; dual specialty verifies unresolved birth gate and retry."
+        },
+        {
+          "evidence": "基础框架F01内容结构异常证据.json",
+          "cause": "Nested content collection invalid type passed the first top-level schema and failed only after px assignment.",
+          "resolution": "All content values must be arrays of non-null object records with string ids before px assignment. Both malformed collection and null item now reject and retry in both backends."
+        },
+        {
+          "evidence": "基础框架F01连接恢复核验-云端.json",
+          "cause": "First cloud revision test observed synchronous loading before asynchronous Playwright request routing, so its immediate hit-count assertion saw1 instead of2.",
+          "resolution": "Harness waits for actual request arrival before invalidation. Original failed run and screenshot retained; both final14-case reruns pass."
+        }
+      ],
+      "coverage": {
+        "firstFetchFailure": true,
+        "retry": true,
+        "offlineOnline": true,
+        "coalescedPromises": true,
+        "staleRevision": true,
+        "timeout12000ms": true,
+        "malformed200": true,
+        "routeAndLoginPreserved": true,
+        "unsubmittedBirthPreserved": true,
+        "birthGateAndGuestPrivacy": true,
+        "fourLanguages": true,
+        "liveAi": false
+      },
+      "publication": false
+    },
+    {
+      "at": "2026-11-06T10:27:37.047Z",
+      "id": "F02",
+      "module": "F02",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+        "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+      },
+      "testHashes": {
+        "06_验证与后续工作/全量回归.cjs": "84fe3a294627b7332a6c45e0ff386156bac5703d2409157493c3af781c0fcc9e",
+        "06_验证与后续工作/公网适配全量回归.cjs": "9def24a9112ddcfdc9cfde4df570c3f03400392524b27e39a462fe1346c516b8",
+        "06_验证与后续工作/账号分区与保存反馈核验.cjs": "d0f033df21a998bc5799a050e472b272f0a115a98e5e31a4259a2cccf817b3a1",
+        "06_验证与后续工作/F02真实账号迟媒体隔离核验.cjs": "90af119f7ffffcd6a783113b6e0a0d163a171971820fa903deef1a750a285236",
+        "06_验证与后续工作/基础框架F01连接恢复核验.cjs": "7d8e39f844add6fc0b26dc5b00a11743562ad5a5e4807fa095fe11995df4dfe8",
+        "06_验证与后续工作/基础框架F02离线共享偏好快速核验.cjs": "59d458073315fe43aa80c8c732d9267b1821038d50f729e746b557c8f35f52cc"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T10:20:11.935Z",
+          "module": "基础框架F02最终偏好读写修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T10:20:55.467Z",
+          "module": "基础框架F02最终偏好读写修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "account_local": {
+          "report": "账号分区与保存反馈核验-本机.json",
+          "at": "2026-11-06T10:24:28.122Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "account_cloud": {
+          "report": "账号分区与保存反馈核验-云端.json",
+          "at": "2026-11-06T10:24:00.804Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "media_local": {
+          "report": "F02真实账号迟媒体隔离核验-本机.json",
+          "at": "2026-11-06T10:24:48.822Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 4,
+          "failed": 0
+        },
+        "media_cloud": {
+          "report": "F02真实账号迟媒体隔离核验-云端.json",
+          "at": "2026-11-06T10:24:42.645Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 4,
+          "failed": 0
+        },
+        "f01_connection_local": {
+          "report": "基础框架F01连接恢复核验-本机.json",
+          "at": "2026-11-06T10:26:35.665Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "f01_connection_cloud": {
+          "report": "基础框架F01连接恢复核验-云端.json",
+          "at": "2026-11-06T10:25:48.689Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "preferences_quick": {
+          "report": "基础框架F02离线共享偏好快速核验.json",
+          "at": "2026-11-06T10:19:51.901Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 2,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "fresh disposable per-suite SQLite",
+        "cloud": "ff02d local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        {
+          "issue": "Unchanged feed refresh replaced a playing video DOM element",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Feed data equality returns unchanged; read-state paint does not rebuild playing media. Both final fulls preserve the original DOM-and-playback assertion."
+        },
+        {
+          "issue": "Old record-write test waited for an obsolete temporarily-unsynced phrase",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Approved semantic adaptation still requires actual503 and all four fields in memory and current-scope localStorage, plus explicit local-saved/server-write-failed feedback."
+        },
+        {
+          "issue": "Late resume/play rejection could contaminate another account player",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Scope/epoch and generation/audio-instance checks apply to success and rejection paths. Independent real A/B accounts in both backends verify browser-native InvalidStateError and AbortError do not stop or change B media."
+        },
+        {
+          "issue": "Legacy guest data overrode shared language/appearance on offline reopen",
+          "evidence": "基础框架F02旧游客覆盖公共偏好失败证据.json",
+          "resolution": "Shared preferences override personal legacy fields at initial read; current lang/mode override stale fixed-reference preference fields when writing. Both14-case built suites and the real-button no-lang-URL quick gate verify full read/update/reopen behavior and private-data retention."
+        },
+        {
+          "issue": "Preference writeback second stage remained day after selecting night",
+          "historicalRun": "2026-11-06T10:17:46.804Z",
+          "evidence": {
+            "local": "账号分区与保存反馈核验-本机.json",
+            "cloud": "账号分区与保存反馈核验-云端.json",
+            "historicalFailedRunsRetained": true
+          },
+          "resolution": "Original13/1 runs retained; current built14/0 reports have a new source/build identity and pass the unchanged assertion."
+        }
+      ],
+      "preparationOnly": {
+        "sourceOverlay": "账号分区与保存反馈核验-源码单项.json",
+        "finalEvidence": false
+      },
+      "coverage": {
+        "guestAndAAndB": true,
+        "pendingPrivacy": true,
+        "legacyGuestOnly": true,
+        "preferencesReferenceAndPersistence": true,
+        "singleSnapshot": true,
+        "quotaRetry": true,
+        "oneShotRollback": true,
+        "birthGate": true,
+        "accountScopedTimebank": true,
+        "crossTabIdentity": true,
+        "lateReadsAndMedia": true,
+        "fourLanguages": true,
+        "liveAi": false,
+        "f01Reverified": true
+      },
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T01:55:15.368685+00:00",
+      "id": "F03",
+      "module": "F03",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "d2c3c59e8c28397699a97dc7a16d3b7c4db4f77b7e82a02926418494032114c5",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "cc17cd2e146009e99d9fc65f3334f391dbafebe3a523f42b42b64a22b3399787",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "71b21120f94898814e2186de34f09864e93f3a0f03d2cccc0d66c4768cfef52a",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F03创作者闭环核验.cjs": "7be9ab6d17e64bc6231d0b07a0fc63be1fac43259707b6c671f13e3a48cedefd"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T01:47:31.292Z",
+          "module": "基础框架F03人工创作者闭环",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T01:48:06.888Z",
+          "module": "基础框架F03人工创作者闭环",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "creator_local": {
+          "report": "基础框架F03创作者闭环核验-本机.json",
+          "at": "2026-11-09T01:54:21.562Z",
+          "module": "基础框架F03",
+          "pass": true,
+          "passed": 15,
+          "failed": 0
+        },
+        "creator_cloud": {
+          "report": "基础框架F03创作者闭环核验-云端.json",
+          "at": "2026-11-09T01:53:30.195Z",
+          "module": "基础框架F03",
+          "pass": true,
+          "passed": 15,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "disposable isolated SQLite per suite; stopped and removed",
+        "cloud": "ff03 local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        "Center load discards old identity network and HTTP failures",
+        "Independent review detail revision prevents A response replacing B form",
+        "Save and upload locks plus acknowledged id/version recovery",
+        "Teacher reapproval preserves operational fields; appeal limit1000 aligned",
+        "Handoff pause patch restored and completed; historical harness cleanup and rate-limit failures retained"
+      ],
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T02:13:25.675184+00:00",
+      "id": "F04",
+      "module": "F04",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F04后台恢复核验.cjs": "4a7b7da312fc7961f2541d44376c37e70c1205eb5f3a0220b03a10970abeaefa"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T02:05:49.730Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T02:06:24.528Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "recovery_local": {
+          "report": "基础框架F04后台恢复核验-本机.json",
+          "at": "2026-11-09T02:09:22.848Z",
+          "module": "基础框架F04",
+          "pass": true,
+          "passed": 17,
+          "failed": 0
+        },
+        "recovery_cloud": {
+          "report": "基础框架F04后台恢复核验-云端.json",
+          "at": "2026-11-09T02:11:28.472Z",
+          "module": "基础框架F04",
+          "pass": true,
+          "passed": 17,
+          "failed": 0
+        },
+        "analytics_local": {
+          "report": "平台数据中心真实联调-本机.json",
+          "at": "2026-11-09T02:07:47.552Z",
+          "module": null,
+          "pass": true,
+          "passed": 7,
+          "failed": 0
+        },
+        "analytics_cloud": {
+          "report": "平台数据中心真实联调-云端.json",
+          "at": "2026-11-09T02:09:28.457Z",
+          "module": null,
+          "pass": true,
+          "passed": 7,
+          "failed": 0
+        },
+        "birth_current": {
+          "report": "出生资料地域移除核验-本机.json",
+          "at": "2026-11-09T02:06:53.732Z",
+          "module": null,
+          "pass": true,
+          "passed": 8,
+          "failed": 0
+        },
+        "charts_current": {
+          "report": "三盘实际排盘联调.json",
+          "at": "2026-11-09T02:07:44.056Z",
+          "module": "三盘实际排盘浏览器联调",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "disposable isolated SQLite per suite; stopped and removed",
+        "cloud": "ff04 local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        "Company GET/status reads time out after12s with manual retry; writes are never automatically replayed",
+        "401 clears private data and resumes only a permitted page and prior analytics filters after re-login;403 retains permission semantics",
+        "Epoch and seq discard stale success/error including uploads, settings and records",
+        "Click export and write callbacks cannot show stale errors or download private results after identity/nav change",
+        "Late login/logout Set-Cookie responses reconcile real cookie identity across admin and APP instead of applying stale payloads",
+        "Current birth and three-chart suites preserve all legacy archive and zero-upload assertions with explicit synthetic-scope fixture adaptation"
+      ],
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T02:22:18.053Z",
+      "id": "F05",
+      "module": "F05",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "report": "基础框架F05契约与恢复核验.json",
+      "restoreReport": {
+        "report": "基础框架F05隔离恢复核验-both.json",
+        "at": "2026-11-09T02:22:18.053Z",
+        "module": "基础框架F05",
+        "pass": true,
+        "passed": 4,
+        "failed": 0
+      },
+      "noBusinessChanges": true,
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T02:05:49.730Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T02:06:24.528Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "fullEvidenceNote": "F04 final full, same unchanged source and build; F05 only adds isolated validation tools",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "ownedStates": [
+          {
+            "role": "source-copy",
+            "path": "04_研发源码/app/cloud/.wrangler/s3"
+          },
+          {
+            "role": "CLI-export-config",
+            "path": "04_研发源码/app/cloud/.wrangler/e2"
+          },
+          {
+            "role": "CLI-import-target",
+            "path": "04_研发源码/app/cloud/.wrangler/r2"
+          }
+        ],
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "productionWrites": false,
+      "publication": false
+    }
+  ],
+  "runs": [
+    {
+      "at": "2026-11-06T09:11:40.123Z",
+      "module": "F01",
+      "phase": "initial_full_before_schema_fix",
+      "final": false,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "dd0167b5be6f342be509c1828bdb3ff6fb4962a3bda9536d75940a9f73225ade"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "5397381a80cbe53c39707ff536b77aca2e012167e991895f8e688a768e3362d6",
+        "发给负责人-东方智慧首页R4.html": "5f049ea564bcc16b2ccb8ceee9fd5dd989173c9a66338218cc791efd81a60e6d",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "84ec4dd0779f96ddc5fbc64232ea70b18a057d5f5ca6b3c14cc8b6c4a5b7213a",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "3df27783238214f6e09825192391fbf3b470d3a512bb8a3cf2951f7f69311bfd"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T08:49:51.658Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T08:51:03.287Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "malformed_initial": "基础框架F01结构异常初轮失败证据.json"
+      },
+      "note": "Initial full passes do not constitute final F01 approval; malformed200 {} failure evidence awaits a new frozen source/build rerun.",
+      "sourceIdentityNote": "Only platform.js was captured with the actual malformed-response failure before repair. Remaining initial source hashes were not captured before root repair and are intentionally not retrospectively asserted; full build/worker hashes remain original."
+    },
+    {
+      "at": "2026-11-06T09:18:10.248Z",
+      "module": "F01",
+      "phase": "top_level_schema_fix_with_remaining_content_shape_issue",
+      "final": false,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "6a9043fb7f3496389415cbb95b9fd8da95d272bd6e7a2ef646875fc506f77d0c",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "d038a353263337df839448973e5a5a872b4cc7fab174932d9cfff269f243c933",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "0d940aa1a9b927143178ecbf2c01d0176e341fdc36826078e06c27a7dc8954b1",
+        "发给负责人-东方智慧首页R4.html": "fa1e47eae0a736bacbcfd2b0e92d0aec61e7a278a274c0abef70082370fe5138",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "57c7bca26cf351e0414eed572f6fd39272b83080dcaf5b9a9665bae92f7aeb00",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "2c8813789d1b7cbcb6dc31d9e749822d02eebf7a46d448606239bd013239b23d"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T09:14:11.625Z",
+          "module": "基础框架F01最终",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T09:15:11.334Z",
+          "module": "基础框架F01最终",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "connection_local": {
+          "report": "基础框架F01连接恢复核验-本机.json",
+          "at": "2026-11-06T09:17:32.459Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 12,
+          "failed": 0
+        },
+        "content_malformed": "基础框架F01内容结构异常证据.json"
+      },
+      "note": "Both full passes and 12-case connection pass apply to the captured build, but malformed nested collection content still leaves loaded=true; final approval withheld until validated and rebuilt."
+    },
+    {
+      "at": "2026-11-06T09:25:51.812Z",
+      "id": "F01",
+      "module": "F01",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "177a5e851ce36c51317390b39fefd7f35741bf7aaba30ea31e3f03b6536c3d25",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "d038a353263337df839448973e5a5a872b4cc7fab174932d9cfff269f243c933",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "70859e72fe5a00fb2b83733b03d6b682131b4f02daf7b916a7874158768542c5",
+        "发给负责人-东方智慧首页R4.html": "bdce00bf7875c17077017546c049513c1314e88efd4f9f12becc38619786a7e7",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "75164d777d27cdc2df2059c19bb9791a319841e05629c25332f1dd167779360f",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "14628e4ef1481ce303c34649b8506afc470580ae60ea55eeaf92fe0ca500a115"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F01连接恢复核验.cjs": "7d8e39f844add6fc0b26dc5b00a11743562ad5a5e4807fa095fe11995df4dfe8"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T09:19:41.819Z",
+          "module": "基础框架F01最终结构校验",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T09:20:27.633Z",
+          "module": "基础框架F01最终结构校验",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "connection_local": {
+          "report": "基础框架F01连接恢复核验-本机.json",
+          "at": "2026-11-06T09:25:09.673Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "connection_cloud": {
+          "report": "基础框架F01连接恢复核验-云端.json",
+          "at": "2026-11-06T09:24:23.118Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "fresh disposable SQLite",
+        "cloud": "ff01c local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        {
+          "evidence": "基础框架F01结构异常初轮失败证据.json",
+          "cause": "Bootstrap marked loaded before rejecting malformed 200 {}.",
+          "resolution": "Validate public shape before assigning px, reject unknown identity; dual specialty verifies unresolved birth gate and retry."
+        },
+        {
+          "evidence": "基础框架F01内容结构异常证据.json",
+          "cause": "Nested content collection invalid type passed the first top-level schema and failed only after px assignment.",
+          "resolution": "All content values must be arrays of non-null object records with string ids before px assignment. Both malformed collection and null item now reject and retry in both backends."
+        },
+        {
+          "evidence": "基础框架F01连接恢复核验-云端.json",
+          "cause": "First cloud revision test observed synchronous loading before asynchronous Playwright request routing, so its immediate hit-count assertion saw1 instead of2.",
+          "resolution": "Harness waits for actual request arrival before invalidation. Original failed run and screenshot retained; both final14-case reruns pass."
+        }
+      ],
+      "coverage": {
+        "firstFetchFailure": true,
+        "retry": true,
+        "offlineOnline": true,
+        "coalescedPromises": true,
+        "staleRevision": true,
+        "timeout12000ms": true,
+        "malformed200": true,
+        "routeAndLoginPreserved": true,
+        "unsubmittedBirthPreserved": true,
+        "birthGateAndGuestPrivacy": true,
+        "fourLanguages": true,
+        "liveAi": false
+      },
+      "publication": false
+    },
+    {
+      "at": "2026-11-06T10:00:34.766Z",
+      "id": "F02",
+      "module": "F02",
+      "phase": "initial_full_before_media_and_changed_guard_fixes",
+      "final": false,
+      "pass": false,
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "71ec518fc254c67c426e427d8d70880d99d65b591016fe0bb436de955acead3b",
+        "04_研发源码/app/r4/music.js": "063d59ba4ab1cf048499066492eee0e635db88ed3ef6332d5dc5836ee43bca67",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "4d419d33fddccb4413092686193e8038aa0d9f798cebc9a697ad8827b5ac4bfa",
+        "发给负责人-东方智慧首页R4.html": "00d41f18436b03f22b69f1f9870ef637fb2c06d8aab2b705ad5d99627ece486c",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "95a4da6c4db1de5923839e955286d184386377ef2094359d106b91bb1552736b",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "6af69b27f07fb2388263a7fb702fdfd522b2822fb3a08f959caa80eac2e1ffee"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T09:55:55.200Z",
+          "module": "基础框架F02",
+          "pass": false,
+          "passed": 58,
+          "failed": 2
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T09:57:02.766Z",
+          "module": "基础框架F02",
+          "pass": false,
+          "passed": 58,
+          "failed": 2
+        }
+      },
+      "observedIssues": [
+        {
+          "type": "business",
+          "name": "Unchanged feed refresh must preserve playing video",
+          "diagnosis": "pxReadRun unconditional render rebuilds video even when feed unchanged."
+        },
+        {
+          "type": "test_contract",
+          "name": "记录接口 实际提交与断网反馈联调",
+          "diagnosis": "Old test waited for 暂未同步; F02 explicitly says saved on device, this server write failed. Test will preserve 503/local-record behavior while checking the new semantics."
+        },
+        {
+          "type": "review_found_business",
+          "name": "Late media catch can overwrite another account player",
+          "diagnosis": "creator_audit identified missing scope/generation/audio identity guards in resume/play rejection paths; root preparing fix."
+        }
+      ]
+    },
+    {
+      "at": "2026-11-06T10:09:12.124Z",
+      "id": "F02",
+      "module": "F02",
+      "phase": "media_feed_fixed_before_legacy_preferences_order_fix",
+      "final": false,
+      "pass": false,
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "66929e908761af712855cc2c15d70c775bd1542972a60baa80ba0665577a185d",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "76b2f3857ad2de93390737fe27a8e5c7ceaae4ec59f1a54deb9c36196df43353",
+        "发给负责人-东方智慧首页R4.html": "d35a631aa258f91ff2e78a9d0a431ba72811b7b6e69c4ff074265533cc7071b4",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "4c7b7fd1c938fd32dd38f51cab768acd1990e8bfaf68496a34bb555f05826a84",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "b2e09c8c6b8ce1c2d9d0722a63fa3619563738e19ebd31927b3c5c3a6388a43a"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T10:05:27.625Z",
+          "module": "基础框架F02最终",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T10:06:08.851Z",
+          "module": "基础框架F02最终",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "observedIssues": [
+        {
+          "type": "business_review_confirmed",
+          "name": "Legacy guest data overrides shared language/appearance on offline file reopen",
+          "diagnosis": "base.safeRead spreads shared preferences before guest legacy data; root independently reproduced en/day shared preferences rendering as zh/night. Source remains frozen until worker shutdown; next build must reverse preference precedence and add offline reopen coverage."
+        }
+      ],
+      "note": "Fulls60/0 include the unchanged playing-video DOM assertion and the updated server503/local-four-fields assertion. Known independent preference regression prevents final approval; the three specialty suites were deliberately not run on this build.",
+      "specialty": {
+        "preference_failure": "基础框架F02旧游客覆盖公共偏好失败证据.json"
+      }
+    },
+    {
+      "at": "2026-11-06T10:17:46.804Z",
+      "id": "F02",
+      "module": "F02",
+      "phase": "safe_read_fixed_before_shared_preferences_writer_precedence_fix",
+      "final": false,
+      "pass": false,
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "8f1e8bb73aa5633ed144a4104f6cd25ccffe34c9f40b513e901f6dbf7fc9d1bf",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "2d39a00131efb2c80a25aeabfda42a6f53e7d36804c2f241bf9bdab8de7823a4",
+        "发给负责人-东方智慧首页R4.html": "7b7714f86a2477e32e8d91293131403be4975692570bf915324aa8edc222836b",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "4208fc38d7a9ba55901afb544f87cdafaa949d50dbd8383256efe53fad44516c",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "b966609b4405ff18d1d0829d77e39461751b48dbcf91510bc776c57096ec4a30"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T10:12:21.343Z",
+          "module": "基础框架F02最终偏好修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T10:13:02.218Z",
+          "module": "基础框架F02最终偏好修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "account_local": {
+          "report": "账号分区与保存反馈核验-本机.json",
+          "at": "2026-11-06T10:16:39.466Z",
+          "module": "基础框架F02",
+          "pass": false,
+          "passed": 13,
+          "failed": 1
+        },
+        "account_cloud": {
+          "report": "账号分区与保存反馈核验-云端.json",
+          "at": "2026-11-06T10:16:12.628Z",
+          "module": "基础框架F02",
+          "pass": false,
+          "passed": 13,
+          "failed": 1
+        }
+      },
+      "observedIssues": [
+        {
+          "type": "business",
+          "name": "Shared preferences writer retains stale appearance/language fields",
+          "diagnosis": "Offline first en/day restoration now passes, but after real language update plus mode night the reopened mode remains day. psSavePreferences spreads state.support.preferences last; that fixed-reference object contains stale mode/lang, overriding current state. Both built specialty runs13/1 retain the failed assertion."
+        }
+      ],
+      "note": "No F01 or independent media suite run on this known faulty preference-writer build. Fulls60/0 retained; no final F02 approval."
+    },
+    {
+      "at": "2026-11-06T10:27:37.047Z",
+      "id": "F02",
+      "module": "F02",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "cc67b2e9e86e55572df6033f63a0e3ed769e7fdb468ca34301010d4f8a35140f",
+        "发给负责人-东方智慧首页R4.html": "c1454a2d174428afebdf593afc0a8dab8b48c248a91cb67d46681cefb96c52fe",
+        "计时后台-开发联调.html": "1ef5d34a30c74a9279771e85743c80515ac381bdf849c080becf512f69e77daa"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "bc5d1ee4e6d9e511311501824a3c30e3288b133b7e6ceedfb756bed4ac39902d",
+        "generated/admin.html": "2338844a0aed9feada3030fb8c29889ccee4d6d2fb1bfcdc9673f94725538fb7",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "4b2372d89c635ec06d813dd9157d398e787e0c9abfb67f2cd13c278430e3abce"
+      },
+      "testHashes": {
+        "06_验证与后续工作/全量回归.cjs": "84fe3a294627b7332a6c45e0ff386156bac5703d2409157493c3af781c0fcc9e",
+        "06_验证与后续工作/公网适配全量回归.cjs": "9def24a9112ddcfdc9cfde4df570c3f03400392524b27e39a462fe1346c516b8",
+        "06_验证与后续工作/账号分区与保存反馈核验.cjs": "d0f033df21a998bc5799a050e472b272f0a115a98e5e31a4259a2cccf817b3a1",
+        "06_验证与后续工作/F02真实账号迟媒体隔离核验.cjs": "90af119f7ffffcd6a783113b6e0a0d163a171971820fa903deef1a750a285236",
+        "06_验证与后续工作/基础框架F01连接恢复核验.cjs": "7d8e39f844add6fc0b26dc5b00a11743562ad5a5e4807fa095fe11995df4dfe8",
+        "06_验证与后续工作/基础框架F02离线共享偏好快速核验.cjs": "59d458073315fe43aa80c8c732d9267b1821038d50f729e746b557c8f35f52cc"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-06T10:20:11.935Z",
+          "module": "基础框架F02最终偏好读写修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-06T10:20:55.467Z",
+          "module": "基础框架F02最终偏好读写修复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "account_local": {
+          "report": "账号分区与保存反馈核验-本机.json",
+          "at": "2026-11-06T10:24:28.122Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "account_cloud": {
+          "report": "账号分区与保存反馈核验-云端.json",
+          "at": "2026-11-06T10:24:00.804Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "media_local": {
+          "report": "F02真实账号迟媒体隔离核验-本机.json",
+          "at": "2026-11-06T10:24:48.822Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 4,
+          "failed": 0
+        },
+        "media_cloud": {
+          "report": "F02真实账号迟媒体隔离核验-云端.json",
+          "at": "2026-11-06T10:24:42.645Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 4,
+          "failed": 0
+        },
+        "f01_connection_local": {
+          "report": "基础框架F01连接恢复核验-本机.json",
+          "at": "2026-11-06T10:26:35.665Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "f01_connection_cloud": {
+          "report": "基础框架F01连接恢复核验-云端.json",
+          "at": "2026-11-06T10:25:48.689Z",
+          "module": "基础框架F01",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        },
+        "preferences_quick": {
+          "report": "基础框架F02离线共享偏好快速核验.json",
+          "at": "2026-11-06T10:19:51.901Z",
+          "module": "基础框架F02",
+          "pass": true,
+          "passed": 2,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "fresh disposable per-suite SQLite",
+        "cloud": "ff02d local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": true
+      },
+      "resolvedIssues": [
+        {
+          "issue": "Unchanged feed refresh replaced a playing video DOM element",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Feed data equality returns unchanged; read-state paint does not rebuild playing media. Both final fulls preserve the original DOM-and-playback assertion."
+        },
+        {
+          "issue": "Old record-write test waited for an obsolete temporarily-unsynced phrase",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Approved semantic adaptation still requires actual503 and all four fields in memory and current-scope localStorage, plus explicit local-saved/server-write-failed feedback."
+        },
+        {
+          "issue": "Late resume/play rejection could contaminate another account player",
+          "historicalRun": "2026-11-06T10:00:34.766Z",
+          "resolution": "Scope/epoch and generation/audio-instance checks apply to success and rejection paths. Independent real A/B accounts in both backends verify browser-native InvalidStateError and AbortError do not stop or change B media."
+        },
+        {
+          "issue": "Legacy guest data overrode shared language/appearance on offline reopen",
+          "evidence": "基础框架F02旧游客覆盖公共偏好失败证据.json",
+          "resolution": "Shared preferences override personal legacy fields at initial read; current lang/mode override stale fixed-reference preference fields when writing. Both14-case built suites and the real-button no-lang-URL quick gate verify full read/update/reopen behavior and private-data retention."
+        },
+        {
+          "issue": "Preference writeback second stage remained day after selecting night",
+          "historicalRun": "2026-11-06T10:17:46.804Z",
+          "evidence": {
+            "local": "账号分区与保存反馈核验-本机.json",
+            "cloud": "账号分区与保存反馈核验-云端.json",
+            "historicalFailedRunsRetained": true
+          },
+          "resolution": "Original13/1 runs retained; current built14/0 reports have a new source/build identity and pass the unchanged assertion."
+        }
+      ],
+      "preparationOnly": {
+        "sourceOverlay": "账号分区与保存反馈核验-源码单项.json",
+        "finalEvidence": false
+      },
+      "coverage": {
+        "guestAndAAndB": true,
+        "pendingPrivacy": true,
+        "legacyGuestOnly": true,
+        "preferencesReferenceAndPersistence": true,
+        "singleSnapshot": true,
+        "quotaRetry": true,
+        "oneShotRollback": true,
+        "birthGate": true,
+        "accountScopedTimebank": true,
+        "crossTabIdentity": true,
+        "lateReadsAndMedia": true,
+        "fourLanguages": true,
+        "liveAi": false,
+        "f01Reverified": true
+      },
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T01:55:15.368685+00:00",
+      "id": "F03",
+      "module": "F03",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "d2c3c59e8c28397699a97dc7a16d3b7c4db4f77b7e82a02926418494032114c5",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "cc17cd2e146009e99d9fc65f3334f391dbafebe3a523f42b42b64a22b3399787",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "71b21120f94898814e2186de34f09864e93f3a0f03d2cccc0d66c4768cfef52a",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F03创作者闭环核验.cjs": "7be9ab6d17e64bc6231d0b07a0fc63be1fac43259707b6c671f13e3a48cedefd"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T01:47:31.292Z",
+          "module": "基础框架F03人工创作者闭环",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T01:48:06.888Z",
+          "module": "基础框架F03人工创作者闭环",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "creator_local": {
+          "report": "基础框架F03创作者闭环核验-本机.json",
+          "at": "2026-11-09T01:54:21.562Z",
+          "module": "基础框架F03",
+          "pass": true,
+          "passed": 15,
+          "failed": 0
+        },
+        "creator_cloud": {
+          "report": "基础框架F03创作者闭环核验-云端.json",
+          "at": "2026-11-09T01:53:30.195Z",
+          "module": "基础框架F03",
+          "pass": true,
+          "passed": 15,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "disposable isolated SQLite per suite; stopped and removed",
+        "cloud": "ff03 local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": false
+      },
+      "resolvedIssues": [
+        "Center load discards old identity network and HTTP failures",
+        "Independent review detail revision prevents A response replacing B form",
+        "Save and upload locks plus acknowledged id/version recovery",
+        "Teacher reapproval preserves operational fields; appeal limit1000 aligned",
+        "Handoff pause patch restored and completed; historical harness cleanup and rate-limit failures retained"
+      ],
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T02:13:25.675184+00:00",
+      "id": "F04",
+      "module": "F04",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "testHashes": {
+        "06_验证与后续工作/基础框架F04后台恢复核验.cjs": "4a7b7da312fc7961f2541d44376c37e70c1205eb5f3a0220b03a10970abeaefa"
+      },
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T02:05:49.730Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T02:06:24.528Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "specialty": {
+        "recovery_local": {
+          "report": "基础框架F04后台恢复核验-本机.json",
+          "at": "2026-11-09T02:09:22.848Z",
+          "module": "基础框架F04",
+          "pass": true,
+          "passed": 17,
+          "failed": 0
+        },
+        "recovery_cloud": {
+          "report": "基础框架F04后台恢复核验-云端.json",
+          "at": "2026-11-09T02:11:28.472Z",
+          "module": "基础框架F04",
+          "pass": true,
+          "passed": 17,
+          "failed": 0
+        },
+        "analytics_local": {
+          "report": "平台数据中心真实联调-本机.json",
+          "at": "2026-11-09T02:07:47.552Z",
+          "module": null,
+          "pass": true,
+          "passed": 7,
+          "failed": 0
+        },
+        "analytics_cloud": {
+          "report": "平台数据中心真实联调-云端.json",
+          "at": "2026-11-09T02:09:28.457Z",
+          "module": null,
+          "pass": true,
+          "passed": 7,
+          "failed": 0
+        },
+        "birth_current": {
+          "report": "出生资料地域移除核验-本机.json",
+          "at": "2026-11-09T02:06:53.732Z",
+          "module": null,
+          "pass": true,
+          "passed": 8,
+          "failed": 0
+        },
+        "charts_current": {
+          "report": "三盘实际排盘联调.json",
+          "at": "2026-11-09T02:07:44.056Z",
+          "module": "三盘实际排盘浏览器联调",
+          "pass": true,
+          "passed": 14,
+          "failed": 0
+        }
+      },
+      "isolation": {
+        "python": "disposable isolated SQLite per suite; stopped and removed",
+        "cloud": "ff04 local D1/R2 only",
+        "productionWrites": false,
+        "servicesStopped": false
+      },
+      "resolvedIssues": [
+        "Company GET/status reads time out after12s with manual retry; writes are never automatically replayed",
+        "401 clears private data and resumes only a permitted page and prior analytics filters after re-login;403 retains permission semantics",
+        "Epoch and seq discard stale success/error including uploads, settings and records",
+        "Click export and write callbacks cannot show stale errors or download private results after identity/nav change",
+        "Late login/logout Set-Cookie responses reconcile real cookie identity across admin and APP instead of applying stale payloads",
+        "Current birth and three-chart suites preserve all legacy archive and zero-upload assertions with explicit synthetic-scope fixture adaptation"
+      ],
+      "publication": false
+    },
+    {
+      "at": "2026-11-09T02:22:18.053Z",
+      "id": "F05",
+      "module": "F05",
+      "status": "passed",
+      "phase": "final",
+      "final": true,
+      "pass": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+        "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+        "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+        "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+        "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+        "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+        "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+        "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+        "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+        "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+        "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+        "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+        "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+        "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+        "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+        "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+        "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+        "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+        "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+        "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+        "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+        "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+        "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+        "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+        "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "cloudBuildHashes": {
+        "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "report": "基础框架F05契约与恢复核验.json",
+      "restoreReport": {
+        "report": "基础框架F05隔离恢复核验-both.json",
+        "at": "2026-11-09T02:22:18.053Z",
+        "module": "基础框架F05",
+        "pass": true,
+        "passed": 4,
+        "failed": 0
+      },
+      "noBusinessChanges": true,
+      "full": {
+        "local": {
+          "report": "本轮全量回归结果.json",
+          "at": "2026-11-09T02:05:49.730Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        },
+        "cloud": {
+          "report": "公网适配全量回归结果.json",
+          "at": "2026-11-09T02:06:24.528Z",
+          "module": "基础框架F04后台读取与身份恢复",
+          "pass": true,
+          "passed": 60,
+          "failed": 0
+        }
+      },
+      "fullEvidenceNote": "F04 final full, same unchanged source and build; F05 only adds isolated validation tools",
+      "isolation": {
+        "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+        "originalState": "ff04",
+        "onlyLoopback": true,
+        "ownedStates": [
+          {
+            "role": "source-copy",
+            "path": "04_研发源码/app/cloud/.wrangler/s3"
+          },
+          {
+            "role": "CLI-export-config",
+            "path": "04_研发源码/app/cloud/.wrangler/e2"
+          },
+          {
+            "role": "CLI-import-target",
+            "path": "04_研发源码/app/cloud/.wrangler/r2"
+          }
+        ],
+        "sourceStateIsReadOnlyInput": true,
+        "servicesStopped": true
+      },
+      "productionWrites": false,
+      "publication": false
+    }
+  ],
+  "latest": {
+    "at": "2026-11-09T02:22:18.053Z",
+    "id": "F05",
+    "module": "F05",
+    "status": "passed",
+    "phase": "final",
+    "final": true,
+    "pass": true,
+    "sourceHashes": {
+      "04_研发源码/app/r4/platform.js": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "04_研发源码/app/r4/build.py": "17c0962a9c8ff4a532992c09af03d61b9a7231dd7239662f153adc70f5ee03f5",
+      "04_研发源码/app/r4/life-birth-entry.js": "e51fe1c9e41ee6fb0267048335792f80fb4eaa9e60b2059a837b03c6265e683f",
+      "04_研发源码/app/r4/foundation-state.js": "fe13987270141e7441f7cd6fb4e0e96b87c602220eabccd595fd6201ed37d723",
+      "04_研发源码/app/r4/foundation-state.css": "61c74d86f5b507f59ca6965b2f601ea391250d3052c20e58b1913de8db5d49c5",
+      "04_研发源码/app/r4/i18n-ui.js": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+      "04_研发源码/app/r4/life-chart-core.js": "ccc14bab4376072695e78f26942acbc68fdda300f1bd550ff6d56b15745b239b",
+      "04_研发源码/app/r4/map-exploration.js": "826672dc6d9e07148abdece47a502d73a32371f7ca4ddb919dea8e5e206b9a05",
+      "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+      "04_研发源码/app/r4/app.js": "16dd8c06d29b36ac9dd9bdff8e83d22fe8a7585bcd1ab68beeb72d30a7d660e8",
+      "04_研发源码/app/r4/daily.js": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+      "04_研发源码/app/r4/service-social.js": "32d4248d0070dde466c6aa93ec84313ad700aa3718d9a96ef947c980c2c6a6ae",
+      "04_研发源码/app/r4/membership.js": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+      "04_研发源码/app/r4/profile.js": "44f168feb16cfa69e9869dadefc327a5f9290202be39b5e91ef2a0212edb415f",
+      "04_研发源码/app/r4/time-bank.js": "4e595f4efab09fe32dd8cceeed4485be174d03bc9fbde9c2f7e8199a670e40df",
+      "04_研发源码/app/r4/music.js": "e2d954f03fe16f71b48e7041944849013caab9695a5bcd775fdaf848a87785c6",
+      "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+      "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+      "04_研发源码/app/cloud/prepare.py": "858a26fea949a22ebb46ce60fd2a634a9006202a8d19982ebad8edcde05a7b5c",
+      "04_研发源码/app/r4/creator-center.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+      "04_研发源码/app/r4/creator-admin.js": "fdf26885e01350d7df827f06eac4e5e744f282ae37770843b40c2ca81e2d64ad",
+      "04_研发源码/app/r4/creator-app.js": "c1461707fe086f5157e7c5a82b29922f713ff2013a89f63fe798db0179341a19",
+      "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+      "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+      "04_研发源码/app/r4/time-bank-admin.html": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+      "04_研发源码/app/r4/analytics-admin.js": "35ea6d01d72d56036ea376e54c6730579e17f123ef25b71cb87f1d997980a812",
+      "04_研发源码/app/r4/backend/server.py": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+      "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+      "04_研发源码/app/r4/analytics-app.js": "23befc00e9d46bd8031538386edd9d7dff749730c7d4e36edd73749ecf5efd62",
+      "04_研发源码/app/r4/life-chart-western.js": "63e49376d4b59359f3ddd106afc94c0f0986a9ddbff8d375c63ddf0585352838"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "add20357f30b60beb03a706582641554da3159b3bf1eb914c0c7ad5d4a44c6ec",
+      "发给负责人-东方智慧首页R4.html": "6f9b3d6d253e85eeaf8d090799df940ecff2181cc67fab6b1053b7d4ed9a9f14",
+      "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+      "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "cloudBuildHashes": {
+      "generated/experience.html": "7385d9168b2a6aa58527c46ceaea91c5d5fbc4eab617c5f4da39aaa61b1c7c99",
+      "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "lib/eastern-api.ts": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "96a6c6ca29cfddd1af697faeabefda695f3ecbe6e4bc03c2a6f18c8bff9f518b",
+      "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "report": "基础框架F05契约与恢复核验.json",
+    "restoreReport": {
+      "report": "基础框架F05隔离恢复核验-both.json",
+      "at": "2026-11-09T02:22:18.053Z",
+      "module": "基础框架F05",
+      "pass": true,
+      "passed": 4,
+      "failed": 0
+    },
+    "noBusinessChanges": true,
+    "full": {
+      "local": {
+        "report": "本轮全量回归结果.json",
+        "at": "2026-11-09T02:05:49.730Z",
+        "module": "基础框架F04后台读取与身份恢复",
+        "pass": true,
+        "passed": 60,
+        "failed": 0
+      },
+      "cloud": {
+        "report": "公网适配全量回归结果.json",
+        "at": "2026-11-09T02:06:24.528Z",
+        "module": "基础框架F04后台读取与身份恢复",
+        "pass": true,
+        "passed": 60,
+        "failed": 0
+      }
+    },
+    "fullEvidenceNote": "F04 final full, same unchanged source and build; F05 only adds isolated validation tools",
+    "isolation": {
+      "runtimeRoot": "04_研发源码/app/cloud/.wrangler",
+      "originalState": "ff04",
+      "onlyLoopback": true,
+      "ownedStates": [
+        {
+          "role": "source-copy",
+          "path": "04_研发源码/app/cloud/.wrangler/s3"
+        },
+        {
+          "role": "CLI-export-config",
+          "path": "04_研发源码/app/cloud/.wrangler/e2"
+        },
+        {
+          "role": "CLI-import-target",
+          "path": "04_研发源码/app/cloud/.wrangler/r2"
+        }
+      ],
+      "sourceStateIsReadOnlyInput": true,
+      "servicesStopped": true
+    },
+    "productionWrites": false,
+    "publication": false
+  }
+}

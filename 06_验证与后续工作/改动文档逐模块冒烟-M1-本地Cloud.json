@@ -1,0 +1,3094 @@
+{
+  "latest": {
+    "at": "2026-11-10T09:16:06.595Z",
+    "module": "改动文档M1-首页布局与三入口",
+    "moduleId": "M1",
+    "scope": "Current constructed APP, actual UI entry actions in an isolated anonymous browser; presentation matrix sets language/theme only. No production or user-preview database access.",
+    "partial": false,
+    "target": "cloud",
+    "sourceHashes": {
+      "04_研发源码/app/r4/frame-home-profile.js": "f7dd0229db7fd63483dea3ba78c1e2d5062f442b35366fa194ccc7d41ed31ea3",
+      "04_研发源码/app/r4/homepage.js": "8cdcb667f6e0af7d0056757ecdb90e0f7113175e5488b5a93bd2e37a3f71c30a",
+      "04_研发源码/app/r4/frame-layout.css": "37cc6f17779cbc3a7f28057e0f70693fb5400afedbf55559d60321adcf68e168",
+      "04_研发源码/app/r4/homepage.css": "94712cf4cc01efb3cd4339bca710419acf6e526b2a21cc1247073a2ac5fee138",
+      "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+      "04_研发源码/app/r4/xuanliu.js": "e8be85688f6993f74a5d674ffe6151e9bfedcfeabd2cdf82e49f3eaac38cede1",
+      "04_研发源码/app/r4/app-density.css": "c1b6575c12e55ee91820e4478ee8e5a297047dbd8400ad1cfee7d17a6963886e",
+      "04_研发源码/app/r4/build.py": "64d06e3a9e402c79cdcfd876d88847814a2f91898ead4228ebe92e01870c1ca9"
+    },
+    "buildHashes": {
+      "东方智慧-首页体验R4.html": "b4a42f54f0bb31c8e08159a169e9e9ed985aa77e224ae24c6f040793c279c018",
+      "发给负责人-东方智慧首页R4.html": "28e44c5af3f62314fc1fae8975ffa9f32c9bb8a812add23731ff683927a1c54b",
+      "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+      "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+    },
+    "buildSha256": "b4a42f54f0bb31c8e08159a169e9e9ed985aa77e224ae24c6f040793c279c018",
+    "productionWrites": false,
+    "syntheticClientOnly": true,
+    "isolation": {
+      "ownedBackend": false,
+      "externalFixtureExplicit": true,
+      "userPreviewPortsForbidden": [
+        8879,
+        8880
+      ],
+      "ownedServiceStopped": true,
+      "servicesStopped": false,
+      "externalServiceRetained": true
+    },
+    "base": "http://127.0.0.1:8877",
+    "servedSha256": "6bb99a804d83e14d9e3b33cf39792a666249c96a9838d0b8580cd76ae10f7225",
+    "cloudBuildHashes": {
+      "generated/experience.html": "6bb99a804d83e14d9e3b33cf39792a666249c96a9838d0b8580cd76ae10f7225",
+      "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+      "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+      "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "dist/server/index.js": "16fa5c0b141eddd07e14893d444ddb9a211527de1ff85e43792b875ee01aa3be"
+    },
+    "results": [
+      {
+        "name": "M1真实首页结构与保留入口",
+        "pass": true,
+        "detail": {
+          "dailyCard": 1,
+          "shortcuts": 3,
+          "maps": 3,
+          "mainNavigation": 5,
+          "bannerPractice": 1
+        }
+      },
+      {
+        "name": "M1四语言日夜多视口真实布局",
+        "pass": true,
+        "detail": {
+          "layouts": 24,
+          "languages": 4,
+          "modes": 2,
+          "viewports": 3,
+          "firstScreenRequired": [
+            "zh",
+            "zh-Hant",
+            "en"
+          ],
+          "tibetanNaturalScrollAndActualClicks": true
+        }
+      },
+      {
+        "name": "M1每日卡片真实抽取收藏刷新后回看",
+        "pass": true,
+        "detail": {
+          "drawPersisted": true,
+          "favoritePersisted": true,
+          "revisitWithoutRedraw": true
+        }
+      },
+      {
+        "name": "M1真实签到去重和成长入口",
+        "pass": true,
+        "detail": {
+          "oneCheckin": true,
+          "cardAndCheckinVisibleInGrowth": true
+        }
+      },
+      {
+        "name": "M1三地图与轮播练习真实触达",
+        "pass": true,
+        "detail": {
+          "maps": 3,
+          "bannerPracticeWorks": true,
+          "coursesViaMainNav": true
+        }
+      },
+      {
+        "name": "M1零页面错误与零出生上传",
+        "pass": true,
+        "detail": {
+          "pageErrors": 0,
+          "birthRequests": 0
+        }
+      }
+    ],
+    "errors": [],
+    "birthRequests": [],
+    "captures": [
+      {
+        "file": "改动文档-M1-首页-390x844.png",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "file": "改动文档-M1-首页-350x740.png",
+        "viewport": {
+          "width": 350,
+          "height": 740
+        }
+      },
+      {
+        "file": "改动文档-M1-首页-958x676.png",
+        "viewport": {
+          "width": 958,
+          "height": 676
+        }
+      }
+    ],
+    "layouts": [
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "zh",
+        "mode": "day",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 328.6875,
+        "cardBottom": 390.6875,
+        "entries": [
+          {
+            "x": 18,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 560.6875,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "zh",
+        "mode": "night",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 328.6875,
+        "cardBottom": 390.6875,
+        "entries": [
+          {
+            "x": 18,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 560.6875,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "zh-Hant",
+        "mode": "day",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 328.6875,
+        "cardBottom": 390.6875,
+        "entries": [
+          {
+            "x": 18,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 560.6875,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "zh-Hant",
+        "mode": "night",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 328.6875,
+        "cardBottom": 390.6875,
+        "entries": [
+          {
+            "x": 18,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 560.6875,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 560.6875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 617.6875,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "en",
+        "mode": "day",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 336.5,
+        "cardBottom": 398.5,
+        "entries": [
+          {
+            "x": 18,
+            "y": 592.5,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 592.5,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 592.5,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "en",
+        "mode": "night",
+        "appWidth": 390,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 768,
+        "cardTop": 336.5,
+        "cardBottom": 398.5,
+        "entries": [
+          {
+            "x": 18,
+            "y": 592.5,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 592.5,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 592.5,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 649.5,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "bo",
+        "mode": "day",
+        "appWidth": 390,
+        "scrollDistance": 155,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 758,
+        "cardTop": 518.984375,
+        "cardBottom": 586.765625,
+        "entries": [
+          {
+            "x": 18,
+            "y": 780.765625,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 837.765625,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 780.765625,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 837.765625,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 780.765625,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 837.765625,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 88,
+            "top": 692.765625,
+            "bottom": 749.765625,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 133,
+            "top": 647.765625,
+            "bottom": 704.765625,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 133,
+            "top": 647.765625,
+            "bottom": 704.765625,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "growth"
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "lang": "bo",
+        "mode": "night",
+        "appWidth": 390,
+        "scrollDistance": 151,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 758,
+        "cardTop": 518.984375,
+        "cardBottom": 583.171875,
+        "entries": [
+          {
+            "x": 18,
+            "y": 777.171875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 834.171875,
+            "right": 134.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 136.65625,
+            "y": 777.171875,
+            "width": 116.671875,
+            "height": 57,
+            "bottom": 834.171875,
+            "right": 253.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 255.328125,
+            "y": 777.171875,
+            "width": 116.65625,
+            "height": 57,
+            "bottom": 834.171875,
+            "right": 371.984375,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 84,
+            "top": 693.171875,
+            "bottom": 750.171875,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 129,
+            "top": 648.171875,
+            "bottom": 705.171875,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 129,
+            "top": 648.171875,
+            "bottom": 705.171875,
+            "navTop": 758,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 174,
+              "right": 384,
+              "top": 713,
+              "bottom": 749
+            },
+            "actual": "growth"
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "zh",
+        "mode": "day",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 14,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "zh",
+        "mode": "night",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 14,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "zh-Hant",
+        "mode": "day",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 14,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "zh-Hant",
+        "mode": "night",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 14,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 486.125,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 541.71875,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "en",
+        "mode": "day",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 287.5,
+        "cardBottom": 341.140625,
+        "entries": [
+          {
+            "x": 14,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "en",
+        "mode": "night",
+        "appWidth": 350,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 664,
+        "cardTop": 287.5,
+        "cardBottom": 341.140625,
+        "entries": [
+          {
+            "x": 14,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 528.140625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "bo",
+        "mode": "day",
+        "appWidth": 350,
+        "scrollDistance": 225,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 654,
+        "cardTop": 499.984375,
+        "cardBottom": 561.765625,
+        "entries": [
+          {
+            "x": 14,
+            "y": 748.765625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 748.765625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 748.765625,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 158,
+            "top": 590.765625,
+            "bottom": 646.359375,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 203,
+            "top": 545.765625,
+            "bottom": 601.359375,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 203,
+            "top": 545.765625,
+            "bottom": 601.359375,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "growth"
+          }
+        ]
+      },
+      {
+        "width": 350,
+        "height": 740,
+        "lang": "bo",
+        "mode": "night",
+        "appWidth": 350,
+        "scrollDistance": 222,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 654,
+        "cardTop": 499.984375,
+        "cardBottom": 558.171875,
+        "entries": [
+          {
+            "x": 14,
+            "y": 745.171875,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 120,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 122,
+            "y": 745.171875,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 228,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 230,
+            "y": 745.171875,
+            "width": 106,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 336,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 155,
+            "top": 590.171875,
+            "bottom": 645.765625,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 200,
+            "top": 545.171875,
+            "bottom": 600.765625,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 200,
+            "top": 545.171875,
+            "bottom": 600.765625,
+            "navTop": 654,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 134,
+              "right": 344,
+              "top": 609,
+              "bottom": 645
+            },
+            "actual": "growth"
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "zh",
+        "mode": "day",
+        "appWidth": 440,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 277,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "zh",
+        "mode": "night",
+        "appWidth": 440,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 277,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "zh-Hant",
+        "mode": "day",
+        "appWidth": 440,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 277,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "zh-Hant",
+        "mode": "night",
+        "appWidth": 440,
+        "scrollDistance": 0,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 279.6875,
+        "cardBottom": 333.328125,
+        "entries": [
+          {
+            "x": 277,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 473.328125,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 528.921875,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "en",
+        "mode": "day",
+        "appWidth": 440,
+        "scrollDistance": 31,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 287.5,
+        "cardBottom": 341.140625,
+        "entries": [
+          {
+            "x": 277,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "en",
+        "mode": "night",
+        "appWidth": 440,
+        "scrollDistance": 31,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 600,
+        "cardTop": 287.5,
+        "cardBottom": 341.140625,
+        "entries": [
+          {
+            "x": 277,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 528.140625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 583.734375,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "bo",
+        "mode": "day",
+        "appWidth": 440,
+        "scrollDistance": 289,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 590,
+        "cardTop": 499.984375,
+        "cardBottom": 561.765625,
+        "entries": [
+          {
+            "x": 277,
+            "y": 748.765625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 748.765625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 748.765625,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 804.359375,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 222,
+            "top": 526.765625,
+            "bottom": 582.359375,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 222,
+            "top": 526.765625,
+            "bottom": 582.359375,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 222,
+            "top": 526.765625,
+            "bottom": 582.359375,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "growth"
+          }
+        ]
+      },
+      {
+        "width": 958,
+        "height": 676,
+        "lang": "bo",
+        "mode": "night",
+        "appWidth": 440,
+        "scrollDistance": 286,
+        "documentOverflow": false,
+        "appOverflow": false,
+        "navTop": 590,
+        "cardTop": 499.984375,
+        "cardBottom": 558.171875,
+        "entries": [
+          {
+            "x": 277,
+            "y": 745.171875,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 410.328125,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 412.328125,
+            "y": 745.171875,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 545.65625,
+            "visible": true,
+            "covered": false
+          },
+          {
+            "x": 547.65625,
+            "y": 745.171875,
+            "width": 133.328125,
+            "height": 55.59375,
+            "bottom": 800.765625,
+            "right": 680.984375,
+            "visible": true,
+            "covered": false
+          }
+        ],
+        "naturalScrollAllowed": true,
+        "actualActions": [
+          {
+            "index": 0,
+            "expected": "checkin",
+            "scrollTop": 219,
+            "top": 526.171875,
+            "bottom": 581.765625,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "checkin"
+          },
+          {
+            "index": 1,
+            "expected": "favorites",
+            "scrollTop": 219,
+            "top": 526.171875,
+            "bottom": 581.765625,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "favorites"
+          },
+          {
+            "index": 2,
+            "expected": "growth",
+            "scrollTop": 219,
+            "top": 526.171875,
+            "bottom": 581.765625,
+            "navTop": 590,
+            "fullyVisible": true,
+            "covered": false,
+            "timer": {
+              "left": 742,
+              "right": 952,
+              "top": 545,
+              "bottom": 581
+            },
+            "actual": "growth"
+          }
+        ]
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "pass": true
+  },
+  "runs": [
+    {
+      "at": "2026-11-10T09:16:06.595Z",
+      "module": "改动文档M1-首页布局与三入口",
+      "moduleId": "M1",
+      "scope": "Current constructed APP, actual UI entry actions in an isolated anonymous browser; presentation matrix sets language/theme only. No production or user-preview database access.",
+      "partial": false,
+      "target": "cloud",
+      "sourceHashes": {
+        "04_研发源码/app/r4/frame-home-profile.js": "f7dd0229db7fd63483dea3ba78c1e2d5062f442b35366fa194ccc7d41ed31ea3",
+        "04_研发源码/app/r4/homepage.js": "8cdcb667f6e0af7d0056757ecdb90e0f7113175e5488b5a93bd2e37a3f71c30a",
+        "04_研发源码/app/r4/frame-layout.css": "37cc6f17779cbc3a7f28057e0f70693fb5400afedbf55559d60321adcf68e168",
+        "04_研发源码/app/r4/homepage.css": "94712cf4cc01efb3cd4339bca710419acf6e526b2a21cc1247073a2ac5fee138",
+        "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+        "04_研发源码/app/r4/xuanliu.js": "e8be85688f6993f74a5d674ffe6151e9bfedcfeabd2cdf82e49f3eaac38cede1",
+        "04_研发源码/app/r4/app-density.css": "c1b6575c12e55ee91820e4478ee8e5a297047dbd8400ad1cfee7d17a6963886e",
+        "04_研发源码/app/r4/build.py": "64d06e3a9e402c79cdcfd876d88847814a2f91898ead4228ebe92e01870c1ca9"
+      },
+      "buildHashes": {
+        "东方智慧-首页体验R4.html": "b4a42f54f0bb31c8e08159a169e9e9ed985aa77e224ae24c6f040793c279c018",
+        "发给负责人-东方智慧首页R4.html": "28e44c5af3f62314fc1fae8975ffa9f32c9bb8a812add23731ff683927a1c54b",
+        "计时后台-开发联调.html": "13690020b16840c9db691b54d6dd43401f2106c759eebbf243653f756c01f412",
+        "创作者中心.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85"
+      },
+      "buildSha256": "b4a42f54f0bb31c8e08159a169e9e9ed985aa77e224ae24c6f040793c279c018",
+      "productionWrites": false,
+      "syntheticClientOnly": true,
+      "isolation": {
+        "ownedBackend": false,
+        "externalFixtureExplicit": true,
+        "userPreviewPortsForbidden": [
+          8879,
+          8880
+        ],
+        "ownedServiceStopped": true,
+        "servicesStopped": false,
+        "externalServiceRetained": true
+      },
+      "base": "http://127.0.0.1:8877",
+      "servedSha256": "6bb99a804d83e14d9e3b33cf39792a666249c96a9838d0b8580cd76ae10f7225",
+      "cloudBuildHashes": {
+        "generated/experience.html": "6bb99a804d83e14d9e3b33cf39792a666249c96a9838d0b8580cd76ae10f7225",
+        "generated/admin.html": "8add552ec6a4e7b1f57ca27d777ebfb686abd9e0b0b930f92d51534fe04516f6",
+        "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "generated/creator.html": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+        "worker/index.ts": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+        "dist/server/index.js": "16fa5c0b141eddd07e14893d444ddb9a211527de1ff85e43792b875ee01aa3be"
+      },
+      "results": [
+        {
+          "name": "M1真实首页结构与保留入口",
+          "pass": true,
+          "detail": {
+            "dailyCard": 1,
+            "shortcuts": 3,
+            "maps": 3,
+            "mainNavigation": 5,
+            "bannerPractice": 1
+          }
+        },
+        {
+          "name": "M1四语言日夜多视口真实布局",
+          "pass": true,
+          "detail": {
+            "layouts": 24,
+            "languages": 4,
+            "modes": 2,
+            "viewports": 3,
+            "firstScreenRequired": [
+              "zh",
+              "zh-Hant",
+              "en"
+            ],
+            "tibetanNaturalScrollAndActualClicks": true
+          }
+        },
+        {
+          "name": "M1每日卡片真实抽取收藏刷新后回看",
+          "pass": true,
+          "detail": {
+            "drawPersisted": true,
+            "favoritePersisted": true,
+            "revisitWithoutRedraw": true
+          }
+        },
+        {
+          "name": "M1真实签到去重和成长入口",
+          "pass": true,
+          "detail": {
+            "oneCheckin": true,
+            "cardAndCheckinVisibleInGrowth": true
+          }
+        },
+        {
+          "name": "M1三地图与轮播练习真实触达",
+          "pass": true,
+          "detail": {
+            "maps": 3,
+            "bannerPracticeWorks": true,
+            "coursesViaMainNav": true
+          }
+        },
+        {
+          "name": "M1零页面错误与零出生上传",
+          "pass": true,
+          "detail": {
+            "pageErrors": 0,
+            "birthRequests": 0
+          }
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        {
+          "file": "改动文档-M1-首页-390x844.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "file": "改动文档-M1-首页-350x740.png",
+          "viewport": {
+            "width": 350,
+            "height": 740
+          }
+        },
+        {
+          "file": "改动文档-M1-首页-958x676.png",
+          "viewport": {
+            "width": 958,
+            "height": 676
+          }
+        }
+      ],
+      "layouts": [
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "zh",
+          "mode": "day",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 328.6875,
+          "cardBottom": 390.6875,
+          "entries": [
+            {
+              "x": 18,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 560.6875,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "zh",
+          "mode": "night",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 328.6875,
+          "cardBottom": 390.6875,
+          "entries": [
+            {
+              "x": 18,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 560.6875,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "zh-Hant",
+          "mode": "day",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 328.6875,
+          "cardBottom": 390.6875,
+          "entries": [
+            {
+              "x": 18,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 560.6875,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "zh-Hant",
+          "mode": "night",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 328.6875,
+          "cardBottom": 390.6875,
+          "entries": [
+            {
+              "x": 18,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 560.6875,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 560.6875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 617.6875,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "en",
+          "mode": "day",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 336.5,
+          "cardBottom": 398.5,
+          "entries": [
+            {
+              "x": 18,
+              "y": 592.5,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 592.5,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 592.5,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "en",
+          "mode": "night",
+          "appWidth": 390,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 768,
+          "cardTop": 336.5,
+          "cardBottom": 398.5,
+          "entries": [
+            {
+              "x": 18,
+              "y": 592.5,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 592.5,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 592.5,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 649.5,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "bo",
+          "mode": "day",
+          "appWidth": 390,
+          "scrollDistance": 155,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 758,
+          "cardTop": 518.984375,
+          "cardBottom": 586.765625,
+          "entries": [
+            {
+              "x": 18,
+              "y": 780.765625,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 837.765625,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 780.765625,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 837.765625,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 780.765625,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 837.765625,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 88,
+              "top": 692.765625,
+              "bottom": 749.765625,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 133,
+              "top": 647.765625,
+              "bottom": 704.765625,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 133,
+              "top": 647.765625,
+              "bottom": 704.765625,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "growth"
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "lang": "bo",
+          "mode": "night",
+          "appWidth": 390,
+          "scrollDistance": 151,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 758,
+          "cardTop": 518.984375,
+          "cardBottom": 583.171875,
+          "entries": [
+            {
+              "x": 18,
+              "y": 777.171875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 834.171875,
+              "right": 134.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 136.65625,
+              "y": 777.171875,
+              "width": 116.671875,
+              "height": 57,
+              "bottom": 834.171875,
+              "right": 253.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 255.328125,
+              "y": 777.171875,
+              "width": 116.65625,
+              "height": 57,
+              "bottom": 834.171875,
+              "right": 371.984375,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 84,
+              "top": 693.171875,
+              "bottom": 750.171875,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 129,
+              "top": 648.171875,
+              "bottom": 705.171875,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 129,
+              "top": 648.171875,
+              "bottom": 705.171875,
+              "navTop": 758,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 174,
+                "right": 384,
+                "top": 713,
+                "bottom": 749
+              },
+              "actual": "growth"
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "zh",
+          "mode": "day",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 14,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "zh",
+          "mode": "night",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 14,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "zh-Hant",
+          "mode": "day",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 14,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "zh-Hant",
+          "mode": "night",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 14,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 486.125,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 541.71875,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "en",
+          "mode": "day",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 287.5,
+          "cardBottom": 341.140625,
+          "entries": [
+            {
+              "x": 14,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "en",
+          "mode": "night",
+          "appWidth": 350,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 664,
+          "cardTop": 287.5,
+          "cardBottom": 341.140625,
+          "entries": [
+            {
+              "x": 14,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 528.140625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "bo",
+          "mode": "day",
+          "appWidth": 350,
+          "scrollDistance": 225,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 654,
+          "cardTop": 499.984375,
+          "cardBottom": 561.765625,
+          "entries": [
+            {
+              "x": 14,
+              "y": 748.765625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 748.765625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 748.765625,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 158,
+              "top": 590.765625,
+              "bottom": 646.359375,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 203,
+              "top": 545.765625,
+              "bottom": 601.359375,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 203,
+              "top": 545.765625,
+              "bottom": 601.359375,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "growth"
+            }
+          ]
+        },
+        {
+          "width": 350,
+          "height": 740,
+          "lang": "bo",
+          "mode": "night",
+          "appWidth": 350,
+          "scrollDistance": 222,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 654,
+          "cardTop": 499.984375,
+          "cardBottom": 558.171875,
+          "entries": [
+            {
+              "x": 14,
+              "y": 745.171875,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 120,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 122,
+              "y": 745.171875,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 228,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 230,
+              "y": 745.171875,
+              "width": 106,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 336,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 155,
+              "top": 590.171875,
+              "bottom": 645.765625,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 200,
+              "top": 545.171875,
+              "bottom": 600.765625,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 200,
+              "top": 545.171875,
+              "bottom": 600.765625,
+              "navTop": 654,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 134,
+                "right": 344,
+                "top": 609,
+                "bottom": 645
+              },
+              "actual": "growth"
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "zh",
+          "mode": "day",
+          "appWidth": 440,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 277,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "zh",
+          "mode": "night",
+          "appWidth": 440,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 277,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "zh-Hant",
+          "mode": "day",
+          "appWidth": 440,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 277,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "zh-Hant",
+          "mode": "night",
+          "appWidth": 440,
+          "scrollDistance": 0,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 279.6875,
+          "cardBottom": 333.328125,
+          "entries": [
+            {
+              "x": 277,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 473.328125,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 528.921875,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "en",
+          "mode": "day",
+          "appWidth": 440,
+          "scrollDistance": 31,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 287.5,
+          "cardBottom": 341.140625,
+          "entries": [
+            {
+              "x": 277,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "en",
+          "mode": "night",
+          "appWidth": 440,
+          "scrollDistance": 31,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 600,
+          "cardTop": 287.5,
+          "cardBottom": 341.140625,
+          "entries": [
+            {
+              "x": 277,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 528.140625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 583.734375,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "bo",
+          "mode": "day",
+          "appWidth": 440,
+          "scrollDistance": 289,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 590,
+          "cardTop": 499.984375,
+          "cardBottom": 561.765625,
+          "entries": [
+            {
+              "x": 277,
+              "y": 748.765625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 748.765625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 748.765625,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 804.359375,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 222,
+              "top": 526.765625,
+              "bottom": 582.359375,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 222,
+              "top": 526.765625,
+              "bottom": 582.359375,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 222,
+              "top": 526.765625,
+              "bottom": 582.359375,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "growth"
+            }
+          ]
+        },
+        {
+          "width": 958,
+          "height": 676,
+          "lang": "bo",
+          "mode": "night",
+          "appWidth": 440,
+          "scrollDistance": 286,
+          "documentOverflow": false,
+          "appOverflow": false,
+          "navTop": 590,
+          "cardTop": 499.984375,
+          "cardBottom": 558.171875,
+          "entries": [
+            {
+              "x": 277,
+              "y": 745.171875,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 410.328125,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 412.328125,
+              "y": 745.171875,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 545.65625,
+              "visible": true,
+              "covered": false
+            },
+            {
+              "x": 547.65625,
+              "y": 745.171875,
+              "width": 133.328125,
+              "height": 55.59375,
+              "bottom": 800.765625,
+              "right": 680.984375,
+              "visible": true,
+              "covered": false
+            }
+          ],
+          "naturalScrollAllowed": true,
+          "actualActions": [
+            {
+              "index": 0,
+              "expected": "checkin",
+              "scrollTop": 219,
+              "top": 526.171875,
+              "bottom": 581.765625,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "checkin"
+            },
+            {
+              "index": 1,
+              "expected": "favorites",
+              "scrollTop": 219,
+              "top": 526.171875,
+              "bottom": 581.765625,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "favorites"
+            },
+            {
+              "index": 2,
+              "expected": "growth",
+              "scrollTop": 219,
+              "top": 526.171875,
+              "bottom": 581.765625,
+              "navTop": 590,
+              "fullyVisible": true,
+              "covered": false,
+              "timer": {
+                "left": 742,
+                "right": 952,
+                "top": 545,
+                "bottom": 581
+              },
+              "actual": "growth"
+            }
+          ]
+        }
+      ],
+      "passed": 6,
+      "failed": 0,
+      "pass": true
+    }
+  ]
+}

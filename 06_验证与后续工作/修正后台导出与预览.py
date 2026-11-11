@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path(__file__).resolve().parents[1];f=p/'04_研发源码/app/r4/backend/server.py';s=f.read_text(encoding='utf-8').replace('ORDER BY r.created DESC,r.id','ORDER BY r.created DESC,r.owner,r.kind,r.day');f.write_text(s,encoding='utf-8')
+f=p/'04_研发源码/app/r4/time-bank-admin.html';s=f.read_text(encoding='utf-8');a=s.index('function csvCell(');b=s.index('function enhanceAdminLists()',a);block=s[a:b].replace('\\"','"').replace('\\\\','\\');s=s[:a]+block+s[b:];s=s.replace("d.type?.startsWith('image/')","d.mime?.startsWith('image/')").replace("d.type?.startsWith('audio/')","d.mime?.startsWith('audio/')");f.write_text(s,encoding='utf-8')

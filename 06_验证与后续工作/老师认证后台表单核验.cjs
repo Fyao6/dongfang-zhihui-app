@@ -1,0 +1,55 @@
+// Actual administrator form validation on a disposable local database.
+const fs=require('fs'),path=require('path'),assert=require('assert/strict'),{spawn}=require('child_process');
+const {chromium,request}=require(path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+const root=path.resolve(__dirname,'..'),python=path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'),db=path.join(__dirname,'老师认证后台浏览器专项.sqlite3');
+let server,browser;const apis=[];
+(async()=>{try{
+assert(!fs.existsSync(db),'Do not overwrite an existing test DB');
+server=spawn(python,['-B',path.join(root,'04_研发源码/app/r4/backend/server.py'),'--port','0','--db',db,'--web-root',path.join(root,'03_当前APP')],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+const base=await new Promise((resolve,reject)=>{let out='';const timer=setTimeout(()=>reject(Error('No isolated API service')),15000);server.stdout.on('data',c=>{out+=c;const match=out.match(/APP: (http:\/\/127\.0\.0\.1:\d+)/);if(match){clearTimeout(timer);resolve(match[1]);}});server.on('error',reject);});
+browser=await chromium.launch({headless:true});
+const context=await browser.newContext({viewport:{width:1360,height:1000}}),page=await context.newPage(),errors=[],checks=[];
+page.on('pageerror',e=>errors.push(e.message));
+await page.goto(base+'/admin');
+await page.locator('#auth-form [name=username]').fill('teacher_ui_admin');
+await page.locator('#auth-form [name=password]').fill('UiRegressionOnly_2026');
+await page.locator('#auth-form [name=name]').fill('隔离测试管理员');
+await page.locator('#auth-form button').click();await page.locator('.sidebar').waitFor();
+await page.locator('.sidebar [data-nav=teachers]').click();await page.locator('[data-action=new-content]').click();
+await page.locator('#content-form [name=id]').fill('teacher-ui-certified');
+await page.locator('#content-form [name=profileType]').selectOption('real');
+await page.locator('#content-form [name=name]').fill('后台认证表单测试老师');
+await page.locator('#content-form [name=specialty]').fill('仅测试');
+await page.locator('#content-form [name=verified]').check();
+await page.locator('#content-form [name=recommended]').check();
+await page.locator('#content-form button[value=published]').click();
+await page.locator('[data-edit=teacher-ui-certified]').waitFor();
+const admin=await request.newContext({baseURL:base,storageState:await context.storageState()});apis.push(admin);
+async function teacher(id){return (await (await admin.get('/api/admin/content/teachers')).json()).items.find(t=>t.id===id);}
+let actual=await teacher('teacher-ui-certified');assert.equal(actual.profileType,'real');assert.equal(actual.verified,true);assert.equal(actual.recommended,true);assert.equal(actual._status,'published');checks.push('管理员通过实际表单勾选真实老师认证及推荐并发布，API持久化为true');
+await page.locator('[data-action=new-content]').click();
+await page.locator('#content-form [name=id]').fill('teacher-ui-demo-denied');
+await page.locator('#content-form [name=profileType]').selectOption('demo');
+await page.locator('#content-form [name=name]').fill('不允许认证的示例');
+await page.locator('#content-form [name=verified]').check();
+await page.locator('#content-form button[value=published]').click();
+await page.locator('#content-error').filter({hasText:'示例资料不能标记为认证老师'}).waitFor();assert.equal(await teacher('teacher-ui-demo-denied'),undefined);checks.push('示例资料实际勾选认证发布被拒，未写入内容');
+await page.locator('.sidebar [data-nav=teachers]').click();await page.locator('[data-edit=teacher-ui-certified]').click();
+await page.locator('#content-form [name=recommended]').uncheck();await page.locator('#content-form button[value=published]').click();await page.locator('#content-form').waitFor({state:'detached'});await page.locator('[data-edit=teacher-ui-certified]').waitFor();
+actual=await teacher('teacher-ui-certified');assert.equal(actual.verified,true);assert.equal(actual.recommended,false);checks.push('取消推荐并发布后持久化为false，原认证仍为true');
+await page.locator('[data-edit=teacher-ui-certified]').click();await page.screenshot({path:path.join(__dirname,'老师认证后台-管理员.png'),fullPage:true});
+const member=await request.newContext({baseURL:base});apis.push(member);
+const response=await member.post('/api/auth/register',{data:{username:'teacher_ui_operator',password:'UiRegressionOnly_2026'}});assert.equal(response.status(),200);const operatorId=(await response.json()).user.id;
+assert.equal((await admin.patch('/api/admin/users/'+operatorId,{data:{role:'operator'}})).status(),200);
+const operatorContext=await browser.newContext({viewport:{width:1360,height:1000}}),operator=await operatorContext.newPage();operator.on('pageerror',e=>errors.push(e.message));
+await operator.goto(base+'/admin');await operator.locator('#auth-form [name=username]').fill('teacher_ui_operator');await operator.locator('#auth-form [name=password]').fill('UiRegressionOnly_2026');await operator.locator('#auth-form button').click();await operator.locator('.sidebar').waitFor();
+await operator.locator('.sidebar [data-nav=teachers]').click();await operator.locator('[data-edit=teacher-ui-certified]').click();
+assert(await operator.locator('#content-form [name=verified]').isDisabled());assert(await operator.locator('#content-form [name=recommended]').isDisabled());checks.push('运营编辑界面的认证和推荐控件均禁用');
+await operator.locator('#content-form [name=bio]').fill('运营仅更新简介');
+await operator.locator('#content-form button[value=published]').click();await operator.locator('#content-form').waitFor({state:'detached'});await operator.locator('[data-edit=teacher-ui-certified]').waitFor();
+actual=await teacher('teacher-ui-certified');assert.equal(actual.verified,true);assert.equal(actual.recommended,false);assert.equal(actual.bio,'运营仅更新简介');checks.push('运营更新其他字段后禁用控件未被误提交为false，认证状态保留');
+await operator.locator('[data-edit=teacher-ui-certified]').click();await operator.screenshot({path:path.join(__dirname,'老师认证后台-运营.png'),fullPage:true});
+assert.deepEqual(errors,[]);const report={at:new Date().toISOString(),pass:true,scope:'Actual built admin HTML and disposable Python/SQLite service; no production writes',checks,errors,buildSha256:require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,'03_当前APP/计时后台-开发联调.html'))).digest('hex')};
+fs.writeFileSync(path.join(__dirname,'老师认证后台表单核验.json'),JSON.stringify(report,null,2),'utf8');console.log('PASS actual teacher admin forms: '+checks.length+' checks');
+}finally{for(const api of apis)await api.dispose();await browser?.close();if(server){const stopped=new Promise(r=>server.once('exit',r));server.kill();await stopped;}for(const suffix of ['','-wal','-shm']){const file=db+suffix;if(path.dirname(file)===__dirname&&fs.existsSync(file))fs.unlinkSync(file);}}})().catch(e=>{console.error(e.stack);process.exitCode=1});
+

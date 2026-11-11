@@ -1,0 +1,4 @@
+const path=require('path'),{pathToFileURL}=require('url');const {chromium}=require(path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+(async()=>{const b=await chromium.launch({headless:true});try{const c=await b.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}),p=await c.newPage();p.on('pageerror',e=>console.log('ERROR',e.message));await p.goto('http://127.0.0.1:8765/experience');await p.waitForFunction(()=>typeof px!=='undefined');for(const [id,name]of [['home','首页'],['academy','智慧馆'],['service','AI服务'],['community','社群'],['profile','我的']]){await p.evaluate(id=>navigate(id),id);await p.waitForTimeout(350);await p.screenshot({path:path.join(__dirname,'统一界面-'+name+'.png')});console.log(id,await p.evaluate(()=>({page:state.page,w:document.documentElement.scrollWidth})));}}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1});
+
+

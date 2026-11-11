@@ -1,0 +1,175 @@
+{
+  "at": "2026-11-04T18:19:17.170558+08:00",
+  "status": "complete",
+  "request": "Move flowing gold scene above functional frames; repair missing back actions at every next level and run full regression",
+  "backup": {
+    "at": "2026-11-04T17:59:03.299553+08:00",
+    "pass": true,
+    "archive": "07_历史版本仅供追溯/玄金背景与返回修复前-20261104-175903.zip",
+    "archive_bytes": 285553133,
+    "sha256": "bf9c1d74e3850778da41ead4abaa71e994a20903e27ca899d5f6aa781aee60a7",
+    "verified_files": 1010,
+    "netlify_deploy_id": "6aeafbf4f004259942af3c22",
+    "sites_version": 9,
+    "source_commit": "3ffc7564fc42999568767b901e95b65c43ea63df",
+    "scope": "Authored files; dependencies, credentials and runtime data excluded"
+  },
+  "changes": [
+    "Three map gold canvases moved from feature cards into separate heading-background containers above all frames",
+    "Visible text back buttons with >=44px target, dynamic entered-parent chain and direct-entry parent fallbacks",
+    "Sticky return headers on long subpages",
+    "Ancestor collapse avoids save-to-parent return loops",
+    "Preserve player close/checkpoint/audioReturn behavior",
+    "Restore valid deep links only after all screens register",
+    "Complete Tibetan enumeration separator used by existing saved self-assessment reasoning"
+  ],
+  "sources": [
+    "04_研发源码/app/r4/xuanliu.js",
+    "04_研发源码/app/r4/frame-kit.js",
+    "04_研发源码/app/r4/frame-layout.css",
+    "04_研发源码/app/r4/navigation-back.js",
+    "04_研发源码/app/r4/i18n-ui.js",
+    "04_研发源码/app/r4/build.py",
+    "04_研发源码/app/r4/i18n-extra.json",
+    "04_研发源码/app/r4/i18n-catalog.js"
+  ],
+  "app_sha256": "ddddfeff0fd122b859b1920fdad4efa0bb0a197b8ecd0f2948382a37d6bdeeb7",
+  "checks": {
+    "cloudflare_local_full": {
+      "pass": true,
+      "passed": 56,
+      "failed": 0,
+      "at": "2026-11-04T10:21:49.127Z",
+      "report": "06_验证与后续工作/公网适配全量回归结果.json"
+    },
+    "local_navigation_gold": {
+      "pass": true,
+      "passed": 12,
+      "failed": 0,
+      "at": "2026-11-04T10:23:37.738Z",
+      "report": "06_验证与后续工作/玄金背景与返回逐页验收.json"
+    },
+    "local_existing_map_notes": {
+      "pass": true,
+      "passed": 9,
+      "failed": 0,
+      "at": "2026-11-04T10:22:19.836Z",
+      "report": "06_验证与后续工作/APP功能框版式验收.json"
+    },
+    "python_full": {
+      "pass": true,
+      "passed": 56,
+      "failed": 0,
+      "at": "2026-11-04T10:21:07.433Z",
+      "module": "玄金背景与返回修复最终三次回归",
+      "report": "06_验证与后续工作/本轮全量回归结果.json"
+    },
+    "public_build_consistency": {
+      "pass": true,
+      "report": "06_验证与后续工作/玄金返回公网构建一致性.json",
+      "routes": [
+        "/",
+        "/experience",
+        "/creator",
+        "/admin"
+      ]
+    },
+    "public_navigation_gold": {
+      "pass": true,
+      "passed": 11,
+      "failed": 0,
+      "at": "2026-11-04T10:30:43.213Z",
+      "report": "06_验证与后续工作/玄金背景与返回公网逐页验收.json",
+      "read_only": true,
+      "captures": [
+        "公网-玄金返回-lifeResult-日间.png",
+        "公网-玄金返回-body-日间.png",
+        "公网-玄金返回-mind-日间.png",
+        "公网-玄金返回-zh-350.png",
+        "公网-玄金返回-zh-Hant-350.png",
+        "公网-玄金返回-en-350.png",
+        "公网-玄金返回-bo-350.png"
+      ]
+    },
+    "public_existing_maps": {
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "at": "2026-11-04T10:29:11.632Z",
+      "report": "06_验证与后续工作/APP功能框版式公网验收.json",
+      "read_only": true,
+      "captures": [
+        "公网-APP功能框-首页.png",
+        "公网-APP功能框-lifeResult.png",
+        "公网-APP功能框-body.png",
+        "公网-APP功能框-mind.png",
+        "公网-APP功能框-我的.png",
+        "公网-APP功能框-classicsWisdom.png",
+        "公网-APP功能框-westernAstrology.png",
+        "公网-APP功能框-teaLife.png",
+        "公网-APP功能框-chineseCare.png",
+        "公网-APP功能框-tibetanCare.png",
+        "公网-APP功能框-healingSpace.png",
+        "公网-APP功能框-meditationStudy.png",
+        "公网-APP功能框-ziweiCulture.png",
+        "公网-APP功能框-ziweiChart.png",
+        "公网-APP功能框-bodyCulture.png",
+        "公网-APP功能框-bodyRecovery.png",
+        "公网-APP功能框-bodyHistory.png",
+        "公网-APP功能框-zenPractice.png",
+        "公网-APP功能框-mindHistory.png",
+        "公网-APP功能框-zh-350.png",
+        "公网-APP功能框-首页-日间.png",
+        "公网-APP功能框-zh-Hant-350.png",
+        "公网-APP功能框-en-350.png",
+        "公网-APP功能框-bo-350.png"
+      ]
+    },
+    "public_day_night_sticky_visual": {
+      "pass": true,
+      "passed": 10,
+      "report": "06_验证与后续工作/玄金返回公网日夜截图核验.json",
+      "read_only": true,
+      "captures": [
+        "公网-玄金返回-lifeResult-day-清晰.png",
+        "公网-玄金返回-body-day-清晰.png",
+        "公网-玄金返回-mind-day-清晰.png",
+        "公网-玄金返回-teaLife-day-长页吸顶.png",
+        "公网-玄金返回-academyGuide-day-长页吸顶.png",
+        "公网-玄金返回-lifeResult-night-清晰.png",
+        "公网-玄金返回-body-night-清晰.png",
+        "公网-玄金返回-mind-night-清晰.png",
+        "公网-玄金返回-teaLife-night-长页吸顶.png",
+        "公网-玄金返回-academyGuide-night-长页吸顶.png"
+      ]
+    }
+  },
+  "publication": {
+    "project_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a",
+    "source_commit": "df3d7a02d40c3639103dba7a1706a91a5adeb189",
+    "sites_version": 10,
+    "sites_version_id": "appgprj_6ae7fec0e2588191ad3ca7369fb19d9a~appgver_6c49c275847c8191b9362d1e2152ec5e",
+    "sites_deployment_id": "appgdep_6aeb087122688191b657e292a1ee94bc",
+    "sites_status": "succeeded",
+    "netlify_site_id": "1d4967d8-cb7c-4106-a092-03b716c3340c",
+    "netlify_deploy_id": "6aeb0883d69e096c4c4c3b42",
+    "netlify_status": "ready",
+    "archive": "06_验证与后续工作/玄金背景与逐级返回部署.tar.gz",
+    "url": "https://eastern-wisdom-demo-fuyao.netlify.app/experience?lang=zh-Hans&page=lifeResult"
+  },
+  "limits": [
+    "Browser and isolated backend regression do not replace physical-device acceptance",
+    "No AI, hardware, payment, credential or production database migration in this change",
+    "Existing chart/learning/browser-local note feature limits remain unchanged"
+  ],
+  "coverage": {
+    "subpages": 50,
+    "actual_forward_and_backward_edges": 181,
+    "local_navigation_gold_groups": 12,
+    "existing_map_note_groups": 9,
+    "public_forward_and_backward_edges": 169
+  },
+  "archive_sha256": "29e22401d7b2b4e8014bd1e0bc7a54a62ab43000bda7846923c69dd195a05661",
+  "checked_beijing": "2026-11-04T18:33:11.201133+08:00",
+  "visual_review": "Public life day, mind night and long tea page sticky header inspected; gold canvas belongs only to above-card heading region, back remains visible."
+}

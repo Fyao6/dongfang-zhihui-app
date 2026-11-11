@@ -1,0 +1,407 @@
+{
+  "at": "2026-11-10T09:51:30.528Z",
+  "module": "改动文档M2-三盘独立与真实星盘",
+  "base": "http://127.0.0.1:8881",
+  "scope": "Final constructed APP; anonymous isolated browser; synthetic localStorage birth/archive only",
+  "syntheticClientOnly": true,
+  "legacyArchiveFixtures": true,
+  "productionWrites": false,
+  "fixtureScope": "Display matrix changes language/theme in isolated state; archive uses approved synthetic legacy UTC/location record, not a geographic input or login proof",
+  "sourceHashes": {
+    "04_研发源码/app/r4/life-chart-core.js": "4c738f275f8d6cc7a5b2f4f26bc41456c8fbdfde3b8e892b0bc36d1f7710694e",
+    "04_研发源码/app/r4/life-chart-ziwei.js": "8f975904427dbcfd0563e182cd1d02c51feed2ad91043019dc1a315bd76d9c53",
+    "04_研发源码/app/r4/life-chart-bazi.js": "9b14b5bad8e8f021284f8d9fdc2d9fe9ab09d67e7e8c343d8562ecc09ad3a546",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js": "d5de97f34d95ed46adb3bee2d58ebc9b5a45247d96ec0c25b350be1770662f3f",
+    "04_研发源码/app/r4/life-chart-bazi-annotations.js": "b40884f0e3d8c01d79995c826f882d3a7420ba7b0cfe8fd0933dc7749517b48b",
+    "04_研发源码/app/r4/life-chart-western.js": "206e404c6b6efce37eb4d891ec500ddb53ecf2d7bb41b84e452e8224d0abedb7",
+    "04_研发源码/app/r4/life-charts.css": "7ce9cccccbb3eb30351288f4c7272f61b1ca6e615d3bd52e7579f39ddfa2414b",
+    "04_研发源码/app/r4/life-chart-workspace.css": "67f7ed0d48fc118b6cf4ceef8e2ed6b02b5e4d75e6dc8766d6e4de5b5bfeeafa",
+    "04_研发源码/app/r4/life-chart-bazi.css": "b12e555ce5f9e379b06172f7eec4935243a5c730b522b287060b418b90d99e70",
+    "04_研发源码/app/r4/life-chart-western.css": "b9af796b84884033af775c63dc5853b71e1ae9f15dd42cd185afd2460fadb7e0",
+    "04_研发源码/app/r4/life-birth-entry.js": "cb9b644ef746b3ab23dbf0fb2f3b015922278e1b5c1dd1286af41360394bde06",
+    "04_研发源码/app/r4/life.js": "631744b12023a970092b62fd81aedae40434899baccdb9454f48bb74afa94699",
+    "04_研发源码/app/r4/base.js": "cb9720ea8667598d97b4016245e5867b870fa36464fb295d364ed52b17b6f5c1",
+    "04_研发源码/app/r4/academy.js": "ec8665c97a56625ac68837dd50672bbb00e1a9a9e98d96001e95ef200a8a3a7d",
+    "04_研发源码/app/r4/app-density.css": "c1b6575c12e55ee91820e4478ee8e5a297047dbd8400ad1cfee7d17a6963886e",
+    "04_研发源码/app/r4/build.py": "64d06e3a9e402c79cdcfd876d88847814a2f91898ead4228ebe92e01870c1ca9"
+  },
+  "buildSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+  "buildHashes": {
+    "东方智慧-首页体验R4.html": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64"
+  },
+  "results": [
+    {
+      "name": "最终源码与实际服务构建同一身份",
+      "pass": true,
+      "ms": 525,
+      "detail": {
+        "servedSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+        "embedded": 15
+      }
+    },
+    {
+      "name": "真实四字段保存、自动紫微和三个独立排盘入口",
+      "pass": true,
+      "ms": 1329,
+      "detail": {
+        "automaticZiwei": true,
+        "sharedBirthUnchanged": true,
+        "independentEntries": 3,
+        "crossChartNavigation": 0
+      }
+    },
+    {
+      "name": "紫微十二宫完整资料、命身标记和弹层焦点",
+      "pass": true,
+      "ms": 1212,
+      "detail": {
+        "palaces": 12,
+        "completeRecords": 12,
+        "focusReturns": 12
+      }
+    },
+    {
+      "name": "紫微选宫放大适屏和语言宽度后保留选择",
+      "pass": true,
+      "ms": 835,
+      "detail": {
+        "index": 6,
+        "zoomVisible": {
+          "left": 22,
+          "right": 368,
+          "cellLeft": 207.75,
+          "cellRight": 367,
+          "ok": true
+        }
+      }
+    },
+    {
+      "name": "八字三级时间尺键盘选择和焦点滚位",
+      "pass": true,
+      "ms": 1715,
+      "detail": {
+        "rails": 3,
+        "keysPerRail": 4
+      }
+    },
+    {
+      "name": "八字相同上下文保留手动横滑、尺寸变化重定位",
+      "pass": true,
+      "ms": 423,
+      "detail": {
+        "manualScroll": 158,
+        "retained": 158
+      }
+    },
+    {
+      "name": "八字页签键盘和内容分层仍保留完整数据",
+      "pass": true,
+      "ms": 2482,
+      "detail": {
+        "tabs": 4,
+        "compareCells": 63,
+        "auxiliary": 4,
+        "selectionPreserved": true,
+        "detailsActuallyOpened": true,
+        "toolsActions": 4,
+        "notesAndSettingsReachable": true
+      }
+    },
+    {
+      "name": "旧完整西盘天体相位图例实际联动和键盘焦点",
+      "pass": true,
+      "ms": 944,
+      "detail": {
+        "bodies": 10,
+        "houses": 12,
+        "planetAspectCount": 2,
+        "type": "sextile"
+      }
+    },
+    {
+      "name": "西盘折叠资料仍实际访问十天体与宫界相位",
+      "pass": true,
+      "ms": 471,
+      "detail": {
+        "positions": 10,
+        "houses": 12,
+        "detailsSurviveSelection": true
+      }
+    },
+    {
+      "name": "日间三盘线色和西盘图例一致并加强",
+      "pass": true,
+      "ms": 544,
+      "detail": {
+        "ziwei": "rgb(100, 116, 139)",
+        "bazi": {
+          "rule": "#d7dade",
+          "accent": "#225f6b",
+          "elements": [
+            {
+              "element": "wood",
+              "color": "rgb(36, 131, 92)",
+              "contrast": 4.159563768185921
+            },
+            {
+              "element": "fire",
+              "color": "rgb(186, 88, 25)",
+              "contrast": 4.139520630270716
+            },
+            {
+              "element": "earth",
+              "color": "rgb(107, 114, 128)",
+              "contrast": 4.286240163609922
+            },
+            {
+              "element": "metal",
+              "color": "rgb(155, 113, 0)",
+              "contrast": 3.9149379576810612
+            },
+            {
+              "element": "water",
+              "color": "rgb(80, 97, 199)",
+              "contrast": 4.803940186488467
+            }
+          ]
+        },
+        "western": [
+          {
+            "type": "conjunction",
+            "color": "rgb(122, 45, 219)"
+          },
+          {
+            "type": "sextile",
+            "color": "rgb(8, 122, 58)"
+          },
+          {
+            "type": "square",
+            "color": "rgb(173, 87, 6)"
+          },
+          {
+            "type": "trine",
+            "color": "rgb(21, 86, 202)"
+          },
+          {
+            "type": "opposition",
+            "color": "rgb(213, 29, 56)"
+          }
+        ],
+        "house": {
+          "stroke": "rgb(91, 108, 130)",
+          "width": 1.6
+        }
+      }
+    },
+    {
+      "name": "档案A与共享资料B上下文、编辑范围明确",
+      "pass": true,
+      "ms": 619,
+      "detail": {
+        "archiveDate": "2000-01-01",
+        "sharedEditDate": "2005-12-23",
+        "archiveUnchanged": true
+      }
+    },
+    {
+      "name": "未知全天图、准确无坐标地心盘与四字段隐私",
+      "pass": true,
+      "ms": 1215,
+      "detail": {
+        "unknownExactResult": null,
+        "unknownBodies": 10,
+        "hoursPerBody": 25,
+        "knownGeocentricBodies": 10,
+        "guessedHousesOrAngles": 0
+      }
+    },
+    {
+      "name": "四语日夜四尺寸三盘无页面横溢",
+      "pass": true,
+      "ms": 33623,
+      "detail": {
+        "layouts": 256,
+        "westernModes": [
+          "legacy-complete",
+          "geocentric",
+          "date-range"
+        ],
+        "widths": [
+          350,
+          390,
+          430,
+          1280
+        ],
+        "languages": [
+          "zh",
+          "zh-Hant",
+          "en",
+          "bo"
+        ],
+        "modes": [
+          "day",
+          "night"
+        ],
+        "baziViews": [
+          "archive",
+          "flow",
+          "stars",
+          "relations"
+        ]
+      }
+    },
+    {
+      "name": "真实计时浮条开启仍可操作、刷新390展示截图",
+      "pass": true,
+      "ms": 1455,
+      "detail": {
+        "timerReachableControls": true,
+        "captures": 3
+      }
+    },
+    {
+      "name": "零脚本错误、零出生上传与结束身份一致",
+      "pass": true,
+      "ms": 89,
+      "detail": {
+        "pageErrors": 0,
+        "birthRequests": 0,
+        "sourceFiles": 16
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "file": "原创命盘-展示-390-紫微.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    },
+    {
+      "file": "原创命盘-展示-390-八字时间尺.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    },
+    {
+      "file": "原创命盘-展示-390-完整旧星盘.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "示例档案",
+      "timer": "hidden using actual tb-hide action"
+    }
+  ],
+  "birthRequests": [],
+  "blockedWrites": [
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    },
+    {
+      "method": "POST",
+      "url": "/api/time-bank/heartbeat"
+    }
+  ],
+  "servedSha256": "b703de77755c1ff6558706f23cfca7c51902dcf3599ad3e974b34443d63d2d64",
+  "embeddedFiles": [
+    "life-chart-core.js",
+    "life-chart-ziwei.js",
+    "life-chart-bazi.js",
+    "life-chart-bazi-layout.js",
+    "life-chart-bazi-annotations.js",
+    "life-chart-western.js",
+    "life-charts.css",
+    "life-chart-workspace.css",
+    "life-chart-bazi.css",
+    "life-chart-western.css",
+    "life-birth-entry.js",
+    "life.js",
+    "base.js",
+    "academy.js",
+    "app-density.css"
+  ],
+  "dayColors": {
+    "ziwei": "rgb(100, 116, 139)",
+    "bazi": {
+      "rule": "#d7dade",
+      "accent": "#225f6b",
+      "elements": [
+        {
+          "element": "wood",
+          "color": "rgb(36, 131, 92)",
+          "contrast": 4.159563768185921
+        },
+        {
+          "element": "fire",
+          "color": "rgb(186, 88, 25)",
+          "contrast": 4.139520630270716
+        },
+        {
+          "element": "earth",
+          "color": "rgb(107, 114, 128)",
+          "contrast": 4.286240163609922
+        },
+        {
+          "element": "metal",
+          "color": "rgb(155, 113, 0)",
+          "contrast": 3.9149379576810612
+        },
+        {
+          "element": "water",
+          "color": "rgb(80, 97, 199)",
+          "contrast": 4.803940186488467
+        }
+      ]
+    },
+    "western": [
+      {
+        "type": "conjunction",
+        "color": "rgb(122, 45, 219)"
+      },
+      {
+        "type": "sextile",
+        "color": "rgb(8, 122, 58)"
+      },
+      {
+        "type": "square",
+        "color": "rgb(173, 87, 6)"
+      },
+      {
+        "type": "trine",
+        "color": "rgb(21, 86, 202)"
+      },
+      {
+        "type": "opposition",
+        "color": "rgb(213, 29, 56)"
+      }
+    ],
+    "house": {
+      "stroke": "rgb(91, 108, 130)",
+      "width": 1.6
+    }
+  },
+  "passed": 15,
+  "failed": 0,
+  "pass": true
+}

@@ -1,0 +1,15 @@
+// Functional frames follow the supplied layout; all destinations use the existing app.
+function flText(en,zh,hant,bo){return ({en,zh,'zh-Hant':hant,bo})[ewI18n.normalize(state.lang)]||zh;}
+function flHero(symbol,title,copy,to,extraClass=''){return `<button class="fl-hero ${extraClass}" data-action="go" data-to="${to}"><span class="fl-symbol" aria-hidden="true">${icon(symbol)}</span><span class="fl-copy"><b>${title}</b><small>${copy}</small></span><span class="fl-arrow" aria-hidden="true">${icon('arrow')}</span></button>`;}
+function flCard(symbol,title,copy,to,extraClass=''){return `<button class="fl-card ${extraClass}" data-action="go" data-to="${to}"><span class="fl-symbol" aria-hidden="true">${icon(symbol)}</span><span class="fl-copy"><b>${title}</b><small>${copy}</small></span></button>`;}
+function flArchive(symbol,title,copy,to){return `<button class="fl-archive" data-action="go" data-to="${to}"><span class="fl-symbol" aria-hidden="true">${icon(symbol)}</span><span class="fl-copy"><b>${title}</b><small>${copy}</small></span>${icon('arrow','icon fl-end-arrow')}</button>`;}
+function flTabs(items){return `<nav class="fl-tabs ew-map-flow" aria-label="${t('Explore this map','探索这张地图')}">${items.map(x=>`<button data-action="go" data-to="${x.to}">${icon(x.icon)}<span>${x.title}</span></button>`).join('')}</nav>`;}
+function flRow(symbol,title,copy,to,attributes=''){return `<button class="fl-list-row" ${attributes||`data-action="go" data-to="${to}"`}><span class="fl-row-icon" aria-hidden="true">${icon(symbol)}</span><span class="fl-row-copy"><b>${title}</b>${copy?`<small>${copy}</small>`:''}</span>${icon('arrow','icon fl-end-arrow')}</button>`;}
+
+function flMapHeader(title,copy){return `<header class="fl-map-heading"><h1>${title}</h1><p>${copy}</p><div class="xl-map-scene" aria-hidden="true"></div></header>`;}
+function mapArchiveNotes(kinds){
+ if(typeof mapExplorationRecords!=='function')return '';
+ const labels={classics:flText('Chinese classics','国学智慧','國學智慧','རྒྱ་ནག་གི་གཞུང་རིག་ཤེས་རབ།'),western:flText('Astrology exploration','星盘探索','星盤探索','སྐར་རྩིས་ཀྱི་ས་ཁྲ་འཚོལ་ཞིབ།'),tea:flText('Tea life','茶道生活','茶道生活','ཇའི་རིག་གནས་དང་འཚོ་བ།'),tibetan:flText('Tibetan wellbeing','藏医养护','藏醫養護','བོད་ཀྱི་གསོ་རིག་གཅེས་སྐྱོང་།')};
+ const notes=kinds.flatMap(kind=>mapExplorationRecords(kind)).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+ return `<section class="mx-history map-local-archive"><h2>${flText('Learning & everyday notes','学习与生活记录','學習與生活記錄','སློབ་སྦྱོང་དང་འཚོ་བའི་ཟིན་ཐོ།')}</h2>${notes.length?notes.map(note=>`<article class="mx-history-card" data-map-note-id="${esc(note.id)}"><small>${labels[note.kind]||''}${Number.isFinite(Date.parse(note.at))?' · '+esc(new Date(note.at).toLocaleDateString(ewI18n.locales[state.lang].intl)):''}</small><h3>${esc(note.title)}</h3><p>${esc(note.note)}</p></article>`).join(''):`<p class="small mx-empty">${flText('Notes you save in these spaces will appear here.','在对应功能中保存的记录，会显示在这里。','在對應功能中儲存的記錄，會顯示在這裡。','བྱེད་ནུས་དེ་དག་ནང་ཉར་བའི་ཟིན་ཐོ་འདིར་འཆར་རྒྱུ་ཡིན།')}</p>`}</section>`;
+}

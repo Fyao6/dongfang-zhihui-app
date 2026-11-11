@@ -1,0 +1,41 @@
+{
+  "at": "2026-11-05T08:17:42.526Z",
+  "discovery": "Manual inspection of real browser screenshots followed by source inspection; the initial M3 test did not check the time-panel boundary text.",
+  "observedBuildSha256": "3df914ae0457234ab1cc1e373b11a8870a74d8018ad2298bd30b719af48b4a4a",
+  "input": {
+    "birth": "2005-12-23 08:37 Asia/Shanghai male",
+    "syntheticNow": "2026-11-05T04:00:00Z",
+    "manualSelection": {
+      "period": 1,
+      "year": 3,
+      "month": 5
+    },
+    "visibleSelection": "2014 甲午 未"
+  },
+  "actualTimePanel": "寒露 → 立冬",
+  "expectedTimePanel": "小暑 → 立秋",
+  "cause": "lcbTimingPanel used the current calendar interval while rendering the manual year/month label.",
+  "regressionAssertion": "Stage M3 now checks the manual 2014 Wei-month time-panel text contains 小暑 and 立秋.",
+  "beforeCaptures": [
+    "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\八字M3-手选节令边界混用-修复前-日间.png",
+    "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\八字M3-手选节令边界混用-修复前-夜间.png"
+  ],
+  "fixReportedByRoot": "Manual mode uses lcbMonthInterval(selectedYear,selectedMonth); current mode continues to use the current interval.",
+  "verification": {
+    "standalone": {
+      "at": "2026-11-05T08:18:13.318Z",
+      "passed": 3,
+      "failed": 0
+    },
+    "full": {
+      "at": "2026-11-05T08:19:08.540Z",
+      "passed": 59,
+      "failed": 0
+    },
+    "buildSha256": "de8ca33070095933114cfd0dc94fdbeb80c23b4fee64b8e08a6dd2be5a7516b9"
+  },
+  "afterCaptures": [
+    "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\八字M3-手选节令边界修复后-日间.png",
+    "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\八字M3-手选节令边界修复后-夜间.png"
+  ]
+}

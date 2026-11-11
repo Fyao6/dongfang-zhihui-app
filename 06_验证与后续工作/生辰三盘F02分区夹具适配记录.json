@@ -1,0 +1,29 @@
+{
+  "at": "2026-11-09T02:04:46.432Z",
+  "phase": "pre-execution harness adaptation",
+  "reason": "F02 lcScope reads personalStorage.scope rather than px.user. Old px.user-only fake actor assignment no longer switches account storage. Existing synthetic ownership cases now explicitly use psSwitch(fakeScope/previousScope).",
+  "authorizedBy": "root delegated permission for the two synthetic owner fixture changes",
+  "businessSourceChanged": false,
+  "productionWrites": false,
+  "executed": false,
+  "realLoginAcceptance": false,
+  "preserved": [
+    "all ownership and data-deletion assertions",
+    "original note retention assertions",
+    "four-field birth gate and exact engine assertions",
+    "zero outgoing birth-data writes assertions",
+    "existing complete test scope"
+  ],
+  "changes": [
+    {
+      "file": "06_验证与后续工作/出生资料地域移除核验.cjs",
+      "beforeSha256": "6d089ea5db74eed88cf26a3dcd9769cd3ca5242c434c093ca0ef594c8e08592c",
+      "afterSha256": "639af36a846b66433b22f4309b21e58cd3396fe7fe098cb2d1424f8aab28dacf"
+    },
+    {
+      "file": "06_验证与后续工作/三盘实际排盘联调.cjs",
+      "beforeSha256": "af758e06c045fd20068a80701ba32b913493f22603adca0b3b6e1c4c6abaebea",
+      "afterSha256": "ee07cfbfc8632405dadc7ae73918e80b7da2ecb56a77b714681a2cfa61871a4c"
+    }
+  ]
+}
