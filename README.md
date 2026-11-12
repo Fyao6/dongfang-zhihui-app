@@ -4,9 +4,9 @@
 
 ## 在线预览
 
-**[直接打开APP在线交互预览](https://fyao6.github.io/dongfang-zhihui-app/)**
+**[直接打开纯APP网页版](https://fyao6.github.io/dongfang-zhihui-app/)** · [带说明的评审模式](https://fyao6.github.io/dongfang-zhihui-app/?view=review)
 
-负责人无需下载或安装，可查看当前页面、三大地图、练习和浏览器本机排盘。GitHub Pages不运行账号、社群服务、创作者后台或数据库；这些功能仍按下方本机服务说明使用。预览资料仅保存在当前浏览器。
+默认直接显示APP，没有侧边介绍、外层菜单或模拟手机边框；带说明的版本可从“评审模式”进入。负责人无需下载或安装，可查看当前页面、三大地图、练习和浏览器本机排盘。GitHub Pages不运行账号、社群服务、创作者后台或数据库；这些功能仍按下方本机服务说明使用。预览资料仅保存在当前浏览器。
 
 提交更新后的 `03_当前APP` 查看页面后，会自动发布到同一地址；发布状态见仓库 Actions 的“APP在线预览”，实际构建身份见 [在线版本信息](https://fyao6.github.io/dongfang-zhihui-app/version.json)。
 

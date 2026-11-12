@@ -30,11 +30,11 @@ def prepare(output, commit=None):
     if any(p.name not in {'index.html','version.json','.nojekyll','pages-preview.js'} or not p.is_file() or p.is_symlink() for p in output.iterdir()):
         raise ValueError('Output contains unexpected files; no cleanup was attempted')
     # Use the last closing body: the embedded APP string also contains </body>.
-    marker = b'<script src="./pages-preview.js"></script>'
+    adapter = ADAPTER.read_bytes()
+    marker = ('<script src="./pages-preview.js?v='+digest(adapter)[:12]+'"></script>').encode('ascii')
     before, separator, after = source.rpartition(b'</body>')
     if not separator: raise ValueError('Owner preview closing body is missing')
     index = before + marker + separator + after
-    adapter = ADAPTER.read_bytes()
     (output/'index.html').write_bytes(index)
     (output/'pages-preview.js').write_bytes(adapter)
     (output/'.nojekyll').write_bytes(b'')
@@ -50,6 +50,8 @@ def prepare(output, commit=None):
         'preview_bytes':len(source),
         'scope':'Owner preview and embedded APP source bytes preserved; one outer script explains the static scope and blocks unavailable server links. Original guest mode is unchanged; no server, account, AI or production data is deployed.',
         'business_rebuilt':False,
+        'default_view':'app',
+        'review_view':'?view=review',
     }
     (output/'version.json').write_text(json.dumps(version,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     if (output/'index.html').read_bytes().replace(marker,b'',1)!=source: raise AssertionError('Published owner preview bytes changed beyond the outer adapter tag')

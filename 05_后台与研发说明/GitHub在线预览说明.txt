@@ -1,7 +1,9 @@
 东方智慧APP · GitHub在线交互预览
 
 固定入口：https://fyao6.github.io/dongfang-zhihui-app/
-仓库首页README已提供“直接打开APP在线交互预览”。
+默认入口为纯APP网页版，没有侧边介绍、外层导航和模拟手机边框。
+带说明的评审模式：https://fyao6.github.io/dongfang-zhihui-app/?view=review
+仓库首页README已同时提供两个入口，个人资料在同一站点浏览器内保留。
 
 负责人无需下载文件，可在电脑手机浏览当前界面、三地图、练习和本机排盘；语言和外观沿用当前APP。生辰、档案和个人记录仍仅保存在该浏览器，不会由静态预览上传。
 
@@ -12,3 +14,8 @@ GitHub Pages只运行前端。账号登录、发帖审核、创作者、公司�
 发布产物白名单：index.html、pages-preview.js、version.json、.nojekyll。index保持原负责人页的完整数据和内嵌APP，只在最外层追加静态提示桥；计算和生辰规则不变。首次加载含完整字体、图像、视频和城市索引，冷启动大小约44.2MB，后续可使用浏览器缓存。
 
 不上传环境、密钥、账号会话、数据库、用户上传、Git内部、依赖和历史压缩包。实际冒烟与部署状态见06目录GitHub在线预览发布记录.json及GitHub在线预览冒烟结果.json。
+
+2026-11-12 纯APP入口调整
+用户找回原先无侧边说明的/experience版本。原本机入口仍是http://127.0.0.1:8880/experience，原APP文件未删除；核查时8880服务未运行，本次不猜测/切换原预览数据库。
+GitHub默认页现按纯APP展示；view=app与默认相同，view=review保留评审布局。只通过部署外层CSS隐藏介绍和手机外壳并让iframe占满真实视口，APP自身桌面居中和手机布局保持。APP源、出生规则和真实计算未改变；srcdoc的guest模式仍然保持，避免纯静态HTTPS直挂APP误请求后台API。
+原始首次Pages部署7组记录保留历史；当前纯APP呈现的专项与实际部署以06/GitHub纯APP预览发布记录.json及GitHub纯APP预览冒烟结果.json为准。
