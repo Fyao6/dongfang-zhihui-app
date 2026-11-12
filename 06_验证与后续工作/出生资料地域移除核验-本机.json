@@ -1,7 +1,7 @@
 {
   "latest": {
-    "at": "2026-11-11T07:46:37.146Z",
-    "module": "真实星盘W1-出生城市与完整档案",
+    "at": "2026-11-12T07:57:22.189Z",
+    "module": "八字留白与字号优化",
     "productionWrites": false,
     "pass": true,
     "passed": 8,
@@ -63,7 +63,7 @@
       "04_研发源码/app/r4/life-chart-western.js": "bd19aa6953f47bf738d58358ef9a60e005ca002bbc4bffc1cba3c30bb9a37cf3",
       "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d"
     },
-    "buildSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65"
+    "buildSha256": "7fbbbc3835b05ee81212df2d80842da471ea0ad5a02f16542847093267cad82d"
   },
   "runs": [
     {
@@ -1193,6 +1193,72 @@
         "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d"
       },
       "buildSha256": "41ad7f3c1900da6bcb972050beca8c42e282e591314eeaa60d8ff04a217c6b65"
+    },
+    {
+      "at": "2026-11-12T07:57:22.189Z",
+      "module": "八字留白与字号优化",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 8,
+      "failed": 0,
+      "results": [
+        {
+          "name": "出生入口和深链仍有保存门禁，表单只含生日性别称呼及选填时间",
+          "pass": true
+        },
+        {
+          "name": "时间留空可保存进入四卡，未知时刻不调用完整三盘，也不新增位置",
+          "pass": true
+        },
+        {
+          "name": "新资料按固定北京时间保存即生成紫微，八字样例真实正确，西盘不猜地点宫位",
+          "pass": true
+        },
+        {
+          "name": "历史夏令时年份的新资料仍是UTC+8，非法生日不能保存覆盖旧资料",
+          "pass": true
+        },
+        {
+          "name": "既有共享资料普通编辑保留内部地域与原UTC，新建排盘重新使用空位置",
+          "pass": true
+        },
+        {
+          "name": "旧完整星盘和重复时刻八字档案按原UTC及地点复算，不篡改新共享资料",
+          "pass": true
+        },
+        {
+          "name": "共享资料按账号隔离，已有档案或内存盘不能绕过未保存的出生门禁",
+          "pass": true
+        },
+        {
+          "name": "四语日夜窄屏均直接显示四字段，无隐藏地域控件且出生资料不上传",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "birthRequests": [],
+      "captures": [
+        "本机-地域移除-四字段入口.png",
+        "本机-地域移除-无地点星盘.png",
+        "本机-地域移除-最终四字段手机.png"
+      ],
+      "syntheticClientOnly": true,
+      "legacyArchiveFixtures": true,
+      "harnessAdaptation": {
+        "reason": "F02 owner scope comes from personalStorage.scope; synthetic fixtures now call psSwitch in addition to px.user.",
+        "realLoginAcceptance": false,
+        "assertionsPreserved": true
+      },
+      "scope": "M2 actual four-field form, exact geocentric chart and non-exact date-range mode; explicit pre-existing legacy shared-profile/archive fixtures preserve old timezone/coordinates/DST. Isolated local service only; no production data.",
+      "sourceHashes": {
+        "04_研发源码/app/r4/life-western-profile.js": "2b2f27ad668cebd9cc0335f636a0782cfef04f55c6f0025d409bf97d9720c3e4",
+        "04_研发源码/app/r4/life-western-cities.js": "1c0dc5b3ef28f428f1bd1026fe6037c66181f91ed9e05f8b45d17044fe8242c5",
+        "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+        "04_研发源码/app/r4/life-chart-core.js": "b02ac3d58eed193c5ca01dd44541a15ec09901dfc5f20002e14a6ab89887abb9",
+        "04_研发源码/app/r4/life-chart-western.js": "bd19aa6953f47bf738d58358ef9a60e005ca002bbc4bffc1cba3c30bb9a37cf3",
+        "04_研发源码/app/r4/life-chart-western.css": "3e14ceb3cd24aeafe36364b88f1d790355cca7c404238bf25f02c2f5bfb6a02d"
+      },
+      "buildSha256": "7fbbbc3835b05ee81212df2d80842da471ea0ad5a02f16542847093267cad82d"
     }
   ]
 }

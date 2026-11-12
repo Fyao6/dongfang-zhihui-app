@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parent.parent
 WEB=ROOT/'03_当前APP';R4=ROOT/'04_研发源码/app/r4';CLOUD=ROOT/'04_研发源码/app/cloud'
 REPORT='06_验证与后续工作/最新打包校验结果.json'
 PREFLIGHT='06_验证与后续工作/本次打包内容核验.json'
-DELIVERY=next(name for name in ['06_验证与后续工作/真实星盘档案交付记录.json','06_验证与后续工作/完整星盘交付记录.json','06_验证与后续工作/准了参考交付记录.json','06_验证与后续工作/改动文档交付记录.json','06_验证与后续工作/原创命盘表达交付记录.json','06_验证与后续工作/基础框架交付记录.json','06_验证与后续工作/基础框架本地验收及发布待续记录.json','06_验证与后续工作/基础框架阶段打包交付记录.json'] if (ROOT/name).exists())
+DELIVERY=next(name for name in ['06_验证与后续工作/八字表留白与字号交付记录.json','06_验证与后续工作/真实星盘档案交付记录.json','06_验证与后续工作/完整星盘交付记录.json','06_验证与后续工作/准了参考交付记录.json','06_验证与后续工作/改动文档交付记录.json','06_验证与后续工作/原创命盘表达交付记录.json','06_验证与后续工作/基础框架交付记录.json','06_验证与后续工作/基础框架本地验收及发布待续记录.json','06_验证与后续工作/基础框架阶段打包交付记录.json'] if (ROOT/name).exists())
 UI_SOURCES=['life-chart-core.js','life-chart-ziwei.js','life-chart-workspace.css','life-chart-bazi.js','life-chart-bazi-layout.js','life-chart-bazi-annotations.js','life-chart-bazi.css','life-chart-western.js','life-chart-western.css','life-birth-entry.js','app-density.css','academy.js','academy-teachers.js','frame-home-profile.js','homepage.js','frame-layout.css','homepage.css','xuanliu.js']
 UI_REPORTS={'birth':('出生资料地域移除核验-本机.json',8),'charts':('三盘实际排盘联调.json',14),'expression':('原创命盘交互核验.json',15),'layout':('页面长度与日间命盘优化核验.json',16),'bazi_reference':('八字参考排版核验.json',12)}
 SELF={'资料校验清单.csv','原始来源与文件校验.json'}
@@ -227,7 +227,7 @@ def city_snapshot(delivery,checks):
  checks['city_data_snapshot']={'report':rel,'sha256':ref['sha256'],'snapshot':review['snapshot'],'coverage':review['coverage'],'raw_archives_in_payload':False,'license':'GeoNames CC BY 4.0; attribution and changes notice retained.'}
  return review
 
-def real_western_module(delivery,checks):
+def real_western_module(delivery,checks,current_module=True):
  previous=delivery.get('previous_structure_revision',{});rel='06_验证与后续工作/完整星盘交付记录.json'
  need(previous.get('report')==rel and digest(ROOT/rel)==previous.get('sha256'),'Previous S1 receipt changed')
  old=read(rel);need(old.get('pass') is True and old.get('structure_revision') is True and previous.get('app_build_sha256')==old.get('app_build_sha256'),'Previous S1 receipt identity differs')
@@ -248,26 +248,97 @@ def real_western_module(delivery,checks):
   if '全量' in Path(rel).name:
    need(count>=60,'W1 full incomplete');targets.add('cloudflare' if run.get('cloudWorker') or 'cloud' in Path(rel).name.lower() else 'local')
   if '冒烟' in Path(rel).name:need(run.get('productionWrites') is False,'W1 smoke not isolated');smokes+=1
-  for source,value in run.get('sourceHashes',{}).items():need(digest(ROOT/source)==value,'Final W1 source differs: '+source)
-  for folder,key in [(WEB,'buildHashes'),(CLOUD,'cloudBuildHashes')]:
-   for source,value in run.get(key,{}).items():need((folder/source).resolve().is_relative_to(folder.resolve()) and digest(folder/source)==value,'Final W1 build differs: '+source)
-  items.append({'report':rel,'sha256':reference['sha256'],'at':run['at'],'module':REAL_WESTERN_MODULE,'passed':count,'app_build_sha256':expected})
+  if current_module:
+   for source,value in run.get('sourceHashes',{}).items():need(digest(ROOT/source)==value,'Final W1 source differs: '+source)
+   for folder,key in [(WEB,'buildHashes'),(CLOUD,'cloudBuildHashes')]:
+    for source,value in run.get(key,{}).items():need((folder/source).resolve().is_relative_to(folder.resolve()) and digest(folder/source)==value,'Final W1 build differs: '+source)
+  items.append({'report':rel,'sha256':reference['sha256'],'at':run['at'],'module':REAL_WESTERN_MODULE,'passed':count,'app_build_sha256':expected,'historical_stage':not current_module})
  need(targets=={'local','cloudflare'} and smokes,'W1 needs both full regressions and actual smoke')
- checks['real_western_module']={'report':REAL_WESTERN_LEDGER,'sha256':ref['sha256'],'reports':items,'scope':'W1 alone binds current source/build; earlier S1/C1C2/M1M5/F05 evidence stays historical.'}
+ checks['real_western_module']={'report':REAL_WESTERN_LEDGER,'sha256':ref['sha256'],'reports':items,'scope':('W1 alone binds current source/build; earlier S1/C1C2/M1M5/F05 evidence stays historical.' if current_module else 'W1 and preceding stages bind their frozen historical APPs/reports; no current CSS acceptance claimed.')}
  return items
+
+BAZI_SPACING_MODULE='八字留白与字号优化'
+BAZI_SPACING_RECORD='06_验证与后续工作/八字表留白与字号交付记录.json'
+PAGES_URL='https://fyao6.github.io/dongfang-zhihui-app/'
+
+def pages_artifact_identity():
+ source=(WEB/'发给负责人-东方智慧首页R4.html').read_bytes();adapter=ROOT/'06_验证与后续工作/GitHub静态预览提示.js'
+ tag=('<script src="./pages-preview.js?v='+digest(adapter)[:12]+'"></script>').encode('ascii')
+ before,separator,after=source.rpartition(b'</body>');need(separator,'Preview closing body missing')
+ return {'app_sha256':digest(WEB/'东方智慧-首页体验R4.html'),'preview_sha256':hashlib.sha256(source).hexdigest(),'index_sha256':hashlib.sha256(before+tag+separator+after).hexdigest(),'adapter_sha256':digest(adapter)}
+
+def bazi_spacing_history(delivery,checks):
+ previous=delivery.get('previous_real_western_revision',{});rel='06_验证与后续工作/真实星盘档案交付记录.json'
+ need(previous.get('report')==rel and digest(ROOT/rel)==previous.get('sha256'),'Historical W1 receipt changed')
+ old=read(rel);need(old.get('pass') is True and old.get('real_western_revision') is True and previous.get('app_build_sha256')==old.get('app_build_sha256'),'Historical W1 APP identity differs')
+ for field in ['foundation_baseline','module_ledger','complete_modules','document_module_ledger','reference_module_ledger','structure_module_ledger','real_western_module_ledger']:
+  need(delivery.get(field)==old.get(field),'Historical W1 provenance differs: '+field)
+ real_western_module(old,checks,current_module=False)
+ changed=[]
+ for rel,value in old['source_sha256'].items():
+  if rel.startswith('04_研发源码/app/r4/') and digest(ROOT/rel)!=value:
+   need(Path(rel).parent==R4.relative_to(ROOT) and Path(rel).suffix=='.css','Non-CSS APP source changed in spacing-only revision: '+rel);changed.append(rel)
+ need(changed and sorted(changed)==delivery.get('changed_app_sources'),'Actual CSS changes differ from receipt')
+ for reference in delivery.get('preserved_archives',[]):
+  path=ROOT/reference['path'];need(path.parent==ROOT and path.suffix=='.zip' and path.is_file() and digest(path)==reference['sha256'],'Protected delivery ZIP changed')
+ need(any(r==old['previous_zip'] for r in delivery.get('preserved_archives',[])) and delivery.get('previous_zip') in delivery.get('preserved_archives',[]),'Historical/latest ZIP protection missing')
+ checks['previous_real_western_revision']={'report':previous['report'],'sha256':previous['sha256'],'app_build_sha256':old['app_build_sha256'],'historical_only':True}
+
+def bazi_spacing_pages(delivery,checks,reports):
+ pages=delivery.get('pages_preview',{});status=pages.get('status');need(status in ['pending','published_verified'] and pages.get('url')==PAGES_URL,'Pages preview scope/state missing')
+ expected=pages_artifact_identity();need(pages.get('artifact')==expected,'Current static preview artifact identity differs')
+ phases=['local','public'] if status=='published_verified' else ['local']
+ for phase in phases:
+  key='pages_'+phase;run=reports.get(key);need(run and run.get('module')==BAZI_SPACING_MODULE and run.get('phase')==phase and run.get('passed',0)>=4 and run.get('productionWrites') is False,'Current Pages smoke missing: '+phase)
+  if phase=='public':need(run.get('url')==PAGES_URL,'Public Pages smoke URL differs')
+  identity=run.get('identity',{});version=identity.get('version',{})
+  need(all(version.get(k)==v for k,v in expected.items()) and identity.get('indexSha')==expected['index_sha256'] and identity.get('adapterSha')==expected['adapter_sha256'] and identity.get('restoredSha')==expected['preview_sha256'],'Pages smoke does not bind current APP/preview/index/adapter: '+phase)
+  need(not run.get('apiRequests') and not run.get('businessRequests') and not run.get('errors') and not run.get('httpErrors'),'Pages static preview made API writes or had browser failures')
+  for rel,value in run.get('buildHashes',{}).items():need((ROOT/rel).is_file() and digest(ROOT/rel)==value,'Pages smoke build identity differs: '+rel)
+ need(pages.get('published') is (status=='published_verified') and delivery.get('current_source_published') is (status=='published_verified'),'Pages publication boolean differs')
+ if status=='published_verified':
+  ref=pages.get('publication_record',{});path=(ROOT/ref.get('report','')).resolve()
+  need(path.is_relative_to((ROOT/'06_验证与后续工作').resolve()) and path.is_file() and digest(path)==ref.get('sha256'),'Current Pages publication proof missing/changed')
+  proof=read(ref['report']);deployment=proof.get('deployment',{});version=deployment.get('artifact_version',{});http=proof.get('public_http_verification',{})
+  need(proof.get('published') is True and deployment.get('workflow_conclusion')=='success' and deployment.get('published_url')==PAGES_URL and re.fullmatch('[0-9a-f]{40}',deployment.get('source_commit','')),'Pages successful deployment proof missing')
+  need(all(version.get(k)==v for k,v in expected.items()) and version.get('source_commit')==deployment['source_commit']==reports['pages_public']['identity']['version'].get('source_commit'),'Pages published version/commit differs')
+  need(http.get('status')==200 and http.get('authenticated') is False and (http.get('ready') is True or http.get('pass') is True),'Anonymous Pages HTTP proof missing')
+  checks['pages_publication']={'report':ref['report'],'sha256':ref['sha256'],'source_commit':deployment['source_commit'],'workflow_run_id':deployment.get('workflow_run_id'),'static_only':True}
+ checks['pages_preview']={'status':status,'url':PAGES_URL,'artifact':expected,'scope':'GitHub Pages static preview only. Sites/Netlify/backend/AI not redeployed.'}
+
+def bazi_spacing_baseline(delivery,checks,reports):
+ ref=delivery.get('spacing_baseline',{});rel='06_验证与后续工作/八字留白字号优化-改前.json'
+ need(ref.get('report')==rel and digest(ROOT/rel)==ref.get('sha256') and delivery['source_sha256'].get(rel)==ref['sha256'],'Spacing baseline source missing/changed')
+ before=read(rel);old_app=delivery['previous_real_western_revision']['app_build_sha256']
+ need(before.get('pass') is True and before.get('phase')=='before' and before.get('productionWrites') is False and before.get('buildSha256')==before.get('version',{}).get('app_sha256')==old_app,'Spacing before baseline does not bind original public APP')
+ need(ref.get('at')==before.get('at') and ref.get('app_build_sha256')==old_app,'Spacing baseline provenance differs')
+ run=reports.get('spacing',{});need(run.get('module')==BAZI_SPACING_MODULE and run.get('passed',0)>=6 and run.get('productionWrites') is False,'Current six-group spacing verification missing')
+ expected={'file':Path(rel).name,'sha256':ref['sha256'],'at':before['at'],'buildSha256':old_app}
+ need(run.get('baseline')==expected,'Spacing verification references another baseline')
+ value=before.get('calculation',{}).get('resultSha256');need(isinstance(value,str) and re.fullmatch('[0-9a-f]{64}',value) and run.get('calculation',{}).get('resultSha256')==value,'Spacing revision calculation differs from measured before state')
+ for phase,document in [('before',before),('after',run)]:
+  captures=document.get('captures',[]);need(len(captures)>=2,'Spacing comparison captures missing: '+phase)
+  for capture in captures:
+   name=capture.get('file','');need(Path(name).name==name and name.endswith('.png'),'Spacing capture must be a PNG basename')
+   path='06_验证与后续工作/'+name;need(digest(ROOT/path)==capture.get('sha256')==delivery.get('captures_sha256',{}).get(path),'Spacing capture changed/not bound: '+path)
+ checks['spacing_baseline']={'report':rel,'sha256':ref['sha256'],'at':before['at'],'app_build_sha256':old_app,'current_result_matches_baseline':True,'scope':'Real old-public CSS measurements and screenshots; not current regression results.'}
 
 def validate_delivery(delivery_path=None):
  """Read-only delivery/report validation. Never writes documents, manifests or archives."""
  delivery=read(delivery_path or DELIVERY);pub=delivery['publication'];checkpoint=delivery.get('paused_by_user',False);pending=not checkpoint and pub.get('public_deployment_pending') is True;app_hash=digest(WEB/'东方智慧-首页体验R4.html');need(delivery['pass'] and app_hash==delivery['app_build_sha256'],'Current app differs from latest delivery')
- ui_revision=delivery.get('ui_revision') is True;document_revision=delivery.get('document_revision') is True;reference_revision=delivery.get('reference_revision') is True;structure_revision=delivery.get('structure_revision') is True;real_western_revision=delivery.get('real_western_revision') is True;checks={};verified_reports={}
+ ui_revision=delivery.get('ui_revision') is True;document_revision=delivery.get('document_revision') is True;reference_revision=delivery.get('reference_revision') is True;structure_revision=delivery.get('structure_revision') is True;real_western_revision=delivery.get('real_western_revision') is True;bazi_spacing_revision=delivery.get('bazi_spacing_revision') is True;checks={};verified_reports={}
  if ui_revision:
-  need(pending and not checkpoint and delivery.get('current_source_published',pub.get('current_source_published')) is False,'Original chart revision must remain explicitly unpublished')
+  need(pending and not checkpoint,'UI revision full-stack publication scope differs')
+  if bazi_spacing_revision:need(delivery.get('current_full_stack_source_published') is False,'Spacing revision must not claim Sites/Netlify were updated')
+  else:need(delivery.get('current_source_published',pub.get('current_source_published')) is False,'Original chart revision must remain explicitly unpublished')
   guide=delivery['guide'];need((ROOT/guide).resolve().is_relative_to((ROOT/'05_后台与研发说明').resolve()) and (ROOT/guide).is_file(),'Original chart guide missing or outside documentation directory')
   revision_module=delivery.get('revision_module');need(isinstance(revision_module,str) and revision_module.strip(),'Current UI revision module is missing')
   for name,(file,count) in UI_REPORTS.items():
    ref=delivery.get('verification',{}).get(name,{})
    need(ref.get('report')=='06_验证与后续工作/'+file and ref.get('sha256') and ref.get('at'),'Required current UI specialty reference missing: '+name)
   historical_foundation(delivery,checks,verified_reports)
+  if bazi_spacing_revision:
+   need(not any([document_revision,reference_revision,structure_revision,real_western_revision]) and revision_module==BAZI_SPACING_MODULE,'Current spacing module/flags differ');bazi_spacing_history(delivery,checks)
   if real_western_revision:
    need(not document_revision and not reference_revision and not structure_revision and revision_module==REAL_WESTERN_MODULE,'Final W1 module differs');real_western_module(delivery,checks)
   if structure_revision:
@@ -288,10 +359,10 @@ def validate_delivery(delivery_path=None):
   for n in UI_SOURCES:need((R4/n).read_text(encoding='utf-8') in app,'Missing original chart source in APP: '+n)
  need((WEB/'创作者中心.html').read_bytes()==(R4/'creator-center.html').read_bytes(),'Creator standalone differs')
  review=(WEB/'发给负责人-东方智慧首页R4.html').read_text(encoding='utf-8');embedded,_=json.JSONDecoder().raw_decode(review.split('const APP=',1)[1]);need(embedded.replace('__INITIAL__','{}')==app,'Review embeds another app')
- if document_revision or reference_revision or structure_revision or real_western_revision:
+ if document_revision or reference_revision or structure_revision or real_western_revision or bazi_spacing_revision:
   expected_inputs=['04_研发源码/app/r4/'+n for n in build_inputs()];need(delivery.get('embedded_sources')==expected_inputs,'Current APP build inputs differ from delivery')
   for name in build_inputs():need(embedded_text(name) in app,'Missing actual APP input: '+name)
- if real_western_revision:city_snapshot(delivery,checks)
+ if real_western_revision or bazi_spacing_revision:city_snapshot(delivery,checks)
  for group in ['source_sha256','build_sha256']:
   for rel,sha in delivery[group].items():need((ROOT/rel).resolve().is_relative_to(ROOT.resolve()) and digest(ROOT/rel)==sha,'Current delivery mismatch: '+rel)
  for name,reference in delivery['verification'].items():
@@ -299,7 +370,7 @@ def validate_delivery(delivery_path=None):
   if reference.get('sha256'):need(digest(report_path)==reference['sha256'],'Specialty report bytes changed: '+name)
   document=read(reference['report']);report=document.get('latest',document)
   if reference.get('at'):
-   candidates=[report,*document.get('runs',[])];report=next((item for item in candidates if item.get('at')==reference['at'] and (not reference.get('module') or item.get('module')==reference['module'])),None)
+   candidates=[report,*document.get('runs',[]),*document.get('phases',{}).values()];report=next((item for item in candidates if item.get('at')==reference['at'] and (not reference.get('module') or item.get('module')==reference['module'])),None)
   need(report is not None,'Recorded specialty run missing: '+name)
   report_app=report.get('buildSha256') or report.get('appBuildSha256') or report.get('buildHashes',{}).get('东方智慧-首页体验R4.html')
   need(report['pass'] is True and report.get('failed',0)==0 and report_app==app_hash and report['at']==reference.get('at',report['at']),'Current specialty mismatch: '+name)
@@ -310,10 +381,13 @@ def validate_delivery(delivery_path=None):
  if ui_revision:
   for name,(file,count) in UI_REPORTS.items():
    need(verified_reports[name].get('passed',0)>=count,'Required current UI specialty coverage incomplete: '+name)
+   if bazi_spacing_revision:need(verified_reports[name].get('module')==BAZI_SPACING_MODULE,'Current spacing specialty module differs: '+name)
    if document_revision:need(verified_reports[name].get('module')==DOCUMENT_MODULE,'Final document specialty module differs: '+name)
    if reference_revision:need(verified_reports[name].get('module')==REFERENCE_MODULE,'Final reference specialty module differs: '+name)
    if structure_revision:need(verified_reports[name].get('module')==STRUCTURE_MODULE,'Final S1 specialty module differs: '+name)
    if real_western_revision:need(verified_reports[name].get('module')==REAL_WESTERN_MODULE,'Final W1 specialty module differs: '+name)
+  if bazi_spacing_revision:
+   bazi_spacing_pages(delivery,checks,verified_reports);bazi_spacing_baseline(delivery,checks,verified_reports)
   if real_western_revision:
    for key,(path,minimum) in REAL_WESTERN_SMOKES.items():
     smoke=verified_reports.get(key);need(smoke and delivery['verification'][key].get('report')==path and smoke.get('module')==REAL_WESTERN_MODULE and smoke.get('passed',0)>=minimum and smoke.get('productionWrites') is False,'Final same-build W1 smoke missing: '+key)
@@ -361,13 +435,13 @@ def validate_delivery(delivery_path=None):
   need({r['route'] for r in public['checks']}=={'/','/experience','/creator','/admin','/app'} and all(r['status']==200 and r['generatedMatch'] and r['servedNormalizedSha256']==r['expectedNormalizedSha256'] for r in public['checks']),'Five public entry pages differ')
   acceptance=latest(Path(pub['public_acceptance_report']).name);need(acceptance['pass'] and acceptance['localAppSha256']==app_hash and acceptance['netlifyDeployId']==pub['netlify_deploy_id'],'Current public acceptance differs')
   need(pub['sites_status']=='succeeded' and pub['netlify_status']=='ready','Current release is not published')
- return {'delivery':delivery,'pub':pub,'checkpoint':checkpoint,'pending':pending,'ui_revision':ui_revision,'document_revision':document_revision,'reference_revision':reference_revision,'structure_revision':structure_revision,'real_western_revision':real_western_revision,'checks':checks,'verified_reports':verified_reports,'app_hash':app_hash,'guide':locals().get('guide'),'revision_module':locals().get('revision_module')}
+ return {'delivery':delivery,'pub':pub,'checkpoint':checkpoint,'pending':pending,'ui_revision':ui_revision,'document_revision':document_revision,'reference_revision':reference_revision,'structure_revision':structure_revision,'real_western_revision':real_western_revision,'bazi_spacing_revision':bazi_spacing_revision,'checks':checks,'verified_reports':verified_reports,'app_hash':app_hash,'guide':locals().get('guide'),'revision_module':locals().get('revision_module')}
 
 def main():
  sys.stdout.reconfigure(encoding='utf-8');validated=validate_delivery()
  if '--preflight-only' in sys.argv:
   print(json.dumps({'pass':True,'read_only':True,'delivery_record':DELIVERY,'app_build_sha256':validated['app_hash'],'checks':validated['checks'],'scope':'Delivery/report/source/build validation only; no document, manifest, PREFLIGHT or ZIP writes. Payload private-value scan and new ZIP CRC remain normal packaging checks.'},ensure_ascii=False),flush=True);return
- delivery=validated['delivery'];pub=validated['pub'];checkpoint=validated['checkpoint'];pending=validated['pending'];ui_revision=validated['ui_revision'];document_revision=validated['document_revision'];reference_revision=validated['reference_revision'];structure_revision=validated['structure_revision'];real_western_revision=validated['real_western_revision'];checks=validated['checks'];verified_reports=validated['verified_reports'];app_hash=validated['app_hash'];guide=validated['guide'];revision_module=validated['revision_module']
+ delivery=validated['delivery'];pub=validated['pub'];checkpoint=validated['checkpoint'];pending=validated['pending'];ui_revision=validated['ui_revision'];document_revision=validated['document_revision'];reference_revision=validated['reference_revision'];structure_revision=validated['structure_revision'];real_western_revision=validated['real_western_revision'];bazi_spacing_revision=validated['bazi_spacing_revision'];checks=validated['checks'];verified_reports=validated['verified_reports'];app_hash=validated['app_hash'];guide=validated['guide'];revision_module=validated['revision_module']
  now=datetime.now(timezone(timedelta(hours=8)));target=ROOT/('东方智慧APP完整概念方向包-'+now.strftime('%Y-%m-%d-%H时%M分%S秒')+'.zip');need(not target.exists(),'Archive already exists')
  print('当前源码、查看页、创作者中心、云端生成页及本轮完整回归构建已核对。',flush=True)
  notes=f'''东方智慧APP · 暂停阶段交付包
@@ -539,10 +613,21 @@ lunar1.7.7负责历法/八字，不提供西方天体经度/宫位/相位API。�
 西盘真实天体仍Astronomy2.1.19，本APP既定宫制与相位规则不冒充lunar API。AI/托管/飞书暂停，未更新Sites v15/Netlify v14，视觉仍待用户评价。
 旧receipt/ledger/ZIP不覆盖不嵌套；本次仅用户另行授权打包后生成独立新包，不发布、不购买、不联系平台。排除运行数据库、凭据/环境、依赖、缓存及旧归档；历史F05恢复不等于当前UI新恢复、生产恢复、实机或跨设备同步。
 '''
+ if bazi_spacing_revision:
+  pages_status='已发布并实际验收' if delivery['pages_preview']['published'] else '待发布；当前线上仍为前一版本'
+  notes=f'''东方智慧APP · {revision_module}交付包
+打包时间：{now.isoformat()}（北京时间）
+范围：{delivery['scope']}；当前APP SHA-256：{app_hash}
+本轮双端完整回归及五专项绑定新CSS与当前03/Cloud构建；Pages静态预览{pages_status}：{PAGES_URL}
+说明：{guide}；记录：{DELIVERY}。Sites v15/Netlify v14与账号后台未更新，AI继续暂缓。
+旧W1及更早收据、冻结报告、18:36及其他原ZIP保留，不把旧回归当本轮新结果。旧F05仅证明未改后端的历史隔离恢复。
+本次打包只核字节/清单/CRC，不重跑功能或发布；排除旧ZIP、Git内部、数据库、环境凭据、依赖与缓存，不覆盖原包。
+'''
  (ROOT/'交付包说明.txt').write_text(notes,encoding='utf-8')
  p=ROOT/'先读我.txt';body=re.sub(r'【当前完整打包状态】[\s\S]*?【当前完整打包状态结束】\s*','',p.read_text(encoding='utf-8'),count=1)
  status_text='暂停阶段包：F01/F02已验收，F03待续，F04/F05未实施，公网未同步。' if checkpoint else ('F01—F05本地验收完成；Sites后台新部署，Netlify额度403阻塞，前台仍旧版，公网同步待续。' if pending else '基础框架F01—F05已完成本轮验收并同步原公网。')
  if ui_revision:status_text=revision_module+'已本地验收并纳入本次交付包，尚未发布；Sites v15不含本轮界面，Netlify仍v14，旧F05恢复仅作未改后端的历史证据。'
+ if bazi_spacing_revision:status_text=revision_module+'已验收；Pages静态预览'+('已更新' if delivery['pages_preview']['published'] else '待更新')+'，Sites/Netlify及后台保持旧版，AI暂缓。'
  p.write_text(f'【当前完整打包状态】\n{now.isoformat()}；{status_text}此前完整包说明均为历史快照。请先读交付包说明.txt。\n【当前完整打包状态结束】\n\n'+body,encoding='utf-8')
  write(PREFLIGHT,{'packaged_at':now.isoformat(),'app_build_sha256':app_hash,'sites_version':pub['sites_version'],'netlify_deploy_id':pub['netlify_deploy_id'],'checks':checks,'no_wrapper':True,'runtime_and_archives_excluded':True,'scope':'Packaging preflight only; no new functional regression or deployment.'})
  files=collect_files();doc=html.fromstring((ROOT/'打开这里.html').read_text(encoding='utf-8'));main=(doc.xpath('//main') or doc.xpath('//body'))[0]
@@ -564,6 +649,8 @@ lunar1.7.7负责历法/八字，不提供西方天体经度/宫位/相位API。�
   section=html.fragment_fromstring(f'<section id="current-delivery-package"><h1>基础框架本地验收 · 公网待续 · {now.strftime("%Y-%m-%d")}</h1><p>F01—F05已完成本地验收；本包源码为新构建，Sites后台v{pub["sites_version"]}已部署，Netlify额度HTTP403阻塞，前台仍为旧部署，本轮没有创建新Netlify部署。AI接入暂缓，人工审核可用。</p><p><a href="{DELIVERY}">本地验收与发布待续记录</a> · <a href="{pub["blocker_report"]}">实际阻塞核验</a> · <a href="05_后台与研发说明/基础框架阶段说明与验收.txt">本轮说明</a> · <a href="交付包说明.txt">交付包说明</a> · <a href="03_当前APP/发给负责人-东方智慧首页R4.html">本包新版离线界面</a> · <a href="https://eastern-wisdom-demo-fuyao.netlify.app/experience">Netlify前台（旧版）</a></p><p>公网同步尚未完成，不以旧公网验收替代新构建发布验证。11月6日暂停patch仅作历史追溯；运行数据库、凭据、依赖和旧压缩包不收录。</p></section>')
  if ui_revision:
   section=html.fragment_fromstring(f'<section id="current-delivery-package"><h1>{H.escape(revision_module)} · 交付包 · {now.strftime("%Y-%m-%d")}</h1><p>{H.escape(delivery["scope"])}</p><p>源码与本轮完整回归及五类当前专项绑定；当前界面尚未发布。已发布Sites v{pub["sites_version"]}不含本轮界面，Netlify仍为v14旧版，等待免费额度恢复。AI接入暂缓。</p><p><a href="{DELIVERY}">本轮实际交付记录</a> · <a href="{H.escape(guide,quote=True)}">当前模块使用说明</a> · <a href="交付包说明.txt">交付包说明</a> · <a href="03_当前APP/发给负责人-东方智慧首页R4.html">本包离线界面</a> · <a href="https://eastern-wisdom-demo-fuyao.netlify.app/experience">公网前台（旧版）</a></p><p>旧F05隔离恢复属于未改后端的历史证据，不冒充当前UI或生产恢复验收。旧压缩包、运行数据库、依赖和凭据不收录。</p></section>')
+ if bazi_spacing_revision:
+  section=html.fragment_fromstring(f'<section id="current-delivery-package"><h1>{H.escape(revision_module)} · 交付包</h1><p>{H.escape(delivery["scope"])}</p><p>Pages静态预览{"已更新并验收" if delivery["pages_preview"]["published"] else "待更新，线上仍为前一版本"}；Sites/Netlify和后台未更新。</p><p><a href="{DELIVERY}">本轮实际证据</a> · <a href="{H.escape(guide,quote=True)}">本轮说明</a> · <a href="{PAGES_URL}">纯APP静态预览</a></p><p>旧收据、冻结报告、ZIP保持历史时点，AI暂缓。</p></section>')
  main.insert(0,section)
  groups={}
  for rel in sorted(files):groups.setdefault(rel.split('/')[0] if '/' in rel else '项目入口与规则',[]).append(rel)
@@ -583,6 +670,9 @@ lunar1.7.7负责历法/八字，不提供西方天体经度/宫位/相位API。�
   required.update([guide,delivery['foundation_baseline']['report'],*[checks[n]['report'] for n in ['foundation','restore']]])
   required.update('06_验证与后续工作/'+file for file,count in UI_REPORTS.values())
   required.add('06_验证与后续工作/八字参考排版核验.cjs')
+ if bazi_spacing_revision:
+  required.update(delivery['source_sha256']);required.update(delivery['captures_sha256']);required.update([delivery['previous_real_western_revision']['report'],'06_验证与后续工作/记录八字表留白与字号交付.py','06_验证与后续工作/八字留白字号优化核验.cjs',delivery['spacing_baseline']['report']]);required.update(ref['report'] for ref in delivery['verification'].values())
+  if delivery['pages_preview']['published']:required.add(delivery['pages_preview']['publication_record']['report'])
  if real_western_revision:
   required.update(delivery['source_sha256']);required.update([REAL_WESTERN_LEDGER,'06_验证与后续工作/记录真实星盘档案交付.py','06_验证与后续工作/记录真实星盘档案任务.py',delivery['previous_structure_revision']['report'],delivery['city_data_snapshot']['report'],delivery['city_data_snapshot']['runtime']['path'],delivery['city_data_snapshot']['notice']['path']]);required.update(ref['report'] for ref in delivery['verification'].values())
  if structure_revision:
