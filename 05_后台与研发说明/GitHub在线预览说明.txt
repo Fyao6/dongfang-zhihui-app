@@ -1,0 +1,14 @@
+东方智慧APP · GitHub在线交互预览
+
+固定入口：https://fyao6.github.io/dongfang-zhihui-app/
+仓库首页README已提供“直接打开APP在线交互预览”。
+
+负责人无需下载文件，可在电脑手机浏览当前界面、三地图、练习和本机排盘；语言和外观沿用当前APP。生辰、档案和个人记录仍仅保存在该浏览器，不会由静态预览上传。
+
+GitHub Pages只运行前端。账号登录、发帖审核、创作者、公司后台、数据库及真实AI服务未部署到Pages；相关链接会说明需要单独服务。本机完整功能仍使用原05目录启动脚本。原Netlify/Sites没有因此替换或恢复发布。
+
+自动更新：修改业务时照原规则先验收并构建03_当前APP，推送main后Actions“APP在线预览”自动发布同一地址。仅改GitHub目录说明、历史清单或报告时不需要重发APP。亦可在Actions手动运行；查看真实版本可打开预览地址后的version.json，核对source_commit/preview_sha256/app_sha256。
+
+发布产物白名单：index.html、pages-preview.js、version.json、.nojekyll。index保持原负责人页的完整数据和内嵌APP，只在最外层追加静态提示桥；计算和生辰规则不变。首次加载含完整字体、图像、视频和城市索引，冷启动大小约44.2MB，后续可使用浏览器缓存。
+
+不上传环境、密钥、账号会话、数据库、用户上传、Git内部、依赖和历史压缩包。实际冒烟与部署状态见06目录GitHub在线预览发布记录.json及GitHub在线预览冒烟结果.json。
