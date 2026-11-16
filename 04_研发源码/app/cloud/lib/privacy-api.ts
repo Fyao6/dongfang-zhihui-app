@@ -1,0 +1,242 @@
+import {publicMemoryState,onMemoryPreferencesChangeStatements,memoryCleanupStatements} from './memory-service';
+import {CARD_PRIVACY_QUERIES,cardPrivacyDeletionStatements,CARD_PRIVACY_DELETE_COUNTS_SQL} from './card-service';
+// privacy-gateway-bridge:v1: global disclosure only; legacy authorize/save stay actualBinding.
+import {globalBinding as privacyGlobalBinding} from './privacy-gateway-bridge';
+// Account-scoped controls. Local deletion never stands in for provider/backup confirmation.
+const CONSENTS=['chart','wellbeing','saveConversations','longTermMemory','trainingImprovement','marketing'];
+const KINDS=['delete-memory','delete-conversations','delete-records','close-account'];
+const DEFAULT={policyVersion:'',controllerName:'',contact:'',recipients:[] as any[],retention:{recordsDays:null,conversationsDays:null,backupDays:null,financeDays:null} as Record<string,number|null>,purposeDetails:{trainingImprovement:'',marketing:''},revision:0};
+const ddl=[
+ "CREATE TABLE IF NOT EXISTS privacy_preferences(user_id TEXT PRIMARY KEY,data TEXT NOT NULL,policy_version TEXT NOT NULL,revision INTEGER NOT NULL,updated INTEGER NOT NULL,provider_binding TEXT NOT NULL DEFAULT '')",
+ 'CREATE TABLE IF NOT EXISTS privacy_events(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,event TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL)',
+ 'CREATE TABLE IF NOT EXISTS privacy_requests(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,request_key TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(user_id,request_key))',
+ 'CREATE TABLE IF NOT EXISTS privacy_transfers(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,provider_id TEXT NOT NULL,category TEXT NOT NULL,policy_version TEXT NOT NULL,created INTEGER NOT NULL)',
+ 'CREATE TABLE IF NOT EXISTS privacy_conversations(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL)',
+ 'CREATE INDEX IF NOT EXISTS privacy_requests_owner ON privacy_requests(user_id,created)',
+ 'CREATE INDEX IF NOT EXISTS privacy_transfers_owner ON privacy_transfers(user_id,category)'];
+const json=JSON.stringify,now=()=>Date.now(),uuid=()=>crypto.randomUUID();
+const flags=()=>Object.fromEntries(CONSENTS.map(k=>[k,false]));
+const unknown=(d:any,keys:string[])=>Object.keys(d).some(k=>!keys.includes(k));
+async function configuration(a:any){const raw=await a.setting('privacy');return {...DEFAULT,...Object.fromEntries(Object.entries(raw).filter(([k])=>k in DEFAULT)),retention:{...DEFAULT.retention,...raw.retention},purposeDetails:{...DEFAULT.purposeDetails,...raw.purposeDetails}};}
+const ready=(c:any)=>!!(c.policyVersion&&c.controllerName&&c.contact&&c.recipients.length&&c.recipients.every((r:any)=>r.id&&r.name&&r.regions?.length&&r.purpose&&r.policyUrl&&r.endpoint&&r.models?.length));
+function canonicalEndpoint(v:any){try{if(typeof v!=='string'||/\s/.test(v))return '';const u=new URL(v);if(u.protocol!=='https:'||!u.hostname||u.username||u.password||u.search||u.hash)return '';return u.origin+u.pathname;}catch{return '';}}
+async function actualBinding(c:any,ai:any){
+ const endpoint=canonicalEndpoint(ai.endpoint),receiver=c.recipients.find((r:any)=>r.id===ai.providerId),regions=ai.processingRegions;
+ if(!ready(c)||!ai.providerId||!endpoint||!ai.model||!receiver||!Array.isArray(regions)||!regions.length||regions.some((x:any)=>typeof x!=='string'||!x.trim()))return null;
+ const normalized=[...new Set(regions.map((x:string)=>x.trim()))].sort();
+ if(endpoint!==canonicalEndpoint(receiver.endpoint)||!receiver.models.includes(ai.model)||json(normalized)!==json([...new Set(receiver.regions)].sort())||ai.privacyPolicyVersion!==c.policyVersion)return null;
+ const details={providerId:ai.providerId,endpoint,model:ai.model,processingRegions:normalized,privacyPolicyVersion:ai.privacyPolicyVersion,policyVersion:c.policyVersion,receiverId:receiver.id};
+ const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(json(details))),digest=Array.from(new Uint8Array(hash),x=>x.toString(16).padStart(2,'0')).join('');return {details,digest};
+}
+const disclosure=(c:any,b:any)=>({...c,configured:!!b,providerBinding:b?.digest||'',activeAI:b?.details||null,memoryAvailable:true,retentionConfirmed:Object.values(c.retention).every(v=>v!==null)});
+async function prefs(a:any,uid:string){const r=await a.one('SELECT * FROM privacy_preferences WHERE user_id=?',uid);return {consents:{...flags(),...(r?JSON.parse(r.data):{})},policyVersion:r?.policy_version||'',revision:r?.revision||0,updatedAt:r?.updated||null,providerBinding:r?.provider_binding||''};}
+const requestItem=(r:any)=>({id:r.id,kind:r.kind,status:r.status,details:JSON.parse(r.data),createdAt:r.created,updatedAt:r.updated});
+
+export async function initPrivacy(a:any){
+ if(!await a.one("SELECT 1 FROM settings WHERE key='privacy_schema_v2'")){
+  await a.db.batch(ddl.map(s=>a.stmt(s)));
+  if(!(await a.all('PRAGMA table_info(privacy_preferences)')).some((r:any)=>r.name==='provider_binding')){try{await a.run("ALTER TABLE privacy_preferences ADD COLUMN provider_binding TEXT NOT NULL DEFAULT ''");}catch(error){if(!(await a.all('PRAGMA table_info(privacy_preferences)')).some((r:any)=>r.name==='provider_binding'))throw error;}}
+  await a.run("INSERT OR IGNORE INTO settings VALUES ('privacy_schema_v2','true')");
+ }
+}
+
+export async function authorizeAI(a:any,data:any,fail:(n:number,s:string)=>never,providerId?:string,aiConfig?:any){
+ await initPrivacy(a);const user=a.require(),cfg=await configuration(a),p=await prefs(a,user.id);
+ if(typeof providerId!=='string'||!providerId)fail(503,'必须明确本次实际AI接收方，不按接收方数量自动推断。');
+ if(!aiConfig||typeof aiConfig!=='object'||Array.isArray(aiConfig))fail(503,'出站前必须传入本次实际服务端AI配置快照。');
+ if(!ready(cfg))fail(503,'AI接收方、处理地区和隐私说明尚未配置完整，暂不发送资料。');
+ if(await a.one("SELECT 1 FROM privacy_requests WHERE user_id=? AND kind='close-account' AND status!='cancelled' LIMIT 1",user.id))fail(403,'账号注销申请处理中，已停止新的AI资料发送。');
+ const currentAI=await a.setting('ai'),binding=await actualBinding(cfg,currentAI);
+ if(!binding||providerId!==currentAI.providerId)fail(503,'实际AI供应商、端点、模型、地区与政策配置不匹配，已阻止发送。');
+ const snapshot=await actualBinding(cfg,aiConfig);if(!snapshot||snapshot.digest!==binding!.digest)fail(409,'AI配置已变更，请重新读取并确认实际接收方。');
+ const recipients=cfg.recipients.filter((r:any)=>r.id===providerId);
+ if(p.policyVersion!==cfg.policyVersion||p.providerBinding!==binding!.digest)fail(403,'请先在隐私与AI设置确认当前版本的数据处理说明。');
+ let category='general',clean:any=null;
+ if(data.context){
+  const c=data.context;if(typeof c!=='object'||Array.isArray(c)||!['chart','wellbeing','card','general'].includes(c.category))fail(400,'记录类别不明确，请重新选择并授权需要解释的资料。');
+  category=c.category;if(['chart','wellbeing'].includes(category)&&!p.consents[category])fail(403,'尚未授权AI使用这类资料，请在隐私与AI设置中单独选择。');
+  const allowed=({chart:['chartType','date','time','gender','pillars','palaces','bodies','aspects','summary'],wellbeing:['sleep','energy','stress','comfort','mood','note'],card:['cardId','meaning'],general:['question']} as Record<string,string[]>)[category],f=c.fields||{};
+  if(typeof f!=='object'||Array.isArray(f)||unknown(f,allowed)||unknown(c,['category','fields']))fail(400,'资料中含不需要或不允许发送的字段。');
+  const scalar=(v:any)=>v===null||['string','number','boolean'].includes(typeof v);if(Object.values(f).some(v=>!scalar(v)&&!(Array.isArray(v)&&v.length<=100&&v.every(scalar))))fail(400,'资料须使用必要字段的文字或数值摘要，不接受嵌套个人档案。');
+  if(json(f).length>6000)fail(400,'选择的资料过长，请缩减为本次问题所需内容。');
+  clean={category,fields:f};
+ }
+ if(data.memory||data.memoryIds||data.useMemory)fail(409,'长期记忆服务尚未启用，不读取或发送旧记忆。');
+ const epoch=p.revision+':'+cfg.policyVersion+':'+binding!.digest,history=data.messages||[];
+ if(!Array.isArray(history))fail(400,'会话历史格式不正确。');
+ for(const message of history){const tag=message?.privacy;if(!tag||typeof tag!=='object'||tag.accountId!==user.id||tag.consentEpoch!==epoch||tag.providerId!==providerId||tag.providerBinding!==binding!.digest||tag.policyVersion!==cfg.policyVersion||!['user','assistant','report'].includes(tag.source))fail(403,'旧会话不再自动发送，请使用当前授权开始新的请求。');
+  if(!['general','card','chart','wellbeing'].includes(tag.category)||['chart','wellbeing'].includes(tag.category)&&!p.consents[tag.category]||tag.source==='report'&&tag.category==='general')fail(403,'历史消息包含未授权的资料类别，已阻止发送。');
+ }
+ await a.db.batch(recipients.map((r:any)=>a.stmt('INSERT INTO privacy_transfers VALUES (?,?,?,?,?,?)',uuid(),user.id,r.id,category,cfg.policyVersion,now())));
+ return clean;
+}
+
+export async function savePrivacyConversation(a:any,userId:string,messages:any){
+ await initPrivacy(a);const p=await prefs(a,userId),c=await configuration(a),b=await actualBinding(c,await a.setting('ai'));if(!p.consents.saveConversations||!b||p.policyVersion!==c.policyVersion||p.providerBinding!==b.digest||json(messages).length>100000)return false;
+ await a.run('INSERT INTO privacy_conversations VALUES (?,?,?,?)',uuid(),userId,json(messages),now());return true;
+}
+
+export async function privacyRoute(a:any,path:string,method:string,fail:(n:number,s:string)=>never){
+ if(!path.startsWith('/api/privacy/')&&!path.startsWith('/api/admin/privacy/'))return undefined;
+ const user=a.require(),uid=user.id;await initPrivacy(a);
+ const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding),ack=!!(b&&p.policyVersion===c.policyVersion&&p.providerBinding===b.digest);return {...p,disclosure:disclosure(c,b),memory:await publicMemoryState(a,uid,p,false),policyAcknowledged:ack,consentEpoch:p.revision+':'+c.policyVersion+':'+(b?.digest||''),authorizedCategories:ack?['general','card',...['chart','wellbeing'].filter(k=>p.consents[k])]:[],accountId:uid};};
+ if(path.startsWith('/api/admin/privacy/')){
+  a.require(['admin']);
+  if(path==='/api/admin/privacy/config'){
+   if(method==='GET'){const c=await configuration(a);return {config:disclosure(c,await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};}
+   if(method==='PATCH'){
+    const d=await a.body(),old=await configuration(a);
+    if(unknown(d,Object.keys(DEFAULT))||!Number.isInteger(d.revision)||d.revision!==old.revision)fail(409,'隐私配置已更新或字段不正确，请刷新后重试。');
+    for(const [k,n] of [['policyVersion',80],['controllerName',120],['contact',240]] as const)if(typeof d[k]!=='string'||d[k].trim().length>n)fail(400,'隐私配置文字格式不正确。');
+    if(!Array.isArray(d.recipients)||d.recipients.length>10)fail(400,'接收方清单格式不正确。');
+    const recipients=[];
+    for(const r of d.recipients){
+     if(!r||typeof r!=='object'||Array.isArray(r)||unknown(r,['id','name','regions','purpose','policyUrl','retentionDays','deletionSupported','endpoint','models']))fail(400,'接收方字段不正确。');
+     for(const [k,n] of [['id',80],['name',160],['purpose',1000],['policyUrl',1500]] as const)if(typeof r[k]!=='string'||!r[k].trim()||r[k].length>n)fail(400,'接收方名称、目的和政策地址必须完整。');
+     try{const u=new URL(r.policyUrl);if(u.protocol!=='https:'||!u.hostname||u.username||u.password)throw Error();}catch{fail(400,'接收方政策须为有效HTTPS地址。');}
+     if(!Array.isArray(r.regions)||!r.regions.length||r.regions.length>20||r.regions.some((x:any)=>typeof x!=='string'||!x||x.length>120))fail(400,'必须明确接收方实际处理地区。');
+     const endpoint=canonicalEndpoint(r.endpoint);if(!endpoint||!Array.isArray(r.models)||!r.models.length||r.models.length>30||r.models.some((x:any)=>typeof x!=='string'||!x||x.length>160))fail(400,'接收方须填写真实HTTPS端点与允许的模型清单。');
+     if(r.retentionDays!==undefined&&r.retentionDays!==null&&(!Number.isInteger(r.retentionDays)||r.retentionDays<0||r.retentionDays>36500))fail(400,'保存天数应为整数或待确认。');
+     recipients.push({...r,endpoint,models:[...new Set(r.models)].sort(),regions:[...new Set(r.regions)].sort(),deletionSupported:r.deletionSupported===true});
+    }
+    if(new Set(recipients.map(r=>r.id)).size!==recipients.length)fail(400,'接收方编号不能重复。');
+    if(!d.retention||typeof d.retention!=='object'||Array.isArray(d.retention)||json(Object.keys(d.retention).sort())!==json(Object.keys(DEFAULT.retention).sort())||Object.values(d.retention).some((v:any)=>v!==null&&(!Number.isInteger(v)||v<0||v>36500)))fail(400,'逐类保存天数须完整填写整数或待确认。');
+    const purposes=d.purposeDetails||DEFAULT.purposeDetails;if(typeof purposes!=='object'||Array.isArray(purposes)||unknown(purposes,Object.keys(DEFAULT.purposeDetails))||Object.keys(purposes).length!==2||Object.values(purposes).some(v=>typeof v!=='string'||v.length>2000))fail(400,'训练及营销须分别填写明确用途，未确认留空。');
+    const clean:any={policyVersion:d.policyVersion.trim(),controllerName:d.controllerName.trim(),contact:d.contact.trim(),recipients,retention:d.retention,purposeDetails:purposes};
+    const previous=Object.fromEntries(Object.keys(clean).map(k=>[k,(old as any)[k]]));
+    if(old.policyVersion&&json(clean)!==json(previous)&&clean.policyVersion===old.policyVersion)fail(400,'接收方或数据处理规则变化时必须更新政策版本并重新取得确认。');
+    clean.revision=old.revision+1;
+    // Compare revision in SQL so two concurrent administrator edits cannot silently overwrite.
+    await a.run("INSERT OR IGNORE INTO settings VALUES ('privacy',?)",json(DEFAULT));
+    const r=await a.run("UPDATE settings SET data=? WHERE key='privacy' AND json_extract(data,'$.revision')=?",json(clean),old.revision);
+    if(!r.meta?.changes)fail(409,'隐私配置已更新，请刷新后重试。');
+    await a.audit('privacy.config','privacy','数据处理配置版本已更新。');return {config:disclosure(clean,await privacyGlobalBinding(clean,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};
+   }
+  }
+  if(path==='/api/admin/privacy/requests'&&method==='GET')return {items:(await a.all('SELECT * FROM privacy_requests ORDER BY created DESC LIMIT 200')).map((r:any)=>({...requestItem(r),accountId:r.user_id}))};
+  return fail(404,'未找到隐私管理接口；处理完成须附实际供应商和备份核验证据。');
+ }
+ if(path==='/api/privacy/preferences'){
+  if(method==='GET')return response();if(method!=='PATCH')fail(405,'不支持的操作。');
+  await a.rate('privacy-preferences:'+uid,30);const d=await a.body(),c=await configuration(a),p=await prefs(a,uid),binding=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding);let changes=d.consents||{};
+  if(unknown(d,['revision','consents','policyVersion','acknowledged'])||typeof changes!=='object'||Array.isArray(changes)||unknown(changes,CONSENTS)||Object.values(changes).some(v=>typeof v!=='boolean'))fail(400,'授权项必须逐项设置为开启或关闭。');
+  const withdrawal=d.acknowledged===false;if(withdrawal)changes=flags();
+  if(['trainingImprovement','marketing'].some(k=>changes[k]&&!(c.purposeDetails as any)[k]))fail(409,'该新用途尚未单独说明，不可提前授权。');
+  if(d.acknowledged===true||Object.values(changes).some(Boolean)){if(!binding||d.policyVersion!==c.policyVersion)fail(409,'数据处理说明尚未配置或已更新，请重新查看。');}
+  if(Object.values(changes).some(Boolean)&&d.acknowledged!==true&&(p.policyVersion!==c.policyVersion||p.providerBinding!==binding?.digest))fail(403,'请先确认当前版本的数据处理说明。');
+  if(!Number.isInteger(d.revision)||d.revision!==p.revision)fail(409,'授权设置已变更，请刷新后重试。');
+  const consent={...p.consents,...changes},v=withdrawal?'':d.acknowledged===true?c.policyVersion:p.policyVersion,t=now(),digest=withdrawal?'':d.acknowledged===true?binding!.digest:p.providerBinding;
+  const condition='EXISTS(SELECT 1 FROM privacy_preferences WHERE user_id=? AND revision=?)';
+  // Insert the initial disabled row first; the following batch is atomic with its event.
+  await a.run('INSERT OR IGNORE INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?)',uid,json(flags()),'',0,t,'');
+  const results=await a.db.batch([
+   a.stmt('INSERT INTO privacy_events SELECT ?,?,?,?,? WHERE '+condition,uuid(),uid,'preferences',json({changes,policyVersion:v}),t,uid,d.revision),
+   a.stmt('UPDATE privacy_preferences SET data=?,policy_version=?,revision=revision+1,updated=?,provider_binding=? WHERE user_id=? AND revision=?',json(consent),v,t,digest,uid,d.revision),
+   ...onMemoryPreferencesChangeStatements(a,uid,p.consents,consent,t,{sql:'EXISTS(SELECT 1 FROM privacy_preferences WHERE user_id=? AND revision=? AND updated=? AND data=?)',bindings:[uid,d.revision+1,t,json(consent)]})
+  ]);
+  if(!results[1]?.meta?.changes)fail(409,'授权设置已变更，请刷新后重试。');
+  await a.audit('privacy.preferences',uid,'分项授权已更新；日志不含个人资料。');return response();
+ }
+ if(path==='/api/privacy/export'&&method==='GET'){
+  await a.rate('privacy-export:'+uid,3);
+  const queries:Record<string,string>={...CARD_PRIVACY_QUERIES,
+   account:'SELECT id,username,name,role,created FROM users WHERE id=?',
+   memoryItems:'SELECT id,category,title,text,version,created,updated FROM memory_entries WHERE owner=?',memoryState:'SELECT epoch,updated FROM memory_state WHERE owner=?',memoryTombstones:'SELECT entry_id,last_version,operation_id,deleted_at FROM memory_tombstones WHERE owner=?',memoryCleanupReceipts:'SELECT id,operation_id,status,details,created FROM memory_cleanup_receipts WHERE owner=?',records:'SELECT kind,day,data,created FROM records WHERE owner=?',timeRecords:'SELECT id,start_ms,end_ms,last_seen,zone FROM timer_runs WHERE owner=?',
+   activity:'SELECT day,feature,visits,first_seen,last_seen,last_visit FROM activity_daily WHERE user_id=?',
+   myPosts:'SELECT id,title,body,media_url,status,reason,created,updated FROM posts WHERE author_id=?',uploadedMediaMetadata:'SELECT id,mime,filename,created FROM media WHERE owner=?',mySentMessages:'SELECT body,created FROM messages WHERE sender=?',
+   serviceRequests:'SELECT id,teacher_id,teacher_name,body,preferred_date,status,created FROM service_requests WHERE user_id=?',devices:'SELECT id,provider,device_id,map,status,consent_at FROM devices WHERE owner=?',
+   measurements:'SELECT m.metric,m.value,m.unit,m.measured_at FROM measurements m JOIN devices d ON d.id=m.connection_id WHERE d.owner=?',
+   creatorProfile:'SELECT data,status,teacher_id,created,updated FROM creator_profiles WHERE user_id=?',creatorWorks:'SELECT id,data,status,reason,version,created,updated FROM creator_works WHERE owner_id=?',
+   mySavedCreatorWorks:'SELECT work_id,action,created FROM creator_actions WHERE visitor=?',myFollows:'SELECT creator_id,created FROM creator_follows WHERE follower_id=?',
+   conversations:'SELECT id,data,created FROM privacy_conversations WHERE user_id=?',authorizationHistory:'SELECT event,data,created FROM privacy_events WHERE user_id=?',
+   transferAttempts:'SELECT provider_id,category,policy_version,created FROM privacy_transfers WHERE user_id=?',privacyRequests:'SELECT id,kind,status,data,created,updated FROM privacy_requests WHERE user_id=?',
+   commerceOrders:'SELECT id,environment,status,payment_status,fulfillment_status,aftersale_status,currency,subtotal_minor,shipping_minor,tax_minor,total_minor,refunded_minor,shipping_address,tracking,created,updated FROM commerce_orders WHERE owner=?',
+   commerceOrderItems:'SELECT i.id,i.order_id,i.sku_id,i.product_id,i.title,i.type,i.quantity,i.price_minor,i.currency,i.content_id,i.price_version,i.refunded_quantity FROM commerce_order_items i JOIN commerce_orders o ON o.id=i.order_id WHERE o.owner=?',
+   commerceEntitlements:'SELECT environment,order_id,item_id,content_id,type,quantity,remaining,status,created,updated FROM commerce_entitlements WHERE owner=?',
+   commerceCart:'SELECT environment,data,updated FROM commerce_carts WHERE owner=?',commercePaymentSummary:'SELECT environment,order_id,kind,amount_minor,currency,items,status,created FROM commerce_payment_events WHERE owner=?',
+   commerceAftersaleRequests:'SELECT id,environment,order_id,reason,quantity,status,created,updated FROM commerce_aftersale_requests WHERE owner=?',
+   commerceInventoryEvents:'SELECT environment,order_id,item_id,sku_id,quantity_delta,reason,created FROM commerce_inventory_events WHERE owner=?',
+   afterSalesCases:"SELECT id,environment,order_id,type,reason,rule_version,state,version,created,updated FROM after_sales_cases WHERE owner=?",
+   afterSalesItems:"SELECT id,case_id,order_item_id,sku_id,type,quantity,received_quantity,restocked_quantity,snapshot_data FROM after_sales_items WHERE owner=?",
+   afterSalesActions:"SELECT id,case_id,kind,json_extract(data,'$.reason') AS reason,json_extract(data,'$.note') AS note,created FROM after_sales_actions WHERE owner=?",
+   afterSalesShipments:"SELECT id,case_id,carrier,tracking_number,created FROM after_sales_shipments WHERE owner=?",
+   afterSalesInspections:"SELECT i.id,i.case_id,i.receipt_reference,i.note,i.created FROM after_sales_inspections i JOIN after_sales_cases c ON c.id=i.case_id WHERE c.owner=?",
+   afterSalesReceiptItems:"SELECT i.id,i.inspection_id,i.case_item_id,i.received_quantity,i.restock_quantity,i.condition,i.created FROM after_sales_inspection_items i JOIN after_sales_items x ON x.id=i.case_item_id WHERE x.owner=?",
+   accountLifecycle:"SELECT status,epoch,closed_at,receipt_id FROM account_lifecycle WHERE owner=?",
+   paymentSupportTickets:'SELECT id,order_id,event_id,kind,message,status,version,created,updated FROM payment_support_tickets WHERE owner=?',
+   paymentSupportReplies:'SELECT ticket_id,status,reply,created FROM payment_support_actions WHERE ticket_id IN (SELECT id FROM payment_support_tickets WHERE owner=?) ORDER BY ticket_id,version',
+   accountClosureReceipts:"SELECT id,request_id,created,details FROM account_closure_receipts WHERE owner=?",
+   afterSalesFinanceHeads:"SELECT case_id,order_id,environment,currency,version,approval_id,last_action,created,updated FROM after_sales_finance_heads WHERE owner=?",
+   afterSalesFinanceActions:"SELECT id,case_id,environment,currency,kind,expected_version,json_extract(data,'$.reason') AS reason,json_extract(data,'$.ruleLabel') AS rule_label,created FROM after_sales_finance_actions WHERE owner=?",
+   afterSalesFinanceTargets:"SELECT approval_id,case_item_id,case_id,approved_minor FROM after_sales_finance_targets WHERE owner=?",
+   afterSalesFinanceLinks:"SELECT id,action_id,case_id,case_item_id,environment,currency,refund_event_id,order_item_id,amount_minor,created FROM after_sales_finance_links WHERE owner=?",
+   afterSalesFinanceReversals:"SELECT id,action_id,link_id,case_id,amount_minor,created FROM after_sales_finance_reversals WHERE owner=?",
+   membershipSubscriptions:'SELECT id,environment,group_id,plan_id,plan_version,status,auto_renew,period_start,period_end,grace_end,trial_end,next_charge_at,cancelled_at,version,created,updated FROM membership_subscriptions WHERE owner=?',
+   membershipOrderTerms:'SELECT item_id,environment,order_id,plan_id,plan_version,group_id,data,subscription_id,payment_event_id,period_start,period_end,state,created FROM membership_order_snapshots WHERE owner=?',
+   membershipEvents:'SELECT id,environment,subscription_id,request_id,kind,data,created FROM membership_events WHERE owner=?',
+   membershipPurchaseLocks:'SELECT environment,group_id,order_id,subscription_id,expires FROM membership_purchase_locks WHERE owner=?',
+   commissionLedger:"SELECT id,order_id,item_id,rule_id,rule_version,currency,quantity,refunded_quantity,base_minor,amount_minor,net_minor,status,freeze_until,payment_event,json_extract(data,'$.rule') AS rule_snapshot,json_extract(data,'$.orderItem') AS order_item,created,updated FROM commission_ledger WHERE beneficiary=?",
+   commissionAdjustments:"SELECT id,ledger_id,currency,refunded_quantity,amount_minor,target_minor,status,reason,source_event,created FROM commission_adjustments WHERE beneficiary=?",
+   commissionStatements:"SELECT id,currency,total_minor,status,version,period_from,period_to,created,updated FROM commission_statements WHERE beneficiary=?",
+   commissionStatementLines:"SELECT l.statement_id,l.kind,l.source_id,l.amount_minor FROM commission_statement_lines l JOIN commission_statements s ON s.id=l.statement_id WHERE s.beneficiary=?",
+   commissionPaymentSummary:"SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?",
+   commissionOwnAttributions:"SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?",
+   commissionOwnInvitations:"SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?",
+   aiGatewayWallet:'SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',
+   aiGatewayGrants:'SELECT request_id,credits,created FROM ai_gateway_grants WHERE owner=?',
+   aiGatewayProviderPermissions:'SELECT provider_id,provider_binding,policy_version,global_revision,categories,revision,created,updated FROM ai_gateway_provider_consents WHERE owner=?',
+   aiGatewayRequests:'SELECT id,request_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated FROM ai_gateway_jobs WHERE owner=?',
+   aiGatewayQuotaEvents:'SELECT job_id,action,credits,rule_version,created FROM ai_gateway_quota_events WHERE owner=?',
+   aiGatewayAttempts:'SELECT job_id,provider_id,model,protocol,status,upstream_request_id,usage,cost_minor,currency,output_chars,error_code,created,updated FROM ai_gateway_attempts WHERE owner=?'
+  },serverData:Record<string,any>={};
+  for(const [name,sql] of Object.entries(queries)){const table=sql.split(' FROM ')[1].split(' ')[0];if(await a.one("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",table))serverData[name]=await a.all(sql,uid);}
+  await a.audit('privacy.export',uid,'本人资料导出，不包含凭据或他人私信正文。');
+  return {schemaVersion:1,accountId:uid,exportedAt:now(),serverData,preferences:await response(),exclusions:['credentials','other-users-private-messages','full-payment-receipts'],localDataIncluded:false,localDataNote:'本机生辰、命盘、笔记和本机聊天未自动上传；可在本机单独合并导出。'};
+ }
+ if(path==='/api/privacy/requests'){
+  if(method==='GET')return {items:(await a.all('SELECT * FROM privacy_requests WHERE user_id=? ORDER BY created DESC LIMIT 100',uid)).map(requestItem)};
+  if(method==='POST'){
+   await a.rate('privacy-request:'+uid,10);const d=await a.body(),kind=d.kind,key=d.requestId||uuid();
+   if(unknown(d,['kind','requestId','password','renewalAcknowledged'])||!KINDS.includes(kind)||typeof key!=='string'||key.length<8||key.length>100)fail(400,'隐私处理类型或请求编号不正确。');
+   if(kind==='close-account'){
+    if(typeof d.password!=='string'||!d.password||d.password.length>128)fail(400,'注销申请需要验证本人密码。');
+    const stored=user.password,salt=stored.split(':')[0];let candidate='';
+    try{const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(d.password),'PBKDF2',false,['deriveBits']);const b=await crypto.subtle.deriveBits({name:'PBKDF2',salt:Uint8Array.from(salt.match(/../g).map((x:string)=>parseInt(x,16))),iterations:100000,hash:'SHA-256'},k,256);candidate=salt+':'+Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join('');}catch{}
+    let diff=stored.length^candidate.length;for(let i=0;i<Math.max(stored.length,candidate.length);i++)diff|=(stored.charCodeAt(i)||0)^(candidate.charCodeAt(i)||0);if(diff)fail(403,'本人密码验证未通过。');
+    if(d.renewalAcknowledged!==true)fail(400,'请确认注销申请不会自动取消Apple、Google或其他第三方续费。');
+   }
+   const old=await a.one('SELECT * FROM privacy_requests WHERE user_id=? AND request_key=?',uid,key);if(old){if(old.kind!==kind)fail(409,'请求编号已用于另一项处理。');return {item:requestItem(old)};}
+   const categories=({ 'delete-memory':['memory'],'delete-conversations':['general','card','chart','wellbeing'],'delete-records':['chart','wellbeing','card'],'close-account':['general','card','chart','wellbeing','memory']} as Record<string,string[]>)[kind];
+   let providers=(await a.all('SELECT DISTINCT provider_id FROM privacy_transfers WHERE user_id=? AND category IN ('+categories.map(()=>'?').join(',')+')',uid,...categories)).map((r:any)=>r.provider_id);
+   const cfg=await configuration(a),t=now(),requestId=uuid(),backupStatus='pending-confirmation';
+   if(kind!=='delete-memory')providers=[...new Set([...providers,...cfg.recipients.map((r:any)=>r.id)])].sort();
+   const details:any={local:{status:kind==='close-account'?'pending-review':'completed',deletedCounts:{}},providers:providers.map((id:string)=>({id,status:'pending-confirmation'})),backups:{status:backupStatus,retentionDays:cfg.retention.backupDays},accountClosed:false,thirdPartyRenewalCancelled:false,localBrowserCleared:false,memoryServiceAvailable:true,retainedCategories:['account','community-messages','published-works','commerce-ledger','after-sales-ledger','commission-ledger','ai-request-quota-metadata','minimal-daily-card-quota','card-timezone-preferences','card-record-erasure-epoch'],financeRetentionDays:cfg.retention.financeDays,cardQuotaRetentionDays:null,cardQuotaRetentionNotice:'仅保留最小防重额度、时区与删除代际；不保留卡义或感受，期限待确认。'};
+   const status=kind==='close-account'?'pending-review':providers.length?'pending-provider':backupStatus==='not-applicable'?'completed':'pending-backup';
+   const actions:any[]=[];
+   if(kind==='delete-conversations')actions.push(a.stmt('DELETE FROM privacy_conversations WHERE user_id=?',uid));
+   if(kind==='delete-records')for(const sql of ['DELETE FROM records WHERE owner=?','DELETE FROM timer_runs WHERE owner=?','DELETE FROM activity_daily WHERE user_id=?','DELETE FROM measurements WHERE connection_id IN (SELECT id FROM devices WHERE owner=?)'])actions.push(a.stmt(sql,uid));
+   if(kind==='delete-records'){actions.push(...cardPrivacyDeletionStatements(a,uid));actions.push(a.stmt('INSERT INTO privacy_record_epochs VALUES(?,1,?) ON CONFLICT(owner) DO UPDATE SET revision=revision+1,updated=excluded.updated',uid,t));}
+   if(kind==='close-account'){const p=await prefs(a,uid);actions.push(a.stmt('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,revision=privacy_preferences.revision+1,updated=excluded.updated',uid,json(flags()),p.policyVersion,p.revision+1,t,p.providerBinding));}
+   if(['delete-conversations','delete-records'].includes(kind)){const p=await prefs(a,uid);actions.push(a.stmt('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET revision=privacy_preferences.revision+1,updated=excluded.updated',uid,json(p.consents),p.policyVersion,p.revision+1,t,p.providerBinding));}
+   // Count the exact rows inside the same transaction, immediately before deletion.
+   let detailSQL='?',detailArgs:any[]=[json(details)];
+   if(kind==='delete-conversations'){detailSQL="json_set(?,'$.local.deletedCounts',json_object('conversations',(SELECT count(*) FROM privacy_conversations WHERE user_id=?)))";detailArgs.push(uid);}
+   if(kind==='delete-records'){detailSQL="json_set(?,'$.local.deletedCounts',json_object('records',(SELECT count(*) FROM records WHERE owner=?),'timeRecords',(SELECT count(*) FROM timer_runs WHERE owner=?),'activity',(SELECT count(*) FROM activity_daily WHERE user_id=?),'measurements',(SELECT count(*) FROM measurements WHERE connection_id IN (SELECT id FROM devices WHERE owner=?))))";detailArgs.push(uid,uid,uid,uid);}
+   // card-service-delete-counts:v1: merge counts in the same pre-deletion atomic snapshot.
+   if(kind==='delete-records'){detailSQL="json_patch("+detailSQL+",json_object('local',json_object('deletedCounts',"+CARD_PRIVACY_DELETE_COUNTS_SQL+")))";detailArgs.push(uid,uid,uid,uid);}
+   // A unique request row and the destructive statements form one atomic batch.
+   actions.unshift(a.stmt('INSERT INTO privacy_requests VALUES (?,?,?,?,?,'+detailSQL+',?,?)',requestId,uid,key,kind,status,...detailArgs,t,t));
+   if(kind==='delete-memory'){
+    const guard={sql:'EXISTS(SELECT 1 FROM privacy_requests WHERE id=? AND user_id=?)',bindings:[requestId,uid]};
+    const plan=await memoryCleanupStatements(a,uid,'privacy:'+key,t,guard);
+    actions.push(...plan.statements);
+    const result=plan.receiptJSONSql;
+    actions.push(a.stmt("UPDATE privacy_requests SET data=json_set(data,'$.local.deletedCounts.memoryEntries',json_extract("+result.sql+",'$.counts.memoryEntries')) WHERE id=? AND user_id=?",...result.bindings,requestId,uid));
+   }
+   try{await a.db.batch(actions);}catch(error){const same=await a.one('SELECT * FROM privacy_requests WHERE user_id=? AND request_key=?',uid,key);if(same&&same.kind===kind)return {item:requestItem(same)};throw error;}
+   await a.audit('privacy.request.'+kind,requestId,'本机浏览器另行操作；备份与供应商状态分别追踪。');
+   return {item:requestItem(await a.one('SELECT * FROM privacy_requests WHERE id=? AND user_id=?',requestId,uid))};
+  }
+ }
+ return fail(404,'未找到隐私接口。');
+}

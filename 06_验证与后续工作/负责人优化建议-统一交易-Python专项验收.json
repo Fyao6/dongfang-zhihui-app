@@ -1,0 +1,1345 @@
+{
+  "at": "2026-11-12T10:38:03.680Z",
+  "module": "负责人优化建议-统一交易",
+  "runId": "mwdeznvk_3ae6ab",
+  "target": "python",
+  "base": "http://127.0.0.1:60884",
+  "syntheticDataOnly": true,
+  "productionWrites": false,
+  "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+  "results": [
+    {
+      "name": "管理员专属交易配置、沙箱明确开启且生产开关拒绝",
+      "pass": true,
+      "ms": 41
+    },
+    {
+      "name": "会员受限素材夹具真实上传发布，普通用户不能读取",
+      "pass": true,
+      "ms": 43,
+      "observed": {
+        "memberCourseCreated": true,
+        "ordinaryMediaStatus": 403
+      }
+    },
+    {
+      "name": "商品金额、数量、币种、商品类型与地址配置严格校验",
+      "pass": true,
+      "ms": 104,
+      "observed": {
+        "invalidMoneyInputs": 5,
+        "invalidCurrencies": 5,
+        "invalidStockInputs": 3
+      }
+    },
+    {
+      "name": "SKU、价格版本和沙箱商品保存，重复SKU及普通用户管理拒绝",
+      "pass": true,
+      "ms": 66
+    },
+    {
+      "name": "沙箱关闭时不能下单，开启后目录反映真实可买状态",
+      "pass": true,
+      "ms": 30
+    },
+    {
+      "name": "生产订单禁止，默认生产目录不冒充已开真实支付",
+      "pass": true,
+      "ms": 13
+    },
+    {
+      "name": "商品独立封面按上架状态公开，不能引用其他账号私有图片",
+      "pass": true,
+      "ms": 129,
+      "observed": {
+        "isolatedCoverPublishedAndArchived": true,
+        "foreignPrivateImageRejected": true
+      }
+    },
+    {
+      "name": "购物车按真实账号隔离，未登录访问拒绝",
+      "pass": true,
+      "ms": 42
+    },
+    {
+      "name": "订单数量严格整数且不接受重复SKU，不同币种分单",
+      "pass": true,
+      "ms": 58
+    },
+    {
+      "name": "数字实物混单明确拒绝且整单失败不遗留预占",
+      "pass": true,
+      "ms": 37
+    },
+    {
+      "name": "服务端核价、数字无地址、订单项价格与SKU版本完整快照",
+      "pass": true,
+      "ms": 13
+    },
+    {
+      "name": "创建幂等同负载重放，不同数量或地址负载冲突",
+      "pass": true,
+      "ms": 46
+    },
+    {
+      "name": "同requestId并发下单只生成一单一次预占",
+      "pass": true,
+      "ms": 42
+    },
+    {
+      "name": "商品更新保留订单旧快照，付款事件与权益重放不重复",
+      "pass": true,
+      "ms": 75
+    },
+    {
+      "name": "沙箱付款不能解锁真实会员媒体或改变账号角色",
+      "pass": true,
+      "ms": 24
+    },
+    {
+      "name": "沙箱会员商品只生成隔离测试权益，不激活正式订阅",
+      "pass": true,
+      "ms": 79
+    },
+    {
+      "name": "沙箱关闭或商品下架时付款失败，不产生事件和权益",
+      "pass": true,
+      "ms": 97
+    },
+    {
+      "name": "库存1并发预占只能一单成功，付款扣库和退款回库各一次",
+      "pass": true,
+      "ms": 102,
+      "observed": {
+        "successes": 1,
+        "stockAfterDuplicateRefund": 1
+      }
+    },
+    {
+      "name": "已发货实物退款不自动补库存，重复退款不重复记录库存事件",
+      "pass": true,
+      "ms": 93,
+      "observed": {
+        "stockBeforeOrder": 2,
+        "stockAfterPaymentAndDuplicateRefund": 1,
+        "refundInventoryEvents": 1
+      }
+    },
+    {
+      "name": "实物地址和配送国家校验，运税按数量核价",
+      "pass": true,
+      "ms": 29
+    },
+    {
+      "name": "实物付款与发货独立状态，未付款和普通用户不能发货退款",
+      "pass": true,
+      "ms": 89
+    },
+    {
+      "name": "本人售后申请可靠保存与幂等，不自动退款或改变库存权益",
+      "pass": true,
+      "ms": 71
+    },
+    {
+      "name": "部分退款仅冲正关联订单项，重复请求不二次退款或加库存",
+      "pass": true,
+      "ms": 78
+    },
+    {
+      "name": "全额退款按剩余订单项完成并保持历史支付与履约独立",
+      "pass": true,
+      "ms": 44
+    },
+    {
+      "name": "数字部分退款减对应沙箱权益，全退撤销且真实媒体始终受保护",
+      "pass": true,
+      "ms": 48
+    },
+    {
+      "name": "订单与权益跨账号隔离，匿名支付和普通用户资金操作拒绝",
+      "pass": true,
+      "ms": 43
+    },
+    {
+      "name": "商品版本并发控制与库存保护拒绝过期编辑",
+      "pass": true,
+      "ms": 36
+    },
+    {
+      "name": "真实社群五标签、商城详情和数字无地址购物车可达",
+      "pass": true,
+      "ms": 3967
+    },
+    {
+      "name": "浏览器创建订单、沙箱付款、重新查询和订单历史真实闭环",
+      "pass": true,
+      "ms": 2927,
+      "observed": {
+        "paidOrderRecovered": true,
+        "bankCharge": false
+      }
+    },
+    {
+      "name": "浏览器售后申请持久化、同理由重复提交幂等且不自动退款",
+      "pass": true,
+      "ms": 557,
+      "observed": {
+        "persistedRequests": 1,
+        "duplicateSubmissions": 2,
+        "automaticRefund": false
+      }
+    },
+    {
+      "name": "商城订单四语、窄屏布局与实际返回入口可用",
+      "pass": true,
+      "ms": 268,
+      "observed": {
+        "widths": [
+          375,
+          430
+        ],
+        "languages": 4
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    "负责人优化建议-统一交易-python-mwdeznvk_3ae6ab-数字购物车.png",
+    "负责人优化建议-统一交易-python-mwdeznvk_3ae6ab-已支付订单.png",
+    "负责人优化建议-统一交易-python-mwdeznvk_3ae6ab-售后申请进度.png"
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/setup",
+      "status": 200,
+      "ms": 208
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 216
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 217
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 209
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 215
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 401,
+      "ms": 5
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/courses",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/48677328-1b64-44bf-96cc-f2617bcb2eca",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 403,
+      "ms": 5
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/catalog",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 503,
+      "ms": 7
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/catalog",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 403,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/catalog",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 403,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/catalog",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/cart",
+      "status": 401,
+      "ms": 4
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/commerce/cart",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/cart",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/cart",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/commerce/cart",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 4
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/sandbox-pay",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/sandbox-pay",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/sandbox-pay",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/1b670fa8-2f52-4ef2-8804-58a85c436412/sandbox-pay",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/48677328-1b64-44bf-96cc-f2617bcb2eca",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/4d79d09d-3bf2-4d78-b949-22974c22064e/sandbox-pay",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/48677328-1b64-44bf-96cc-f2617bcb2eca",
+      "status": 403,
+      "ms": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/4d79d09d-3bf2-4d78-b949-22974c22064e/refund",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/b5f0a0f0-5c98-4c60-b5a6-96d6e998ff9a/sandbox-pay",
+      "status": 503,
+      "ms": 7
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/b5f0a0f0-5c98-4c60-b5a6-96d6e998ff9a/sandbox-pay",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/b5f0a0f0-5c98-4c60-b5a6-96d6e998ff9a",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409,
+      "ms": 29
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/41a531f7-7036-4cdf-8641-a6558c4d0dbd/sandbox-pay",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/41a531f7-7036-4cdf-8641-a6558c4d0dbd/refund",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/41a531f7-7036-4cdf-8641-a6558c4d0dbd/refund",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/0e2aaf7b-fa73-42df-ac3d-c701924e9529/sandbox-pay",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/0e2aaf7b-fa73-42df-ac3d-c701924e9529/fulfill",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/0e2aaf7b-fa73-42df-ac3d-c701924e9529/refund",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/0e2aaf7b-fa73-42df-ac3d-c701924e9529/refund",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/fulfill",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/fulfill",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/sandbox-pay",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/fulfill",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/fulfill",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/fulfill",
+      "status": 409,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/aftersale",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/aftersale",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/aftersale",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/aftersale",
+      "status": 404,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 409,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/refund",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/refund",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/48677328-1b64-44bf-96cc-f2617bcb2eca",
+      "status": 403,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 401,
+      "ms": 4
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55",
+      "status": 404,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/sandbox-pay",
+      "status": 404,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/8e79b75f-bd36-4631-bf62-58e40c104b55/sandbox-pay",
+      "status": 401,
+      "ms": 4
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/entitlements",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/fc4e3013-a990-4da6-8531-fd42aa327801/refund",
+      "status": 403,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 409,
+      "ms": 6
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 409,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/commerce/cart",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/b00e6c0b-0cb5-44ee-8502-37ac66ac9250",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/b00e6c0b-0cb5-44ee-8502-37ac66ac9250",
+      "status": 200,
+      "ms": 39
+    }
+  ],
+  "coverage": {
+    "http": true,
+    "ui": true,
+    "realPayments": false,
+    "production": false
+  },
+  "harnessSha256": {
+    "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "f0e9cd0f6b3af768e0dc12b91ddbe8ead96c75fb7d4c4f4982fb1471d1d4c257",
+    "06_验证与后续工作/负责人优化建议-交易专项.cjs": "df75765ccd75dc728927ecc53e71b87214be07acf10f815b99ebf2b60e12e131"
+  },
+  "ownedDatabase": "06_验证与后续工作/负责人优化建议-交易隔离-mwdeznvk_3ae6ab.sqlite3",
+  "identity": {
+    "sources": {
+      "04_研发源码/app/r4/backend/commerce.py": "759bfcf544153acfcfd9bb46e21f2d067d0336f9e329b7cd2b4729848a7d08a2",
+      "04_研发源码/app/r4/backend/server.py": "7f6a995129bd295a24e3daa775d19c543a89c23be4dec53665a7e149308658ba",
+      "04_研发源码/app/cloud/lib/commerce-api.ts": "c77f436fae9d1aa898d55568c992da539e71beb8d8e9ec7370f199e899d03be5",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "31435dff57ca28109b23f3da6c02227ea75f2c3c4f9990ee74102d31d056e1e6",
+      "04_研发源码/app/r4/commerce-ui.js": "0afb8c52dd031e5cf3a3f40a46316cff79d9c8f55c0cddfff10fa477d860f926",
+      "04_研发源码/app/r4/commerce-ui.css": "d9194d2a8ac3c9594f97a342f1de7696cd01fb340d6d16974f227702f9a6fc0e",
+      "04_研发源码/app/r4/commerce-admin.js": "b62bc466ebc65593002e95a04f183fc00c0eabf2fc36bdd1b87b6c9f92b836c5"
+    },
+    "builds": {
+      "03_当前APP/东方智慧-首页体验R4.html": "515a46f179741757d0ed3f5d88d4ced7f68ce2aa50c883a2208fd3f75807c618",
+      "03_当前APP/计时后台-开发联调.html": "79d6fcb3a1c82882978d4b1a5426621c5363f16b62da38f29d11d736460d4dae",
+      "04_研发源码/app/cloud/generated/experience.html": "656f98965ed5d4569cd94f587d94d1e5ddcbb00974495478b71ac1b250fa379f",
+      "04_研发源码/app/cloud/generated/admin.html": "2f9e4c82b5f1315b45da19e06f51355236d9df72f443d88415407f28e58fa3e5",
+      "04_研发源码/app/cloud/dist/server/index.js": "3db871c9c7caee9fd14139568ed5b3135cb36e7552dc8c84934ee6fbeb44a127"
+    }
+  },
+  "servedBuildSha256": "515a46f179741757d0ed3f5d88d4ced7f68ce2aa50c883a2208fd3f75807c618",
+  "identityUnchanged": true,
+  "pass": true,
+  "passed": 31,
+  "failed": 0
+}

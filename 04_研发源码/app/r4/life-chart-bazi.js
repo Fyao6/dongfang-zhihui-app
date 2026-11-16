@@ -87,12 +87,12 @@ function lcbExtraPanel(result,state){
 }
 // Viewport and focus are transient UI state, separate from saved chart data.
 const lcbTimelineViews=new WeakMap();
-function lcbTimelineView(state){let view=lcbTimelineViews.get(state);if(!view||view.result!==state.result){view={result:state.result,rails:Object.create(null),focus:null,panel:'flow',showFlowMonth:false,boardExpanded:true};lcbTimelineViews.set(state,view);}if(!['archive','flow','stars'].includes(view.panel))view.panel='flow';return view;}
+function lcbTimelineView(state){let view=lcbTimelineViews.get(state);if(!view||view.result!==state.result){view={result:state.result,rails:Object.create(null),focus:null,panel:'flow',showFlowMonth:false,fullBoard:false,boardExpanded:false};lcbTimelineViews.set(state,view);}if(!['archive','flow','stars'].includes(view.panel))view.panel='flow';return view;}
 function lcbRailPosition(rail){return {left:rail.scrollLeft,context:rail.dataset.lcbContext,width:rail.clientWidth,itemWidth:rail.querySelector('[aria-pressed=true]')?.offsetWidth};}
 function lcbRememberTimeline(state,button){
  const view=lcbTimelineView(state);
  view.disclosures=view.disclosures||{};
- for(const selector of ['[data-lcb-natal-details]','[data-lcb-birth-detail]','[data-lcb-extra]','[data-lcb-comparison]','.lcb-month-detail']){const detail=document.querySelector('.lcb-page '+selector);if(detail)view.disclosures[selector]=detail.open;}
+ for(const selector of ['[data-lcb-natal-details]','[data-lcb-birth-detail]','[data-lcb-profile-summary]','[data-lcb-extra]','[data-lcb-comparison]','.lcb-month-detail',...[...document.querySelectorAll('.lcb-page [data-lcb-star-group]')].map(e=>'[data-lcb-star-group="'+e.dataset.lcbStarGroup+'"]')]){const detail=document.querySelector('.lcb-page '+selector);if(detail)view.disclosures[selector]=detail.open;}
  const board=document.querySelector('.lcb-board-scroll');if(board)view.boardScroll=board.scrollLeft;
  for(const rail of document.querySelectorAll('.lcb-page [data-lcb-rail]'))view.rails[rail.dataset.lcbRail]=lcbRailPosition(rail);
  if(button)view.focus={action:button.dataset.lcbAction,index:button.dataset.index,view:button.dataset.view};
@@ -138,7 +138,7 @@ function lcbViewTabs(active){return `<div class="lcb-tabbar"><nav class="lcb-vie
 function lcbResult(result,state){return lcbReferenceResult(result,state);}
 function lcBaziScreen(){
  const state=lcGet('bazi'),labels=lcbLabels();
- return `<section class="page fl-detail lc-page lcb-page" data-lcb-layout="reference">${pxTop(labels.title,labels.intro,'lifeResult')}${!state.result||state.editing?lcBirthForm('bazi',{gender:true,extra:lcbRuleFields(state)}):''}${state.result?lcbResult(state.result,state):`<article class="card lc-empty"><h2>${lcbText('Begin with your birth details','从出生资料开始','從出生資料開始','སྐྱེས་དུས་ཀྱི་གནས་ཚུལ་ནས་འགོ་འཛུགས།')}</h2><p>${lcbText('Generate a chart to see the four pillars and select real calculated periods, years and months.','排盘后显示四柱，并可切换实际计算的大运、流年与流月。','排盤後顯示四柱，並可切換實際計算的大運、流年與流月。','སྐར་རྩིས་བཟོས་རྗེས་ཀ་བ་བཞི་དང་དུས་རབས། ལོ་དང་ཟླ་བ་འདེམས་ཆོག')}</p></article>`}${!state.result?lcbNotesPanel():''}</section>`;
+ return `<section class="page fl-detail lc-page lcb-page" data-lcb-layout="reference" data-lcb-presentation="four-pillars">${pxTop(labels.title,labels.intro,'lifeResult')}${!state.result||state.editing?lcBirthForm('bazi',{gender:true,extra:lcbRuleFields(state)}):''}${state.result?lcbResult(state.result,state):`<article class="card lc-empty"><h2>${lcbText('Begin with your birth details','从出生资料开始','從出生資料開始','སྐྱེས་དུས་ཀྱི་གནས་ཚུལ་ནས་འགོ་འཛུགས།')}</h2><p>${lcbText('Generate a chart to see the four pillars and select real calculated periods, years and months.','排盘后显示四柱，并可切换实际计算的大运、流年与流月。','排盤後顯示四柱，並可切換實際計算的大運、流年與流月。','སྐར་རྩིས་བཟོས་རྗེས་ཀ་བ་བཞི་དང་དུས་རབས། ལོ་དང་ཟླ་བ་འདེམས་ཆོག')}</p></article>`}${!state.result?lcbNotesPanel():''}</section>`;
 }
 screens.classicsWisdom=lcBaziScreen;
 document.addEventListener('click',event=>{
@@ -150,6 +150,7 @@ document.addEventListener('click',event=>{
  if(button.dataset.lcbAction==='tools'){lcbOpenTools(button);return;}
   if(button.dataset.lcbAction==='tools-return'){lcbReturnTools();return;}
  if(button.dataset.lcbAction==='board-details'){lcbTimelineView(state).boardExpanded=!lcbTimelineView(state).boardExpanded;render(false);return;}
+ if(button.dataset.lcbAction==='board-mode'){const view=lcbTimelineView(state);view.fullBoard=!view.fullBoard;if(view.fullBoard)view.showFlowMonth=true;view.boardScroll=0;render(false);return;}
  if(button.dataset.lcbAction==='flow-month'){lcbTimelineView(state).showFlowMonth=!lcbTimelineView(state).showFlowMonth;render(false);return;}
  if(button.dataset.lcbAction==='details'){state.showPillarDetails=!state.showPillarDetails;render(false);return;}
  if(button.dataset.lcbAction==='today'){state.selection={mode:'current'};render(false);return;}

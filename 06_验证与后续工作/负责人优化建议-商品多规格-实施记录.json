@@ -1,0 +1,108 @@
+{
+  "module": "商城多规格与SKU",
+  "at_beijing": "2026-11-13T21:10:56.519685+08:00",
+  "pass": true,
+  "taskIds": [
+    "SH02",
+    "SH04",
+    "SH05"
+  ],
+  "scope": "同商品多SKU及各自价格和库存，管理员规格维护，四语选择，服务端按SKU核价与预占，成交规格快照，旧库升级保留原记录。",
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格-最终-本轮全量回归结果.json",
+      "sha256": "9cc2ea475428afd7c15d816060e3649374603f6f760d3047b24a59517aaeed0e",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-13T13:03:31.476Z"
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格-python.json",
+      "sha256": "dfe5759e11a4b0b938c56ab174efb51e740d53de77528fec9d944508b0538206",
+      "passed": 8,
+      "failed": 0,
+      "at": "2026-11-13T13:04:44.148Z"
+    },
+    "Python交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格兼容-python.json",
+      "sha256": "f2da084353d5b3fbf5de28b0f13dca27ff8a01ef406382f9f84482f5aee8de03",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-13T13:04:44.154Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格-最终-公网适配全量回归结果.json",
+      "sha256": "172d649845f23bb47cc5450d1dffc54c7492451f942bacf173c75dcf717447f0",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-13T13:05:17.528Z"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格-cloud.json",
+      "sha256": "11290296d71cd3d6ad5ea615d0ab10ba0aa9d2b8b380755e11ba36e68c2abf09",
+      "passed": 8,
+      "failed": 0,
+      "at": "2026-11-13T13:05:44.251Z"
+    },
+    "Cloud交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格兼容-cloud.json",
+      "sha256": "53df8ad3813fed0a423a2569513f6d0aaa1c71cb1be3a05827834892ca2995d7",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-13T13:06:19.505Z"
+    },
+    "双端旧库迁移": {
+      "path": "06_验证与后续工作/负责人优化建议-商品多规格-旧库迁移核验.json",
+      "sha256": "2a7a3204fc143ce3348287e7a00d70e5a33896dea801b15bc9e985229028e8dd",
+      "passed": null
+    }
+  },
+  "sourceBuildTestHashes": {
+    "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+    "04_研发源码/app/r4/backend/server.py": "8ca67c2054650289e06cdeeb9721a8cb71269aa8104453b0a7a539022c86ce5f",
+    "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "1aa32075c37d2c26a8093c9e387134bb3e2fc219e589c2593b14252821546c82",
+    "04_研发源码/app/r4/commerce-ui.js": "4fa627e0e5b02cd47e9e9285d7913c40eb2e2d6257d903b8ddcfcdd727edfc87",
+    "04_研发源码/app/r4/commerce-ui.css": "2b49415a925f546194e1be7a24f44fe63ae269fad6e68ed4f4c83f5d1bf268ee",
+    "04_研发源码/app/r4/commerce-admin.js": "1de9304cb6764a69f95f5fdb43c0985d79e9d8202bf82f137a8ab7188d47144a",
+    "03_当前APP/东方智慧-首页体验R4.html": "99316ba4957b0660da02aac6cbb82b2e56c2a247f0e7b2318d7933cab5ca311e",
+    "03_当前APP/计时后台-开发联调.html": "4cdde3a9d97fb24c0c933fa42cc66173304698f0923151af325671bc1b469d22",
+    "04_研发源码/app/cloud/generated/experience.html": "d59a5bbf587abb2eb15971f51bb26f51f3adc47798f39bfcac3a438ab7e07bd4",
+    "04_研发源码/app/cloud/generated/admin.html": "9cd4f17bf606d6753adf96a95eb5f36ff75db70cc062ffba577620c557f9e3ec",
+    "04_研发源码/app/cloud/dist/server/index.js": "7dc5dd55a13913fd9fc19361b0f0cb9107d09a270b48b7f5bd21b6dec07cfa94",
+    "03_当前APP/发给负责人-东方智慧首页R4.html": "c6e252f28fca6abdb95a110b314b55979dd8ec35280c589a02d4bf7c17fc59bd",
+    "04_研发源码/app/cloud/dist/server/wrangler.json": "5928549ae056775756a46e56671077bb78a51ed8d34b97b85ec54bf3deb6fe7e",
+    "04_研发源码/app/cloud/dist/server/BUILD_ID": "0eea966c4f36824cc2d4e20b880325315196326ea159df18a8bbcc56599aa8dc",
+    "06_验证与后续工作/负责人优化建议-商品多规格专项.cjs": "f3ccdccfa6658368770864e9c2814e75e77644f40a5f432965c33822a97f8649",
+    "06_验证与后续工作/负责人优化建议-商品规格迁移验证.py": "c36f3385209095d36011cb22deca2a717b1ee872de6a6cef1ebaa40b051d1bd5",
+    "06_验证与后续工作/负责人优化建议-交易专项.cjs": "0361aea627db9ce6fb927fba409602c61dffae079dd6b54104f5f94144c37867",
+    "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+    "06_验证与后续工作/全量回归.cjs": "0a9d9486054a4bf166d66ac20b33e04eef082f174fcb25ed10cfaf97a254ccb6",
+    "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879"
+  },
+  "visualCaptures": {
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-后台规格编辑.png": "1ee0a008896b34448c7ee8cb3aa7a243c013ce1b83f96eb406d261c90c7fe32b",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-商品规格-zh-360.png": "8268c038fd9de76411a872b77d6c0fa379647ef63572d94bd0fdfa74046f7356",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-商品规格-zh-Hant-390.png": "28458478e6d4a012fd3d77fe4c5fe106f51b367ecff45a82e4f5fe9f1fc866a2",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-商品规格-en-360.png": "1d482349845c83dbddd0602807799d9458eecb6bc8f47764684aaac6e39ee2cf",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-商品规格-bo-390.png": "8679481a8e4750cb74c45e506a4f17bd556c25d5802f91a76470b830bea54ce3",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-商品规格-en-1100.png": "74a6921b48f51fe49d9f67218037fc9b7028b191e12f6c88dee7045a6906de2c",
+    "06_验证与后续工作/负责人优化建议-商品多规格-python-mwezo50z_15ce6b-订单规格快照.png": "8f7c865deaa92e8c93954ceaeb5512606f9feaddf8f5dbfea4a1e717490ffbb7",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-后台规格编辑.png": "71cdc13a73cbf66e2212f260559d3a1ef89979e7e8ef719d91416cb2437fbe16",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-商品规格-zh-360.png": "1de0296098b2fb7775b52582991897a453df1661c0473fc987b8627ef16ead83",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-商品规格-zh-Hant-390.png": "f009b9ad1e4e95177fb627bcb6d38bbaaa5fe05ed9f1c52e591e03de021e6de0",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-商品规格-en-360.png": "198f6972a394c793abdb12e31f48214328125748e1014b7588c873b5d6235a7a",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-商品规格-bo-390.png": "da51a4eaa491843daf97520a86989de6dbd23d8a999d13bb4076ce8359c78261",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-商品规格-en-1100.png": "bf07682f7750b6f4ac15692be837139351947de70e3dc560f8da42b69e94d02f",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud-mwezpfej_4463af-订单规格快照.png": "bec4bce706aa8774ccd2f8dd62570ab00b6f98888a8b3e3a86ecb2e72008dbb2"
+  },
+  "limitations": [
+    "每商品最多20个SKU，每SKU最多四组名称和取值，商品共用币种和配送规则。会员沿用单SKU。",
+    "仅隔离沙箱。正式支付、仓配、售后完结和目标设备仍待验收。"
+  ],
+  "previewSnapshotSHA256": "a19650e3079625ebf44be7b274acfb7932a506df29586a78726241915f0811c6",
+  "failedRunEvidence": [
+    "06_验证与后续工作/负责人优化建议-商品多规格-首轮-公网适配全量回归结果.json",
+    "06_验证与后续工作/负责人优化建议-商品多规格-cloud.json"
+  ]
+}

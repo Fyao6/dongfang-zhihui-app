@@ -1,0 +1,265 @@
+{
+  "at": "2026-11-12T11:19:28.894Z",
+  "target": "cloud",
+  "runId": "mwdggxha_f3182f",
+  "syntheticDataOnly": true,
+  "formalIntroductionProduced": false,
+  "fixture": "existing user community-preview.mp4 only",
+  "productionWrites": false,
+  "externalProviderTested": false,
+  "results": [
+    {
+      "name": "真实视频后台路由需要管理权限",
+      "pass": true
+    },
+    {
+      "name": "真实上传现有短片与封面仅作隔离夹具",
+      "pass": true
+    },
+    {
+      "name": "真实API拒绝空占位和未审素材发布",
+      "pass": true
+    },
+    {
+      "name": "真实API要求简繁英独立字幕",
+      "pass": true
+    },
+    {
+      "name": "真实API可发布完整夹具并由public返回",
+      "pass": true
+    },
+    {
+      "name": "真实已发布媒体范围可读取视频和封面",
+      "pass": true
+    },
+    {
+      "name": "旧quotes入口不可通过删类型或改图片绕发布校验",
+      "pass": true
+    },
+    {
+      "name": "旧图文轮播仍可正常发布",
+      "pass": true
+    },
+    {
+      "name": "乐观锁阻止陈旧视频管理覆盖",
+      "pass": true
+    },
+    {
+      "name": "视频修改沿原内容修订且有效回滚可恢复发布",
+      "pass": true
+    },
+    {
+      "name": "其他账号私有上传不可提升为首页素材",
+      "pass": true
+    },
+    {
+      "name": "已发布会员课程视频与封面仍不能提升为公开首页素材",
+      "pass": true
+    },
+    {
+      "name": "视频后台真实界面可编辑四语字幕和草稿",
+      "pass": true
+    },
+    {
+      "name": "实际APP zh手动播放暂停静音字幕关闭",
+      "pass": true
+    },
+    {
+      "name": "实际APP zh-Hant手动播放暂停静音字幕关闭",
+      "pass": true
+    },
+    {
+      "name": "实际APP en手动播放暂停静音字幕关闭",
+      "pass": true
+    },
+    {
+      "name": "实际APP bo手动播放暂停静音字幕关闭",
+      "pass": true
+    },
+    {
+      "name": "实际APP离页释放片源且时间银行规则仍自动累计",
+      "pass": true
+    },
+    {
+      "name": "实际APP媒体故障保留封面重试并恢复真实播放",
+      "pass": true
+    },
+    {
+      "name": "实际APP真实横向拖动轮播不会误触启动视频",
+      "pass": true
+    },
+    {
+      "name": "停用与归档真实移除视频入口及公开媒体授权",
+      "pass": true
+    },
+    {
+      "name": "实际产物测试期间身份不变且无JS异常",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "负责人优化建议-视频-cloud-mwdggxha_f3182f-zh.png",
+    "负责人优化建议-视频-cloud-mwdggxha_f3182f-zh-Hant.png",
+    "负责人优化建议-视频-cloud-mwdggxha_f3182f-en.png",
+    "负责人优化建议-视频-cloud-mwdggxha_f3182f-bo.png"
+  ],
+  "traffic": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/quotes",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/quotes",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/quotes",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/videos",
+      "status": 409
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/revisions",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/revisions/32f7bd97-8f31-4dd8-ad49-762f2c8f1ddb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/videos",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/videos",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/videos",
+      "status": 200
+    }
+  ],
+  "identity": {
+    "04_研发源码/app/r4/home-video.js": "eb20185b8478cfc789ea61f27d965b4203dca180836ed567713cb8da3789afe2",
+    "04_研发源码/app/r4/home-video.css": "7d5eeee0c6decd52c848637da659f5e4a350fbb2a8818b68b77d2f13b49c3946",
+    "04_研发源码/app/r4/home-video-admin.js": "e2b78b3f103801816b701ac73d7eb3ea1bdaa77c18190d73b19d4371fb493aca",
+    "04_研发源码/app/r4/backend/video.py": "3d04e13fb60f51d3d5cffb4ef213d24a9178d67796b46931e87c164761882e84",
+    "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+    "04_研发源码/app/r4/backend/server.py": "ee89720bcfef2fe6c2acd07faae18c9f81e9d48bd4ec963055bc56f181b03f0f",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "3516995f30bdabb83c66eedb9a188d3d0b1d4b0a464a51734183e0fad9b10c9a",
+    "04_研发源码/app/r4/build.py": "b1c599532ec79e7bef69e08c5f4fd343a7a9026625c8a14b2b58d56b4ce1c754",
+    "03_当前APP/东方智慧-首页体验R4.html": "b3bd95e0412b6402573a2bf7a869664ecd39d27faa7998ed202ec9766d7aac7b",
+    "03_当前APP/计时后台-开发联调.html": "c9a1b010426f316e16b1cc4be09303395a94520105eb35aa855672c5f5e2a4d7",
+    "04_研发源码/app/cloud/generated/experience.html": "39c2ff68bad88111cb141c573900b1c9f99008bf0b7163820ed4fb374d712f6e",
+    "04_研发源码/app/cloud/generated/admin.html": "32866c32628a5799ffaedbdb170dd9deea232bb6d6e3e7be62a1bbd5a142c9e3"
+  },
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\vh6dca",
+  "base": "http://127.0.0.1:50737",
+  "servedAppSha": "39c2ff68bad88111cb141c573900b1c9f99008bf0b7163820ed4fb374d712f6e",
+  "identityUnchanged": true,
+  "passed": 22,
+  "failed": 0,
+  "pass": true
+}

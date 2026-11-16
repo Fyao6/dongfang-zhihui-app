@@ -1,0 +1,59 @@
+{
+  "at_beijing": "2026-11-12T19:51:13.676142+08:00",
+  "module": "负责人优化建议-统一AI网关",
+  "pass": true,
+  "scope": "三协议真实传输代码、场景路由、全局与逐供应商授权、真实SSE转换/非流一次结果、停止/超时/独立授权备用、幂等请求与测试额度、只读工具、本人查询/导出、后台配置。",
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-统一AI网关-本机全量验收.json",
+      "sha256": "66380cb2f741f90d382c5a2d19c3fb9717fce9b804c97ab9395d6562954e4ab5",
+      "passed": 60,
+      "at": "2026-11-12T11:40:43.069Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-统一AI网关-本地Cloud全量验收.json",
+      "sha256": "3b4c0d9469ce737407a6f47e54d897c3cd4aca9e3786422b60d2974a63d551c3",
+      "passed": 60,
+      "at": "2026-11-12T11:40:53.352Z"
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-统一AI网关-Python专项验收.json",
+      "sha256": "350ac4362807f79056729214161d8b0ca1d29ebf0b4012242df4f8016bf2fd8f",
+      "passed": 25,
+      "at": "2026-11-12T11:40:45.018Z"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-统一AI网关-Cloud专项验收.json",
+      "sha256": "721b94e033f69a84e1b577d8e1b77940c4c3fc51eca679c2f4bb7de9cc696678",
+      "passed": 25,
+      "at": "2026-11-12T11:40:45.021Z"
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/ai_gateway.py": "16dd8db038a89bdd2b8c2742a607aec9e333ff90b338b508354f4710b35c460e",
+    "04_研发源码/app/cloud/lib/ai-gateway.ts": "cdcb4858435370226694a9515352422f50a14e133d22725a97c43836fa7f8938",
+    "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+    "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+    "04_研发源码/app/r4/ai-gateway-ui.js": "44b1ba4a330863ce453a6367ca33c8878427604080a5d5fa92b326bbd9f699bb",
+    "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+    "04_研发源码/app/r4/ai-gateway-admin.js": "7f4363f10342333f1f604d922bcb61497f5d7f48cb9bf182cc6b6e2becdb7435",
+    "04_研发源码/app/r4/backend/privacy.py": "2ff050ee509d525601d9b114fe02a6e9735d6f2861ebff9c5c0930c3ea5f55ba",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "014a400afe58373cdfaafa84eabb9548474f850cee0fb5da1292ea1bfac539d2",
+    "04_研发源码/app/r4/backend/server.py": "fa16c8ab47b2cf45638d4cb08307a7dc51af5293f879ada65f7fb0f125febe97",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "c7cd0bd4eb45f2fc829a934dd89a80713ca96e1b73d01cb3d94e4c431c522316",
+    "04_研发源码/app/cloud/worker/index.ts": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+    "04_研发源码/app/r4/build.py": "51677e594e5bc079753794288707535eac10b28dbe7b0f53c3f2b748f874f3f8",
+    "04_研发源码/app/cloud/prepare.py": "c9b83c5418c63e73ca911f29055f160493385bd2b576f38dec3385e87b020904",
+    "04_研发源码/app/r4/platform.js": "476f4b6a34a85cfbdbe8401a13d03f63becde8584c13dd0c21722870d0696eaf",
+    "04_研发源码/app/r4/time-bank-admin.html": "4c47813f9d8f0a089bff468e6bfa8a11c66b600153a93310b8d105d07573dd72"
+  },
+  "app_sha256": "2c708d3ea7ad3020e9e707e9388958eb4472866d24a29a133698b21aef904834",
+  "limitations": [
+    "所有供应商响应均为明确本机fixture或浏览器截获；真实模型请求0，未接通Claude或部署DeepSeek/GPU。",
+    "生产额度/付费权益关闭，测试credits不代表实际供应商费用；usage或价格未知不当作0。",
+    "知识工具仅已发布免费课程及本人元数据，不是任意知识库或自动写工具。",
+    "固定健康/命盘输出边界已进请求，不等于真实模型输出安全已验证。",
+    "实际地区/数据条款、生产运行与移动实机尚待确认。"
+  ],
+  "failure_history": "保留停止异步终态等待夹具失败和此前内存失败；修正终态重试不新开单、取消仅作用对应流、流中撤回与跨页保存缓存。"
+}

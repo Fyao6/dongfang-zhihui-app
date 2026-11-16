@@ -1,0 +1,894 @@
+{
+  "latest": {
+    "at": 1794543310597,
+    "runId": "f74189e1-f19d-4d1f-b108-223b1e9136b2",
+    "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+    "checks": [
+      {
+        "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+        "pass": true
+      },
+      {
+        "name": "legacy plaintext never silently calls a provider or authenticates a device",
+        "pass": true
+      },
+      {
+        "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+        "pass": true
+      },
+      {
+        "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+        "pass": true
+      },
+      {
+        "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+        "pass": true
+      },
+      {
+        "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+        "pass": true
+      },
+      {
+        "name": "one mismatching env target blocks entire migration without partial removal",
+        "pass": true
+      },
+      {
+        "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+        "pass": true
+      },
+      {
+        "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+        "pass": true
+      },
+      {
+        "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+        "pass": true
+      },
+      {
+        "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+        "pass": true
+      },
+      {
+        "name": "closed administrator cannot execute retained preview plan",
+        "pass": true
+      },
+      {
+        "name": "fresh transaction role rejects stale admin handler before deletion",
+        "pass": true
+      },
+      {
+        "name": "plan same-key replay is exact; changed mapping conflicts",
+        "pass": true
+      },
+      {
+        "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+        "pass": true
+      },
+      {
+        "name": "independent SQLite concurrent same-key migration commits once with one replay",
+        "pass": true
+      },
+      {
+        "name": "strict request versions and controlled references reject type/length/scope tricks",
+        "pass": true
+      },
+      {
+        "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+        "pass": true
+      },
+      {
+        "name": "reference-only settings maintain exact action idempotence and configuration versions",
+        "pass": true
+      },
+      {
+        "name": "explicit clear of a migrated reference disables readiness without falling back",
+        "pass": true
+      },
+      {
+        "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+        "pass": true
+      },
+      {
+        "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+        "pass": true
+      },
+      {
+        "name": "reserved object keys and malformed existing device structures cannot become implicit credential targets",
+        "pass": true
+      },
+      {
+        "name": "actual Bearer use rejects whitespace/control/invalid header tokens without trimming; valid exact token preserved",
+        "pass": true
+      },
+      {
+        "name": "normal edit of migrated device B cannot rewrite unmigrated device A; independent theme remains usable",
+        "pass": true
+      },
+      {
+        "name": "explicit partial migration removes only matched field via JSON paths; remaining legacy group is still blocked",
+        "pass": true
+      },
+      {
+        "name": "real dedicated opener rejects301/302/303/307/308 fake response chains with no second request or external network",
+        "pass": true
+      },
+      {
+        "name": "dedicated direct-response transport retains exact header/body/timeout and does not alter global urllib opener",
+        "pass": true
+      }
+    ],
+    "passed": 28,
+    "failed": 0,
+    "sourceSha256": {
+      "04_研发源码\\app\\r4\\backend\\secret_references.py": "0a0a3488ae1676581ebe9426178873614f7e73a44a5a04250f1682a331eb6b9d"
+    },
+    "ownedDatabases": [
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-0.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-1.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-2.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-3.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-4.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-5.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-6.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-7.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-8.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-9.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-10.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-11.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-12.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-13.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-14.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-15.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-16.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-17.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-18.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-19.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-20.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-21.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-22.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-23.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-24.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-25.sqlite3",
+      "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-26.sqlite3"
+    ],
+    "productionDatabaseOpened": false,
+    "actualEnvironmentRead": false,
+    "providerRequests": 0,
+    "serviceStarted": false,
+    "pass": true
+  },
+  "runs": [
+    {
+      "at": 1794538835664,
+      "runId": "47b05f62-a5e3-4883-8ab8-e26edf3421e9",
+      "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+      "checks": [
+        {
+          "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+          "pass": true
+        },
+        {
+          "name": "legacy plaintext never silently calls a provider or authenticates a device",
+          "pass": true
+        },
+        {
+          "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+          "pass": true
+        },
+        {
+          "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+          "pass": true
+        },
+        {
+          "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+          "pass": true
+        },
+        {
+          "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+          "pass": true
+        },
+        {
+          "name": "one mismatching env target blocks entire migration without partial removal",
+          "pass": true
+        },
+        {
+          "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+          "pass": true
+        },
+        {
+          "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+          "pass": true
+        },
+        {
+          "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+          "pass": true
+        },
+        {
+          "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+          "pass": true
+        },
+        {
+          "name": "closed administrator cannot execute retained preview plan",
+          "pass": true
+        },
+        {
+          "name": "fresh transaction role rejects stale admin handler before deletion",
+          "pass": true
+        },
+        {
+          "name": "plan same-key replay is exact; changed mapping conflicts",
+          "pass": true
+        },
+        {
+          "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+          "pass": true
+        },
+        {
+          "name": "independent SQLite concurrent same-key migration commits once with one replay",
+          "pass": true
+        },
+        {
+          "name": "strict request versions and controlled references reject type/length/scope tricks",
+          "pass": true
+        },
+        {
+          "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "reference-only settings maintain exact action idempotence and configuration versions",
+          "pass": true
+        },
+        {
+          "name": "explicit clear of a migrated reference disables readiness without falling back",
+          "pass": true
+        },
+        {
+          "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+          "pass": true
+        },
+        {
+          "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+          "pass": true
+        }
+      ],
+      "passed": 22,
+      "failed": 0,
+      "sourceSha256": {
+        "04_研发源码\\app\\r4\\backend\\secret_references.py": "9fb5e2b945d21e78bd4c34f76a9b45d5fb2ffb219dfeb5c57653b73b85af7b7a"
+      },
+      "ownedDatabases": [
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-0.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-1.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-2.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-3.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-4.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-5.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-6.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-7.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-8.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-9.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-10.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-11.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-12.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-13.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-14.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-15.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-16.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-17.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-18.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-19.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-20.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-47b05f62-a5e3-4883-8ab8-e26edf3421e9-21.sqlite3"
+      ],
+      "productionDatabaseOpened": false,
+      "actualEnvironmentRead": false,
+      "providerRequests": 0,
+      "serviceStarted": false,
+      "pass": true
+    },
+    {
+      "at": 1794540710317,
+      "runId": "c7873a19-75f2-4e9e-9a63-c0fdfafc5097",
+      "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+      "checks": [
+        {
+          "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+          "pass": true
+        },
+        {
+          "name": "legacy plaintext never silently calls a provider or authenticates a device",
+          "pass": true
+        },
+        {
+          "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+          "pass": true
+        },
+        {
+          "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+          "pass": true
+        },
+        {
+          "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+          "pass": true
+        },
+        {
+          "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+          "pass": true
+        },
+        {
+          "name": "one mismatching env target blocks entire migration without partial removal",
+          "pass": true
+        },
+        {
+          "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+          "pass": true
+        },
+        {
+          "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+          "pass": true
+        },
+        {
+          "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+          "pass": true
+        },
+        {
+          "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+          "pass": true
+        },
+        {
+          "name": "closed administrator cannot execute retained preview plan",
+          "pass": true
+        },
+        {
+          "name": "fresh transaction role rejects stale admin handler before deletion",
+          "pass": true
+        },
+        {
+          "name": "plan same-key replay is exact; changed mapping conflicts",
+          "pass": true
+        },
+        {
+          "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+          "pass": true
+        },
+        {
+          "name": "independent SQLite concurrent same-key migration commits once with one replay",
+          "pass": true
+        },
+        {
+          "name": "strict request versions and controlled references reject type/length/scope tricks",
+          "pass": true
+        },
+        {
+          "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "reference-only settings maintain exact action idempotence and configuration versions",
+          "pass": true
+        },
+        {
+          "name": "explicit clear of a migrated reference disables readiness without falling back",
+          "pass": true
+        },
+        {
+          "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+          "pass": true
+        },
+        {
+          "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+          "pass": true
+        }
+      ],
+      "passed": 22,
+      "failed": 0,
+      "sourceSha256": {
+        "04_研发源码\\app\\r4\\backend\\secret_references.py": "365d9a1131c3683fb9d8dfe2f0616b1f033ac1275342796c82d9f0892be8cab5"
+      },
+      "ownedDatabases": [
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-0.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-1.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-2.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-3.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-4.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-5.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-6.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-7.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-8.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-9.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-10.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-11.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-12.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-13.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-14.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-15.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-16.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-17.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-18.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-19.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-20.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-c7873a19-75f2-4e9e-9a63-c0fdfafc5097-21.sqlite3"
+      ],
+      "productionDatabaseOpened": false,
+      "actualEnvironmentRead": false,
+      "providerRequests": 0,
+      "serviceStarted": false,
+      "pass": true
+    },
+    {
+      "at": 1794542853615,
+      "runId": "5605f3fe-a649-4869-8808-aef884204916",
+      "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+      "checks": [
+        {
+          "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+          "pass": true
+        },
+        {
+          "name": "legacy plaintext never silently calls a provider or authenticates a device",
+          "pass": true
+        },
+        {
+          "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+          "pass": true
+        },
+        {
+          "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+          "pass": true
+        },
+        {
+          "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+          "pass": true
+        },
+        {
+          "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+          "pass": true
+        },
+        {
+          "name": "one mismatching env target blocks entire migration without partial removal",
+          "pass": true
+        },
+        {
+          "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+          "pass": true
+        },
+        {
+          "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+          "pass": true
+        },
+        {
+          "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+          "pass": true
+        },
+        {
+          "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+          "pass": true
+        },
+        {
+          "name": "closed administrator cannot execute retained preview plan",
+          "pass": true
+        },
+        {
+          "name": "fresh transaction role rejects stale admin handler before deletion",
+          "pass": true
+        },
+        {
+          "name": "plan same-key replay is exact; changed mapping conflicts",
+          "pass": true
+        },
+        {
+          "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+          "pass": true
+        },
+        {
+          "name": "independent SQLite concurrent same-key migration commits once with one replay",
+          "pass": true
+        },
+        {
+          "name": "strict request versions and controlled references reject type/length/scope tricks",
+          "pass": true
+        },
+        {
+          "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "reference-only settings maintain exact action idempotence and configuration versions",
+          "pass": true
+        },
+        {
+          "name": "explicit clear of a migrated reference disables readiness without falling back",
+          "pass": true
+        },
+        {
+          "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+          "pass": true
+        },
+        {
+          "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+          "pass": true
+        },
+        {
+          "name": "reserved object keys and malformed existing device structures cannot become implicit credential targets",
+          "pass": true
+        },
+        {
+          "name": "actual Bearer use rejects whitespace/control/invalid header tokens without trimming; valid exact token preserved",
+          "pass": true
+        },
+        {
+          "name": "normal edit of migrated device B cannot rewrite unmigrated device A; independent theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "explicit partial migration removes only matched field via JSON paths; remaining legacy group is still blocked",
+          "pass": true
+        },
+        {
+          "name": "real dedicated opener rejects301/302/303/307/308 fake response chains with no second request or external network",
+          "pass": false,
+          "error": "AttributeError(\"'_io.BytesIO' object has no attribute 'msg'\")"
+        },
+        {
+          "name": "dedicated direct-response transport retains exact header/body/timeout and does not alter global urllib opener",
+          "pass": false,
+          "error": "AttributeError(\"'_io.BytesIO' object has no attribute 'msg'\")"
+        }
+      ],
+      "passed": 26,
+      "failed": 2,
+      "sourceSha256": {
+        "04_研发源码\\app\\r4\\backend\\secret_references.py": "1a28027170d312e6f3afd312e916962cf78e41ad10208387565df8dfea2434f2"
+      },
+      "ownedDatabases": [
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-0.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-1.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-2.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-3.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-4.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-5.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-6.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-7.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-8.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-9.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-10.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-11.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-12.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-13.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-14.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-15.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-16.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-17.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-18.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-19.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-20.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-21.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-22.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-23.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-24.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-5605f3fe-a649-4869-8808-aef884204916-25.sqlite3"
+      ],
+      "productionDatabaseOpened": false,
+      "actualEnvironmentRead": false,
+      "providerRequests": 0,
+      "serviceStarted": false,
+      "pass": false
+    },
+    {
+      "at": 1794542915100,
+      "runId": "721d6d92-6935-41d0-aae2-b25ba332e35a",
+      "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+      "checks": [
+        {
+          "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+          "pass": true
+        },
+        {
+          "name": "legacy plaintext never silently calls a provider or authenticates a device",
+          "pass": true
+        },
+        {
+          "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+          "pass": true
+        },
+        {
+          "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+          "pass": true
+        },
+        {
+          "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+          "pass": true
+        },
+        {
+          "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+          "pass": true
+        },
+        {
+          "name": "one mismatching env target blocks entire migration without partial removal",
+          "pass": true
+        },
+        {
+          "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+          "pass": true
+        },
+        {
+          "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+          "pass": true
+        },
+        {
+          "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+          "pass": true
+        },
+        {
+          "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+          "pass": true
+        },
+        {
+          "name": "closed administrator cannot execute retained preview plan",
+          "pass": true
+        },
+        {
+          "name": "fresh transaction role rejects stale admin handler before deletion",
+          "pass": true
+        },
+        {
+          "name": "plan same-key replay is exact; changed mapping conflicts",
+          "pass": true
+        },
+        {
+          "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+          "pass": true
+        },
+        {
+          "name": "independent SQLite concurrent same-key migration commits once with one replay",
+          "pass": true
+        },
+        {
+          "name": "strict request versions and controlled references reject type/length/scope tricks",
+          "pass": true
+        },
+        {
+          "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "reference-only settings maintain exact action idempotence and configuration versions",
+          "pass": true
+        },
+        {
+          "name": "explicit clear of a migrated reference disables readiness without falling back",
+          "pass": true
+        },
+        {
+          "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+          "pass": true
+        },
+        {
+          "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+          "pass": true
+        },
+        {
+          "name": "reserved object keys and malformed existing device structures cannot become implicit credential targets",
+          "pass": true
+        },
+        {
+          "name": "actual Bearer use rejects whitespace/control/invalid header tokens without trimming; valid exact token preserved",
+          "pass": true
+        },
+        {
+          "name": "normal edit of migrated device B cannot rewrite unmigrated device A; independent theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "explicit partial migration removes only matched field via JSON paths; remaining legacy group is still blocked",
+          "pass": true
+        },
+        {
+          "name": "real dedicated opener rejects301/302/303/307/308 fake response chains with no second request or external network",
+          "pass": true
+        },
+        {
+          "name": "dedicated direct-response transport retains exact header/body/timeout and does not alter global urllib opener",
+          "pass": true
+        }
+      ],
+      "passed": 28,
+      "failed": 0,
+      "sourceSha256": {
+        "04_研发源码\\app\\r4\\backend\\secret_references.py": "1a28027170d312e6f3afd312e916962cf78e41ad10208387565df8dfea2434f2"
+      },
+      "ownedDatabases": [
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-0.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-1.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-2.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-3.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-4.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-5.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-6.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-7.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-8.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-9.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-10.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-11.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-12.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-13.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-14.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-15.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-16.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-17.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-18.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-19.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-20.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-21.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-22.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-23.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-24.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-721d6d92-6935-41d0-aae2-b25ba332e35a-25.sqlite3"
+      ],
+      "productionDatabaseOpened": false,
+      "actualEnvironmentRead": false,
+      "providerRequests": 0,
+      "serviceStarted": false,
+      "pass": true
+    },
+    {
+      "at": 1794543310597,
+      "runId": "f74189e1-f19d-4d1f-b108-223b1e9136b2",
+      "kind": "fresh-owned-native-sqlite-controlled-synthetic-env-canary",
+      "checks": [
+        {
+          "name": "inventory/settings redact legacy values; only three credential booleans and reference metadata",
+          "pass": true
+        },
+        {
+          "name": "legacy plaintext never silently calls a provider or authenticates a device",
+          "pass": true
+        },
+        {
+          "name": "controlled purpose prefixes never expose arbitrary OS variables or cross-purpose references",
+          "pass": true
+        },
+        {
+          "name": "new plaintext/old clear fields rejected even empty; every failed batch is unchanged",
+          "pass": true
+        },
+        {
+          "name": "reference-only config persists no new secret bodies and actual resolver readiness is truthful",
+          "pass": true
+        },
+        {
+          "name": "preview never changes settings; explicit matching migration removes old values and retains callable refs",
+          "pass": true
+        },
+        {
+          "name": "one mismatching env target blocks entire migration without partial removal",
+          "pass": true
+        },
+        {
+          "name": "env is re-resolved at actual apply, not trusted from preview readiness",
+          "pass": true
+        },
+        {
+          "name": "any direct settings mutation bumps opaque revision; stale plan cannot remove credentials",
+          "pass": true
+        },
+        {
+          "name": "internal original-config hash independently detects drift even if revision was reset in fixture",
+          "pass": true
+        },
+        {
+          "name": "anonymous/ordinary/operator denied; another admin cannot fetch or apply private plan",
+          "pass": true
+        },
+        {
+          "name": "closed administrator cannot execute retained preview plan",
+          "pass": true
+        },
+        {
+          "name": "fresh transaction role rejects stale admin handler before deletion",
+          "pass": true
+        },
+        {
+          "name": "plan same-key replay is exact; changed mapping conflicts",
+          "pass": true
+        },
+        {
+          "name": "migration replay never re-removes or mutates settings/audit; new apply key cannot reuse applied plan",
+          "pass": true
+        },
+        {
+          "name": "independent SQLite concurrent same-key migration commits once with one replay",
+          "pass": true
+        },
+        {
+          "name": "strict request versions and controlled references reject type/length/scope tricks",
+          "pass": true
+        },
+        {
+          "name": "unmigrated target edits cannot copy/rewrite plaintext; unrelated explicit theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "reference-only settings maintain exact action idempotence and configuration versions",
+          "pass": true
+        },
+        {
+          "name": "explicit clear of a migrated reference disables readiness without falling back",
+          "pass": true
+        },
+        {
+          "name": "legacy metadata validation retains public HTTPS/no embedded credentials/private IP rejection",
+          "pass": true
+        },
+        {
+          "name": "after migration all owned DB rows and API/audit receipts contain zero secret canary values or public raw hashes",
+          "pass": true
+        },
+        {
+          "name": "reserved object keys and malformed existing device structures cannot become implicit credential targets",
+          "pass": true
+        },
+        {
+          "name": "actual Bearer use rejects whitespace/control/invalid header tokens without trimming; valid exact token preserved",
+          "pass": true
+        },
+        {
+          "name": "normal edit of migrated device B cannot rewrite unmigrated device A; independent theme remains usable",
+          "pass": true
+        },
+        {
+          "name": "explicit partial migration removes only matched field via JSON paths; remaining legacy group is still blocked",
+          "pass": true
+        },
+        {
+          "name": "real dedicated opener rejects301/302/303/307/308 fake response chains with no second request or external network",
+          "pass": true
+        },
+        {
+          "name": "dedicated direct-response transport retains exact header/body/timeout and does not alter global urllib opener",
+          "pass": true
+        }
+      ],
+      "passed": 28,
+      "failed": 0,
+      "sourceSha256": {
+        "04_研发源码\\app\\r4\\backend\\secret_references.py": "0a0a3488ae1676581ebe9426178873614f7e73a44a5a04250f1682a331eb6b9d"
+      },
+      "ownedDatabases": [
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-0.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-1.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-2.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-3.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-4.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-5.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-6.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-7.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-8.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-9.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-10.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-11.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-12.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-13.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-14.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-15.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-16.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-17.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-18.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-19.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-20.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-21.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-22.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-23.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-24.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-25.sqlite3",
+        "06_验证与后续工作\\密钥引用隔离-f74189e1-f19d-4d1f-b108-223b1e9136b2-26.sqlite3"
+      ],
+      "productionDatabaseOpened": false,
+      "actualEnvironmentRead": false,
+      "providerRequests": 0,
+      "serviceStarted": false,
+      "pass": true
+    }
+  ]
+}

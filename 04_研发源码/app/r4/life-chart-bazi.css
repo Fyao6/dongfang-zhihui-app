@@ -321,3 +321,45 @@ html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference
 html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-label,html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-board-label{width:50px}
 html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-view-tabs>button{font:500 13px/1.9 var(--sans)}
 html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-layout=reference] .lcb-time-rail>button{flex-basis:52px}
+
+/* v1.0: natal pillars stay separate from the selected fortune periods. */
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace{display:flex;align-items:flex-start;gap:12px;margin:0 0 10px;border-bottom:1px solid var(--line);padding:0 0 6px}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace details{flex:1;min-width:0;background:transparent;border:0;padding:0;margin:0;border-radius:0}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace summary{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;min-height:44px;cursor:pointer;list-style:none;font:400 14px/1.6 var(--sans)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace summary::-webkit-details-marker{display:none}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace summary strong{overflow-wrap:anywhere;font-weight:500}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace summary span{color:var(--muted)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace>button{flex-shrink:0;min-height:44px;max-width:42%;font-size:14px;padding:8px 0;white-space:normal}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-profile-workspace details p{font:400 14px/1.6 var(--sans);margin:2px 0 8px;overflow-wrap:anywhere}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board table{min-width:calc(44px + var(--lcb-columns)*64px);font-size:14px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board-label{width:44px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board thead th>span{font-size:14px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board thead small{font-size:12px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board tr.lcb-board-symbol th{font-size:14px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board .lcb-term-button{min-width:44px;min-height:44px;padding:6px 0}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board tr.lcb-board-meta>*{font-size:13px;line-height:1.6}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-board tbody th,.lcb-page[data-lcb-presentation=four-pillars] .lcb-board thead th:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;padding:0}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board[data-lcb-board-mode=full] .lcb-board-options{grid-template-columns:repeat(3,minmax(0,1fr))}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board-options button{min-width:0;min-height:44px;padding:7px 0;font-size:14px;text-align:left;white-space:normal;overflow-wrap:anywhere}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend{display:flex;flex-wrap:wrap;gap:4px 14px;padding:5px 0 9px;font:400 13px/1.6 var(--sans);color:var(--muted)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend>span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend [data-element=wood]{color:var(--lcb-wood)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend [data-element=fire]{color:var(--lcb-fire)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend [data-element=earth]{color:var(--lcb-earth)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend [data-element=metal]{color:var(--lcb-metal)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-element-legend [data-element=water]{color:var(--lcb-water)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-selected-range{display:grid;gap:3px;margin:4px 0 12px;padding:9px 0;border-bottom:1px solid var(--line);font:400 13px/1.6 var(--sans);color:var(--muted);overflow-wrap:anywhere}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-selected-range strong{font-weight:500;color:var(--ink);font-size:14px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-flow-toolbar,body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-flow-toolbar button{min-height:44px;font-size:14px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-time-rail>button{flex-basis:48px;min-height:112px;font-size:13px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-time-rail>button>small,body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-stage-heading>span{font-size:12px}
+body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-rail-symbols small{font-size:12px;line-height:1.5}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-star-group>summary{min-height:44px;padding:6px 2px;cursor:pointer;font:400 14px/1.6 var(--sans)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-star-expand{display:block;font-size:12px;color:var(--muted)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-star-group details>summary{min-height:44px;cursor:pointer;padding:6px 0;font-size:13px}
+html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board table,html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board table{min-width:calc(56px + var(--lcb-columns)*80px)}
+html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board-label,html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board-label{width:56px}
+html[lang=en] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board[data-lcb-board-mode=natal] table,html[lang=bo] body[data-page=classicsWisdom] .lcb-page[data-lcb-presentation=four-pillars] .lcb-board[data-lcb-board-mode=natal] table{min-width:calc(56px + var(--lcb-columns)*70px)}
+.lcb-page[data-lcb-presentation=four-pillars] .lcb-board th,.lcb-page[data-lcb-presentation=four-pillars] .lcb-board td,.lcb-page[data-lcb-presentation=four-pillars] .lcb-board .lcb-term-button{overflow-wrap:anywhere}

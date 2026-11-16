@@ -1,0 +1,1939 @@
+{
+  "latest": {
+    "at": "2026-11-13T14:02:35.704Z",
+    "module": "负责人优化建议-支付客服",
+    "runId": "mwf1qjp3_4c0053",
+    "target": "cloud",
+    "base": "http://127.0.0.1:40497",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "scope": "Actual isolated HTTP and native browser payment support. Four issue categories, sandbox order facts, owner/admin access, privacy and persistence.",
+    "results": [
+      {
+        "name": "本人可查询已付与未付订单和最小支付事实",
+        "pass": true,
+        "ms": 344
+      },
+      {
+        "name": "四种问题均有独立工单，支持订单与事件关联及无订单申报",
+        "pass": true,
+        "ms": 635
+      },
+      {
+        "name": "拒绝跨账号、错配支付事件、匿名提交及空白无订单请求",
+        "pass": true,
+        "ms": 1280
+      },
+      {
+        "name": "同时提交相同请求只生成一单，改内容复用请求号被拒绝",
+        "pass": true,
+        "ms": 485
+      },
+      {
+        "name": "管理后台可核对关联记录，版本、并发与重复受理有保护",
+        "pass": true,
+        "ms": 1321
+      },
+      {
+        "name": "历史工单稳定分页，上一页和下一页没有重叠",
+        "pass": true,
+        "ms": 3847
+      },
+      {
+        "name": "本人导出涵盖工单和回复，支付事实及订单状态未被客服修改",
+        "pass": true,
+        "ms": 1380
+      },
+      {
+        "name": "账号关闭事务清理工单正文，保留订单及工单处理事实",
+        "pass": true,
+        "ms": 1310
+      },
+      {
+        "name": "订单原生入口提交工单，后台原生控件回复，APP回查及逐级返回",
+        "pass": true,
+        "ms": 8617
+      },
+      {
+        "name": "简繁英藏、两种主题、窄屏与桌面可用，恢复与退订自助入口可往返",
+        "pass": true,
+        "ms": 28974,
+        "observed": [
+          [
+            "zh",
+            320,
+            "night"
+          ],
+          [
+            "zh-Hant",
+            360,
+            "day"
+          ],
+          [
+            "en",
+            390,
+            "night"
+          ],
+          [
+            "bo",
+            390,
+            "day"
+          ],
+          [
+            "en",
+            1100,
+            "day"
+          ]
+        ]
+      },
+      {
+        "name": "专项前后源文件保持同一身份",
+        "pass": true,
+        "ms": 2
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-支付客服-cloud-mwf1qjp3_4c0053-APP工单.png",
+      "负责人优化建议-支付客服-cloud-mwf1qjp3_4c0053-后台回复.png"
+    ],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "status": 200,
+        "ms": 313
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 104
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "ms": 187
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 116
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 186
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 180
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/commerce/settings",
+        "status": 200,
+        "ms": 134
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 143
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 177
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 176
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 186
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d/sandbox-pay",
+        "status": 200,
+        "ms": 194
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/c0bf38dd-1ad2-45f0-8bf8-0dd57da45e86/sandbox-pay",
+        "status": 200,
+        "ms": 194
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/c0bf38dd-1ad2-45f0-8bf8-0dd57da45e86",
+        "status": 200,
+        "ms": 118
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/50cd4ccb-0199-4406-adbc-0a00145b0859",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+        "status": 401,
+        "ms": 102
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+        "status": 404,
+        "ms": 119
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 135
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 129
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 133
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+        "status": 404,
+        "ms": 116
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 404,
+        "ms": 121
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 117
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 404,
+        "ms": 117
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 404,
+        "ms": 119
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 404,
+        "ms": 124
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 401,
+        "ms": 101
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 400,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 400,
+        "ms": 114
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-support/tickets",
+        "status": 403,
+        "ms": 114
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 403,
+        "ms": 112
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 248
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 248
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 409,
+        "ms": 119
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 118
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 409,
+        "ms": 115
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 200,
+        "ms": 242
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 409,
+        "ms": 242
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 409,
+        "ms": 119
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 400,
+        "ms": 110
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+        "status": 200,
+        "ms": 132
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-support/tickets",
+        "status": 200,
+        "ms": 114
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-support/tickets",
+        "status": 200,
+        "ms": 110
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 177
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 152
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 127
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 130
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 124
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 132
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 126
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 124
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 136
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 132
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 125
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 121
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 124
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 115
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 595
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 556
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+        "status": 200,
+        "ms": 116
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/orders/50cd4ccb-0199-4406-adbc-0a00145b0859",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 188
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 165
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-support/tickets",
+        "status": 200,
+        "ms": 141
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f/actions",
+        "status": 200,
+        "ms": 127
+      },
+      {
+        "method": "POST",
+        "path": "/api/account-closure/prepare",
+        "status": 200,
+        "ms": 190
+      },
+      {
+        "method": "POST",
+        "path": "/api/account-closure/confirm",
+        "status": 200,
+        "ms": 140
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f",
+        "status": 200,
+        "ms": 130
+      },
+      {
+        "method": "GET",
+        "path": "/api/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f",
+        "status": 401,
+        "ms": 110
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f/actions",
+        "status": 409,
+        "ms": 119
+      }
+    ],
+    "coverage": {
+      "http": true,
+      "ui": true,
+      "realPayments": false,
+      "production": false
+    },
+    "harnessSha256": {
+      "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+      "06_验证与后续工作/负责人优化建议-支付客服专项.cjs": "81db706a9b609da316fc3348322058315c6358496a23fc05f471dd2553c2b5c0"
+    },
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+        "04_研发源码/app/r4/backend/server.py": "0cd2274f8682b77343b895533b2e4fdc755803e5fcefd7c5c5fbe1e99c7cfe19",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "7f4ffc933d05a301ed6e1efc2d0a7cb774915c48b9d7210870a740c68fe1c69c",
+        "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "3d377194399aeb1b2265d957a5dbccb3d814a386d28401d592f34d39f7bf22d3"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+        "03_当前APP/计时后台-开发联调.html": "81f852d183d9df3ab4ba7c90ea2d535c0e225584b1eabda113bc8be163ab8050",
+        "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+        "04_研发源码/app/cloud/generated/admin.html": "34cfe4a859c63150dec3cb8e082a3588bf639c91c71069d3d66a79fa1930c71f",
+        "04_研发源码/app/cloud/dist/server/index.js": "7f157d9245f70f32304cbcd20456a24da8b4fcb864b3a3c7952fcff2ab5d6003"
+      }
+    },
+    "servedBuildSha256": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+    "paymentSupportSources": {
+      "04_研发源码/app/r4/backend/payment_support.py": "4bf1ace4ab0e6c2a5bfcebf431562d93bb36960bff2daaebb48e8a089f1cf068",
+      "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+      "04_研发源码/app/r4/payment-support-ui.js": "d1102083b0f95f2a7e4ef1c52643b612a748a49a4f14d3ef0c5872b3a554f061",
+      "04_研发源码/app/r4/payment-support-admin.js": "b42616f015640aad8fb76d490b5ab4cce3931d6646fa443f86f77ad4cf99d6a9",
+      "04_研发源码/app/r4/backend/privacy_retention.py": "730ff9867708a6be43facffd63ada27c5b315217d4cba1de788577369dd82f8c",
+      "04_研发源码/app/cloud/lib/privacy-retention.ts": "a0d25bc4147409238ff9ea0189ccef643c48fc2361b4e9186f487c551e87aecd",
+      "04_研发源码/app/r4/backend/privacy.py": "0aeeaec06deb9a9e3d081896cc80b3a62c7a062651d638fe1b3f89af003ab053",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "ddc77ddc0ac521e9ef628e22ebed52b4a5bc65e3a49d313ce66bc88ac60ef29e",
+      "04_研发源码/app/r4/membership-lifecycle-ui.js": "9096ebf4c8019b7f8b26697224c2f5385976988d7f7a819410d2c2792595d339",
+      "04_研发源码/app/r4/build.py": "8fa261071c6c0e98e6b4f484ded7cfd86187cca247ff11ecabf774aa94eb7388",
+      "04_研发源码/app/cloud/prepare.py": "cd87e07e6cef5efd56bd5a7d4feafeffd8226cadcf08d388749bf882a7c0e881"
+    },
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 11,
+    "failed": 0
+  },
+  "runs": [
+    {
+      "at": "2026-11-13T13:56:45.816Z",
+      "module": "负责人优化建议-支付客服",
+      "runId": "mwf1j1q0_5fbda7",
+      "target": "cloud",
+      "base": "http://127.0.0.1:47536",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "results": [
+        {
+          "name": "交易专项环境与执行",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: POST auth/login expected 200 got 401: 账号或密码不正确。\n    at api (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:28:82)\n    at async Object.seed (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:43:304)\n    at async main (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-支付客服专项.cjs:17:37)"
+        }
+      ],
+      "errors": [],
+      "captures": [],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 480
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 190
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 401,
+          "ms": 265
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-支付客服专项.cjs": "03d4a7f7007728ea8144ea386d4f61f3a736b30a6ac607e2c1c7a33f82c4408e"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+          "04_研发源码/app/r4/backend/server.py": "0cd2274f8682b77343b895533b2e4fdc755803e5fcefd7c5c5fbe1e99c7cfe19",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "7f4ffc933d05a301ed6e1efc2d0a7cb774915c48b9d7210870a740c68fe1c69c",
+          "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "3d377194399aeb1b2265d957a5dbccb3d814a386d28401d592f34d39f7bf22d3"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "c89caf8b1d00ab2611400b800240c33f6515527e45a453ad285e897808455ddf",
+          "03_当前APP/计时后台-开发联调.html": "81f852d183d9df3ab4ba7c90ea2d535c0e225584b1eabda113bc8be163ab8050",
+          "04_研发源码/app/cloud/generated/experience.html": "8dc31cd1d3cce6e771494432c3dbd79b8e6d376341d1b8c90c564007645684b7",
+          "04_研发源码/app/cloud/generated/admin.html": "34cfe4a859c63150dec3cb8e082a3588bf639c91c71069d3d66a79fa1930c71f",
+          "04_研发源码/app/cloud/dist/server/index.js": "2c6ea0faa59cf07965eaad3399bb16c45422adda15dae8b765daca0c7de40b4e"
+        }
+      },
+      "servedBuildSha256": "8dc31cd1d3cce6e771494432c3dbd79b8e6d376341d1b8c90c564007645684b7",
+      "identityUnchanged": true,
+      "pass": false,
+      "passed": 0,
+      "failed": 1
+    },
+    {
+      "at": "2026-11-13T13:57:44.297Z",
+      "module": "负责人优化建议-支付客服",
+      "runId": "mwf1kaug_5f5343",
+      "target": "cloud",
+      "base": "http://127.0.0.1:25899",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "results": [
+        {
+          "name": "本人可查询已付与未付订单和最小支付事实",
+          "pass": true,
+          "ms": 531
+        },
+        {
+          "name": "四种问题均有独立工单，支持订单与事件关联及无订单申报",
+          "pass": true,
+          "ms": 1004
+        },
+        {
+          "name": "拒绝跨账号、错配支付事件、匿名提交及空白无订单请求",
+          "pass": true,
+          "ms": 2142
+        },
+        {
+          "name": "同时提交相同请求只生成一单，改内容复用请求号被拒绝",
+          "pass": true,
+          "ms": 797
+        },
+        {
+          "name": "管理后台可核对关联记录，版本、并发与重复受理有保护",
+          "pass": true,
+          "ms": 2040
+        },
+        {
+          "name": "本人导出涵盖工单和回复，支付事实及订单状态未被客服修改",
+          "pass": true,
+          "ms": 2352
+        },
+        {
+          "name": "账号关闭事务清理工单正文，保留订单及工单处理事实",
+          "pass": true,
+          "ms": 1909
+        },
+        {
+          "name": "订单原生入口提交工单，后台原生控件回复，APP回查及逐级返回",
+          "pass": false,
+          "ms": 10540,
+          "error": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\\Users\\Administrator\\AppData\\Local\\Temp\\playwright_chromiumdev_profile-I5cVRv --remote-debugging-pipe --no-startup-window\n<launched> pid=29648\nCall log:\n\u001b[2m  - <launching> C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\\Users\\Administrator\\AppData\\Local\\Temp\\playwright_chromiumdev_profile-I5cVRv --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=29648\u001b[22m\n\u001b[2m  - [pid=29648] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=29648] <kill>\u001b[22m\n\u001b[2m  - [pid=29648] <will force kill>\u001b[22m\n\u001b[2m  - [pid=29648] taskkill stderr: ERROR: The process \"29648\" not found.\u001b[22m\n\u001b[2m  - [pid=29648] <process did exit: exitCode=3221225725, signal=null>\u001b[22m\n\u001b[2m  - [pid=29648] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=29648] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=29648] <gracefully close end>\u001b[22m\n\n    at Object.browserContext (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:49:277)\n    at D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-支付客服专项.cjs:133:24\n    at async check (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async main (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-支付客服专项.cjs:132:3)"
+        },
+        {
+          "name": "简繁英藏、两种主题、窄屏与桌面可用，恢复与退订自助入口可往返",
+          "pass": false,
+          "ms": 774,
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:25899/experience?page=membershipRestore&lang=zh&mode=night\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:25899/experience?page=membershipRestore&lang=zh&mode=night\", waiting until \"load\"\u001b[22m\n\n    at D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-支付客服专项.cjs:171:16\n    at async check (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async main (D:\\东方智慧APP_接续精简包_含规则记忆_20261113_132638\\06_验证与后续工作\\负责人优化建议-支付客服专项.cjs:166:3)",
+          "screenshot": "负责人优化建议-支付客服-cloud-mwf1kaug_5f5343-失败-8.png"
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-支付客服-cloud-mwf1kaug_5f5343-失败-8.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 924
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 182
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 293
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 179
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 325
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 523
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 313
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 335
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 411
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 294
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 292
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/120b1012-c9c5-472b-b787-708559a0bd9a/sandbox-pay",
+          "status": 200,
+          "ms": 280
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/4f28368a-0bb0-4b98-9749-31abd4e70167/sandbox-pay",
+          "status": 200,
+          "ms": 324
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/120b1012-c9c5-472b-b787-708559a0bd9a",
+          "status": 200,
+          "ms": 166
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/4f28368a-0bb0-4b98-9749-31abd4e70167",
+          "status": 200,
+          "ms": 174
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/cc89245b-dbbc-48a4-aae8-46a6aeacf534",
+          "status": 200,
+          "ms": 170
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/120b1012-c9c5-472b-b787-708559a0bd9a",
+          "status": 401,
+          "ms": 144
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/120b1012-c9c5-472b-b787-708559a0bd9a",
+          "status": 404,
+          "ms": 215
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 211
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 239
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 221
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 171
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 161
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e",
+          "status": 404,
+          "ms": 203
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 245
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 218
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 226
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 158
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 165
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 401,
+          "ms": 139
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 400,
+          "ms": 228
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 400,
+          "ms": 178
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets",
+          "status": 403,
+          "ms": 197
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 403,
+          "ms": 184
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 389
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 389
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 409,
+          "ms": 191
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 217
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e",
+          "status": 200,
+          "ms": 182
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 409,
+          "ms": 195
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 200,
+          "ms": 441
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 409,
+          "ms": 440
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 200,
+          "ms": 195
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 409,
+          "ms": 190
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 400,
+          "ms": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e/actions",
+          "status": 200,
+          "ms": 223
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/8c1105e7-7f55-49e4-ba70-e6344ab5d55e",
+          "status": 200,
+          "ms": 187
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets",
+          "status": 200,
+          "ms": 226
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 1017
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 898
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/120b1012-c9c5-472b-b787-708559a0bd9a",
+          "status": 200,
+          "ms": 232
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/cc89245b-dbbc-48a4-aae8-46a6aeacf534",
+          "status": 200,
+          "ms": 204
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 282
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 229
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 193
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/83403f1c-e817-45a8-ae7e-cc3f648cfed0/actions",
+          "status": 200,
+          "ms": 174
+        },
+        {
+          "method": "POST",
+          "path": "/api/account-closure/prepare",
+          "status": 200,
+          "ms": 260
+        },
+        {
+          "method": "POST",
+          "path": "/api/account-closure/confirm",
+          "status": 200,
+          "ms": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets/83403f1c-e817-45a8-ae7e-cc3f648cfed0",
+          "status": 200,
+          "ms": 229
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/83403f1c-e817-45a8-ae7e-cc3f648cfed0",
+          "status": 401,
+          "ms": 147
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/83403f1c-e817-45a8-ae7e-cc3f648cfed0/actions",
+          "status": 409,
+          "ms": 193
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-支付客服专项.cjs": "03d4a7f7007728ea8144ea386d4f61f3a736b30a6ac607e2c1c7a33f82c4408e"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+          "04_研发源码/app/r4/backend/server.py": "0cd2274f8682b77343b895533b2e4fdc755803e5fcefd7c5c5fbe1e99c7cfe19",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "7f4ffc933d05a301ed6e1efc2d0a7cb774915c48b9d7210870a740c68fe1c69c",
+          "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "3d377194399aeb1b2265d957a5dbccb3d814a386d28401d592f34d39f7bf22d3"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "c89caf8b1d00ab2611400b800240c33f6515527e45a453ad285e897808455ddf",
+          "03_当前APP/计时后台-开发联调.html": "81f852d183d9df3ab4ba7c90ea2d535c0e225584b1eabda113bc8be163ab8050",
+          "04_研发源码/app/cloud/generated/experience.html": "8dc31cd1d3cce6e771494432c3dbd79b8e6d376341d1b8c90c564007645684b7",
+          "04_研发源码/app/cloud/generated/admin.html": "34cfe4a859c63150dec3cb8e082a3588bf639c91c71069d3d66a79fa1930c71f",
+          "04_研发源码/app/cloud/dist/server/index.js": "2c6ea0faa59cf07965eaad3399bb16c45422adda15dae8b765daca0c7de40b4e"
+        }
+      },
+      "servedBuildSha256": "8dc31cd1d3cce6e771494432c3dbd79b8e6d376341d1b8c90c564007645684b7",
+      "identityUnchanged": true,
+      "pass": false,
+      "passed": 7,
+      "failed": 2
+    },
+    {
+      "at": "2026-11-13T14:02:35.704Z",
+      "module": "负责人优化建议-支付客服",
+      "runId": "mwf1qjp3_4c0053",
+      "target": "cloud",
+      "base": "http://127.0.0.1:40497",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and native browser payment support. Four issue categories, sandbox order facts, owner/admin access, privacy and persistence.",
+      "results": [
+        {
+          "name": "本人可查询已付与未付订单和最小支付事实",
+          "pass": true,
+          "ms": 344
+        },
+        {
+          "name": "四种问题均有独立工单，支持订单与事件关联及无订单申报",
+          "pass": true,
+          "ms": 635
+        },
+        {
+          "name": "拒绝跨账号、错配支付事件、匿名提交及空白无订单请求",
+          "pass": true,
+          "ms": 1280
+        },
+        {
+          "name": "同时提交相同请求只生成一单，改内容复用请求号被拒绝",
+          "pass": true,
+          "ms": 485
+        },
+        {
+          "name": "管理后台可核对关联记录，版本、并发与重复受理有保护",
+          "pass": true,
+          "ms": 1321
+        },
+        {
+          "name": "历史工单稳定分页，上一页和下一页没有重叠",
+          "pass": true,
+          "ms": 3847
+        },
+        {
+          "name": "本人导出涵盖工单和回复，支付事实及订单状态未被客服修改",
+          "pass": true,
+          "ms": 1380
+        },
+        {
+          "name": "账号关闭事务清理工单正文，保留订单及工单处理事实",
+          "pass": true,
+          "ms": 1310
+        },
+        {
+          "name": "订单原生入口提交工单，后台原生控件回复，APP回查及逐级返回",
+          "pass": true,
+          "ms": 8617
+        },
+        {
+          "name": "简繁英藏、两种主题、窄屏与桌面可用，恢复与退订自助入口可往返",
+          "pass": true,
+          "ms": 28974,
+          "observed": [
+            [
+              "zh",
+              320,
+              "night"
+            ],
+            [
+              "zh-Hant",
+              360,
+              "day"
+            ],
+            [
+              "en",
+              390,
+              "night"
+            ],
+            [
+              "bo",
+              390,
+              "day"
+            ],
+            [
+              "en",
+              1100,
+              "day"
+            ]
+          ]
+        },
+        {
+          "name": "专项前后源文件保持同一身份",
+          "pass": true,
+          "ms": 2
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-支付客服-cloud-mwf1qjp3_4c0053-APP工单.png",
+        "负责人优化建议-支付客服-cloud-mwf1qjp3_4c0053-后台回复.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 313
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 104
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 187
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 116
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 186
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 180
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 134
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 143
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 177
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 176
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 186
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d/sandbox-pay",
+          "status": 200,
+          "ms": 194
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/c0bf38dd-1ad2-45f0-8bf8-0dd57da45e86/sandbox-pay",
+          "status": 200,
+          "ms": 194
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/c0bf38dd-1ad2-45f0-8bf8-0dd57da45e86",
+          "status": 200,
+          "ms": 118
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/50cd4ccb-0199-4406-adbc-0a00145b0859",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+          "status": 401,
+          "ms": 102
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+          "status": 404,
+          "ms": 119
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 135
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 129
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 133
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+          "status": 404,
+          "ms": 116
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 121
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 117
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 117
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 119
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 404,
+          "ms": 124
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 401,
+          "ms": 101
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 400,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 400,
+          "ms": 114
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets",
+          "status": 403,
+          "ms": 114
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 403,
+          "ms": 112
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 248
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 248
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 409,
+          "ms": 119
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 118
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 409,
+          "ms": 115
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 200,
+          "ms": 242
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 409,
+          "ms": 242
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 409,
+          "ms": 119
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 400,
+          "ms": 110
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff/actions",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/1d49e910-7e85-4af1-a911-a4ba4f00f5ff",
+          "status": 200,
+          "ms": 132
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets",
+          "status": 200,
+          "ms": 114
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets",
+          "status": 200,
+          "ms": 110
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 177
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 152
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 127
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 130
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 124
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 132
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 126
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 124
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 136
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 132
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 125
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 121
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 124
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 115
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 595
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 556
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/09183c36-38b2-462f-bc8b-c1af72ccdf2d",
+          "status": 200,
+          "ms": 116
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/orders/50cd4ccb-0199-4406-adbc-0a00145b0859",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 188
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 165
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-support/tickets",
+          "status": 200,
+          "ms": 141
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f/actions",
+          "status": 200,
+          "ms": 127
+        },
+        {
+          "method": "POST",
+          "path": "/api/account-closure/prepare",
+          "status": 200,
+          "ms": 190
+        },
+        {
+          "method": "POST",
+          "path": "/api/account-closure/confirm",
+          "status": 200,
+          "ms": 140
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f",
+          "status": 200,
+          "ms": 130
+        },
+        {
+          "method": "GET",
+          "path": "/api/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f",
+          "status": 401,
+          "ms": 110
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-support/tickets/967ca7f2-7ddf-4102-a23d-e7486a8e450f/actions",
+          "status": 409,
+          "ms": 119
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-支付客服专项.cjs": "81db706a9b609da316fc3348322058315c6358496a23fc05f471dd2553c2b5c0"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+          "04_研发源码/app/r4/backend/server.py": "0cd2274f8682b77343b895533b2e4fdc755803e5fcefd7c5c5fbe1e99c7cfe19",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "7f4ffc933d05a301ed6e1efc2d0a7cb774915c48b9d7210870a740c68fe1c69c",
+          "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "3d377194399aeb1b2265d957a5dbccb3d814a386d28401d592f34d39f7bf22d3"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+          "03_当前APP/计时后台-开发联调.html": "81f852d183d9df3ab4ba7c90ea2d535c0e225584b1eabda113bc8be163ab8050",
+          "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+          "04_研发源码/app/cloud/generated/admin.html": "34cfe4a859c63150dec3cb8e082a3588bf639c91c71069d3d66a79fa1930c71f",
+          "04_研发源码/app/cloud/dist/server/index.js": "7f157d9245f70f32304cbcd20456a24da8b4fcb864b3a3c7952fcff2ab5d6003"
+        }
+      },
+      "servedBuildSha256": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+      "paymentSupportSources": {
+        "04_研发源码/app/r4/backend/payment_support.py": "4bf1ace4ab0e6c2a5bfcebf431562d93bb36960bff2daaebb48e8a089f1cf068",
+        "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+        "04_研发源码/app/r4/payment-support-ui.js": "d1102083b0f95f2a7e4ef1c52643b612a748a49a4f14d3ef0c5872b3a554f061",
+        "04_研发源码/app/r4/payment-support-admin.js": "b42616f015640aad8fb76d490b5ab4cce3931d6646fa443f86f77ad4cf99d6a9",
+        "04_研发源码/app/r4/backend/privacy_retention.py": "730ff9867708a6be43facffd63ada27c5b315217d4cba1de788577369dd82f8c",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "a0d25bc4147409238ff9ea0189ccef643c48fc2361b4e9186f487c551e87aecd",
+        "04_研发源码/app/r4/backend/privacy.py": "0aeeaec06deb9a9e3d081896cc80b3a62c7a062651d638fe1b3f89af003ab053",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ddc77ddc0ac521e9ef628e22ebed52b4a5bc65e3a49d313ce66bc88ac60ef29e",
+        "04_研发源码/app/r4/membership-lifecycle-ui.js": "9096ebf4c8019b7f8b26697224c2f5385976988d7f7a819410d2c2792595d339",
+        "04_研发源码/app/r4/build.py": "8fa261071c6c0e98e6b4f484ded7cfd86187cca247ff11ecabf774aa94eb7388",
+        "04_研发源码/app/cloud/prepare.py": "cd87e07e6cef5efd56bd5a7d4feafeffd8226cadcf08d388749bf882a7c0e881"
+      },
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 11,
+      "failed": 0
+    }
+  ]
+}

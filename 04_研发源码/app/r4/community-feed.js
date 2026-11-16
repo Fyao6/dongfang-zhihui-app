@@ -4,7 +4,7 @@ let cfAbort,cfFrame=0,cfCurrentId='',cfWantsPlay=false,cfMuted=true,cfInFeed=fal
 const cfProgress=new Map();
 function communityHeader(active='community'){
  return '<nav class="community-tabs" aria-label="'+t('Community','社群')+'">'+[
- ['friends',t('Friends','我的好友')],['communityInbox',t('Messages','我的对话')],['communityTeachers',t('Teachers','老师推荐')],['community',t('For you','推荐视频')]
+ ['friends',t('Friends','我的好友')],['communityInbox',t('Messages','我的对话')],['communityTeachers',t('Teachers','老师推荐')],['community',t('For you','推荐视频')],['commerceShop',t('Shop','商城')]
  ].map(([id,label])=>'<button data-action="go" data-to="'+id+'" aria-current="'+(active===id?'page':'false')+'"><span class="community-tab-label">'+label+'</span></button>').join('')+'</nav>';
 }
 state.communityTeacherId='';

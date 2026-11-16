@@ -26,6 +26,7 @@ document.addEventListener('click',event=>{
 });
 // Resolve deep links after every screen module has registered. Early module renders
 // can otherwise replace a new destination with home before its screen exists.
+MemoryServiceUI.install();
 const ewInitialDestination=initial.page||q.get('page');
 if(ewInitialDestination&&typeof screens[ewInitialDestination]==='function'&&state.page!==ewInitialDestination){
  if(typeof ewNavigation!=='undefined'){ewNavigation.current=ewInitialDestination;ewNavigation.trail=[];ewNavigation.returning=false;}

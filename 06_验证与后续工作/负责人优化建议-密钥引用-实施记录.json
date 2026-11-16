@@ -1,0 +1,167 @@
+{
+  "module": "PR06 controlled legacy AI and device env credential references",
+  "at": "2026-11-13T04:37:35.610239+00:00",
+  "pass": true,
+  "stage": "local software verified; no original credential migration or managed cloud verification",
+  "sources": {
+    "04_研发源码/app/r4/backend/secret_references.py": "0a0a3488ae1676581ebe9426178873614f7e73a44a5a04250f1682a331eb6b9d",
+    "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b",
+    "04_研发源码/app/r4/secret-references-admin.js": "fdf54e63c1e88c9875739d6294237c6307af04bce1bbb72acb40873e1bff3580",
+    "04_研发源码/app/r4/secret-references-admin.css": "a2556d0a51f64e4883d96f87360af0d401ea60a8f00a042c3394ba1512a7cbbd"
+  },
+  "tests": {
+    "06_验证与后续工作/负责人优化建议-密钥引用Python专项.py": "b4eb143c189a037d3e0b78515ed9d566806b93df2a0b4b36da2029a8ff4d6df0",
+    "06_验证与后续工作/负责人优化建议-密钥引用Cloud专项.cjs": "b44fd0ebc4a0be475165ae3d6c1a43994b0a145830e36540debff728b0cde5d5",
+    "06_验证与后续工作/负责人优化建议-密钥引用前端专项.cjs": "1d3764b9de1ec4be4f53f2b25941925d3794a66eeb6a59a99fec04a9ed7ae8b8",
+    "06_验证与后续工作/负责人优化建议-密钥引用后台拟议五单元.py": "50b17bb71fb80fb2e270f6b0eb84053bbfa1686ffdcd75b54f3a916fe2128c62",
+    "06_验证与后续工作/负责人优化建议-密钥引用接入准备.py": "6781113fa26a779df274fa3a0dc04d4b49368ba09e78df2d2abfdc6a93079f53",
+    "06_验证与后续工作/负责人优化建议-密钥引用回归兼容准备.py": "d98bf7807d8b2fc4d40f5a77e437b4e4d509afe1c619d641de3108af4e02b28c",
+    "06_验证与后续工作/负责人优化建议-密钥引用实际专项.cjs": "3908e087556641c11d1b39f192e079d61bab42b0758e92665aae44512ea0094b",
+    "06_验证与后续工作/负责人优化建议-密钥引用HTTP专项.cjs": "320fdc5eb1b85841f826830c8c0cf3ecc438fa5de69cc12d385609bb3959acaa",
+    "06_验证与后续工作/负责人优化建议-密钥引用浏览器专项.cjs": "49115cae93cad3167531f56fbb3bfca9058cfcdbc0304c82b0af5c421dab9f76",
+    "06_验证与后续工作/负责人优化建议-密钥引用Python测试服务.py": "a86188a6dc67b286034f7b1ad91f2196fc3407fb9716db28e5288154a1aed745",
+    "06_验证与后续工作/负责人优化建议-密钥引用Cloud测试服务.ts": "955728311ffcd103a1bd7d4d4169778e32aa3aaf2c764b983d55d7b284ad397d",
+    "06_验证与后续工作/负责人优化建议-密钥引用测试环境.cjs": "33b6ff4f9239afc73ff2b9dd04bbe1d774d53c9c7d46e3ffcc86a7bfb425586b",
+    "06_验证与后续工作/负责人优化建议-密钥引用验收冻结.py": "ed6984059ff1909994fa0309c1bafdee45f96c27fa8950eaf9ef445a2e5153dd",
+    "06_验证与后续工作/负责人优化建议-密钥引用按钮可读性.cjs": "b418b054936b2553ee4d3996552c0f56e897145df9207d564d5fd5158680597d",
+    "06_验证与后续工作/负责人优化建议-密钥引用窄屏Smoke.cjs": "a8b92a4f55bbae251d8975d640e81374afd880d6d31450b1c76acd55312136f4"
+  },
+  "verification": {
+    "pythonMemory": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用Python专项.json",
+      "inputSha256": "8f64949c1be34477b6d7233cbef861bb3a6eb1b567aadfa08062f6637cd2f5d8",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-Python内存验收.json",
+      "sha256": "dbc466656438166606c67beebba486df756bc74aacab6f3f70c3a0465db927bd",
+      "passed": 28,
+      "runId": "f74189e1-f19d-4d1f-b108-223b1e9136b2"
+    },
+    "cloudMemory": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用Cloud专项.json",
+      "inputSha256": "01d446bf7b75053d51d3521f7bdfb8b66abafd54c8d649c28e6915b6266b01ed",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-Cloud内存验收.json",
+      "sha256": "b49043479258dc2a285b2e42797722a26cfc956b7d0e7393d28d8ae787c0df75",
+      "passed": 29,
+      "runId": "ef608af1-abf3-4281-8366-9c17e2b5dcbb"
+    },
+    "component": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用前端专项.json",
+      "inputSha256": "8fefe7276db088635449c187a047676f13cb6794c3711d9e005b90b43644de73",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-组件验收.json",
+      "sha256": "58684d288cd8ba3e21104e5749f431820ce58e0fbba9ff73db0bf21bad8ec292",
+      "passed": 13,
+      "runId": "mweh66cu_5711f8"
+    },
+    "originalFiveUnits": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用后台拟议五单元.json",
+      "inputSha256": "b2d1847bcb01c86311bbba2751c8978bbba6f8232144d671f2b464e6b0959f0a",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-原五单元验收.json",
+      "sha256": "2afca33d3c02ce0201a3d650144ddf6296ca0c363f506702e49e86f447d88640",
+      "passed": 5,
+      "runId": "4a20dc87-998b-414d-9b29-c0ace959f8ad"
+    },
+    "layoutSmoke": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用窄屏Smoke.json",
+      "inputSha256": "da81650c156c57101cb5a9443d714ec051f6565bdea5c11ed3eb830153946b5b",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-窄屏准备验收.json",
+      "sha256": "1a6c42a43acfaf444ecaaf4f547880b4f1cdda1455e800fc8e0c7988288465ea",
+      "passed": 16,
+      "runId": "mweh7ee0_f6ede8"
+    },
+    "integration": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用接入计划.json",
+      "inputSha256": "1ea2a1099590236cec5f76bd0af7b1590adf7daca7b50d371db2087255e74bfb",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-精确业务接入审计验收.json",
+      "sha256": "1ea2a1099590236cec5f76bd0af7b1590adf7daca7b50d371db2087255e74bfb",
+      "passed": null,
+      "runId": "20261113T041657430274Z"
+    },
+    "regressionIntegration": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用回归兼容计划.json",
+      "inputSha256": "2efd304e4c5566a53d3b8440c66f00ad08323af8666e253e684133f60dd4c7cc",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-精确回归接入审计验收.json",
+      "sha256": "2efd304e4c5566a53d3b8440c66f00ad08323af8666e253e684133f60dd4c7cc",
+      "passed": null,
+      "runId": "20261113T041657846692Z"
+    },
+    "pythonFull": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用-本轮全量回归结果.json",
+      "inputSha256": "51ad3c8e626e0396640edc577d549917e71d44e60674b3d564c6f82758d83700",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-本机全量验收.json",
+      "sha256": "0841994a46b22ca0ecd25981786620f410815ad0d2fd17bb2a66f3be35e7d9d5",
+      "passed": 60,
+      "runId": "2026-11-13T04:29:32.665Z"
+    },
+    "cloudFull": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用-公网适配全量回归结果.json",
+      "inputSha256": "eda6c75b112c7af94c44650be69d441f45dcae1f394475274b395e7b4605b41a",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-本地Cloud全量验收.json",
+      "sha256": "e73723b9e5d6279e02a6e0ae5fb21bd09d5975ccab7d58f8d4643398a090b6bf",
+      "passed": 60,
+      "runId": "2026-11-13T04:29:32.730Z"
+    },
+    "pythonActual": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用实际专项-python.json",
+      "inputSha256": "587f494ef3e4ed4c617ee40b8d3805146e9cf14d589c63f9286cc4e0a3d82e00",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-本机实际专项验收.json",
+      "sha256": "f11154fcf16f0782e79320f6d6fab6ac9471b5cb6d2120146b25b917849d8978",
+      "passed": 20,
+      "runId": "mwehcffl_5a7fb8"
+    },
+    "cloudActual": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用实际专项-cloud.json",
+      "inputSha256": "4470f70b53fdc47199ed042eaa7c308ba7c08fa100f4638d205c3e3b54765c26",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-本地Cloud实际专项验收.json",
+      "sha256": "7e74d5fc0fbb08498e52ee33541120e0090d38363326438d0622cd0244be4335",
+      "passed": 20,
+      "runId": "mwehcfgw_0834d0"
+    },
+    "visual": {
+      "input": "06_验证与后续工作/负责人优化建议-密钥引用最终视觉核验.json",
+      "inputSha256": "83c159b40855fde0fd4e0c00ebe13677caf34b6d8aceae169fae5e0edf47a267",
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-最终视觉验收.json",
+      "sha256": "83c159b40855fde0fd4e0c00ebe13677caf34b6d8aceae169fae5e0edf47a267",
+      "passed": null,
+      "runId": "2026-11-13T04:35:03.869757+00:00",
+      "images": 14
+    }
+  },
+  "verificationCounts": {
+    "pythonFull": 60,
+    "cloudFull": 60,
+    "pythonActual": 20,
+    "cloudActual": 20,
+    "pythonMemory": 28,
+    "cloudMemory": 29,
+    "component": 13,
+    "layoutSmoke": 16,
+    "originalFiveUnits": 5,
+    "viewsPerBackend": 16,
+    "fontViewsPerBackend": 4,
+    "finalScreenshots": 14
+  },
+  "scope": {
+    "originalDatabaseUsed": false,
+    "originalCredentialMigrated": false,
+    "realProviderTested": false,
+    "productionTLSVerified": false,
+    "managedKMSVerified": false,
+    "IAMOrMFAVerified": false,
+    "realCredentialRotationPerformed": false,
+    "serverControlledPurposeEnvOnly": true,
+    "plaintextFallbackAllowed": false,
+    "newPlaintextFieldsAllowed": false,
+    "explicitExactValueCASMigration": true,
+    "legacyRedirectsAllRejected": true,
+    "mediaOrGlobalOpenerChanged": false,
+    "oldUnmigratedValuesRemainAndBlockUse": true,
+    "deviceProtocol": "actual Authorization Bearer; no invented HMAC protocol",
+    "authorizationMockedInOriginalUnits": false,
+    "originalUnitEvidenceScope": "Backend-only: administrative CSS was not executed in the five backend tests; its old incidental identity is superseded by current13 component/16 smoke/dual actual UI checks."
+  },
+  "limits": [
+    "Actual adapters use explicit local synthetic transport; no real AI provider request.",
+    "Only synthetic fresh databases migrated; original credentials were not read, exported or migrated.",
+    "Runtime env/Worker bindings are not proof of managed remote KMS, IAM, MFA, rotation or production TLS.",
+    "Historical frozen actual wrappers using plaintext must deliberately adopt ref/env/new transport before any future rerun; no fallback is enabled to satisfy obsolete fixtures."
+  ]
+}

@@ -1,0 +1,1618 @@
+{
+  "at": "2026-11-12T13:29:19.550Z",
+  "target": "python",
+  "runId": "mwdl3wse_ebc02e",
+  "syntheticDataOnly": true,
+  "productionWrites": false,
+  "realProviderRequests": 0,
+  "realChargeOrRefund": false,
+  "controls": "QA-only clock, interruption and payment barrier; actual API/commerce/lifecycle implementation",
+  "results": [
+    {
+      "name": "默认无正式方案，模块与真实渠道关闭，匿名和普通用户不能管理",
+      "pass": true,
+      "ms": 41
+    },
+    {
+      "name": "双沙箱明确启用，生产开关和错误类型拒绝",
+      "pass": true,
+      "ms": 64
+    },
+    {
+      "name": "缺完整方案的membership商品不能建单，原库存与订单表不发生占用",
+      "pass": true,
+      "ms": 58
+    },
+    {
+      "name": "方案严格验证、有限周期与未知AI额度，真实渠道仅draft映射",
+      "pass": true,
+      "ms": 42
+    },
+    {
+      "name": "实际统一建单同事务保存成交条款，同requestId重放且异续期上下文409",
+      "pass": true,
+      "ms": 58
+    },
+    {
+      "name": "改当前方案与SKU价格后，合法旧订单仍保留原成交快照并原价支付",
+      "pass": true,
+      "ms": 84
+    },
+    {
+      "name": "重复开通、数量2、未付款激活与跨账号激活拒绝，不产生另一笔有效订阅",
+      "pass": true,
+      "ms": 76
+    },
+    {
+      "name": "已付会员订阅与单购均不解正式member媒体或提升角色",
+      "pass": true,
+      "ms": 142
+    },
+    {
+      "name": "同账号同组不同请求并发建单仅一笔和一次库存预占",
+      "pass": true,
+      "ms": 60
+    },
+    {
+      "name": "同笔付款并发与激活重放只产生一次已付周期和一条付款事件",
+      "pass": true,
+      "ms": 65
+    },
+    {
+      "name": "同请求并发重放只建一个统一订单与同一份快照",
+      "pass": true,
+      "ms": 304
+    },
+    {
+      "name": "真实续期订单必须再付款，周期只延长一次且重复请求不叠加",
+      "pass": true,
+      "ms": 71
+    },
+    {
+      "name": "取消、退款申请、恢复互相独立且都按账号隔离",
+      "pass": true,
+      "ms": 94
+    },
+    {
+      "name": "管理员按统一订单退款后同步买家订阅，单购持有不误撤销",
+      "pass": true,
+      "ms": 39
+    },
+    {
+      "name": "付款回调中断不伪造交易结果，补接/重试不重复付款或重置周期",
+      "pass": true,
+      "ms": 375
+    },
+    {
+      "name": "支付请求在途时取消续期，最终付款原子拒绝且保持原已付周期",
+      "pass": true,
+      "ms": 433,
+      "observed": {
+        "barrierPosition": "before-original-python-pay-transaction"
+      }
+    },
+    {
+      "name": "沙箱状态演练基于已付订单，暂停欠费无权、恢复不加时、伪付款拒绝",
+      "pass": true,
+      "ms": 389
+    },
+    {
+      "name": "到期和恢复不会清除单购、重新开续费或领取别人的交易",
+      "pass": true,
+      "ms": 352
+    },
+    {
+      "name": "会员真实页面：三项管理入口与正式服务未开放说明",
+      "pass": true,
+      "ms": 3238
+    },
+    {
+      "name": "会员真实下单：先展示有限周期与条款，统一订单保留原成交版本后支付",
+      "pass": true,
+      "ms": 337
+    },
+    {
+      "name": "会员中心本人原成交披露及注销前续期核对，不冒充第三方已取消",
+      "pass": true,
+      "ms": 218
+    },
+    {
+      "name": "会员环境切换竞态：旧沙箱读取未返回时仍能完成正式目录加载",
+      "pass": true,
+      "ms": 283
+    },
+    {
+      "name": "会员取消竞态：变更前延迟状态不能覆盖成功后的取消结果，已付期保留",
+      "pass": true,
+      "ms": 245
+    },
+    {
+      "name": "会员退款入口提交待处理统一售后申请，不冒充退款成功",
+      "pass": true,
+      "ms": 121
+    },
+    {
+      "name": "会员恢复入口核对本人原订单，刷新后不重置时间或重新打开续期",
+      "pass": true,
+      "ms": 2584
+    },
+    {
+      "name": "会员四语375/430窄屏及日夜均可使用，无横向溢出",
+      "pass": true,
+      "ms": 487,
+      "observed": [
+        {
+          "lang": "zh",
+          "width": 375,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "zh",
+          "width": 430,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "zh-Hant",
+          "width": 375,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "zh-Hant",
+          "width": 430,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "en",
+          "width": 375,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "en",
+          "width": 430,
+          "visibleSubscriptions": 1,
+          "tibetanFont": null
+        },
+        {
+          "lang": "bo",
+          "width": 375,
+          "visibleSubscriptions": 1,
+          "tibetanFont": {
+            "loaded": true,
+            "faces": [
+              {
+                "family": "EW Tibetan",
+                "status": "loaded"
+              }
+            ],
+            "check": true,
+            "computedFamily": "\"EW Tibetan\", system-ui, serif"
+          }
+        },
+        {
+          "lang": "bo",
+          "width": 430,
+          "visibleSubscriptions": 1,
+          "tibetanFont": {
+            "loaded": true,
+            "faces": [
+              {
+                "family": "EW Tibetan",
+                "status": "loaded"
+              }
+            ],
+            "check": true,
+            "computedFamily": "\"EW Tibetan\", system-ui, serif"
+          }
+        }
+      ]
+    },
+    {
+      "name": "隐私导出包含本人订阅和原成交条款，排除其他买家的会员资料",
+      "pass": true,
+      "ms": 60
+    },
+    {
+      "name": "会员切换真实登录账号：旧账号延迟状态与成交条款不混入新账号",
+      "pass": true,
+      "ms": 483
+    },
+    {
+      "name": "会员后台真实方案版本与渠道草稿表单，普通用户不能访问",
+      "pass": true,
+      "ms": 904,
+      "observed": {
+        "realChannelVerified": false,
+        "productionEnabled": false
+      }
+    }
+  ],
+  "traffic": [
+    {
+      "method": "POST",
+      "path": "/api/auth/setup",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/a07086db-c453-45e7-b0ff-af42db1381c4",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/b740a251-e178-4083-91ac-4fc8679ae230",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 403
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/commerce/settings",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/membership/settings",
+      "status": 400
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/membership/settings",
+      "status": 400
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/membership/settings",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 400
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/channel-mappings",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/channel-mappings",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/snapshots",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/snapshots",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/snapshots",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/activate",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/orders/364eadb8-b4c6-4b1b-a0b1-a08065193040/activate",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/376a23a4-42ea-4f7b-baad-4e36ccd90d61",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/df01329e-8b8f-40a0-90f2-4de6943ab7f8/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/media/376a23a4-42ea-4f7b-baad-4e36ccd90d61",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/e55e74fc-305f-4ec6-a5cf-137ff40ef028/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/e55e74fc-305f-4ec6-a5cf-137ff40ef028/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/e55e74fc-305f-4ec6-a5cf-137ff40ef028",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/orders/e55e74fc-305f-4ec6-a5cf-137ff40ef028/activate",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/orders/fda6b70c-ed6e-4d68-97b8-21c05ca72ce1/snapshots",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/aee3bc59-1821-4a66-9d20-598256b0bc7d/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/orders/aee3bc59-1821-4a66-9d20-598256b0bc7d/activate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/cancel-renewal",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/cancel-renewal",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/refund-request",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/refund-request",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/refund-request",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f66e75fd-3d84-4739-bd93-71c94b8b6dba/cancel-renewal",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/restore",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/restore",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/restore",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/orders/c41be390-4cc3-493f-92a4-ae5694b6a7ab/refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480/sandbox-pay",
+      "status": 500
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/orders/5fc8916f-f5b4-43ac-8029-eb97bdc90480/activate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/79bed9bf-d3a6-4dab-9cd6-6bd7a864e3f9/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/subscriptions/f421554c-9c46-4ec9-a7f0-d6301ec38249/cancel-renewal",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/7aac44dc-b49d-4beb-8843-0839dcef69b1/sandbox-pay",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/7aac44dc-b49d-4beb-8843-0839dcef69b1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/d58f208a-b72e-46e5-9ede-6725d6c0191c/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/sandbox-events",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/commerce/orders/d28bae8b-932a-49da-b490-2f652160dd78/sandbox-pay",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/membership/restore",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/commerce/products",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/friends",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/messages",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/posts",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/service-requests",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/mine",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/orders/782441eb-9548-4239-b77f-830302f0511e/snapshots",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/commerce/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/commerce/cart",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/commerce/orders",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/commerce/orders/782441eb-9548-4239-b77f-830302f0511e/sandbox-pay",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/commerce/orders/782441eb-9548-4239-b77f-830302f0511e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/membership/subscriptions/bd36a069-2edc-4710-b7d9-eb3efa46b072/cancel-renewal",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/membership/subscriptions/bd36a069-2edc-4710-b7d9-eb3efa46b072/refund-request",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/orders/782441eb-9548-4239-b77f-830302f0511e",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/membership/restore",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/posts",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/friends",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/service-requests",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/messages",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/mine",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/friends",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/posts",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/messages",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/catalog",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/service-requests",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/mine",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/membership/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/b7475886-aed5-4343-ab65-c1b9b6f7cde3",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/dashboard",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/admin/membership/plans",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/admin/membership/channel-mappings",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/commerce",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/membership",
+      "status": 403
+    }
+  ],
+  "errors": [],
+  "captures": [
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-成交条款与已付测试订单.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-注销前真实测试续期提醒.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-取消后保留已付周期.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-会员中心-zh.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-会员中心-zh-Hant.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-会员中心-en.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-会员中心-bo.png",
+    "负责人优化建议-CM会员兼容-python-mwdl3wse_ebc02e-后台真实方案与渠道草稿.png"
+  ],
+  "identity": {
+    "sources": {
+      "04_研发源码/app/r4/backend/membership_lifecycle.py": "e6e38f28ce22b54e1a37065efa84c74b394664ec00de6f5b9325150e41041ab8",
+      "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "36ea9b6e8b0bd1b5de71d2f58f1fc0cde2699a6f0db508a9da0bedac179c30c2",
+      "04_研发源码/app/r4/backend/commerce.py": "b1e9ef2fdf9b31bb0e8ac485f951d6134eae8cc76eaa0e3c9afb7b219d68032d",
+      "04_研发源码/app/cloud/lib/commerce-api.ts": "f90430fe3ee343d59f481b7f3b7d4a17ee96cdf6430038d21dd294d8c19e9963",
+      "04_研发源码/app/r4/backend/server.py": "7a4fe292c47938ee8d697620063f1898f9c25f4ccaa7d1f9bf339eb8a531b865",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "4b201976d682a9bcace1a2f35bd61072cdbab701d205265622d037f8fb18f9fe",
+      "04_研发源码/app/r4/membership-lifecycle-ui.js": "b42548bfa3889f2d299a7214645c38fd09054d59dbf3b32cef7963cc21ca1e58",
+      "04_研发源码/app/r4/membership-lifecycle-ui.css": "e6527d7302d990653f58156c704f93b152f5a847d51887ed65a15dec53bdc153",
+      "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+      "04_研发源码/app/r4/platform.js": "6e4916bcd33944cca9017c715a01c1d412ce313df93276c30f06f0eabfe2927e",
+      "04_研发源码/app/r4/build.py": "504a04effe4968ac28daa6b8886295bf11c8a3b1a77fa9316c2519557ca02926",
+      "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+      "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+      "04_研发源码/app/r4/commission-center.js": "c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b",
+      "04_研发源码/app/r4/commission-center.css": "5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135"
+    },
+    "builds": {
+      "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+      "03_当前APP/东方智慧-首页体验R4.html": "d20c0869688e1df3fd83b250cc6edc4d73ab7534b782ff63727c199f317fa0a6",
+      "03_当前APP/计时后台-开发联调.html": "e3b9c90fd3a6ac052ac246a40cb122fcf6be3a11cec4cb468bd05e66cc722304",
+      "04_研发源码/app/cloud/generated/experience.html": "d595cd005d3f31623f67dada17422828c880d9bdfade21e7e46f09903a724e4e",
+      "04_研发源码/app/cloud/generated/admin.html": "e1604ef5679fa9af34dc2aa1d9087a78acfbb888712afc97b5d52ea7a564e81e",
+      "04_研发源码/app/cloud/dist/server/index.js": "b10580f6013b0008cf21fa7b381648a6830c0c6ab9f6425ff8ec072007c0a9fb"
+    }
+  },
+  "testHashes": {
+    "负责人优化建议-CM会员兼容测试工具.cjs": "1c17e8962106bba765f3906edf99bcb37de05b37c2d671986f3303b96197fad9",
+    "负责人优化建议-CM会员兼容专项.cjs": "2d91e9edfc3ac729e1370e939a9508dd748d08d29a918f0883756b007b821334",
+    "负责人优化建议-CM会员兼容浏览器专项.cjs": "6221987c9cb4e36e250f396f92a0b1221101f318db81e59dd581a758fa6b4c67",
+    "负责人优化建议-会员Python测试服务.py": "0bc6814c1618439d81c86538fc98b4ecec90fc34059d3930ecbddc1f3e70b5d3",
+    "负责人优化建议-CM会员兼容Cloud测试服务.ts": "6384742aa3255790fd0a857f46d83d7146a144ca6107d77a5664e9ddeff11ab9"
+  },
+  "ownedDatabase": "06_验证与后续工作\\负责人优化建议-CM会员HTTP隔离-mwdl3wse_ebc02e.sqlite3",
+  "base": "http://127.0.0.1:53358",
+  "servedBuildSha256": "d20c0869688e1df3fd83b250cc6edc4d73ab7534b782ff63727c199f317fa0a6",
+  "testFilesUnchanged": true,
+  "identityUnchanged": true,
+  "pass": true,
+  "passed": 29,
+  "failed": 0
+}

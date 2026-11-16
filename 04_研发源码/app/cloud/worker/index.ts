@@ -10,7 +10,7 @@ import creator from '../generated/creator.html?raw';
 const worker = {
   fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
     const path = new URL(request.url).pathname.replace(/\/+$/, '') || '/';
-    if (path.startsWith('/api/')) return handleAPI(request, env);
+    if (path.startsWith('/api/')) return handleAPI(request, env, ctx);
     const pages: Record<string,string> = {'/':experience,'/app':review,'/experience':experience,'/admin':admin,'/creator':creator};
     if (pages[path] && ['GET','HEAD'].includes(request.method)) return new Response(request.method==='HEAD'?null:pages[path], {headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Robots-Tag':'noindex, nofollow'}});
     let binding = ctx.props?.CONNECTORS;

@@ -1,0 +1,331 @@
+{
+  "at": "2026-11-12T15:12:25.230Z",
+  "target": "cloud",
+  "runId": "mwdoshk9_3fd3c7",
+  "syntheticDataOnly": true,
+  "realAIRequests": 0,
+  "productionWrites": false,
+  "sourceBuildTestHashes": {
+    "04_研发源码/app/r4/bazi-result-version.js": "e31c6787e85dc60c2bd4646d33535ed8347f51664feaa60192ca79e782985989",
+    "04_研发源码/app/r4/bazi-result-version-ui.js": "4b9c339cc8fb5c5f8b46c3cbeb2aaf86594a240fd41cdb1b1998e1389c1e03fb",
+    "04_研发源码/app/r4/bazi-result-version-release.js": "24575cfb39f912d400c31e9c6083b00563e438975be68e2a934c0a5799c2d1a4",
+    "04_研发源码/app/r4/bazi-result-version.css": "17d1cddc0df54870a344f24abdea450a85381e33bf482a264d8a677e85170b7e",
+    "04_研发源码/app/r4/life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+    "04_研发源码/app/r4/life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js": "135df0d96735c446a8de0ef3b0624a8fdc3d398c526f3933e5001b034cf5cc9d",
+    "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+    "04_研发源码/app/r4/life-western-profile.js": "2b2f27ad668cebd9cc0335f636a0782cfef04f55c6f0025d409bf97d9720c3e4",
+    "04_研发源码/app/r4/bazi-time.js": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+    "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+    "04_研发源码/app/r4/build.py": "34c5ed26c4b638f65dfbee68ebe9d9ef451af0297f1dc381d5b225a51c39c4f0",
+    "04_研发源码/app/r4/backend/server.py": "e946c95872f0f865c31a2154c8b90e5aa9bf2caf51e09a7775ec712fee52b05f",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "fed894c118cb0e123b5ad477ee8daa36b214162155e458170a2169737d5b8c3d",
+    "03_当前APP/东方智慧-首页体验R4.html": "fbeb1c859c9e7042270c70499758780de53acfb3a0b26c49764a4cf6d21a7285",
+    "04_研发源码/app/cloud/generated/experience.html": "58e200b701fe0b536861579ce6619794db1189b9efb9cae515d20988aed70ffb",
+    "04_研发源码/app/cloud/dist/server/index.js": "dc3f691ac5f8871cb85b655250adf6159d45a8397bb95e79226ad457f4b8cc86",
+    "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+    "06_验证与后续工作/负责人优化建议-B11实际专项.cjs": "b360894325f1fd6ec3817301b23b4393c95d7f7d7aee8f21f4a2d053dfbbf2f8",
+    "06_验证与后续工作/负责人优化建议-B11浏览器专项.cjs": "68d8256ddf024bad4843c498a4a87580830136eaf9d1fa874f40c534f13e365c",
+    "06_验证与后续工作/负责人优化建议-B11Python测试服务.py": "b2d00b5be1719a22fc94a3e16589083740626da8538be90e22b8c0d2dea0d24c",
+    "06_验证与后续工作/负责人优化建议-B11Cloud测试服务.ts": "4d6067d7cca35ebaeee42b6e3885fa6b578f5c58a5d99b3cf3696cc336d6b49f"
+  },
+  "results": [
+    {
+      "name": "B11真实生辰入口与保存：当前库实际计算、独立版本、原出生四字段不变",
+      "pass": true
+    },
+    {
+      "name": "B11旧档案查看只读：没有调用适配器，没有修改旧日期/结果/原生辰",
+      "pass": true
+    },
+    {
+      "name": "B11显式重算：取消不计算；确认后按原UTC/选项实际重算并另存新id/parent",
+      "pass": true
+    },
+    {
+      "name": "B11容量已满20：真实点击重算明确拒绝且不淘汰任何旧档案",
+      "pass": true
+    },
+    {
+      "name": "B11保存原快照不覆盖；导出JSON保持原日期和原结果",
+      "pass": true
+    },
+    {
+      "name": "B11解读版本绑定：仅元数据夹具，旧规则/不匹配指纹不可复用，不调用AI",
+      "pass": true
+    },
+    {
+      "name": "B11对紫微/西方档案只透传原打开逻辑且原存档及四字段不变",
+      "pass": true
+    },
+    {
+      "name": "B11四语375/430日夜：版本指纹换行可读且页面无横向溢出",
+      "pass": true
+    },
+    {
+      "name": "B11真实双标签协作：两次明确重算都保留，删除与另存共用同名账号锁",
+      "pass": true
+    },
+    {
+      "name": "B11无协作锁环境明确停写：新保存、重算、删除均不落盘，原快照仍能查看导出",
+      "pass": true
+    },
+    {
+      "name": "B11换账号迟到：真实cookie切换/Bootstrap后旧SHA工作不另存到任何账号",
+      "pass": true
+    }
+  ],
+  "captures": [
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-375首屏干支与折叠版本入口.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-当前真实结果与版本.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-旧快照原日期与未知历史版本.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-明确确认后原档案与新版本并存.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-20份满容量明确拒绝.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-四语版本追溯-zh.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-四语版本追溯-zh-Hant.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-四语版本追溯-en.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-四语版本追溯-bo.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-双标签另存与删除协作.png",
+    "负责人优化建议-B11-cloud-mwdoshk9_3fd3c7-真实换账号迟到不保存.png"
+  ],
+  "errors": [],
+  "traffic": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/posts",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/friends",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/messages",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/service-requests",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/mine",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/public",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/posts",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/friends",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/messages",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/service-requests",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/time-bank/heartbeat",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "GET",
+      "path": "/api/community/mine",
+      "status": 200
+    },
+    {
+      "kind": "browser",
+      "method": "POST",
+      "path": "/api/analytics/activity",
+      "status": 200
+    }
+  ],
+  "limits": [
+    "Teacher rules and reference cases unavailable; actual adapter checks are not professional validation.",
+    "The late-account fixture holds real browser SHA256, not a mocked provider response.",
+    "No app database, existing service or external provider is used."
+  ],
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\bzb30b3cd8",
+  "base": "http://127.0.0.1:49854",
+  "servedBuildSha256": "58e200b701fe0b536861579ce6619794db1189b9efb9cae515d20988aed70ffb",
+  "fontAsset": {
+    "status": 200,
+    "bytes": 772924,
+    "sha256": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b"
+  },
+  "identityUnchanged": true,
+  "passed": 11,
+  "failed": 0,
+  "pass": true
+}

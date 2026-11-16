@@ -1,0 +1,269 @@
+"""Independent sandbox after-sales workflow. No payment call, refund creation or production fulfilment."""
+import hashlib, json, re, sqlite3, time
+from urllib.parse import parse_qs, urlsplit
+from uuid import uuid4
+
+try:
+    from after_sales_finance import case_finance_summary
+except ModuleNotFoundError:
+    import importlib.util as _asf_summary_import
+    from pathlib import Path as _asf_summary_path
+    _asf_summary_spec=_asf_summary_import.spec_from_file_location('eastern_after_sales_finance_summary',_asf_summary_path(__file__).with_name('after_sales_finance.py'))
+    _asf_summary_module=_asf_summary_import.module_from_spec(_asf_summary_spec);_asf_summary_spec.loader.exec_module(_asf_summary_module)
+    case_finance_summary=_asf_summary_module.case_finance_summary
+
+DEFAULT = {'sandboxEnabled': False, 'productionEnabled': False, 'ruleVersion': None}
+DDL = r'''
+CREATE TABLE IF NOT EXISTS after_sales_config(key TEXT PRIMARY KEY,data TEXT NOT NULL);
+INSERT OR IGNORE INTO after_sales_config VALUES('settings','{"sandboxEnabled":false,"productionEnabled":false,"ruleVersion":null}');
+CREATE TABLE IF NOT EXISTS after_sales_cases(id TEXT PRIMARY KEY,owner TEXT NOT NULL,environment TEXT NOT NULL CHECK(environment='sandbox'),order_id TEXT NOT NULL REFERENCES commerce_orders(id),request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,type TEXT NOT NULL CHECK(type IN ('refund-only','return')),reason TEXT NOT NULL,rule_version TEXT NOT NULL,state TEXT NOT NULL CHECK(state IN ('submitted','accepted','rejected','returning','partially_received','received')),version INTEGER NOT NULL DEFAULT 1,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(owner,environment,request_id));
+CREATE INDEX IF NOT EXISTS after_sales_cases_owner ON after_sales_cases(owner,environment,created);
+CREATE TABLE IF NOT EXISTS after_sales_items(id TEXT PRIMARY KEY,case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,order_item_id TEXT NOT NULL REFERENCES commerce_order_items(id),sku_id TEXT NOT NULL,type TEXT NOT NULL,quantity INTEGER NOT NULL CHECK(typeof(quantity)='integer' AND quantity>0),received_quantity INTEGER NOT NULL DEFAULT 0,restocked_quantity INTEGER NOT NULL DEFAULT 0,snapshot_data TEXT NOT NULL,UNIQUE(case_id,order_item_id),CHECK(received_quantity>=0 AND received_quantity<=quantity AND restocked_quantity>=0 AND restocked_quantity<=received_quantity));
+CREATE TABLE IF NOT EXISTS after_sales_actions(id TEXT PRIMARY KEY,case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,actor TEXT NOT NULL,environment TEXT NOT NULL CHECK(environment='sandbox'),request_id TEXT NOT NULL,kind TEXT NOT NULL CHECK(kind IN ('submit','accept','reject','return-shipping','inspect')),fingerprint TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(actor,environment,request_id));
+CREATE INDEX IF NOT EXISTS after_sales_actions_case ON after_sales_actions(case_id,created);
+CREATE TABLE IF NOT EXISTS after_sales_shipments(id TEXT PRIMARY KEY REFERENCES after_sales_actions(id),case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,carrier TEXT NOT NULL,tracking_number TEXT NOT NULL,created INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS after_sales_inspections(id TEXT PRIMARY KEY REFERENCES after_sales_actions(id),case_id TEXT NOT NULL REFERENCES after_sales_cases(id),actor TEXT NOT NULL,receipt_reference TEXT NOT NULL,note TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(case_id,receipt_reference));
+CREATE TABLE IF NOT EXISTS after_sales_inspection_items(id TEXT PRIMARY KEY,inspection_id TEXT NOT NULL REFERENCES after_sales_inspections(id),case_item_id TEXT NOT NULL REFERENCES after_sales_items(id),received_quantity INTEGER NOT NULL CHECK(typeof(received_quantity)='integer' AND received_quantity>0),restock_quantity INTEGER NOT NULL CHECK(typeof(restock_quantity)='integer' AND restock_quantity>=0 AND restock_quantity<=received_quantity),condition TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(inspection_id,case_item_id));
+
+CREATE TRIGGER IF NOT EXISTS after_sales_case_check BEFORE INSERT ON after_sales_cases BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1 AND json_extract(data,'$.ruleVersion')=NEW.rule_version) OR NOT EXISTS(SELECT 1 FROM commerce_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) THEN RAISE(ABORT,'after_sales_disabled') END;
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM commerce_orders o JOIN commerce_payment_events e ON e.order_id=o.id AND e.kind='sandbox_pay' AND e.status='applied' WHERE o.id=NEW.order_id AND o.owner=NEW.owner AND o.environment=NEW.environment AND o.payment_status IN ('paid','partially_refunded','refunded') AND e.owner=NEW.owner AND e.environment=NEW.environment AND e.currency=o.currency AND e.amount_minor=o.total_minor) THEN RAISE(ABORT,'after_sales_unpaid_order') END;
+ SELECT CASE WHEN NEW.type='return' AND NOT EXISTS(SELECT 1 FROM commerce_orders WHERE id=NEW.order_id AND fulfillment_status IN ('shipped','delivered')) THEN RAISE(ABORT,'after_sales_not_dispatched') END;
+ SELECT CASE WHEN EXISTS(SELECT 1 FROM commerce_aftersale_requests WHERE order_id=NEW.order_id AND status IN ('pending','processing')) THEN RAISE(ABORT,'after_sales_legacy_pending') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_item_check BEFORE INSERT ON after_sales_items BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_order_items i ON i.order_id=c.order_id WHERE c.id=NEW.case_id AND c.owner=NEW.owner AND c.environment='sandbox' AND c.state='submitted' AND i.id=NEW.order_item_id AND i.sku_id=NEW.sku_id AND i.type=NEW.type AND (c.type!='return' OR i.type='physical')) THEN RAISE(ABORT,'after_sales_item_mismatch') END;
+ SELECT CASE WHEN NEW.quantity+coalesce((SELECT sum(x.quantity) FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.order_item_id=NEW.order_item_id AND c.state!='rejected'),0)>(SELECT i.quantity-coalesce((SELECT sum(v.quantity_delta) FROM commerce_inventory_events v WHERE v.item_id=i.id AND v.order_id=i.order_id AND v.environment='sandbox' AND v.reason='refund_restock' AND v.quantity_delta>0),0) FROM commerce_order_items i WHERE i.id=NEW.order_item_id) THEN RAISE(ABORT,'after_sales_quantity_allocated') END;
+ SELECT CASE WHEN EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_order_items i ON i.id=NEW.order_item_id WHERE c.id=NEW.case_id AND c.type='refund-only' AND NEW.quantity>i.quantity-i.refunded_quantity) THEN RAISE(ABORT,'after_sales_already_refunded') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_action_check BEFORE INSERT ON after_sales_actions BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_cases c WHERE c.id=NEW.case_id AND c.owner=NEW.owner AND c.environment=NEW.environment) THEN RAISE(ABORT,'after_sales_owner') END;
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) OR NOT EXISTS(SELECT 1 FROM commerce_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) THEN RAISE(ABORT,'after_sales_disabled') END;
+ SELECT CASE WHEN NEW.kind!='submit' AND NOT EXISTS(SELECT 1 FROM after_sales_cases c WHERE c.id=NEW.case_id AND c.version=json_extract(NEW.data,'$.version')) THEN RAISE(ABORT,'after_sales_stale_version') END;
+ SELECT CASE WHEN NEW.kind IN ('accept','reject','inspect') AND NOT EXISTS(SELECT 1 FROM users WHERE id=NEW.actor AND role='admin') THEN RAISE(ABORT,'after_sales_admin_required') END;
+ SELECT CASE WHEN NEW.kind IN ('submit','return-shipping') AND NEW.actor!=NEW.owner THEN RAISE(ABORT,'after_sales_owner') END;
+ SELECT CASE WHEN NEW.kind IN ('accept','reject') AND NOT EXISTS(SELECT 1 FROM after_sales_cases WHERE id=NEW.case_id AND state='submitted') THEN RAISE(ABORT,'after_sales_decision_state') END;
+ SELECT CASE WHEN NEW.kind IN ('return-shipping','inspect') AND NOT EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_orders o ON o.id=c.order_id WHERE c.id=NEW.case_id AND c.type='return' AND c.state IN ('accepted','returning','partially_received') AND o.fulfillment_status IN ('shipped','delivered')) THEN RAISE(ABORT,'after_sales_return_state') END;
+ SELECT CASE WHEN NEW.kind='inspect' AND NOT EXISTS(SELECT 1 FROM after_sales_shipments WHERE case_id=NEW.case_id) THEN RAISE(ABORT,'after_sales_shipping_required') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_action_apply AFTER INSERT ON after_sales_actions WHEN NEW.kind!='submit' BEGIN
+ UPDATE after_sales_cases SET version=version+1,updated=NEW.created,state=CASE WHEN NEW.kind='accept' THEN 'accepted' WHEN NEW.kind='reject' THEN 'rejected' WHEN NEW.kind='return-shipping' AND state!='partially_received' THEN 'returning' ELSE state END WHERE id=NEW.case_id;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_shipment_check BEFORE INSERT ON after_sales_shipments BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_actions WHERE id=NEW.id AND case_id=NEW.case_id AND owner=NEW.owner AND kind='return-shipping') THEN RAISE(ABORT,'after_sales_shipping_action') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_inspection_check BEFORE INSERT ON after_sales_inspections BEGIN
+ SELECT CASE WHEN EXISTS(SELECT 1 FROM after_sales_inspections r JOIN after_sales_cases previous ON previous.id=r.case_id JOIN after_sales_cases current ON current.id=NEW.case_id WHERE previous.order_id=current.order_id AND r.receipt_reference=NEW.receipt_reference) THEN RAISE(ABORT,'after_sales_receipt_already_recorded_for_order') END;
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_actions WHERE id=NEW.id AND case_id=NEW.case_id AND actor=NEW.actor AND kind='inspect') THEN RAISE(ABORT,'after_sales_inspection_action') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_receipt_check BEFORE INSERT ON after_sales_inspection_items BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_inspections r JOIN after_sales_items x ON x.case_id=r.case_id JOIN after_sales_cases c ON c.id=x.case_id JOIN commerce_orders o ON o.id=c.order_id WHERE r.id=NEW.inspection_id AND x.id=NEW.case_item_id AND x.type='physical' AND c.type='return' AND c.state IN ('accepted','returning','partially_received') AND o.fulfillment_status IN ('shipped','delivered') AND x.received_quantity+NEW.received_quantity<=x.quantity) THEN RAISE(ABORT,'after_sales_received_quantity') END;
+ SELECT CASE WHEN NEW.restock_quantity+coalesce((SELECT sum(v.quantity_delta) FROM commerce_inventory_events v JOIN after_sales_items x ON x.order_item_id=v.item_id WHERE x.id=NEW.case_item_id AND v.environment='sandbox' AND v.quantity_delta>0),0)>(SELECT i.quantity FROM commerce_order_items i JOIN after_sales_items x ON x.order_item_id=i.id WHERE x.id=NEW.case_item_id) THEN RAISE(ABORT,'after_sales_double_restock') END;
+END;
+CREATE TRIGGER IF NOT EXISTS after_sales_receipt_apply AFTER INSERT ON after_sales_inspection_items BEGIN
+ UPDATE after_sales_items SET received_quantity=received_quantity+NEW.received_quantity,restocked_quantity=restocked_quantity+NEW.restock_quantity WHERE id=NEW.case_item_id;
+ UPDATE commerce_skus SET stock=stock+NEW.restock_quantity WHERE id=(SELECT sku_id FROM after_sales_items WHERE id=NEW.case_item_id);
+ INSERT INTO commerce_inventory_events SELECT 'after-sales:'||NEW.id,c.owner,'sandbox',c.order_id,x.order_item_id,x.sku_id,NEW.restock_quantity,CASE WHEN NEW.restock_quantity>0 THEN 'after_sales_return_restock' ELSE 'after_sales_received_no_restock' END,NEW.created FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.id=NEW.case_item_id;
+ UPDATE after_sales_cases SET state=CASE WHEN EXISTS(SELECT 1 FROM after_sales_items x WHERE x.case_id=after_sales_cases.id AND x.received_quantity<x.quantity) THEN 'partially_received' ELSE 'received' END,updated=NEW.created WHERE id=(SELECT case_id FROM after_sales_items WHERE id=NEW.case_item_id);
+END;
+'''
+def init_schema(db):
+    db.executescript(DDL)
+
+def stamp(): return time.time_ns() // 1_000_000
+def dump(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(',',':'))
+def fingerprint(v): return hashlib.sha256(dump(v).encode()).hexdigest()
+
+def service_ready(store):
+    with store.connect() as db:
+        row=db.execute("SELECT data FROM after_sales_config WHERE key='settings'").fetchone()
+        return bool(row and json.loads(row['data']).get('sandboxEnabled') is True)
+
+def legacy_request_allowed(db, owner, order_id):
+    """Optional future legacy-route hook; this independent module never patches commerce."""
+    return not db.execute("SELECT 1 FROM after_sales_cases WHERE owner=? AND order_id=? AND state!='rejected' LIMIT 1",(owner,order_id)).fetchone()
+
+class AfterSales:
+    def __init__(self,store,h,Error,limiter):
+        self.store,self.h,self.Error,self.rate=store,h,Error,limiter
+
+    @property
+    def actor(self): return self.h.user['id']
+    def fail(self,n,s): raise self.Error(n,s)
+    def string(self,v,maxlen,minlen=1):
+        if not isinstance(v,str) or not minlen<=len(v.strip())<=maxlen:self.fail(400,'文本格式或长度不符合要求。')
+        return v.strip()
+    def integer(self,v,minval=0,maxval=99):
+        if type(v) is not int or not minval<=v<=maxval:self.fail(400,'数量或版本必须为允许范围的整数。')
+        return v
+    def env(self,v):
+        if v not in ('sandbox','production'):self.fail(400,'无效环境。')
+        return v
+    def body(self):
+        value=self.h.body()
+        if not isinstance(value,dict):self.fail(400,'请求必须为JSON对象。')
+        return value
+    def settings(self,db):
+        row=db.execute("SELECT data FROM after_sales_config WHERE key='settings'").fetchone()
+        raw=json.loads(row['data']) if row else DEFAULT
+        return {**DEFAULT,**raw,'sandboxEnabled':raw.get('sandboxEnabled') is True,'productionEnabled':False}
+    def enabled(self,db,environment='sandbox'):
+        if environment!='sandbox':self.fail(403,'正式售后与库存处理尚未启用。')
+        if not self.settings(db)['sandboxEnabled']:self.fail(503,'售后沙箱尚未开启。')
+        row=db.execute("SELECT data FROM commerce_config WHERE key='settings'").fetchone()
+        if not row or json.loads(row['data']).get('sandboxEnabled') is not True:self.fail(503,'统一交易沙箱尚未开启。')
+    def own(self,db,cid,admin=False):
+        row=db.execute('SELECT * FROM after_sales_cases WHERE id=?'+('' if admin else ' AND owner=?'),(cid,) if admin else (cid,self.actor)).fetchone()
+        if not row:self.fail(404,'未找到本人的售后申请。')
+        return row
+    def body_items(self,value,key='itemId',receipt=False):
+        if not isinstance(value,list) or not 1<=len(value)<=30:self.fail(400,'请指定1至30个订单项。')
+        out=[]
+        for item in value:
+            if not isinstance(item,dict):self.fail(400,'订单项格式错误。')
+            d={key:self.string(item.get(key),100)}
+            if receipt:
+                d.update(receivedQuantity=self.integer(item.get('receivedQuantity'),1),restockQuantity=self.integer(item.get('restockQuantity'),0),condition=self.string(item.get('condition'),200))
+                if d['restockQuantity']>d['receivedQuantity']:self.fail(400,'可重新入库数量不得超过本次实际收到数量。')
+            else:d['quantity']=self.integer(item.get('quantity'),1)
+            out.append(d)
+        out.sort(key=lambda x:x[key])
+        if len({x[key] for x in out})!=len(out):self.fail(400,'订单项不可重复。')
+        return out
+    def action_replay(self,db,request_id,kind,token,cid):
+        old=db.execute("SELECT * FROM after_sales_actions WHERE actor=? AND environment='sandbox' AND request_id=?",(self.actor,request_id)).fetchone()
+        if old:
+            if old['kind']!=kind or old['case_id']!=cid or old['fingerprint']!=token:self.fail(409,'该幂等编号已用于其他售后操作。')
+            return True
+        return False
+    def eligibility(self,db,order_id):
+        order=db.execute("SELECT * FROM commerce_orders WHERE id=? AND owner=? AND environment='sandbox'",(order_id,self.actor)).fetchone()
+        if not order:self.fail(404,'未找到本人的沙箱统一订单。')
+        confirmed=bool(db.execute("SELECT 1 FROM commerce_payment_events WHERE order_id=? AND owner=? AND environment='sandbox' AND kind='sandbox_pay' AND status='applied'",(order_id,self.actor)).fetchone())
+        legacy=bool(db.execute("SELECT 1 FROM commerce_aftersale_requests WHERE order_id=? AND status IN ('pending','processing')",(order_id,)).fetchone())
+        items=[]
+        for line in db.execute('SELECT * FROM commerce_order_items WHERE order_id=? ORDER BY id',(order_id,)):
+            allocated=db.execute("SELECT coalesce(sum(x.quantity),0) FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.order_item_id=? AND c.state!='rejected'",(line['id'],)).fetchone()[0]
+            auto=db.execute("SELECT coalesce(sum(quantity_delta),0) FROM commerce_inventory_events WHERE item_id=? AND environment='sandbox' AND reason='refund_restock' AND quantity_delta>0",(line['id'],)).fetchone()[0]
+            available=max(0,line['quantity']-auto-allocated) if confirmed else 0
+            returns=available if line['type']=='physical' and order['fulfillment_status'] in ('shipped','delivered') else 0
+            items.append({'itemId':line['id'],'skuId':line['sku_id'],'title':line['title'],'type':line['type'],'quantity':line['quantity'],'refundedQuantity':line['refunded_quantity'],'claimedQuantity':allocated,'autoRestockedQuantity':auto,'availableReturnQuantity':returns,'availableRefundOnlyQuantity':min(available,max(0,line['quantity']-line['refunded_quantity'])),'priceMinor':line['price_minor'],'currency':line['currency'],'snapshot':json.loads(line['snapshot_data'])})
+        settings=self.settings(db);commerce=db.execute("SELECT data FROM commerce_config WHERE key='settings'").fetchone()
+        return {'orderId':order_id,'environment':'sandbox','sandboxOnly':True,'settings':settings,'paymentConfirmed':confirmed,'legacyPending':legacy,'canApply':bool(confirmed and not legacy and settings['sandboxEnabled'] and commerce and json.loads(commerce['data']).get('sandboxEnabled') is True),'paymentStatus':order['payment_status'],'fulfillmentStatus':order['fulfillment_status'],'items':items,'productionEnabled':False,'refundsFunds':False}
+
+    def serialize(self,db,row):
+        items=[]
+        for x in db.execute('SELECT * FROM after_sales_items WHERE case_id=? ORDER BY id',(row['id'],)):
+            original=db.execute('SELECT quantity,refunded_quantity FROM commerce_order_items WHERE id=?',(x['order_item_id'],)).fetchone()
+            items.append({'id':x['id'],'itemId':x['order_item_id'],'skuId':x['sku_id'],'type':x['type'],'quantity':x['quantity'],'receivedQuantity':x['received_quantity'],'restockedQuantity':x['restocked_quantity'],'snapshot':json.loads(x['snapshot_data']),'originalQuantity':original['quantity'] if original else None,'orderItemRefundedQuantity':original['refunded_quantity'] if original else None})
+        order=db.execute('SELECT payment_status,fulfillment_status,currency,total_minor,refunded_minor FROM commerce_orders WHERE id=?',(row['order_id'],)).fetchone()
+        payment=[{'id':e['id'],'kind':e['kind'],'amountMinor':e['amount_minor'],'currency':e['currency'],'items':json.loads(e['items']),'status':e['status'],'created':e['created']} for e in db.execute('SELECT * FROM commerce_payment_events WHERE order_id=? ORDER BY created,id',(row['order_id'],))]
+        shipments=[{'id':s['id'],'carrier':s['carrier'],'trackingNumber':s['tracking_number'],'created':s['created'],'carrierVerified':False} for s in db.execute('SELECT * FROM after_sales_shipments WHERE case_id=? ORDER BY created,id',(row['id'],))]
+        inspections=[]
+        for r in db.execute('SELECT * FROM after_sales_inspections WHERE case_id=? ORDER BY created,id',(row['id'],)):
+            lines=[{'id':x['id'],'caseItemId':x['case_item_id'],'receivedQuantity':x['received_quantity'],'restockQuantity':x['restock_quantity'],'condition':x['condition'],'inventoryEventId':'after-sales:'+x['id']} for x in db.execute('SELECT * FROM after_sales_inspection_items WHERE inspection_id=? ORDER BY id',(r['id'],))]
+            inspections.append({'id':r['id'],'receiptReference':r['receipt_reference'],'note':r['note'],'created':r['created'],'items':lines})
+        history=[{'id':x['id'],'actorId':x['actor'],'kind':x['kind'],'data':json.loads(x['data']),'created':x['created']} for x in db.execute('SELECT * FROM after_sales_actions WHERE case_id=? ORDER BY created,id',(row['id'],))]
+        return {'id':row['id'],'ownerId':row['owner'],'environment':'sandbox','sandboxOnly':True,'productionEnabled':False,'orderId':row['order_id'],'type':row['type'],'reason':row['reason'],'ruleVersion':row['rule_version'],'status':row['state'],'version':row['version'],'items':items,'shipments':shipments,'inspections':inspections,'history':history,'created':row['created'],'updated':row['updated'],'money':{'source':'original-commerce-payment-events',**case_finance_summary(db,row['id'],row['owner'],row['order_id']),'actualFundsMoved':False,'orderPaymentStatus':order['payment_status'] if order else None,'orderFulfillmentStatus':order['fulfillment_status'] if order else None,'currency':order['currency'] if order else None,'orderTotalMinor':order['total_minor'] if order else None,'orderRefundedMinor':order['refunded_minor'] if order else None,'events':payment,'notice':'订单累计金额和事件来自原统一交易；本申请关联状态仅表示明确批准目标与已有沙箱退款的净金额匹配，不代表真实到账。物流独立，未明确分配的累计退款不归属本申请。'}}
+
+    def create(self,data):
+        request_id=self.string(data.get('requestId'),128);environment=self.env(data.get('environment','production'))
+        oid=self.string(data.get('orderId'),100);kind=data.get('type')
+        if kind not in ('refund-only','return'):self.fail(400,'请选择仅退款申请或实物退货。')
+        reason=self.string(data.get('reason'),2000);items=self.body_items(data.get('items'))
+        token=fingerprint({'environment':environment,'orderId':oid,'type':kind,'reason':reason,'items':items})
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            old=db.execute('SELECT * FROM after_sales_cases WHERE owner=? AND environment=? AND request_id=?',(self.actor,environment,request_id)).fetchone()
+            if old:
+                if old['fingerprint']!=token:self.fail(409,'该申请编号已用于不同请求。')
+                return {'item':self.serialize(db,old),'replayed':True}
+            self.enabled(db,environment)
+            order=db.execute('SELECT * FROM commerce_orders WHERE id=? AND owner=? AND environment=?',(oid,self.actor,environment)).fetchone()
+            if not order:self.fail(404,'未找到本人的统一订单。')
+            settings=self.settings(db);cid=str(uuid4());t=stamp()
+            db.execute('INSERT INTO after_sales_cases VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',(cid,self.actor,'sandbox',oid,request_id,token,kind,reason,settings['ruleVersion'],'submitted',1,t,t))
+            for requested in items:
+                line=db.execute('SELECT * FROM commerce_order_items WHERE id=? AND order_id=?',(requested['itemId'],oid)).fetchone()
+                if not line:self.fail(404,'该订单项不属于本订单。')
+                snapshot={'title':line['title'],'type':line['type'],'priceMinor':line['price_minor'],'currency':line['currency'],'priceVersion':line['price_version'],'terms':json.loads(line['snapshot_data'])}
+                db.execute('INSERT INTO after_sales_items(id,case_id,owner,order_item_id,sku_id,type,quantity,snapshot_data) VALUES(?,?,?,?,?,?,?,?)',(str(uuid4()),cid,self.actor,line['id'],line['sku_id'],line['type'],requested['quantity'],dump(snapshot)))
+            db.execute('INSERT INTO after_sales_actions VALUES(?,?,?,?,?,?,?,?,?,?)',(str(uuid4()),cid,self.actor,self.actor,'sandbox',request_id,'submit',token,dump({'reason':reason}),t))
+            self.store.audit(db,self.actor,'after-sales.submit',cid,'sandbox；申请不自动退款或入库')
+            return {'item':self.serialize(db,self.own(db,cid)),'replayed':False}
+
+    def mutate(self,cid,kind,data,admin=False):
+        request_id=self.string(data.get('requestId'),128);version=self.integer(data.get('version'),1,2_147_483_647)
+        payload={'version':version}
+        if kind=='decision':
+            kind=data.get('decision')
+            if kind not in ('accept','reject'):self.fail(400,'无效受理决定。')
+            payload['reason']=self.string(data.get('reason'),2000)
+        elif kind=='return-shipping':
+            payload.update(carrier=self.string(data.get('carrier'),100),trackingNumber=self.string(data.get('trackingNumber'),100))
+        elif kind=='inspect':
+            payload.update(receiptReference=self.string(data.get('receiptReference'),100),note=self.string(data.get('note'),2000),items=self.body_items(data.get('items'),'caseItemId',True))
+        else:self.fail(400,'无效售后操作。')
+        token=fingerprint({'caseId':cid,'kind':kind,**payload})
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=self.own(db,cid,admin)
+            if self.action_replay(db,request_id,kind,token,cid):return {'item':self.serialize(db,row),'replayed':True}
+            self.enabled(db)
+            aid=str(uuid4());t=stamp()
+            db.execute('INSERT INTO after_sales_actions VALUES(?,?,?,?,?,?,?,?,?,?)',(aid,cid,row['owner'],self.actor,'sandbox',request_id,kind,token,dump(payload),t))
+            if kind=='return-shipping':
+                db.execute('INSERT INTO after_sales_shipments VALUES(?,?,?,?,?,?)',(aid,cid,row['owner'],payload['carrier'],payload['trackingNumber'],t))
+            if kind=='inspect':
+                db.execute('INSERT INTO after_sales_inspections VALUES(?,?,?,?,?,?)',(aid,cid,self.actor,payload['receiptReference'],payload['note'],t))
+                for entry in payload['items']:
+                    if not db.execute('SELECT 1 FROM after_sales_items WHERE id=? AND case_id=?',(entry['caseItemId'],cid)).fetchone():self.fail(404,'验收项目不属于该申请。')
+                    db.execute('INSERT INTO after_sales_inspection_items VALUES(?,?,?,?,?,?,?)',(str(uuid4()),aid,entry['caseItemId'],entry['receivedQuantity'],entry['restockQuantity'],entry['condition'],t))
+            self.store.audit(db,self.actor,'after-sales.'+kind,cid,'sandbox；资金仍以原统一退款事实为准')
+            return {'item':self.serialize(db,self.own(db,cid,admin)),'replayed':False}
+
+    def route(self,method,path):
+        if not (path.startswith('/api/after-sales/') or path=='/api/admin/after-sales' or path.startswith('/api/admin/after-sales/')):return None
+        self.h.require()
+        self.rate('after-sales:'+('read:' if method=='GET' else 'write:')+self.actor,180 if method=='GET' else 30)
+        admin=path.startswith('/api/admin/')
+        if admin:self.h.require(['admin'])
+        query=parse_qs(urlsplit(self.h.path).query);environment=self.env(query.get('environment',['production'])[0])
+        try:
+            if path=='/api/after-sales/config' and method=='GET':
+                with self.store.connect() as db:return {'settings':self.settings(db),'environment':environment,'productionEnabled':False,'carrierVerificationEnabled':False,'refundsFunds':False}
+            if path=='/api/admin/after-sales/settings' and method=='PATCH':
+                data=self.body()
+                if type(data.get('sandboxEnabled')) is not bool or data.get('productionEnabled',False) is not False:self.fail(400,'正式售后禁止启用，沙箱开关须为布尔值。')
+                rule=data.get('ruleVersion')
+                if rule is not None:rule=self.string(rule,120)
+                if data['sandboxEnabled'] and not rule:self.fail(400,'启用测试流程须填写明确测试规则版本。')
+                with self.store.connect() as db:
+                    db.execute('BEGIN IMMEDIATE')
+                    if not db.execute("SELECT 1 FROM users WHERE id=? AND role='admin'",(self.actor,)).fetchone():self.fail(403,'管理员权限已变化。')
+                    settings={'sandboxEnabled':data['sandboxEnabled'],'productionEnabled':False,'ruleVersion':rule}
+                    db.execute("UPDATE after_sales_config SET data=? WHERE key='settings'",(dump(settings),))
+                    self.store.audit(db,self.actor,'after-sales.settings','sandbox','正式售后固定关闭')
+                    return {'settings':settings}
+            if path in ('/api/after-sales/cases','/api/admin/after-sales') and method=='GET':
+                with self.store.connect() as db:
+                    sql='SELECT * FROM after_sales_cases WHERE environment=?'+('' if admin else ' AND owner=?')+' ORDER BY created DESC,id LIMIT 100'
+                    rows=db.execute(sql,(environment,) if admin else (environment,self.actor)).fetchall()
+                    return {'items':[self.serialize(db,r) for r in rows],'settings':self.settings(db),'environment':environment,'productionEnabled':False,'limit':100}
+            if path=='/api/after-sales/cases' and method=='POST':return self.create(self.body())
+            eligible=re.fullmatch(r'/api/after-sales/orders/([^/]+)',path)
+            if eligible and method=='GET':
+                with self.store.connect() as db:return self.eligibility(db,eligible.group(1))
+            match=re.fullmatch(r'/api/(admin/)?after-sales/cases/([^/]+)(/(return-shipping|decision|inspect))?',path)
+            if match:
+                _,cid,_,action=match.groups()
+                if method=='GET' and not action:
+                    with self.store.connect() as db:return self.serialize(db,self.own(db,cid,admin))
+                if method=='POST' and ((not admin and action=='return-shipping') or (admin and action in ('decision','inspect'))):
+                    return self.mutate(cid,action,self.body(),admin)
+            self.fail(405,'不支持的售后操作。')
+        except sqlite3.IntegrityError as error:
+            if 'after_sales_admin_required' in str(error):self.fail(403,'管理员权限已变化。')
+            if re.search(r'after_sales_|UNIQUE|CHECK constraint',str(error)):self.fail(409,'售后数量、版本、库存或处理状态已变化，请刷新后重试。')
+            raise
+

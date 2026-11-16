@@ -83,9 +83,9 @@ document.addEventListener('click',event=>{const el=event.target.closest('[data-a
  else if(a==='ss-report'){const r=ssReportById(id);if(r?.ready){state.ssReportId=id;navigate('serviceReport');}else if(r)navigate(r.to);}
  else if(a==='ss-interpret')ssInterpret(id);
  else if(a==='ss-followup')ssAsk(t('What does this result mean?','这个结果意味着什么？'));
- else if(a==='ss-context-clear'){state.ssAiContext=null;render(false);}
+ else if(a==='ss-context-clear'){state.ssAiContext=null;px.retry=null;render(false);}
  else if(a==='ss-ai-clear')sheet(t('Clear this conversation?','清空这段对话？'),`<p>${t('This removes the saved chat in this browser. Original reports remain available.','将移除本浏览器保存的客服对话，原始报告仍可查看。')}</p>`,button(t('Clear conversation','清空对话'),'ss-ai-clear-confirm','','full')+button(t('Keep it','保留'),'close-sheet','','secondary full mt16'));
- else if(a==='ss-ai-clear-confirm'){if(!psCommit(()=>{state.support.ai=[];}))return;state.ssAiContext=null;closeSheet();render();}
+ else if(a==='ss-ai-clear-confirm'){if(!privacyClearLocal('conversations',psToken()))return;++px.privacyRun;px.busy=false;px.retry=null;state.ssAiContext=null;closeSheet();render();}
  else if(a==='ss-feed-tab'){state.ssCommunityTab=el.dataset.value;render(false);}
  else if(a==='ss-search-example'){state.ssFriendQuery=id;state.ssFriendSearched=true;render(false);}
  else if(a==='ss-friend-add'){const f=ssDemoLearners.find(x=>x.id===id);if(f)sheet(t('Add this example learner?','添加这位示例学员？'),`<p>${esc(ewI18n.content(f,"",state.lang))} · ${f.id}</p><p class="ss-small">${t('This adds an example contact to your local address book. No real friend request is sent.','将示例学员加入本机通讯录，用于体验会话与分享流程，不会发送真实好友申请。')}</p>`,button(t('Add to contacts','加入通讯录'),'ss-friend-add-confirm',`data-id="${f.id}"`,'full'));}

@@ -1,0 +1,76 @@
+{
+  "at": "2026-11-13T04:26:54.118Z",
+  "runId": "mweh66cu_5711f8",
+  "kind": "chromium-isolated-admin-components-immutable-api-fixture",
+  "checks": [
+    {
+      "name": "syntax compiles and immutable API client is never monkeypatched",
+      "pass": true
+    },
+    {
+      "name": "only reference fields are editable; no password/key/secret-value controls",
+      "pass": true
+    },
+    {
+      "name": "new navigation remains admin-only",
+      "pass": true
+    },
+    {
+      "name": "four language mandatory notices preserve reference-only/unverified boundaries",
+      "pass": true
+    },
+    {
+      "name": "actual settings submit sends only reference plus opaque version/request ID",
+      "pass": true
+    },
+    {
+      "name": "device submit preserves field map and controlled reference without plaintext fields",
+      "pass": true
+    },
+    {
+      "name": "any legacy device blocks group edits with four-language retained-value notice while migration remains reachable",
+      "pass": true
+    },
+    {
+      "name": "interrupted response retries exact same request and version",
+      "pass": true
+    },
+    {
+      "name": "migration starts only by explicit item selection; preview does not apply",
+      "pass": true
+    },
+    {
+      "name": "migration confirmation is separate, explicit and bound to exact plan/version",
+      "pass": true
+    },
+    {
+      "name": "old DOM cannot write under a new actor/epoch",
+      "pass": true
+    },
+    {
+      "name": "late settings read cannot update global settings after account changes",
+      "pass": true
+    },
+    {
+      "name": "component has no JS errors or provider/network/credential probes",
+      "pass": true
+    }
+  ],
+  "passed": 13,
+  "failed": 0,
+  "sourceSha256": {
+    "04_研发源码/app/r4/secret-references-admin.js": "fdf54e63c1e88c9875739d6294237c6307af04bce1bbb72acb40873e1bff3580",
+    "04_研发源码/app/r4/secret-references-admin.css": "a2556d0a51f64e4883d96f87360af0d401ea60a8f00a042c3394ba1512a7cbbd"
+  },
+  "captures": [
+    {
+      "path": "06_验证与后续工作/负责人优化建议-密钥引用-组件-mweh66cu_5711f8.png",
+      "sha256": "a4305f9abb4249047e6acab32d404acc7f87ff414c626c5748548a9f93c419df",
+      "identity": "isolated-component-not-final-integrated-build"
+    }
+  ],
+  "providerRequests": 0,
+  "databaseOpened": false,
+  "serviceStarted": false,
+  "pass": true
+}

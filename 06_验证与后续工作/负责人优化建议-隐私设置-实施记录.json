@@ -1,0 +1,57 @@
+{
+  "at_beijing": "2026-11-12T18:59:28.620547+08:00",
+  "module": "负责人优化建议-隐私设置",
+  "pass": true,
+  "scope": "隐私设置、分项及总体授权/撤回、真实供应商配置绑定、旧历史门禁、默认不保存、新会话可选保存、本人导出、整类真实删除、本机副本操作、注销待处理、后台配置。",
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-隐私设置-本机全量验收.json",
+      "sha256": "50e5ed6ed42d506cdcd32794a5a8ea0e8784156bdbc3f40c808415e80ec5cb45",
+      "passed": 60,
+      "at": "2026-11-12T10:53:34.023Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-隐私设置-本地Cloud全量验收.json",
+      "sha256": "79e9c81beabe052d63df2d953618221e387217279529496b324ff5cb2df5c007",
+      "passed": 60,
+      "at": "2026-11-12T10:53:54.398Z"
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-隐私设置-Python专项验收.json",
+      "sha256": "3f5cd8c5fa24b02d2de1525512913a7dfb62038f050f37c9a9f297319fe5b783",
+      "passed": 27,
+      "at": "2026-11-12T10:55:12.569Z"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-隐私设置-Cloud专项验收.json",
+      "sha256": "d9e116d962d9708a91e5babf4bf7077f3b56cb3453afcf255a61a801040f47b3",
+      "passed": 27,
+      "at": "2026-11-12T10:55:12.576Z"
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+    "04_研发源码/app/r4/privacy-center.js": "72402a0cf85977a8825c7502e07f8ac25bb7a814e9a4a27d69f91493f6deab1e",
+    "04_研发源码/app/r4/privacy-center.css": "66420e1bbb6460a9e1e4d1155944ccaaf621a7956c4432a1edf5d521ecf01063",
+    "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+    "04_研发源码/app/r4/privacy-admin.js": "7ff8236d8b9429d7487ead06ce802aec68d50b4ee6646e2929f761428b854fcc",
+    "04_研发源码/app/r4/backend/server.py": "fca1a824655eed29b8a0344392e4d3567284f43e42214f2bc239aa7ab9f569b2",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "549bc9f88b2f74b065bae1e66a15be4ea89d81059b2e3cfe24353aafd9315c4e",
+    "04_研发源码/app/r4/build.py": "7b859e3c1854d38f9dc55d717c200ff5ec5f233538d6cf7247dc65d077c6f45f",
+    "04_研发源码/app/cloud/prepare.py": "1656630ef758566f8aeeecafc1b3f9e5168d138894a458cd9b031e8ef5d7ae6d",
+    "04_研发源码/app/r4/platform.js": "006386482fae526a1450a0a679a6740d023d8afc4f4c5ad23a196bd10011a05e",
+    "04_研发源码/app/r4/profile.js": "18b002ccd8674ec32b846a752c8e755f7705c300cb142e7c277e23c8ad324e10",
+    "04_研发源码/app/r4/service-social.js": "9425eff718d00a976690ca1ae694abbdf2511478510a528f99c59be4e05a96db",
+    "04_研发源码/app/r4/time-bank-admin.html": "04241a72980cbdf6c9133c024fcef3980472c25d432f93bad2e705a60e627ac7"
+  },
+  "app_sha256": "609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf",
+  "limitations": [
+    "供应商只使用本机mock或浏览器截获，真实服务与数据协议未验。",
+    "长期记忆未实现且不可开启；单条会话管理待做。",
+    "供应商删除、备份清理与账号最终关闭仍待真实流程。",
+    "保存期限/正式政策/公网加密和后台强认证尚待生产条件。",
+    "藏文待母语审校。"
+  ],
+  "historical_evidence": "原通用动态截图11处已恢复50bacd9字节，迁移图加本轮前缀；全量脚本已将动态截图隔离到模块和后端。原失败报告、冻结收据及历史ZIP保持。"
+}

@@ -1,0 +1,50 @@
+{
+  "at_beijing": "2026-11-12T22:43:03.822061+08:00",
+  "module": "负责人优化建议-保存快照",
+  "pass": true,
+  "scope": "本人实际保存请求快照的元数据列表/主动查看/确认单删、关联AI正文清除与既有额度保留、幂等回执、全量删除后的旧详情失效；实际legacy保存入口接原子epoch/policy/provider校验，删除/撤回/配置变更后的旧回复不能重存。",
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-保存快照-本机全量验收.json",
+      "sha256": "b311912d8a9d2a5d4b3647a44f607ab23e5333ab94cc5bfb87fec93247effad2",
+      "passed": 60,
+      "at": "2026-11-12T14:34:26.594Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-保存快照-本地Cloud全量验收.json",
+      "sha256": "5d0b9f8243d7ccf72ee43e016fa0a93648ef1a179e45bab4b8b77ccb5a21db83",
+      "passed": 60,
+      "at": "2026-11-12T14:35:03.566Z"
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-保存快照-Python专项验收.json",
+      "sha256": "74c36386ad530f7a0808f25ee324037915e47798ff0effe9126468720783cdc8",
+      "passed": 20,
+      "at": "2026-11-12T14:36:05.035Z"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-保存快照-Cloud专项验收.json",
+      "sha256": "9e265c985710439c39dca1c2ebf1a8fc8043c701b7753639f3d4dbdb2640b243",
+      "passed": 20,
+      "at": "2026-11-12T14:36:05.036Z"
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/privacy_saved.py": "b69f05a201fc6baab9962a2ea462d8699a47b6ce63890c54b94392e831db9ce7",
+    "04_研发源码/app/cloud/lib/privacy-saved.ts": "7b55419968de863aa9eab39abe3eca34da3f10e87709ff99e9794d3b6337e839",
+    "04_研发源码/app/r4/privacy-saved.js": "943bb04ee8f5a49ab3d123a37053b17a34ec07d7ff9bca5f8ac219b559b12f3c",
+    "04_研发源码/app/r4/privacy-saved.css": "3e5b2ee7eddada977e76156de6c5dd083721f9bb0171c8787fa809864d981375",
+    "04_研发源码/app/r4/backend/server.py": "e946c95872f0f865c31a2154c8b90e5aa9bf2caf51e09a7775ec712fee52b05f",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "fed894c118cb0e123b5ad477ee8daa36b214162155e458170a2169737d5b8c3d",
+    "04_研发源码/app/r4/build.py": "a72f96d4c2abc4d509816029019bbd67dbec5ea78d89e83b1562e34617aa2d61"
+  },
+  "app_sha256": "25cd75feb2e4ddd152dd0024a16e2c0858d91bc12ba9dc2f846c635ee991fe2f",
+  "limitations": [
+    "保存数据是请求时快照，可能包含近期消息；单删不会按字符串连删其他重叠快照，本机副本单独处理。",
+    "当前数据库的目标记录已实删；供应商和备份处理保留待确认，没有执行真实上游删除。",
+    "长期记忆服务未启用，本模块没有创建或伪称记忆/向量CRUD。",
+    "模型与供应商仅明示本机fixture，真实模型请求0；最终账号注销/全会话撤销执行与正式保留期清理仍未完成。",
+    "64视图为本机Chromium检查；藏文仍待母语审校。"
+  ],
+  "failure_history": "首轮全局const pxApi重赋导致JS中断，已用可变privacyRequestSheet/成功privacyLoad回执进行目标失效；VM改lexical const覆盖。旧适配器单测同步mock新guarded入口并加调用断言。保留旧失败、Route夹具中断及最终UI文案调整前结果。"
+}

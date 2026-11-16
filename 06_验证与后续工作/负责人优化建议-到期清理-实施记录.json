@@ -1,0 +1,277 @@
+{
+  "at_beijing": "2026-11-13T11:27:02.975601+08:00",
+  "module": "PR05 本方数据库到期清理与权威个人清理",
+  "pass": true,
+  "scope": "默认关闭；本人或当前管理员明确授权现政策后，按服务器固定asOf与真实写入跟踪清六类过期资料；分批可续跑，金融/额度/源审计保留。未实现供应商/备份删除或生产cron部署。",
+  "verification": {
+    "Python全量": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理-本轮全量回归结果.json",
+      "inputSha256": "6cac0301e9eec063ddaf63ad51f4ea557d0abb47bc512b849d7ab95468852e43",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-本机全量验收.json",
+      "sha256": "3b65f60e12e552a17c3709a8c9f1a2e64a5ceeed34ad11829a21204eae8744ac",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-13T03:21:35.190Z"
+    },
+    "Cloud全量": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理-公网适配全量回归结果.json",
+      "inputSha256": "88c77e63a7fd031da899046165c70eb6bd4297597c6deb79b76841986f3a1756",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-本地Cloud全量验收.json",
+      "sha256": "d5b302115bf877103ad53eeaadc93e0616be117a649c1aaaf9aff41f6cdacb75",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-13T03:21:35.234Z"
+    },
+    "Python专项": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理实际专项-python.json",
+      "inputSha256": "0e4deaf1559b730ee100c29b8d9e85918299fb715b7bec1825aea4539327cb59",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-Python专项验收.json",
+      "sha256": "e891b14c58fd8ac203b73b3b2f6adc025d5305fad3b7be576ddf9e6bd660cada",
+      "passed": 26,
+      "failed": 0,
+      "at": "2026-11-13T03:21:04.842Z",
+      "runId": "mweetjtb_0f606a"
+    },
+    "Cloud专项": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理实际专项-cloud.json",
+      "inputSha256": "1ae591ad97d93ac789e8e710a8d8092c4d070d1b1226e089e422c90fccab2e0e",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-Cloud专项验收.json",
+      "sha256": "a76315e31163787cfae6d5a5f27748d7d550bcf1dd03a9a3eeb5033ebc6acd8b",
+      "passed": 26,
+      "failed": 0,
+      "at": "2026-11-13T03:22:50.358Z",
+      "runId": "mweevt7p_90b2db"
+    },
+    "Python内存": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理Python内存结果.json",
+      "inputSha256": "b2c9166b11ab8661c7c6a68b7464c181d35eb0b52c23661c3d87df5a8613db6c",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-Python内存验收.json",
+      "sha256": "b2c9166b11ab8661c7c6a68b7464c181d35eb0b52c23661c3d87df5a8613db6c",
+      "passed": 46,
+      "failed": 0
+    },
+    "Cloud内存": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理Cloud内存结果.json",
+      "inputSha256": "4640372cc8624dd47a804b5ab19973dc1cc330e6fb902de3106e414647371d6d",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-Cloud内存验收.json",
+      "sha256": "4640372cc8624dd47a804b5ab19973dc1cc330e6fb902de3106e414647371d6d",
+      "passed": 50,
+      "failed": 0
+    },
+    "UI组件": {
+      "input": "06_验证与后续工作/负责人优化建议-到期清理UI结果.json",
+      "inputSha256": "8fe8bbd515c990b455adabc952c54f0ce3424c8b0e2b2441894918ef22195ad3",
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-UI组件验收.json",
+      "sha256": "8fe8bbd515c990b455adabc952c54f0ce3424c8b0e2b2441894918ef22195ad3",
+      "passed": 16,
+      "failed": 0
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849",
+    "04_研发源码/app/cloud/lib/privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6",
+    "04_研发源码/app/r4/privacy-retention.js": "a49824c2ba53607932c55bb481bf9c93c9d3fc0d255362bc22c5042dfeffc574",
+    "04_研发源码/app/r4/privacy-retention.css": "f7f0aac2f479858f57a34a68d383d66b550b8b42edd50b2deac4cbba42b4af91",
+    "04_研发源码/app/r4/privacy-retention-admin.js": "80d7b1e63feedf6008410c7d9cb479c2d0a9e577b6d4078a351180e627861b62"
+  },
+  "final_identity": {
+    "04_研发源码/app/cloud/lib/after-sales.ts": "88b462eea3f756f06ed19f67f276647ea553ace95b96c3bc55d338728d29b59f",
+    "04_研发源码/app/cloud/lib/ai-gateway.ts": "c815adcc9ffb8da30383b5eac110b9c2f7c272dcc3a01655f360d8d377b0912f",
+    "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+    "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+    "04_研发源码/app/cloud/lib/commerce-api.ts": "9ec43ea6a0b7813ca653083146a966da31a1019902c24a43d4b62ad5c1a54565",
+    "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+    "04_研发源码/app/cloud/lib/connector-context.ts": "bbddff68689cb0f6926fecd4b8b96f12f2054277c296e97b0df07d4ad5ece24e",
+    "04_研发源码/app/cloud/lib/connector-preview.d.ts": "abd69a94f7f61f1359063bb557574faae35e8ff5a028cc4c04b9ee248ef52642",
+    "04_研发源码/app/cloud/lib/connectors.ts": "1c93d747e384c8e17e3e3dd5361b24412babf5eba2a11d2ae7a75f4e0924112c",
+    "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "15085298b8e4074886cdcc59c324e6a6d22c2b967cad37c900eb83b17ff62bc9",
+    "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "36ea9b6e8b0bd1b5de71d2f58f1fc0cde2699a6f0db508a9da0bedac179c30c2",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "443d3f4a6f5fa6c8f70bd14219ad51d701b1dd3491370ea5460ce6160f89fa91",
+    "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+    "04_研发源码/app/cloud/lib/privacy-saved.ts": "7b55419968de863aa9eab39abe3eca34da3f10e87709ff99e9794d3b6337e839",
+    "04_研发源码/app/cloud/lib/reconciliation-api.ts": "d9ff619366779968c56a0f77f99799c87ec73b122e396379e75259ba27531dfc",
+    "04_研发源码/app/cloud/lib/utils.ts": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68",
+    "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+    "04_研发源码/app/r4/backend/after_sales.py": "6322e44b22f9a7372464e3cf629c1a03c0a33b73854990e7e57f34bef8ab0f84",
+    "04_研发源码/app/r4/backend/ai_gateway.py": "9eaf46835e66346877cd306a2091d02b36f880574084542f27ffbce89218e760",
+    "04_研发源码/app/r4/backend/analytics.py": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+    "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+    "04_研发源码/app/r4/backend/commerce.py": "74b02db4b9df55c0e483fe83c73ed2a4ef1181e78218cf2656d75147182974c0",
+    "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+    "04_研发源码/app/r4/backend/creator.py": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+    "04_研发源码/app/r4/backend/membership_lifecycle.py": "e6e38f28ce22b54e1a37065efa84c74b394664ec00de6f5b9325150e41041ab8",
+    "04_研发源码/app/r4/backend/privacy.py": "b2318f0b6a35726f75d07f3cff2e6a52176c568915e5ad5ad73fc6fb798b5a06",
+    "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+    "04_研发源码/app/r4/backend/privacy_saved.py": "b69f05a201fc6baab9962a2ea462d8699a47b6ce63890c54b94392e831db9ce7",
+    "04_研发源码/app/r4/backend/reconciliation.py": "8dc5978fdd2784a515bfe2c637a4505b0b8da802750773cb966939c4c6b9ba58",
+    "04_研发源码/app/r4/backend/server.py": "fd9fb118a83b5a62d58bd5f6513287cd8ccd4522f8f2a897622068d4c6bf29fc",
+    "04_研发源码/app/r4/backend/video.py": "3d04e13fb60f51d3d5cffb4ef213d24a9178d67796b46931e87c164761882e84",
+    "04_研发源码/app/r4/backend/privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849",
+    "04_研发源码/app/cloud/lib/privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6",
+    "04_研发源码/app/r4/privacy-retention.js": "a49824c2ba53607932c55bb481bf9c93c9d3fc0d255362bc22c5042dfeffc574",
+    "04_研发源码/app/r4/privacy-retention.css": "f7f0aac2f479858f57a34a68d383d66b550b8b42edd50b2deac4cbba42b4af91",
+    "04_研发源码/app/r4/privacy-retention-admin.js": "80d7b1e63feedf6008410c7d9cb479c2d0a9e577b6d4078a351180e627861b62",
+    "04_研发源码/app/r4/build.py": "6d4a0c4aa435ad78e729af72f802f1ab5c109493bd3be46b25aa92c44770c7a9",
+    "04_研发源码/app/cloud/prepare.py": "680af002cd16812b273260f833232c64b45b0550d09028aeb0697e2b41df1b3a",
+    "04_研发源码/app/r4/time-bank-admin.html": "b1fcfc7e1dc45d25f5cbaa16d17e2609ad509fd7f625e6ea55945e66ebe0e59f",
+    "04_研发源码/app/r4/platform.js": "ffd0d765aa980d82f880b53a4506e9f7eaae0d853083e4d73e4ca1b2ae9b2d51",
+    "04_研发源码/app/r4/privacy-center.js": "1e84cb2d7313efabe03e0fdc6f9ea0e58d727c2da875c3bd0949ac00ca515009",
+    "03_当前APP/东方智慧-首页体验R4.html": "96acaea367244cb8a8f243a272409b6711e9a8f11798b8e6929efd35eca65f6f",
+    "03_当前APP/计时后台-开发联调.html": "174bc61247116659a80947cc3b20a5f0bd30ff34c5ea1e26c3e3290898dac25c",
+    "04_研发源码/app/cloud/generated/experience.html": "aa12b7ecab7eb6d501f2309561abb6313abda9661af81026ef3b01652360218e",
+    "04_研发源码/app/cloud/generated/admin.html": "dcd5ec404181e08b3a91576255b4e4fb45396b7905efd2682cf3771ace985733",
+    "04_研发源码/app/cloud/worker/index.ts": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+    "04_研发源码/app/cloud/dist/server/index.js": "53dc76096e81f4f965ce1eb3a58c534517444d71b1fc4958368e5e1d749235fe",
+    "04_研发源码/app/cloud/dist/server/BUILD_ID": "97fee0669b6b3dcfe33c783d0bc50ca6db36e913eaf94442afd9a4cb621d326b",
+    "04_研发源码/app/r4/vendor/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+    "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+    "06_验证与后续工作/负责人优化建议-到期清理实际专项.cjs": "85586a7bb76c498f93d06368c22ee1862101469ca048d78e576c778c51fd012c",
+    "06_验证与后续工作/负责人优化建议-到期清理Python测试服务.py": "05b70540ff11e996cb6cbfd7ccfb2a33ebf3f636d49b73cf432dc5687c9778bf",
+    "06_验证与后续工作/负责人优化建议-到期清理Cloud测试服务.ts": "18e3837fe67b0b87acf8a26d5728c360f517f638d077f68cd6410c1cda0f0bef",
+    "06_验证与后续工作/负责人优化建议-到期清理实际夹具.json": "e9a140a061ee0b886f656d9388d2012a42f17360accc4044ec861a859e2a20d9",
+    "06_验证与后续工作/负责人优化建议-到期清理接入准备.py": "379991ea911935b71400b1e0f20aa5eb3a3dc4047ba02ed67bcd1bb0caf40b40"
+  },
+  "app_sha256": "96acaea367244cb8a8f243a272409b6711e9a8f11798b8e6929efd35eca65f6f",
+  "admin_sha256": "174bc61247116659a80947cc3b20a5f0bd30ff34c5ea1e26c3e3290898dac25c",
+  "cloud_build_hashes": {
+    "generated/experience.html": "aa12b7ecab7eb6d501f2309561abb6313abda9661af81026ef3b01652360218e",
+    "generated/admin.html": "dcd5ec404181e08b3a91576255b4e4fb45396b7905efd2682cf3771ace985733",
+    "generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+    "lib/eastern-api.ts": "15085298b8e4074886cdcc59c324e6a6d22c2b967cad37c900eb83b17ff62bc9",
+    "worker/index.ts": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+    "dist/server/index.js": "53dc76096e81f4f965ce1eb3a58c534517444d71b1fc4958368e5e1d749235fe"
+  },
+  "screenshots": [
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-本人-zh.png",
+      "sha256": "2e4fc642128520287cfebe7c437bf5c63548ee9c2a5ffdb2b0f5132d0fffad2c"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-本人-zh_Hant.png",
+      "sha256": "d2854b40ae2ea003f3da063a2211f68b738f489c9380f5220bf6f84c97abe9c4"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-本人-en.png",
+      "sha256": "5a0696bb3b8db22039f89269ac0f6daea13f189becb91f82aced87b9b6421f2d"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-本人-bo.png",
+      "sha256": "1499a4b660ea22b5a629124cb07a906f581346250c43b859fd160a9932bb07a7"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-本人-bo-底部.png",
+      "sha256": "b0b5febaa29fe51348999d2eeab9396d87ab1cb0f880795df29d5bb9bd271776"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-python-mweetjtb_0f606a-管理员预览.png",
+      "sha256": "142cef2e0f81369cf20805b8bbd30faeea275d0669a61d4dc05be76f14e309ae"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-本人-zh.png",
+      "sha256": "aa0540555d6d64ce64ad862422124f8e14d322c33103fab616f6dc9f4ebcdb78"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-本人-zh_Hant.png",
+      "sha256": "99a2b7492389fb5117f8378cefe9ed8a83a61026a5730c302a875d0ac2651d75"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-本人-en.png",
+      "sha256": "5b4fc4b2d319f75fb4af860b8a182d9074aec176e5ad8d61281f6e0bd103dcd1"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-本人-bo.png",
+      "sha256": "8659817b418c5b27ea8a69be1dc600b686ac956a880266f430d79a6bea1f8c82"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-本人-bo-底部.png",
+      "sha256": "9c8256b7ed983bdf334ce0ec83121e25feb7e2ec04d4a6a46dfd8d52fc9bd330"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-cloud-mweevt7p_90b2db-管理员预览.png",
+      "sha256": "d21dc8bc95a8e3b4d895253101063970d7192f0b8f5bc79eff40f7f850d3e914"
+    }
+  ],
+  "visual_review": "逐一实看两端12个最终PNG；四语、单一共享返回、底部计数与管理员当前导航均核对。16视图为真实DOM/字体/滚动测量，不假称16PNG。",
+  "visual_review_evidence": {
+    "input": "06_验证与后续工作/负责人优化建议-到期清理最终视觉核验.json",
+    "inputSha256": "33cab784bb1656e39d2db78cf56f73d27a8b89853de9513b1ddba4cf0c2a6df0",
+    "path": "06_验证与后续工作/负责人优化建议-到期清理-视觉验收.json",
+    "sha256": "33cab784bb1656e39d2db78cf56f73d27a8b89853de9513b1ddba4cf0c2a6df0"
+  },
+  "view_observations": {
+    "python": {
+      "runId": "mweetjtb_0f606a",
+      "views": 16,
+      "screenshots": 6,
+      "browserVersion": "151.0.7922.34",
+      "browserExecutable": "C:\\Users\\Administrator\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+      "font": {
+        "kind": "served HTML embedded font",
+        "status": 200,
+        "bytes": 772924,
+        "sha256": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b"
+      }
+    },
+    "cloud": {
+      "runId": "mweevt7p_90b2db",
+      "views": 16,
+      "screenshots": 6,
+      "browserVersion": "151.0.7922.34",
+      "browserExecutable": "C:\\Users\\Administrator\\AppData\\Local\\ms-playwright\\chromium-1234\\chrome-win64\\chrome.exe",
+      "font": {
+        "kind": "HTTP asset",
+        "status": 200,
+        "bytes": 772924,
+        "sha256": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b"
+      }
+    }
+  },
+  "failure_history": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-本轮全量回归结果.json",
+      "sha256": "6cac0301e9eec063ddaf63ad51f4ea557d0abb47bc512b849d7ab95468852e43",
+      "runs": 3,
+      "failedRunsRetained": 0
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理-公网适配全量回归结果.json",
+      "sha256": "88c77e63a7fd031da899046165c70eb6bd4297597c6deb79b76841986f3a1756",
+      "runs": 3,
+      "failedRunsRetained": 0
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理实际专项-python.json",
+      "sha256": "0e4deaf1559b730ee100c29b8d9e85918299fb715b7bec1825aea4539327cb59",
+      "runs": 6,
+      "failedRunsRetained": 3
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理实际专项-cloud.json",
+      "sha256": "1ae591ad97d93ac789e8e710a8d8092c4d070d1b1226e089e422c90fccab2e0e",
+      "runs": 3,
+      "failedRunsRetained": 1
+    }
+  },
+  "limitations": [
+    "六类正式期限/政策由项目方确认，null跳过；旧未知年龄默认跳过，可明确server-now纳管。",
+    "供应商和备份仍pending-confirmation，本机副本不自动清。",
+    "无长期记忆或向量服务；本记录冻结时不伪称存在记忆正文。",
+    "生产调度/受管执行身份及外部清理连接器未部署。",
+    "最小card quota/zone/epoch、设备连接、金融/履约/售后资金关联等必要台账保留，正式期限待政策。"
+  ],
+  "diagnostic_resolution": "早期合成timer.start_ms=1与当前last_seen造成跨56年汇总阻塞；仅修测试夹具为相对当前时间、保留45s租约与独立age跟踪。相同标准Chromium/字体/Playwright截图四语探针恢复正常；未据此归因藏文字体或SDK，未改计时业务公式。原失败及探针history保留。",
+  "invariants": {
+    "snapshotsUseWriteBytes": true,
+    "existingEvidenceNotOverwritten": true,
+    "freezerWritesTaskOrSharedFiles": false,
+    "originalDatabaseOpened": false,
+    "publicDeployed": false,
+    "financialLedgersDeleted": false,
+    "actualProviderDeletionClaimed": false
+  },
+  "freezer": {
+    "path": "06_验证与后续工作/负责人优化建议-到期清理验收冻结.py",
+    "sha256": "2d110222dc7844b7b25366cc2b701b2dc6f3f410626f3865b4e3f7e284109bbf"
+  }
+}

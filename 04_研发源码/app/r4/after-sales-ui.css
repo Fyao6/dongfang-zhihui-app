@@ -1,0 +1,27 @@
+.af-page { min-width: 0; overflow-wrap: anywhere; }
+.af-mode { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--line); font-size:12px; line-height:1.65; }
+.af-mode span { min-width:0; flex:1; }
+.af-mode button { flex:0 0 auto; max-width:42%; min-height:44px; white-space:normal; text-align:end; }
+.af-page form { display:grid; gap:14px; margin-top:18px; }
+.af-page label { display:grid; gap:7px; font-size:13px; line-height:1.65; min-width:0; }
+.af-page input,.af-page textarea,.af-page select { width:100%; min-width:0; max-width:100%; min-height:44px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:var(--card); font:inherit; color:inherit; }
+.af-page textarea { min-height:96px; resize:vertical; }
+.af-page fieldset { border:0; min-width:0; margin:0; padding:0; display:grid; gap:12px; }
+.af-page fieldset.af-item,.af-item { padding:14px; margin:12px 0; border:1px solid var(--line); border-radius:14px; min-width:0; }
+.af-page .af-check { display:flex; align-items:center; gap:10px; }
+.af-check input { width:22px; min-height:22px; flex:0 0 22px; }
+.af-item h3 { font-size:15px; line-height:1.65; }
+.af-item p,.af-page .small { font-size:12px; line-height:1.75; margin:8px 0; }
+.af-page .btn { min-height:48px; white-space:normal; line-height:1.65; overflow-wrap:anywhere; }
+.af-context,.af-case p { overflow-wrap:anywhere; word-break:break-word; }
+.af-case { margin:14px 0; }
+.af-case h2 { font-size:18px; line-height:1.6; }
+.af-money { padding:14px 0; border-block:1px solid var(--line); margin:14px 0; }
+.af-money p { margin-top:10px; font-size:12px; line-height:1.75; }
+.af-timeline { margin:16px 0; padding-inline-start:20px; font-size:12px; line-height:1.8; }
+.af-timeline li { padding:6px 0; }
+
+
+ /* Leave scrollable room after controls for both existing timer shapes; never hide or move the timer. */
+ #app .af-page { padding-bottom:calc(144px + env(safe-area-inset-bottom, 0px)); }
+ .af-page [data-af-event-label] { font-weight:600; overflow-wrap:anywhere; }

@@ -1,0 +1,108 @@
+{
+  "module": "PR04 final local account closure",
+  "at": "2026-11-13T03:46:03.062449+00:00",
+  "pass": true,
+  "stage": "local software verified; external erasure not claimed",
+  "sources": {
+    "04_研发源码/app/r4/backend/account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+    "04_研发源码/app/r4/backend/account_write_guard.py": "36d150d44b7bdbf2e2097b9e9fdeee2efbbc54cff9593302ced88e767549e5b9",
+    "04_研发源码/app/cloud/lib/account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+    "04_研发源码/app/cloud/lib/account-write-guard.ts": "968b68391e1c0911dca5700de15d60672d9f9b08873dce741712533c0e15efc6",
+    "04_研发源码/app/r4/account-closure.js": "dd2d58704edfe69015a342ed8715860735acb0f40f0100ef3c6dc3d82ee1d26b",
+    "04_研发源码/app/r4/account-closure.css": "fa34b7351ba2fdd1bf7321f04cd8cf5d10a09824d07988c2d9fba32559520ff4"
+  },
+  "tests": {
+    "06_验证与后续工作\\负责人优化建议-账号注销内存专项.py": "d097b237d70cb4e0e211bb56efbddac791c4f51e36f2885f6a31c613224f23a3",
+    "06_验证与后续工作\\负责人优化建议-账号注销Cloud内存专项.cjs": "c5b73a329fadba42e1c702c10286fa24770aadc703c13728e0da18e28757cb57",
+    "06_验证与后续工作\\负责人优化建议-账号注销前端专项.cjs": "0340310ecd08d89d6ee624fea4cff7cfeb38fb0f44c2685df2eb42ace3638732",
+    "06_验证与后续工作\\负责人优化建议-账号注销网关接入内存专项.py": "1aa68fa93939174c9e2efebb825816f0c6b1d477cbb09079f99f8ebeb293dde7",
+    "06_验证与后续工作\\负责人优化建议-账号注销专项.cjs": "4458e8b886d5e6b66a3717ec003e0048aa11f30ea489d9d37ce8c3e3457da08b",
+    "06_验证与后续工作\\负责人优化建议-账号注销测试工具.cjs": "84d90acc55df6e928c72b4278233759f55976471a238a70a41bb87ffb55c897f",
+    "06_验证与后续工作\\负责人优化建议-账号注销Python测试服务.py": "b336fda24d2cc674dc9ff815ee5eee461f528393456aeb6870a86b97f4191caa",
+    "06_验证与后续工作\\负责人优化建议-账号注销Cloud测试服务.ts": "478323ac04ea6e24bd4c9054bf5ca8771b3dfb3cb7f368baad2dc6e7c6f12a12",
+    "06_验证与后续工作\\负责人优化建议-账号注销接入准备.py": "3626620fda2a50ae8def546b772c248bbc82850cd9a2aee92d7d12aa4ab5c35e",
+    "06_验证与后续工作\\负责人优化建议-账号注销验收冻结.py": "4fd2b8bb051ed615ea18190102c0669382ab5278cd270149850071a0600c1c4c"
+  },
+  "components": {
+    "06_验证与后续工作/负责人优化建议-账号注销内存专项.json": {
+      "sha256": "ee24cc3b0570c96e28db6a01ca44fc2b88d3273168a05ea5f19c5b8758e67edd",
+      "passed": 22
+    },
+    "06_验证与后续工作/负责人优化建议-账号注销Cloud内存专项.json": {
+      "sha256": "02e089778addbb550ee2a663f72f3c66af0d5598eb8bd9a3093f42c71885d29c",
+      "passed": 26
+    },
+    "06_验证与后续工作/负责人优化建议-账号注销前端专项.json": {
+      "sha256": "eb302d042806cf04976a0d323903171914fab5eeb31297b17af0030469aa3393",
+      "passed": 11
+    },
+    "06_验证与后续工作/负责人优化建议-账号注销网关接入内存专项.json": {
+      "sha256": "8b0d5dc9a343d36052a450c30029ed1b6e61ee0a2fe8d33cecec33654e955e53",
+      "passed": 3
+    }
+  },
+  "verification": {
+    "originalUnitFixture": {
+      "path": "06_验证与后续工作/负责人优化建议-账号注销后台原五单元拟议核验.json",
+      "sha256": "cbbd384301e89023da12d81c09a2f822e880326c8e92058ba15d8a743999fdcd",
+      "passed": 5,
+      "authMocked": false,
+      "appliedUnitSha256": "b3bb08bfb05ba1fe1fed7921e1acb0db20d711492b7a6a78ea5c22cdf56e0d6b"
+    },
+    "pythonFull": {
+      "input": "06_验证与后续工作/负责人优化建议-账号注销-本轮全量回归结果.json",
+      "inputSha256": "ba6bdb9194e94cd27b4bfde30f354ce4a014b82a501a432663ee17e06cd298ea",
+      "path": "06_验证与后续工作/负责人优化建议-账号注销-本机全量验收.json",
+      "sha256": "1c837092ef09f23d677a1928cf461bf87fd98588009d65bb774185a2f829bcbd",
+      "passed": 60
+    },
+    "cloudFull": {
+      "input": "06_验证与后续工作/负责人优化建议-账号注销-公网适配全量回归结果.json",
+      "inputSha256": "49240d12d719913d1d2012b3e14ce5b3318f9c5ccb5d1a0363a65137306a35ca",
+      "path": "06_验证与后续工作/负责人优化建议-账号注销-本地Cloud全量验收.json",
+      "sha256": "9783422d54c3303e059ecdf550924c768c2f755c7a9cec922e20b5ada747a90d",
+      "passed": 60
+    },
+    "pythonActual": {
+      "input": "06_验证与后续工作/负责人优化建议-账号注销专项-python.json",
+      "inputSha256": "cc1e8adb62ebe8b089f89e74c32f4b34c4e488f472c968e7e6a585cb84285e2c",
+      "path": "06_验证与后续工作/负责人优化建议-账号注销-本机实际专项验收.json",
+      "sha256": "a3f5ebca1862f3babe05d25563698ff310d109e687118394ccde600cfbf63a77",
+      "passed": 27,
+      "runId": "mweffv3t_3b2712"
+    },
+    "cloudActual": {
+      "input": "06_验证与后续工作/负责人优化建议-账号注销专项-cloud.json",
+      "inputSha256": "6f524773011a234f0ccc24528e464d7c59226f876862bd30c512839ce843cd6d",
+      "path": "06_验证与后续工作/负责人优化建议-账号注销-本地Cloud实际专项验收.json",
+      "sha256": "4ed9cef71129fd86f3193715f7820e56902727ad9c37345bdb9284748076627e",
+      "passed": 27,
+      "runId": "mweffv3r_4daf3f"
+    },
+    "visual": {
+      "path": "06_验证与后续工作/负责人优化建议-账号注销最终视觉核验.json",
+      "sha256": "2c8d09bea7f4e4c17f69f022a85d994f055db9bfaf93e81d656838105a7d6e9f",
+      "images": 16
+    }
+  },
+  "scope": {
+    "localAccountDisabled": true,
+    "allServerSessionsRevoked": true,
+    "oldPasswordVerifierInvalidated": true,
+    "freshSyntheticDatabasesOnly": true,
+    "originalAccountClosed": false,
+    "originalDatabaseUsed": false,
+    "productionPaymentEnabled": false,
+    "realProviderTested": false,
+    "providerErasure": "pending-confirmation",
+    "backupErasure": "pending-confirmation",
+    "thirdPartyRenewalCancelled": false,
+    "financeAndFulfilmentRetained": true
+  },
+  "limits": [
+    "Unconfirmed legal retention periods are unknown.",
+    "No claim that other devices cookie bytes were erased.",
+    "New-version local marker is not a full-site CAS guarantee for obsolete tabs.",
+    "No external supplier/backup deletion or real subscription cancellation."
+  ]
+}

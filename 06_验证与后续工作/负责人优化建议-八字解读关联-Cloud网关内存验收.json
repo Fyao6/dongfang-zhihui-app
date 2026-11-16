@@ -1,0 +1,189 @@
+{
+  "kind": "isolated-cloud-sqlite-and-explicit-transport-fixtures",
+  "realModelRequests": 0,
+  "productionDatabaseAccess": false,
+  "passed": 44,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "default scene is blocked and no transport runs",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed public charge rules stay unknown",
+      "pass": true
+    },
+    {
+      "name": "public charge rules and deadline reflect explicit test config",
+      "pass": true
+    },
+    {
+      "name": "provider receipt required",
+      "pass": true
+    },
+    {
+      "name": "non-admin cannot grant test credits",
+      "pass": true
+    },
+    {
+      "name": "grant is idempotent",
+      "pass": true
+    },
+    {
+      "name": "grant conflict rejected",
+      "pass": true
+    },
+    {
+      "name": "public capabilities redact endpoints and secret refs",
+      "pass": true
+    },
+    {
+      "name": "write tool never permitted",
+      "pass": true
+    },
+    {
+      "name": "summary cannot target another owner",
+      "pass": true
+    },
+    {
+      "name": "AI body summary requires separate authorization",
+      "pass": true
+    },
+    {
+      "name": "job replay reserves once",
+      "pass": true
+    },
+    {
+      "name": "job changed payload conflicts",
+      "pass": true
+    },
+    {
+      "name": "cross-account read and cancel are 404",
+      "pass": true
+    },
+    {
+      "name": "real SSE parser handles split UTF8 fixture and settles once",
+      "pass": true
+    },
+    {
+      "name": "no-save default stores no prompt or output",
+      "pass": true
+    },
+    {
+      "name": "stream replay never calls upstream again",
+      "pass": true
+    },
+    {
+      "name": "queued cancellation is charged by explicit nonzero rule",
+      "pass": true
+    },
+    {
+      "name": "partial output uses partial rule and unknown usage",
+      "pass": true
+    },
+    {
+      "name": "running cancellation does not become free",
+      "pass": true
+    },
+    {
+      "name": "unconsented fallback gets no request",
+      "pass": true
+    },
+    {
+      "name": "consented fallback is sequential with one job settlement",
+      "pass": true
+    },
+    {
+      "name": "missing usage and cost remain null/unknown",
+      "pass": true
+    },
+    {
+      "name": "Anthropic cumulative output usage is not summed",
+      "pass": true
+    },
+    {
+      "name": "non-streaming response is never fake token streaming",
+      "pass": true
+    },
+    {
+      "name": "lease recovery preserves cancellation charge",
+      "pass": true
+    },
+    {
+      "name": "provider withdrawal blocks later jobs",
+      "pass": true
+    },
+    {
+      "name": "global revision invalidates provider receipt",
+      "pass": true
+    },
+    {
+      "name": "mid-stream receipt withdrawal stops before completion",
+      "pass": true
+    },
+    {
+      "name": "withdraw-and-reconfirm nonce cannot revive old stream",
+      "pass": true
+    },
+    {
+      "name": "registry disable stops further stream consumption",
+      "pass": true
+    },
+    {
+      "name": "explicit saved output uses privacy conversation storage",
+      "pass": true
+    },
+    {
+      "name": "privacy deletion removes job text readback",
+      "pass": true
+    },
+    {
+      "name": "new consent cannot save an earlier stream",
+      "pass": true
+    },
+    {
+      "name": "atomic saving rejects privacy change after final authorization",
+      "pass": true
+    },
+    {
+      "name": "atomic saving rejects legacy binding change after final authorization",
+      "pass": true
+    },
+    {
+      "name": "registry aggregate global consent AND independent provider receipt can save",
+      "pass": true
+    },
+    {
+      "name": "unknown failed attempt prevents misleading final-only usage total",
+      "pass": true
+    },
+    {
+      "name": "queued snapshot cannot start after registry revision changes",
+      "pass": true
+    },
+    {
+      "name": "malformed provider consent categories rejected without server error",
+      "pass": true
+    },
+    {
+      "name": "concurrent replay reserves once and distinct requests cannot overspend",
+      "pass": true
+    },
+    {
+      "name": "recent list contains only own last20 redacted metadata",
+      "pass": true
+    },
+    {
+      "name": "schema v1 upgrade adds nonce and shared conversation link idempotently",
+      "pass": true
+    },
+    {
+      "name": "fixed health chart and data boundaries survive empty prompt in three protocols",
+      "pass": true
+    }
+  ],
+  "sourceSha256": {
+    "lib/ai-gateway.ts": "c815adcc9ffb8da30383b5eac110b9c2f7c272dcc3a01655f360d8d377b0912f",
+    "lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b"
+  }
+}

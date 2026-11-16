@@ -105,7 +105,7 @@ function pxBootstrap(force=false){
  if(!d||!d.content||typeof d.content!=='object'||Array.isArray(d.content)||!Object.prototype.hasOwnProperty.call(d,'user')||d.user!==null&&(!d.user||typeof d.user.id!=='string'||!d.user.id.trim())||!d.settings||typeof d.settings!=='object')throw new Error('Invalid public response');
  for(const rows of Object.values(d.content))if(!Array.isArray(rows)||rows.some(item=>!item||typeof item!=='object'||Array.isArray(item)||typeof item.id!=='string'))throw new Error('Invalid content response');
  const page=state.page,actor=px.user?.id||'guest',draft=typeof fwCaptureForms==='function'?fwCaptureForms():null;
- psSwitch(d.user?.id||'guest');Object.assign(px,{content:d.content,user:d.user,settings:d.settings,aiReady:d.aiReady,loaded:true});pxConnection.status='ready';pxApplyContent();if(px.user?.name){state.support.profile.name=px.user.name;persist();}
+ psSwitch(d.user?.id||'guest');Object.assign(px,{content:d.content,user:d.user,settings:d.settings,aiReady:d.aiReady,gatewayReady:!!d.aiGatewayReady,cardServiceReady:!!d.cardServiceReady,afterSalesReady:!!d.afterSalesServiceReady,membershipServiceReady:!!d.membershipServiceReady,loaded:true});pxConnection.status='ready';pxApplyContent();if(px.user?.name){state.support.profile.name=px.user.name;persist();}
  await render(false);if(revision!==pxBootstrapRevision)return false;if(actor===(px.user?.id||'guest')&&page===state.page&&typeof fwRestoreForms==='function')fwRestoreForms(draft);
  tbSync();pxLoadFeed();pxLoadConnections();return true;
  }catch{if(revision===pxBootstrapRevision){pxConnection.status='error';pxConnectionPaint();}return false;}finally{if(revision===pxBootstrapRevision){pxBootstrapPending=null;pxConnectionPaint();}}})();
@@ -125,9 +125,9 @@ document.addEventListener('click',async e=>{const el=e.target.closest('[data-act
  else if(a==='px-devices'){px.deviceMap=el.dataset.map;navigate('devices');}
  else if(a==='px-life-theme'){const form=document.getElementById('px-life-form');if(form)px.lifeDraft=Object.fromEntries(new FormData(form));px.lifeTheme=el.dataset.id;render(false);}
  else if(a==='px-mood'){const form=document.getElementById('px-emotion-form');px.emotionDraft={...Object.fromEntries(new FormData(form)),mood:el.dataset.value};render(false);}
- else if(a==='px-card-ai'){const draw=state.daily.draws[state.cardDate||today()],card=draw?.snapshot||dailyCards.find(x=>x.id===el.dataset.card);pxAsk(pxText('我今天抽到“','Today’s card is “')+ewI18n.content(card,"",state.lang)+'”。'+ewI18n.content(card,"line",state.lang));}
+ else if(a==='px-card-ai'){const draw=state.daily.draws[state.cardDate||today()],card=draw?.snapshot||dailyCards.find(x=>x.id===el.dataset.card);pxAsk(prText('Please explain my selected card.','请解释本次选定的卡片。','請解釋本次選定的卡片。','བདམས་པའི་ཤོག་བྱང་གསལ་བཤད་བྱོས།'),false,{category:'card',fields:{cardId:card.id,meaning:ewI18n.content(card,"line",state.lang)}},'report');}
  else if(a==='px-ai-question')pxAsk(el.dataset.text);
- else if(a==='px-ai-retry'){const last=state.support.ai.filter(x=>x.role==='user').at(-1);if(last)pxAsk(last.text,true);}
+ else if(a==='px-ai-retry'){if(px.retry)pxAsk(px.retry.text,true);}
  else if(a==='px-logout'){if(px.authPending)return;px.authPending=true;try{await pxApi('auth/logout',{});}finally{px.authPending=false;}pxInvalidateBootstrap();psSwitch('guest');px.user=null;psBroadcastIdentity();tbSync();px.mine=[];px.friends=[];px.inbox=[];px.requests=[];navigate('account');}
  else if(a==='px-publish'){px.draft={};navigate(px.user?'publish':'account');}
  else if(a==='px-feed-tab'){px.tab=el.dataset.tab;render(false);pxLoadFeed();}

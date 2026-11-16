@@ -13,6 +13,7 @@ const ewNavigationDefaults={
  serviceChat:'service',consult:'service',portrait:'service',advanced:'service',advancedPlan:'advanced',
  dailyCard:'home',checkin:'home',music:'home',externalMusic:'music'
 };
+ewNavigationDefaults.commissionCenter='profile';
 const ewNavigation={current:state.page,trail:[],returning:false,headerParents:Object.create(null)};
 function ewValidParent(value){return typeof value==='string'&&value!==state.page&&typeof screens[value]==='function';}
 function ewPageBackTarget(){

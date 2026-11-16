@@ -1,0 +1,56 @@
+{
+  "at_beijing": "2026-11-12T18:43:40.622644+08:00",
+  "module": "负责人优化建议-统一交易",
+  "pass": true,
+  "scope": "商品目录、服务端核价、账号购物车、沙箱订单、预占库存、模拟付款、独立沙箱权益、履约、售后申请、部分/全额退款、后台与四语前台。",
+  "production": "未开通真实收费；沙箱订单不授予正式媒体或会员权限。",
+  "limitations": [
+    "正式商品资料、渠道商品ID和退款条款待项目方确认。",
+    "真实验单、回调、迟到支付、拒付、生产权益及佣金链路未由本模块验证。",
+    "藏文仅验证页面与布局，仍待母语审校。"
+  ],
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-统一交易-本机全量验收.json",
+      "sha256": "d2e9ba999dd26b543e6e71d8aae881c71deef9cad53cf08b6e2dcbe92138e203",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-12T10:35:28.471Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-统一交易-本地Cloud全量验收.json",
+      "sha256": "93cc81d52772dc291c468e1a273be5edca906e91035e784353a0c25751f63e22",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-12T10:39:56.573Z"
+    },
+    "Python交易专项": {
+      "path": "06_验证与后续工作/负责人优化建议-统一交易-Python专项验收.json",
+      "sha256": "0974e3492b0a6c82ee86b717867ae9ebf9f9c8bf02d128bdd724ca637accceef",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-12T10:38:03.680Z"
+    },
+    "Cloud交易专项": {
+      "path": "06_验证与后续工作/负责人优化建议-统一交易-Cloud专项验收.json",
+      "sha256": "b9360b3b691fbb0ba11aba8facdc86795cdee57bbd465a85989ccc86ee971b07",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-12T10:38:03.692Z"
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/commerce.py": "759bfcf544153acfcfd9bb46e21f2d067d0336f9e329b7cd2b4729848a7d08a2",
+    "04_研发源码/app/cloud/lib/commerce-api.ts": "c77f436fae9d1aa898d55568c992da539e71beb8d8e9ec7370f199e899d03be5",
+    "04_研发源码/app/r4/backend/server.py": "7f6a995129bd295a24e3daa775d19c543a89c23be4dec53665a7e149308658ba",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "31435dff57ca28109b23f3da6c02227ea75f2c3c4f9990ee74102d31d056e1e6",
+    "04_研发源码/app/r4/commerce-ui.js": "0afb8c52dd031e5cf3a3f40a46316cff79d9c8f55c0cddfff10fa477d860f926",
+    "04_研发源码/app/r4/commerce-ui.css": "d9194d2a8ac3c9594f97a342f1de7696cd01fb340d6d16974f227702f9a6fc0e",
+    "04_研发源码/app/r4/commerce-admin.js": "b62bc466ebc65593002e95a04f183fc00c0eabf2fc36bdd1b87b6c9f92b836c5",
+    "04_研发源码/app/r4/community-feed.js": "f87fe8bae063db6c8a14e7548648f0aaafde1ec12f01437fab715978b3e60d87",
+    "04_研发源码/app/r4/build.py": "abbbd85af6bd8ca886dc0136b275654034fa381f06f9f1a9ad91f253644c1c93",
+    "04_研发源码/app/cloud/prepare.py": "3a984675912deca97f7e55c30039fbf7e7396d4c23f35ab41da9f563ed039ab6"
+  },
+  "app_sha256": "515a46f179741757d0ed3f5d88d4ced7f68ce2aa50c883a2208fd3f75807c618",
+  "failure_history": "交易专项与全量原始报告保留所有失败轮次。云端重复使用测试库产生的账号冲突已用全新cq02重测。"
+}

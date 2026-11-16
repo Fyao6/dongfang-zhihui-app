@@ -1,0 +1,56 @@
+{
+  "at_beijing": "2026-11-12T21:59:49.176629+08:00",
+  "module": "负责人优化建议-抽卡",
+  "pass": true,
+  "scope": "服务端随机/防重与幂等结果、明确规则与卡组版本、抽前/抽中/结果/已用状态、本人收藏感受练习历史、后台审核发布、最小分享与单独AI入口、隐私同batch删除及最小额度/时区/删除代际保留。",
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-抽卡-本机全量验收.json",
+      "sha256": "c9e2158a49da71c7ac35d296a05bfc59192a582e34393beee20bbeb1443f2d64",
+      "passed": 60,
+      "at": "2026-11-12T13:45:25.406Z"
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-抽卡-本地Cloud全量验收.json",
+      "sha256": "33f4bfe44d879d86039918e8e3e3970ed91454860ab6f208a7ebfa3acc684e96",
+      "passed": 60,
+      "at": "2026-11-12T13:46:08.658Z"
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-抽卡-Python专项验收.json",
+      "sha256": "aeb25728f772237b6ea06b895c921b4d7eefc1d5120b6dfa9828af64a8efe05b",
+      "passed": 25,
+      "at": "2026-11-12T13:47:17.585Z"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-抽卡-Cloud专项验收.json",
+      "sha256": "6d25b7ea4d311d5b9d1c74ff5bdd741d7affbf99eac87e929945a2434e1c9588",
+      "passed": 25,
+      "at": "2026-11-12T13:47:17.603Z"
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+    "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+    "04_研发源码/app/r4/card-service-ui.js": "e944a9532446cf8d75e37f840e9ee521dff2c9cb1b3f44e15c9e6ec00fb64fc6",
+    "04_研发源码/app/r4/card-service.css": "202fa37870e2b13f0ea820c4b5a1f4650d8abf26e8edd41aea3f99d467be93eb",
+    "04_研发源码/app/r4/card-service-admin.js": "4f89649c23979cba539d94f29346b7097e3df7b1366ba35575c711160401b372",
+    "04_研发源码/app/r4/backend/server.py": "daebd5f4484482680dc27a07117a75818b9f61b447a8d2ffec4a673f7e21e5a4",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "026710ef7e2ce5ff811dec4df9a9b0a61d364da09698ff65644784aa359e732a",
+    "04_研发源码/app/r4/backend/privacy.py": "e97bacca00d6ab0df0b04686bcf12812d340cef2f4118447e962f06f5424e77c",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b",
+    "04_研发源码/app/r4/build.py": "05155ac584ebbcfe9cefbb0966e915f7d59bc84c23f1fd8c7c8fbf11f13fb659",
+    "04_研发源码/app/cloud/prepare.py": "a923fc62c8afc456ae71c77c1805700a12c283a035018886728c29ac2bbc6d16",
+    "04_研发源码/app/r4/platform.js": "0e559f14c27af327bd50af82c54f10c50b527da6155613bee68d906b8f675181",
+    "04_研发源码/app/r4/time-bank-admin.html": "d3fb4f571ac87eba933101f7b592ea3b3aa73bc02e73180d87a53057f63ab1e7"
+  },
+  "app_sha256": "e0c7cfd8b2084ce73add1ebd398566b17ad67a049a8c24ac1771d2de2e551c07",
+  "limitations": [
+    "正式卡种、完整36卡文案/授权美术、每日次数/主题/日界时区等规则未确认；默认关闭，仅明确合成测试卡组完成沙箱验证。",
+    "离线旧卡仅标本机示例；不会冒充服务器正式抽取。",
+    "删除历史后保留最小防重quota、时区与删除代际，保留期限仍待确认，不能用清记录或切时区重抽。",
+    "AI调用只验证独立点击/最小输入与同意路径，真实模型请求0；不代表实际输出安全或正式卡义审定。",
+    "四语日夜/四宽64视图为本机Chromium检查，藏文待母语审校，正式卡面视觉待项目方评价。"
+  ],
+  "failure_history": "保留首次实际分享勾选被异步重读重置的失败；已保存shareFields并在读取/缺draw时禁提交、旧draw表单拒绝。另保留pxLoad夹具误名及Route清理中断，修夹具后双25全过。"
+}

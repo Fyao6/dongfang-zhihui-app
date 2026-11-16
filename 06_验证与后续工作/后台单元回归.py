@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -63,9 +64,16 @@ class BackendRegression(unittest.TestCase):
         self.assertEqual(state['runs'][0]['end'], 110000)
 
     def test_responses_adapter_with_reasoning_item(self):
+        fixture_store=app.Store(database)
+        unit_token='synthetic-unit-session-token'
+        with fixture_store.connect() as db:
+            db.execute('INSERT INTO users VALUES(?,?,?,?,?,?)',('unit-test-user','unit_test_user',app.password_hash('synthetic-unit-password'),'Synthetic unit user','user',app.now_ms()))
+            db.execute('INSERT INTO sessions VALUES(?,?,?)',(hashlib.sha256(unit_token.encode()).hexdigest(),'unit-test-user',app.now_ms()+60000))
         class Configuration:
+            def connect(self):
+                return fixture_store.connect()
             def setting(self, _):
-                return {'enabled': True, 'apiKey': 'unit-test-only', 'model': 'configured-model', 'endpoint': 'https://api.openai.com/v1/responses', 'prompt': '简洁回答', 'knowledge': ''}
+                return {'enabled': True, 'apiKeyRef': 'EW_AI_UNIT_TEST', 'model': 'configured-model', 'endpoint': 'https://api.openai.com/v1/responses', 'prompt': '简洁回答', 'knowledge': ''}
         class Response:
             def __enter__(self):
                 return self
@@ -76,11 +84,19 @@ class BackendRegression(unittest.TestCase):
         handler_class = app.make_handler(Configuration(), root / '03_当前APP')
         handler = handler_class.__new__(handler_class)
         handler.user = {'id': 'unit-test-user', 'role': 'user'}
-        with patch.object(app, 'urlopen', return_value=Response()) as network:
-            result = handler.ai_chat({'messages': [{'role': 'user', 'content': '你好'}]})
+        handler.session_token=unit_token
+        handler.visitor='0'*32
+        handler.owner='unit-test-user'
+        handler.cookies_out=[]
+        with patch.dict('os.environ', {'EW_AI_UNIT_TEST': 'unit-test-only'}, clear=False), patch.object(app, 'open_legacy_ai', return_value=Response()) as network, patch.object(app, 'privacy_authorize_ai', return_value=None), patch.object(app, 'guarded_legacy_save', return_value=False) as storage, patch.object(app, 'Privacy') as gate:
+            gate.return_value.response.return_value = {'policyAcknowledged': True, 'consentEpoch': 'unit-receipt'}
+            result = handler.ai_chat({'messages': [{'role': 'user', 'content': '你好', 'privacy': {'consentEpoch': 'unit-receipt'}}]})
         self.assertEqual(result['text'], '这是接口适配测试响应。')
+        storage.assert_called_once()
+        self.assertEqual(storage.call_args.args[1], 'unit-test-user')
         sent = json.loads(network.call_args.args[0].data)
         self.assertFalse(sent['store'])
+        self.assertEqual(network.call_args.args[0].get_header('Authorization'), 'Bearer unit-test-only')
         self.assertEqual(sent['input'][0]['role'], 'user')
 
 

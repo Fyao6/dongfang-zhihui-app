@@ -4,6 +4,8 @@ const fs=require('fs'),path=require('path'),assert=require('assert/strict'),cryp
 const {spawn}=require('child_process');
 const root=path.resolve(__dirname,'..'),source=path.join(root,'04_研发源码/app/r4'),web=path.join(root,'03_当前APP');
 const lifeBirth=require('./生命出生资料测试前置.cjs');
+const fourPillarsQa=require('./负责人优化建议-八字专项.cjs');
+
 const fixedNow='2026-11-05T04:00:00.000Z'; // 12:00, fixed UTC+8; before Li Dong.
 const fixture={name:'QA_BAZI_STAGE_M1',date:'1985-01-01',time:'12:00',timezone:'Asia/Shanghai',sex:'male'};
 const stageNames={1:'八字M1 当前运年流月定位、节令边界与选择回看',2:'八字M2 本命与运年流月七列真实对照',3:'八字M3 四柱层级、资料折叠与术语实际释义',4:'八字M4 辅助四项、小运联动与旧档案复算'};
@@ -21,8 +23,34 @@ async function closeBaziTools(p){
  if(!await p.locator('#sheet[open] .lcb-tools-panel').count())return;
  await p.locator('#sheet[open] .close-sheet').click();await p.waitForFunction(()=>!document.querySelector('#sheet[open]'));
 }
+// B11_COMPAT_PREPARED_V1: preserve legacy behavior until the optional B11 module is installed.
+async function b11Active(page){return page.evaluate(()=>typeof BaziVersionUI!=='undefined'&&BaziVersionUI.installed===true);}
 async function baziAction(p,action){
- const tools=await openBaziTools(p),button=tools.locator('[data-lc-action="'+action+'"][data-kind=bazi]');assert.equal(await button.count(),1);assert(await button.isVisible());await button.click();await p.waitForFunction(()=>!document.documentElement.dataset.ambientTransition);await closeBaziTools(p);
+ const versioned=await b11Active(p),before=versioned&&action==='save'?await p.evaluate(()=>({readOnly:lcGet('bazi').b11Readonly===true,id:lcGet('bazi').savedId})):null;
+ const tools=await openBaziTools(p),button=tools.locator('[data-lc-action="'+action+'"][data-kind=bazi]');assert.equal(await button.count(),1);assert(await button.isVisible());await button.click();
+ if(versioned&&action==='save'&&!before.readOnly)await p.waitForFunction(()=>lcGet('bazi').b11Readonly&&lcGet('bazi').b11Record?.id===lcGet('bazi').savedId&&lcRecords().some(r=>r.id===lcGet('bazi').savedId));
+ await p.waitForFunction(()=>!document.documentElement.dataset.ambientTransition);await closeBaziTools(p);
+}
+async function b11UiAction(page,action){
+ let target=page.locator('[data-b11-action="'+action+'"]:visible');
+ if(!await target.count())await openBaziTools(page);
+ target=page.locator('[data-b11-action="'+action+'"]:visible');assert.equal(await target.count(),1);await target.click();
+ if(await page.locator('#sheet[open] .lcb-tools-panel').count())await closeBaziTools(page);
+}
+async function baziExportJSON(page){
+ const pending=page.waitForEvent('download'),direct=page.locator('[data-lc-action=export][data-kind=bazi]:visible');
+ if(await direct.count())await direct.first().click();else await baziAction(page,'export');
+ const download=await pending,stream=await download.createReadStream(),parts=[];for await(const part of stream)parts.push(part);
+ return JSON.parse(Buffer.concat(parts).toString('utf8'));
+}
+async function b11RecalculateSeparately(page,parentId){
+ const prior=await page.evaluate(id=>{const rows=lcRecords(),old=rows.find(r=>r.id===id);return {ids:rows.map(r=>r.id),old:JSON.stringify(old)};},parentId);
+ await b11UiAction(page,'recalculate-request');await page.locator('[data-b11-action=recalculate-confirm]').click();
+ await page.waitForFunction(id=>lcGet('bazi').b11Record?.provenance?.parentRecordId===id,parentId);
+ const value=await page.evaluate(()=>lcGet('bazi').b11Record);
+ assert.notEqual(value.id,parentId);assert(!prior.ids.includes(value.id));assert.equal(value.provenance.parentRecordId,parentId);
+ assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),parentId),prior.old,'Explicit recomputation preserves the complete original record');
+ return value;
 }
 async function setBaziRules(p,values){
  const tools=await openBaziTools(p),form=tools.locator('form[data-lb-options=bazi]');await form.waitFor({state:'attached'});
@@ -85,7 +113,12 @@ async function assertCurrent2026(page,period,year){
  assert.deepEqual(await selected(page),{period,year,yearLabel:2026,month:8},'The initial view follows the actual 2026 fortune period and the Xu solar-term month, not the first childhood year or Gregorian month number');
  const snapshot=await view(page);assert.equal(snapshot.mode,'current');assert.deepEqual(snapshot.selection,{period,year,month:8});
 }
-async function openArchive(page,id){await go(page,'lifeReview');await page.locator('.lc-archive [data-lc-action=open][data-id="'+id+'"]').click();await ready(page);assert.equal(await page.evaluate(()=>state.page),'classicsWisdom');await showBaziView(page,'flow');}
+async function openArchive(page,id,{flow=true}={}){
+ await go(page,'lifeReview');await page.locator('.lc-archive [data-lc-action=open][data-id="'+id+'"]').click();
+ await page.waitForFunction(()=>state.page==='classicsWisdom');await ready(page);
+ if(await b11Active(page))await page.waitForFunction(id=>lcGet('bazi').b11Readonly&&lcGet('bazi').savedId===id,id);
+ if(flow)await showBaziView(page,'flow');
+}
 async function noOverflow(page){assert(await page.evaluate(()=>{const app=document.getElementById('app');return document.documentElement.scrollWidth<=innerWidth+1&&app.scrollWidth<=app.clientWidth+1;}),'The result must fit the document/app viewport; any comparison scroll belongs inside its own panel');}
 
 async function stage1({page,capture}){
@@ -134,21 +167,30 @@ async function stage1({page,capture}){
  await page.locator('[data-lcb-action=today]').click();await ready(page);
  assert.deepEqual(await selected(page),{period:5,year:1,yearLabel:2027,month:0});
  assert.equal((await view(page)).mode,'current');
- await baziAction(page,'save');await ready(page);
- assert.equal(await page.evaluate(id=>lcRecords().find(r=>r.id===id).view.mode,record.id),'current');
+  const versioned=await b11Active(page),manualOriginal=JSON.stringify(record);
+  await baziAction(page,'save');await ready(page);
+  let currentRecord=record;
+  if(versioned){
+   assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),record.id),manualOriginal,'Read-only Save cannot replace the original manual-view snapshot or its date');
+   // The Today selection is transient. A new real calculation/save deliberately creates another current-mode record.
+   await calculate(page);assert.deepEqual(await selected(page),{period:5,year:1,yearLabel:2027,month:0});
+   await baziAction(page,'save');await ready(page);currentRecord=await page.evaluate(()=>lcGet('bazi').b11Record);
+   assert.notEqual(currentRecord.id,record.id);assert.equal(currentRecord.view.mode,'current');
+   assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),record.id),manualOriginal);
+   assert.equal(await page.evaluate(()=>lcRecords().length),2,'Two explicit saves retain the original manual snapshot plus the new current-mode snapshot');
+  }else assert.equal(await page.evaluate(id=>lcRecords().find(r=>r.id===id).view.mode,record.id),'current');
 
- await page.clock.setFixedTime(new Date('2028-11-05T04:00:00Z'));
- await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);await openArchive(page,record.id);
- assert.deepEqual(await selected(page),{period:5,year:2,yearLabel:2028,month:8},'A current-mode archive follows the new calendar date when reopened');
- // A pre-M1 archive deliberately lacks view. This mutates only this isolated
- // browser fixture, never any service database or production account.
- await page.evaluate(id=>{const key='ew-life-charts-v1:'+lcScope(),rows=JSON.parse(localStorage.getItem(key));delete rows.find(r=>r.id===id).view;localStorage.setItem(key,JSON.stringify(rows));},record.id);
- await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);await openArchive(page,record.id);
- assert.deepEqual(await selected(page),{period:5,year:2,yearLabel:2028,month:8},'Legacy archives without view default to the current calendar, not childhood');
- assert.equal((await view(page)).mode,'current');
- assert.equal(await page.evaluate(()=>JSON.stringify(mapExplorationRecords())),oldNotes,'Chart selection must not change the existing personal notes');
- assert.equal(await page.evaluate(()=>lcRecords().length),1,'Reopening/updating a view must not silently create duplicate charts');
-
+  await page.clock.setFixedTime(new Date('2028-11-05T04:00:00Z'));
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);await openArchive(page,currentRecord.id);
+  assert.deepEqual(await selected(page),{period:5,year:2,yearLabel:2028,month:8},'A current-mode archive follows the new calendar date when reopened');
+  // Emulate only a missing legacy view; it is not part of the computation fingerprint.
+  await page.evaluate(id=>{const key='ew-life-charts-v1:'+lcScope(),rows=JSON.parse(localStorage.getItem(key));delete rows.find(r=>r.id===id).view;localStorage.setItem(key,JSON.stringify(rows));},currentRecord.id);
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);await openArchive(page,currentRecord.id);
+  assert.deepEqual(await selected(page),{period:5,year:2,yearLabel:2028,month:8},'Legacy archives without view default to the current calendar, not childhood');
+  assert.equal((await view(page)).mode,'current');
+  assert.equal(await page.evaluate(()=>JSON.stringify(mapExplorationRecords())),oldNotes,'Chart selection must not change the existing personal notes');
+  assert.equal(await page.evaluate(()=>lcRecords().length),versioned?2:1,'Opening/changing a view never silently duplicates or replaces archive records');
+  if(versioned)assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),record.id),manualOriginal);
  await page.setViewportSize({width:350,height:740});await page.evaluate(()=>ewI18n.missing.clear());
  for(const lang of ['zh','zh-Hant','en','bo'])for(const mode of ['day','night']){
   await page.evaluate(v=>{state.lang=v.lang;state.mode=v.mode;render(false);},{lang,mode});await ready(page);await noOverflow(page);
@@ -244,7 +286,8 @@ async function openMonthDetail(page){
  assert(await detail.locator('[data-lcb-selected-month]').isVisible());return detail;
 }
 async function assertBaziBoard(page,expected,month=false){
- const keys=comparisonColumns.slice(0,month?7:6),board=page.locator('.lcb-board');
+ const four=await fourPillarsQa.isFourPillars(page),count=four?(month?7:await page.locator('[data-lcb-heading]').count()):(month?7:6);
+ const keys=comparisonColumns.slice(0,count),board=page.locator('.lcb-board');
  assert.equal(await board.count(),1);await baziBoardDetails(page);assert.deepEqual(await board.locator('[data-lcb-heading]').evaluateAll(es=>es.map(e=>e.dataset.lcbHeading)),keys);
  assert.equal(await board.locator('td[data-lcb-board-column][data-field]').count(),keys.length*7);
  for(const key of keys){const values=expected[key],cell=field=>board.locator('[data-lcb-board-column="'+key+'"][data-field="'+field+'"]');
@@ -256,7 +299,14 @@ async function assertBaziBoard(page,expected,month=false){
  }
 }
 async function stage3({page,capture}){
- await calculate(page,{...fixture,name:'QA_BAZI_STAGE_M3',date:'2005-12-23',time:'08:37'});assert.equal(await page.locator('.lcb-view-tabs [aria-selected=true]').getAttribute('data-view'),'flow');assert.deepEqual(await page.locator('.lcb-view-tabs [data-view]').evaluateAll(es=>es.map(e=>e.dataset.view)),['archive','flow','stars']);const referenceLayout=await baziReferenceLayout(page);assert.equal(await page.locator('#lcb-board-extra').evaluate(el=>el.hidden),!referenceLayout,referenceLayout?'Reference board exposes every detailed row by default':'Accepted compact board folds the extra fields');assert.equal(await page.locator('.lcb-board td[data-lcb-board-column][data-field]:visible').count(),referenceLayout?42:18);await assertBaziBoard(page,currentComparison);await page.locator('[data-lcb-action=flow-month]').click();await ready(page);await assertBaziBoard(page,currentComparison,true);await page.locator('[data-lcb-action=flow-month]').click();await ready(page);await assertBaziBoard(page,currentComparison);await baziBoardDetails(page,false);await showBaziView(page,'archive');
+ await calculate(page,{...fixture,name:'QA_BAZI_STAGE_M3',date:'2005-12-23',time:'08:37'});assert.equal(await page.locator('.lcb-view-tabs [aria-selected=true]').getAttribute('data-view'),'flow');assert.deepEqual(await page.locator('.lcb-view-tabs [data-view]').evaluateAll(es=>es.map(e=>e.dataset.view)),['archive','flow','stars']);const referenceLayout=await baziReferenceLayout(page),four=await fourPillarsQa.isFourPillars(page);
+ if(four){
+  await fourPillarsQa.assertFourPillarsDefault(page);await assertBaziBoard(page,currentComparison);
+  await fourPillarsQa.boardMode(page,true);await assertBaziBoard(page,currentComparison,true);
+  await page.locator('[data-lcb-action=flow-month]').click();await ready(page);await assertBaziBoard(page,currentComparison);
+  await fourPillarsQa.boardMode(page,false);await assertBaziBoard(page,currentComparison);
+ }else{assert.equal(await page.locator('#lcb-board-extra').evaluate(el=>el.hidden),!referenceLayout,referenceLayout?'Reference board exposes every detailed row by default':'Accepted compact board folds the extra fields');assert.equal(await page.locator('.lcb-board td[data-lcb-board-column][data-field]:visible').count(),referenceLayout?42:18);await assertBaziBoard(page,currentComparison);await page.locator('[data-lcb-action=flow-month]').click();await ready(page);await assertBaziBoard(page,currentComparison,true);await page.locator('[data-lcb-action=flow-month]').click();await ready(page);await assertBaziBoard(page,currentComparison);}
+ await baziBoardDetails(page,false);await showBaziView(page,'archive');
  assert.equal((await page.locator('.lcb-page .px-top h1').innerText()).trim(),'八字排盘');assert.equal(await page.locator('[data-lcb-action=view][data-view=relations],[data-lcb-view-panel=relations],[data-lcb-relation],.lcb-relations').count(),0,'Removed relation UI is absent rather than hidden');
  const detail=page.locator('details[data-lcb-birth-detail]');assert.equal(await detail.count(),1);assert.equal(await detail.evaluate(e=>e.open),false);
  assert.equal(await detail.locator('.lc-normalized').isVisible(),false,'Repeated UTC conversion details are available behind the initially closed birth detail');
@@ -312,7 +362,7 @@ async function stage3({page,capture}){
 
  await page.evaluate(()=>ewI18n.missing.clear());
  for(const width of [350,390,1280])for(const lang of ['zh','zh-Hant','en','bo'])for(const mode of ['day','night']){
-  await page.setViewportSize({width,height:width===350?740:900});await page.evaluate(v=>{state.lang=v.lang;state.mode=v.mode;render(false);document.getElementById('app').scrollTop=0;},{lang,mode});await ready(page);await showBaziView(page,'flow');await page.evaluate(()=>{document.getElementById('app').scrollTop=0;});await assertBaziBoard(page,manualComparison);await baziBoardDetails(page,referenceLayout);const primary=await page.locator('.lcb-board td[data-field=stem],.lcb-board td[data-field=branch]').evaluateAll(es=>{const area=document.getElementById('app').getBoundingClientRect();return es.every(el=>{const r=el.getBoundingClientRect();return r.top>=area.top&&r.bottom<=area.bottom;});});await openNatalDetails(page);await native.scrollIntoViewIfNeeded();await noOverflow(page);
+  await page.setViewportSize({width,height:width===350?740:900});await page.evaluate(v=>{state.lang=v.lang;state.mode=v.mode;render(false);document.getElementById('app').scrollTop=0;},{lang,mode});await ready(page);await showBaziView(page,'flow');await page.evaluate(()=>{document.getElementById('app').scrollTop=0;});await assertBaziBoard(page,manualComparison);await baziBoardDetails(page,four?false:referenceLayout);const primary=await page.locator('.lcb-board td[data-field=stem],.lcb-board td[data-field=branch]').evaluateAll(es=>{const area=document.getElementById('app').getBoundingClientRect();return es.every(el=>{const r=el.getBoundingClientRect();return r.top>=area.top&&r.bottom<=area.bottom;});});await openNatalDetails(page);await native.scrollIntoViewIfNeeded();await noOverflow(page);
   const cells=[];
   for(const key of ['year','month','day','time']){
    const cell=native.locator('[data-pillar="'+key+'"][data-field=ganZhi]');const box=await cell.boundingBox();assert(box);cells.push(box);
@@ -378,12 +428,32 @@ async function stage4({page,capture}){
 
  await calculate(page,birth);await showBaziView(page,'flow');await page.locator('.lcb-periods [data-index="1"]').click();await ready(page);await page.locator('.lcb-years [data-index="3"]').click();await ready(page);
  await baziAction(page,'save');const saved=await page.evaluate(()=>lcRecords().find(r=>r.kind==='bazi'));assert(saved?.id&&saved.result.auxiliary&&saved.result.periods[1].smallFortunes.length===10);
- // Emulate the data shape of a valid pre-M4 archive. Its inputs/UTC/rules are
- // intact; only the cached newly introduced results are absent.
- await page.evaluate(id=>{const key='ew-life-charts-v1:'+lcScope(),rows=JSON.parse(localStorage.getItem(key)),row=rows.find(r=>r.id===id);delete row.result.auxiliary;for(const period of row.result.periods)delete period.smallFortunes;localStorage.setItem(key,JSON.stringify(rows));},saved.id);
- await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);await openArchive(page,saved.id);await assertAuxiliary(page);await assertSmallFortune(page,2014,{age:10,ganZhi:'壬午',xun:'甲戌',voidBranches:'申酉'});
- assert.equal(await page.evaluate(()=>lcRecords().length),1,'Restoring newly computed fields must not create duplicate archive records');
- const snapshot=await page.evaluate(()=>lcSnapshot('bazi'));assert(snapshot.result.auxiliary&&snapshot.result.periods.every(p=>Array.isArray(p.smallFortunes)),'The exact snapshot used by local JSON export carries the new calculated fields and sequences');
+  const versioned=await b11Active(page);
+  // A genuine pre-M4 record has no B11 provenance. Deleting fields while retaining current hashes would correctly be an integrity error.
+  const legacyJSON=await page.evaluate(({id,versioned})=>{const key='ew-life-charts-v1:'+lcScope(),rows=JSON.parse(localStorage.getItem(key)),row=rows.find(r=>r.id===id);delete row.result.auxiliary;for(const period of row.result.periods)delete period.smallFortunes;if(versioned)delete row.provenance;localStorage.setItem(key,JSON.stringify(rows));return JSON.stringify(row);},{id:saved.id,versioned});
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>px.loaded);
+  if(versioned){
+   await openArchive(page,saved.id,{flow:false});
+   assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),saved.id),legacyJSON);
+   const old=JSON.parse(legacyJSON);assert.equal(await page.evaluate(()=>lcGet('bazi').normalized.utc),old.normalized.utc);
+   assert.equal(await page.evaluate(()=>lcGet('bazi').b11Status.state),'legacy-unverified');
+   assert.equal(await page.evaluate(()=>lcGet('bazi').result.auxiliary===undefined&&lcGet('bazi').result.periods.every(p=>p.smallFortunes===undefined)),true,'Viewing preserves absent legacy fields instead of silently calculating them');
+   const rawFallback=page.locator('.b11-original-json');
+   if(await rawFallback.count()){await rawFallback.locator('summary').click();assert((await rawFallback.innerText()).includes('periods'));}
+   else assert.equal(await page.locator('[data-lc-result=bazi]').count(),1,'The old result remains readable or has an explicit original-data fallback');
+   assert.equal(JSON.stringify(await baziExportJSON(page)),legacyJSON,'Actual legacy export keeps the original saved date, UTC and missing fields');
+   const fresh=await b11RecalculateSeparately(page,saved.id);
+   assert.equal(fresh.normalized.utc,old.normalized.utc);assert.deepEqual(fresh.birth,old.birth);assert.deepEqual(fresh.options,old.options);
+   assert.equal(await page.evaluate(()=>lcRecords().length),2,'Only explicit confirmation appends one new record; the original remains');
+   await showBaziView(page,'flow');await assertAuxiliary(page);await assertSmallFortune(page,2014,{age:10,ganZhi:'壬午',xun:'甲戌',voidBranches:'申酉'});
+   const exported=await baziExportJSON(page);assert.equal(exported.id,fresh.id);assert.equal(exported.provenance.parentRecordId,saved.id);
+   assert(exported.result.auxiliary&&exported.result.periods.every(p=>Array.isArray(p.smallFortunes)),'Actual new-version export contains the fields recomputed from the unchanged archived UTC');
+   assert.equal(await page.evaluate(id=>JSON.stringify(lcRecords().find(r=>r.id===id)),saved.id),legacyJSON);
+  }else{
+   await openArchive(page,saved.id);await assertAuxiliary(page);await assertSmallFortune(page,2014,{age:10,ganZhi:'壬午',xun:'甲戌',voidBranches:'申酉'});
+   assert.equal(await page.evaluate(()=>lcRecords().length),1,'Legacy adapter restore does not create duplicate archives');
+   const snapshot=await page.evaluate(()=>lcSnapshot('bazi'));assert(snapshot.result.auxiliary&&snapshot.result.periods.every(p=>Array.isArray(p.smallFortunes)),'The legacy JSON snapshot carries recalculated fields');
+  }
  const manualView=await view(page);
  for(const key of ['taiYuan','taiXi','mingGong','shenGong','smallFortune']){
   const selector=key==='smallFortune'?'details[data-lcb-extra] [data-lcb-glossary=smallFortune],details[data-lcb-extra] [data-lcb-glossary=xiaoYun]':'details[data-lcb-extra] [data-lcb-glossary="'+key+'"]';
@@ -412,6 +482,8 @@ async function stage4({page,capture}){
 async function runBaziStages({browser,base,step,stage=1,errors=[],prefix='',captureDirectory=__dirname}){
  assert(Number.isInteger(stage)&&stage>=1&&stage<=4,'Implemented Ba Zi acceptance stage must currently be from 1 to 4');
  assert(!String(base).startsWith('https:'),'This full acceptance writes isolated browser fixtures and must not target production');
+ const currentModule=process.argv.find(a=>a.startsWith('--module=负责人优化建议'))?.slice(9);
+ if(currentModule)prefix=currentModule+'-'+(path.basename(process.argv[1]||'').includes('公网适配')?'cloud':'python')+'-'+prefix;
  const captures=[];
  for(let current=1;current<=stage;current++)await step(stageNames[current],async()=>{
   const context=await browser.newContext({viewport:{width:390,height:844},locale:'zh-CN',timezoneId:'America/New_York',reducedMotion:'reduce'});
@@ -431,7 +503,7 @@ async function runBaziStages({browser,base,step,stage=1,errors=[],prefix='',capt
 async function standalone(){
  const stage=Number(process.argv.find(x=>x.startsWith('--bazi-stage='))?.slice('--bazi-stage='.length)||1);
  const explicit=process.argv.find(x=>x.startsWith('--base='))?.slice(7),python=process.env.EW_PYTHON||path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe');
- const db=path.join(__dirname,'八字体验验收隔离.sqlite3'),reportFile=path.join(__dirname,'八字体验逐模块验收.json'),results=[],errors=[];
+ const db=path.join(__dirname,'八字体验验收隔离.sqlite3'),reportFile=path.join(__dirname,process.argv.find(a=>a.startsWith('--module=负责人优化建议'))?process.argv.find(a=>a.startsWith('--module=负责人优化建议')).slice(9)+'-八字体验逐模块验收.json':'八字体验逐模块验收.json'),results=[],errors=[];
  let server,browser,base=explicit,evidence;
  const clean=()=>{for(const suffix of ['','-wal','-shm']){const target=db+suffix;assert.equal(path.dirname(target),__dirname);if(fs.existsSync(target))fs.unlinkSync(target);}};
  const step=async(name,fn)=>{try{await fn();results.push({name,pass:true});console.log('PASS '+name);}catch(error){results.push({name,pass:false,error:error.stack});console.log('FAIL '+name+': '+error.message);}};
@@ -443,7 +515,7 @@ async function standalone(){
  }catch(error){results.push({name:'八字分模块验收环境',pass:false,error:error.stack});console.log('FATAL '+error.message);}
  finally{
   if(browser)await browser.close();if(server&&server.exitCode===null){const stopped=new Promise(resolve=>server.once('exit',resolve));server.kill();await stopped;}if(!explicit)clean();
-  const report={module:'改动文档M4-八字真实数据与三页对齐',at:new Date().toISOString(),stage,base,scope:'Synthetic exact-birth browser flows and private local chart views; no real personal data, AI interpretation or physical-device claims',pass:results.length>0&&results.every(x=>x.pass),passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,results,errors,...evidence,buildSha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(web,'东方智慧-首页体验R4.html'))).digest('hex')};
+  const report={module:process.argv.find(a=>a.startsWith('--module='))?.slice(9)||'改动文档M4-八字真实数据与三页对齐',at:new Date().toISOString(),stage,base,scope:'Synthetic exact-birth browser flows and private local chart views; no real personal data, AI interpretation or physical-device claims',pass:results.length>0&&results.every(x=>x.pass),passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,results,errors,...evidence,buildSha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(web,'东方智慧-首页体验R4.html'))).digest('hex')};
   let runs=[];if(fs.existsSync(reportFile))try{const old=JSON.parse(fs.readFileSync(reportFile));runs=old.runs||[old];}catch{}runs.push(report);fs.writeFileSync(reportFile,JSON.stringify({latest:report,runs:runs.slice(-30)},null,2));console.log(JSON.stringify({pass:report.pass,passed:report.passed,failed:report.failed,stage,report:reportFile}));process.exitCode=report.pass?0:1;
  }
 }

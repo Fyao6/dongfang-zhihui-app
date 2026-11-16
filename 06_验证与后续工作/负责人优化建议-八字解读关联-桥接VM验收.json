@@ -1,0 +1,109 @@
+{
+  "at": "2026-11-12T15:29:44.858Z",
+  "module": "B11真实解读桥独立VM",
+  "providerMode": "explicit-local-object-fixture",
+  "upstreamCalled": false,
+  "storage": "existing-consent-only",
+  "results": [
+    {
+      "name": "实际新回复才绑定；未保存recordId=null；不改const API/回复对象/档案/持久化",
+      "pass": true
+    },
+    {
+      "name": "真实已保存版本使用原recordId且不重写旧档案",
+      "pass": true
+    },
+    {
+      "name": "旧快照没有provenance，真实回复继续未绑定",
+      "pass": true
+    },
+    {
+      "name": "完整旧provenance仅按原版本关联为historical，不套用当前release",
+      "pass": true
+    },
+    {
+      "name": "损坏provenance或无savedId的readonly旧结果不重新capture为当前版本",
+      "pass": true
+    },
+    {
+      "name": "没有真实回复或旧job恢复都不能凭pxAsk返回值绑定",
+      "pass": true
+    },
+    {
+      "name": "账号切换迟到输出不绑定新账号",
+      "pass": true
+    },
+    {
+      "name": "等待时切换选择/结果不认领旧context，旧context重试也不发送",
+      "pass": true
+    },
+    {
+      "name": "指纹后最终读取真实撤回同意，拒绝晚到本机绑定",
+      "pass": true
+    },
+    {
+      "name": "最终读取在途时清除/删除撤销run，不能晚写",
+      "pass": true
+    },
+    {
+      "name": "选定流运/结果/版本变更标先前版本，不能直接复用",
+      "pass": true
+    },
+    {
+      "name": "回复拷贝/重载或server-only快照不凭同id迁移绑定",
+      "pass": true
+    },
+    {
+      "name": "本人存档被删除后原回复只标先前排盘，旧档案内容不改",
+      "pass": true
+    },
+    {
+      "name": "网关成功真实job可绑定；部分回复/receipt变更不冒充成功绑定",
+      "pass": true
+    },
+    {
+      "name": "旧渲染操作按钮不跨账号发送，按钮只出现在实际操作函数",
+      "pass": true
+    },
+    {
+      "name": "仅新鲜保存授权开启时实际新回复metadata沿原persist落盘，已保存源可恢复",
+      "pass": true
+    },
+    {
+      "name": "已授权未存档计算仅在同版本真实当前计算hash一致时恢复，recordId仍null",
+      "pass": true
+    },
+    {
+      "name": "保存默认关不加可枚举metadata、不落盘；之后开启不追认旧回复",
+      "pass": true
+    },
+    {
+      "name": "损坏回复正文/metadata或撤回provider receipt不恢复旧缓存，原对象不重写",
+      "pass": true
+    },
+    {
+      "name": "恢复校验在途换账号/清除run不能落回旧metadata且不额外persist",
+      "pass": true
+    },
+    {
+      "name": "原persist拒绝时撤回新可枚举metadata，仅保留内存状态，不伪称保存成功",
+      "pass": true
+    },
+    {
+      "name": "最终授权读取在途时真实目标正文或privacy改变，原reply指纹不能保存为current",
+      "pass": true
+    },
+    {
+      "name": "恢复最终读取在途时目标正文变化，不能让原metadata当前有效",
+      "pass": true
+    },
+    {
+      "name": "gateway首次四柱入口只导航真实额度区并加载；用户再次发送才开始一次真实调用",
+      "pass": true
+    }
+  ],
+  "passed": 24,
+  "failed": 0,
+  "sourceSha256": "73e7d9bd98af37494b74a2b1bde2276ad686b4b80275e8116bcf0025fff3a701",
+  "pass": true
+}

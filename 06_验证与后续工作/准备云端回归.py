@@ -3,7 +3,7 @@ import re
 p=Path(__file__).resolve().parent
 s=(p/'全量回归.cjs').read_text(encoding='utf-8')
 a=s.index('async function start(){');b=s.index('browser=await chromium.launch',a)
-s=s[:a]+"async function start(){base='http://127.0.0.1:8877';"+s[b:]
+s=s[:a]+"async function start(){base=process.argv.find(x=>x.startsWith('--base='))?.slice(7)||'http://127.0.0.1:8877';if(!/^http:\\/\\/(127[.]0[.]0[.]1|localhost):[0-9]+$/.test(base)||['8880','8879'].includes(new URL(base).port))throw Error('Isolated loopback only');"+s[b:]
 a=s.index('function cleanDb(){');b=s.index('\n',a);s=s[:a]+'function cleanDb(){}'+s[b:]
 s=s.replace("'本轮全量回归结果.json'","'公网适配全量回归结果.json'").replace("'前后端接口实测证据.json'","'公网适配接口实测证据.json'")
 s=s.replace("const includeAdmin=process.argv.includes('--admin');","const includeAdmin=true;const cloudCred=JSON.parse(fs.readFileSync(path.join(source,fs.existsSync(path.join(source,'../cloud/.env.local-test'))?'../cloud/.env.local-test':'../cloud/.env.test'),'utf8'));")

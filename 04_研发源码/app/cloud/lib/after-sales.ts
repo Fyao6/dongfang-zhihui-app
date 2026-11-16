@@ -1,0 +1,163 @@
+// Independent sandbox after-sales. DDL matches Python; no original table ALTER or payment call.
+
+const now=()=>Date.now(),uid=()=>crypto.randomUUID();
+const canonical=(x:any):any=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
+const dump=(x:any)=>JSON.stringify(canonical(x));
+async function fingerprint(x:any){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(dump(x)))),n=>n.toString(16).padStart(2,'0')).join('');}
+const DEFAULT={sandboxEnabled:false,productionEnabled:false,ruleVersion:null};
+import {caseFinanceSummary} from './after-sales-finance';
+export async function initAfterSales(a:any){
+ const exists=await a.one("SELECT 1 FROM sqlite_master WHERE type='table' AND name='after_sales_config'");
+ if(!exists||!await a.one("SELECT 1 FROM after_sales_config WHERE key='schema_v1'"))
+  await a.db.batch([...DDL.map(s=>a.stmt(s)),a.stmt("INSERT OR IGNORE INTO after_sales_config VALUES('schema_v1','true')")]);
+}
+export async function afterSalesReady(a:any):Promise<boolean>{const row=await a.one("SELECT data FROM after_sales_config WHERE key='settings'");return !!row&&JSON.parse(row.data).sandboxEnabled===true;}
+export async function legacyAfterSalesInsertGuard(a:any,owner:string,orderId:string):Promise<{sql:string,bindings:any[]}>{
+ const exists=await a.one("SELECT 1 FROM sqlite_master WHERE type='table' AND name='after_sales_cases'");
+ return exists?{sql:" AND NOT EXISTS(SELECT 1 FROM after_sales_cases WHERE owner=? AND order_id=? AND state!='rejected')",bindings:[owner,orderId]}:{sql:'',bindings:[]};
+}
+export async function legacyAfterSalesAllowed(a:any,owner:string,orderId:string){
+ return !await a.one("SELECT 1 FROM after_sales_cases WHERE owner=? AND order_id=? AND state!='rejected' LIMIT 1",owner,orderId);
+}
+export class AfterSalesService{
+ constructor(public a:any,public fail:(n:number,s:string)=>never){}
+ get actor(){return this.a.require().id as string;}
+ str(v:any,max:number,min=1){if(typeof v!=='string'||v.trim().length<min||v.trim().length>max)this.fail(400,'文本格式或长度不符合要求。');return v.trim() as string;}
+ int(v:any,min=0,max=99){if(!Number.isSafeInteger(v)||v<min||v>max)this.fail(400,'数量或版本必须为允许范围的整数。');return v as number;}
+ env(v:any){if(!['sandbox','production'].includes(v))this.fail(400,'无效环境。');return v as string;}
+ async body(){const v=await this.a.body();if(!v||typeof v!=='object'||Array.isArray(v))this.fail(400,'请求必须为JSON对象。');return v;}
+ async settings(){const r=await this.a.one("SELECT data FROM after_sales_config WHERE key='settings'"),v=r?JSON.parse(r.data):DEFAULT;return {...DEFAULT,...v,sandboxEnabled:v.sandboxEnabled===true,productionEnabled:false};}
+ async enabled(environment='sandbox'){
+  if(environment!=='sandbox')this.fail(403,'正式售后与库存处理尚未启用。');
+  if(!(await this.settings()).sandboxEnabled)this.fail(503,'售后沙箱尚未开启。');
+  const r=await this.a.one("SELECT data FROM commerce_config WHERE key='settings'");
+  if(!r||JSON.parse(r.data).sandboxEnabled!==true)this.fail(503,'统一交易沙箱尚未开启。');
+ }
+ async own(id:string,admin=false){
+  const r=await this.a.one('SELECT * FROM after_sales_cases WHERE id=?'+(admin?'':' AND owner=?'),...(admin?[id]:[id,this.actor]));
+  if(!r)this.fail(404,'未找到本人的售后申请。');return r;
+ }
+ items(value:any,key='itemId',receipt=false){
+  if(!Array.isArray(value)||value.length<1||value.length>30)this.fail(400,'请指定1至30个订单项。');
+  const rows=value.map(v=>{
+   if(!v||typeof v!=='object'||Array.isArray(v))this.fail(400,'订单项格式错误。');
+   const row:any={[key]:this.str(v[key],100)};
+   if(receipt){row.receivedQuantity=this.int(v.receivedQuantity,1);row.restockQuantity=this.int(v.restockQuantity);row.condition=this.str(v.condition,200);if(row.restockQuantity>row.receivedQuantity)this.fail(400,'可重新入库数量不得超过本次实际收到数量。');}
+   else row.quantity=this.int(v.quantity,1);
+   return row;
+  }).sort((a,b)=>a[key].localeCompare(b[key]));
+  if(new Set(rows.map(x=>x[key])).size!==rows.length)this.fail(400,'订单项不可重复。');return rows;
+ }
+ audit(actor:string,action:string,target:string,t:number,detail='sandbox；资金仍以原统一退款事实为准'){
+  return this.a.stmt('INSERT INTO audits VALUES(?,?,?,?,?,?)',uid(),actor,action,target,detail,t);
+ }
+ async replay(requestId:string,kind:string,token:string,cid:string){
+  const row=await this.a.one("SELECT * FROM after_sales_actions WHERE actor=? AND environment='sandbox' AND request_id=?",this.actor,requestId);
+  if(row&&(row.kind!==kind||row.fingerprint!==token||row.case_id!==cid))this.fail(409,'该幂等编号已用于其他售后操作。');return !!row;
+ }
+ async batch(ops:any[]){try{return await this.a.db.batch(ops);}catch(e:any){const message=String(e?.message||e?.cause?.message||'');if(message.includes('after_sales_admin_required'))this.fail(403,'管理员权限已变化。');if(/after_sales_|UNIQUE|CHECK constraint/i.test(message))this.fail(409,'售后数量、版本、库存或处理状态已变化，请刷新后重试。');throw e;}}
+ async eligibility(orderId:string){
+  const order=await this.a.one("SELECT * FROM commerce_orders WHERE id=? AND owner=? AND environment='sandbox'",orderId,this.actor);
+  if(!order)this.fail(404,'未找到本人的沙箱统一订单。');
+  const confirmed=!!await this.a.one("SELECT 1 FROM commerce_payment_events WHERE order_id=? AND owner=? AND environment='sandbox' AND kind='sandbox_pay' AND status='applied'",orderId,this.actor);
+  const legacy=!!await this.a.one("SELECT 1 FROM commerce_aftersale_requests WHERE order_id=? AND status IN ('pending','processing')",orderId),items=[];
+  for(const line of await this.a.all('SELECT * FROM commerce_order_items WHERE order_id=? ORDER BY id',orderId)){
+   const allocated=(await this.a.one("SELECT coalesce(sum(x.quantity),0) n FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.order_item_id=? AND c.state!='rejected'",line.id)).n;
+   const auto=(await this.a.one("SELECT coalesce(sum(quantity_delta),0) n FROM commerce_inventory_events WHERE item_id=? AND environment='sandbox' AND reason='refund_restock' AND quantity_delta>0",line.id)).n;
+   const available=confirmed?Math.max(0,line.quantity-auto-allocated):0,returns=line.type==='physical'&&['shipped','delivered'].includes(order.fulfillment_status)?available:0;
+   items.push({itemId:line.id,skuId:line.sku_id,title:line.title,type:line.type,quantity:line.quantity,refundedQuantity:line.refunded_quantity,claimedQuantity:allocated,autoRestockedQuantity:auto,availableReturnQuantity:returns,availableRefundOnlyQuantity:Math.min(available,Math.max(0,line.quantity-line.refunded_quantity)),priceMinor:line.price_minor,currency:line.currency,snapshot:JSON.parse(line.snapshot_data)});
+  }
+  const settings=await this.settings(),commerce=await this.a.one("SELECT data FROM commerce_config WHERE key='settings'");
+  return {orderId,environment:'sandbox',sandboxOnly:true,settings,paymentConfirmed:confirmed,legacyPending:legacy,canApply:!!(confirmed&&!legacy&&settings.sandboxEnabled&&commerce&&JSON.parse(commerce.data).sandboxEnabled===true),paymentStatus:order.payment_status,fulfillmentStatus:order.fulfillment_status,items,productionEnabled:false,refundsFunds:false};
+ }
+ async serialize(row:any){
+  const items=[];
+  for(const x of await this.a.all('SELECT * FROM after_sales_items WHERE case_id=? ORDER BY id',row.id)){
+   const orig=await this.a.one('SELECT quantity,refunded_quantity FROM commerce_order_items WHERE id=?',x.order_item_id);
+   items.push({id:x.id,itemId:x.order_item_id,skuId:x.sku_id,type:x.type,quantity:x.quantity,receivedQuantity:x.received_quantity,restockedQuantity:x.restocked_quantity,snapshot:JSON.parse(x.snapshot_data),originalQuantity:orig?.quantity??null,orderItemRefundedQuantity:orig?.refunded_quantity??null});
+  }
+  const order=await this.a.one('SELECT payment_status,fulfillment_status,currency,total_minor,refunded_minor FROM commerce_orders WHERE id=?',row.order_id);
+  const events=(await this.a.all('SELECT * FROM commerce_payment_events WHERE order_id=? ORDER BY created,id',row.order_id)).map((e:any)=>({id:e.id,kind:e.kind,amountMinor:e.amount_minor,currency:e.currency,items:JSON.parse(e.items),status:e.status,created:e.created}));
+  const shipments=(await this.a.all('SELECT * FROM after_sales_shipments WHERE case_id=? ORDER BY created,id',row.id)).map((s:any)=>({id:s.id,carrier:s.carrier,trackingNumber:s.tracking_number,created:s.created,carrierVerified:false}));
+  const inspections=[];
+  for(const r of await this.a.all('SELECT * FROM after_sales_inspections WHERE case_id=? ORDER BY created,id',row.id)){
+   const lines=(await this.a.all('SELECT * FROM after_sales_inspection_items WHERE inspection_id=? ORDER BY id',r.id)).map((x:any)=>({id:x.id,caseItemId:x.case_item_id,receivedQuantity:x.received_quantity,restockQuantity:x.restock_quantity,condition:x.condition,inventoryEventId:'after-sales:'+x.id}));
+   inspections.push({id:r.id,receiptReference:r.receipt_reference,note:r.note,created:r.created,items:lines});
+  }
+  const history=(await this.a.all('SELECT * FROM after_sales_actions WHERE case_id=? ORDER BY created,id',row.id)).map((x:any)=>({id:x.id,actorId:x.actor,kind:x.kind,data:JSON.parse(x.data),created:x.created}));
+  return {id:row.id,ownerId:row.owner,environment:'sandbox',sandboxOnly:true,productionEnabled:false,orderId:row.order_id,type:row.type,reason:row.reason,ruleVersion:row.rule_version,status:row.state,version:row.version,items,shipments,inspections,history,created:row.created,updated:row.updated,
+   money:{source:'original-commerce-payment-events',...await caseFinanceSummary(this.a,row.id,row.owner,row.order_id),actualFundsMoved:false,orderPaymentStatus:order?.payment_status??null,orderFulfillmentStatus:order?.fulfillment_status??null,currency:order?.currency??null,orderTotalMinor:order?.total_minor??null,orderRefundedMinor:order?.refunded_minor??null,events,notice:'订单累计金额和事件来自原统一交易；本申请关联状态仅表示明确批准目标与已有沙箱退款的净金额匹配，不代表真实到账。物流独立，未明确分配的累计退款不归属本申请。'}};
+ }
+ async create(data:any){
+  const requestId=this.str(data.requestId,128),environment=this.env(data.environment??'production'),orderId=this.str(data.orderId,100),kind=data.type;
+  if(!['refund-only','return'].includes(kind))this.fail(400,'请选择仅退款申请或实物退货。');
+  const reason=this.str(data.reason,2000),items=this.items(data.items),token=await fingerprint({environment,orderId,type:kind,reason,items});
+  const existing=async()=>{const old=await this.a.one('SELECT * FROM after_sales_cases WHERE owner=? AND environment=? AND request_id=?',this.actor,environment,requestId);if(old&&old.fingerprint!==token)this.fail(409,'该申请编号已用于不同请求。');return old;};
+  const old=await existing();if(old)return {item:await this.serialize(old),replayed:true};
+  await this.enabled(environment);
+  const order=await this.a.one('SELECT * FROM commerce_orders WHERE id=? AND owner=? AND environment=?',orderId,this.actor,environment);
+  if(!order)this.fail(404,'未找到本人的统一订单。');
+  const settings=await this.settings(),cid=uid(),t=now(),actor=this.actor;
+  const ops=[this.a.stmt('INSERT INTO after_sales_cases VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',cid,actor,'sandbox',orderId,requestId,token,kind,reason,settings.ruleVersion,'submitted',1,t,t)];
+  for(const entry of items){
+   const line=await this.a.one('SELECT * FROM commerce_order_items WHERE id=? AND order_id=?',entry.itemId,orderId);
+   if(!line)this.fail(404,'该订单项不属于本订单。');
+   const snapshot={title:line.title,type:line.type,priceMinor:line.price_minor,currency:line.currency,priceVersion:line.price_version,terms:JSON.parse(line.snapshot_data)};
+   ops.push(this.a.stmt('INSERT INTO after_sales_items(id,case_id,owner,order_item_id,sku_id,type,quantity,snapshot_data) VALUES(?,?,?,?,?,?,?,?)',uid(),cid,actor,line.id,line.sku_id,line.type,entry.quantity,dump(snapshot)));
+  }
+  ops.push(this.a.stmt('INSERT INTO after_sales_actions VALUES(?,?,?,?,?,?,?,?,?,?)',uid(),cid,actor,actor,'sandbox',requestId,'submit',token,dump({reason}),t),this.audit(actor,'after-sales.submit',cid,t,'sandbox；申请不自动退款或入库'));
+  try{await this.batch(ops);}catch(e){const replay=await existing();if(replay)return {item:await this.serialize(replay),replayed:true};throw e;}
+  return {item:await this.serialize(await this.own(cid)),replayed:false};
+ }
+ async mutate(cid:string,kind:string,data:any,admin=false){
+  const requestId=this.str(data.requestId,128),version=this.int(data.version,1,2147483647),payload:any={version};
+  if(kind==='decision'){kind=data.decision;if(!['accept','reject'].includes(kind))this.fail(400,'无效受理决定。');payload.reason=this.str(data.reason,2000);}
+  else if(kind==='return-shipping'){payload.carrier=this.str(data.carrier,100);payload.trackingNumber=this.str(data.trackingNumber,100);}
+  else if(kind==='inspect'){payload.receiptReference=this.str(data.receiptReference,100);payload.note=this.str(data.note,2000);payload.items=this.items(data.items,'caseItemId',true);}
+  else this.fail(400,'无效售后操作。');
+  const token=await fingerprint({caseId:cid,kind,...payload}),row=await this.own(cid,admin);
+  if(await this.replay(requestId,kind,token,cid))return {item:await this.serialize(row),replayed:true};
+  await this.enabled();
+  const aid=uid(),t=now(),actor=this.actor;
+  const ops=[this.a.stmt('INSERT INTO after_sales_actions VALUES(?,?,?,?,?,?,?,?,?,?)',aid,cid,row.owner,actor,'sandbox',requestId,kind,token,dump(payload),t)];
+  if(kind==='return-shipping')ops.push(this.a.stmt('INSERT INTO after_sales_shipments VALUES(?,?,?,?,?,?)',aid,cid,row.owner,payload.carrier,payload.trackingNumber,t));
+  if(kind==='inspect'){
+   ops.push(this.a.stmt('INSERT INTO after_sales_inspections VALUES(?,?,?,?,?,?)',aid,cid,actor,payload.receiptReference,payload.note,t));
+   for(const entry of payload.items){
+    if(!await this.a.one('SELECT 1 FROM after_sales_items WHERE id=? AND case_id=?',entry.caseItemId,cid))this.fail(404,'验收项目不属于该申请。');
+    ops.push(this.a.stmt('INSERT INTO after_sales_inspection_items VALUES(?,?,?,?,?,?,?)',uid(),aid,entry.caseItemId,entry.receivedQuantity,entry.restockQuantity,entry.condition,t));
+   }
+  }
+  ops.push(this.audit(actor,'after-sales.'+kind,cid,t));
+  try{await this.batch(ops);}catch(e){if(await this.replay(requestId,kind,token,cid))return {item:await this.serialize(await this.own(cid,admin)),replayed:true};throw e;}
+  return {item:await this.serialize(await this.own(cid,admin)),replayed:false};
+ }
+ async route(method:string,path:string){
+  const admin=path.startsWith('/api/admin/');if(admin)this.a.require(['admin']);
+  const environment=this.env(this.a.url.searchParams.get('environment')??'production');
+  if(path==='/api/after-sales/config'&&method==='GET')return {settings:await this.settings(),environment,productionEnabled:false,carrierVerificationEnabled:false,refundsFunds:false};
+  if(path==='/api/admin/after-sales/settings'&&method==='PATCH'){
+   const data=await this.body();if(typeof data.sandboxEnabled!=='boolean'||(data.productionEnabled!==undefined&&data.productionEnabled!==false))this.fail(400,'正式售后禁止启用，沙箱开关须为布尔值。');
+   const rule=data.ruleVersion==null?null:this.str(data.ruleVersion,120);if(data.sandboxEnabled&&!rule)this.fail(400,'启用测试流程须填写明确测试规则版本。');
+   const settings={sandboxEnabled:data.sandboxEnabled,productionEnabled:false,ruleVersion:rule},actor=this.actor,t=now();
+   const result=await this.a.db.batch([this.a.stmt("UPDATE after_sales_config SET data=? WHERE key='settings' AND EXISTS(SELECT 1 FROM users WHERE id=? AND role='admin')",dump(settings),actor),this.a.stmt("INSERT INTO audits SELECT ?,?,'after-sales.settings','sandbox','正式售后固定关闭',? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND role='admin')",uid(),actor,t,actor)]);
+   if(!result[0]?.meta?.changes)this.fail(403,'管理员权限已变化。');return {settings};
+  }
+  if(['/api/after-sales/cases','/api/admin/after-sales'].includes(path)&&method==='GET'){
+   const rows=await this.a.all('SELECT * FROM after_sales_cases WHERE environment=?'+(admin?'':' AND owner=?')+' ORDER BY created DESC,id LIMIT 100',...(admin?[environment]:[environment,this.actor]));
+   return {items:await Promise.all(rows.map((r:any)=>this.serialize(r))),settings:await this.settings(),environment,productionEnabled:false,limit:100};
+  }
+  if(path==='/api/after-sales/cases'&&method==='POST')return this.create(await this.body());
+  const eligible=/^\/api\/after-sales\/orders\/([^/]+)$/.exec(path);if(eligible&&method==='GET')return this.eligibility(eligible[1]);
+  const match=/^\/api\/(admin\/)?after-sales\/cases\/([^/]+)(\/(return-shipping|decision|inspect))?$/.exec(path);
+  if(match){const cid=match[2],action=match[4];if(method==='GET'&&!action)return this.serialize(await this.own(cid,admin));if(method==='POST'&&((!admin&&action==='return-shipping')||(admin&&['decision','inspect'].includes(action))))return this.mutate(cid,action,await this.body(),admin);}
+  this.fail(405,'不支持的售后操作。');
+ }
+}
+export async function afterSalesRoute(a:any,path:string,method:string,fail:(n:number,s:string)=>never){
+ if(!(path.startsWith('/api/after-sales/')||path==='/api/admin/after-sales'||path.startsWith('/api/admin/after-sales/')))return undefined;
+ a.require();await initAfterSales(a);await a.rate('after-sales:'+(method==='GET'?'read:':'write:')+a.user.id,method==='GET'?180:30);
+ return new AfterSalesService(a,fail).route(method,path);
+}
+
+const DDL:string[]=["CREATE TABLE IF NOT EXISTS after_sales_config(key TEXT PRIMARY KEY,data TEXT NOT NULL)", "INSERT OR IGNORE INTO after_sales_config VALUES('settings','{\"sandboxEnabled\":false,\"productionEnabled\":false,\"ruleVersion\":null}')", "CREATE TABLE IF NOT EXISTS after_sales_cases(id TEXT PRIMARY KEY,owner TEXT NOT NULL,environment TEXT NOT NULL CHECK(environment='sandbox'),order_id TEXT NOT NULL REFERENCES commerce_orders(id),request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,type TEXT NOT NULL CHECK(type IN ('refund-only','return')),reason TEXT NOT NULL,rule_version TEXT NOT NULL,state TEXT NOT NULL CHECK(state IN ('submitted','accepted','rejected','returning','partially_received','received')),version INTEGER NOT NULL DEFAULT 1,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(owner,environment,request_id))", "CREATE INDEX IF NOT EXISTS after_sales_cases_owner ON after_sales_cases(owner,environment,created)", "CREATE TABLE IF NOT EXISTS after_sales_items(id TEXT PRIMARY KEY,case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,order_item_id TEXT NOT NULL REFERENCES commerce_order_items(id),sku_id TEXT NOT NULL,type TEXT NOT NULL,quantity INTEGER NOT NULL CHECK(typeof(quantity)='integer' AND quantity>0),received_quantity INTEGER NOT NULL DEFAULT 0,restocked_quantity INTEGER NOT NULL DEFAULT 0,snapshot_data TEXT NOT NULL,UNIQUE(case_id,order_item_id),CHECK(received_quantity>=0 AND received_quantity<=quantity AND restocked_quantity>=0 AND restocked_quantity<=received_quantity))", "CREATE TABLE IF NOT EXISTS after_sales_actions(id TEXT PRIMARY KEY,case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,actor TEXT NOT NULL,environment TEXT NOT NULL CHECK(environment='sandbox'),request_id TEXT NOT NULL,kind TEXT NOT NULL CHECK(kind IN ('submit','accept','reject','return-shipping','inspect')),fingerprint TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(actor,environment,request_id))", "CREATE INDEX IF NOT EXISTS after_sales_actions_case ON after_sales_actions(case_id,created)", "CREATE TABLE IF NOT EXISTS after_sales_shipments(id TEXT PRIMARY KEY REFERENCES after_sales_actions(id),case_id TEXT NOT NULL REFERENCES after_sales_cases(id),owner TEXT NOT NULL,carrier TEXT NOT NULL,tracking_number TEXT NOT NULL,created INTEGER NOT NULL)", "CREATE TABLE IF NOT EXISTS after_sales_inspections(id TEXT PRIMARY KEY REFERENCES after_sales_actions(id),case_id TEXT NOT NULL REFERENCES after_sales_cases(id),actor TEXT NOT NULL,receipt_reference TEXT NOT NULL,note TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(case_id,receipt_reference))", "CREATE TABLE IF NOT EXISTS after_sales_inspection_items(id TEXT PRIMARY KEY,inspection_id TEXT NOT NULL REFERENCES after_sales_inspections(id),case_item_id TEXT NOT NULL REFERENCES after_sales_items(id),received_quantity INTEGER NOT NULL CHECK(typeof(received_quantity)='integer' AND received_quantity>0),restock_quantity INTEGER NOT NULL CHECK(typeof(restock_quantity)='integer' AND restock_quantity>=0 AND restock_quantity<=received_quantity),condition TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(inspection_id,case_item_id))", "CREATE TRIGGER IF NOT EXISTS after_sales_case_check BEFORE INSERT ON after_sales_cases BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1 AND json_extract(data,'$.ruleVersion')=NEW.rule_version) OR NOT EXISTS(SELECT 1 FROM commerce_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) THEN RAISE(ABORT,'after_sales_disabled') END;\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM commerce_orders o JOIN commerce_payment_events e ON e.order_id=o.id AND e.kind='sandbox_pay' AND e.status='applied' WHERE o.id=NEW.order_id AND o.owner=NEW.owner AND o.environment=NEW.environment AND o.payment_status IN ('paid','partially_refunded','refunded') AND e.owner=NEW.owner AND e.environment=NEW.environment AND e.currency=o.currency AND e.amount_minor=o.total_minor) THEN RAISE(ABORT,'after_sales_unpaid_order') END;\n SELECT CASE WHEN NEW.type='return' AND NOT EXISTS(SELECT 1 FROM commerce_orders WHERE id=NEW.order_id AND fulfillment_status IN ('shipped','delivered')) THEN RAISE(ABORT,'after_sales_not_dispatched') END;\n SELECT CASE WHEN EXISTS(SELECT 1 FROM commerce_aftersale_requests WHERE order_id=NEW.order_id AND status IN ('pending','processing')) THEN RAISE(ABORT,'after_sales_legacy_pending') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_item_check BEFORE INSERT ON after_sales_items BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_order_items i ON i.order_id=c.order_id WHERE c.id=NEW.case_id AND c.owner=NEW.owner AND c.environment='sandbox' AND c.state='submitted' AND i.id=NEW.order_item_id AND i.sku_id=NEW.sku_id AND i.type=NEW.type AND (c.type!='return' OR i.type='physical')) THEN RAISE(ABORT,'after_sales_item_mismatch') END;\n SELECT CASE WHEN NEW.quantity+coalesce((SELECT sum(x.quantity) FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.order_item_id=NEW.order_item_id AND c.state!='rejected'),0)>(SELECT i.quantity-coalesce((SELECT sum(v.quantity_delta) FROM commerce_inventory_events v WHERE v.item_id=i.id AND v.order_id=i.order_id AND v.environment='sandbox' AND v.reason='refund_restock' AND v.quantity_delta>0),0) FROM commerce_order_items i WHERE i.id=NEW.order_item_id) THEN RAISE(ABORT,'after_sales_quantity_allocated') END;\n SELECT CASE WHEN EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_order_items i ON i.id=NEW.order_item_id WHERE c.id=NEW.case_id AND c.type='refund-only' AND NEW.quantity>i.quantity-i.refunded_quantity) THEN RAISE(ABORT,'after_sales_already_refunded') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_action_check BEFORE INSERT ON after_sales_actions BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_cases c WHERE c.id=NEW.case_id AND c.owner=NEW.owner AND c.environment=NEW.environment) THEN RAISE(ABORT,'after_sales_owner') END;\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) OR NOT EXISTS(SELECT 1 FROM commerce_config WHERE key='settings' AND json_extract(data,'$.sandboxEnabled')=1) THEN RAISE(ABORT,'after_sales_disabled') END;\n SELECT CASE WHEN NEW.kind!='submit' AND NOT EXISTS(SELECT 1 FROM after_sales_cases c WHERE c.id=NEW.case_id AND c.version=json_extract(NEW.data,'$.version')) THEN RAISE(ABORT,'after_sales_stale_version') END;\n SELECT CASE WHEN NEW.kind IN ('accept','reject','inspect') AND NOT EXISTS(SELECT 1 FROM users WHERE id=NEW.actor AND role='admin') THEN RAISE(ABORT,'after_sales_admin_required') END;\n SELECT CASE WHEN NEW.kind IN ('submit','return-shipping') AND NEW.actor!=NEW.owner THEN RAISE(ABORT,'after_sales_owner') END;\n SELECT CASE WHEN NEW.kind IN ('accept','reject') AND NOT EXISTS(SELECT 1 FROM after_sales_cases WHERE id=NEW.case_id AND state='submitted') THEN RAISE(ABORT,'after_sales_decision_state') END;\n SELECT CASE WHEN NEW.kind IN ('return-shipping','inspect') AND NOT EXISTS(SELECT 1 FROM after_sales_cases c JOIN commerce_orders o ON o.id=c.order_id WHERE c.id=NEW.case_id AND c.type='return' AND c.state IN ('accepted','returning','partially_received') AND o.fulfillment_status IN ('shipped','delivered')) THEN RAISE(ABORT,'after_sales_return_state') END;\n SELECT CASE WHEN NEW.kind='inspect' AND NOT EXISTS(SELECT 1 FROM after_sales_shipments WHERE case_id=NEW.case_id) THEN RAISE(ABORT,'after_sales_shipping_required') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_action_apply AFTER INSERT ON after_sales_actions WHEN NEW.kind!='submit' BEGIN\n UPDATE after_sales_cases SET version=version+1,updated=NEW.created,state=CASE WHEN NEW.kind='accept' THEN 'accepted' WHEN NEW.kind='reject' THEN 'rejected' WHEN NEW.kind='return-shipping' AND state!='partially_received' THEN 'returning' ELSE state END WHERE id=NEW.case_id;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_shipment_check BEFORE INSERT ON after_sales_shipments BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_actions WHERE id=NEW.id AND case_id=NEW.case_id AND owner=NEW.owner AND kind='return-shipping') THEN RAISE(ABORT,'after_sales_shipping_action') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_inspection_check BEFORE INSERT ON after_sales_inspections BEGIN\n SELECT CASE WHEN EXISTS(SELECT 1 FROM after_sales_inspections r JOIN after_sales_cases previous ON previous.id=r.case_id JOIN after_sales_cases current ON current.id=NEW.case_id WHERE previous.order_id=current.order_id AND r.receipt_reference=NEW.receipt_reference) THEN RAISE(ABORT,'after_sales_receipt_already_recorded_for_order') END;\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_actions WHERE id=NEW.id AND case_id=NEW.case_id AND actor=NEW.actor AND kind='inspect') THEN RAISE(ABORT,'after_sales_inspection_action') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_receipt_check BEFORE INSERT ON after_sales_inspection_items BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM after_sales_inspections r JOIN after_sales_items x ON x.case_id=r.case_id JOIN after_sales_cases c ON c.id=x.case_id JOIN commerce_orders o ON o.id=c.order_id WHERE r.id=NEW.inspection_id AND x.id=NEW.case_item_id AND x.type='physical' AND c.type='return' AND c.state IN ('accepted','returning','partially_received') AND o.fulfillment_status IN ('shipped','delivered') AND x.received_quantity+NEW.received_quantity<=x.quantity) THEN RAISE(ABORT,'after_sales_received_quantity') END;\n SELECT CASE WHEN NEW.restock_quantity+coalesce((SELECT sum(v.quantity_delta) FROM commerce_inventory_events v JOIN after_sales_items x ON x.order_item_id=v.item_id WHERE x.id=NEW.case_item_id AND v.environment='sandbox' AND v.quantity_delta>0),0)>(SELECT i.quantity FROM commerce_order_items i JOIN after_sales_items x ON x.order_item_id=i.id WHERE x.id=NEW.case_item_id) THEN RAISE(ABORT,'after_sales_double_restock') END;\nEND", "CREATE TRIGGER IF NOT EXISTS after_sales_receipt_apply AFTER INSERT ON after_sales_inspection_items BEGIN\n UPDATE after_sales_items SET received_quantity=received_quantity+NEW.received_quantity,restocked_quantity=restocked_quantity+NEW.restock_quantity WHERE id=NEW.case_item_id;\n UPDATE commerce_skus SET stock=stock+NEW.restock_quantity WHERE id=(SELECT sku_id FROM after_sales_items WHERE id=NEW.case_item_id);\n INSERT INTO commerce_inventory_events SELECT 'after-sales:'||NEW.id,c.owner,'sandbox',c.order_id,x.order_item_id,x.sku_id,NEW.restock_quantity,CASE WHEN NEW.restock_quantity>0 THEN 'after_sales_return_restock' ELSE 'after_sales_received_no_restock' END,NEW.created FROM after_sales_items x JOIN after_sales_cases c ON c.id=x.case_id WHERE x.id=NEW.case_item_id;\n UPDATE after_sales_cases SET state=CASE WHEN EXISTS(SELECT 1 FROM after_sales_items x WHERE x.case_id=after_sales_cases.id AND x.received_quantity<x.quantity) THEN 'partially_received' ELSE 'received' END,updated=NEW.created WHERE id=(SELECT case_id FROM after_sales_items WHERE id=NEW.case_item_id);\nEND"];

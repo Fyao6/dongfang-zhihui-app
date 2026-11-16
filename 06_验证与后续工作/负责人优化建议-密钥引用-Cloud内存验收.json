@@ -1,0 +1,133 @@
+{
+  "at": "2026-11-13T04:15:08.477Z",
+  "runId": "ef608af1-abf3-4281-8366-9c17e2b5dcbb",
+  "kind": "real-cloud-source-native-sqlite-d1-atomic-batches-synthetic-env",
+  "checks": [
+    {
+      "name": "inventory/settings redact legacy and only report credential flags/references",
+      "pass": true
+    },
+    {
+      "name": "legacy plaintext cannot silently send AI or authenticate device",
+      "pass": true
+    },
+    {
+      "name": "purpose prefixes reject arbitrary OS names/cross-scope/lowercase refs",
+      "pass": true
+    },
+    {
+      "name": "new plaintext and old clear keys rejected even when empty; no mutation",
+      "pass": true
+    },
+    {
+      "name": "reference-only config writes no new credential bodies and truthful readiness",
+      "pass": true
+    },
+    {
+      "name": "dry preview changes no original config; explicit apply matches then removes old values",
+      "pass": true
+    },
+    {
+      "name": "one mismatched target blocks all removals without a partial apply",
+      "pass": true
+    },
+    {
+      "name": "env value is re-resolved at apply rather than trusting preview",
+      "pass": true
+    },
+    {
+      "name": "direct settings mutation increments opaque revision and invalidates plan",
+      "pass": true
+    },
+    {
+      "name": "private original hash catches drift independently from version",
+      "pass": true
+    },
+    {
+      "name": "anonymous/ordinary/operator denied, another admin cannot read own plan",
+      "pass": true
+    },
+    {
+      "name": "closed actor and stale demoted actor cannot execute plan",
+      "pass": true
+    },
+    {
+      "name": "same plan request replay returns original; changed mapping conflicts",
+      "pass": true
+    },
+    {
+      "name": "applied migration same-key replay mutates no settings/audit",
+      "pass": true
+    },
+    {
+      "name": "D1 concurrent same-key migration commits one action and replays same original",
+      "pass": true
+    },
+    {
+      "name": "D1 concurrent preview same request returns same immutable plan",
+      "pass": true
+    },
+    {
+      "name": "strict version types and reference scopes reject tricks",
+      "pass": true
+    },
+    {
+      "name": "unmigrated target edit refuses rewrite; unrelated explicit theme still works",
+      "pass": true
+    },
+    {
+      "name": "settings idempotence, changed same-key conflict and version semantics remain",
+      "pass": true
+    },
+    {
+      "name": "clear migrated reference truthfully disables readiness without legacy fallback",
+      "pass": true
+    },
+    {
+      "name": "legacy endpoint retains public HTTPS/no private host or embedded credential validation",
+      "pass": true
+    },
+    {
+      "name": "final D1 batch closure after validation rejects all migration writes",
+      "pass": true
+    },
+    {
+      "name": "final D1 batch configuration race cannot delete or replace changed original",
+      "pass": true
+    },
+    {
+      "name": "final D1 settings race uses same CAS, never overwrites another edit",
+      "pass": true
+    },
+    {
+      "name": "entire migrated DB/metadata/API contains no synthetic canary or public original hash",
+      "pass": true
+    },
+    {
+      "name": "reserved prototype keys and malformed existing device config cannot be implicit credential targets",
+      "pass": true
+    },
+    {
+      "name": "actual Bearer refs reject whitespace/control/invalid header tokens without trimming exact valid value",
+      "pass": true
+    },
+    {
+      "name": "normal edit of migrated deviceB cannot serialize legacy deviceA; theme independent",
+      "pass": true
+    },
+    {
+      "name": "partial migration removes matched JSON field only and retains remaining legacy group block",
+      "pass": true
+    }
+  ],
+  "passed": 29,
+  "failed": 0,
+  "sourceSha256": {
+    "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b"
+  },
+  "productionDatabaseOpened": false,
+  "actualEnvironmentRead": false,
+  "providerRequests": 0,
+  "serviceStarted": false,
+  "pass": true
+}
