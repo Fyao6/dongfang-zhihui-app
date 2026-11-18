@@ -1,0 +1,123 @@
+{
+  "revision": 1,
+  "status": "prepared-not-run",
+  "candidateOnly": true,
+  "actualNewDrills": 0,
+  "formalAcceptance": false,
+  "productionEnabled": false,
+  "requiresStage30FinalProofAndExplicitRootExecutionOrder": true,
+  "taskScope": {
+    "SVT03": "补足本方可实施的真实本地应用进程故障、非空sandbox事实备份恢复、原生D1本地SQL恢复和幂等回查；不是PG/GPU/生产故障演练。",
+    "X03": "准备只读迁移预检、严格owned lab回滚目标、恢复说明和可复核证据，不执行上线/发布/整项目复制或把测试数据库默认打包。",
+    "SVT01": "独立登录负载工具由其他文件负责，不在本方案声称压力测试、媒体性能或目标国延迟已验收。"
+  },
+  "requirements": {
+    "SVT03Sources": ["P380", "P381", "P382", "P383", "P384", "P385", "P637"],
+    "X03Sources": ["P579", "P580", "P621", "P622", "P643"],
+    "suggestedProductionTargets": {"rpoMinutes":15,"rtoMinutes":60,"confirmed":false,"appliesToLocalMeasuredPass":false},
+    "oldReport": "06_验证与后续工作/负责人优化建议-隔离备份恢复演练.json",
+    "oldReportSha256": "53c4002c71013704886af666f7b8c32828aa969a2e02cfca6d3b7ac5679cef37",
+    "oldEvidence": "旧10项仅在线SQLite备份、恢复服务公共目录及10条合成记录；金融表为空，明确备份后1条已确认写未恢复。该失败边界和旧字节保留，不重标本次通过。"
+  },
+  "preparationFiles": {
+    "sqliteAndOwnership": "06_验证与后续工作/负责人优化建议-本地可靠性恢复工具.py",
+    "nativeD1": "06_验证与后续工作/负责人优化建议-本地可靠性D1快照.cjs",
+    "actualApiScenario": "06_验证与后续工作/负责人优化建议-本地可靠性沙箱场景.cjs",
+    "defaultInvocation": "仅返回prepared-not-run，不打开数据库、不建服务、不创建账号、不做backup/restore。import也不产生副作用。",
+    "preparationCannotAlterCurrentStage30": "不导入或编辑Stage30的516输入；不改product/QA/构建/书表/handoff/冻结件；此候选及工具不计本轮正式门。"
+  },
+  "ownership": {
+    "runId": "新random UUID hex32；06的manifest/DB/SQL/报告文件均包含本次runId，exclusive-create。",
+    "pythonDatabases": "06/负责人优化建议-本地可靠性恢复-<run>-live|snapshot|restored|rollback.sqlite3；不得传任意DB路径。",
+    "cloudStates": "04_研发源码/app/cloud/.wrangler/local-reliability-recovery-<run>及-restored或-rollback，均全新显式目标；原default .wrangler/state永不使用。",
+    "cloudD1Persist": "原服务、native exporter及native import都必须精确绑定同一个显式state/v3/d1和本次d1DatabaseId。不能从碰巧找到的.sqlite文件猜实例。",
+    "base": "仅literal http://127.0.0.1:<新显式端口>；端口1024..65535，拒8877/8878/8879/8880/8881，不选localhost/远端/代理。",
+    "pathGuards": "路径必须当前root内指定06直接子文件或Cloud/.wrangler指定run前缀；拒symlink/reparse、rq01、原预览DB、默认库、别的run；不递归删除，不组合跨shell移动。",
+    "runtimeIdentity": "首次live由已存在root local_task_bootstrap.py显式fresh seed marker和immutable manifest；普通product init不seed。恢复必须保留原marker原字节，源进程先停，不能同时启动两份克隆runtime。",
+    "restoredPathDeclaration": "备份中原ops manifest_hash不被改写；新的lab manifest另记录实际恢复物理路径，原bootstrap manifest中的statePath仍是原声明。不得声称Cloud HTTP证明磁盘路径或伪造新runtime身份。任务调度保持默认off。",
+    "arming": "工具arm需明确--execute、精确卡组迁移-最终交付核验.json绝对路径及SHA、backend/base/node；严格stage30/pass、14fresh gates、perBackendPassed各195、verifiedSHA256全部当前字节与文件数、实施记录receiptSHA、receipt内14门与reportIdentityHashes实际源/构建锚。任意prefix或pass:true组件均拒。每个后续动作需manifest文件SHA和冻结core/source/tool哈希相同。",
+    "authorization": "本准备任务不是演练执行令；获得Stage30闭环后root新令才可arm或调用任何mutating primitive。"
+  },
+  "minimalDependencies": {
+    "python": "系统已捆绑Python及stdlib sqlite3/subprocess/http；固定actual backend/server.py和03当前APP，不安装依赖。",
+    "node": "现有Node和Cloud本地node_modules的miniflare/wrangler；实际native esbuild若后续启动Cloud入口需逐tool哈希。不得安装/升级以凑通过。",
+    "scenario": "仅接受未来owned coordinator提供的真实HTTP api/context，不导入冻结QA的self-start IIFE，不伪造session/user/provider回包，不修改原业务clock。",
+    "stage30": "最终proof、全部source/build身份、旧612及后续protected历史原字节先核；本次准备无stage30FinalProofAvailable声明。"
+  },
+  "realSyntheticFacts": {
+    "required": ["非空sandbox order和真实applied sandbox_pay", "membership已付不可变snapshot/entitlement/subscription period", "明确合成confirmed有限会员quota materialized bucket+grant event", "真实API配置合成佣金规则及账本，actualPaid=false", "真实上传合成PNG+人工声明review/publish的sandbox卡组、本人UTC时区选择、实际draw和quota"],
+    "noSqlFakePaid": true,
+    "routes": [
+      "POST /api/auth/setup 或真实Cloud原认证入口；POST /api/auth/register；GET /api/auth/status",
+      "PATCH /api/admin/commerce/settings；POST /api/admin/commerce/products",
+      "GET /api/admin/membership；PATCH /api/admin/membership/settings；POST /api/admin/membership/plans",
+      "GET/PATCH /api/admin/membership-ai-quota；POST /api/membership/ai-quota/refresh",
+      "PATCH /api/admin/commissions/settings；POST /api/admin/commissions/rules；POST /api/admin/commissions/facts；POST /api/admin/commissions/orders/:id/sync",
+      "POST /api/commerce/orders；POST /api/commerce/orders/:id/sandbox-pay；GET /api/commerce/orders/:id",
+      "POST /api/media 真实image/png上传；GET /api/admin/cards；PATCH /api/admin/cards/config",
+      "POST /api/admin/cards/decks；POST /api/admin/cards/decks/:id/review；POST /api/admin/cards/decks/:id/publish",
+      "PATCH /api/cards/timezone；POST /api/cards/draws；GET /api/cards/draws/:id；GET /api/cards/capabilities?environment=sandbox",
+      "GET /api/membership/status；GET /api/membership/ai-quota；GET /api/admin/commissions"
+    ],
+    "syntheticPolicy": "额度7/周期billing_period、价格1000minor、佣金1000bps、卡1张/每天1次等只为当前lab显式confirmed fixture规则，不作为正式政策/授权/老师批准/真实退款或打款证明。",
+    "routing": "fresh默认legacy行为；不得关闭production拒绝或放宽真实paidcallback。若未来enforced路由纳入额外场景，需走真实quote/consume，不私写route。",
+    "rateAndConsent": "所有认证/管理/抽卡原限流保留；真实3100ms全局auth间距。没有AI外发，全部其他隐私授权默认关闭，不关闭角色/归属/epoch/final SQL guard。"
+  },
+  "drillSequence": [
+    {"step":1,"name":"fresh-and-preflight","meaning":"root新令后建立armed lab；显式fresh bootstrap/live服务；核actualAPP SHA、原生进程/工具/DB identity及真实auth。只读迁移预检先通过。"},
+    {"step":2,"name":"nonempty-baseline","meaning":"全部由真实sandbox API形成订单/会员/额度/佣金/抽卡事实；保存只含ID/状态/计数/散列的API证据和native同一读快照。无业务SQL seed。"},
+    {"step":3,"name":"committed-response-loss","meaning":"owned回环proxy真实转交原请求，收完整上游200后故意断开下游socket；客户端确实未知结果，再用原body/requestId回查/重放。核DB唯一order/payment/entitlement/draw，不凭前端cache或忽略响应冒网络故障。"},
+    {"step":4,"name":"same-state-process-fault","meaning":"持有原Popen/原生worker IPC handle的coordinator只kill自己actual app进程；记录fault时刻、ownedPID退出与重启新PID。原state原端口重新真实auth及APIreadback/replay，核支付/权益/佣金/卡quota不重复。不得kill别人的PID树。"},
+    {"step":5,"name":"sqlite-consistent-snapshot","meaning":"live readonly BEGIN固定快照+sqlite3.Connection.backup，源快照logical hashes与备份精确一致，integrity/FK通过，保留源live。不是普通复制WAL主文件。"},
+    {"step":6,"name":"native-d1-sql-snapshot","meaning":"先真实quiesce/停止源workerd且记录alltrackedPID0；用Miniflare精确d1Persist+DB UUID执行原生miniflare_d1_export，无SQL自己拼付款。记录实际SQL字节SHA/全schema及table digests。导出后可重启源做post-snapshot ACK。"},
+    {"step":7,"name":"post-snapshot-acks","meaning":"快照之后source live真实新POST确认至少一笔记录或订单并单列ACK ID/requestId哈希、服务器事实/时序；恢复snapshot没有这些已确认写时如实记录差异，不能以原snapshot零丢失替代实际RPO。"},
+    {"step":8,"name":"restore-fresh-target","meaning":"SQLite备份还原至全新restored角色；D1用真实Wrangler d1 execute --local --persist-to ABSstate --config ABSconfig --file ABSsql --yes。拒--remote，不让默认state介入。源及backup原字节保留。"},
+    {"step":9,"name":"restored-api-reconciliation","meaning":"先在任何可能写sync的API前核恢复库schema/tablehash等于snapshot，再启动恢复app并重新auth；核实际订单、paidwindow、权益、佣金、draw/cardquota；重放原幂等号；API读取导致的正常审计另列，不能掩盖restore前差异。"},
+    {"step":10,"name":"rollback-candidate","meaning":"rollback仅从同armed manifest绑定且SHA已校验backup恢复到另一个全新rollback目标，原源不覆写；恢复前后只读preflight。实际切换流量需coordinator确认旧ownedPID0、新目标API通过后单独记录，不把创建目标当已完成业务回滚。"},
+    {"step":11,"name":"evidence-and-cleanup","meaning":"每步实际时序/失败原bytes/工具和源码编译哈希；只停本次handles/实际tracked nativePID，vars0、监听0；报告不带密码/cookie/正文/金融凭据，备份单独私有且不默认交付。"}
+  ],
+  "readOnlyMigrationPreflight": {
+    "sqlite": "mode=ro+query_only，single read TX；integrity_check、foreign_key_check、user_version、sqliteVersion、sqlite_master schema fingerprint、每表columns/count/长度分隔排序行散列、ops_runtime_identity。不得尝试schema migration或VACUUM。",
+    "d1": "真实native D1 sqlite_master+数据摘要；明确_cf_平台catalog单列count/hash而不直接读受保护平台数据，不误算业务表；未知应用表不因未注册而跳过。PRAGMA支持不确定时返回covered=false/reason，不伪ok。schema_version为已知D1保留/不可用，采用catalog fingerprint，不请求它。",
+    "configuration": "核productionEnabled=false、actualPaymentsEnabled=false、sandbox显式配置、当前应用构建和必要schema版本；不导出环境原值，只env名称和secretRef有无。",
+    "noSchemaRewriteToPass": true
+  },
+  "wranglerBoundary": {
+    "installedVersionReadOnly": "4.92.0",
+    "exportTrap": "installed d1 export Local内部getLocalPersistencePath(undefined,config)，无persist-to参数，不能给任意--persist-to后假称导对；此工具不用该CLI导出。",
+    "nativeExport": "实际Miniflare({d1Persist:ownedState/v3/d1,d1Databases:{DB:manifest.d1DatabaseId}})，db.prepare('PRAGMA miniflare_d1_export(?,?,?);').bind(false,false).raw()；取dump[0].join(LF)原样保存。当前仅静态对照installed Wrangler实现，尚未probe。",
+    "nativeImport": "实际固定Node+Wrangler CLI，--local/--persist-to/--config/--file明确；import新state后不得让product init修好缺失schema再声称恢复完整。需要真实比较trigger/index/immutable/fence/epoch。",
+    "toolHashes": "Node/Python exe、Wrangler cli/package、Miniflare package/nativeWorkerd exe、实际esbuild4件及bundle/metafile/全部实际输入分别绑定；不把node_modules塞公开交付。",
+    "remainingBeforeExecution": "实际导出是否包含内部_cf表、trigger导入顺序、immutable guard对数据回灌的影响及PRAGMA支持，需未来fresh component明确探测；出现失败保SQL/报告不drop guards或改业务数据凑恢复。"
+  },
+  "reconciliation": {
+    "preApiExact": "恢复服务第一次业务读取前，snapshot/restored全table logical hash和schema相同；保存count及digest，不输出row bodies。",
+    "uniqueRelations": ["order.owner/request_id唯一", "原sandbox_pay ledger的owner/order/request与可信applied状态", "commerce_entitlements item唯一及原quantity/refunded_quantity", "membership_order_snapshots payment_event_id及不可变period绑定", "membership_ai_periods item/cycle唯一与grant:<period>事件", "commission_snapshots与ledger item/rule/version/beneficiary唯一，payment_event关联原账", "card_draws本人environment/day结果与原snapshot、card_daily_quota和时区仍一致"],
+    "notJustCounts": true,
+    "sideEffects": "API成员/佣金serializer可能真实sync；先比DB还原快照，再做API级状态/ID/冻结terms对账，二者分开，不能将当前时钟字段塞入历史金融等同或偷偷滤掉差异。",
+    "postSnapshotRpo": {"ackedWriteIds":[],"notRecoveredAcknowledgedWrites":null,"measuredLocalGapMs":null,"productionRPO":null},
+    "rto": "从实际故障/停源的单调时刻到新进程健康+重新auth+必要业务readback全部通过；另列start-only健康耗时、导入/恢复耗时，不把仅copy时间称完整RTO。"
+  },
+  "rollbackAndFailure": {
+    "allowed": "只armed lab当前run、经过SHA/integrity/schema验证backup、全新role-bound目标；业务guard/生产拒绝不变。",
+    "forbidden": ["任意DB/state路径", "覆盖源/旧预览库", "跨run reset", "递归删除或move未知目录", "DROP不可变/actor/epoch guards以导入", "真实生产db切换或付款补偿", "失败后覆盖旧report"],
+    "retention": "失败target/SQL/报告保持独立run原bytes；D1 native import outcome/exit/logSHA/字节先不可变写attempt诊断，再断言或进入后续对账，不能丢失败现场。SQLite CLI每步失败写新report。进程异常中断时下次仅从明确manifest人工续办，不猜残留目录属自己。",
+    "pythonHandle": "OwnedPython保存本实例Popen句柄，不接外部PID；crash kill后wait，restart使用固定server argv与role path，shell=false/windowsHide。",
+    "cloudHandle": "未来coordinator需拥有native worker IPC和实际workerd descendant清单；原生状态导出模块不负责启动第二个live app或假清理PID。"
+  },
+  "securityAndDelivery": {
+    "onlySyntheticAccounts": true,
+    "noRealExternalMessagesModelsPayments": true,
+    "noProxy": "直接Node http或Python ProxyHandler({})；禁环境HTTP代理带出cookie，禁redirect到外部。",
+    "backupSensitive": "即使合成DB也包含口令验证器/session/备注；SQL/SQLite仅本机lab，不放公开仓库或默认交付ZIP，报告仅摘要。",
+    "r2": "D1 SQL不含R2对象，当前只记录not-covered；卡图URL/元数据存在不证明binary恢复。若后续扩R2必须独立对象清单+字节SHA+真实私有GET/Range及tombstone边界。",
+    "cannotClaim": ["PostgreSQL主从或切换", "PITR/WAL物理抹除", "GPU中断恢复", "跨区/多AZ/云地域", "真实银行到账/真实退款或commission打款", "生产RPO/RTO达标", "目标国/真机表现", "供应商/备份已删除"]
+  },
+  "pendingBeforeRun": [
+    "Stage30所有14门、freeze、两书和finalproof完整闭环，并收到root新的执行令。",
+    "root审核本候选与独立SVT01合同，定最终lab coordinator/Cloud进程原生入口和14项或其他专项计数；当前工具是可审原语与API场景，不是已完成演练驱动。",
+    "静态peer确认原生D1命令/恢复marker声明、failure保全及source/tool identity；当前不得运行native export/import或任何drill。",
+    "实际fresh组件先probe有限schema/data/trigger完整回灌、当前CLI导入与R2明确未覆盖；component不能冒正式完整演练。",
+    "实际演练与登录负载顺序运行，记录本机资源/背景负载，不能同时压测后声称独立RTO。"
+  ]
+}

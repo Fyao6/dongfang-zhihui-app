@@ -1,5 +1,5 @@
 // Frozen implementation manifest for B11. This is not teacher approval.
-// This file is not in the current build. Load it last only after explicit integration.
+// Integrated release: old archives retain their original provenance; new calculations use the managed implementation identity.
 (function(root) {
   'use strict';
   const sourceHashes = {
@@ -18,7 +18,11 @@
   "adapterVersion": "sha256:81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
   "teacherConfirmed": false
 };
-  root.BAZI_RELEASE_MANIFEST = Object.freeze({...manifest, engine: Object.freeze({...manifest.engine}), sourceHashes: Object.freeze(sourceHashes)});
-  root.BaziVersionUI.install({manifest: root.BAZI_RELEASE_MANIFEST});
+  const descriptor=root.BAZI_SAMPLE_SOURCE_MANIFEST;
+  const ready=descriptor?.implementationReady===true&&/^[a-f0-9]{64}$/.test(descriptor.manifestSha256||'')&&/^[a-f0-9]{64}$/.test(descriptor.sourceHashes?.['04_研发源码/app/r4/bazi-sample-engine.js']||'');
+  const current=descriptor?{...manifest,ruleVersion:ready?'implementation-sha256:'+descriptor.manifestSha256:'implementation-unavailable',adapterVersion:ready?'sha256:'+descriptor.sourceHashes['04_研发源码/app/r4/bazi-sample-engine.js']:'unavailable',teacherConfirmed:false}:manifest;
+  const hashes=descriptor?descriptor.sourceHashes:sourceHashes;
+  root.BAZI_RELEASE_MANIFEST=Object.freeze({...current,engine:Object.freeze({...current.engine}),sourceHashes:Object.freeze({...hashes}),...(descriptor?{implementationReady:ready}:{})});
+  root.BaziVersionUI.install({manifest:root.BAZI_RELEASE_MANIFEST});
 })(typeof globalThis === 'object' ? globalThis : this);
 

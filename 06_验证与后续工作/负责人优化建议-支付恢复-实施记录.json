@@ -1,0 +1,374 @@
+{
+  "at_beijing": "2026-11-16T16:54:13.376601+08:00",
+  "module": "负责人优化建议-支付恢复",
+  "taskId": "PAY09",
+  "stage": 22,
+  "pass": true,
+  "status": "local-recovery-software-verified-real-channel-pending",
+  "requirement": {
+    "sourceIds": [
+      "P452",
+      "P453",
+      "P454",
+      "P501"
+    ],
+    "title": "支付异常恢复与主动查单",
+    "acceptance": "关APP后重开仍见真实结果，延迟显示处理中。",
+    "workbookRange": "98项明细!A78:H78"
+  },
+  "scope": "本人订单主动查单和持久恢复任务、真实独立回环HTTP签名上游、请求幂等/有限退避/租约恢复、配置撤回指纹、可信paid结果原子进入PAY08并仅消费本人关联收件、乱序终态保护、APP四语日夜及后台原生回查/重试。",
+  "production": {
+    "productionEnabled": false,
+    "realProviderTested": false,
+    "actualFundsMoved": false,
+    "sandboxFixtureOnly": true,
+    "originalDatabaseUsed": false,
+    "automaticSchedulerDeployed": false
+  },
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复-本轮全量回归结果.json",
+      "sha256": "56e4b8b9cf259633711a190d58b2fdb904b6ab00a586f1cd239e63851d719e0e",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T08:45:59.146Z",
+      "runId": null
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复-公网适配全量回归结果.json",
+      "sha256": "d77ac8db12d42befded74d48fb6da8ef1411480b9cb9ca1e59e48ded2df38757",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T08:48:10.810Z",
+      "runId": null
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复专项-python.json",
+      "sha256": "f64dd2b64c88c90d08a1fe15341db2c44f256102e0a07a1202a32c35ab36eef1",
+      "passed": 19,
+      "failed": 0,
+      "at": "2026-11-16T08:48:20.956Z",
+      "runId": "mwj0tza4_9cde74"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复专项-cloud.json",
+      "sha256": "fd7d786e34db69779bf926858d6ec87257575e28cab4aeb9273932483d54e420",
+      "passed": 19,
+      "failed": 0,
+      "at": "2026-11-16T08:48:10.843Z",
+      "runId": "mwj0trh7_a0e17b"
+    },
+    "Python交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-python.json",
+      "sha256": "0c07156368f667f3eb9e0ab29b22770f8f68b1fe01652325cd959fd6dc594e93",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T08:48:52.123Z",
+      "runId": "mwj0unbv_42621f"
+    },
+    "Cloud交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-cloud.json",
+      "sha256": "1de2583d3da745f4ecf7330e6d37d344c303401b92b778b4a7ac0189aec5c46e",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T08:50:48.691Z",
+      "runId": "mwj0x59v_b2ea71"
+    },
+    "PythonPAY08兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复-PAY08兼容-python.json",
+      "sha256": "f9b5f54192dacc1a3e16914ae37c64b335550939aac990c42cfe34ed36b606e0",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T08:48:53.086Z",
+      "runId": "mwj0uo2m_093f24"
+    },
+    "CloudPAY08兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复-PAY08兼容-cloud.json",
+      "sha256": "9cdc880db83ecc6be8910164ebb8ceb3f2481b2a0e5caec8b139e90845d5ccd1",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T08:48:10.814Z",
+      "runId": "mwj0trge_94840e"
+    },
+    "Python补充视觉": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python.json",
+      "sha256": "4a4b487898759f6e544338b98ab9a7e2463cca0e55a7d9a1aa161a76adb8d9cf",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T08:48:20.916Z",
+      "runId": "mwj0tz8z_f7efc4"
+    },
+    "Cloud补充视觉": {
+      "path": "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud.json",
+      "sha256": "15da49c1b655e29df6c1100a9575d9e956dd7a2f0b972151dab50be617d5edf5",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T08:48:10.853Z",
+      "runId": "mwj0trhg_a4ccac"
+    }
+  },
+  "actualFullBuildIdentityChecks": [
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/东方智慧-首页体验R4.html",
+      "expected": "42f10465466f024440ee8daeeeb766d3c47b2419e0a6250551343b53ea2fd169",
+      "actual": "42f10465466f024440ee8daeeeb766d3c47b2419e0a6250551343b53ea2fd169"
+    },
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/发给负责人-东方智慧首页R4.html",
+      "expected": "6637cc545ab5f3365dfe60ace41846ce26f3d3df8dd9d28b4b45cbbe85f047f0",
+      "actual": "6637cc545ab5f3365dfe60ace41846ce26f3d3df8dd9d28b4b45cbbe85f047f0"
+    },
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/计时后台-开发联调.html",
+      "expected": "beebba73121b06a34664fc1a6542a22acbcf318c033780c2ef44ee7b894b9ed9",
+      "actual": "beebba73121b06a34664fc1a6542a22acbcf318c033780c2ef44ee7b894b9ed9"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/东方智慧-首页体验R4.html",
+      "expected": "42f10465466f024440ee8daeeeb766d3c47b2419e0a6250551343b53ea2fd169",
+      "actual": "42f10465466f024440ee8daeeeb766d3c47b2419e0a6250551343b53ea2fd169"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/发给负责人-东方智慧首页R4.html",
+      "expected": "6637cc545ab5f3365dfe60ace41846ce26f3d3df8dd9d28b4b45cbbe85f047f0",
+      "actual": "6637cc545ab5f3365dfe60ace41846ce26f3d3df8dd9d28b4b45cbbe85f047f0"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/计时后台-开发联调.html",
+      "expected": "beebba73121b06a34664fc1a6542a22acbcf318c033780c2ef44ee7b894b9ed9",
+      "actual": "beebba73121b06a34664fc1a6542a22acbcf318c033780c2ef44ee7b894b9ed9"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/experience.html",
+      "expected": "99587c77a4703743b4a9c84b8d132081142cb4eed806c326466a914086a99881",
+      "actual": "99587c77a4703743b4a9c84b8d132081142cb4eed806c326466a914086a99881"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/admin.html",
+      "expected": "a5308b73899a0baa8aa07beb81dee5f95642d4b0894c954627e2263d7cad90dc",
+      "actual": "a5308b73899a0baa8aa07beb81dee5f95642d4b0894c954627e2263d7cad90dc"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/review.html",
+      "expected": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "actual": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "expected": "486f4a33edacbccc9eab55ff60bca1341300ec86700d33a97ae69db1e7112c5a",
+      "actual": "486f4a33edacbccc9eab55ff60bca1341300ec86700d33a97ae69db1e7112c5a"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/worker/index.ts",
+      "expected": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+      "actual": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/dist/server/index.js",
+      "expected": "84ff3085f151a1dd2a2fb465a0cf119ca3a68cab3b1d20aa9111afd743acbfc3",
+      "actual": "84ff3085f151a1dd2a2fb465a0cf119ca3a68cab3b1d20aa9111afd743acbfc3"
+    }
+  ],
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/payment_recovery.py": "128a69a66506cd58ca54dfeb3f5a797af3bfd6bbe7bd4ddac032eb65a37598ab",
+    "04_研发源码/app/r4/backend/payment_callbacks.py": "761b06d4f570b52ee60330055a97437e91e195a6fac15bbe6ec26bf0f7e022b4",
+    "04_研发源码/app/r4/backend/server.py": "fe9e04c97d1b23a8574374d28cce3d3aab8f2085e46dfca3f3a47e31be5710f4",
+    "04_研发源码/app/cloud/lib/payment-recovery.ts": "3f908c3bcbc1883a817fb12d724bbac604b825d3d0c93dd552bda8ba5592cedb",
+    "04_研发源码/app/cloud/lib/payment-callbacks.ts": "fe618e5defc17411bace5ce5295b3144f03eb55d41f4100e64ecc65ab69679e9",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "486f4a33edacbccc9eab55ff60bca1341300ec86700d33a97ae69db1e7112c5a",
+    "04_研发源码/app/r4/payment-recovery-ui.js": "15364c15bb50de20182fa17271a5648131be22564db23aadbe4dca70a48d6074",
+    "04_研发源码/app/r4/payment-recovery-admin.js": "e0620763dcb73446aaf74c243586fc623b34cf8cd2340ae6ed9cf662b638bae5",
+    "04_研发源码/app/r4/commerce-ui.js": "a1405d475d305554b9bc896652a346143b3bca2c10273a72b35c4a12cc342ff2",
+    "04_研发源码/app/r4/commerce-admin.js": "b3955bd21fdf1f1d883cd2bf0d51ab63e31040278724331ebc8e490adcc57c82",
+    "04_研发源码/app/r4/build.py": "dec9e3c999b70249cc68aae868091943c18571874618ab0eb14631f26f7b97d1",
+    "04_研发源码/app/cloud/prepare.py": "277392b29ce58ef1815cfdfd27e9df9ef6a3f065892c4f7e6b536a6464a555d5",
+    "06_验证与后续工作/全量回归.cjs": "7e561a8d83a95a96d6493033f6fc18ddfcdcde0be0ff1b488cbbd8fe972e2968",
+    "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879",
+    "06_验证与后续工作/负责人优化建议-支付恢复专项.cjs": "12647acb28ed54d111e2842deaa66e25a60e6f21032caa5548e4161fa8945d64",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉.cjs": "6017eea48c173aad4cbed48743b92730fc058ab6a2bb29cd868dc0084a180279",
+    "06_验证与后续工作/负责人优化建议-支付恢复验收启动.cjs": "9226d88a22c05490564f4c7df6a381fc73fbeb60759e97432d888ee8259853cc",
+    "06_验证与后续工作/负责人优化建议-支付恢复Python测试服务.py": "02e71616d127a34d02c9a8edf8c7dbb6e79da74b70fe5da031ecd41c7ccdf868",
+    "06_验证与后续工作/负责人优化建议-支付恢复Cloud测试服务.ts": "c9109d147d09be948dddcd27085c16d3878db68eb8e206d7f423a4484d830283",
+    "06_验证与后续工作/负责人优化建议-支付恢复HTTP查询夹具.py": "d4ab3fc284c0fc091637c348a2ce2d2488f8f0264c5044fe34e54566f794c504",
+    "06_验证与后续工作/负责人优化建议-支付恢复验收冻结.py": "de3216accf47c1e05bc90573803c3c4409fa02add7c5c5c695d9c07663f2486d"
+  },
+  "build_hashes": {
+    "03_当前APP/东方智慧-首页体验R4.html": "42f10465466f024440ee8daeeeb766d3c47b2419e0a6250551343b53ea2fd169",
+    "03_当前APP/计时后台-开发联调.html": "beebba73121b06a34664fc1a6542a22acbcf318c033780c2ef44ee7b894b9ed9",
+    "03_当前APP/发给负责人-东方智慧首页R4.html": "6637cc545ab5f3365dfe60ace41846ce26f3d3df8dd9d28b4b45cbbe85f047f0",
+    "03_当前APP/创作者中心.html": "59efed1a18b2f3a1b05a2964e85189de356535975052d1254dd5295926cd3a7c",
+    "04_研发源码/app/cloud/generated/experience.html": "99587c77a4703743b4a9c84b8d132081142cb4eed806c326466a914086a99881",
+    "04_研发源码/app/cloud/generated/admin.html": "a5308b73899a0baa8aa07beb81dee5f95642d4b0894c954627e2263d7cad90dc",
+    "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+    "04_研发源码/app/cloud/dist/server/index.js": "84ff3085f151a1dd2a2fb465a0cf119ca3a68cab3b1d20aa9111afd743acbfc3"
+  },
+  "visualEvidenceSHA256": {
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj0tza4_9cde74-过期租约本人恢复.png": "9c59bfd64f4580898f1cbe298e664fc8de9f95ccb2f739f01f3af16a6d68abde",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj0tza4_9cde74-zh-APP视口.png": "26d4b2572ee4541231eb3086e18ad131696f4aa612a5b8dd80b14100a263fa7d",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj0tza4_9cde74-zh-Hant-APP视口.png": "b3ba5573b707f3cf2e855a2aa5ce86da9672ae9c36486bf7d415301d935daa5c",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj0tza4_9cde74-en-APP视口.png": "3c679ecc531dd009d41920a55ad74e7872ba22585c8c4e3a153e5539450333cb",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj0tza4_9cde74-bo-APP视口.png": "83e66e4f35ed9b5421168917315d5779be97d51e354e8c63e0afdcd7b8904eb5",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj0trh7_a0e17b-过期租约本人恢复.png": "698eaf7824a6459bbb88edfab2c3d519d43e269357593a146d110bab51b6d9c2",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj0trh7_a0e17b-zh-APP视口.png": "02f6389b7bbca8a2c41b386fa92f63fd1d5259efc5419e5bf4024c1e3aeb13b3",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj0trh7_a0e17b-zh-Hant-APP视口.png": "b2b27b85292a0a513b6f31f60c9c369fa516f82051e3dc280dde993054dda117",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj0trh7_a0e17b-en-APP视口.png": "e4fe11b8ad8ad74e93c612e096cc45e6090a1784a7b50ceaafae44ce5e19171e",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj0trh7_a0e17b-bo-APP视口.png": "c3fa10da2b66127c16560f2db5496ccbe091cd2a7bfaebb956d721b94bbce057",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-python-mwj0unbv_42621f-数字购物车.png": "8ff32d336af308462b0dd72f92b459a8788e2ec6a451f0e984e061153c0d23e2",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-python-mwj0unbv_42621f-已支付订单.png": "9f405fee5f28d76a751194c5312417ddb99e07af900781cfc8e611d5719d7617",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-python-mwj0unbv_42621f-售后申请进度.png": "15d4b506d6fdfa120ad71f0338fcb14cf60223a98170fdff1f0e136e9c12c675",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-cloud-mwj0x59v_b2ea71-数字购物车.png": "364c74c6f2ffaa14ace7f7a84fe3c5b1f9386bcdd4893bbe4d1d07a0476c86a3",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-cloud-mwj0x59v_b2ea71-已支付订单.png": "cb682ee2a3463d3e3f8bffb35bee56461d2dfcbdf1abd1d46991ba36c0cf82c1",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-cloud-mwj0x59v_b2ea71-售后申请进度.png": "f607f82c1bcd17f2ccc4dfe2a8b07ab02b55eb1e8db2ab4cad75f4c2c96ac37b",
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwj0uo2m_093f24-后台-1280-长编号详情.png": "fb7e38790ee32a239d99dcf9d8165c3e4da669e29728e2e4c6c1d8f514c7acb2",
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwj0uo2m_093f24-后台-360-长编号详情.png": "9ad80230c9057581388ad1ab911a7e95587d5eda4993bae0973b84c95a91171a",
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwj0uo2m_093f24-后台重试.png": "1b98de87638fd08192937ad01c13254f6be859c52c0b0b21863a176a4d475fc9",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwj0trge_94840e-后台-1280-长编号详情.png": "dd6aa1d59bfe4d36b280cea9f403a90439aad6443c087a07cde60d8d023e937e",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwj0trge_94840e-后台-360-长编号详情.png": "a8c24a4dbb5b95cee75d12fc9c1c654ba0fd7e32293cf42b2d600e41b687fadd",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwj0trge_94840e-后台重试.png": "1b9f5848b742221e5ba7cfe482c1b25c82075f3d8b33e6c56fff7e30e4dd5ae0",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-360-day-待确认.png": "ba169e40f801a6d47c84d3227671ad45d2e6740fef3856cb3fb62fc8fa75c059",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-360-night-待确认.png": "195aabe7de7b73ef931402df3a5eaf3a438e5e1842753edb32e3fb18818d47a5",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-1280-day-待确认.png": "bafbb6cf351025ab69180c318b06400811c7d26713224e263424451a2390fc55",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-1280-night-待确认.png": "df2d05e014a823cd2e4c8220130d8a526a7054bd6cd5b6b9f1022c5a72cc9957",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-360-已确认.png": "90cd53225b1a9fa2d79c362ad860f39ef791f3823e72be0edcdbcaf71d433a7c",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-Hant-360-day-待确认.png": "097b874c87876e7386d49f3f06f2dbb8538ed852b02ff0d00b815889b857bddf",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-Hant-360-night-待确认.png": "d41545259821be1e9affca207ff97ffaa4c0d1db043b2585016a4408a4657767",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-Hant-1280-day-待确认.png": "4a84879fb5740ba0017b4dd178fed090c0da8c6588f5d48b043b4f553d02ae17",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-Hant-1280-night-待确认.png": "62f664133d456d68f07273ab9cc0e23d6009bd4e15f01072f21819be5243da28",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-zh-Hant-360-已确认.png": "636d2d7786d5942385edf867d678265faec92afe9a599a8793e9f3ffa4fd3af8",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-en-360-day-待确认.png": "2f9921b2621b7822a51ba1e26ce3c9a72155b40d72c9fc785cd734f5cd025046",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-en-360-night-待确认.png": "5dad11118dbf4b93f5611a427a43bbb7e567352f0b2c9100d420e6229aa831fd",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-en-1280-day-待确认.png": "36c078792c01663233fbb2cd0c03b22e4fa707cbf1115e677e350de5fb767ce3",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-en-1280-night-待确认.png": "d81b408d9f2297dd39380f07c94b02d259985944b1ad7f53cf6fc7fd93365556",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-en-360-已确认.png": "090547bce2d00c11ce1ca00276a24ade1bbbb94e5a9ebb75e2052a310c40857e",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-bo-360-day-待确认.png": "9b3b03b3cea0e52df4fbba93cd593c3edce1a72af3aa304855d1247bed657101",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-bo-360-night-待确认.png": "dfec8b4367b64ed813aa2b86cbb12c4f640a9f43083ff7f80d8efcaac3dc266e",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-bo-1280-day-待确认.png": "c01c78c09bc34f4f8d74b8600d537d654bab81f832be4a0b70d0c04d050e6a2c",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-bo-1280-night-待确认.png": "e18bb6bcd67e3dd4e4705441c21c986ca53076628718c3c8dff5667ddb42e88f",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-bo-360-已确认.png": "342811c572ec1e6e9156cd863fd347f729f50f17a63d50875ed006f65d84dac2",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-360-后台任务列表.png": "70bb20916bf639dbd320d66991e37ac33db265ad21019f797ac66af2c12933c3",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-360-后台详情与记录.png": "cc961428eeadd2e83184d5a2149da13453d41366ece502e82b3f261d99f3e444",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-1280-后台任务列表.png": "7dcea37c41c9e897259ab4256593fc2637ea91bdaa21ee2d446ac25a019b5fbe",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-1280-后台详情与记录.png": "3dde9d572f4dd888291cfa61d2c13574684fc2649777a30bd450ade3c1a4fda5",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python-mwj0tz8z_f7efc4-后台-重新排队与确认.png": "7704d00924ca66b2992c64b112e7181d3777d000f64a36d715ce45948b2944c3",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-360-day-待确认.png": "490f69fb8f024db8a4a0d2afe9e0d13b6d914deda32bb00071e08c7c82c448d8",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-360-night-待确认.png": "fb6774b636a5dc233f8cfa581ca8de55bbc79fb55b9963d5fa0c59245de908f9",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-1280-day-待确认.png": "7e6badc0a7d50883c90f4b893da4a1208d993c3ea71a265b658164cdbc02d6ac",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-1280-night-待确认.png": "fd6b9682a99e850be9c80c19011cac8e0429e0a5e570b2af709250cfb72f088a",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-360-已确认.png": "17682e48d315db4660f2844a95b8f5eaa5f4321e424b02dbcef5febcac719ee1",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-Hant-360-day-待确认.png": "4bbc8d46b21fbf40da1062d9ddcae9c818788ddc4fe53284ae97c6def3487274",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-Hant-360-night-待确认.png": "f3300e1991f7ebb8188a95bc9b15d64ca02393b2f6feb7642dcfd25686b571f4",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-Hant-1280-day-待确认.png": "1c40cfe9a4554f8dd93c9729f4294dc075e0be6d1beaeadb95b14aef4bc92331",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-Hant-1280-night-待确认.png": "c5e9f1c6cbbba4ebb05b876d9ba12eeaab30522513609673feadf6d8f3a50f04",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-zh-Hant-360-已确认.png": "88691c9164076f17b25ce8f3a98b540792ceef09ad0d08ec65cad209a7cb6e17",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-en-360-day-待确认.png": "c93eb18c52a4248aea4ada0b946e7fc0a7cff935dd747f18411dac49fb5ee924",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-en-360-night-待确认.png": "62f4c20d40db0714ac465a63d018136e28b4352b70dd721df7ee54381186fd6f",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-en-1280-day-待确认.png": "c91fc962b3957ba8faa1ebe3452f9480aecf8e3f471724055535d361e0392ef5",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-en-1280-night-待确认.png": "8a1559544d55f9f31e25f84f0276cec8e3143b5b3250b5c505b77c74b7939c7a",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-en-360-已确认.png": "4fe3b105209920528c1d64f02e9a0a8c73a2ac24b0cf8afaea9298de5a3933df",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-bo-360-day-待确认.png": "a017e6d6cf24ef63f5ffb6c4def87364f46bb7292eb84e747caf8795ec172f37",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-bo-360-night-待确认.png": "ff4a95efb7d134bb49d8c139e6fe650ec8406beb8b5d4c00cda178378792929a",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-bo-1280-day-待确认.png": "1bfee784e5759fab446cf2750ac373cfd3b14b0262ba30f74fe6f76ae923f3ec",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-bo-1280-night-待确认.png": "3e6d183a95862fa93a25f08cab8e65983c3cd1ffb260bd950bdf1390a527ebf1",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-bo-360-已确认.png": "d111684b561fab4e2f4c2fa606d040d55057a3fc10dbc53134a912bd2d377988",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-360-后台任务列表.png": "0d88cfbde1740288d1f7c1020e3b51eee43d64c447383bfb3ea14c6c943d7bab",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-360-后台详情与记录.png": "13c8cdde7dfffa3a6a6b1fb6d9b0ca28c42f5fca605f7165e573e10d44355154",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-1280-后台任务列表.png": "cbb800607d83e5c53897c7acb73c6aa7d4a3e05fa9e9f3c641ca09f5e646db7d",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-1280-后台详情与记录.png": "deebca01a7eb6ec80dd6a69fa0f5307d0e3eef540b2f0e74d1c68745d0f03d98",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud-mwj0trhg_a4ccac-后台-重新排队与确认.png": "09970f8bb43aed2a8210bf7b6a49bac26ed52978c11a074a000b1186e8c51309"
+  },
+  "failureHistory": [
+    {
+      "report": "负责人优化建议-支付恢复专项-cloud.json",
+      "at": "2026-11-16T08:33:00.722Z",
+      "passed": 7,
+      "failed": 12,
+      "failedNames": [
+        "并发同请求只发一次真实查单，异单复用请求号409且不重置任务",
+        "未付款待处理未找到与渠道失败保持未付，GET不重复查单",
+        "真实HTTP500与8秒超时产生有限退避，不制造付款或权益",
+        "签名时效大小JSON白名单与订单金额币种逐项绑定，2xx不能冒充可信成功",
+        "可信查询只消费本人指定收件，数字权益唯一发放而其他回调保持待处理",
+        "成功查询与同交易回调并发仅入账一次，后续重放不重复发权益",
+        "旧pending查询晚于成功回调返回，订单付款与既有权益不会回退",
+        "租约过期后新查询先确认，旧租约迟到响应不能覆盖新结果",
+        "SQL应用故障保留可信receipt，恢复只续消费而不重复向上游查单",
+        "真实查询在途时禁用适配或撤回引用或轮换密钥，旧paid响应不能入账",
+        "查询期间账号关闭及订单关闭过期退款，成功响应不越过最终门禁",
+        "APP四语日夜360与1280原生查询回查，离页返回与浮层真实计时保持"
+      ]
+    },
+    {
+      "report": "负责人优化建议-支付恢复专项-cloud.json",
+      "at": "2026-11-16T08:36:35.888Z",
+      "passed": 6,
+      "failed": 14,
+      "failedNames": [
+        "并发同请求只发一次真实查单，异单复用请求号409且不重置任务",
+        "未付款待处理未找到与渠道失败保持未付，GET不重复查单",
+        "真实HTTP500与8秒超时产生有限退避，不制造付款或权益",
+        "签名时效大小JSON白名单与订单金额币种逐项绑定，2xx不能冒充可信成功",
+        "可信查询只消费本人指定收件，数字权益唯一发放而其他回调保持待处理",
+        "成功查询与同交易回调并发仅入账一次，后续重放不重复发权益",
+        "旧pending查询晚于成功回调返回，订单付款与既有权益不会回退",
+        "租约过期后新查询先确认，旧租约迟到响应不能覆盖新结果",
+        "SQL应用故障保留可信receipt，恢复只续消费而不重复向上游查单",
+        "真实查询在途时禁用适配或撤回引用或轮换密钥，旧paid响应不能入账",
+        "查询期间账号关闭及订单关闭过期退款，成功响应不越过最终门禁",
+        "APP四语日夜360与1280原生查询回查，离页返回与浮层真实计时保持",
+        "源构建身份、最小日志和生产关闭保持到专项结束",
+        "源构建在专项期间保持同一身份"
+      ]
+    },
+    {
+      "report": "负责人优化建议-支付恢复交易兼容-cloud.json",
+      "at": "2026-11-16T08:48:10.770Z",
+      "passed": 30,
+      "failed": 1,
+      "failedNames": [
+        "库存1并发预占只能一单成功，付款扣库和退款回库各一次"
+      ]
+    },
+    {
+      "report": "负责人优化建议-支付恢复补充视觉-cloud.json",
+      "at": "2026-11-16T08:33:00.720Z",
+      "passed": 2,
+      "failed": 2,
+      "failedNames": [
+        "四语真实查询待确认与确认结果，日夜360和1280全控件可达",
+        "后台360和1280原生刷新查看横滑，待重试记录和处理轨迹完整可读"
+      ]
+    },
+    {
+      "report": "负责人优化建议-支付恢复补充视觉-cloud.json",
+      "at": "2026-11-16T08:36:35.866Z",
+      "passed": 1,
+      "failed": 4,
+      "failedNames": [
+        "四语真实查询待确认与确认结果，日夜360和1280全控件可达",
+        "后台360和1280原生刷新查看横滑，待重试记录和处理轨迹完整可读",
+        "补充视觉同一最终源码与构建，凭据未进入报告",
+        "源构建在专项期间保持同一身份"
+      ]
+    }
+  ],
+  "limitations": [
+    "签名HTTP上游是独立本地测试协议，不是正式Apple/Google/Stripe/PayPal验单或查单适配；这些真实接口仍须实际接入验收。",
+    "查询由本人POST或独立管理员恢复请求执行，任务可回查和续跑；没有生产常驻调度/自动唤醒或外部告警。",
+    "成功查询仍复用原数字/实物沙箱结算门禁；会员、迟到/关闭/退款冲突保留人工核查，PAY13库存/真实退款补偿未在本轮实现。",
+    "进程内配置撤回和密钥引用轮换通过本地测试；不是生产KMS/IAM或跨部署吊销验收。",
+    "本机浏览器四语/主题/宽度和字体检查不等于iOS/Android实机或藏语母语审校。"
+  ],
+  "frozenBytes": "UTF-8 LF write_bytes; old PAY08 receipts and report bytes preserved"
+}

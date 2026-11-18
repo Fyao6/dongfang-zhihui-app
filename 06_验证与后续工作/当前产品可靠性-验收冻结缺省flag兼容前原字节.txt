@@ -1,0 +1,760 @@
+# Derived only for the accepted current product; all eight operation validators remain unchanged.
+"""Read-only Stage31 collector; import/default invocation has no side effects.
+
+No wildcard report discovery, database access, test, or workbook edit. The sole
+child command is the fixed, read-only shared verifier for the actual repair proof.
+Root must explicitly select immutable evidence after every required run has ended.
+"""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+from collections import Counter
+import argparse
+import hashlib
+import json
+import math
+import os
+import re
+import stat
+import subprocess
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = Path(__file__).resolve().parent
+PREFIX = '负责人优化建议-当前产品可靠性'
+BASELINE = OUT / '负责人优化建议-本地可靠性-实施前核对.json'
+BASELINE_SHA256 = '6fe9d95b438cc5a638ae534f01cbf7f6298f6bd1ab3201b1f4324d507eb06919'
+SELECTION = OUT / (PREFIX + '-最终证据选择.json')
+PROOF = OUT / '负责人优化建议-卡组迁移-最终交付核验.json'
+PROOF_SHA256 = '752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07'
+REPAIR = OUT / (PREFIX + '-验收绑定.json')
+REPAIR_AUTHORIZATION = OUT / (PREFIX + '-授权基线-rev4.json')
+REPAIR_AUTHORIZATION_SHA256 = '0b2419d2cae0d66b82ed9dcd97157002912461c680ca0dac0a98a3e5d200184b'
+REPAIR_VERIFIER = OUT / (PREFIX + '-基线.cjs')
+NODE = Path.home() / '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe'
+SERVER = '04_研发源码/app/r4/backend/server.py'
+LOAD_PLAN = OUT / (PREFIX + '-执行合同.json')
+LOAD_PLAN_SHA256 = 'ddaf614d87b70cc61f7217044001fcd6c90bfa30ba784c7b95787a82a17e7234'
+ROLES = ('loadPython', 'loadCloud', 'recoveryPython', 'recoveryCloud',
+         'mediaPython', 'mediaCloud', 'probePython', 'probeCloud')
+TASK_IDS = ['SVT01', 'SVT03', 'X03']
+DELIVERY = ('负责人优化建议-当前产品可靠性-基线.cjs', '负责人优化建议-当前产品可靠性-验收冻结.py',
+            '负责人优化建议-当前产品可靠性-进度回填.py', '负责人优化建议-当前产品可靠性-最终核验.py',
+            '当前产品可靠性-进度表回填.mjs', '当前产品可靠性-进度表校验.py')
+HEX = re.compile(r'^[a-f0-9]{64}$')
+
+
+def sha(file):
+    digest = hashlib.sha256()
+    with Path(file).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def read(file):
+    def pairs(values):
+        result = {}
+        for key, value in values:
+            assert key not in result, 'duplicate JSON key'
+            result[key] = value
+        return result
+    return json.loads(Path(file).read_text('utf-8'), object_pairs_hook=pairs,
+                      parse_constant=lambda _: (_ for _ in ()).throw(AssertionError('nonfinite JSON')))
+
+
+def project_file(name):
+    assert isinstance(name, str) and not Path(name).is_absolute(), 'relative project evidence required'
+    name = name.replace('\\', '/')
+    assert '..' not in name.split('/'), 'canonical relative project path required'
+    result = (ROOT / name).resolve()
+    assert result.is_relative_to(ROOT) and result.is_file(), 'project evidence missing or outside root'
+    return result
+
+
+def verify_repair(entry):
+    """Only the shared current-product proof permits actual operation evidence."""
+    assert isinstance(entry, dict) and entry.get('path') == REPAIR.relative_to(ROOT).as_posix()
+    digest = entry.get('sha256')
+    assert isinstance(digest, str) and HEX.fullmatch(digest) and sha(REPAIR) == digest
+    authority = {'path': REPAIR_AUTHORIZATION.relative_to(ROOT).as_posix(),
+                 'sha256': REPAIR_AUTHORIZATION_SHA256}
+    assert entry.get('authorization') == authority and sha(REPAIR_AUTHORIZATION) == REPAIR_AUTHORIZATION_SHA256
+    environment = {key: os.environ[key] for key in ('SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'COMSPEC') if key in os.environ}
+    environment['PATH'] = str(NODE.parent)
+    result = subprocess.run([str(NODE), str(REPAIR_VERIFIER), '--verify-repair-proof',
+        '--repair-proof-sha256=' + digest, '--repair-authorization-sha256=' + REPAIR_AUTHORIZATION_SHA256],
+        cwd=ROOT, env=environment, shell=False, capture_output=True, timeout=90,
+        creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+    assert result.returncode == 0 and len(result.stdout) <= 262144, 'shared current-product proof verification failed'
+    checked = json.loads(result.stdout.decode('utf-8'))
+    assert checked.get('pass') is True and checked.get('stage') == 31 and checked.get('startsService') is False
+    assert checked.get('repairProof') == {'path': entry['path'], 'sha256': digest}
+    assert checked.get('authorization') == dict(authority, revision=4)
+    assert checked['stage30ProofAnchor']['path'] == PROOF.relative_to(ROOT).as_posix()
+    assert checked['stage30ProofAnchor']['sha256'] == PROOF_SHA256
+    assert checked['stage30ProofAnchor']['originalStage30ProductUnchanged'] is False
+    repair, authorization = read(REPAIR), read(REPAIR_AUTHORIZATION)
+    assert repair['kind'] == 'current-product-reliability-evidence-binding' and repair['opsExecutionAllowed']
+    assert authorization['revision'] == 4
+    current = authorization['currentProductHashes']
+    assert len(current) == authorization['currentProductInputCount'] and checked['currentSourceAndBuildHashes'] == current
+    for name, expected in repair['reportIdentityHashes'].items():
+        assert HEX.fullmatch(expected) and sha(project_file(name)) == expected, 'current execution input changed: ' + name
+    assert all(repair['reportIdentityHashes'][name] == digest for name, digest in current.items())
+    return repair, authorization, {
+        'path': entry['path'], 'sha256': digest, 'authorization': authority,
+        'sharedVerifier': {'path': REPAIR_VERIFIER.relative_to(ROOT).as_posix(), 'sha256': sha(REPAIR_VERIFIER)},
+        'sharedActualRepairVerifierUsed': True, 'candidateAloneAllowsExecution': False,
+        'perBackendPassed': checked['perBackendPassed'], 'inputCount': len(repair['reportIdentityHashes']),
+        'currentProductInputCount': authorization['currentProductInputCount'], 'stage30ProofAnchor': checked['stage30ProofAnchor'],
+        'originalStage30ProductUnchanged': False, 'revision': 4,
+        'historicalInputSets': authorization['historicalInputSets'],
+        'currentStableBuild': authorization['currentStableBuild'],
+        'authorizedProductChanges': authorization['authorizedProductChanges']}
+
+
+def verify_local_artifacts(entries):
+    """Verify private files or a complete owned directory manifest without exporting them."""
+    assert isinstance(entries, list)
+    verified, roots, provenance_cache = [], [], {}
+    for entry in entries:
+        assert isinstance(entry, dict) and entry.get('includedInDefaultHandoff') is False
+        name = entry.get('path')
+        assert isinstance(name, str) and not Path(name).is_absolute() and '\\' not in name and '..' not in name.split('/')
+        file = ROOT / name
+        assert file.exists() and file.resolve().is_relative_to(ROOT)
+        for current in (file, *file.parents):
+            if current == ROOT.parent:
+                break
+            info = current.lstat()
+            assert not stat.S_ISLNK(info.st_mode) and not (getattr(info, 'st_file_attributes', 0) & 0x400), 'reparse/link artifacts refused'
+        file = file.resolve()
+        if file.parent == OUT:
+            assert file.name.startswith(PREFIX), 'owned local-only file required'
+        else:
+            managed = ROOT / '04_研发源码/app/cloud/.wrangler'
+            assert file.is_relative_to(managed)
+            owned = file.relative_to(managed).parts[0]
+            anchor = entry.get('provenance')
+            assert isinstance(anchor, dict) and HEX.fullmatch(str(anchor.get('sha256', ''))), 'owned-state provenance anchor required'
+            authority = project_file(anchor['path'])
+            assert authority.parent == OUT and authority.name.startswith(PREFIX)
+            assert sha(authority) == anchor['sha256']
+            key = (str(authority), anchor['sha256'])
+            if key not in provenance_cache:
+                provenance_cache[key] = read(authority)
+            origin = provenance_cache[key]
+            if isinstance(origin.get('core'), dict):
+                core = origin['core']
+                run = core.get('runId')
+                assert re.fullmatch('[a-f0-9]{32}', str(run)) and core.get('backend') == 'cloud'
+                assert core.get('status') == 'armed-local-only' and core.get('productionEnabled') is False
+                namespace = core.get('cloudStateBasename', 'local-reliability-recovery-' + run)
+                assert namespace in ('rl-' + run, 'local-reliability-recovery-' + run)
+                assert owned in (namespace, namespace + '-restored', namespace + '-rollback')
+            else:
+                run = origin.get('runId')
+                assert re.fullmatch('[a-f0-9]{32}', str(run))
+                declared = origin.get('ownedState') or origin.get('ownedFreshState')
+                assert isinstance(declared, str)
+                declared = (ROOT / declared).resolve()
+                assert declared == managed / owned, 'selected evidence must name this exact state'
+                if origin.get('role') == 'mediaCloud':
+                    expected_name = PREFIX + '后端媒体隔离-cloud-' + run
+                elif origin.get('mode') in ('fixed-30-minute-load', 'interface-component-only'):
+                    assert origin.get('target') == 'cloud'
+                    expected_name = PREFIX + '隔离-cloud-' + run
+                elif origin.get('kind') == 'strict-old-snapshot-new-native-import-bridge':
+                    assert owned in ('lrni-' + run, 'local-reliability-native-import-debug-' + run)
+                    expected_name = owned
+                elif origin.get('kind') == 'actual-native-d1-import-diagnosis':
+                    expected_name = 'local-reliability-import-debug-' + run
+                else:
+                    raise AssertionError('unknown private-state provenance schema')
+                assert owned == expected_name, 'explicit owned local state required'
+        assert all(not (file == old or file.is_relative_to(old) or old.is_relative_to(file)) for old in roots), 'overlapping private artifact declarations'
+        roots.append(file)
+        if file.is_file():
+            assert entry.get('kind', 'file') == 'file' and HEX.fullmatch(str(entry.get('sha256', '')))
+            assert sha(file) == entry['sha256'], 'private file changed'
+            verified.append(dict(entry, bytes=file.stat().st_size))
+            continue
+        assert file.is_dir() and entry.get('kind') == 'directory'
+        manifest_entry = entry.get('manifest')
+        assert isinstance(manifest_entry, dict) and HEX.fullmatch(str(manifest_entry.get('sha256', '')))
+        manifest_path = project_file(manifest_entry['path'])
+        assert manifest_path.parent == OUT and manifest_path.name.startswith(PREFIX)
+        assert sha(manifest_path) == manifest_entry['sha256'], 'private directory manifest changed'
+        manifest = read(manifest_path)
+        assert manifest.get('schemaVersion') == 1 and manifest.get('root') == name
+        expected = manifest.get('files')
+        assert isinstance(expected, dict) and expected, 'complete nonempty private directory manifest required'
+        actual = {}
+        for directory, subdirs, files in os.walk(file, followlinks=False):
+            for child in subdirs + files:
+                item = Path(directory) / child
+                info = item.lstat()
+                assert not stat.S_ISLNK(info.st_mode) and not (getattr(info, 'st_file_attributes', 0) & 0x400)
+                assert item.name != '.dev.vars', 'private environment file must already be removed'
+            for child in files:
+                item = Path(directory) / child
+                assert item.is_file()
+                actual[item.relative_to(file).as_posix()] = sha(item)
+        assert actual == expected, 'private directory changed or manifest incomplete'
+        verified.append(dict(entry, fileCount=len(actual), manifestVerified=True))
+    return verified, roots
+
+
+def collect():
+    """Verify selected completed evidence, returning deterministic fields except time.
+
+    The selection file is an explicit root-authored allowlist, never a prefix glob.
+    Its role entries contain path, sha256, childExitCode; aliases are explicit
+    (originalPath, sha256, path) tuples. Diagnostic/tool/guide lists are explicit.
+    """
+    assert sha(BASELINE) == BASELINE_SHA256
+    baseline = read(BASELINE)
+    assert baseline['pass'] and baseline['nextLocalStage'] == 31
+    assert baseline['productChangesAuthorizedForThisExercise'] is False
+    assert sha(PROOF) == PROOF_SHA256
+    proof = read(PROOF)
+    assert proof['pass'] and proof['stage'] == 30
+    assert proof['perBackendPassed'] == {'Python': 195, 'Cloud': 195}
+    assert proof['sourceAndBuildInputCount'] == 516
+    selected = read(SELECTION)
+    assert selected['schemaVersion'] == 1 and selected['stage'] == 31
+    assert selected['authorizedByRoot'] is True
+    assert selected['previousFinalProof'] == {'path': PROOF.relative_to(ROOT).as_posix(), 'sha256': PROOF_SHA256}
+    assert set(selected['roles']) == set(ROLES), 'exact eight completed backend roles required'
+    repair, authorization, performance_repair = verify_repair(selected['performanceRepair'])
+    sources = repair['reportIdentityHashes']
+    original_protected = baseline['protectedHistoricalSHA256']
+    assert len(original_protected) == 3418
+    protected, historical_remaps = {}, {}
+    tuple_aliases = {(a['originalPath'], a['sha256']): a['path'] for a in authorization['historicalAliases']}
+    assert len(tuple_aliases) == len(authorization['historicalAliases'])
+    for name, digest in original_protected.items():
+        current = ROOT / name
+        if current.is_file() and sha(current) == digest:
+            actual_name = name
+        else:
+            actual_name = tuple_aliases[(name, digest)]
+            historical_remaps[name] = {'path': actual_name, 'sha256': digest}
+        assert sha(project_file(actual_name)) == digest, 'protected historical bytes changed: ' + name
+        assert actual_name not in protected, 'historical preservation path collision'
+        protected[actual_name] = digest
+    assert len(protected) == 3418 and SERVER in historical_remaps
+    receipt = read(OUT / '负责人优化建议-卡组迁移-实施记录.json')
+    inherited = receipt['reportIdentityHashes']
+    assert len(inherited) == 516
+    for name, digest in inherited.items():
+        assert proof['verifiedSHA256'][name] == digest
+        current = ROOT / name
+        historical = name if current.is_file() and sha(current) == digest else tuple_aliases[(name, digest)]
+        assert sha(project_file(historical)) == digest
+        if current.is_file():
+            assert sources[name] == sha(current), 'actual current inherited input missing'
+        else:
+            assert name not in sources and (name, digest) in tuple_aliases
+    evidence = {}
+    private_artifacts, private_roots = verify_local_artifacts(selected.get('localOnlyArtifacts', []))
+    aliases = dict(tuple_aliases)
+    alias_entries = selected.get('historicalInputAliases', [])
+    assert isinstance(alias_entries, list), 'aliases are a list keyed by (originalPath, sha256), not one copy per path'
+    for alias in alias_entries:
+        assert isinstance(alias, dict) and set(alias) == {'originalPath', 'path', 'sha256'}
+        name, digest = alias['originalPath'].replace('\\', '/'), alias['sha256']
+        assert name.startswith(('06_验证与后续工作/' + PREFIX, '06_验证与后续工作/负责人优化建议-本地可靠性')) and HEX.fullmatch(digest)
+        key = (name, digest)
+        assert key not in aliases or aliases[key] == alias['path'], 'conflicting historical path/hash alias'
+        file = project_file(alias['path'])
+        assert file.parent == OUT and file.name.startswith(('负责人优化建议-本地可靠性', PREFIX)) and sha(file) == digest
+        aliases[key] = alias['path'].replace('\\', '/')
+    private_bindings, runtime_tools, external_tools = {}, {}, {}
+
+    def bind(name, digest, *, historical=True):
+        name = name.replace('\\', '/')
+        assert HEX.fullmatch(digest), 'invalid SHA256'
+        actual_name = name
+        candidate = ROOT / name
+        if not candidate.is_file() or sha(candidate) != digest:
+            assert historical, 'current evidence changed'
+            alias = aliases.get((name, digest))
+            assert alias, 'preserved original source required for exact path and SHA256'
+            actual_name = alias
+        file = project_file(actual_name)
+        assert sha(file) == digest, 'preserved/current bytes changed'
+        if any(file == root or file.is_relative_to(root) for root in private_roots):
+            assert actual_name not in private_bindings or private_bindings[actual_name] == digest
+            private_bindings[actual_name] = digest
+            return file
+        if 'node_modules' in file.parts:
+            assert actual_name not in runtime_tools or runtime_tools[actual_name] == digest
+            runtime_tools[actual_name] = digest
+            return file
+        assert actual_name not in evidence or evidence[actual_name] == digest
+        evidence[actual_name] = digest
+        return file
+
+    def item(entry):
+        assert isinstance(entry, dict) and {'path', 'sha256'} <= set(entry)
+        return bind(entry['path'], entry['sha256'], historical=False)
+
+    def artifact_graph(value):
+        if isinstance(value, list):
+            for child in value:
+                artifact_graph(child)
+        elif isinstance(value, dict):
+            for path_key, hash_key in [('path', 'sha256'), ('bundle', 'bundleSha256'),
+                                       ('metafile', 'metafileSha256')]:
+                if isinstance(value.get(path_key), str) and HEX.fullmatch(str(value.get(hash_key, ''))):
+                    name = value[path_key]
+                    if not Path(name).is_absolute():
+                        bind(name, value[hash_key])
+            for key in ('inputHashes', 'sourceAndBuildHashes', 'sourceAndToolHashes', 'runtimeToolHashes',
+                        'runtimeDependencyHashes', 'reportIdentityHashes', 'sourceCopiesSHA256',
+                        'buildPreparationInputHashes', 'currentInheritedInputHashes'):
+                mapping = value.get(key)
+                if isinstance(mapping, dict):
+                    for name, digest in mapping.items():
+                        bind(name, digest)
+            for child in value.values():
+                artifact_graph(child)
+
+    # The shared verifier above checks the real 14-gate + native-safety acceptance.
+    # Bind those actual documents and native compilation records as delivery proof,
+    # while private DB/state and third-party tool bytes remain separately classified.
+    artifact_graph(performance_repair)
+    artifact_graph(repair)
+    artifact_graph(authorization)
+    # Current proof is a union of actual module receipts, not a synthetic fourteen-gate object.
+    module_refs = [repair[key] for key in ('growthReceipt', 'websiteReceipt', 'dailyReceipt', 'dailyFullReceipt')]
+    module_refs += repair['dailySpecial'] + [repair['requiredCl40']]
+    for module_ref in module_refs:
+        artifact_graph(read(project_file(module_ref['path'])))
+    growth_receipt = read(project_file(repair['growthReceipt']['path']))
+    website_receipt = read(project_file(repair['websiteReceipt']['path']))
+    daily_full_receipt = read(project_file(repair['dailyFullReceipt']['path']))
+    child_refs = growth_receipt['gates'] + list(website_receipt['full'].values())
+    child_refs += list(website_receipt['special'].values()) + list(daily_full_receipt['reports'].values())
+    child_refs += [entry['actualRouteLauncher'] for entry in website_receipt['special'].values()]
+    for child_ref in child_refs:
+        artifact_graph(read(project_file(child_ref['path'])))
+    previous_repair = read(project_file(authorization['pythonRepairProof']['path']))
+    artifact_graph(previous_repair)
+    for gate_entry in previous_repair['verification'].values():
+        artifact_graph(read(project_file(gate_entry['path'])))
+
+    def common(report):
+        assert report.get('productionEnabled') is False
+        assert report.get('formalAcceptance') is False
+        assert report.get('stage30Proof', {}).get('sha256') == PROOF_SHA256
+        if 'performanceRepair' in report:
+            binding = report['performanceRepair']
+            assert binding['repairProofSha256'] == performance_repair['sha256']
+            assert binding['authorizationSha256'] == REPAIR_AUTHORIZATION_SHA256
+            assert binding.get('sharedReadOnlyVerifierRequired') is True
+            assert binding.get('candidateAloneAllowsExecution') is False
+        else:
+            assert report.get('repairProof', {}).get('path') == performance_repair['path']
+            assert report.get('repairProof', {}).get('sha256') == performance_repair['sha256']
+            assert report.get('repairAuthorization', {}).get('path') == performance_repair['authorization']['path']
+            assert report.get('repairAuthorization', {}).get('sha256') == REPAIR_AUTHORIZATION_SHA256
+
+    def load(report, target):
+        common(report)
+        assert report['target'] == target and report['mode'] == 'fixed-30-minute-load'
+        assert report['localFunctionalObservationPassed'] is True
+        assert report['localBaselineCompleted'] is True and report['thirtyMinuteCompleted'] is True
+        assert report['sourceIdentityUnchanged'] is True
+        assert report['uniqueAuthenticatedSessions'] == 100
+        limits = report['limits']
+        for key, expected in [('users', 100), ('rps', 20), ('seconds', 1800), ('requests', 36000)]:
+            assert limits[key] == expected, 'short run cannot satisfy full role'
+        users = report['users']
+        assert len(users) == 100 and len({u['accountId'] for u in users}) == 100
+        assert all(u['role'] == 'user' and u['authStatusVerified'] for u in users)
+        assert report['measurement']['elapsedSeconds'] >= 1800
+        assert report['measurement']['outsideWindowDispatches'] == 0
+        raw = report['rawEvidence']
+        raw_path = bind(raw['path'], raw['sha256'], historical=False)
+        assert raw['complete'] and raw['integrityMatched'] and raw['sha256'] == raw['expectedRawSha256']
+        rows, counts, latencies = set(), Counter(), []
+        first_dispatch, last_dispatch = math.inf, -math.inf
+        with raw_path.open(encoding='utf-8') as stream:
+            for line in stream:
+                row = json.loads(line)
+                assert row['index'] not in rows and 0 <= row['index'] < 36000
+                rows.add(row['index'])
+                assert row['scheduledMs'] == row['index'] * 50
+                assert 0 <= row['dispatchMs'] < 1800000
+                assert type(row['dispatchMs']) in (int, float) and math.isfinite(row['dispatchMs'])
+                first_dispatch = min(first_dispatch, row['dispatchMs'])
+                last_dispatch = max(last_dispatch, row['dispatchMs'])
+                assert row['userIndex'] == (row['index'] + row['index'] // 100) % 100
+                assert row['status'] == 200 and row['success'] is True and row['error'] is None
+                assert math.isfinite(row['latencyMs']) and row['latencyMs'] >= 0
+                assert not ({'body', 'cookies', 'Cookie', 'Authorization', 'password', 'sessionHash'} & set(row))
+                latencies.append(row['latencyMs'])
+                counts[row['method'] + ' ' + row['route']] += 1
+        assert len(rows) == raw['actualLineCount'] == raw['expectedCount'] == 36000
+        assert counts == Counter({'GET /api/auth/status': 7200, 'GET /api/records': 7200,
+            'GET /api/privacy/preferences': 7200, 'GET /api/commerce/cart': 7200,
+            'GET /api/cards/draws?environment=sandbox': 6840, 'PATCH /api/privacy/preferences': 360})
+        latencies.sort()
+        observed = report['measurement']['overall']
+        assert observed['failed'] == 0
+        for label, percentile in [('p50Ms', .5), ('p95Ms', .95), ('p99Ms', .99)]:
+            expected = latencies[math.ceil(len(latencies) * percentile) - 1]
+            assert abs(observed[label] - expected) < 0.000001
+        writes = report['writeReconciliation']
+        assert len(writes) == 100 and sum(row['successfulWrites'] for row in writes) == 360
+        assert all(row['matched'] and row['allConsentsDisabled'] and row['unknownOutcomeWrites'] == 0 for row in writes)
+        cleanup = report['cleanup']
+        assert cleanup['pidInventoryComplete'] and not cleanup['ownedServerStillAlive']
+        assert not cleanup['trackedRemainingPids'] and cleanup['privateVarsRemaining'] == 0
+        return {'requests': 36000, 'users': 100, 'scheduledRps': 20, 'seconds': 1800,
+                'actualElapsedSeconds': report['measurement']['elapsedSeconds'],
+                'measurementStartedAt': report['measurementStartedAt'],
+                'firstActualDispatchMs': first_dispatch, 'lastActualDispatchMs': last_dispatch,
+                'p50Ms': observed['p50Ms'], 'p95Ms': observed['p95Ms'], 'p99Ms': observed['p99Ms'],
+                'professional800msThresholdConfirmed': False}
+
+    def recovery(report, target):
+        common(report)
+        assert report['target'] == target and report['componentOnly'] is False
+        assert report['localDrillPassed'] is True and report['status'] == 'local-drill-completed'
+        assert report['failed'] == 0 and report['passed'] == len(report['checks']) == 11
+        assert all(c['pass'] for c in report['checks'])
+        manifest = read(item(report['labManifest']))
+        core = manifest['core']
+        assert core['runId'] == report['runId'] and core['backend'] == target
+        assert core['status'] == 'armed-local-only' and core['explicitExecutionAuthorization'] is True
+        assert core['performanceRepair'] == report['performanceRepair']
+        assert core['sourceCopiesSHA256'] == report['sourceCopiesSHA256']
+        assert hashlib.sha256(json.dumps(core, ensure_ascii=False, sort_keys=True,
+            separators=(',', ':')).encode('utf-8')).hexdigest() == manifest['manifestSha256']
+        artifact_graph(core)
+        names = {c['name'] for c in report['checks']}
+        assert {'actual-committed-response-loss-and-idempotent-replay',
+                'actual-owned-process-fault-and-same-state-restart',
+                'fresh-snapshot-restore-before-any-app-initialization',
+                'actual-restored-service-and-nonzero-rpo-reconciliation',
+                'candidate-write-and-armed-lab-rollback-to-new-target'} <= names
+        assert report['cleanup']['allTrackedPidsExited'] is True
+        assert not report.get('allEpochRemainingPids', []) and report['privateVarsRemaining'] == 0
+        rpo = report['actualRpoDifference']
+        assert rpo['acknowledgedPostSnapshotWrites'] >= 1
+        assert rpo['notRecoveredAcknowledgedWrites'] >= 1 and rpo['zeroLossClaimed'] is False
+        assert rpo['productionRPO'] is None
+        return {'actualPassedChecks': report['passed'], 'actualNonzeroRpoDifference': rpo,
+                'productionRPOConfirmed': False, 'productionRTOConfirmed': False}
+
+    def media(report, target):
+        common(report)
+        assert report['role'] == ('mediaPython' if target == 'python' else 'mediaCloud')
+        assert report['target'] == target and report['pass'] is True and report['componentOnly'] is True
+        assert report['componentPassed'] is True and report['status'] == 'actual-authenticated-backend-media-passed'
+        assert report['sourceAndBuildHashes'] == sources
+        assert report['sourceUnchanged'] is True and report['mediaUnchanged'] is True
+        scope = report['scope']
+        assert scope['actualAuthenticatedBackendMediaApi'] is True and scope['loopbackOnly'] is True
+        assert scope['nativeLocalCloud'] is (target == 'cloud')
+        assert scope['backendAndBrowserOnSameMachine'] is True
+        assert scope['storageCacheCold'] is False and scope['prePlaybackFullAndRangeVerificationWarmsBackend'] is True
+        for key in ('frameworkAdapterCovered', 'appPlayerIntegrationCovered', 'cdnCovered',
+                    'targetCountryCovered', 'physicalMobileCovered', 'loadTestCovered', 'realSupplierCovered'):
+            assert scope[key] is False
+        accounts = report['accounts']
+        assert len(accounts) == 2 and {r['index'] for r in accounts} == {0, 1}
+        assert len({r['accountId'] for r in accounts}) == 2
+        assert all(r['role'] == 'user' and r['currentAuthVerified'] is True for r in accounts)
+        assert report['uniqueAuthenticatedSessions'] == 2 and report['storageStatePersistedToDisk'] is False
+        source = report['input']
+        media_file = item(source)
+        assert media_file.stat().st_size == source['bytes'] and source['bytes'] > 1024
+        assert proof['verifiedSHA256'][source['path'].replace('\\', '/')] == source['sha256']
+        with media_file.open('rb') as stream:
+            range_sha = hashlib.sha256(stream.read(1024)).hexdigest()
+        auth = report['authorizationProof']
+        assert auth['verified'] is True and auth['upload']['status'] == 200
+        assert auth['upload']['sourceSha256'] == source['sha256'] and auth['upload']['bytes'] == source['bytes']
+        assert auth['upload']['mime'] == 'video/mp4'
+        assert re.fullmatch(r'/api/media/[a-f0-9-]{36}', auth['upload']['url'])
+        full, partial = auth['ownerFull'], auth['ownerRange']
+        assert full['status'] == 200 and full['bytes'] == source['bytes'] and full['sha256'] == source['sha256']
+        assert partial['status'] == 206 and partial['bytes'] == 1024 and partial['sha256'] == range_sha
+        assert partial['contentRange'] == 'bytes 0-1023/' + str(source['bytes'])
+        for result in (full, partial):
+            assert result['contentType'].startswith('video/mp4')
+            assert 'private' in result['cacheControl'] and 'no-store' in result['cacheControl']
+        for actor in ('anonymous', 'otherOwner'):
+            for request in ('full', 'range'):
+                denied = auth[actor][request]
+                assert denied['status'] == 403 and not denied['contentType'].startswith('video/')
+                assert denied['sha256'] not in (source['sha256'], range_sha)
+        assert not report['externalRequests'] and not report['browserErrors']
+        samples = report['samples']
+        assert report['limits']['samples'] == len(samples) == 5
+        assert [row['index'] for row in samples] == list(range(5))
+
+        def number(value, nonnegative=True):
+            assert type(value) in (int, float) and math.isfinite(value)
+            assert not nonnegative or value >= 0
+            return value
+
+        values = {key: [] for key in ('firstPresentedFrameFromNativePlay', 'loadeddataFromContentSetRequest',
+                  'loadeddataRelativeToNativePlay', 'seekedEventFromNativeSeek',
+                  'presentedFrameRecoveryFromNativeSeek', 'firstMediaRequestTTFB')}
+        for sample in samples:
+            assert sample['passed'] and sample['cacheDisabled'] and sample['isolatedBrowserContext']
+            assert sample['backendSessionOwnerIndex'] == 0 and sample['documentOriginVerified']
+            measured, timing = sample['measurement'], sample['timing']
+            assert not sample['errors'] and not measured['errors'] and measured['frameApiAvailable'] is True
+            assert any(not r['paused'] and r['mediaTime'] > .25 for r in measured['samples'])
+            for segment in ('initial', 'seek'):
+                frame = measured['segments'][segment]['firstPresentedFrame']
+                assert frame['width'] > 0 and frame['height'] > 0
+                number(frame['mediaTime']); number(frame['elapsedFromRequestMs'])
+            assert timing['loadeddata']['covered'] and timing['loadeddata']['isPresentedFirstFrame'] is False
+            assert timing['presentedFirstFrame']['covered'] and timing['presentedFirstFrame']['source'] == 'requestVideoFrameCallback'
+            assert timing['seek']['realPostSeekPlaybackObserved'] and timing['seek']['isNativeScrubberDragTest'] is False
+            assert timing['waiting']['professionalStallRateClaimed'] is False
+            values['firstPresentedFrameFromNativePlay'].append(number(timing['presentedFirstFrame']['elapsedFromNativePlayRequestMs']))
+            values['loadeddataFromContentSetRequest'].append(number(sample['loadeddataFromContentSetRequestMs']))
+            values['loadeddataRelativeToNativePlay'].append(number(timing['loadeddata']['elapsedRelativeToNativePlayRequestMs'], False))
+            values['seekedEventFromNativeSeek'].append(number(timing['seek']['seekedEventLatencyMs']))
+            values['presentedFrameRecoveryFromNativeSeek'].append(number(timing['seek']['presentedFrameRecoveryLatencyMs']))
+            values['firstMediaRequestTTFB'].append(number(sample['firstMediaRequestTTFBMs']))
+            requests = [r for r in sample['mediaRequests'] if isinstance(r.get('timing'), dict)
+                        and type(r['timing'].get('responseStart')) in (int, float) and r['timing']['responseStart'] >= 0]
+            assert requests and all(r['status'] in (200, 206) and r['fromServiceWorker'] is False for r in requests)
+            assert any(r['status'] == 206 and r.get('range') for r in requests)
+            item(sample['capture'])
+        summary = report['summary']
+        assert summary['sampleCount'] == 5 and set(summary['metrics']) == set(values)
+        for key, actual in values.items():
+            metric = summary['metrics'][key]
+            assert metric['n'] == 5 and metric['values'] == actual
+            ordered = sorted(actual)
+            for label, fraction in (('p50Ms', .5), ('p95Ms', .95), ('p99Ms', .99)):
+                assert abs(metric[label] - ordered[math.ceil(5 * fraction) - 1]) < .000001
+            assert metric['minimumMs'] == min(actual) and metric['maximumMs'] == max(actual)
+        for key in ('waitingEventCount', 'stalledNetworkEventCount', 'observedWaitingMilliseconds', 'scriptedObservationSpanMs'):
+            expected = sum(row['timing']['waiting'][key] for row in samples)
+            assert abs(summary[key] - expected) < .000001
+        assert summary['professionalStallRateClaimed'] is False and summary['countryOrDeviceLatencyClaimed'] is False
+        cleanup = report['cleanup']
+        assert cleanup['browserCloseConfirmed'] and cleanup['browserContextsRemaining'] == 0
+        assert cleanup['apiContextsDisposed'] == cleanup['apiContextsCreated']
+        assert not cleanup['ownedServerStillAlive'] and not cleanup['remainingOwnedPids']
+        assert cleanup['ownedProcessInventoryComplete'] and cleanup['privateVarsRemaining'] == 0
+        item(report['tool']); item(report['tool']['commonVerifier'])
+        runtime = report['runtime']
+        dependency_root = NODE.parents[2]
+        fixed_runtime = {'playwrightEntry': dependency_root / 'node/node_modules/playwright/index.js',
+                         'browserRegistry': dependency_root / 'node/node_modules/playwright-core/browsers.json'}
+        for key, expected in fixed_runtime.items():
+            entry = runtime[key]
+            assert Path(entry['path']).resolve() == expected.resolve() and sha(expected) == entry['sha256']
+            external_tools[str(expected)] = entry['sha256']
+        browser = runtime['browserExecutable']
+        executable = Path(browser['path']).resolve()
+        browser_root = Path.home() / 'AppData/Local/ms-playwright'
+        edge_roots = [Path('C:/Program Files/Microsoft/Edge/Application'), Path('C:/Program Files (x86)/Microsoft/Edge/Application')]
+        assert executable.is_relative_to(browser_root) or any(executable.is_relative_to(p) for p in edge_roots)
+        assert executable.name.lower() in ('chrome-headless-shell.exe', 'chrome.exe', 'msedge.exe')
+        assert sha(executable) == browser['sha256']
+        external_tools[str(executable)] = browser['sha256']
+        assert runtime['nodeExecutableSha256'] == sha(NODE)
+        python_runtime = dependency_root / 'python/python.exe'
+        assert runtime['pythonExecutableSha256'] == sha(python_runtime)
+        external_tools[str(NODE)] = runtime['nodeExecutableSha256']
+        external_tools[str(python_runtime)] = runtime['pythonExecutableSha256']
+        artifacts = report['runtimeArtifacts']
+        if target == 'python':
+            assert artifacts == []
+        else:
+            assert len(artifacts) == 1
+            for artifact in artifacts:
+                assert artifact['preparationOnly'] is False and artifact['originalBusinessOptionsPreserved'] is True
+                assert artifact['rawReadsActualSourceBytes'] is True
+                bind(artifact['bundle'], artifact['bundleSha256']); meta = read(bind(artifact['metafile'], artifact['metafileSha256']))
+                virtual = artifact['virtualEntry']
+                assert virtual['name'] == 'owned-local-reliability-entry.ts' and virtual['embeddedInOwnTool'] is True
+                assert HEX.fullmatch(virtual['contentsSha256']) and virtual['name'] in meta['inputs']
+                assert runtime['nativeCloud']['virtualEntry'] == virtual
+                actual = {}
+                for name in meta['inputs']:
+                    if name == virtual['name']:
+                        continue
+                    unwrapped = name.removeprefix('raw:')
+                    file = Path(unwrapped)
+                    if not file.is_absolute():
+                        file = ROOT / '04_研发源码/app/cloud' / file
+                    file = file.resolve()
+                    assert file.is_relative_to(ROOT)
+                    actual[file.relative_to(ROOT).as_posix()] = sha(file)
+                assert actual == artifact['inputHashes']
+                assert all(sources[name] == digest for name, digest in actual.items())
+                assert len(artifact['runtimeDependencyHashes']) == 6
+                for name, digest in artifact['runtimeDependencyHashes'].items():
+                    bind(name, digest)
+        return {'actualAuthenticatedBackendMedia': True, 'samples': 5, 'metrics': summary['metrics'],
+                'actualNativeCloud': target == 'cloud', 'ownerFullAndRangeVerified': True,
+                'anonymousAndOtherOwnerDenied': True, 'browserCacheDisabled': True, 'storageCacheCold': False,
+                'prePlaybackVerificationWarmsStorage': True, 'appPlayerIntegrationCovered': False,
+                'cdnOrDeviceOrCountryCovered': False, 'professionalLatencyThresholdConfirmed': False}
+
+    verification, completed_reports = {}, {}
+    for role in ROLES:
+        entry = selected['roles'][role]
+        assert entry['childExitCode'] == 0, 'actual successful process completion required'
+        report_path = item(entry)
+        report = read(report_path)
+        completed_reports[role] = report
+        if role.startswith('load'):
+            observed = load(report, 'python' if role.endswith('Python') else 'cloud')
+        elif role.startswith('recovery'):
+            observed = recovery(report, 'python' if role.endswith('Python') else 'cloud')
+        elif role.startswith('media'):
+            observed = media(report, 'python' if role.endswith('Python') else 'cloud')
+        else:
+            common(report)
+            assert report['interfaceComponentPassed'] and report['mode'] == 'interface-component-only'
+            assert report['target'] == ('python' if role.endswith('Python') else 'cloud')
+            assert len(report['interfaceRequests']) == 13
+            assert all(row['status'] == 200 and row['success'] for row in report['interfaceRequests'])
+            assert report['interfaceOwnershipEvidence']['otherOwnerUnchanged']
+            assert not report['cleanup']['ownedServerStillAlive'] and not report['cleanup']['trackedRemainingPids']
+            observed = {'actualAccounts': 2, 'actualInterfaceRequests': 13, 'loadTestCovered': False}
+        artifact_graph(report)
+        verification[role] = {'path': entry['path'], 'sha256': entry['sha256'],
+                              'childExitCode': 0, 'pass': True, 'observed': observed}
+    assert sha(LOAD_PLAN) == LOAD_PLAN_SHA256
+    load_plan = read(LOAD_PLAN)
+    proposed = load_plan['proposedExecution']
+    assert load_plan['revision'] == 7 and proposed['runTargetsConcurrently'] is True
+    assert proposed['runTargetsSequentially'] is False
+    for key, expected in (('usersPerTarget', 100), ('sessionsPerTarget', 100), ('rps', 20),
+                          ('measuredSeconds', 1800), ('plannedMeasuredRequestsPerTarget', 36000),
+                          ('combinedHostPlannedRps', 40), ('combinedHostPlannedAuthenticatedUsers', 200)):
+        assert proposed[key] == expected
+    intervals, planned_intervals = {}, {}
+    for role in ('loadPython', 'loadCloud'):
+        report = completed_reports[role]
+        assert report['hardware']['loadGeneratorAndServiceSameMachine'] is True
+        assert report['hardware']['backgroundLoadControlled'] is False
+        started = datetime.fromisoformat(report['measurementStartedAt'].replace('Z', '+00:00'))
+        assert started.tzinfo is not None
+        planned_intervals[role] = (started, started + timedelta(seconds=1800))
+        observed = verification[role]['observed']
+        intervals[role] = (started + timedelta(milliseconds=observed['firstActualDispatchMs']),
+                           started + timedelta(milliseconds=observed['lastActualDispatchMs']))
+    py_hw, cl_hw = (completed_reports[r]['hardware'] for r in ('loadPython', 'loadCloud'))
+    assert all(py_hw[k] == cl_hw[k] for k in ('cpu', 'logicalProcessors', 'totalMemoryBytes', 'platform', 'architecture'))
+    overlap = max(0, (min(v[1] for v in intervals.values()) - max(v[0] for v in intervals.values())).total_seconds())
+    planned_overlap = max(0, (min(v[1] for v in planned_intervals.values()) - max(v[0] for v in planned_intervals.values())).total_seconds())
+    assert overlap > 0, 'the two actual dispatch windows must overlap for the selected cohost plan'
+    cohost = {'plan': {'path': LOAD_PLAN.relative_to(ROOT).as_posix(), 'sha256': LOAD_PLAN_SHA256},
+        'planRevision': 7, 'samePhysicalHost': True, 'separateProductionCapacityClaimed': False,
+        'plannedUsersPerBackend': 100, 'plannedRpsPerBackend': 20,
+        'combinedPlannedAuthenticatedUsers': 200, 'combinedPlannedRps': 40,
+        'actualDispatchWindowOverlapSeconds': overlap,
+        'actualOverlapDefinition': 'Intersection of each actual first-to-last dispatch span derived from every raw request; not a claim of continuous concurrent requests.',
+        'plannedMeasuredWindowOverlapSeconds': planned_overlap,
+        'dispatchWindows': {r: {'actualFirstDispatchAt': v[0].isoformat(), 'actualLastDispatchAt': v[1].isoformat(),
+            'plannedMeasurementStart': planned_intervals[r][0].isoformat(), 'plannedMeasurementEnd': planned_intervals[r][1].isoformat()}
+            for r, v in intervals.items()},
+        'backgroundLoadControlled': False}
+    bind(cohost['plan']['path'], LOAD_PLAN_SHA256, historical=False)
+    for category in ('diagnostics', 'tools'):
+        for entry in selected.get(category, []):
+            item(entry)
+    guide = selected['guide']
+    item(guide)
+    assert project_file(guide['path']).name == '本地可靠性与交付核验说明.txt'
+    delivery = {}
+    for suffix in DELIVERY:
+        file = OUT / suffix
+        digest = sha(file)
+        name = file.relative_to(ROOT).as_posix()
+        bind(name, digest, historical=False)
+        delivery[name] = digest
+    selection_anchor = {'path': SELECTION.relative_to(ROOT).as_posix(), 'sha256': sha(SELECTION)}
+    evidence[selection_anchor['path']] = selection_anchor['sha256']
+    progress = {
+        'SVT01': '普通业务双端各100个真实登录账号、20次/秒、1800秒、36000请求与CAS写入/归属回查，同机重叠窗口合计200会话/40RPS；另有双端真实后端鉴权MP4各5次禁浏览器缓存播放、RVFC首帧、seek及本人/匿名/他人和Range验证。800ms仍非已确认验收阈值。',
+        'SVT03': '隔离沙箱真实非空支付、会员周期额度、佣金与抽卡事实，经首次付款提交后丢响应重放、自有进程故障、SQLite/本地D1快照恢复及API/原生关联回查。快照后已确认写未恢复的差异如实保留。',
+        'X03': '当前本地方有只读迁移预检、全新受管目标恢复、独立回滚目标、原始失败与源码/工具身份、清理和交付边界证据；未上线、发布或改生产库。'}
+    remaining = {
+        'SVT01': '仍需生产目标地区网络/CDN、真实手机、正式鉴权媒体全链路与明确性能指标验收；同机双端合成负载及浏览器测试页不能替代生产容量或APP播放器整合验收。',
+        'SVT03': '仍需生产基础设施、PostgreSQL/GPU/跨区/PITR故障恢复与确认RPO/RTO；本地逻辑恢复不证明生产零丢失、供应商或备份删除。',
+        'X03': '仍需目标生产环境的部署、流量切换、回滚与接管实演，以及真实服务凭据、授权、运维责任和正式验收；当前未公开发布。'}
+    return {'pass': True, 'stage': 31, 'taskIds': TASK_IDS,
+        'at_beijing': datetime.now(timezone(timedelta(hours=8))).isoformat(),
+        'productSourceBuildUnchanged': True, 'productionEnabled': False,
+        'productUnchangedMeaning': 'No drift from the separately accepted repaired execution baseline; this is not a claim that original Stage30 product bytes are unchanged.',
+        'sourceChangedSinceStage30': True, 'originalStage30ProductUnchanged': False,
+        'performanceRepair': performance_repair,
+        'cohostLoadObservation': cohost,
+        'formalAcceptance': False, 'verification': verification,
+        'freezeHelperSHA256': sha(Path(__file__)),
+        'authorizedWorkbookBaselineSHA256': baseline['authorizedWorkbookBaselineSHA256'],
+        'protectedHistoricalSHA256': protected, 'sourceAndBuildSHA256': sources,
+        'originalHistoricalInputRemaps': historical_remaps,
+        'verifiedEvidenceSHA256': dict(sorted(evidence.items())),
+        'deliveryHelperSHA256': delivery, 'guide': guide,
+        'selection': selection_anchor,
+        'previousFinalProof': baseline['previousFinalProof'],
+        'preflight': {'path': BASELINE.relative_to(ROOT).as_posix(), 'sha256': BASELINE_SHA256},
+        'historicalInputAliases': alias_entries,
+        'localOnlyArtifacts': private_artifacts,
+        'verifiedLocalOnlyArtifactSHA256': dict(sorted(private_bindings.items())),
+        'privateLabDatabasesIncludedInHandoff': False,
+        'runtimeToolSHA256': dict(sorted(runtime_tools.items())),
+        'externalRuntimeToolSHA256': dict(sorted(external_tools.items())),
+        'toolchainIncludedInHandoff': False,
+        'taskProgress': progress, 'taskRemaining': remaining,
+        'remainingLocalSoftware': {'SVT01': ['生产鉴权媒体链路与目标地区/实机性能验收'],
+            'SVT03': ['生产拓扑上的故障注入、恢复监测、RPO/RTO与告警联调'],
+            'X03': ['生产部署与回滚、流量切换及运维接管实演']},
+        'taskBoundary': {key: progress[key] + ' ' + remaining[key] for key in TASK_IDS},
+        'externalInputs': {'SVT01': ['确认性能SLO、目标地区网络、实机/CDN测试条件'],
+            'SVT03': ['生产拓扑、数据策略、故障窗口及确认RPO/RTO'],
+            'X03': ['生产账号/域名/凭据、发布授权和运维接管人员']},
+        'overview': {'server': '双端同机普通业务完整负载与各5次真实后端鉴权媒体浏览器观察已有可核实证据，保持生产边界。',
+            'serverRemaining': remaining['SVT01'] + ' ' + remaining['SVT03'],
+            'delivery': progress['X03'], 'deliveryRemaining': remaining['X03'],
+            'next': '8组本地软件后，可靠性与交付准备按实际本地范围留证。',
+            'nextRemaining': '真实资料、正式服务、专业验收和生产/目标地区/实机继续按98项明细推进。'},
+        'scope': 'SVT01/SVT03/X03本机合成负载、隔离故障恢复、只读迁移预检与本地交付准备；不代表整项完成或生产验收。',
+        'limitations': ['100登录会话不等于100并发请求；实际峰值见负载原报告。',
+            '双端负载及生成器共享同一主机CPU；记录实际重叠窗口，不推断独立生产容量。',
+            '媒体由真实后端鉴权接口供浏览器测试页播放；不是正式APP播放器整合、CDN或实机。每指标仅5样本，P95/P99为这5次最大值；预先full/Range验证已暖后端存储，禁浏览器缓存不等于冷存储。',
+            '保留非零快照差异；生产RPO/RTO、PG/GPU/PITR/多区及供应商删除未证明。',
+            '私有数据库/SQL/state和第三方node_modules默认不进入交付包。'],
+        'nextActions': ['按98项待资料与正式验收边界接续，不将本地合成结果升级为生产通过。']}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Default describe; collect is strictly read-only.')
+    parser.add_argument('--collect', action='store_true')
+    parser.add_argument('--freeze', action='store_true')
+    parser.add_argument('--authorized-by-root', action='store_true')
+    parser.add_argument('--selection-sha256')
+    args = parser.parse_args()
+    if not args.collect and not args.freeze:
+        print(json.dumps({'status': 'prepared-not-run', 'stage': 31, 'collectHasSideEffects': False,
+                          'selectionRequired': SELECTION.name, 'roles': ROLES}, ensure_ascii=False))
+    else:
+        assert not (args.collect and args.freeze), 'choose collect or explicit freeze'
+        if args.freeze:
+            assert args.authorized_by_root and sha(SELECTION) == args.selection_sha256
+        result = collect()
+        if args.freeze:
+            file = OUT / (PREFIX + '-实施记录.json')
+            with file.open('xb') as stream:
+                stream.write((json.dumps(result, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
+            print(json.dumps({'pass': True, 'receipt': file.relative_to(ROOT).as_posix(), 'sha256': sha(file)}))
+        else:
+            print(json.dumps(result, ensure_ascii=False))

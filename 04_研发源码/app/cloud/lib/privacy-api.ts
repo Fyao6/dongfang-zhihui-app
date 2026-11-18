@@ -1,5 +1,8 @@
 import {publicMemoryState,onMemoryPreferencesChangeStatements,memoryCleanupStatements} from './memory-service';
+import {CARD_IMPORT_PRIVACY_QUERIES,cardImportErasureStatement,cardPrivateErasureCounts} from './card-imports';
+import {CARD_HISTORY_PRIVACY_QUERIES,cardHistoryErasureStatements} from './card-history-migration';
 import {CARD_PRIVACY_QUERIES,cardPrivacyDeletionStatements,CARD_PRIVACY_DELETE_COUNTS_SQL} from './card-service';
+import {sampleEraseStatement,SAMPLE_PRIVACY_QUERIES,samplePrivacyRedaction} from './bazi-samples';
 // privacy-gateway-bridge:v1: global disclosure only; legacy authorize/save stay actualBinding.
 import {globalBinding as privacyGlobalBinding} from './privacy-gateway-bridge';
 // Account-scoped controls. Local deletion never stands in for provider/backup confirmation.
@@ -182,14 +185,42 @@ export async function privacyRoute(a:any,path:string,method:string,fail:(n:numbe
    commissionPaymentSummary:"SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?",
    commissionOwnAttributions:"SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?",
    commissionOwnInvitations:"SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?",
+   digitalOrderSnapshots:'SELECT item_id,order_id,content_id,media_id,policy_snapshot,created FROM digital_order_snapshots WHERE owner=?',
+   digitalEntitlementGrants:'SELECT id,order_id,item_id,content_id,media_id,policy_snapshot,uses_per_unit,original_quantity,used,overused,starts,expires,created,updated FROM digital_entitlement_grants WHERE owner=?',
+   digitalAccessLeases:'SELECT id,grant_id,request_id,created,expires FROM digital_access_leases WHERE owner=?',
+   digitalEntitlementUses:'SELECT id,grant_id,lease_id,action,created FROM digital_entitlement_uses WHERE owner=?',
+   membershipAIPeriods:'SELECT id,subscription_id,item_id,cycle_start,cycle_end,credits,balance,reserved,status,reason,policy_snapshot,benefits_snapshot,created,updated FROM membership_ai_periods WHERE owner=?',
+   membershipAIAllocations:'SELECT job_id,period_id,reserved_credits,charged_credits,state,created,updated FROM membership_ai_allocations WHERE owner=?',
+   membershipAIEvents:'SELECT period_id,job_id,action,credits,created FROM membership_ai_events WHERE owner=?',
    aiGatewayWallet:'SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',
    aiGatewayGrants:'SELECT request_id,credits,created FROM ai_gateway_grants WHERE owner=?',
    aiGatewayProviderPermissions:'SELECT provider_id,provider_binding,policy_version,global_revision,categories,revision,created,updated FROM ai_gateway_provider_consents WHERE owner=?',
-   aiGatewayRequests:'SELECT id,request_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated FROM ai_gateway_jobs WHERE owner=?',
+   aiGatewayRequests:'SELECT id,request_id,quota_source,quota_period_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated FROM ai_gateway_jobs WHERE owner=?',
+   legacyGatewayOutputs:"SELECT id,output_text,created,updated FROM ai_gateway_jobs WHERE owner=? AND output_text IS NOT NULL AND output_text!=''",
+   paymentRoutingVersions:'SELECT id,revision,rule_version,context_digest,digest,created FROM payment_routing_versions WHERE actor=?',
+   paymentRoutingQuotes:'SELECT id,request_id,purpose,order_id,mode,policy_revision,context_digest,created,expires FROM payment_routing_quotes WHERE owner=?',
+   orderPaymentRoutes:'SELECT order_id,mode,quote_id,policy_revision,context_digest,matrix_applied,digest,created FROM commerce_order_payment_routes WHERE owner=?',
+   paymentRoutingQuoteConsumptions:'SELECT quote_id,order_id,created FROM payment_routing_quote_consumptions WHERE owner=?',
+   paymentRoutingConfirmations:'SELECT id,order_id,quote_id,request_id,policy_revision,context_digest,digest,created,expires FROM payment_routing_confirmations WHERE owner=?',
+   localTaskRuns:'SELECT id,kind,status,started,finished,processed,last_error FROM ops_task_runs WHERE actor=?',
+   localTaskWorkers:'SELECT id,last_heartbeat,status,last_error,created,updated FROM ops_workers WHERE actor=?',
+   paymentMonitorScans:'SELECT id,observed_at,partial FROM payment_monitor_scans WHERE EXISTS(SELECT 1 FROM ops_task_runs x WHERE x.id=payment_monitor_scans.run_id AND x.actor=?)',
+   paymentAlerts:'SELECT id,rule_code,source_type,source_id,episode,severity,status,first_seen,last_seen,seen_scan_count,version,ack_at,resolved_at FROM payment_alerts WHERE owner=?',
+   paymentAlertActions:'SELECT id,action,expected_version,created FROM payment_alert_actions WHERE ? IN (actor,(SELECT owner FROM payment_alerts x WHERE x.id=payment_alert_actions.alert_id))',
+   paymentAlertNotifications:'SELECT id,event_id,status,attempts,next_attempt,last_error,created,updated FROM payment_alert_notifications WHERE ? IN (owner,created_by)',
+   paymentAlertNotificationAttempts:'SELECT id,attempt,action,result,error_code,created FROM payment_alert_notification_attempts WHERE ? IN (actor,(SELECT owner FROM payment_alert_notifications x WHERE x.id=payment_alert_notification_attempts.notification_id))',
+   paymentAlertNotificationReceipts:'SELECT id,event_id,attempt,http_status,confirmed_at FROM payment_alert_notification_receipts WHERE ? IN (actor,(SELECT owner FROM payment_alert_notifications x WHERE x.id=payment_alert_notification_receipts.notification_id))',
+   privacyDomainJobs:'SELECT id,request_id,mode,domains,as_of,version,status,confirmed_at,closure_receipt_id,created,updated FROM privacy_domain_jobs WHERE owner=?',
+   privacyDomainReceipts:'SELECT id,job_id,status,details,created,updated FROM privacy_domain_receipts WHERE owner=?',
+   privacyObjectDeletions:'SELECT id,receipt_id,media_id,status,attempts,lease_until,next_attempt,last_error,created,updated FROM privacy_object_deletions WHERE owner=?',
+   privacyRetentionJobs:'SELECT id,scopes,as_of,status,version,summary,created FROM privacy_retention_jobs WHERE owner=?',
+   privacyRetentionReceipts:'SELECT id,operation_id,status,details,created FROM privacy_retention_receipts WHERE owner=?',
    aiGatewayQuotaEvents:'SELECT job_id,action,credits,rule_version,created FROM ai_gateway_quota_events WHERE owner=?',
    aiGatewayAttempts:'SELECT job_id,provider_id,model,protocol,status,upstream_request_id,usage,cost_minor,currency,output_chars,error_code,created,updated FROM ai_gateway_attempts WHERE owner=?'
   },serverData:Record<string,any>={};
+  Object.assign(queries,SAMPLE_PRIVACY_QUERIES,CARD_IMPORT_PRIVACY_QUERIES,CARD_HISTORY_PRIVACY_QUERIES);
   for(const [name,sql] of Object.entries(queries)){const table=sql.split(' FROM ')[1].split(' ')[0];if(await a.one("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",table))serverData[name]=await a.all(sql,uid);}
+  samplePrivacyRedaction(serverData,a.url.searchParams.get('includeBaziSampleNames')==='1');
   await a.audit('privacy.export',uid,'本人资料导出，不包含凭据或他人私信正文。');
   return {schemaVersion:1,accountId:uid,exportedAt:now(),serverData,preferences:await response(),exclusions:['credentials','other-users-private-messages','full-payment-receipts'],localDataIncluded:false,localDataNote:'本机生辰、命盘、笔记和本机聊天未自动上传；可在本机单独合并导出。'};
  }
@@ -208,24 +239,27 @@ export async function privacyRoute(a:any,path:string,method:string,fail:(n:numbe
    const old=await a.one('SELECT * FROM privacy_requests WHERE user_id=? AND request_key=?',uid,key);if(old){if(old.kind!==kind)fail(409,'请求编号已用于另一项处理。');return {item:requestItem(old)};}
    const categories=({ 'delete-memory':['memory'],'delete-conversations':['general','card','chart','wellbeing'],'delete-records':['chart','wellbeing','card'],'close-account':['general','card','chart','wellbeing','memory']} as Record<string,string[]>)[kind];
    let providers=(await a.all('SELECT DISTINCT provider_id FROM privacy_transfers WHERE user_id=? AND category IN ('+categories.map(()=>'?').join(',')+')',uid,...categories)).map((r:any)=>r.provider_id);
-   const cfg=await configuration(a),t=now(),requestId=uuid(),backupStatus='pending-confirmation';
+   const cfg=await configuration(a),t=now(),requestId=uuid(),backupStatus='pending-confirmation' as string;
    if(kind!=='delete-memory')providers=[...new Set([...providers,...cfg.recipients.map((r:any)=>r.id)])].sort();
    const details:any={local:{status:kind==='close-account'?'pending-review':'completed',deletedCounts:{}},providers:providers.map((id:string)=>({id,status:'pending-confirmation'})),backups:{status:backupStatus,retentionDays:cfg.retention.backupDays},accountClosed:false,thirdPartyRenewalCancelled:false,localBrowserCleared:false,memoryServiceAvailable:true,retainedCategories:['account','community-messages','published-works','commerce-ledger','after-sales-ledger','commission-ledger','ai-request-quota-metadata','minimal-daily-card-quota','card-timezone-preferences','card-record-erasure-epoch'],financeRetentionDays:cfg.retention.financeDays,cardQuotaRetentionDays:null,cardQuotaRetentionNotice:'仅保留最小防重额度、时区与删除代际；不保留卡义或感受，期限待确认。'};
    const status=kind==='close-account'?'pending-review':providers.length?'pending-provider':backupStatus==='not-applicable'?'completed':'pending-backup';
    const actions:any[]=[];
-   if(kind==='delete-conversations')actions.push(a.stmt('DELETE FROM privacy_conversations WHERE user_id=?',uid));
+   if(kind==='delete-conversations')actions.push(a.stmt('DELETE FROM privacy_conversations WHERE user_id=?',uid),a.stmt('UPDATE ai_gateway_jobs SET output_text=NULL,saved_conversation_id=NULL WHERE owner=? AND (output_text IS NOT NULL OR saved_conversation_id IS NOT NULL)',uid),a.stmt("UPDATE ai_gateway_jobs SET cancel_requested=1 WHERE owner=? AND status IN ('queued','running')",uid));
    if(kind==='delete-records')for(const sql of ['DELETE FROM records WHERE owner=?','DELETE FROM timer_runs WHERE owner=?','DELETE FROM activity_daily WHERE user_id=?','DELETE FROM measurements WHERE connection_id IN (SELECT id FROM devices WHERE owner=?)'])actions.push(a.stmt(sql,uid));
    if(kind==='delete-records'){actions.push(...cardPrivacyDeletionStatements(a,uid));actions.push(a.stmt('INSERT INTO privacy_record_epochs VALUES(?,1,?) ON CONFLICT(owner) DO UPDATE SET revision=revision+1,updated=excluded.updated',uid,t));}
    if(kind==='close-account'){const p=await prefs(a,uid);actions.push(a.stmt('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,revision=privacy_preferences.revision+1,updated=excluded.updated',uid,json(flags()),p.policyVersion,p.revision+1,t,p.providerBinding));}
    if(['delete-conversations','delete-records'].includes(kind)){const p=await prefs(a,uid);actions.push(a.stmt('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET revision=privacy_preferences.revision+1,updated=excluded.updated',uid,json(p.consents),p.policyVersion,p.revision+1,t,p.providerBinding));}
    // Count the exact rows inside the same transaction, immediately before deletion.
    let detailSQL='?',detailArgs:any[]=[json(details)];
-   if(kind==='delete-conversations'){detailSQL="json_set(?,'$.local.deletedCounts',json_object('conversations',(SELECT count(*) FROM privacy_conversations WHERE user_id=?)))";detailArgs.push(uid);}
+   if(kind==='delete-conversations'){detailSQL="json_set(?,'$.local.deletedCounts',json_object('conversations',(SELECT count(*) FROM privacy_conversations WHERE user_id=?),'gatewayOutputs',(SELECT count(*) FROM ai_gateway_jobs WHERE owner=? AND (output_text IS NOT NULL OR saved_conversation_id IS NOT NULL))))";detailArgs.push(uid,uid);}
    if(kind==='delete-records'){detailSQL="json_set(?,'$.local.deletedCounts',json_object('records',(SELECT count(*) FROM records WHERE owner=?),'timeRecords',(SELECT count(*) FROM timer_runs WHERE owner=?),'activity',(SELECT count(*) FROM activity_daily WHERE user_id=?),'measurements',(SELECT count(*) FROM measurements WHERE connection_id IN (SELECT id FROM devices WHERE owner=?))))";detailArgs.push(uid,uid,uid,uid);}
    // card-service-delete-counts:v1: merge counts in the same pre-deletion atomic snapshot.
    if(kind==='delete-records'){detailSQL="json_patch("+detailSQL+",json_object('local',json_object('deletedCounts',"+CARD_PRIVACY_DELETE_COUNTS_SQL+")))";detailArgs.push(uid,uid,uid,uid);}
+   if(kind==='delete-records'){const imports=cardPrivateErasureCounts(uid),legacy=cardPrivateErasureCounts(uid,true);detailSQL="json_set("+detailSQL+",'$.local.deletedCounts.cardImports',json("+imports.sql+"),'$.local.deletedCounts.cardLegacy',json("+legacy.sql+"))";detailArgs.push(...imports.bindings,...legacy.bindings);}
    // A unique request row and the destructive statements form one atomic batch.
    actions.unshift(a.stmt('INSERT INTO privacy_requests VALUES (?,?,?,?,?,'+detailSQL+',?,?)',requestId,uid,key,kind,status,...detailArgs,t,t));
+   if(kind==='delete-records')actions.push(cardImportErasureStatement(a,uid,'privacy',requestId,t),...cardHistoryErasureStatements(a,uid,'EXISTS(SELECT 1 FROM privacy_requests WHERE id=? AND user_id=? AND kind=\'delete-records\')',[requestId,uid]));
+   if(kind==='delete-records')actions.push(sampleEraseStatement(a,uid,'privacy',requestId,t),a.stmt("UPDATE privacy_requests SET data=json_set(data,'$.local.deletedCounts.baziSamples',json((SELECT response_data FROM bazi_sample_operations WHERE owner=? AND kind='erase' AND request_id=?))) WHERE id=?",uid,requestId,requestId));
    if(kind==='delete-memory'){
     const guard={sql:'EXISTS(SELECT 1 FROM privacy_requests WHERE id=? AND user_id=?)',bindings:[requestId,uid]};
     const plan=await memoryCleanupStatements(a,uid,'privacy:'+key,t,guard);

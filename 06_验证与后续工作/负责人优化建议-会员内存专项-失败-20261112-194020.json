@@ -1,0 +1,139 @@
+{
+  "kind": "isolated-memory-with-real-unified-sandbox-orders",
+  "realProviderRequests": 0,
+  "productionDatabaseAccess": false,
+  "passed": 30,
+  "failed": 1,
+  "checks": [
+    {
+      "name": "default production catalog empty and real channels closed",
+      "pass": true
+    },
+    {
+      "name": "nonadmin cannot configure",
+      "pass": true
+    },
+    {
+      "name": "production cannot be enabled",
+      "pass": false,
+      "errorType": "AssertionError",
+      "error": "(404, 400)"
+    },
+    {
+      "name": "public plan uses unified integer money and explicit nullable AI quota",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed trial and unlimited AI refused",
+      "pass": true
+    },
+    {
+      "name": "real channel mappings cannot be activated",
+      "pass": true
+    },
+    {
+      "name": "draft channel map does not imply verified integration",
+      "pass": true
+    },
+    {
+      "name": "unpaid order cannot activate",
+      "pass": true
+    },
+    {
+      "name": "unpaid same-group duplicate blocked before any payment",
+      "pass": true
+    },
+    {
+      "name": "paid unified order activates isolated subscription only",
+      "pass": true
+    },
+    {
+      "name": "repeated activation has one subscription and payment",
+      "pass": true
+    },
+    {
+      "name": "another account cannot activate or cancel",
+      "pass": true
+    },
+    {
+      "name": "later plan edits preserve purchased rule version and terms",
+      "pass": true
+    },
+    {
+      "name": "active duplicate purchase denied",
+      "pass": true
+    },
+    {
+      "name": "renewal requires new paid order and extends same subscription once",
+      "pass": true
+    },
+    {
+      "name": "refund request is separate pending unified aftersale, not a refund",
+      "pass": true
+    },
+    {
+      "name": "refund request conflicts on changed reason",
+      "pass": true
+    },
+    {
+      "name": "cancel keeps paid access and dates, stops only sandbox renewal idempotently",
+      "pass": true
+    },
+    {
+      "name": "restore preserves cancellation and original paid period",
+      "pass": true
+    },
+    {
+      "name": "real-channel restore is explicitly unavailable",
+      "pass": true
+    },
+    {
+      "name": "cross-account restore is rejected",
+      "pass": true
+    },
+    {
+      "name": "sandbox failure grace pause hold resume derive from paid subscription without adding time",
+      "pass": true
+    },
+    {
+      "name": "nonadmin cannot simulate lifecycle events",
+      "pass": true
+    },
+    {
+      "name": "status event cannot claim payment or add time",
+      "pass": true
+    },
+    {
+      "name": "early expiry event denied",
+      "pass": true
+    },
+    {
+      "name": "cancelling paused subscription does not re-enable access",
+      "pass": true
+    },
+    {
+      "name": "refund of latest period falls back to prior paid period",
+      "pass": true
+    },
+    {
+      "name": "all member periods refunded revoke only member subscription",
+      "pass": true
+    },
+    {
+      "name": "expiry stops sandbox membership without deleting independent purchase",
+      "pass": true
+    },
+    {
+      "name": "restore never resets expired or refunded subscriptions",
+      "pass": true
+    },
+    {
+      "name": "calendar month clamps leap and nonleap boundaries",
+      "pass": true
+    }
+  ],
+  "sourceSha256": {
+    "04_研发源码\\app\\r4\\backend\\commerce.py": "759bfcf544153acfcfd9bb46e21f2d067d0336f9e329b7cd2b4729848a7d08a2",
+    "04_研发源码\\app\\r4\\backend\\membership_lifecycle.py": "bfc1eda05210f42b157cc7835c31f6cd73b10dd2a7ef2d2a61d9d0e51b74b4e3"
+  }
+}

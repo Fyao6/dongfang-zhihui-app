@@ -350,6 +350,10 @@ class Privacy:
             'commerceOrders': ('SELECT id,environment,status,payment_status,fulfillment_status,aftersale_status,currency,subtotal_minor,shipping_minor,tax_minor,total_minor,refunded_minor,shipping_address,tracking,created,updated FROM commerce_orders WHERE owner=?',),
             'commerceOrderItems': ('SELECT i.id,i.order_id,i.sku_id,i.product_id,i.title,i.type,i.quantity,i.price_minor,i.currency,i.content_id,i.price_version,i.refunded_quantity FROM commerce_order_items i JOIN commerce_orders o ON o.id=i.order_id WHERE o.owner=?',),
             'commerceEntitlements': ('SELECT environment,order_id,item_id,content_id,type,quantity,remaining,status,created,updated FROM commerce_entitlements WHERE owner=?',),
+            'digitalOrderSnapshots': ('SELECT item_id,order_id,content_id,media_id,policy_snapshot,created FROM digital_order_snapshots WHERE owner=?',),
+            'digitalEntitlementGrants': ('SELECT id,order_id,item_id,content_id,media_id,policy_snapshot,uses_per_unit,original_quantity,used,overused,starts,expires,created,updated FROM digital_entitlement_grants WHERE owner=?',),
+            'digitalAccessLeases': ('SELECT id,grant_id,request_id,created,expires FROM digital_access_leases WHERE owner=?',),
+            'digitalEntitlementUses': ('SELECT id,grant_id,lease_id,action,created FROM digital_entitlement_uses WHERE owner=?',),
             'commerceCart': ('SELECT environment,data,updated FROM commerce_carts WHERE owner=?',),
             'commercePaymentSummary': ('SELECT environment,order_id,kind,amount_minor,currency,items,status,created FROM commerce_payment_events WHERE owner=?',),
             'commerceAftersaleRequests': ('SELECT id,environment,order_id,reason,quantity,status,created,updated FROM commerce_aftersale_requests WHERE owner=?',),
@@ -383,7 +387,11 @@ class Privacy:
             'aiGatewayWallet': ('SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',),
             'aiGatewayGrants': ('SELECT request_id,credits,created FROM ai_gateway_grants WHERE owner=?',),
             'aiGatewayProviderPermissions': ('SELECT provider_id,provider_binding,policy_version,global_revision,categories,revision,created,updated FROM ai_gateway_provider_consents WHERE owner=?',),
-            'aiGatewayRequests': ('SELECT id,request_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated FROM ai_gateway_jobs WHERE owner=?',),
+            'aiGatewayRequests': ('SELECT id,request_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated,quota_source,quota_period_id FROM ai_gateway_jobs WHERE owner=?',),
+            'legacyGatewayOutputs': ('SELECT id,scene,output_text,saved_conversation_id,created,updated FROM ai_gateway_jobs WHERE owner=? AND output_text IS NOT NULL',),
+            'membershipAIPeriods': ('SELECT id,subscription_id,item_id,cycle_start,cycle_end,credits,balance,reserved,status,reason,policy_snapshot,benefits_snapshot,created,updated FROM membership_ai_periods WHERE owner=?',),
+            'membershipAIAllocations': ('SELECT job_id,period_id,reserved_credits,charged_credits,state,created,updated FROM membership_ai_allocations WHERE owner=?',),
+            'membershipAIEvents': ('SELECT period_id,job_id,action,credits,created FROM membership_ai_events WHERE owner=?',),
             'aiGatewayQuotaEvents': ('SELECT job_id,action,credits,rule_version,created FROM ai_gateway_quota_events WHERE owner=?',),
             'aiGatewayAttempts': ('SELECT job_id,provider_id,model,protocol,status,upstream_request_id,usage,cost_minor,currency,output_chars,error_code,created,updated FROM ai_gateway_attempts WHERE owner=?',),
         }
@@ -394,6 +402,19 @@ class Privacy:
                 if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone():
                     result[name] = [dict(r) for r in db.execute(sql, (self.uid,)).fetchall()]
             result.update(card_privacy_export(db, self.uid))
+            from card_imports import privacy_export as card_import_export
+            from card_history_migration import privacy_export as card_history_export
+            result.update(card_import_export(db,self.uid));result.update(card_history_export(db,self.uid))
+            from privacy_domains import export_metadata
+            result.update(export_metadata(db,self.uid))
+            from local_tasks import export_metadata as local_task_export
+            result.update(local_task_export(db,self.uid))
+            from payment_routing import export_metadata as payment_routing_export
+            result.update(payment_routing_export(db,self.uid))
+            from bazi_samples import export_metadata as sample_export
+            from urllib.parse import parse_qs
+            include_sample_names=parse_qs(urlsplit(self.h.path).query).get('includeBaziSampleNames',[''])[0]=='1'
+            result.update(sample_export(db,self.uid,include_sample_names))
             self.store.audit(db, self.uid, 'privacy.export', self.uid, '本人资料导出，不包含凭据或他人私信正文。')
         return {'schemaVersion': 1, 'accountId': self.uid, 'exportedAt': stamp(), 'serverData': result,
                 'preferences': self.response(), 'exclusions': ['credentials', 'other-users-private-messages', 'full-payment-receipts'],
@@ -439,6 +460,9 @@ class Privacy:
                 memory_receipt=append_memory_cleanup(db,self.uid,'privacy:'+key,stamp());deleted['memoryEntries']=memory_receipt['counts']['memoryEntries']
             if kind == 'delete-conversations':
                 deleted['conversations'] = db.execute('DELETE FROM privacy_conversations WHERE user_id=?', (self.uid,)).rowcount
+                # Keep request, financial and quota facts while scrubbing saved/legacy text.
+                deleted['gatewayOutputs'] = db.execute('UPDATE ai_gateway_jobs SET output_text=NULL,saved_conversation_id=NULL WHERE owner=? AND (output_text IS NOT NULL OR saved_conversation_id IS NOT NULL)', (self.uid,)).rowcount
+                db.execute("UPDATE ai_gateway_jobs SET cancel_requested=1 WHERE owner=? AND status IN ('queued','running')",(self.uid,))
             elif kind == 'delete-records':
                 db.execute('INSERT INTO privacy_record_epochs VALUES(?,1,?) ON CONFLICT(owner) DO UPDATE SET revision=revision+1,updated=excluded.updated',(self.uid,stamp()))
                 deleted['records'] = db.execute('DELETE FROM records WHERE owner=?', (self.uid,)).rowcount
@@ -464,6 +488,13 @@ class Privacy:
                        'financeRetentionDays': cfg['retention']['financeDays'], 'cardQuotaRetentionDays': None, 'cardQuotaRetentionNotice': '仅保留最小防重额度、时区与删除代际；不保留卡义或感受，期限待确认。'}
             request_id, created = str(uuid4()), stamp()
             db.execute('INSERT INTO privacy_requests VALUES (?,?,?,?,?,?,?,?)', (request_id, self.uid, key, kind, status, dump(details), created, created))
+            if kind=='delete-records':
+                from card_imports import erase as card_import_erase
+                from card_history_migration import privacy_delete_records as card_history_erase
+                deleted['cardImports']=card_import_erase(db,self.uid,'privacy',request_id,created);deleted['cardLegacy']=card_history_erase(db,self.uid)
+                from bazi_samples import erase as sample_erase
+                deleted['baziSamples']=sample_erase(db,self.uid,'privacy',request_id,created)
+                db.execute('UPDATE privacy_requests SET data=? WHERE id=?',(dump(details),request_id))
             self.store.audit(db, self.uid, 'privacy.request.' + kind, request_id, '本机浏览器另行操作；备份与供应商状态分别追踪。')
             row = db.execute('SELECT * FROM privacy_requests WHERE id=?', (request_id,)).fetchone()
         return {'item': self.request_item(row)}

@@ -1,0 +1,684 @@
+{
+  "latest": {
+    "at": 1794498519.9158957,
+    "pass": true,
+    "passed": 22,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "default closed, production false, anonymous and ordinary management denied",
+        "pass": true
+      },
+      {
+        "name": "settings require explicit sandbox rule and cannot enable production",
+        "pass": true
+      },
+      {
+        "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+        "pass": true
+      },
+      {
+        "name": "unpaid, undispatched and cross-account order cannot become return cases",
+        "pass": true
+      },
+      {
+        "name": "per-item allocation cannot exceed original quantity",
+        "pass": true
+      },
+      {
+        "name": "strict integers, JSON object and production rejection",
+        "pass": true
+      },
+      {
+        "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+        "pass": true
+      },
+      {
+        "name": "inspection requires owner shipping and ordinary user cannot inspect",
+        "pass": true
+      },
+      {
+        "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+        "pass": true
+      },
+      {
+        "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+        "pass": true
+      },
+      {
+        "name": "digital refund review never accepts return logistics or warehouse receipt",
+        "pass": true
+      },
+      {
+        "name": "reasoned rejection releases quantity allocation for a distinct new request",
+        "pass": true
+      },
+      {
+        "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+        "pass": true
+      },
+      {
+        "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+        "pass": true
+      },
+      {
+        "name": "concurrent different requests cannot over-allocate original item quantity",
+        "pass": true
+      },
+      {
+        "name": "concurrent identical request converges to one case and one quantity allocation",
+        "pass": true
+      },
+      {
+        "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+        "pass": true
+      },
+      {
+        "name": "eligibility reads original quantities and claimed units with account isolation",
+        "pass": true
+      },
+      {
+        "name": "receipt reference prevents another request ID from counting the same receipt twice",
+        "pass": true
+      },
+      {
+        "name": "same original order receipt cannot be counted across two cases: concurrent and serial replay leave one stock event",
+        "pass": true
+      },
+      {
+        "name": "transaction rechecks admin role after the request actor was cached",
+        "pass": true
+      },
+      {
+        "name": "disabled module remains readable and refuses new mutations without original funds changes",
+        "pass": true
+      }
+    ],
+    "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-0205a5ae-678e-4f4c-a2a5-f4cc89f62200.sqlite3",
+    "realProviderRequests": 0,
+    "actualFundsMoved": false,
+    "productionEnabled": false,
+    "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+  },
+  "runs": [
+    {
+      "at": 1794492934.6385674,
+      "pass": true,
+      "passed": 18,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-b23938f0-cd30-4421-8c4f-0a5e1a452b93.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    },
+    {
+      "at": 1794494684.4465137,
+      "pass": true,
+      "passed": 21,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "eligibility reads original quantities and claimed units with account isolation",
+          "pass": true
+        },
+        {
+          "name": "receipt reference prevents another request ID from counting the same receipt twice",
+          "pass": true
+        },
+        {
+          "name": "transaction rechecks admin role after the request actor was cached",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-ed71b38f-5fa8-435a-bbe6-30460a0d2062.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    },
+    {
+      "at": 1794496975.2646303,
+      "pass": true,
+      "passed": 21,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "eligibility reads original quantities and claimed units with account isolation",
+          "pass": true
+        },
+        {
+          "name": "receipt reference prevents another request ID from counting the same receipt twice",
+          "pass": true
+        },
+        {
+          "name": "transaction rechecks admin role after the request actor was cached",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-299abbb5-da1e-4f1b-bd25-0a860def425f.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    },
+    {
+      "at": 1794497822.362429,
+      "pass": true,
+      "passed": 21,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "eligibility reads original quantities and claimed units with account isolation",
+          "pass": true
+        },
+        {
+          "name": "receipt reference prevents another request ID from counting the same receipt twice",
+          "pass": true
+        },
+        {
+          "name": "transaction rechecks admin role after the request actor was cached",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-390b575c-2bdf-4ac5-bcc0-617565260a54.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    },
+    {
+      "at": 1794498454.2513804,
+      "pass": false,
+      "passed": 21,
+      "failed": 1,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "eligibility reads original quantities and claimed units with account isolation",
+          "pass": true
+        },
+        {
+          "name": "receipt reference prevents another request ID from counting the same receipt twice",
+          "pass": true
+        },
+        {
+          "name": "same original order receipt cannot be counted across two cases: concurrent and serial replay leave one stock event",
+          "pass": false,
+          "error": "AssertionError([{'status': 200, 'data': {'item': {'id': '70645531-b54e-403a-b9d2-60d0376e61e7', 'ownerId': 'buyer', 'environment': 'sandbox', 'sandboxOnly': True, 'productionEnabled': False, 'orderId': '9bd442d2-8688-4fe8-bac9-8b302800336d', 'type': 'return', 'reason': '合成申请理由', 'ruleVersion': 'sandbox-fixture-v1', 'status': 'received', 'version': 4, 'items': [{'id': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'itemId': '0a52a4d6-75cf-4eb9-8d52-7c3e24024246', 'skuId': '226a2981-f16a-475d-88a6-3c5d22cd0436', 'type': 'physical', 'quantity': 1, 'receivedQuantity': 1, 'restockedQuantity': 1, 'snapshot': {'currency': 'USD', 'priceMinor': 1000, 'priceVersion': 1, 'terms': {}, 'title': '沙箱合成商品', 'type': 'physical'}, 'originalQuantity': 2, 'orderItemRefundedQuantity': 0}], 'shipments': [{'id': '05f0f4a0-5c86-4367-b7f9-222b62b5a891', 'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-96e08024-4d3d-4239-819e-95c078b91642', 'created': 1794498453986, 'carrierVerified': False}], 'inspections': [{'id': '4632fc9d-d364-4024-b9bb-4a7ddc8be124', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'note': 'Same physical receipt must never be counted twice across cases', 'created': 1794498454059, 'items': [{'id': 'f611a2aa-f01c-4f5d-9f0f-80c9524f9c6d', 'caseItemId': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'receivedQuantity': 1, 'restockQuantity': 1, 'condition': 'synthetic resalable', 'inventoryEventId': 'after-sales:f611a2aa-f01c-4f5d-9f0f-80c9524f9c6d'}]}], 'history': [{'id': '1ba0c422-196c-4a08-b69d-1fe2ce7a3360', 'actorId': 'buyer', 'kind': 'submit', 'data': {'reason': '合成申请理由'}, 'created': 1794498453963}, {'id': '2983b35f-40aa-4367-a5cd-78721f8da4e0', 'actorId': 'admin', 'kind': 'accept', 'data': {'reason': '合成受理说明', 'version': 1}, 'created': 1794498453976}, {'id': '05f0f4a0-5c86-4367-b7f9-222b62b5a891', 'actorId': 'buyer', 'kind': 'return-shipping', 'data': {'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-96e08024-4d3d-4239-819e-95c078b91642', 'version': 2}, 'created': 1794498453986}, {'id': '4632fc9d-d364-4024-b9bb-4a7ddc8be124', 'actorId': 'admin', 'kind': 'inspect', 'data': {'items': [{'caseItemId': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'condition': 'synthetic resalable', 'receivedQuantity': 1, 'restockQuantity': 1}], 'note': 'Same physical receipt must never be counted twice across cases', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'version': 3}, 'created': 1794498454059}], 'created': 1794498453963, 'updated': 1794498454059, 'money': {'source': 'original-commerce-payment-events', 'caseRefundLinked': False, 'caseRefundConfirmed': False, 'actualFundsMoved': False, 'orderPaymentStatus': 'paid', 'orderFulfillmentStatus': 'delivered', 'currency': 'USD', 'orderTotalMinor': 2024, 'orderRefundedMinor': 0, 'events': [{'id': '8e890596-09ba-4c1c-800a-6763cfaf9079', 'kind': 'sandbox_pay', 'amountMinor': 2024, 'currency': 'USD', 'items': [], 'status': 'applied', 'created': 1794498453936}], 'notice': '仅原统一订单的累计沙箱退款事实，不代表本售后申请已退款或真实到账。'}}, 'replayed': False}}, {'status': 200, 'data': {'item': {'id': '78e93f2b-b157-4709-b7af-6fad7f9b7255', 'ownerId': 'buyer', 'environment': 'sandbox', 'sandboxOnly': True, 'productionEnabled': False, 'orderId': '9bd442d2-8688-4fe8-bac9-8b302800336d', 'type': 'return', 'reason': '合成申请理由', 'ruleVersion': 'sandbox-fixture-v1', 'status': 'received', 'version': 4, 'items': [{'id': 'ec4c2429-968e-454b-a72b-795d6e244376', 'itemId': '0a52a4d6-75cf-4eb9-8d52-7c3e24024246', 'skuId': '226a2981-f16a-475d-88a6-3c5d22cd0436', 'type': 'physical', 'quantity': 1, 'receivedQuantity': 1, 'restockedQuantity': 1, 'snapshot': {'currency': 'USD', 'priceMinor': 1000, 'priceVersion': 1, 'terms': {}, 'title': '沙箱合成商品', 'type': 'physical'}, 'originalQuantity': 2, 'orderItemRefundedQuantity': 0}], 'shipments': [{'id': 'b6e8b7dd-bba2-4cb1-bed3-e17824a52265', 'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-c1fb63d1-d523-454e-a9af-d402b24e8519', 'created': 1794498454021, 'carrierVerified': False}], 'inspections': [{'id': '6b9849cc-6140-4e60-b277-f7bc5e6efe53', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'note': 'Same physical receipt must never be counted twice across cases', 'created': 1794498454040, 'items': [{'id': '36b6ea49-88e6-4e41-9098-2e5d530964a0', 'caseItemId': 'ec4c2429-968e-454b-a72b-795d6e244376', 'receivedQuantity': 1, 'restockQuantity': 1, 'condition': 'synthetic resalable', 'inventoryEventId': 'after-sales:36b6ea49-88e6-4e41-9098-2e5d530964a0'}]}], 'history': [{'id': '8ff78e77-4274-4c01-af55-79935e9a3e60', 'actorId': 'buyer', 'kind': 'submit', 'data': {'reason': '合成申请理由'}, 'created': 1794498453998}, {'id': 'dad6d5e3-e13b-4a4a-ac93-205716dc6457', 'actorId': 'admin', 'kind': 'accept', 'data': {'reason': '合成受理说明', 'version': 1}, 'created': 1794498454011}, {'id': 'b6e8b7dd-bba2-4cb1-bed3-e17824a52265', 'actorId': 'buyer', 'kind': 'return-shipping', 'data': {'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-c1fb63d1-d523-454e-a9af-d402b24e8519', 'version': 2}, 'created': 1794498454021}, {'id': '6b9849cc-6140-4e60-b277-f7bc5e6efe53', 'actorId': 'admin', 'kind': 'inspect', 'data': {'items': [{'caseItemId': 'ec4c2429-968e-454b-a72b-795d6e244376', 'condition': 'synthetic resalable', 'receivedQuantity': 1, 'restockQuantity': 1}], 'note': 'Same physical receipt must never be counted twice across cases', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'version': 3}, 'created': 1794498454040}], 'created': 1794498453998, 'updated': 1794498454040, 'money': {'source': 'original-commerce-payment-events', 'caseRefundLinked': False, 'caseRefundConfirmed': False, 'actualFundsMoved': False, 'orderPaymentStatus': 'paid', 'orderFulfillmentStatus': 'delivered', 'currency': 'USD', 'orderTotalMinor': 2024, 'orderRefundedMinor': 0, 'events': [{'id': '8e890596-09ba-4c1c-800a-6763cfaf9079', 'kind': 'sandbox_pay', 'amountMinor': 2024, 'currency': 'USD', 'items': [], 'status': 'applied', 'created': 1794498453936}], 'notice': '仅原统一订单的累计沙箱退款事实，不代表本售后申请已退款或真实到账。'}}, 'replayed': False}}])"
+        },
+        {
+          "name": "transaction rechecks admin role after the request actor was cached",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-80443668-9819-47d7-af86-a9943ad37db7.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    },
+    {
+      "at": 1794498519.9158957,
+      "pass": true,
+      "passed": 22,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default closed, production false, anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "settings require explicit sandbox rule and cannot enable production",
+          "pass": true
+        },
+        {
+          "name": "real paid dispatched order creates immutable per-item case and idempotent replay",
+          "pass": true
+        },
+        {
+          "name": "unpaid, undispatched and cross-account order cannot become return cases",
+          "pass": true
+        },
+        {
+          "name": "per-item allocation cannot exceed original quantity",
+          "pass": true
+        },
+        {
+          "name": "strict integers, JSON object and production rejection",
+          "pass": true
+        },
+        {
+          "name": "accept/reject have reasons and CAS/idempotence but do not refund or restock",
+          "pass": true
+        },
+        {
+          "name": "inspection requires owner shipping and ordinary user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero explicitly approved restock leaves stock/funds unchanged",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one stock event only; replay/conflict/over-receipt cannot double restock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review never accepts return logistics or warehouse receipt",
+          "pass": true
+        },
+        {
+          "name": "reasoned rejection releases quantity allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "pre-dispatch original refund restock is deducted and cannot be added again",
+          "pass": true
+        },
+        {
+          "name": "post-dispatch actual commerce refund stays zero-stock; inspection restocks only explicit safe units",
+          "pass": true
+        },
+        {
+          "name": "concurrent different requests cannot over-allocate original item quantity",
+          "pass": true
+        },
+        {
+          "name": "concurrent identical request converges to one case and one quantity allocation",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request is not guessed into per-item lines; future legacy guard is exposed",
+          "pass": true
+        },
+        {
+          "name": "eligibility reads original quantities and claimed units with account isolation",
+          "pass": true
+        },
+        {
+          "name": "receipt reference prevents another request ID from counting the same receipt twice",
+          "pass": true
+        },
+        {
+          "name": "same original order receipt cannot be counted across two cases: concurrent and serial replay leave one stock event",
+          "pass": true
+        },
+        {
+          "name": "transaction rechecks admin role after the request actor was cached",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and refuses new mutations without original funds changes",
+          "pass": true
+        }
+      ],
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-0205a5ae-678e-4f4c-a2a5-f4cc89f62200.sqlite3",
+      "realProviderRequests": 0,
+      "actualFundsMoved": false,
+      "productionEnabled": false,
+      "scope": "actual integrated Commerce methods + independent new AfterSales, synthetic users, fresh SQLite only"
+    }
+  ]
+}

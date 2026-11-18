@@ -1,0 +1,27 @@
+{
+  "at": "2026-11-17T04:58:17.236905+00:00",
+  "status": "static-ready-before-unified-build-and-formal-gates",
+  "scope": "Authorized target/provenance view metadata only; original transaction/worker/export protocol unchanged. New native QA not executed.",
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/card_imports.py": "52b5dcd970c25a0f53936ad4ac8dda254a5ff2cd8c20148533990bde2132b15e",
+    "04_研发源码/app/cloud/lib/card-imports.ts": "2da61fb775285f2653d1498fbfc386cfd523159d1f8beebec9bf9f0137bb4b1e",
+    "06_验证与后续工作/负责人优化建议-卡组迁移版本专项.cjs": "6f18784eafecee35f52854fb6c56de13ebebad3b23cded6677c08e3053b8a13d",
+    "06_验证与后续工作/负责人优化建议-卡组迁移补充视觉.cjs": "91025b84ed5d378d24ac4d3ee698e4ce665f253b9f8ae8cf5f174652ffe45350"
+  },
+  "checks": {
+    "pythonAst": true,
+    "nodeVersionSuiteSyntax": true,
+    "nodeVisualSuiteSyntax": true,
+    "strictCloudProjectTs": true
+  },
+  "retainedCommandFailure": {
+    "command": "node tsc ... lib/*.ts",
+    "exitCode": 1,
+    "actualOutput": "error TS6053: File 'lib/*.ts' not found. The file is in the program because: Root file specified for compilation",
+    "cause": "PowerShell did not expand wildcard passed to Node; corrected command supplied actual rg --files lib .ts paths.",
+    "productCompilationAttempted": false
+  },
+  "formalAcceptance": false,
+  "production": false,
+  "priorComponentResultsNotRelabelled": true
+}

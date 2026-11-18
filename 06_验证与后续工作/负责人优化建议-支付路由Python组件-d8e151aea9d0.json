@@ -1,0 +1,130 @@
+{
+  "formalAcceptance": false,
+  "scope": "owned fresh actual HTTP backend component; no current UI/build acceptance",
+  "runId": "d8e151aea9d0",
+  "database": "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-支付路由Python组件-d8e151aea9d0.sqlite3",
+  "base": "http://127.0.0.1:62512",
+  "passed": 25,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "all seven tables and trusted ledger/late trigger INSERT statements compile against actual Store",
+      "pass": true
+    },
+    {
+      "name": "legacy immutable minimum route",
+      "pass": true
+    },
+    {
+      "name": "legacy actual paid ledger",
+      "pass": true
+    },
+    {
+      "name": "legacy member original capture and activation preserved",
+      "pass": true
+    },
+    {
+      "name": "enforced member actual frozen terms capture and activation",
+      "pass": true
+    },
+    {
+      "name": "enforced finite digital actual snapshot and unique grant",
+      "pass": true
+    },
+    {
+      "name": "legacy digital disabled admission retains original 503",
+      "pass": true
+    },
+    {
+      "name": "enforced actual quote ready with true money/terms",
+      "pass": true
+    },
+    {
+      "name": "quote consumed and route atomic",
+      "pass": true
+    },
+    {
+      "name": "quote single consumption",
+      "pass": true
+    },
+    {
+      "name": "paused permits original order intent replay",
+      "pass": true
+    },
+    {
+      "name": "paused rejects new manual initiation",
+      "pass": true
+    },
+    {
+      "name": "paused does not reject trusted signed callback",
+      "pass": true
+    },
+    {
+      "name": "changed policy requires explicit reconfirmation",
+      "pass": true
+    },
+    {
+      "name": "current price change preserves original enforced payable terms",
+      "pass": true
+    },
+    {
+      "name": "reconfirm quote keeps original price despite current SKU change",
+      "pass": true
+    },
+    {
+      "name": "confirmation immutable append",
+      "pass": true
+    },
+    {
+      "name": "reconfirmed manual payment uses original price",
+      "pass": true
+    },
+    {
+      "name": "owned expired order releases held late-fulfilled",
+      "pass": true
+    },
+    {
+      "name": "owned expired order releases held late-refund",
+      "pass": true
+    },
+    {
+      "name": "trusted late fulfilment",
+      "pass": true
+    },
+    {
+      "name": "trusted late refund pending fact without fake paid ledger",
+      "pass": true
+    },
+    {
+      "name": "本人safe export includes route facts without address duplicate",
+      "pass": true
+    },
+    {
+      "name": "atomic proofs leave zero rows",
+      "pass": true
+    },
+    {
+      "name": "frozen route mutation rejected",
+      "pass": true
+    }
+  ],
+  "sourceHashes": {
+    "payment_routing.py": "10c091441e45250d8c193e7f08c462eea0069c3eafb2843ba3cf6ec46f6ec9c8",
+    "commerce.py": "aedc7d9fca06e634eec7570c122e7ef14bcaad9b725a1bd9f6d5379248ecaecf",
+    "server.py": "53ade29042146e831469127568053f5c1d1b43456f73fcb063e455a7df214fa7",
+    "privacy.py": "98475f3f946e6a370895e22c56b6b724e0810e5f0b81446df0932edffc668af7",
+    "privacy_domains.py": "07ec2312ea135fbae975d0f1742116abaaee6afed4655bb1fd522c0de1edf078",
+    "payment_routing_schema.sql": "58adc88f369df620692e1f967dc5bc21224ef3487fc15f8d0d1e92f1eb888a09"
+  },
+  "syntheticDataOnly": true,
+  "productionEnabled": false,
+  "ownServerStopped": true,
+  "backendError": "ApiError: (409, 'route_reconfirmation_required')",
+  "fixtureMutations": [
+    {
+      "target": "two actual API-created late orders",
+      "field": "reserved_until",
+      "purpose": "explicit owned expiry; no claim of real fifteen-minute wait"
+    }
+  ]
+}

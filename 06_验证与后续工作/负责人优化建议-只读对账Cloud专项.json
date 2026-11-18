@@ -1,0 +1,196 @@
+{
+  "syntheticOnly": true,
+  "originalDatabaseOpened": false,
+  "database": ":memory:",
+  "networkCalls": 0,
+  "servicesStarted": false,
+  "checks": [
+    {
+      "name": "pure Cloud report matches Python findings, exact totals and coverage",
+      "passed": true
+    },
+    {
+      "name": "malformed membership terms stay not-covered",
+      "passed": true
+    },
+    {
+      "name": "malformed creation rules are explicitly invalid",
+      "passed": true
+    },
+    {
+      "name": "malformed ledger locked facts remain not-covered",
+      "passed": true
+    },
+    {
+      "name": "fractional item quantity is not rounded into a fact",
+      "passed": true
+    },
+    {
+      "name": "unsafe aggregate is null with exact integer text, never rounded",
+      "passed": true
+    },
+    {
+      "name": "missing cash source cannot turn known statement currency into zero paid total",
+      "passed": true
+    },
+    {
+      "name": "normal historical settled refund and physical fulfillment cause no mismatch",
+      "passed": true
+    },
+    {
+      "name": "finance has read access",
+      "passed": true
+    },
+    {
+      "name": "buyer cannot view finance snapshot",
+      "passed": true
+    },
+    {
+      "name": "author cannot view finance snapshot",
+      "passed": true
+    },
+    {
+      "name": "business cannot view finance snapshot",
+      "passed": true
+    },
+    {
+      "name": "support cannot view finance snapshot",
+      "passed": true
+    },
+    {
+      "name": "anonymous denied",
+      "passed": true
+    },
+    {
+      "name": "cached staff identity downgraded in DB loses access",
+      "passed": true
+    },
+    {
+      "name": "order total damage located",
+      "passed": true
+    },
+    {
+      "name": "refund state label cannot override actual refund facts",
+      "passed": true
+    },
+    {
+      "name": "payment original amount damage located",
+      "passed": true
+    },
+    {
+      "name": "refund event amount damage located",
+      "passed": true
+    },
+    {
+      "name": "cumulative refund quantity damage located",
+      "passed": true
+    },
+    {
+      "name": "paid entitlement deletion located",
+      "passed": true
+    },
+    {
+      "name": "wrong entitlement remaining located",
+      "passed": true
+    },
+    {
+      "name": "current subscription plan cannot drift from its paid snapshot",
+      "passed": true
+    },
+    {
+      "name": "current subscription period cannot silently grow beyond paid snapshot",
+      "passed": true
+    },
+    {
+      "name": "subscription owner damage located",
+      "passed": true
+    },
+    {
+      "name": "historical membership missing snapshot is not-covered",
+      "passed": true
+    },
+    {
+      "name": "expiry is observed without lifecycle mutation",
+      "passed": true
+    },
+    {
+      "name": "commission original amount damage located",
+      "passed": true
+    },
+    {
+      "name": "commission refund balance damage located",
+      "passed": true
+    },
+    {
+      "name": "original statement total damage located",
+      "passed": true
+    },
+    {
+      "name": "order filter retains associated whole-statement mismatch",
+      "passed": true
+    },
+    {
+      "name": "unlinked recovery reservation located",
+      "passed": true
+    },
+    {
+      "name": "sandbox real-payment claim located",
+      "passed": true
+    },
+    {
+      "name": "missing historical commission snapshot remains not-covered",
+      "passed": true
+    },
+    {
+      "name": "invalid snapshot JSON is explicit",
+      "passed": true
+    },
+    {
+      "name": "unknown fees and unknown ledger amounts are not zero",
+      "passed": true
+    },
+    {
+      "name": "currencies stay separate and have no grand total",
+      "passed": true
+    },
+    {
+      "name": "invalid payout JSON cannot crash snapshot SQL or claim a transfer",
+      "passed": true
+    },
+    {
+      "name": "100 refreshes use one read-only financial batch each and preserve all financial hashes",
+      "passed": true
+    },
+    {
+      "name": "malformed snapshot JSON is explicit and never repaired",
+      "passed": true
+    },
+    {
+      "name": "missing original table remains partial and cannot become zero-difference pass",
+      "passed": true
+    },
+    {
+      "name": "5001-row source is explicitly truncated and dependent calculations skipped",
+      "passed": true
+    },
+    {
+      "name": "unknown values, currency separation and real-channel disabled flags remain truthful",
+      "passed": true
+    },
+    {
+      "name": "CSV contains only bounded finding fields and no proof or recipient",
+      "passed": true
+    },
+    {
+      "name": "mutating methods and invalid filters are rejected before financial reads",
+      "passed": true
+    },
+    {
+      "name": "currency filter does not manufacture a cross-currency total",
+      "passed": true
+    }
+  ],
+  "passed": 46,
+  "failed": 0,
+  "sourceSha256": "d9ff619366779968c56a0f77f99799c87ec73b122e396379e75259ba27531dfc"
+}

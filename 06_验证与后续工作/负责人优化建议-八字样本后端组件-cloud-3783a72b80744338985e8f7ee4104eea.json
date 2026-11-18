@@ -1,0 +1,147 @@
+{
+  "kind": "owned-native-D1-HTTP-component-not-formal",
+  "runId": "3783a72b80744338985e8f7ee4104eea",
+  "at": "2026-11-17T00:32:40.266Z",
+  "results": [
+    {
+      "name": "actual D1 import and original UTF8 hash",
+      "pass": true,
+      "evidence": {
+        "sourceByteLength": 1518,
+        "sourceSHA256": "3613894ae695ec99284b3df23d614029527677697f0f102019e4909b806b76a1"
+      }
+    },
+    {
+      "name": "canonical same version retains original bytes",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "sameSHA": true
+      }
+    },
+    {
+      "name": "BOM strictly rejected",
+      "pass": true,
+      "evidence": {
+        "error": "invalid_json"
+      }
+    },
+    {
+      "name": "duplicate decoded keys rejected",
+      "pass": true,
+      "evidence": {
+        "error": "duplicate_key"
+      }
+    },
+    {
+      "name": "create ready run from actual served source binding",
+      "pass": true,
+      "evidence": {
+        "manifestHash": "1d086a5c096fc11281a36e5bceb6f3cc740e3388e11517805806e07784e273b4",
+        "sourceManifestSha256": "25898e476bfa0c390860c3425372a9ebee4d4bb8571873b225d21712a4fff125"
+      }
+    },
+    {
+      "name": "native shared computation and same-D1-batch results",
+      "pass": true,
+      "evidence": {
+        "state": "succeeded",
+        "processed": 1,
+        "counts": {
+          "blocked": 0,
+          "different": 0,
+          "equal": 1,
+          "notApplicable": 0,
+          "notCovered": 8650,
+          "provided": 1,
+          "teacherAgreementRate": null,
+          "total": 8651
+        }
+      }
+    },
+    {
+      "name": "same process key returns original result only",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "processed": 1
+      }
+    },
+    {
+      "name": "all raw periods restore exact frozen canonical SHA",
+      "pass": true,
+      "evidence": {
+        "sha256": "20dd4ad250da402da8bd7c4795c86dc4dfbbe93ecdf8507cdf8d60366a3d3fb2",
+        "byteLength": 135762,
+        "periodCount": 10
+      }
+    },
+    {
+      "name": "lazy fields are 50 with same-result cursor",
+      "pass": true,
+      "evidence": {
+        "first": 50,
+        "second": 50
+      }
+    },
+    {
+      "name": "default known-name redaction, explicit frozen full report",
+      "pass": true,
+      "evidence": {
+        "defaultRedacted": true,
+        "explicitFull": true
+      }
+    },
+    {
+      "name": "actual owner clear erases complete private graph",
+      "pass": true,
+      "evidence": {
+        "cases": 1,
+        "results": 1,
+        "rawChunks": 11,
+        "reviews": 0,
+        "retentionDays": null,
+        "secureWipe": false
+      }
+    },
+    {
+      "name": "old version no longer readable",
+      "pass": true,
+      "evidence": {
+        "error": "sample_erased"
+      }
+    },
+    {
+      "name": "D1 retained minimal epoch, no transient guards or private rows",
+      "pass": true,
+      "evidence": {
+        "cases": 0,
+        "results": 0,
+        "raw_chunks": 0,
+        "field_results": 0,
+        "reviews": 0,
+        "erase_guards": 0
+      }
+    }
+  ],
+  "teacherConfirmed": false,
+  "professionalValidation": false,
+  "base": "http://127.0.0.1:65114",
+  "state": "04_研发源码\\app\\cloud\\.wrangler\\bazi-native-component-3783a72b80744338985e8f7ee4104eea",
+  "bundle": {
+    "path": "06_验证与后续工作\\bazi-native-component-3783a72b80744338985e8f7ee4104eea.mjs",
+    "sha256": "78b6187d8577a0d603d862897038aa811a5c54789a882bd1320cf0045b39cc83"
+  },
+  "rawProof": {
+    "sha256": "20dd4ad250da402da8bd7c4795c86dc4dfbbe93ecdf8507cdf8d60366a3d3fb2",
+    "byteLength": 135762,
+    "periodCount": 10
+  },
+  "ownedRuntimeStopped": true,
+  "passed": 13,
+  "failed": 0,
+  "sourceHashes": {
+    "04_研发源码/app/cloud/lib/bazi-samples.ts": "f853964b56b6b99546a862b949d9c226ac5ac6879a76e8cd0217bd86630d8756",
+    "04_研发源码/app/cloud/generated/bazi-samples-schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1"
+  }
+}

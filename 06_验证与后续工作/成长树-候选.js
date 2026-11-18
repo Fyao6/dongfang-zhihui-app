@@ -1,0 +1,270 @@
+/* Candidate only. Copying/loading this file does not install it.
+ * The later product build must explicitly call GrowthTreeCandidate.install().
+ * No network, storage migration, seed, timer, or business write is performed.
+ */
+(function (global) {
+  'use strict';
+  let runtime = null, installed = false;
+  const original = {};
+  const isObject = value => value !== null && typeof value === 'object';
+  const own = (value, key) => isObject(value) && Object.prototype.hasOwnProperty.call(value, key);
+  const entries = value => isObject(value) ? Object.entries(value) : [];
+  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const definitions = {
+    life: ['Life reflections','生活觉察','生活覺察','མི་ཚེའི་བསམ་གཞིགས།'],
+    body: ['Body check-ins','身体感受','身體感受','ལུས་ཀྱི་ཚོར་བ།'],
+    mind: ['Mood and reflections','情绪与觉察','情緒與覺察','སེམས་ཁམས་དང་བསམ་གཞིགས།'],
+    session: ['Actual practices','实际练习','實際練習','དངོས་ཀྱི་ཉམས་ལེན།'],
+    music: ['Actual listening','实际聆听','實際聆聽','དངོས་ཀྱི་ཉན་པ།'],
+    checkin: ['Check-ins','每日签到','每日簽到','ཉིན་རེའི་འབྱོར་ཐོ།'],
+    card: ['Saved daily cards','原有每日卡片','原有每日卡片','ཉིན་རེའི་བྱང་བུ།'],
+    traits: ['My observations','特质观察','特質觀察','ངའི་ལྟ་ཞིབ།'],
+    action: ['Actions I chose','自主小行动','自主小行動','རང་གིས་བདམས་པའི་བྱ་སྤྱོད།'],
+    legacy: ['Earlier notes','原有笔记','原有筆記','སྔར་གྱི་ཟིན་ཐོ།'],
+    plan: ['My current daily plan','当前每日安排','目前每日安排','ད་ལྟའི་ཉིན་རེའི་འཆར་གཞི།'],
+    checkpoint: ['Unfinished practice','尚未结束的练习','尚未結束的練習','མཇུག་མ་སྒྲིལ་བའི་ཉམས་ལེན།'],
+    learning: ['Last opened learning','上次查看的学习内容','上次查看的學習內容','ཐེངས་སྔོན་བལྟས་པའི་སློབ་ཚན།'],
+    other: ['Other existing fields','其他原有字段','其他原有欄位','སྔར་ཡོད་ཀྱི་གནས་ཚུལ་གཞན།']
+  };
+  const labels = {
+    intention:['Intention','意向','意向','བསམ་འདུན།'], strength:['Strength','优势','優勢','ནུས་པ།'],
+    relation:['Connection','关系观察','關係觀察','འབྲེལ་བ།'], direction:['Direction','方向','方向','ཕྱོགས།'],
+    theme:['Theme','课题','課題','བརྗོད་གཞི།'], sleep:['Sleep','睡眠','睡眠','གཉིད།'],
+    energy:['Energy','精力','精力','སྟོབས་ཤུགས།'], stress:['Stress','压力','壓力','སེམས་གནོན།'],
+    comfort:['Comfort','舒适度','舒適度','བདེ་ཚོར།'], mood:['Feeling','心情','心情','སེམས་ཚོར།'],
+    note:['My words','原有文字','原有文字','རང་གི་ཡི་གེ།'], next:['Next step','下一步','下一步','གོམ་པ་རྗེས་མ།'],
+    id:['Record ID','记录编号','記錄編號','ཟིན་ཐོའི་ཨང་།'], date:['Original date','原记录日期','原記錄日期','སྔར་གྱི་ཚེས་གྲངས།'],
+    practice:['Practice','练习','練習','ཉམས་ལེན།'], seconds:['Seconds actually recorded','实际记录秒数','實際記錄秒數','དངོས་བཀོད་སྐར་ཆ།'],
+    complete:['Completed','是否完成','是否完成','མཇུག་སྒྲིལ་མིན།'], feeling:['My feedback','练习后感受','練習後感受','ཉམས་ལེན་རྗེས་ཀྱི་ཚོར་བ།'],
+    endedAt:['Ended at','结束时间','結束時間','མཇུག་སྒྲིལ་དུས།'], createdAt:['Created at','创建时间','建立時間','བཟོས་པའི་དུས།'],
+    updatedAt:['Updated at','更新时间','更新時間','གསར་བསྒྱུར་དུས།'], at:['Original time','原有时间','原有時間','སྔར་གྱི་དུས།'],
+    plannedTime:['Planned time','原定时间','原定時間','འཆར་གཞིའི་དུས།'], slot:['Plan slot','安排时段','安排時段','འཆར་གཞིའི་དུས་མཚམས།'],
+    cardId:['Card ID','卡片编号','卡片編號','བྱང་བུའི་ཨང་།'], trackId:['Track ID','音轨编号','音軌編號','སྒྲའི་ཨང་།'],
+    track:['Original track','原有音轨','原有音軌','སྔར་གྱི་སྒྲ།'], snapshot:['Original saved content','原有内容快照','原有內容快照','སྔར་ཉར་བའི་ནང་དོན།'],
+    selection:['Selection method','选择方式','選擇方式','འདེམས་སྟངས།'], drawnAt:['Selected at','抽取时间','抽取時間','འདེམས་པའི་དུས།'],
+    answers:['Original answers','原有回答','原有回答','སྔར་གྱི་ལན།'], title:['Original title','原有标题','原有標題','སྔར་གྱི་ཁ་བྱང་།'],
+    action:['Chosen action','所选行动','所選行動','བདམས་པའི་བྱ་སྤྱོད།'], actionEn:['Original English action','原有英文行动','原有英文行動','སྔར་གྱི་དབྱིན་ཡིག་བྱ་སྤྱོད།'],
+    doneAt:['Self-reported completion time','本人标记完成时间','本人標記完成時間','རང་གིས་མཇུག་སྒྲིལ་བཀོད་པའི་དུས།'],
+    sourceDrawDate:['Original card date','来源卡片日期','來源卡片日期','བྱང་བུའི་ཚེས་གྲངས།'], time:['Time','时间','時間','དུས།']
+  };
+  function text(en, zh, hant, bo) {
+    const lang = typeof state === 'object' ? state.lang : 'zh';
+    const normalized = typeof ewI18n === 'object' ? ewI18n.normalize(lang) : lang;
+    if (normalized === 'bo' && bo) return bo;
+    if (normalized === 'zh-Hant' && hant) return hant;
+    return typeof ewI18n === 'object' ? ewI18n.text(en, zh, normalized) : normalized === 'en' ? en : zh;
+  }
+  const title = kind => text(...definitions[kind]);
+  function token() {return typeof psToken === 'function' ? psToken() : {scope:null,epoch:-1};}
+  function same(t) {const current=token(); return t.scope !== null && current.scope===t.scope && current.epoch===t.epoch;}
+  function date(value) {
+    if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return null;
+    const parsed=new Date(value+'T12:00:00Z');
+    return Number.isFinite(parsed.getTime())&&parsed.toISOString().slice(0,10)===value?value:null;
+  }
+  const numberLabel = n => typeof ewIntlLocale === 'function' ? new Intl.NumberFormat(ewIntlLocale()).format(n) : String(n);
+  function ensure() {
+    const actor=token();
+    if(!runtime||runtime.actor.scope!==actor.scope||runtime.actor.epoch!==actor.epoch){
+      runtime?.abort?.abort();runtime?.resize?.disconnect();
+      runtime={actor,sequence:0,expanded:new Set(['root']),selected:'root',range:'all',transform:{x:24,y:24,scale:1},viewInitialized:false};
+    }
+    return runtime;
+  }
+  // Read the containers themselves, never growthEvents(): it filters unresolved
+  // card/music references and cannot carry every original/unknown field.
+  function project(personal) {
+    const root={key:'root',kind:'root',children:[],level:1,label:text('My growth','我的成长','我的成長','ངའི་འཚར་ལོངས།')};
+    const categories=new Map(), dayGroups=new Map(), index=new Map([['root',root]]);
+    function add(kind,key,value,day,source) {
+      let category=categories.get(kind);
+      if(!category){category={key:'kind:'+kind,kind:'category',recordKind:kind,label:title(kind),children:[],parent:root,level:2};categories.set(kind,category);root.children.push(category);index.set(category.key,category);}
+      const dated=date(day), groupKey=category.key+':date:'+(dated||'undated');let group=dayGroups.get(groupKey);
+      if(!group){group={key:groupKey,kind:'date',label:dated||text('No original date','原资料无日期','原資料無日期','སྔར་གྱི་ཚེས་གྲངས་མེད།'),day:dated,children:[],parent:category,level:3};dayGroups.set(groupKey,group);category.children.push(group);index.set(group.key,group);}
+      const leaf={key:'record:'+key,kind:'record',recordKind:kind,day:dated,source,originalKey:key,value,parent:group,children:[],level:4,
+        label:title(kind)+' · '+numberLabel(group.children.length+1)};
+      group.children.push(leaf);index.set(leaf.key,leaf);
+    }
+    const w=isObject(personal.wellness)?personal.wellness:{},daily=isObject(personal.daily)?personal.daily:{},continuity=isObject(w.continuity)?w.continuity:{};
+    for(const [kind,property] of [['life','intentions'],['body','body'],['mind','mind']]) {
+      if(!own(w,property))continue;
+      if(isObject(w[property]))for(const [day,value] of entries(w[property]))add(kind,'wellness.'+property+'.'+day,value,day,{container:'wellness.'+property,entry:day});
+      else if(w[property]!==null&&w[property]!==undefined)add(kind,'wellness.'+property,w[property],null,{container:'wellness',entry:property});
+    }
+    function collection(kind,container,path) {
+      if(container===null||container===undefined)return;
+      if(isObject(container))for(const [key,value] of entries(container))add(kind,path+'.'+key,value,isObject(value)?value.date:null,{container:path,entry:key});
+      else add(kind,path,container,null,{container:path,entry:null});
+    }
+    collection('session',w.sessions,'wellness.sessions');
+    collection('music',daily.musicSessions,'daily.musicSessions');
+    for(const [kind,property] of [['checkin','checkins'],['card','draws']]) {
+      if(isObject(daily[property]))for(const [day,value] of entries(daily[property]))add(kind,'daily.'+property+'.'+day,value,day,{container:'daily.'+property,entry:day});
+      else if(own(daily,property)&&daily[property]!==null)add(kind,'daily.'+property,daily[property],null,{container:'daily',entry:property});
+    }
+    if(own(daily,'traits')&&daily.traits!==null)add('traits','daily.traits',daily.traits,isObject(daily.traits)?daily.traits.date:null,{container:'daily',entry:'traits'});
+    collection('action',continuity.cardActions,'wellness.continuity.cardActions');
+    if(own(personal,'lifeNotes')&&personal.lifeNotes!==null)add('legacy','lifeNotes',personal.lifeNotes,null,{container:'personal',entry:'lifeNotes'});
+    if(own(personal,'journal')&&personal.journal!==''&&personal.journal!==null)add('legacy','journal',personal.journal,null,{container:'personal',entry:'journal'});
+    collection('plan',w.plan,'wellness.plan');
+    for(const kind of ['checkpoint','learning'])if(own(continuity,kind)&&continuity[kind]!==null)add(kind,'wellness.continuity.'+kind,continuity[kind],isObject(continuity[kind])?continuity[kind].date:null,{container:'wellness.continuity',entry:kind});
+    for(const [key,value] of entries(w))if(!['intentions','body','mind','sessions','plan','continuity'].includes(key))add('other','wellness.'+key,value,null,{container:'wellness',entry:key});
+    for(const [key,value] of entries(continuity))if(!['cardActions','checkpoint','learning'].includes(key))add('other','wellness.continuity.'+key,value,null,{container:'wellness.continuity',entry:key});
+    if(own(w,'continuity')&&w.continuity!==null&&!isObject(w.continuity))add('other','wellness.continuity',w.continuity,null,{container:'wellness',entry:'continuity'});
+    // Favorites remain an independent feature. Unrecognized daily fields are
+    // still readable here instead of being silently discarded by a projection.
+    for(const [key,value] of entries(daily))if(!['checkins','draws','musicSessions','traits','favorites'].includes(key))add('other','daily.'+key,value,null,{container:'daily',entry:key});
+    for(const category of root.children)category.children.sort((a,b)=>a.day&&b.day?b.day.localeCompare(a.day):a.day?-1:b.day?1:0);
+    function total(node){node.count=node.kind==='record'?1:node.children.reduce((n,child)=>n+total(child),0);return node.count;}
+    total(root);return {root,index};
+  }
+  function screen() {
+    ensure();
+    const name=text('Growth records','成长记录','成長記錄','འཚར་ལོངས་ཟིན་ཐོ།');
+    const header=typeof pxTop==='function'?pxTop(name,'','profile'):'<header><h1>'+escape(name)+'</h1></header>';
+    return '<section class="page gtc-page" data-gtc-root>'+header+
+      '<p class="gtc-intro">'+escape(text('Your own records, connected as a tree. Select a node to read every original field.','把自己留下的记录连成一棵树。点击节点，在本页阅读完整资料。','把自己留下的記錄連成一棵樹。點選節點，在本頁閱讀完整資料。','རང་གི་ཟིན་ཐོ་སྡོང་འགྲེམས་སུ་སྦྲེལ། སྦྲེལ་ཚིགས་བདམས་ནས་གནས་ཚུལ་ཆ་ཚང་ལ་ལྟ།'))+'</p>'+
+      '<div class="gtc-toolbar" role="group" aria-label="'+escape(name)+'">'+
+      [['all',text('All','全部','全部','ཚང་མ།')],['30',text('30 days','近30天','近30天','ཉིན་སུམ་ཅུ།')],['7',text('7 days','近7天','近7天','ཉིན་བདུན།')]].map(([key,label])=>'<button type="button" data-gtc-range="'+key+'">'+escape(label)+'</button>').join('')+
+      '<button type="button" data-gtc="expand">'+escape(text('Expand','展开','展開','ཁ་ཕྱེ།'))+'</button><button type="button" data-gtc="collapse">'+escape(text('Collapse','收拢','收攏','བསྡུ།'))+'</button></div>'+
+      '<div class="gtc-viewport" data-gtc-viewport tabindex="0" aria-label="'+escape(text('Graphical record tree. Drag to pan; use the controls to zoom.','记录图形树，可拖动平移并使用按钮缩放。','記錄圖形樹，可拖動平移並使用按鈕縮放。','ཟིན་ཐོའི་སྡོང་འགྲེམས། འདྲུད་ནས་སྤོ་ཞིང་ཆེ་ཆུང་བཟོ་ཆོག'))+'"><div class="gtc-scene" data-gtc-scene><svg class="gtc-connectors" data-gtc-edges aria-hidden="true"></svg><div class="gtc-nodes" data-gtc-nodes role="tree" aria-label="'+escape(name)+'"></div></div></div>'+
+      '<div class="gtc-navigation" role="group"><button type="button" data-gtc="out" aria-label="'+escape(text('Zoom out','缩小','縮小','ཆུང་དུ་གཏོང་།'))+'">−</button><output data-gtc-zoom>100%</output><button type="button" data-gtc="in" aria-label="'+escape(text('Zoom in','放大','放大','ཆེ་རུ་གཏོང་།'))+'">＋</button><button type="button" data-gtc="reset">'+escape(text('Return to root','回到根节点','回到根節點','རྩ་བའི་སྦྲེལ་ཚིགས་སུ་ལོག'))+'</button><button type="button" data-gtc="fit">'+escape(text('Fit this tree','适配当前树','適配目前樹','སྡོང་འགྲེམས་ཚད་མཐུན།'))+'</button></div>'+
+      '<p class="gtc-status" data-gtc-status aria-live="polite"></p><section class="gtc-detail" data-gtc-detail aria-live="polite"></section></section>';
+  }
+  function valid(r) {return runtime===r&&same(r.actor)&&r.root?.isConnected&&r.root===document.querySelector('[data-gtc-root]')&&r.page===(typeof state==='object'?state.page:null);}
+  function fill(element,value){element.textContent=String(value);return element;}
+  function element(tag,cls,value){const node=document.createElement(tag);if(cls)node.className=cls;if(value!==undefined)fill(node,value);return node;}
+  function fields(value,label,ancestors=new Set()) {
+    if(!isObject(value)) {
+      const row=element('div','gtc-field'),key=element('span','gtc-field-name',label);
+      const displayed=value===null?text('Not supplied (null)','未提供（null）','未提供（null）','བཀོད་མེད། (null)'):value===undefined?text('Not supplied','未提供','未提供','བཀོད་མེད།'):typeof value==='boolean'?(value?text('Yes','是','是','ཡིན།'):text('No','否','否','མིན།')):value===''?text('Empty text','空文本','空文字','ཡི་གེ་སྟོང་པ།'):String(value);
+      row.append(key,element('div','gtc-field-value',displayed));return row;
+    }
+    if(ancestors.has(value))return element('p','gtc-field-value',text('This existing value refers to an earlier field.','此原有值引用了前面的字段。','此原有值引用了前面的欄位。','གནས་ཚུལ་འདི་སྔོན་གྱི་ས་ཁོངས་དང་འབྲེལ།'));
+    const next=new Set(ancestors);next.add(value);const group=element('details','gtc-field-branch');group.open=ancestors.size<2;
+    const values=entries(value),summary=element('summary','',label+' · '+numberLabel(values.length));group.append(summary);
+    const body=element('div','gtc-field-children');
+    if(!values.length)body.append(element('p','gtc-empty-value',Array.isArray(value)?'[]':'{}'));
+    for(const [key,child] of values){const name=Array.isArray(value)&&/^(0|[1-9]\d*)$/.test(key)?text('Item ','第 ','第 ','ཨང་')+numberLabel(Number(key)+1):labels[key]?text(...labels[key])+' · '+key:key;body.append(fields(child,name,next));}
+    group.append(body);return group;
+  }
+  function detail(r,node) {
+    if(!valid(r))return;const panel=r.root.querySelector('[data-gtc-detail]');panel.replaceChildren();
+    panel.append(element('h2','',node.label));
+    if(node.kind!=='record') {panel.append(element('p','',text('Select a connected record node to read its original fields.','选择相连的记录节点，查看原有字段。','選擇相連的記錄節點，查看原有欄位。','སྦྲེལ་བའི་ཟིན་ཐོ་བདམས་ནས་གནས་ཚུལ་ལ་ལྟ།')));return;}
+    if(['plan','checkpoint','learning','action'].includes(node.recordKind))panel.append(element('p','gtc-detail-note',text('A plan, saved progress, opened content or self-reported action is kept as originally recorded; it does not add measured practice time.','安排、暂存进度、查看内容和本人标记的小行动均按原样保留，不增加实际练习时长。','安排、暫存進度、查看內容和本人標記的小行動均按原樣保留，不增加實際練習時長。','འཆར་གཞི་དང་ཉར་བའི་འཕེལ་རིམ་སྔར་ལྟར་འཇོག ཉམས་ལེན་དུས་ཚོད་མི་སྣོན།')));
+    const actions=element('div','gtc-detail-actions');
+    const all=element('button','',text('Expand every field','展开全部字段','展開全部欄位','གནས་ཚུལ་ཚང་མ་ཁ་ཕྱེ།'));all.type='button';all.onclick=()=>{if(valid(r))panel.querySelectorAll('details').forEach(d=>{d.open=true;});};actions.append(all);
+    if(['life','body','mind'].includes(node.recordKind)&&node.day) {
+      const edit=element('button','',text('Edit my original record','编辑原有记录','編輯原有記錄','སྔར་གྱི་ཟིན་ཐོ་བཟོ་བཅོས།'));edit.type='button';edit.onclick=()=>{
+        if(!valid(r))return;
+        if(node.recordKind==='life'&&typeof editLife==='function')editLife(node.day);
+        else if(node.recordKind==='body'&&typeof editBody==='function')editBody(node.day);
+        else if(node.recordKind==='mind'&&typeof editMind==='function')editMind(node.day);
+      };actions.append(edit);
+    }
+    panel.append(actions,fields(node.value,text('Original fields','原有字段','原有欄位','སྔར་གྱི་གནས་ཚུལ།')));
+  }
+  function shownChildren(r,node) {
+    let children=node.children;
+    if(node.kind==='category'&&r.range!=='all') {
+      const todayKey=typeof localDate==='function'?localDate():new Date().toISOString().slice(0,10),minimum=new Date(todayKey+'T12:00:00Z');minimum.setUTCDate(minimum.getUTCDate()-Number(r.range)+1);
+      const from=minimum.toISOString().slice(0,10);children=children.filter(child=>!child.day||(child.day>=from&&child.day<=todayKey));
+    }
+    return children;
+  }
+  function applyTransform(r) {
+    if(!valid(r))return;const t=r.transform;r.scene.style.transform='translate('+t.x+'px,'+t.y+'px) scale('+t.scale+')';
+    r.root.querySelector('[data-gtc-zoom]').textContent=Math.round(t.scale*100)+'%';
+  }
+  function zoom(r,factor,x,y) {
+    const old=r.transform.scale,next=Math.max(.5,Math.min(2.5,old*factor));
+    r.transform.x=x-(x-r.transform.x)*next/old;r.transform.y=y-(y-r.transform.y)*next/old;r.transform.scale=next;applyTransform(r);
+  }
+  function panTo(r,node) {
+    r.transform.x=r.viewport.clientWidth/2-(node.x+node.width/2)*r.transform.scale;
+    r.transform.y=r.viewport.clientHeight/2-node.y*r.transform.scale;applyTransform(r);
+  }
+  function draw(r,focusKey) {
+    if(!valid(r))return;const box=r.root.querySelector('[data-gtc-nodes]'),svg=r.root.querySelector('[data-gtc-edges]');box.replaceChildren();svg.replaceChildren();r.visible=[];
+    const visit=node=>{r.visible.push(node);node.shown=shownChildren(r,node);if(r.expanded.has(node.key))node.shown.forEach(visit);};visit(r.graph.root);
+    if(!r.visible.some(node=>node.key===r.selected))r.selected='root';
+    const internalIds=new Map(r.visible.map((n,i)=>[n.key,'gtc-node-'+i]));
+    for(const node of r.visible) {
+      const wrap=element('div','gtc-node'+(node.kind==='record'?' gtc-record-node':'')),button=element('button','gtc-node-label');button.type='button';
+      button.id=internalIds.get(node.key);button.setAttribute('role','treeitem');button.setAttribute('aria-level',String(node.level));
+      button.setAttribute('aria-selected',String(node.key===r.selected));button.tabIndex=node.key===r.selected?0:-1;
+      if(node.children.length)button.setAttribute('aria-expanded',String(r.expanded.has(node.key)));
+      const dot=element('span','gtc-node-dot');dot.setAttribute('aria-hidden','true');button.append(dot,element('span','gtc-node-title',node.label));
+      if(node.kind!=='record')button.append(element('small','gtc-node-count',numberLabel(node.count)));
+      const children=node.shown.filter(n=>r.visible.includes(n));if(children.length)button.setAttribute('aria-owns',children.map(n=>internalIds.get(n.key)).join(' '));
+      button.onclick=()=>{if(!valid(r))return;r.selected=node.key;if(node.children.length){if(r.expanded.has(node.key))r.expanded.delete(node.key);else r.expanded.add(node.key);}draw(r,node.key);};
+      wrap.append(button);box.append(wrap);node.element=wrap;node.button=button;node.width=wrap.offsetWidth;node.height=wrap.offsetHeight;
+    }
+    function measure(node){const children=r.expanded.has(node.key)?node.shown:[];node.treeHeight=Math.max(node.height,children.reduce((n,c)=>n+measure(c),0)+Math.max(0,children.length-1)*24);return node.treeHeight;}
+    const height=measure(r.graph.root)+48;
+    function place(node,top,depth){node.x=24+depth*276;node.y=top+node.treeHeight/2;node.element.style.left=node.x+'px';node.element.style.top=(node.y-node.height/2)+'px';
+      const children=r.expanded.has(node.key)?node.shown:[],total=children.reduce((n,c)=>n+c.treeHeight,0)+Math.max(0,children.length-1)*24;let cursor=top+(node.treeHeight-total)/2;
+      for(const child of children){place(child,cursor,depth+1);cursor+=child.treeHeight+24;const edge=document.createElementNS('http://www.w3.org/2000/svg','path');const x=node.x+node.width,y=node.y,cx=child.x,cy=child.y,mid=(x+cx)/2;edge.setAttribute('d','M'+x+','+y+' C'+mid+','+y+' '+mid+','+cy+' '+cx+','+cy);svg.append(edge);}
+    }
+    place(r.graph.root,24,0);r.width=Math.max(...r.visible.map(n=>n.x+n.width))+24;r.height=height;
+    r.scene.style.width=r.width+'px';r.scene.style.height=r.height+'px';svg.setAttribute('width',String(r.width));svg.setAttribute('height',String(height));
+    if(!r.viewInitialized){r.transform={x:20,y:r.viewport.clientHeight/2-r.graph.root.y,scale:1};r.viewInitialized=true;}
+    applyTransform(r);
+    const selected=r.graph.index.get(r.selected)||r.graph.root;detail(r,selected);
+    const status=r.root.querySelector('[data-gtc-status]');status.textContent=r.graph.root.count?text('Every record remains in this tree. Expand a branch or select a node.','全部原记录保留在树中。展开分支或选择节点查看。','全部原記錄保留在樹中。展開分支或選擇節點查看。','ཟིན་ཐོ་ཚང་མ་སྡོང་འགྲེམས་ནང་ཡོད། ཡལ་ག་ཁ་ཕྱེ་བའམ་སྦྲེལ་ཚིགས་འདེམས།'):text('No saved growth records are available in this account yet.','当前账号还没有可回看的成长记录。','目前帳號還沒有可回看的成長記錄。','རྩིས་ཐོ་འདིར་འཚར་ལོངས་ཟིན་ཐོ་ད་དུང་མེད།');
+    if(focusKey){const node=r.graph.index.get(focusKey);if(node?.button?.isConnected){node.button.focus({preventScroll:true});}}
+  }
+  function mount() {
+    const r=ensure(),root=document.querySelector('[data-gtc-root]');r.abort?.abort();r.resize?.disconnect();r.root=root;
+    if(!root)return;r.page=typeof state==='object'?state.page:null;
+    if(!same(r.actor)||typeof state!=='object'){root.querySelector('[data-gtc-status]').textContent=text('Confirm the account before reading personal records.','确认当前账号后再读取个人记录。','確認目前帳號後再讀取個人記錄。','སྒེར་གྱི་ཟིན་ཐོ་ལྟ་སྔོན་རྩིས་ཐོ་ངེས་གཏན་བྱེད།');return;}
+    r.abort=new AbortController();const options={signal:r.abort.signal};r.viewport=root.querySelector('[data-gtc-viewport]');r.scene=root.querySelector('[data-gtc-scene]');
+    r.graph=project({wellness:state.wellness,daily:state.daily,lifeNotes:state.lifeNotes,journal:state.journal});
+    if(!r.graph.index.has(r.selected))r.selected='root';
+    root.querySelectorAll('[data-gtc-range]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gtcRange===r.range)));
+    root.addEventListener('click',event=>{const b=event.target.closest('[data-gtc],[data-gtc-range]');if(!b||!valid(r))return;
+      if(b.dataset.gtcRange){r.range=b.dataset.gtcRange;root.querySelectorAll('[data-gtc-range]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));draw(r);return;}
+      const action=b.dataset.gtc;
+      if(action==='expand'){r.graph.index.forEach(n=>{if(n.children.length)r.expanded.add(n.key);});draw(r);}
+      else if(action==='collapse'){r.expanded=new Set(['root']);r.selected='root';draw(r);panTo(r,r.graph.root);}
+      else if(action==='reset'){r.transform.scale=1;panTo(r,r.graph.root);}
+      else if(action==='fit'){r.transform.scale=Math.max(.5,Math.min(1,(r.viewport.clientWidth-24)/r.width,(r.viewport.clientHeight-24)/r.height));r.transform.x=(r.viewport.clientWidth-r.width*r.transform.scale)/2;r.transform.y=(r.viewport.clientHeight-r.height*r.transform.scale)/2;applyTransform(r);}
+      else zoom(r,action==='in'?1.2:1/1.2,r.viewport.clientWidth/2,r.viewport.clientHeight/2);
+    },options);
+    root.addEventListener('keydown',event=>{const button=event.target.closest('[role=treeitem]');if(!button||!valid(r))return;const n=r.visible.find(v=>v.button===button);if(!n)return;const i=r.visible.indexOf(n);let target;
+      if(event.key==='ArrowDown')target=r.visible[Math.min(i+1,r.visible.length-1)];else if(event.key==='ArrowUp')target=r.visible[Math.max(0,i-1)];
+      else if(event.key==='Home')target=r.visible[0];else if(event.key==='End')target=r.visible[r.visible.length-1];
+      else if(event.key==='ArrowRight'){if(n.children.length&&!r.expanded.has(n.key)){r.expanded.add(n.key);draw(r,n.key);}else target=n.shown[0];}
+      else if(event.key==='ArrowLeft'){if(n.children.length&&r.expanded.has(n.key)){r.expanded.delete(n.key);draw(r,n.key);}else target=n.parent;}
+      else return;event.preventDefault();if(target){r.selected=target.key;draw(r,target.key);panTo(r,target);}
+    },options);
+    const pointers=new Map();let gesture=null,suppressClick=false;
+    const point=e=>({x:e.clientX,y:e.clientY});
+    r.viewport.addEventListener('pointerdown',e=>{if(!valid(r)||e.button>0)return;suppressClick=false;pointers.set(e.pointerId,point(e));const values=[...pointers.values()];gesture={start:point(e),transform:{...r.transform},moved:false};if(values.length===2){for(const id of pointers.keys())r.viewport.setPointerCapture(id);gesture.distance=Math.hypot(values[1].x-values[0].x,values[1].y-values[0].y);gesture.center={x:(values[0].x+values[1].x)/2,y:(values[0].y+values[1].y)/2};}},options);
+    r.viewport.addEventListener('pointermove',e=>{if(!valid(r)||!pointers.has(e.pointerId)||!gesture)return;pointers.set(e.pointerId,point(e));const values=[...pointers.values()];
+      if(values.length===2&&gesture.distance){const rect=r.viewport.getBoundingClientRect(),distance=Math.hypot(values[1].x-values[0].x,values[1].y-values[0].y),center={x:(values[0].x+values[1].x)/2,y:(values[0].y+values[1].y)/2};r.transform={...gesture.transform};zoom(r,distance/gesture.distance,gesture.center.x-rect.left,gesture.center.y-rect.top);r.transform.x+=center.x-gesture.center.x;r.transform.y+=center.y-gesture.center.y;applyTransform(r);gesture.moved=true;}
+      else if(values.length===1){const dx=e.clientX-gesture.start.x,dy=e.clientY-gesture.start.y;if(Math.hypot(dx,dy)>5||gesture.moved){if(!gesture.moved)r.viewport.setPointerCapture(e.pointerId);gesture.moved=true;r.transform.x=gesture.transform.x+dx;r.transform.y=gesture.transform.y+dy;applyTransform(r);}}
+    },options);
+    const release=e=>{if(gesture?.moved)suppressClick=true;pointers.delete(e.pointerId);if(r.viewport.hasPointerCapture(e.pointerId))r.viewport.releasePointerCapture(e.pointerId);gesture=null;};
+    r.viewport.addEventListener('pointerup',release,options);r.viewport.addEventListener('pointercancel',release,options);
+    r.viewport.addEventListener('click',e=>{if(suppressClick){suppressClick=false;e.preventDefault();e.stopImmediatePropagation();}},{...options,capture:true});
+    r.viewport.addEventListener('wheel',e=>{if(!valid(r))return;e.preventDefault();if(e.ctrlKey||e.metaKey){const rect=r.viewport.getBoundingClientRect();zoom(r,Math.exp(-e.deltaY*.002),e.clientX-rect.left,e.clientY-rect.top);}else{r.transform.x-=e.deltaX;r.transform.y-=e.deltaY;applyTransform(r);}},{...options,passive:false});
+    global.addEventListener('resize',()=>{if(valid(r))draw(r);},options);
+    if(typeof ResizeObserver==='function'){let width=r.viewport.clientWidth;r.resize=new ResizeObserver(()=>{const next=r.viewport.clientWidth;if(valid(r)&&next!==width){width=next;draw(r);}});r.resize.observe(r.viewport);}
+    draw(r);const sequence=++r.sequence;
+    document.fonts?.ready.then(()=>{if(valid(r)&&r.sequence===sequence)draw(r);}).catch(()=>{});
+  }
+  function install() {
+    if(installed)return true;if(typeof screens!=='object'||typeof renderNow!=='function')return false;
+    original.growth=screens.growth;original.render=renderNow;screens.growth=screen;
+    if(typeof journeyGrowth==='function'){original.journeyGrowth=journeyGrowth;journeyGrowth=screen;}
+    if(typeof showGrowth==='function'){original.showGrowth=showGrowth;showGrowth=screen;}
+    renderNow=function(...args){const result=original.render.apply(this,args);mount();return result;};
+    if(typeof psSwitch==='function'){original.switch=psSwitch;psSwitch=function(...args){const before=token(),result=original.switch.apply(this,args),after=token();if(before.scope!==after.scope||before.epoch!==after.epoch){runtime?.abort?.abort();runtime?.resize?.disconnect();const root=document.querySelector('[data-gtc-root]');if(root)root.replaceChildren();runtime=null;}return result;};}
+    installed=true;return true;
+  }
+  const api=Object.freeze({install,project,screen,candidateOnly:true,automaticallyInstalled:false});
+  if(typeof module==='object'&&module.exports)module.exports=api;
+  else global.GrowthTreeCandidate=api;
+})(typeof window==='object'?window:globalThis);

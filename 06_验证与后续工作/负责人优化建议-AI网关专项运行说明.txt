@@ -1,0 +1,30 @@
+AI网关真实HTTP/UI独立专项：最终双端25/25通过。
+
+运行（唯一项目根）：
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' '06_验证与后续工作/负责人优化建议-AI网关专项.cjs' --target=python
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' '06_验证与后续工作/负责人优化建议-AI网关专项.cjs' --target=cloud
+可选--http-only；它不能代替浏览器验收。不要传--base，专项只自起新隔离服务。
+
+隔离与证据边界
+Python导入当前真实server.py，使用06下新SQLite，只在该测试进程的AIGateway构造器注入transport/secret resolver。
+Cloud使用独立测试Worker导入当前真实handleAPI和generated体验/后台HTML，新建随机.wrangler/gq短名state；只对保留.invalid域提供进程内Responses/Anthropic SSE，其他外部HTTP全部阻断。
+管理员凭据由本轮随机生成，不读原环境或生产凭据；CLI仅--local，不接root的8878等已有服务。
+测试控制接口只存在于06 wrapper，要求随机token，不进入生产源码或公共入口。供应商尝试只记录id/protocol/字符数与泄漏检查布尔，不记录prompt/响应正文。所有问题、截图、选存聊天都是本轮合成资料。
+这验证实际API源码和实际APP构建；Cloud框架打包路由适配由root的标准Cloud60另验。没有真实供应商、真实SDK账户、生产配额、付费会员、真实费用或公网验收。
+
+覆盖
+默认关闭、纯registry全局聚合确认、两个provider独立receipt与fallback、能力脱敏、明确测试额度授予与幂等、并发预占不能超额、SSE文本/usage/缺usage未知、部分输出不拼接备用、同请求不二次调用/扣次、queued/running停止与异步结算、撤回重确认nonce、本人历史/只读工具/跨账号隔离、默认不保存/明确保存/实际删除/在途删除栅栏。
+真实UI包括：逐接收方确认、流式回答、网络丢结果后重试只查旧终态、取消历史单不误停当前、切账号丢弃迟到回复、4宽×深浅×四语共32布局、后台配置/grants真实表单及operator拒绝。
+第25项：本页加载save=true并保存旧聊天，另一API关闭save并重确认provider；本页不agLoad直接发问，要求当前回复可显示，但本机AI数组严格保留原旧聊天，绝不含新问题/回复。
+六新网关域统一导出按本人白名单实测，排除他人任务、fingerprint、provider_snapshot、route、endpoint、secretRef及prompt配置。
+
+最终结果
+Python run mwdh8a56_ef760a：25/25，identityUnchanged=true，退出0。
+Cloud run mwdh8a59_84e5c3：25/25，identityUnchanged=true，退出0；独立state gq8576。
+实际APP SHA：Python 2c708d3ea7ad3020e9e707e9388958eb4472866d24a29a133698b21aef904834；Cloud fbb339d4e2ec67bd0d70f7fdb1ca2b7ccb4f63789fa8e5e768bd82be30f171c2。
+报告：负责人优化建议-AI网关专项-python.json / -cloud.json，全部runs追加保存。首轮Python22/23的异步结算读取时序失败、首轮Cloud23/23及之后24/24轮次原样保留，不能借旧run表示新构建。
+有限等job终态后仍严格核cancelCredits与reserved=0，没有用running或费用未知代替结算通过。
+
+前端只读审查发现并由root修复
+终态重试重复开单；取消其他历史单误停当前controller与旧finally清新controller；新网关只刷新caps而未刷新保存偏好的跨页缓存；动态后台operator菜单未排除新模块。最终专项与静态代码复核均对应修复后实际构建。
+本代理只改独立测试/说明与此前授权的bridge helper；前端、后台、公共入口和业务构建由root改动。本轮未访问生产数据库。

@@ -1,0 +1,137 @@
+{
+  "status": "integrated_waiting_final_aggregate_coverage_gate",
+  "module": "sandbox-read-only-reconciliation",
+  "sourceSha256": {
+    "04_研发源码/app/r4/backend/reconciliation.py": "8dc5978fdd2784a515bfe2c637a4505b0b8da802750773cb966939c4c6b9ba58",
+    "04_研发源码/app/cloud/lib/reconciliation-api.ts": "d9ff619366779968c56a0f77f99799c87ec73b122e396379e75259ba27531dfc",
+    "04_研发源码/app/r4/reconciliation-admin.js": "4db74c54eb6fa7e275ed6644cf33c0bc437a662e569085fdb0f62a9cf057f116"
+  },
+  "tests": {
+    "python": {
+      "passed": 42,
+      "failed": 0
+    },
+    "cloudMemoryD1": {
+      "passed": 46,
+      "failed": 0
+    },
+    "isolatedChromium": {
+      "passed": 15,
+      "failed": 0
+    }
+  },
+  "actualIntegratedHttpGateCompleted": false,
+  "sharedEntrypointsModified": false,
+  "productionEnabled": false,
+  "realChannelReconciliationEnabled": false,
+  "externalAlertsEnabled": false,
+  "originalDatabasesOpened": false,
+  "financialReportsMutateOriginalTables": false,
+  "guide": "06_验证与后续工作/负责人优化建议-只读对账模块接入说明.txt",
+  "peerReview": {
+    "reviewer": "coverage_audit",
+    "scope": "read-only static review",
+    "fixed": [
+      "explicit outer related-statements set for Python portability",
+      "current membership snapshot/subscription/plan/group/period linkage"
+    ],
+    "filterIssueReproducedInBundledRuntime": false
+  },
+  "preparedActualGate": {
+    "executed": false,
+    "servicesStarted": false,
+    "files": {
+      "负责人优化建议-只读对账实际双端专项.cjs": "883b32b341f15065d92a7faadcb1213020c1d894b034243edd37221bd475162b",
+      "负责人优化建议-只读对账Python专项服务.py": "2ebb50377dcf758cccfb80d1463a481cbad0997e93533e162263f434377f5cb8",
+      "负责人优化建议-只读对账Cloud专项服务.ts": "444ad708d8bed052b2a3c298382416c157d4c84b825da55247295fa1e24f74b5"
+    },
+    "requireFlag": "--run",
+    "mustIntegrateAndFreezeFirst": true
+  },
+  "preparedIntegrationHelper": {
+    "file": "06_验证与后续工作/负责人优化建议-只读对账接入助手.py",
+    "sha256": "34e3bd4c6ba42d0c188af3839d907c18b462417d2f88ab79a19bbc096de490e1",
+    "executed": false,
+    "defaultMode": "dry-run",
+    "wholeBuildShaPinned": false,
+    "plannedSharedFiles": 5,
+    "plannedInsertions": 7,
+    "onlySelfAstChecked": true
+  },
+  "helperDryRunAfterB11": {
+    "executed": true,
+    "writtenFiles": 0,
+    "validatedFiles": 5,
+    "proposedAnchors": 7,
+    "pythonAstPassed": true,
+    "assembledAdminJsPassed": true,
+    "baselineStrictTypeScriptDiagnostics": 0,
+    "candidateStrictTypeScriptDiagnostics": 0,
+    "databasesOpened": false,
+    "servicesStarted": false
+  },
+  "preAggregateRepairActualGate": {
+    "python": {
+      "runId": "mwdp77bj_938ba9",
+      "passed": 42,
+      "failed": 0,
+      "sourceIdentity": {
+        "04_研发源码/app/r4/backend/reconciliation.py": "e3555c5421a3c3c9ef81a548424a13cb308cf2edf4d1bbd975774e38729a6386",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "55dceb5c5471a353d8749e544ea221f8fd1c590906a6ec7cc2deb789b25e093b",
+        "04_研发源码/app/r4/reconciliation-admin.js": "148aadf51e1d911d360f7cb2009838063c15b7b009c9a40d9bf71bbd9acc768c",
+        "04_研发源码/app/r4/backend/server.py": "d9c98d138c1a9951b18f2706df7213eb6b588cca40da17e5304b7edfa4b31f9b",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "14c7139480ad897d3ab68d3731563807727aed11801db61b197f5a9bea7b11ba",
+        "04_研发源码/app/r4/backend/commerce.py": "b1e9ef2fdf9b31bb0e8ac485f951d6134eae8cc76eaa0e3c9afb7b219d68032d",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "f90430fe3ee343d59f481b7f3b7d4a17ee96cdf6430038d21dd294d8c19e9963",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e6e38f28ce22b54e1a37065efa84c74b394664ec00de6f5b9325150e41041ab8",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "36ea9b6e8b0bd1b5de71d2f58f1fc0cde2699a6f0db508a9da0bedac179c30c2",
+        "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/r4/vendor/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+        "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+        "03_当前APP/东方智慧-首页体验R4.html": "fbeb1c859c9e7042270c70499758780de53acfb3a0b26c49764a4cf6d21a7285",
+        "03_当前APP/计时后台-开发联调.html": "5688c39984e74b4cb896e42915734c6fcff06dcc3b61a53676d2f1a837ee3884",
+        "04_研发源码/app/cloud/generated/experience.html": "58e200b701fe0b536861579ce6619794db1189b9efb9cae515d20988aed70ffb",
+        "04_研发源码/app/cloud/generated/admin.html": "b950858e8abbe94c65d664cd6fd71d22377c5d8f8df48f2693922b86320f19cc"
+      },
+      "coverageGapFoundByVisualReview": true,
+      "notFinalGate": true
+    },
+    "cloud": {
+      "runId": "mwdp77az_1cccd5",
+      "passed": 42,
+      "failed": 0,
+      "sourceIdentity": {
+        "04_研发源码/app/r4/backend/reconciliation.py": "e3555c5421a3c3c9ef81a548424a13cb308cf2edf4d1bbd975774e38729a6386",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "55dceb5c5471a353d8749e544ea221f8fd1c590906a6ec7cc2deb789b25e093b",
+        "04_研发源码/app/r4/reconciliation-admin.js": "148aadf51e1d911d360f7cb2009838063c15b7b009c9a40d9bf71bbd9acc768c",
+        "04_研发源码/app/r4/backend/server.py": "d9c98d138c1a9951b18f2706df7213eb6b588cca40da17e5304b7edfa4b31f9b",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "14c7139480ad897d3ab68d3731563807727aed11801db61b197f5a9bea7b11ba",
+        "04_研发源码/app/r4/backend/commerce.py": "b1e9ef2fdf9b31bb0e8ac485f951d6134eae8cc76eaa0e3c9afb7b219d68032d",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "f90430fe3ee343d59f481b7f3b7d4a17ee96cdf6430038d21dd294d8c19e9963",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e6e38f28ce22b54e1a37065efa84c74b394664ec00de6f5b9325150e41041ab8",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "36ea9b6e8b0bd1b5de71d2f58f1fc0cde2699a6f0db508a9da0bedac179c30c2",
+        "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/r4/vendor/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+        "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+        "03_当前APP/东方智慧-首页体验R4.html": "fbeb1c859c9e7042270c70499758780de53acfb3a0b26c49764a4cf6d21a7285",
+        "03_当前APP/计时后台-开发联调.html": "5688c39984e74b4cb896e42915734c6fcff06dcc3b61a53676d2f1a837ee3884",
+        "04_研发源码/app/cloud/generated/experience.html": "58e200b701fe0b536861579ce6619794db1189b9efb9cae515d20988aed70ffb",
+        "04_研发源码/app/cloud/generated/admin.html": "b950858e8abbe94c65d664cd6fd71d22377c5d8f8df48f2693922b86320f19cc"
+      },
+      "coverageGapFoundByVisualReview": true,
+      "notFinalGate": true
+    }
+  },
+  "aggregateCoverageRepair": {
+    "reason": "Missing/truncated dependency had misleading zero initialized aggregates",
+    "fields": [
+      "cash",
+      "ledger",
+      "bookedStatements"
+    ],
+    "unsupportedTotals": null,
+    "requiresNewBuildAndRealGate": true
+  }
+}

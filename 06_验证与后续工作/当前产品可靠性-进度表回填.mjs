@@ -1,0 +1,59 @@
+// Prepared only. The default path neither imports nor changes any workbook.
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {constants} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
+const evidence=import.meta.dirname,ROOT=path.dirname(evidence),prefix='当前产品可靠性';
+const runtime='C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies';
+const node=path.join(runtime,'node/bin/node.exe'),python=path.join(runtime,'python/python.exe');
+const names=['东方智慧APP需求进度表-20261116.xlsx','东方智慧APP优化任务表_依据v1.0_20261112.xlsx'];
+const baseline=['b6af34bae2e695bfe77f64d5f3404fcac62195258748ba51256854e524496cc4','75f383b023ebb2605e43323a5cc0824d983ab57a4ac1e70b7a43de05ba03f58c'];
+const rows=[['SVT01',64,69],['SVT03',66,71],['X03',102,107]],sha=b=>createHash('sha256').update(b).digest('hex');
+const reportNames=['当前产品可靠性-负责人进度表回填校验.json','当前产品可靠性-原98项任务表回填校验.json'];
+const args=process.argv.slice(2),mode=args[0]||'describe';
+async function receipt(file,digest,expectedName){if(!/^[a-f0-9]{64}$/.test(digest||''))throw Error('Explicit receipt SHA required');const full=path.resolve(file);if(path.dirname(full)!==evidence||path.basename(full)!==expectedName)throw Error('Exact receipt path required');const raw=await fs.readFile(full);if(sha(raw)!==digest)throw Error('Receipt bytes changed');const data=JSON.parse(raw);if(data.pass!==true)throw Error('Only accepted evidence may update progress');return {data,path:full,sha256:digest};}
+if(mode==='describe'){
+ if(args.length>1)throw Error('Describe accepts no additional arguments');
+ console.log(JSON.stringify({status:'prepared-not-run',writesWorkbook:false,scope:rows.map(r=>r[0]),additionalRequirements:{sheet:'追加需求',rows:3},reports:reportNames}));
+}else{
+ if(mode!=='apply'||args.length!==6||args[1]!=='--verified-by-root')throw Error('Use apply --verified-by-root <Stage31 receipt> <SHA> <daily receipt> <SHA>');
+ const stage=await receipt(args[2],args[3],'负责人优化建议-当前产品可靠性-实施记录.json'),daily=await receipt(args[4],args[5],'每日进入提醒-本地验收记录.json');
+ if(stage.data.stage!==31||JSON.stringify(stage.data.taskIds)!==JSON.stringify(rows.map(r=>r[0]))||stage.data.productSourceBuildUnchanged!==true||stage.data.originalStage30ProductUnchanged!==false)throw Error('Actual current-baseline Stage31 acceptance required');
+ if(daily.data.totalPassed!==144||daily.data.failed!==0||JSON.stringify(daily.data.perBackendPassed)!==JSON.stringify({Python:72,Cloud:72}))throw Error('Actual dual 60+12 daily acceptance required');
+ for(const[id]of rows)if(typeof stage.data.taskProgress?.[id]!=='string'||typeof stage.data.taskRemaining?.[id]!=='string')throw Error('Accepted task scope text missing');
+ for(const key of ['server','serverRemaining','delivery','deliveryRemaining','next','nextRemaining'])if(typeof stage.data.overview?.[key]!=='string'||!stage.data.overview[key].trim())throw Error('Accepted overview scope text missing');
+ const grow=await receipt(path.join(evidence,'成长树-本地验收记录.json'),'d45c39ac1d8df622bcdbaaa050feeb6b5ce2e24c4fd08df098a559635cdb135e','成长树-本地验收记录.json');
+ const website=await receipt(path.join(evidence,'官网接入-本地验收只读复核.json'),'62f6cdbf23d8c1f6ac65c349100f871c4bd1d498b548b755270ca238a1c78b41','官网接入-本地验收只读复核.json');
+ const files=names.map(n=>path.join(evidence,n));for(let i=0;i<files.length;i++)if(sha(await fs.readFile(files[i]))!==baseline[i])throw Error('Preserve the exact accepted workbook baseline');
+ for(const n of reportNames)try{await fs.access(path.join(evidence,n));throw Error('Preserve prior validation report');}catch(e){if(e.code!=='ENOENT')throw e;}
+ const bundled=createRequire(path.join(runtime,'node/node_modules/.artifact-author.cjs'));
+ const {FileBlob,SpreadsheetFile}=await import(pathToFileURL(bundled.resolve('@oai/artifact-tool')).href);
+ const books=await Promise.all(files.map(async f=>SpreadsheetFile.importXlsx(await FileBlob.load(f))));
+ const detail=books[0].worksheets.getItem('98项明细'),overview=books[0].worksheets.getItem('进度总览'),tasks=books[1].worksheets.getItem('优化任务表');
+ for(const[id,row,old]of rows)if(detail.getRange('A'+row).values[0][0]!==id||detail.getRange('D'+row).values[0][0]!=='进行中'||detail.getRange('E'+row).values[0][0]!== (id==='X03'?'未计入':'已有证据')||tasks.getRange('A'+old).values[0][0]!==id||tasks.getRange('K'+old).values[0][0]!=='进行中')throw Error('Original scoped row state changed');
+ // Root owns the single required artifact edit marker immediately before invoking apply.
+ const stamp=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date()).replaceAll('-','').replaceAll(':','').replace(' ','-');
+ const backups=[],candidates=[];for(let i=0;i<files.length;i++){backups[i]=path.join(evidence,`${prefix}-${i?'原98项任务表':'负责人进度表'}回填前-${stamp}.xlsx`);await fs.copyFile(files[i],backups[i],constants.COPYFILE_EXCL);candidates[i]=path.join(evidence,`${prefix}-${i?'原98项任务表':'负责人进度表'}候选-${stamp}.xlsx`);}
+ for(const[id,row,old]of rows){const note=stage.data.taskProgress[id]+' 收据：'+path.basename(stage.path)+'。';detail.getRange('E'+row).values=[['已有证据']];detail.getRange(`F${row}:G${row}`).values=[[note,stage.data.taskRemaining[id]]];detail.getRange(`A${row}:H${row}`).format.rowHeight=220;const original=tasks.getRange('I'+old).values[0][0].split(/\n(?:现状|本轮)：/)[0];tasks.getRange('I'+old).values=[[original+'\n本轮：'+note+'\n剩余：'+stage.data.taskRemaining[id]+'\n证据：06_验证与后续工作/'+path.basename(stage.path)]];tasks.getRange(`A${old}:N${old}`).format.rowHeight=400;}
+ const title=tasks.getRange('A4').values[0][0];if(!title.includes('30个本地实施阶段'))throw Error('Original stage title changed');tasks.getRange('A4').values=[[title.replace('30个本地实施阶段','31个本地实施阶段')]];
+ const [year,month,date]=stage.data.at_beijing.slice(0,10).split('-');overview.getRange('A3').values=[['依据 v1.0 修改需求 · 截至 '+year+' 年 '+Number(month)+' 月 '+Number(date)+' 日（北京时间）']];
+ const ov=stage.data.overview;
+ for(const[address,text]of Object.entries({D11:ov.server,E11:ov.serverRemaining,D14:ov.delivery,E14:ov.deliveryRemaining,D15:'原98项中72项具本地或沙箱证据，其余26项未计入；追加需求单独列页，不计入98项分母。',A23:'本地可靠性及交付收尾',D23:ov.next,E23:ov.nextRemaining}))overview.getRange(address).values=[[text]];
+ for(const row of [11,14,23])overview.getRange(`A${row}:E${row}`).format.rowHeight=180;
+ const additions=[['编号','追加需求','当前状态','本地验证范围','尚待范围','证据'],
+ ['ADD-WEB','官网呈现与APP入口','本地已验证','独立官网页面、真实路由/原生菜单/CTA与隐私入口；双端各60+6本地验证。','公网发布、用户视觉评价与实际终端仍按实际验收。',path.basename(website.path)],
+ ['ADD-GROWTH','成长记录仅图形树','本地已验证','原数据只读投影为根→类别→日期→记录节点；完整详情、原编辑与账号隔离；双端各60+8本地验证。','跨设备同步和用户实际视觉评价仍待验收。',path.basename(grow.path)],
+ ['ADD-DAILY','每日首次进入提醒与万年历','本地已验证','非敏感页每日首次提醒；真实本人会员状态；沙箱专属明确未实际扣款；通用万年历与归属隔离；双端各60+12。','正式支付与真实生产会员资格未接通；沙箱不代表正式购买；藏语母语审校及实机仍待验收。',path.basename(daily.path)]];
+ for(const book of books){const sheet=book.worksheets.add('追加需求');sheet.showGridLines=false;sheet.getRange('A1:F4').values=additions;sheet.getRange('A1:F4').format.font={name:'Arial',size:11,color:'#182A35'};sheet.getRange('A1:F4').format.verticalAlignment='top';sheet.getRange('A1:F4').format.wrapText=true;sheet.getRange('A1:F1').format.fill='#182A35';sheet.getRange('A1:F1').format.font={name:'Arial',size:11,bold:true,color:'#FFFFFF'};sheet.getRange('A1:F1').format.rowHeight=32;sheet.getRange('A2:F4').format.rowHeight=160;for(const[col,width]of [['A',17],['B',25],['C',17],['D',68],['E',62],['F',49]])sheet.getRange(col+':'+col).format.columnWidth=width;book.recalculate();}
+ const views=[[0,'98项明细','A64:H66'],[0,'98项明细','A102:H102'],[0,'进度总览','A5:E29'],[1,'优化任务表','A69:N71'],[1,'优化任务表','A107:N107'],[0,'追加需求','A1:F4'],[1,'追加需求','A1:F4']],previews=[];
+ for(const[i,sheet,range]of views){const file=path.join(evidence,`${prefix}-进度表-${stamp}-${i}-${sheet}-${range.replace(':','_')}.png`);await fs.writeFile(file,new Uint8Array(await(await books[i].render({sheetName:sheet,range,scale:1,format:'png'})).arrayBuffer()),{flag:'wx'});previews.push({book:i,path:path.relative(ROOT,file).replaceAll('\\','/'),sha256:sha(await fs.readFile(file)),sheet,range});}
+ const previewsFile=path.join(evidence,`${prefix}-进度表-候选预览-${stamp}.json`);await fs.writeFile(previewsFile,JSON.stringify(previews,null,2)+'\n',{flag:'wx'});
+ for(const book of books){const errors=await book.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!',options:{useRegex:true,maxResults:100},maxChars:3000});if(errors.records.some(r=>r.kind==='match'))throw Error('Formula error in authored workbook');}
+ for(let i=0;i<books.length;i++)await(await SpreadsheetFile.exportXlsx(books[i])).save(candidates[i]);
+ const outputs=[];for(let i=0;i<books.length;i++){const report=path.join(evidence,reportNames[i]);execFileSync(python,['-B',path.join(evidence,prefix+'-进度表校验.py'),backups[i],candidates[i],report,previewsFile,candidates[0]],{encoding:'utf8',stdio:'pipe'});outputs.push({output:files[i],backup:backups[i],candidate:candidates[i],report});}
+ for(const item of outputs){await fs.copyFile(item.candidate,item.output);item.sha256=sha(await fs.readFile(item.output));}
+ console.log(JSON.stringify({updated:outputs,stage:31,rowsWithEvidence:72,otherRows:26,statusCounts:{进行中:70,待资料:16,待验收:9,待实施:3},additionalRequirements:{sheet:'追加需求',rows:3,pass:true}}));
+}

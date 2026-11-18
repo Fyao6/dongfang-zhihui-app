@@ -1,0 +1,32 @@
+{
+  "kind": "isolated-new-rate-contract",
+  "pass": true,
+  "readLimit": 180,
+  "writeLimit": 30,
+  "accountsIsolated": true,
+  "readWriteBucketsDistinct": true,
+  "observed": [
+    {
+      "key": "membership-read:u1",
+      "limit": 180
+    },
+    {
+      "key": "membership-write:u1",
+      "limit": 30
+    },
+    {
+      "key": "membership-read:u2",
+      "limit": 180
+    },
+    {
+      "key": "membership-read:admin",
+      "limit": 180
+    },
+    {
+      "key": "membership-write:admin",
+      "limit": 30
+    }
+  ],
+  "productionDatabaseAccess": false,
+  "oldMemoryReportsOverwritten": false
+}

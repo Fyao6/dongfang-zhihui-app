@@ -1,0 +1,101 @@
+{
+  "at": "20261113T032412892978Z",
+  "mode": "dry-run",
+  "productionEnabled": false,
+  "fixtureOnly": true,
+  "cloudFreshServiceRequiredVars": [
+    "EW_DEVICE_REGRESSION_CANARY=the public synthetic device canary from 密钥引用测试环境.cjs"
+  ],
+  "noAssertionRelaxed": true,
+  "anchors": [
+    {
+      "file": "06_验证与后续工作\\全量回归.cjs",
+      "label": "Regression opaque settings version helper 06_验证与后续工作/全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\全量回归.cjs",
+      "label": "Actual device fixture config via env ref; old branch retained 06_验证与后续工作/全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\全量回归.cjs",
+      "label": "Real UI reference edit/clear preserves data/auth/invalid-provider assertions 06_验证与后续工作/全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\公网适配全量回归.cjs",
+      "label": "Regression opaque settings version helper 06_验证与后续工作/公网适配全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\公网适配全量回归.cjs",
+      "label": "Actual device fixture config via env ref; old branch retained 06_验证与后续工作/公网适配全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\公网适配全量回归.cjs",
+      "label": "Real UI reference edit/clear preserves data/auth/invalid-provider assertions 06_验证与后续工作/公网适配全量回归.cjs",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\全量回归.cjs",
+      "label": "Python full60 child actual test env injection",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\后台单元回归.py",
+      "label": "Adapter-only fixture uses env reference",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\后台单元回归.py",
+      "label": "Explicit existing adapter auth fixture remains a unit, not an auth proof",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\后台单元回归.py",
+      "label": "Actual test process env ref resolution; provider remains explicitly mocked",
+      "state": "planned"
+    },
+    {
+      "file": "06_验证与后续工作\\后台单元回归.py",
+      "label": "Stronger outbound header assertion proves actual reference resolution",
+      "state": "planned"
+    }
+  ],
+  "sourceChanges": [
+    {
+      "path": "06_验证与后续工作\\全量回归.cjs",
+      "beforeSha256": "0a3196031c4bb1b1e2cb2290a163ef738225762ca043afc96c146545e29dd1f3",
+      "afterSha256": "72fec3ec648cfe139a20f8640a764ee187cb86093fc1d45aabd0849279f765a9",
+      "originalNewlineStyle": "CRLF",
+      "editingNewlinePolicy": "Original untouched bytes retained; inserted/replaced blocks use the file dominant newline."
+    },
+    {
+      "path": "06_验证与后续工作\\公网适配全量回归.cjs",
+      "beforeSha256": "7b7cb0953c8288f42d4228cf57342cfe64816e9c4f79eaa86953c011943d04f1",
+      "afterSha256": "22b1a1953c5ef8e46ddb544107a956c1ce71fae0375d70cd263d7f93d934d031",
+      "originalNewlineStyle": "CRLF",
+      "editingNewlinePolicy": "Original untouched bytes retained; inserted/replaced blocks use the file dominant newline."
+    },
+    {
+      "path": "06_验证与后续工作\\后台单元回归.py",
+      "beforeSha256": "c6b4a803a04770fc13d863e8a7abc98897f4851a8b91ba7c8c492d1e5d641769",
+      "afterSha256": "33e0c10bc9d7d592d85db5961c0837ec636be9499719217bd25a959dbbfa53c4",
+      "originalNewlineStyle": "CRLF",
+      "editingNewlinePolicy": "Original untouched bytes retained; inserted/replaced blocks use the file dominant newline."
+    }
+  ],
+  "hashing": "SHA256 of exact original/proposed UTF-8 bytes; no read_text newline normalization",
+  "backupPolicy": "Flat original-byte backup files and mapping JSON in existing 06 directory; no subdirectory/version directory",
+  "doesNotRun": [
+    "build",
+    "database migration against original DB",
+    "local service",
+    "public deployment",
+    "real payment/refund",
+    "carrier requests"
+  ],
+  "compatibility": "Current real ref branch plus original legacy branch retained; real header/device/privacy/permissions/clear assertions preserved and env/header proof strengthened."
+}

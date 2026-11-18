@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "savedAt": "2026-11-17T23:12:02.556057+08:00",
+  "officialVerifiedStages": 30,
+  "active": "三项追加需求本地全通过、最终双60与Cl40全通过，双13入口全通过；当前双100真实登录初始化后各20RPS/1800秒/36000负载实际运行中，不得提前记31完成。",
+  "implementationScheduling": "先落地用户强制要求的成长树；既有SVT可靠性内存问题继续排查，未取消也未计通过",
+  "reliability": {
+    "status": "未完成",
+    "cloudSchemaShortLoad": "600/600通过",
+    "cloudSchemaSafety": "8/0通过",
+    "currentRoundFullRegression": "Python60/0，Cloud60/0",
+    "currentRoundOtherPassed": "双端B11各11，抽卡各25；Python导入迁移专项40",
+    "failure": "Cloud导入迁移专项case06完整大批分页出现原生V8 heap out of memory，原失败/bundle/metafile已保存",
+    "completed30MinuteLoad": false,
+    "stage31Frozen": false,
+    "sourceBeforeTree": "负责人优化建议-本地可靠性Cloud候选短诊断源码锚.json",
+    "partialGates": "负责人优化建议-本地可靠性Cloud复验-root六门只读复核.json",
+    "cloudFailurePreservation": "负责人优化建议-本地可靠性Cloud复验-round1-Cloud专项异常保全.json",
+    "boundedCase06": {
+      "reportSHA256": "35db93db0b245675a5f30e38938659cae8eb7ad45fe6fca3e88c2d8a0e5b000e",
+      "diffPages": 301,
+      "ndjsonBytes": 147519734,
+      "diffs": 15009,
+      "outcome": "未复现OOM，CREATE热路径未增加、rawDB/env各1、内存自然回落，原OOM根因未据此认定；原40仍未通过",
+      "pass": "1/0组件，不是40项整套",
+      "report": "负责人优化建议-本地可靠性Cloud个案06-afa51395104c4a249070319244ca2e9a.json",
+      "issues": 23002,
+      "issuePages": 461
+    },
+    "currentCl40Reproduction": {
+      "status": "failed",
+      "passed": 5,
+      "failed": 36,
+      "firstFailure": "case06 diffBefore offset14350 原生V8 Reached heap limit",
+      "report": "负责人优化建议-当前产品可靠性-卡组完整专项-cloud.json",
+      "runtimeBundleSHA256": "58e25be459a9b10d41aaf86676667513a56507ddb0536395cfac82be85c48208",
+      "runtimeMetafileSHA256": "b1dfe4c4e2b896ae6a2af05e260f3962bdfb4c8adad0e0d7ee71cb1c805c730d",
+      "cleanup": "所有本次PID与private vars均0",
+      "next": "保原字节后 Cloud detail 查询精确元数据投影与逐chunk鉴权SELECT1，原完整分页/导出/守卫不变；仍待新构建真实复验",
+      "resolvedByFinalRun": {
+        "report": "负责人优化建议-当前产品可靠性-卡组完整专项-cloud.json",
+        "sha256": "c8d55f59e5790933e754cdbe5eea2495460cb72ae7c781bb215bf50ad7a90715",
+        "passed": 40,
+        "failed": 0,
+        "allOriginalAssertionsPreserved": true,
+        "cleanup": "PIDvars0"
+      }
+    },
+    "finalStable": {
+      "path": "当前产品可靠性-最终稳定构建记录.json",
+      "sha256": "91d390309c88faffb3c3fca0cbcc0469c1ea795c433f8fbe5aa80d421cb646f3",
+      "productInputs": 354,
+      "onlyNewSource": "Cloud lib/card-imports.ts 只读精确投影与逐chunk相同鉴权SELECT1，原raw完整导出保留，未调heap/限流/数据量"
+    },
+    "finalFull": {
+      "summary": "当前产品-双端全量只读复核.json",
+      "sha256": "15bd1914969e3d40a8a7e83b29f0492a08d2406b5cecdd97af2e2f3bbc241a18",
+      "perBackendPassed": {
+        "Python": 60,
+        "Cloud": 60
+      },
+      "failed": 0
+    },
+    "currentOps": {
+      "bindingSHA256": "f0afaa945f1f099769c844eb8f99d97e65da4298e344c5186ae0ecb893324644",
+      "authorizationSHA256": "3cf5451a3ea838c9b062b53ba3abb9f3d894ec5cb932cad1940c2196d606b45e",
+      "sourceLocked": true,
+      "probePython": {
+        "run": "b9001969861841a69a28130658cad1ea",
+        "passed": 13,
+        "failed": 0,
+        "sha256": "2b009b79c9591b3cb0630d35e5edb185484dd02aef7dac1c5733c44d3e96d905"
+      },
+      "probeCloud": {
+        "run": "fea21c058a934e96aea000d963186283",
+        "passed": 13,
+        "failed": 0,
+        "sha256": "8cf10bf88301a9c20d3fe1f8e11ce85f6e5656f0955a8cebf547a1f547974b14"
+      },
+      "loadPython": {
+        "run": "3bc643f42a014e8096818da8cc0371e2",
+        "session": 52830,
+        "driverPid": 50148,
+        "status": "running-not-acceptance"
+      },
+      "loadCloud": {
+        "run": "17f9bd7864d64f7ba270a968238a5ca7",
+        "session": 1391,
+        "driverPid": 29376,
+        "status": "running-not-acceptance"
+      },
+      "limitsPerBackend": {
+        "users": 100,
+        "rps": 20,
+        "seconds": 1800,
+        "requests": 36000
+      },
+      "recoveryAndMedia": "须负载计量结束后明令，再实际双端各11和5；当前不运行",
+      "booksAndSevenHandoff": "2本仍原SHA，artifact marker未调用；Stage31 receipt实际齐后apply、render/view及7交接final核验"
+    }
+  },
+  "newRequirements": [
+    {
+      "id": "growth-tree-only",
+      "status": "本地已验收",
+      "mandatory": true,
+      "scope": "成长记录只有实际连线树，全部原记录到节点和详情，保留账号隔离，不留旧卡片列表时间轴并列视图",
+      "candidate": "成长树-候选.js",
+      "receipt": "成长树-本地验收记录.json",
+      "perBackend": "60完整+8专项，68/0各端",
+      "onlyTree": true
+    },
+    {
+      "id": "official-site",
+      "status": "本地已验收，未发布",
+      "candidate": "东方智慧官网-候选.html",
+      "candidateViewports": [
+        1440,
+        390,
+        320
+      ],
+      "published": false,
+      "receipt": "官网接入-本地验收只读复核.json",
+      "perBackend": "60完整+6专项，66/0各端",
+      "entry": "官网.html"
+    },
+    {
+      "id": "daily-entry-reminder",
+      "status": "本地已验收",
+      "candidate": "每日进入提醒-候选.js",
+      "membership": "必须服务端真实资格，测试权益与正式资格区分",
+      "calendar": "LCLunar真实历法，不猜生时或新造吉凶规则",
+      "build": "每日进入提醒-稳定构建记录.json",
+      "buildSHA256": "2f615b9409a7f3fc56eb995be53a3bc8fdaf28e83c807157332ab2d7c1869cc5",
+      "productionMembership": "真实提供方未接；仅本地服务器真实沙箱支付资格正向已验证，清楚标注测试未扣款",
+      "firstSpecial": "Python6/6，QA错endpoint/入口/关闭定位/blob origin/缺真实entry重评/把祖先盒当字形；失败全部保留，不计12通过",
+      "focusedDiagnosis": {
+        "report": "每日提醒-05及BO诊断-527b6b505e784dfd82c506b68bcbcb55.json",
+        "sha256": "23013a9c2ebe936e3885295c28ce96e5c1665624583f0b430edd2f532fd67c16",
+        "meaning": "真实页面再entry后自动沙箱专属；TEXT-only实际字形0重叠，未改产品/构建"
+      },
+      "receipt": "每日进入提醒-本地验收记录.json",
+      "receiptSHA256": "ebd17147257eb3841067a528261a4e4d268a7ff9a1e82479ee52df0edda11f12",
+      "perBackend": "60完整+12专项，72/0各端",
+      "currentStable": "当前产品可靠性-最终稳定构建记录.json"
+    }
+  ],
+  "boundaries": [
+    "未推送、未公开发布、未重打包",
+    "当前正式阶段计数仍30，不能拿候选或未完成压测加完成数",
+    "旧数据库与旧冻结字节不改，新增测试只用自有fresh state",
+    "原98项/阶段30口径未因三项新增要求自动扩增；可靠性30分钟等未完成不计通过"
+  ],
+  "growthIntegration": {
+    "buildRecord": "成长树-兼容修复后稳定构建记录.json",
+    "website": "实际官网/official与根官网.html已接入并双端60+6通过，未发布",
+    "appSHA256": "d2de6af7b8d4af8b9ff844e9aab37fabbf2371d1f3697016f489e5fd37949108",
+    "buildRecordSHA256": "9d6711915bcc8322f4a8713bd494230d927db3a4a2eba184968f45f12fdaacdc",
+    "actualFix": "answerLabel未知项返回plain可读值，HTML输出单次转义，树labels用hasOwn防prototype字段，原数据不改；focused4/0通过",
+    "firstFull": "双端60/0，旧7638构建，原报告保留",
+    "finalVerification": "双端最终60+8全部通过，详见本地验收记录",
+    "dailyReminder": "实际模块已接入，双端60完整通过；12专项进行中",
+    "scheduling": "本轮优先交付强制树状界面，同时继续原可靠性；SVT31未完成，不计通过",
+    "cloudHTMLSHA256": "bc3f6cab4e5329e8db1e0d22b1933587974c8c094e83abf6ae50899b4fe11568",
+    "firstSpecial": "Python7/1，附加unknown字段使独立bodyHistory异常，旧报告和27份字节已保留"
+  }
+}

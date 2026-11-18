@@ -1,0 +1,57 @@
+{
+  "reviewedSources": {
+    "04_研发源码/app/r4/backend/ai_gateway.py": "edff5cfa14506d6be4dd96d80a0584ee5f6238ecada9027d36ef35712d1393f3",
+    "04_研发源码/app/cloud/lib/ai-gateway.ts": "f1a5d0173715f765ee7ce99bdf71bded1d1fcfec7c9c35357c4a44411450b6ec",
+    "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+  },
+  "scope": "只读核查 AI 网关与隐私衔接；本代理只新增独立 helper、契约、幂等接入脚本和内存测试，不改冻结 privacy 文件、公共入口或视频文件。",
+  "bridge": {
+    "python": "04_研发源码/app/r4/backend/privacy_gateway_bridge.py",
+    "cloud": "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts",
+    "legacyPriority": "有效 actual_binding/actualBinding 原样优先，digest 不变。",
+    "registryFallback": "仅四 routes 实际引用集合，逐供应商完整 raw endpoint/model/regions/policy 严格匹配，确定性聚合digest。",
+    "noAutomaticProviderConsent": true,
+    "legacyAuthorizeAndSaveRemainActualBinding": true
+  },
+  "verifiedCodePaths": [
+    "每个 provider receipt 按 owner、provider binding、政策版本、globalRevision 和独立 nonce 核验；全局聚合确认不创建 receipt。",
+    "流开始前、每个供应商事件及 fallback 前校验最新授权；撤回、重新确认、删除造成的 revision/nonce 变化使旧流失效。",
+    "保存默认关闭，已保存内容只进入 privacy_conversations，jobs.output_text 保持NULL；删除会话后旧job无法回读已删除正文。",
+    "最终保存同时校验偏好 revision/policy/globalBinding、provider nonce、网关 revision/open、取消状态及配置快照；网关个人 providerBinding 与全局 globalBinding 分字段保存。",
+    "所有请求、receipt、job、attempt、已保存会话按当前 owner 读取/写入；hook额外验证完整本人response.accountId。"
+  ],
+  "resolvedFinding": {
+    "id": "final-save-configuration-race",
+    "problem": "原最终 checkActive 与事务开始之间，privacy配置或legacy绑定字段可改变；仅核偏好revision不足以阻止失效授权下保存。",
+    "resolution": "作者两端补保存前安全快照，Python事务内与Cloud原子条件batch复核privacy完整配置及legacy五个非密钥绑定字段，另核全局policy_version/provider_binding。",
+    "reviewStatus": "已复核最终实现；作者另有故意在最终校验后改变policy/legacy的内存断言及registry-only成功保存断言。"
+  },
+  "evidence": {
+    "bridgePython": {
+      "report": "06_验证与后续工作/负责人优化建议-AI隐私桥接专项-python.json",
+      "passed": 37,
+      "failed": 0
+    },
+    "bridgeCloud": {
+      "report": "06_验证与后续工作/负责人优化建议-AI隐私桥接专项-cloud.json",
+      "passed": 38,
+      "failed": 0
+    },
+    "authorGatewayPython": {
+      "report": "06_验证与后续工作/负责人优化建议-AI网关内存专项.json",
+      "passed": 46,
+      "failed": 0
+    },
+    "authorGatewayCloud": {
+      "report": "06_验证与后续工作/负责人优化建议-AI网关Cloud内存专项.json",
+      "passed": 43,
+      "failed": 0
+    }
+  },
+  "pending": [
+    "默认接入脚本只生成计划；root在视频门禁后显式--apply，再实际构建与隔离HTTP/UI/双后端全量回归。",
+    "本轮不含真实供应商、真实SDK、GPU、正式配额或公网验收。",
+    "现有本人导出覆盖privacy_conversations/授权/处理记录；新网关job/attempt/测试额度账本元数据是否合入统一导出，仍需在实际网关集成时按允许字段补验。"
+  ]
+}

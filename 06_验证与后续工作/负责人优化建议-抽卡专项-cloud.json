@@ -1,0 +1,1618 @@
+{
+  "latest": {
+    "at": "2026-11-12T13:47:17.603Z",
+    "module": "负责人优化建议-抽卡",
+    "target": "cloud",
+    "runId": "mwdlr0mb_c6c097",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "randomMode": "actual-server-unbiased",
+    "syntheticSandboxDeck": true,
+    "externalProviderTested": false,
+    "promptLogging": false,
+    "backendEntry": "Actual integrated eastern-api.ts through fresh local-only QA Worker; no random/result injection",
+    "coverage": {
+      "realHttp": true,
+      "realBrowser": true,
+      "realSupplier": false,
+      "frameworkAdapterCoveredByThisWrapper": false
+    },
+    "results": [
+      {
+        "name": "默认正式/沙箱关闭、规则未知且不编造正式卡组",
+        "pass": true,
+        "ms": 162,
+        "observed": {
+          "formalDeckSeeded": false,
+          "rulesConfirmed": false
+        }
+      },
+      {
+        "name": "未登录/普通用户管理拒绝且正式规则不能空值启用",
+        "pass": true,
+        "ms": 176
+      },
+      {
+        "name": "完整测试规则、真实本地图片绑定归属和人工审核发布",
+        "pass": true,
+        "ms": 586,
+        "observed": {
+          "actualUploadedImage": true,
+          "manualReview": true,
+          "systemVerifiedCopyright": false
+        }
+      },
+      {
+        "name": "readiness反映真实服务开关，正式仍关闭；时区需本人明确选择",
+        "pass": true,
+        "ms": 249
+      },
+      {
+        "name": "服务端拒绝客户端卡ID/日期/权重/出生资料与无效主题",
+        "pass": true,
+        "ms": 171
+      },
+      {
+        "name": "真实抽取、同请求重放、负载冲突及换主题共用同日结果",
+        "pass": true,
+        "ms": 431,
+        "observed": {
+          "serverDrawId": "df60c310-4826-49d7-835c-b348b150156b",
+          "remaining": 0
+        }
+      },
+      {
+        "name": "真实并发请求返回一个持久化结果且只计一次",
+        "pass": true,
+        "ms": 361,
+        "observed": {
+          "parallelRequests": 5,
+          "uniqueDraws": 1
+        }
+      },
+      {
+        "name": "本人收藏/感受真正保存，旧修订冲突且跨账号404",
+        "pass": true,
+        "ms": 190
+      },
+      {
+        "name": "AI仅审核卡义和ID且不自动调用，分享默认无文字与个人资料",
+        "pass": true,
+        "ms": 188
+      },
+      {
+        "name": "练习记录真实opened，重复幂等且不冒充完成/时长",
+        "pass": true,
+        "ms": 83
+      },
+      {
+        "name": "发布版本不可覆盖，新版激活也不替换本人历史卡义",
+        "pass": true,
+        "ms": 375
+      },
+      {
+        "name": "授权原因下架明确暂停原内容/分享/AI，保留归属而不重抽",
+        "pass": true,
+        "ms": 219
+      },
+      {
+        "name": "隐私导出仅本人记录/感受/练习/最小quota与时区，不泄露另一账号",
+        "pass": true,
+        "ms": 487
+      },
+      {
+        "name": "真正清除记录后不恢复内容，保留最小quota/时区防删除与改主题重抽",
+        "pass": true,
+        "ms": 566
+      },
+      {
+        "name": "实际前台进入服务端抽卡，默认正式关闭且测试需明确切入/确认时区",
+        "pass": true,
+        "ms": 1788
+      },
+      {
+        "name": "实际抽取后展示审核结果，刷新与换主题不加次数",
+        "pass": true,
+        "ms": 846
+      },
+      {
+        "name": "实际收藏与感受表单写回本人历史并回读",
+        "pass": true,
+        "ms": 575
+      },
+      {
+        "name": "实际分享表单默认均不勾选，仅预览主动勾选的卡义且不发送",
+        "pass": true,
+        "ms": 608
+      },
+      {
+        "name": "实际可选AI只准备最小上下文并保留独立授权，不自动调用供应商",
+        "pass": true,
+        "ms": 277,
+        "observed": {
+          "automaticProviderRequests": 0,
+          "actualSupplierTested": false
+        }
+      },
+      {
+        "name": "四宽×双主题×四语言实际可读、长文不裁切及卡片英文回退明确",
+        "pass": true,
+        "ms": 878,
+        "observed": {
+          "actualViewports": 32,
+          "minBodyFont": 15
+        }
+      },
+      {
+        "name": "切账号时迟到历史响应不能回写另一账号",
+        "pass": true,
+        "ms": 754
+      },
+      {
+        "name": "真正隐私删除后前台清缓存与AI准备，明确显示已删除且当天无次数",
+        "pass": true,
+        "ms": 578
+      },
+      {
+        "name": "真实弱网丢失回复后复用原requestId恢复，实际服务端仅一条抽取",
+        "pass": true,
+        "ms": 2069,
+        "observed": {
+          "providerRequestIdReused": true,
+          "actualPersistedDraws": 1
+        }
+      },
+      {
+        "name": "真实抽取已提交但回复延迟时清记录，迟到回复不重建本机结果/笔记",
+        "pass": true,
+        "ms": 1916,
+        "observed": {
+          "actualCommittedBeforeDeletion": true,
+          "lateResultDiscarded": true
+        }
+      },
+      {
+        "name": "后台真实规则/草稿/三语预览/审核发布/下架表单可达",
+        "pass": true,
+        "ms": 1232
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-真实抽取结果.png",
+      "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-主动选择分享预览-未外发.png",
+      "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-四宽双主题四语最后视图.png",
+      "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-真实后台审核发布下架.png"
+    ],
+    "traffic": [
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "ms": 101
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 109
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 97
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/cards",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 503,
+        "ms": 40
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 401,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/cards",
+        "status": 403,
+        "ms": 28
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 403,
+        "ms": 30
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 503,
+        "ms": 28
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 400,
+        "ms": 32
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 409,
+        "ms": 28
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 403,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 200,
+        "ms": 52
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/d9a7a847-05b1-405a-91da-1283b3a1c16a/review",
+        "status": 400,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 200,
+        "ms": 60
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/review",
+        "status": 200,
+        "ms": 58
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/publish",
+        "status": 200,
+        "ms": 50
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 409,
+        "ms": 46
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 409,
+        "ms": 38
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/timezone",
+        "status": 200,
+        "ms": 55
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/timezone",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 503,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 400,
+        "ms": 31
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 400,
+        "ms": 30
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 400,
+        "ms": 31
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 400,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 400,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 69
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 46
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 409,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 58
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 63
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 60
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 224
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 224
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 276
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 276
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 276
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+        "status": 404,
+        "ms": 30
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+        "status": 404,
+        "ms": 35
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+        "status": 409,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+        "status": 400,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+        "status": 400,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/practice",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/practice",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 409,
+        "ms": 31
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks",
+        "status": 200,
+        "ms": 54
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/5fb23b00-cc15-4a69-91ee-f161344f8f1a/review",
+        "status": 200,
+        "ms": 57
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/5fb23b00-cc15-4a69-91ee-f161344f8f1a/publish",
+        "status": 200,
+        "ms": 62
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/cards/config",
+        "status": 200,
+        "ms": 49
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 70
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/withdraw",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 60
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+        "status": 409,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+        "status": 409,
+        "ms": 36
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 246
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 241
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 227
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/capabilities",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/timezone",
+        "status": 409,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws/1dc04455-f21c-427b-abe3-7d7bd3dc6dad",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 105
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "status": 200,
+        "ms": 119
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "ms": 96
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "status": 200,
+        "ms": 200
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "ms": 192
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 77
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 109
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/timezone",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 63
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/cards/timezone",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 46
+      },
+      {
+        "method": "GET",
+        "path": "/api/cards/draws",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/cards",
+        "status": 200,
+        "ms": 29
+      }
+    ],
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/card-service-ui.js": "e944a9532446cf8d75e37f840e9ee521dff2c9cb1b3f44e15c9e6ec00fb64fc6",
+        "04_研发源码/app/r4/card-service.css": "202fa37870e2b13f0ea820c4b5a1f4650d8abf26e8edd41aea3f99d467be93eb",
+        "04_研发源码/app/r4/card-service-admin.js": "4f89649c23979cba539d94f29346b7097e3df7b1366ba35575c711160401b372",
+        "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+        "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+        "04_研发源码/app/r4/backend/privacy.py": "e97bacca00d6ab0df0b04686bcf12812d340cef2f4118447e962f06f5424e77c",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b",
+        "04_研发源码/app/r4/backend/server.py": "daebd5f4484482680dc27a07117a75818b9f61b447a8d2ffec4a673f7e21e5a4",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "026710ef7e2ce5ff811dec4df9a9b0a61d364da09698ff65644784aa359e732a",
+        "04_研发源码/app/r4/platform.js": "0e559f14c27af327bd50af82c54f10c50b527da6155613bee68d906b8f675181"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "e0c7cfd8b2084ce73add1ebd398566b17ad67a049a8c24ac1771d2de2e551c07",
+        "03_当前APP/计时后台-开发联调.html": "c1e44f230a6f420a3127577ea21e7dcc31df6dd1214c27c83b1ac8274a3cbadd",
+        "04_研发源码/app/cloud/generated/experience.html": "f0fa8955ed6a9cdf0905afa244e02c32cb7732621989a4c62ec4fe0ee67eb858",
+        "04_研发源码/app/cloud/generated/admin.html": "8929565a5fbd6b6e2b86abf55488e8d78d6067dc7205036be97c8204d3dc3d65",
+        "04_研发源码/app/cloud/dist/server/index.js": "78e1877dafb5d03de13d6e317fc7f35aeb95b431ebb61f4595edbecaa2229c5f"
+      }
+    },
+    "testHashes": {
+      "负责人优化建议-抽卡测试工具.cjs": "e6ace57fb6adb850842e4290fed371e8b8ee0258dd3139959a5f4dca71bab05a",
+      "负责人优化建议-抽卡专项.cjs": "3803979a63055bb3e6e0956487daf7b7383be0251d9158cc95c0bd1fbe0b33a1",
+      "负责人优化建议-抽卡Python测试服务.py": "835a506e2df6dda1ac23bba98691e1fd3d1317590207e326e6b9bbcba7a46fda",
+      "负责人优化建议-抽卡Cloud测试服务.ts": "696dbd6cd2e998c8ba268260e19fceb086989c6283a4f5ab54e66376537e33f3"
+    },
+    "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\dqa1f8",
+    "testWrapperConfig": "04_研发源码\\app\\cloud\\.wrangler\\dqa1f8c\\wrangler.json",
+    "ownedProcessId": 27072,
+    "base": "http://127.0.0.1:56182",
+    "localFontAssetVerified": true,
+    "servedBuildSha256": "f0fa8955ed6a9cdf0905afa244e02c32cb7732621989a4c62ec4fe0ee67eb858",
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 25,
+    "failed": 0
+  },
+  "runs": [
+    {
+      "at": "2026-11-12T13:47:17.603Z",
+      "module": "负责人优化建议-抽卡",
+      "target": "cloud",
+      "runId": "mwdlr0mb_c6c097",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "randomMode": "actual-server-unbiased",
+      "syntheticSandboxDeck": true,
+      "externalProviderTested": false,
+      "promptLogging": false,
+      "backendEntry": "Actual integrated eastern-api.ts through fresh local-only QA Worker; no random/result injection",
+      "coverage": {
+        "realHttp": true,
+        "realBrowser": true,
+        "realSupplier": false,
+        "frameworkAdapterCoveredByThisWrapper": false
+      },
+      "results": [
+        {
+          "name": "默认正式/沙箱关闭、规则未知且不编造正式卡组",
+          "pass": true,
+          "ms": 162,
+          "observed": {
+            "formalDeckSeeded": false,
+            "rulesConfirmed": false
+          }
+        },
+        {
+          "name": "未登录/普通用户管理拒绝且正式规则不能空值启用",
+          "pass": true,
+          "ms": 176
+        },
+        {
+          "name": "完整测试规则、真实本地图片绑定归属和人工审核发布",
+          "pass": true,
+          "ms": 586,
+          "observed": {
+            "actualUploadedImage": true,
+            "manualReview": true,
+            "systemVerifiedCopyright": false
+          }
+        },
+        {
+          "name": "readiness反映真实服务开关，正式仍关闭；时区需本人明确选择",
+          "pass": true,
+          "ms": 249
+        },
+        {
+          "name": "服务端拒绝客户端卡ID/日期/权重/出生资料与无效主题",
+          "pass": true,
+          "ms": 171
+        },
+        {
+          "name": "真实抽取、同请求重放、负载冲突及换主题共用同日结果",
+          "pass": true,
+          "ms": 431,
+          "observed": {
+            "serverDrawId": "df60c310-4826-49d7-835c-b348b150156b",
+            "remaining": 0
+          }
+        },
+        {
+          "name": "真实并发请求返回一个持久化结果且只计一次",
+          "pass": true,
+          "ms": 361,
+          "observed": {
+            "parallelRequests": 5,
+            "uniqueDraws": 1
+          }
+        },
+        {
+          "name": "本人收藏/感受真正保存，旧修订冲突且跨账号404",
+          "pass": true,
+          "ms": 190
+        },
+        {
+          "name": "AI仅审核卡义和ID且不自动调用，分享默认无文字与个人资料",
+          "pass": true,
+          "ms": 188
+        },
+        {
+          "name": "练习记录真实opened，重复幂等且不冒充完成/时长",
+          "pass": true,
+          "ms": 83
+        },
+        {
+          "name": "发布版本不可覆盖，新版激活也不替换本人历史卡义",
+          "pass": true,
+          "ms": 375
+        },
+        {
+          "name": "授权原因下架明确暂停原内容/分享/AI，保留归属而不重抽",
+          "pass": true,
+          "ms": 219
+        },
+        {
+          "name": "隐私导出仅本人记录/感受/练习/最小quota与时区，不泄露另一账号",
+          "pass": true,
+          "ms": 487
+        },
+        {
+          "name": "真正清除记录后不恢复内容，保留最小quota/时区防删除与改主题重抽",
+          "pass": true,
+          "ms": 566
+        },
+        {
+          "name": "实际前台进入服务端抽卡，默认正式关闭且测试需明确切入/确认时区",
+          "pass": true,
+          "ms": 1788
+        },
+        {
+          "name": "实际抽取后展示审核结果，刷新与换主题不加次数",
+          "pass": true,
+          "ms": 846
+        },
+        {
+          "name": "实际收藏与感受表单写回本人历史并回读",
+          "pass": true,
+          "ms": 575
+        },
+        {
+          "name": "实际分享表单默认均不勾选，仅预览主动勾选的卡义且不发送",
+          "pass": true,
+          "ms": 608
+        },
+        {
+          "name": "实际可选AI只准备最小上下文并保留独立授权，不自动调用供应商",
+          "pass": true,
+          "ms": 277,
+          "observed": {
+            "automaticProviderRequests": 0,
+            "actualSupplierTested": false
+          }
+        },
+        {
+          "name": "四宽×双主题×四语言实际可读、长文不裁切及卡片英文回退明确",
+          "pass": true,
+          "ms": 878,
+          "observed": {
+            "actualViewports": 32,
+            "minBodyFont": 15
+          }
+        },
+        {
+          "name": "切账号时迟到历史响应不能回写另一账号",
+          "pass": true,
+          "ms": 754
+        },
+        {
+          "name": "真正隐私删除后前台清缓存与AI准备，明确显示已删除且当天无次数",
+          "pass": true,
+          "ms": 578
+        },
+        {
+          "name": "真实弱网丢失回复后复用原requestId恢复，实际服务端仅一条抽取",
+          "pass": true,
+          "ms": 2069,
+          "observed": {
+            "providerRequestIdReused": true,
+            "actualPersistedDraws": 1
+          }
+        },
+        {
+          "name": "真实抽取已提交但回复延迟时清记录，迟到回复不重建本机结果/笔记",
+          "pass": true,
+          "ms": 1916,
+          "observed": {
+            "actualCommittedBeforeDeletion": true,
+            "lateResultDiscarded": true
+          }
+        },
+        {
+          "name": "后台真实规则/草稿/三语预览/审核发布/下架表单可达",
+          "pass": true,
+          "ms": 1232
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-真实抽取结果.png",
+        "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-主动选择分享预览-未外发.png",
+        "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-四宽双主题四语最后视图.png",
+        "负责人优化建议-抽卡-cloud-mwdlr0mb_c6c097-真实后台审核发布下架.png"
+      ],
+      "traffic": [
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 101
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 109
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 97
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/cards",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 503,
+          "ms": 40
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 401,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/cards",
+          "status": 403,
+          "ms": 28
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 403,
+          "ms": 30
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 503,
+          "ms": 28
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 400,
+          "ms": 32
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 409,
+          "ms": 28
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 403,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/d9a7a847-05b1-405a-91da-1283b3a1c16a/review",
+          "status": 400,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 200,
+          "ms": 60
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/review",
+          "status": 200,
+          "ms": 58
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/publish",
+          "status": 200,
+          "ms": 50
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 409,
+          "ms": 46
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 409,
+          "ms": 38
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/timezone",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/timezone",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 503,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 400,
+          "ms": 31
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 400,
+          "ms": 30
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 400,
+          "ms": 31
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 400,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 400,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 69
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 409,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 58
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 63
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 60
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 224
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 224
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 276
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 276
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 276
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+          "status": 404,
+          "ms": 30
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+          "status": 404,
+          "ms": 35
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/actions",
+          "status": 409,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+          "status": 400,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+          "status": 400,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/practice",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/practice",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 409,
+          "ms": 31
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/5fb23b00-cc15-4a69-91ee-f161344f8f1a/review",
+          "status": 200,
+          "ms": 57
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/5fb23b00-cc15-4a69-91ee-f161344f8f1a/publish",
+          "status": 200,
+          "ms": 62
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/cards/config",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 70
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/cards/decks/0f40c451-7ed1-45c9-b372-3f2dfa7e1011/withdraw",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 60
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/ai-context",
+          "status": 409,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws/df60c310-4826-49d7-835c-b348b150156b/share",
+          "status": 409,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 246
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 241
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 227
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/capabilities",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/timezone",
+          "status": 409,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws/1dc04455-f21c-427b-abe3-7d7bd3dc6dad",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 105
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "ms": 119
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 96
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "ms": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 192
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 77
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 109
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/timezone",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 63
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/cards/timezone",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "GET",
+          "path": "/api/cards/draws",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/cards",
+          "status": 200,
+          "ms": 29
+        }
+      ],
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/card-service-ui.js": "e944a9532446cf8d75e37f840e9ee521dff2c9cb1b3f44e15c9e6ec00fb64fc6",
+          "04_研发源码/app/r4/card-service.css": "202fa37870e2b13f0ea820c4b5a1f4650d8abf26e8edd41aea3f99d467be93eb",
+          "04_研发源码/app/r4/card-service-admin.js": "4f89649c23979cba539d94f29346b7097e3df7b1366ba35575c711160401b372",
+          "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+          "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+          "04_研发源码/app/r4/backend/privacy.py": "e97bacca00d6ab0df0b04686bcf12812d340cef2f4118447e962f06f5424e77c",
+          "04_研发源码/app/cloud/lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b",
+          "04_研发源码/app/r4/backend/server.py": "daebd5f4484482680dc27a07117a75818b9f61b447a8d2ffec4a673f7e21e5a4",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "026710ef7e2ce5ff811dec4df9a9b0a61d364da09698ff65644784aa359e732a",
+          "04_研发源码/app/r4/platform.js": "0e559f14c27af327bd50af82c54f10c50b527da6155613bee68d906b8f675181"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "e0c7cfd8b2084ce73add1ebd398566b17ad67a049a8c24ac1771d2de2e551c07",
+          "03_当前APP/计时后台-开发联调.html": "c1e44f230a6f420a3127577ea21e7dcc31df6dd1214c27c83b1ac8274a3cbadd",
+          "04_研发源码/app/cloud/generated/experience.html": "f0fa8955ed6a9cdf0905afa244e02c32cb7732621989a4c62ec4fe0ee67eb858",
+          "04_研发源码/app/cloud/generated/admin.html": "8929565a5fbd6b6e2b86abf55488e8d78d6067dc7205036be97c8204d3dc3d65",
+          "04_研发源码/app/cloud/dist/server/index.js": "78e1877dafb5d03de13d6e317fc7f35aeb95b431ebb61f4595edbecaa2229c5f"
+        }
+      },
+      "testHashes": {
+        "负责人优化建议-抽卡测试工具.cjs": "e6ace57fb6adb850842e4290fed371e8b8ee0258dd3139959a5f4dca71bab05a",
+        "负责人优化建议-抽卡专项.cjs": "3803979a63055bb3e6e0956487daf7b7383be0251d9158cc95c0bd1fbe0b33a1",
+        "负责人优化建议-抽卡Python测试服务.py": "835a506e2df6dda1ac23bba98691e1fd3d1317590207e326e6b9bbcba7a46fda",
+        "负责人优化建议-抽卡Cloud测试服务.ts": "696dbd6cd2e998c8ba268260e19fceb086989c6283a4f5ab54e66376537e33f3"
+      },
+      "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\dqa1f8",
+      "testWrapperConfig": "04_研发源码\\app\\cloud\\.wrangler\\dqa1f8c\\wrangler.json",
+      "ownedProcessId": 27072,
+      "base": "http://127.0.0.1:56182",
+      "localFontAssetVerified": true,
+      "servedBuildSha256": "f0fa8955ed6a9cdf0905afa244e02c32cb7732621989a4c62ec4fe0ee67eb858",
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 25,
+      "failed": 0
+    }
+  ]
+}

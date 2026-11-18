@@ -1,0 +1,72 @@
+{
+  "kind": "owned-http-component-not-formal",
+  "runId": "6893331bce1c428a8032611ff0be662c",
+  "at": 1794875410.6866617,
+  "base": "http://127.0.0.1:64914",
+  "database": "06_验证与后续工作\\bazi-http-component-6893331bce1c428a8032611ff0be662c.sqlite3",
+  "results": [
+    {
+      "name": "anonymous denied",
+      "pass": true,
+      "evidence": {
+        "error": "请先登录账号。"
+      }
+    },
+    {
+      "name": "actual original UTF8 bytes SHA",
+      "pass": true,
+      "evidence": {
+        "equal": true
+      }
+    },
+    {
+      "name": "canonical same version preserves first bytes",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "sameSHA": true
+      }
+    },
+    {
+      "name": "duplicate decoded key rejected",
+      "pass": true,
+      "evidence": {
+        "error": "duplicate_key:/schema"
+      }
+    },
+    {
+      "name": "BOM rejected",
+      "pass": true,
+      "evidence": {
+        "error": "invalid_json"
+      }
+    },
+    {
+      "name": "full caseIds header",
+      "pass": true,
+      "evidence": {
+        "count": 1
+      }
+    },
+    {
+      "name": "old or incomplete APP binding is never ready",
+      "pass": false,
+      "error": "{'path': '/api/admin/bazi-samples/runs', 'expected': 503, 'actual': 200, 'error': None}"
+    }
+  ],
+  "professionalValidation": false,
+  "teacherConfirmed": false,
+  "priorFailure": {
+    "code": "schema_path_used_parent_with_name",
+    "fixed": true,
+    "originalFailedOwnedDatabase": "bazi-component-schema-owned.sqlite3"
+  },
+  "passed": 6,
+  "failed": 1,
+  "ownedServerStopped": true,
+  "actualFullReadyRun": false,
+  "sourceHashes": {
+    "04_研发源码\\app\\r4\\backend\\bazi_samples.py": "0c1dfbd9d61f1d3ae2cffff0f30093ff67be4928530aa5a7bd8ccdafe069fe22",
+    "04_研发源码\\app\\r4\\backend\\bazi_samples_schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1"
+  }
+}

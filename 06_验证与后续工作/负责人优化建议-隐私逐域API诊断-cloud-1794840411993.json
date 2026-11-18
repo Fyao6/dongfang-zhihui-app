@@ -1,0 +1,46 @@
+{
+  "at": "2026-11-16T14:46:51.992Z",
+  "formalAcceptance": false,
+  "target": "cloud",
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\privacy-domains-mwjdic12-b7865ee5",
+  "actualWrangler": true,
+  "actualD1": true,
+  "actualHttp": true,
+  "seededRows": 2,
+  "actualUploadedWave": true,
+  "observations": [
+    {
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "path": "/__privacy-domains-test/control",
+      "status": 200
+    },
+    {
+      "path": "/api/media",
+      "status": 200
+    },
+    {
+      "path": "/api/privacy/domains",
+      "status": 500,
+      "error": "服务暂时无法处理此请求。"
+    },
+    {
+      "path": "/api/privacy/domains/preview",
+      "status": 200
+    },
+    {
+      "path": "/api/privacy/domains/jobs/a34119fc-be02-4f91-abf9-6378980a32d9/apply",
+      "status": 500,
+      "error": "服务暂时无法处理此请求。"
+    }
+  ],
+  "nativeErrors": [
+    "X [ERROR] api_error /api/privacy/domains D1_ERROR: too many terms in compound SELECT: SQLITE_ERROR",
+    "X [ERROR] api_error /api/privacy/domains/jobs/a34119fc-be02-4f91-abf9-6378980a32d9/apply D1_ERROR: too many terms in compound SELECT: SQLITE_ERROR"
+  ],
+  "processStopped": true,
+  "temporaryDevVarsRemoved": true,
+  "secretsIncluded": false
+}

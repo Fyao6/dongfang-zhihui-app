@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import time
+import membership_ai_quota as member_quota
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -50,6 +51,11 @@ def init_schema(db):
     init_privacy(db);db.executescript(DDL)
     if 'revision' not in {r[1] for r in db.execute('PRAGMA table_info(ai_gateway_provider_consents)')}:db.execute("ALTER TABLE ai_gateway_provider_consents ADD COLUMN revision TEXT NOT NULL DEFAULT ''")
     if 'saved_conversation_id' not in {r[1] for r in db.execute('PRAGMA table_info(ai_gateway_jobs)')}:db.execute('ALTER TABLE ai_gateway_jobs ADD COLUMN saved_conversation_id TEXT')
+    columns={r[1] for r in db.execute('PRAGMA table_info(ai_gateway_jobs)')}
+    if 'quota_source' not in columns:db.execute("ALTER TABLE ai_gateway_jobs ADD COLUMN quota_source TEXT NOT NULL DEFAULT 'test_wallet' CHECK(quota_source IN ('test_wallet','membership_period'))")
+    if 'quota_period_id' not in columns:db.execute("ALTER TABLE ai_gateway_jobs ADD COLUMN quota_period_id TEXT NOT NULL DEFAULT ''")
+    member_quota.init_schema(db)
+    member_quota.install_wallet_routing(db)
 
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):return None
@@ -173,7 +179,7 @@ class AIGateway:
         attempts=db.execute('SELECT provider_id,model,protocol,status,upstream_request_id,usage,cost_minor,currency,output_chars,error_code,created,updated FROM ai_gateway_attempts WHERE job_id=? AND owner=? ORDER BY rowid',(row['id'],self.owner)).fetchall()
         saved=db.execute('SELECT data FROM privacy_conversations WHERE id=? AND user_id=?',(row['saved_conversation_id'],self.owner)).fetchone() if row['saved_conversation_id'] else None
         text=json.loads(saved['data']).get('output') if saved else None
-        return {'id':row['id'],'requestId':row['request_id'],'scene':row['scene'],'environment':'local-test','productionEnabled':False,'status':row['status'],'cancelRequested':bool(row['cancel_requested']),'reservedCredits':row['reserve_credits'],'chargedCredits':row['charged_credits'],'outputStored':bool(saved),'text':text,'outputChars':row['output_chars'],'usage':json.loads(row['usage']) if row['usage'] else None,'upstreamCostKnown':False,'errorCode':row['error_code'],'createdAt':row['created'],'updatedAt':row['updated'],'attempts':[{**dict(r),'usage':json.loads(r['usage']) if r['usage'] else None} for r in attempts]}
+        return {'id':row['id'],'requestId':row['request_id'],'scene':row['scene'],'environment':'local-test','productionEnabled':False,'quotaSource':row['quota_source'],'periodId':row['quota_period_id'],'status':row['status'],'cancelRequested':bool(row['cancel_requested']),'reservedCredits':row['reserve_credits'],'chargedCredits':row['charged_credits'],'outputStored':bool(saved),'text':text,'outputChars':row['output_chars'],'usage':json.loads(row['usage']) if row['usage'] else None,'upstreamCostKnown':False,'errorCode':row['error_code'],'createdAt':row['created'],'updatedAt':row['updated'],'attempts':[{**dict(r),'usage':json.loads(r['usage']) if r['usage'] else None} for r in attempts]}
     def capabilities(self):
         cfg=self.cfg();privacy=self.privacy();providers=[]
         for p in cfg['providers']:
@@ -183,9 +189,10 @@ class AIGateway:
             providers.append({'id':p['id'],'name':p['name'],'model':p['model'],'protocol':p['protocol'],'enabled':p['enabled'],'streaming':p['streaming'],'processingRegions':p['processingRegions'],'policyVersion':p['privacyPolicyVersion'],'purpose':receiver.get('purpose',''),'policyUrl':receiver.get('policyUrl',''),'authorization':auth,'blockingReason':error,'connectionStatus':'not-tested','credentialsConfigured':bool(self.secret(p))})
         with self.store.connect() as db:
             self.expiry(db);wallet=db.execute('SELECT balance,reserved FROM ai_gateway_wallets WHERE owner=?',(self.owner,)).fetchone()
+            quota=member_quota.view(db,self.owner,now())
         policy=cfg['charging'];policy_ready=self.policy_ready(policy)
         public_policy={'confirmed':policy_ready,'ruleVersion':policy.get('ruleVersion') or None,**{k:policy[k] if policy_ready else None for k in ('successCredits','failureCredits','partialCredits','cancelCredits')}}
-        return {'requestTimeoutSeconds':cfg['requestTimeoutSeconds'],'charging':public_policy,'enabled':cfg['enabled'],'allowExternalCalls':cfg['allowExternalCalls'],'productionEnabled':False,'environment':'local-test','providers':providers,'routes':cfg['routes'],'chargingConfigured':self.policy_ready(cfg['charging']),'wallet':dict(wallet) if wallet else {'balance':0,'reserved':0},'tools':['catalog.search','my_time_summary','my_record_summary'],'automaticToolExecution':False,'streamMethod':'POST','payloadStoredByDefault':False}
+        return {'requestTimeoutSeconds':cfg['requestTimeoutSeconds'],'charging':public_policy,'enabled':cfg['enabled'],'allowExternalCalls':cfg['allowExternalCalls'],'productionEnabled':False,'environment':'local-test','providers':providers,'routes':cfg['routes'],'chargingConfigured':self.policy_ready(cfg['charging']),'wallet':dict(wallet) if wallet else {'balance':0,'reserved':0},'membershipQuota':quota,'quotaSource':quota['quotaSource'],'tools':['catalog.search','my_time_summary','my_record_summary'],'automaticToolExecution':False,'streamMethod':'POST','payloadStoredByDefault':False}
     def policy_ready(self,p):return p.get('confirmed') is True and bool(p.get('ruleVersion')) and all(type(p.get(k)) is int and 0<=p[k]<=1000000 for k in ('successCredits','failureCredits','partialCredits','cancelCredits'))
     def ready(self,cfg,p):
         if not cfg['enabled'] or not cfg['allowExternalCalls']:self.fail(503,'AI网关尚未启用真实外部调用。')
@@ -211,10 +218,12 @@ class AIGateway:
             guard,bindings=memory_save_guard(self.memory_proof)
             if not db.execute('SELECT 1 WHERE '+guard,bindings).fetchone():
                 self.fail(409,'记忆或授权已变化，本次未创建请求。')
-            db.execute('INSERT OR IGNORE INTO ai_gateway_wallets VALUES(?,0,0,?)',(self.owner,t))
-            wallet=db.execute('SELECT balance,reserved FROM ai_gateway_wallets WHERE owner=?',(self.owner,)).fetchone()
-            if wallet['balance']-wallet['reserved']<reserve:self.fail(402,'本地测试额度不足；不会自动开通或购买生产额度。')
-            db.execute("INSERT INTO ai_gateway_jobs(id,owner,request_id,fingerprint,scene,environment,status,reserve_credits,policy_snapshot,provider_snapshot,route_snapshot,config_revision,provider_id,lease_until,created,updated) VALUES(?,?,?,?,?,'local-test','queued',?,?,?,?,?,?,?,?,?)",(jid,self.owner,request_id,token,scene,reserve,dump(charge),dump(primary),dump(cfg['routes'][scene]),cfg['revision'],primary['id'],t+600000,t,t))
+            source,period_id=member_quota.allocate(db,self.owner,jid,reserve,t,self.Error)
+            if source=='test_wallet':
+                db.execute('INSERT OR IGNORE INTO ai_gateway_wallets VALUES(?,0,0,?)',(self.owner,t))
+                wallet=db.execute('SELECT balance,reserved FROM ai_gateway_wallets WHERE owner=?',(self.owner,)).fetchone()
+                if wallet['balance']-wallet['reserved']<reserve:self.fail(402,'本地测试额度不足；不会自动开通或购买生产额度。')
+            db.execute("INSERT INTO ai_gateway_jobs(id,owner,request_id,fingerprint,scene,environment,status,reserve_credits,policy_snapshot,provider_snapshot,route_snapshot,config_revision,provider_id,lease_until,created,updated,quota_source,quota_period_id) VALUES(?,?,?,?,?,'local-test','queued',?,?,?,?,?,?,?,?,?,?,?)",(jid,self.owner,request_id,token,scene,reserve,dump(charge),dump(primary),dump(cfg['routes'][scene]),cfg['revision'],primary['id'],t+600000,t,t,source,period_id))
             capture_memory_job(db,self.owner,jid,self.memory_proof,t,self.memory_semantic)
             self.store.audit(db,self.owner,'ai_gateway.reserve',jid,'local-test；仅请求摘要与额度元数据，不保存提示词')
             return self.job(db,self.job_row(db,jid))

@@ -1,0 +1,65 @@
+/* Candidate only. No existing product selectors are restyled. */
+.der-dialog {
+  width:min(620px,calc(100vw - 28px));max-height:calc(100dvh - 32px);
+  padding:22px;border:1px solid var(--line,#c8c9c3);border-radius:22px;
+  background:var(--bg,#f7f7f1);color:var(--ink,#1b271e);overflow:auto;
+  overscroll-behavior:contain;box-shadow:0 28px 100px #0005;
+  overflow-wrap:anywhere;font-family:inherit;
+}
+.der-dialog::backdrop { background:#07120cb3; }
+.der-header { display:flex;align-items:flex-start;justify-content:space-between;gap:18px; }
+.der-header h1 { flex:1;margin:0;font-size:23px;line-height:1.65; }
+.der-dialog button,.der-shortcut,.der-month-picker input {
+  font:inherit;font-size:15px;color:inherit;min-height:44px;
+  border:1px solid var(--line,#c8c9c3);border-radius:10px;
+  background:var(--card,#fff);padding:10px 14px;cursor:pointer;
+}
+.der-dialog button:focus-visible,.der-shortcut:focus-visible,.der-month-picker input:focus-visible { outline:2px solid var(--cta,#31563d);outline-offset:3px; }
+.der-dialog button:disabled { opacity:.45;cursor:default; }
+.der-close { flex:none; }
+.der-greeting { margin:24px 0; }
+.der-personal-title { font-size:27px;line-height:1.65;margin:12px 0; }
+.der-dialog p { font-size:15px;line-height:1.95;white-space:pre-wrap;margin:12px 0; }
+.der-dialog .der-basis,.der-source-note { color:var(--muted,#647066);font-size:13px; }
+.der-test-note,.der-unconfirmed { border-inline-start:3px solid var(--cta,#31563d);padding-inline-start:13px; }
+.der-test-note { font-weight:650; }
+.der-birthday { color:var(--cta,#31563d);font-weight:650; }
+.der-dialog .der-primary { background:var(--cta,#31563d);color:var(--on-cta,#fff);border-color:var(--cta,#31563d); }
+.der-dialog .der-link { background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:4px;padding-inline:2px; }
+.der-calendar { border-block-start:1px solid var(--line,#c8c9c3);padding-block-start:18px; }
+.der-month-nav { display:grid;grid-template-columns:46px 1fr 46px;align-items:center;gap:12px; }
+.der-month-nav h3 { margin:0;font-size:20px;line-height:1.75;text-align:center; }
+.der-month-nav button { padding-inline:6px;font-size:25px; }
+.der-month-picker { display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted,#647066);font-size:13px;margin:16px 0; }
+.der-month-picker input { min-width:0;max-width:70%;width:220px; }
+.der-month-grid { width:100%; }
+.der-week { display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin:4px 0; }
+.der-weekday { text-align:center;font-size:12px;line-height:1.8;padding-block:6px;overflow-wrap:anywhere; }
+.der-dialog .der-day { min-width:0;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 1px;border-color:transparent;background:transparent; }
+.der-day-number { font-size:16px;font-variant-numeric:tabular-nums; }
+.der-day-lunar { font-size:11px;line-height:1.6;color:var(--muted,#647066);white-space:normal;overflow-wrap:anywhere; }
+.der-day[aria-current=date] .der-day-number { text-decoration:underline;text-underline-offset:5px; }
+.der-dialog .der-day[aria-selected=true] { border-color:var(--cta,#31563d);background:var(--soft,#e8eee6); }
+.der-selected-day { border-block-start:1px solid var(--line,#c8c9c3);margin-block-start:18px;padding-block-start:14px; }
+.der-selected-day h3 { font-size:20px;margin:6px 0 12px; }
+.der-calendar-facts { margin:12px 0; }
+.der-calendar-facts>div { display:flex;justify-content:space-between;gap:18px;margin:8px 0;font-size:14px;line-height:1.9; }
+.der-calendar-facts dt { color:var(--muted,#647066); }
+.der-calendar-facts dd { margin:0;text-align:end; }
+.der-error { color:var(--ink,#1b271e);border-inline-start:3px solid var(--line,#c8c9c3);padding-inline-start:12px; }
+.der-footer { display:flex;justify-content:flex-end;margin-top:20px; }
+.der-footer button { min-width:120px; }
+.der-shortcut { display:block;margin:24px 0;width:100%;background:transparent; }
+html:lang(bo) .der-dialog,html:lang(bo) .der-shortcut { font-family:'EW Tibetan',serif!important;letter-spacing:normal!important; }
+html:lang(bo) .der-dialog :is(h1,h2,h3,p,button,label,dt,dd,span) { line-height:3; }
+html:lang(bo) .der-dialog .der-day-lunar { line-height:2.4; }
+html:lang(bo) .der-dialog .der-day { min-height:88px; }
+html:lang(bo) .der-weekday { line-height:2.8; }
+@media(max-width:374px) {
+  .der-dialog { width:calc(100vw - 16px);padding:16px 12px;border-radius:16px; }
+  .der-header { gap:9px; }.der-header h1 { font-size:21px; }
+  .der-personal-title { font-size:25px; }
+  .der-dialog .der-close { padding-inline:10px; }
+  .der-week { gap:1px; }.der-dialog .der-day { min-height:64px; }
+  .der-month-nav { gap:6px; }.der-calendar-facts>div { gap:12px; }
+}

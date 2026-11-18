@@ -1,0 +1,139 @@
+{
+  "kind": "actual-fresh-native-D1-HTTP-parent-component",
+  "formalAcceptance": false,
+  "syntheticOnly": true,
+  "runId": "a172a369477b403d8293712d64ae2759",
+  "results": [
+    {
+      "name": "normal frozen target and declared-source metadata",
+      "pass": true,
+      "evidence": {
+        "sourceSha256": "419215d962773a47e301317c8ff63def728fda2c329b2799f35de23930320f96",
+        "normalDraft": true,
+        "targetAndProvenanceExact": true
+      }
+    },
+    {
+      "name": "deck nonempty-array freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "deck nonempty-string freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "deck nonzero-number freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "deck boolean-true freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "provenance nonempty-array freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "provenance nonempty-string freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "provenance nonzero-number freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "provenance boolean-true freezes blocked preview and rejects apply",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "applyBlocked": true,
+        "applyStatus": 409,
+        "metadataMatchesFrozenParent": true
+      }
+    },
+    {
+      "name": "invalid parent does not bypass a stale base revision",
+      "pass": true,
+      "evidence": {
+        "baseRevisionConflict": 409
+      }
+    },
+    {
+      "name": "valid parent still enforces original same deck and environment",
+      "pass": true,
+      "evidence": {
+        "sameDeckConflict": 409,
+        "sameEnvironmentConflict": 409
+      }
+    },
+    {
+      "name": "no blocked previews create extra business drafts and all transient guards self-delete",
+      "pass": true,
+      "evidence": {
+        "card_deck_versions": 1,
+        "card_deck_sources": 1,
+        "card_import_receipts": 1,
+        "card_import_guards": 0
+      }
+    }
+  ],
+  "productionEnabled": false,
+  "bundle": {
+    "path": "06_验证与后续工作/card-parent-native-component-a172a369477b403d8293712d64ae2759.mjs",
+    "sha256": "f0cc62526cb7cfecf7e69203f67902ed90d92a32be136fb7c179f73e0b9a5cd3",
+    "actualInputCount": 46
+  },
+  "base": "http://127.0.0.1:58659",
+  "state": "04_研发源码/app/cloud/.wrangler/card-parent-native-component-a172a369477b403d8293712d64ae2759",
+  "ownedRuntimeStopped": true,
+  "passed": 12,
+  "failed": 0,
+  "sourceHashes": {
+    "04_研发源码/app/cloud/lib/card-imports.ts": "8c2f0c451edf593bdaba813a0e55a644d693fe96260c8b89e2e5147155e6145c",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "bf68394e6568cc0137aac9ae51e729aedba46c29de3643275ea3c782a50c1712",
+    "04_研发源码/app/cloud/generated/card-import-schema.sql": "668f76c6565f8ec2cdc1654f19c6121c809913facb1477b418da03566dcae871",
+    "04_研发源码/app/r4/card-import-engine.js": "a70f9ea22f6fb568eab8c7ce77bc2030bbae6a40125e156218b2de07f533ce62"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "at": "2026-11-17T14:01:09.248814+00:00",
+  "pass": true,
+  "preparationOnly": true,
+  "actualServices": 0,
+  "actualRecoveryDrills": 0,
+  "actualMediaSamples": 0,
+  "currentBindingPending": true,
+  "sharedVerifier": "06_验证与后续工作/负责人优化建议-当前产品可靠性-基线.cjs",
+  "businessChecksPreserved": {
+    "recoveryElevenStepCoordinatorReverseExact": true,
+    "sqliteBackupRestoreAndFactsASTExact": [
+      "readonly",
+      "normalize",
+      "database_facts",
+      "business_links",
+      "preflight",
+      "exclusive_db",
+      "snapshot",
+      "restore",
+      "OwnedPython"
+    ],
+    "associationQueriesExact": true,
+    "allOriginalDrillSequenceEntriesExact": true,
+    "mediaExecuteAndCleanupTailExact": true,
+    "mediaLimitsExact": true
+  },
+  "files": {
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复工具.py": "8346bda1ecc2f6df70b1a5a08c9af1a000e9dabea4408c85742e7162f96b57f2",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复协调.cjs": "848e937a107efe6f03e6a2f70c616769ae8864830d76c1ed458cb187a5a606d3",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复D1快照.cjs": "9b6dbbf147ff31de17586fd05ea60d4a8a11be79d1b65fd9d71f8b25f9cc3412",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复SQL计划.py": "e6b537c9489218bcc7e70246e5e34e823f172aedbc7efc0a8dbc25d9770e91d5",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复-关联查询.json": "db8d0321cdeae92de8d46dae1b32e0f592312034c65563372edbd6280213e7ab",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复-候选合同.json": "d0aa34ad2035f2022600b477e37d0ce8d4de3623dc8d00dcb666ea17b767c1e7",
+    "06_验证与后续工作/负责人优化建议-当前产品可靠性后端媒体计时.cjs": "7d26a08346886bf8166d5b49c15869225f9e7ecaba8efc6f833bee8cd432b99f"
+  },
+  "commands": {
+    "recovery": "node 06/负责人优化建议-当前产品可靠性恢复协调.cjs --execute-local-drill --target=python|cloud --stage30-proof=<absolute Stage30 proof> --proof-sha256=752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07 --repair-proof-sha256=<current binding SHA> --repair-authorization-sha256=<current authorization SHA>",
+    "media": "node 06/负责人优化建议-当前产品可靠性后端媒体计时.cjs --probe-authenticated-backend-media --target=python|cloud --stage30-proof=<absolute Stage30 proof> --proof-sha256=752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07 --repair-proof-sha256=<current binding SHA> --repair-authorization-sha256=<current authorization SHA>"
+  },
+  "executionAllowedNow": false,
+  "reason": "Actual daily reminder acceptance and fixed current-product verifier binding remain required. Static success is not recovery/media success."
+}

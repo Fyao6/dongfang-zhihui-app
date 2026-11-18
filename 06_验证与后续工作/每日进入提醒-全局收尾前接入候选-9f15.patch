@@ -1,0 +1,251 @@
+--- /dev/null
++++ b/04_研发源码/app/r4/daily-arrival.js
+@@ -0,0 +1,157 @@
++/* Candidate only: no installation, requests or writes until install() is called.
++ * Daily acknowledgement lives at state.daily.arrivalSeen, inside the existing
++ * account/device personal snapshot. It is technical metadata, not growth data.
++ * This is a calendar and an optional practice greeting, never a fate forecast.
++ */
++(function (global) {
++  'use strict';
++  const SEEN_KEY='arrivalSeen',SAFE_PAGES=new Set(['home','profile','profileSettings','growth']),SHORTCUT_PAGES=new Set(['profile','profileSettings']);
++  const MIN_YEAR=1900,MAX_YEAR=2099;
++  let installed=false,runtime=null,abort=null,pendingTimer=null,midnightTimer=null;
++  const previous={};
++  function text(en,zh,hant,bo){const lang=typeof state==='object'?state.lang:'zh',normalized=typeof ewI18n==='object'?ewI18n.normalize(lang):lang;if(normalized==='bo'&&bo)return bo;if(normalized==='zh-Hant'&&hant)return hant;return typeof ewI18n==='object'?ewI18n.text(en,zh,normalized):normalized==='en'?en:zh;}
++  function el(tag,cls,value){const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=String(value);return n;}
++  function button(label,action,cls=''){const n=el('button',cls,label);n.type='button';n.dataset.derAction=action;return n;}
++  function token(){return typeof psToken==='function'?psToken():{scope:null,epoch:-1};}
++  function dayKey(now=new Date()){return now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');}
++  function dateValue(day){if(typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return null;const d=new Date(day+'T12:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===day?d:null;}
++  function identityReady(){const t=token();if(!t.scope||typeof px!=='object'||px.loaded!==true||px.authPending)return false;if(typeof pxConnection==='object'&&pxConnection.status!=='ready')return false;return px.user===null?t.scope==='guest':typeof px.user?.id==='string'&&px.user.id===t.scope;}
++  function current(r,sequence){const t=token();return runtime===r&&t.scope===r.actor.scope&&t.epoch===r.actor.epoch&&r.day===dayKey()&&(sequence===undefined||r.sequence===sequence)&&identityReady();}
++  function seen(r){const marker=typeof state==='object'?state.daily?.[SEEN_KEY]:null;return marker?.schema===1&&marker.day===r.day&&marker.accountId===r.actor.scope&&Number.isFinite(Date.parse(marker.closedAt));}
++  function ensure(){const t=token(),day=dayKey();if(!runtime||runtime.actor.scope!==t.scope||runtime.actor.epoch!==t.epoch||runtime.day!==day){if(runtime)close(runtime,'context');runtime={actor:t,day,sequence:0,loading:null,membership:null,error:null,panel:null,dismissed:false};}return runtime;}
++
++  // Use server access facts, not status names, locally selected plans or badges.
++  // The current product explicitly returns productionEnabled=false, therefore
++  // it cannot qualify as a production paid subscription in this candidate.
++  function classifyMembership(dto,accountId){
++    if(typeof accountId!=='string'||!accountId.trim()||!dto||dto.accountId!==accountId||!Array.isArray(dto.items)||typeof dto.productionEnabled!=='boolean')throw new Error('membership_owner_or_shape');
++    if(dto.items.some(x=>!x||x.accountId!==accountId))throw new Error('membership_item_owner');
++    const production=dto.productionEnabled===true&&dto.items.some(x=>x.environment==='production'&&x.productionEnabled===true&&x.grantsProductionAccess===true&&x.sandboxOnly!==true&&x.management?.providerVerified===true);
++    const sandbox=dto.items.some(x=>x.environment==='sandbox'&&x.sandboxOnly===true&&x.hasSandboxAccess===true&&x.grantsProductionAccess===false);
++    return {verified:true,kind:production?'production-member':'general',productionMember:production,sandboxAccess:sandbox};
++  }
++  async function status(r,force=false){
++    if(!current(r))return false;if(!force&&r.membership)return true;if(r.loading)return r.loading;
++    if(r.actor.scope==='guest'&&px.user===null){r.membership={verified:true,kind:'guest',productionMember:false,sandboxAccess:false};r.error=null;return true;}
++    const seq=++r.sequence;
++    const task=(async()=>{try{const dto=await pxApi('membership/status');if(!current(r,seq))return false;r.membership=classifyMembership(dto,r.actor.scope);r.error=null;return true;}catch(error){if(current(r,seq)){r.membership={verified:false,kind:'unconfirmed',productionMember:false,sandboxAccess:false};r.error=error?.status===401||error?.status===403?'identity_recheck_required':'membership_unavailable';}return false;}finally{if(runtime===r&&r.sequence===seq)r.loading=null;}})();
++    r.loading=task;return task;
++  }
++  function calendarDay(day,library){
++    const d=dateValue(day);if(!d||d.getUTCFullYear()<MIN_YEAR||d.getUTCFullYear()>MAX_YEAR)throw new Error('calendar_date_range');
++    const result={date:day,weekday:d.getUTCDay(),lunar:null,error:null};
++    try{
++      const lib=library===undefined?(typeof LCLunar!=='undefined'?LCLunar:null):library;
++      if(!lib?.Solar?.fromYmd)throw new Error('calendar_engine_unavailable');
++      const solar=lib.Solar.fromYmd(d.getUTCFullYear(),d.getUTCMonth()+1,d.getUTCDate()),lunar=solar.getLunar();
++      const year=lunar.getYear(),month=lunar.getMonth(),number=lunar.getDay();
++      if(!Number.isInteger(year)||!Number.isInteger(month)||!Number.isInteger(number))throw new Error('calendar_engine_result');
++      result.lunar={year,month:Math.abs(month),day:number,leapMonth:month<0,ganZhi:{year:lunar.getYearInGanZhi(),month:lunar.getMonthInGanZhi(),day:lunar.getDayInGanZhi()},solarTerm:lunar.getJieQi(),festivals:[...new Set([...solar.getFestivals(),...solar.getOtherFestivals(),...lunar.getFestivals(),...lunar.getOtherFestivals()])]};
++    }catch{result.error='calendar_engine_unavailable';}
++    return result;
++  }
++  function calendarMonth(year,month,library){
++    if(!Number.isInteger(year)||year<MIN_YEAR||year>MAX_YEAR||!Number.isInteger(month)||month<1||month>12)throw new Error('calendar_month_range');
++    const days=new Date(Date.UTC(year,month,0,12)).getUTCDate(),first=new Date(Date.UTC(year,month-1,1,12)).getUTCDay();
++    return {year,month,leading:(first+6)%7,days:Array.from({length:days},(_,i)=>calendarDay(year+'-'+String(month).padStart(2,'0')+'-'+String(i+1).padStart(2,'0'),library))};
++  }
++  function isBirthday(profile,day){return !!(dateValue(profile?.date)&&dateValue(day)&&profile.date.slice(5)===day.slice(5));}
++  function practiceTheme(recommendation){const names={breath:['Today is your day for stillness','今天是你的静心之日','今天是你的靜心之日','དེ་རིང་ཁྱེད་ཀྱི་སེམས་ཞི་བའི་ཉིན་མོ་ཡིན།'],ground:['Today is your day for grounding','今天是你的安住之日','今天是你的安住之日','དེ་རིང་ཁྱེད་ཀྱི་ལྷིང་འཇགས་ཀྱི་ཉིན་མོ་ཡིན།'],scan:['Today is your day for awareness','今天是你的觉察之日','今天是你的覺察之日','དེ་རིང་ཁྱེད་ཀྱི་དྲན་ཤེས་ཀྱི་ཉིན་མོ་ཡིན།'],sleep:['Today is your day for rest','今天是你的休养之日','今天是你的休養之日','དེ་རིང་ཁྱེད་ཀྱི་ངལ་གསོའི་ཉིན་མོ་ཡིན།']};return Object.hasOwn(names,recommendation?.key)?{key:recommendation.key,title:text(...names[recommendation.key]),reason:typeof recommendation.reason==='string'?recommendation.reason:''}:null;}
++  function personalGreeting(){
++    let recommendation=null,profile=null;try{if(typeof journeyRecommendation==='function')recommendation=journeyRecommendation();}catch{}try{if(typeof lbProfile==='function')profile=lbProfile();}catch{}
++    const theme=practiceTheme(recommendation),selfReport=typeof body4Entry==='function'?body4Entry():null;
++    return {theme,birthday:isBirthday(profile,dayKey()),hasSelfReport:!!selfReport,hasPriorPractice:!!recommendation?.last};
++  }
++  function blocked(r){if(!current(r)||document.hidden||r.panel||document.querySelector('dialog[open], [aria-modal="true"]')||px.busy||px.authPending)return true;return !SAFE_PAGES.has(state.page)||state.audioPlaying===true||!!document.activeElement?.matches('input,textarea,select,[contenteditable="true"]');}
++  function acknowledge(r,panel){
++    if(!current(r)||!panel.shown||panel.day!==r.day||panel.actor.scope!==r.actor.scope||panel.actor.epoch!==r.actor.epoch)return false;
++    r.dismissed=true;if(typeof psCommit!=='function'||!state.daily||typeof state.daily!=='object')return false;
++    return psCommit(()=>{state.daily[SEEN_KEY]={schema:1,day:r.day,accountId:r.actor.scope,closedAt:new Date().toISOString(),kind:r.membership?.verified?r.membership.kind:'unconfirmed'};});
++  }
++  function close(r,reason='user'){
++    const panel=r?.panel;if(!panel)return false;r.panel=null;
++    const mark=reason==='user'&&panel.automatic;let saved=false;
++    panel.abort.abort();if(panel.dialog.open)panel.dialog.close();panel.dialog.remove();
++    if(mark)saved=acknowledge(r,panel);
++    if(reason==='user'&&current(r)&&panel.focus?.isConnected&&!panel.focus.closest('[inert]'))panel.focus.focus({preventScroll:true});
++    if(mark&&!saved&&current(r)&&typeof toast==='function')toast(text('Closed for now. The daily acknowledgement was not saved on this device.','本次已关闭；本机尚未保存今日已读标记。','本次已關閉；本機尚未儲存今日已讀標記。','ད་ལྟ་ཁ་བརྒྱབ་ཟིན། དེ་རིང་བལྟས་པའི་རྟགས་ཉར་མ་ཐུབ།'));
++    return true;
++  }
++  function selectedDetail(panel){
++    const host=panel.dialog.querySelector('[data-der-day-detail]');host.replaceChildren();
++    const value=calendarDay(panel.selected),dateTitle=el('h3','',value.date);host.append(dateTitle);
++    if(!value.lunar){host.append(el('p','der-error',text('The lunar calendar engine is unavailable. Only the Gregorian date is shown; no lunar date has been estimated.','农历引擎暂不可用，仅显示公历日期，不推测农历。','農曆引擎暫不可用，僅顯示公曆日期，不推測農曆。','ཟླ་ཐོའི་རྩིས་འཁོར་སྤྱོད་མི་ཐུབ། སྤྱི་ལོའི་ཚེས་ཁོ་ན་སྟོན།')));return;}
++    const l=value.lunar;host.append(el('p','der-lunar-date',text('Chinese lunar date','中国农历','中國農曆','རྒྱ་ནག་གི་ཟླ་ཐོ།')+' · '+l.year+' / '+l.month+' / '+l.day+(l.leapMonth?' · '+text('Leap month','闰月','閏月','བཤོལ་ཟླ།'):'')));
++    const facts=el('dl','der-calendar-facts');for(const [name,number]of [[text('Year stem–branch','年干支','年干支','ལོའི་གནམ་ས་སྡེབ།'),l.ganZhi.year],[text('Month stem–branch','月干支','月干支','ཟླ་བའི་གནམ་ས་སྡེབ།'),l.ganZhi.month],[text('Day stem–branch','日干支','日干支','ཉིན་གྱི་གནམ་ས་སྡེབ།'),l.ganZhi.day]]){const row=el('div');row.append(el('dt','',name),el('dd','',number));facts.append(row);}host.append(facts);
++    if(l.solarTerm)host.append(el('p','der-term',text('Solar term','节气','節氣','དུས་ཚིགས།')+' · '+l.solarTerm));
++    if(l.festivals.length)host.append(el('p','der-festivals',text('Traditional / calendar observances','历法与民俗节日','曆法與民俗節日','ཟླ་ཐོ་དང་དམངས་སྲོལ་དུས་ཆེན།')+' · '+l.festivals.join(' · ')));
++  }
++  function monthLabel(year,month){try{const locale=typeof ewIntlLocale==='function'?ewIntlLocale():'zh-CN';return new Intl.DateTimeFormat(locale,{year:'numeric',month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,1,12)));}catch{return year+' / '+month;}}
++  function calendar(panel,focusDay){
++    const host=panel.dialog.querySelector('[data-der-calendar]');host.replaceChildren();const data=calendarMonth(panel.year,panel.month);
++    const nav=el('div','der-month-nav'),prev=button('‹','previous-month'),next=button('›','next-month'),heading=el('h3','',monthLabel(panel.year,panel.month));heading.id='der-month-label';
++    prev.setAttribute('aria-label',text('Previous month','上个月','上個月','ཟླ་སྔོན་མ།'));next.setAttribute('aria-label',text('Next month','下个月','下個月','ཟླ་རྗེས་མ།'));prev.disabled=panel.year===MIN_YEAR&&panel.month===1;next.disabled=panel.year===MAX_YEAR&&panel.month===12;nav.append(prev,heading,next);host.append(nav);
++    const pickerLabel=el('label','der-month-picker',text('Choose month','选择月份','選擇月份','ཟླ་བ་འདེམས།')),picker=el('input');picker.type='month';picker.min=MIN_YEAR+'-01';picker.max=MAX_YEAR+'-12';picker.value=panel.year+'-'+String(panel.month).padStart(2,'0');picker.dataset.derMonth='';pickerLabel.append(picker);host.append(pickerLabel);
++    const grid=el('div','der-month-grid');grid.setAttribute('role','grid');grid.setAttribute('aria-labelledby','der-month-label');const headings=el('div','der-week');headings.setAttribute('role','row');
++    for(let i=0;i<7;i++){let name;try{name=new Intl.DateTimeFormat(typeof ewIntlLocale==='function'?ewIntlLocale():'zh-CN',{weekday:'short',timeZone:'UTC'}).format(new Date(Date.UTC(2024,0,1+i,12)));}catch{name=String(i+1);}const col=el('span','der-weekday',name);col.setAttribute('role','columnheader');headings.append(col);}grid.append(headings);
++    const cells=[...Array(data.leading).fill(null),...data.days];while(cells.length%7)cells.push(null);
++    for(let start=0;start<cells.length;start+=7){const row=el('div','der-week');row.setAttribute('role','row');for(const value of cells.slice(start,start+7)){if(!value){const blank=el('span','der-blank');blank.setAttribute('role','gridcell');blank.setAttribute('aria-disabled','true');row.append(blank);continue;}
++      const b=button('','select-date','der-day');b.dataset.derDate=value.date;b.setAttribute('role','gridcell');b.setAttribute('aria-selected',String(value.date===panel.selected));b.setAttribute('aria-label',value.date+(value.lunar?' · '+text('Lunar','农历','農曆','ཟླ་ཐོ།')+' '+value.lunar.month+'/'+value.lunar.day:''));b.tabIndex=value.date===panel.selected?0:-1;
++      if(value.date===dayKey())b.setAttribute('aria-current','date');b.append(el('span','der-day-number',Number(value.date.slice(8))));b.append(el('small','der-day-lunar',value.lunar?(value.lunar.solarTerm||String(value.lunar.day)):'—'));row.append(b);}grid.append(row);}host.append(grid);
++    const today=button(text('Return to today','回到今天','回到今天','དེ་རིང་ལ་ལོག'),'today','der-link');host.append(today);selectedDetail(panel);
++    if(focusDay)host.querySelector('[data-der-date="'+focusDay+'"]')?.focus({preventScroll:true});
++  }
++  function greeting(r,panel){
++    const host=panel.dialog.querySelector('[data-der-greeting]');host.replaceChildren();panel.sandbox=panel.sandbox===true&&r.membership?.verified===true&&r.membership.sandboxAccess===true;const member=r.membership?.productionMember===true||panel.sandbox;
++    if(panel.sandbox)host.append(el('p','der-test-note',text('TEST PREVIEW · verified sandbox access only · no production paid entitlement','测试预览 · 仅真实沙箱资格 · 不代表正式付费权益','測試預覽 · 僅真實沙箱資格 · 不代表正式付費權益','ཚོད་ལྟའི་སྔོན་ལྟ། ཁེ་དབང་དངོས་མ་ཡིན།')));
++    if(!r.membership?.verified){host.append(el('p','der-unconfirmed',text('Membership could not be confirmed. This is the general calendar, not a confirmed membership decision.','暂未确认会员状态，先显示通用日历，不据此判定你是否为付费会员。','暫未確認會員狀態，先顯示通用日曆，不據此判定你是否為付費會員。','ཚོགས་མིའི་གནས་ཚུལ་ངེས་གཏན་མ་བྱས། སྤྱི་སྤྱོད་ཟླ་ཐོ་སྟོན།')));const retry=button(text('Retry membership check','重试会员状态','重試會員狀態','ཚོགས་མིའི་གནས་ཚུལ་བསྐྱར་བལྟ།'),'retry','der-link');retry.disabled=!!r.loading;host.append(retry);}
++    if(member){const personal=personalGreeting();host.append(el('h2','der-personal-title',personal.theme?.title||text('A moment for yourself today','今天，给自己留一个片刻','今天，給自己留一個片刻','དེ་རིང་རང་ལ་དུས་ཐུང་ཞིག་སྟེར།')));
++      host.append(el('p','der-basis',text('Based on your own check-ins and practice feedback, not a birth-chart or fortune calculation.','依据本人的自述与练习反馈，不作命理推算或吉凶判断。','依據本人的自述與練習回饋，不作命理推算或吉凶判斷。','རང་གི་ཚོར་བ་དང་ཉམས་ལེན་གྱི་ལན་ལ་གཞི་བཅོལ། ལས་དབང་རྩིས་མིན།')));
++      if(personal.theme?.reason)host.append(el('p','der-reason',personal.theme.reason));if(!personal.hasSelfReport&&!personal.hasPriorPractice)host.append(el('p','der-basis',text('No personal check-in is available. This is an optional starting point, not a personalized calculation.','目前没有可用的个人自述；这是可选的练习起点，并非已替你推算。','目前沒有可用的個人自述；這是可選的練習起點，並非已替你推算。','རང་གི་ཚོར་བའི་ཟིན་ཐོ་མེད། འདི་གདམ་གའི་འགོ་འཛུགས་ཙམ་ཡིན།')));
++      if(personal.birthday)host.append(el('p','der-birthday',text('Happy birthday. May you have a gentle moment for yourself today.','生日快乐。愿你今天也为自己留一点温柔的时间。','生日快樂。願你今天也為自己留一點溫柔的時間。','སྐྱེས་སྐར་བཀྲ་ཤིས། དེ་རིང་རང་ལ་བརྩེ་བའི་དུས་ཚོད་ཞིག་སྟེར།')));
++      if(personal.theme){const practice=button(text('Begin this practice','开始这段练习','開始這段練習','ཉམས་ལེན་འདི་འགོ་འཛུགས།'),'practice','der-primary');practice.dataset.derPractice=personal.theme.key;host.append(practice);}
++    }else host.append(el('h2','der-personal-title',text('A calendar for your day','今天的万年历','今天的萬年曆','དེ་རིང་གི་ཟླ་ཐོ།')));
++    if(r.membership?.sandboxAccess&&!panel.sandbox)host.append(button(text('Open sandbox reminder preview · not paid production access','查看测试提醒 · 不代表正式付费','查看測試提醒 · 不代表正式付費','ཚོད་ལྟའི་དྲན་སྐུལ་ལྟ།'),'sandbox','der-link'));
++  }
++  function show(r,{automatic=false,sandbox=false}={}){
++    if(blocked(r,!automatic)||sandbox&&!r.membership?.sandboxAccess)return false;
++    const dialog=el('dialog','der-dialog'),panel={dialog,actor:{...r.actor},day:r.day,page:state.page,automatic,sandbox,shown:false,focus:document.activeElement,abort:new AbortController(),selected:r.day,year:Number(r.day.slice(0,4)),month:Number(r.day.slice(5,7))};
++    dialog.setAttribute('aria-labelledby','der-title');const header=el('header','der-header'),title=el('h1','',text('Today, at your own pace','今天，按自己的节奏','今天，按自己的節奏','དེ་རིང་རང་གི་གོམ་སྟབས་ལྟར།'));title.id='der-title';const x=button(text('Close','关闭','關閉','ཁ་རྒྱོབ།'),'close','der-close');header.append(title,x);
++    const greet=el('section','der-greeting');greet.dataset.derGreeting='';const cal=el('section','der-calendar');cal.dataset.derCalendar='';const detail=el('section','der-selected-day');detail.dataset.derDayDetail='';detail.setAttribute('aria-live','polite');
++    const note=el('p','der-source-note',text('Calendar facts from the bundled lunar-javascript engine. Traditional names are kept in the source language; these are not official holiday arrangements or personal fortune advice. The daily reminder follows this device’s local date.','历法来自本机内置农历引擎，民俗名称保留原文；不代表官方放假安排或个人吉凶建议。每日提醒按此设备的本地日期。','曆法來自本機內建農曆引擎，民俗名稱保留原文；不代表官方放假安排或個人吉凶建議。每日提醒按此裝置的本地日期。','ཟླ་ཐོ་རང་འཕྲུལ་གྱི་རྩིས་འཁོར་ལས་ཡིན། དམངས་སྲོལ་མིང་མ་ཡིག་ལྟར་ཡིན། ལས་དབང་བསླབ་བྱ་མིན། ཉིན་གྲངས་འཕྲུལ་ཆས་འདིའི་དུས་ཁུལ་ལྟར་ཡིན།'));
++    const footer=el('footer','der-footer');footer.append(button(text('Return','返回','返回','ལོག'),'close','der-primary'));dialog.append(header,greet,cal,detail,note,footer);r.panel=panel;
++    const opts={signal:panel.abort.signal};
++    dialog.addEventListener('cancel',e=>{e.preventDefault();close(r,'user');},opts);
++    dialog.addEventListener('close',()=>{if(r.panel===panel)close(r,'context');},opts);
++    dialog.addEventListener('click',async event=>{const b=event.target.closest('[data-der-action]');if(!b||!current(r)||r.panel!==panel)return;const a=b.dataset.derAction;
++      if(a==='close'){close(r,'user');return;}if(a==='retry'){b.disabled=true;await status(r,true);if(current(r)&&r.panel===panel)greeting(r,panel);return;}
++      if(a==='sandbox'){panel.sandbox=true;greeting(r,panel);return;}
++      if(a==='practice'){const key=b.dataset.derPractice;if(!['breath','ground','scan','sleep'].includes(key)||typeof journeyStart!=='function')return;close(r,'user');if(current(r))journeyStart(key);return;}
++      if(a==='select-date')panel.selected=b.dataset.derDate;else if(a==='today'){panel.selected=r.day;panel.year=Number(r.day.slice(0,4));panel.month=Number(r.day.slice(5,7));}
++      else if(a==='previous-month'||a==='next-month'){const d=new Date(Date.UTC(panel.year,panel.month-1+(a==='next-month'?1:-1),1,12));if(d.getUTCFullYear()<MIN_YEAR||d.getUTCFullYear()>MAX_YEAR)return;panel.year=d.getUTCFullYear();panel.month=d.getUTCMonth()+1;panel.selected=panel.year+'-'+String(panel.month).padStart(2,'0')+'-01';}else return;calendar(panel,panel.selected);
++    },opts);
++    dialog.addEventListener('change',event=>{const input=event.target.closest('[data-der-month]');if(!input||!current(r)||r.panel!==panel||!/^\d{4}-\d{2}$/.test(input.value))return;const [y,m]=input.value.split('-').map(Number);if(y<MIN_YEAR||y>MAX_YEAR||m<1||m>12)return;panel.year=y;panel.month=m;panel.selected=input.value+'-01';calendar(panel,panel.selected);},opts);
++    dialog.addEventListener('keydown',event=>{const selected=event.target.closest('[data-der-date]');if(!selected||!current(r)||r.panel!==panel)return;const d=dateValue(selected.dataset.derDate);let changed=true;if(event.key==='ArrowRight')d.setUTCDate(d.getUTCDate()+1);else if(event.key==='ArrowLeft')d.setUTCDate(d.getUTCDate()-1);else if(event.key==='ArrowDown')d.setUTCDate(d.getUTCDate()+7);else if(event.key==='ArrowUp')d.setUTCDate(d.getUTCDate()-7);else if(event.key==='Home')d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);else if(event.key==='End')d.setUTCDate(d.getUTCDate()+6-(d.getUTCDay()+6)%7);else changed=false;if(!changed)return;event.preventDefault();if(d.getUTCFullYear()<MIN_YEAR||d.getUTCFullYear()>MAX_YEAR)return;panel.selected=d.toISOString().slice(0,10);panel.year=d.getUTCFullYear();panel.month=d.getUTCMonth()+1;calendar(panel,panel.selected);},opts);
++    document.body.append(dialog);greeting(r,panel);calendar(panel);
++    try{dialog.showModal();}catch{r.panel=null;panel.abort.abort();dialog.remove();return false;}
++    requestAnimationFrame(()=>{if(current(r)&&r.panel===panel&&panel.page===state.page&&dialog.open&&!document.hidden&&dialog.getBoundingClientRect().height>0){panel.shown=true;x.focus({preventScroll:true});}});return true;
++  }
++  async function openCalendar(){if(!installed||!identityReady())return false;const r=ensure(),page=state.page;if(blocked(r))return false;await status(r,true);if(!current(r)||state.page!==page)return false;return show(r,{automatic:!seen(r)&&!r.dismissed});}
++  async function openSandboxPreview(){if(!installed||!identityReady())return false;const r=ensure(),page=state.page;if(blocked(r))return false;await status(r,true);return current(r)&&state.page===page&&r.membership?.sandboxAccess===true?show(r,{sandbox:true}):false;}
++  function shortcut(){const host=document.querySelector('#app > section');if(!host||!SHORTCUT_PAGES.has(state.page)||host.querySelector('[data-der-shortcut]'))return;const b=button(text('Open calendar & today’s reminder','再看日历与今日提醒','再看日曆與今日提醒','ཟླ་ཐོ་དང་དེ་རིང་གི་དྲན་སྐུལ་ལྟ།'),'open','der-shortcut');b.dataset.derShortcut='';b.addEventListener('click',()=>{void openCalendar();},{signal:abort.signal});host.append(b);}
++  async function check(){if(!installed)return;const r=ensure();if(r.panel&&!current(r))close(r,'context');if(!identityReady()||blocked(r)||r.dismissed||seen(r))return;await status(r);if(!current(r)||blocked(r)||r.dismissed||seen(r))return;show(r,{automatic:true});}
++  function schedule(){if(!installed)return;clearTimeout(pendingTimer);pendingTimer=setTimeout(()=>{pendingTimer=null;void check();},120);}
++  function nextDay(){clearTimeout(midnightTimer);const now=new Date(),next=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,1);midnightTimer=setTimeout(()=>{schedule();nextDay();},Math.max(1000,next-now));}
++  function install(){
++    if(installed)return true;if(typeof document!=='object'||typeof pxApi!=='function'||typeof renderNow!=='function'||typeof psToken!=='function')return false;
++    installed=true;abort=new AbortController();previous.render=renderNow;
++    renderNow=function(...args){const r=runtime;if(r?.panel&&(r.panel.page!==state.page||!current(r)))close(r,'context');const result=previous.render.apply(this,args);shortcut();schedule();return result;};previous.renderWrapper=renderNow;
++    if(typeof psSwitch==='function'){previous.switch=psSwitch;psSwitch=function(...args){if(args[0]!==token().scope){if(runtime)close(runtime,'context');if(runtime)runtime.sequence++;runtime=null;}const result=previous.switch.apply(this,args);schedule();return result;};previous.switchWrapper=psSwitch;}
++    const options={signal:abort.signal};document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule();},options);document.addEventListener('close',schedule,{...options,capture:true});document.addEventListener('focusout',schedule,options);global.addEventListener('pageshow',schedule,options);global.addEventListener('pagehide',()=>{if(runtime)close(runtime,'context');},options);global.addEventListener('popstate',()=>{if(runtime?.panel)close(runtime,'user');schedule();},options);
++    shortcut();nextDay();schedule();return true;
++  }
++  function uninstall(){if(!installed)return;installed=false;clearTimeout(pendingTimer);clearTimeout(midnightTimer);abort.abort();if(runtime)close(runtime,'context');runtime=null;if(renderNow===previous.renderWrapper)renderNow=previous.render;if(typeof psSwitch==='function'&&psSwitch===previous.switchWrapper)psSwitch=previous.switch;document.querySelectorAll('[data-der-shortcut]').forEach(n=>n.remove());}
++  function snapshot(){return {candidateOnly:true,installed,actorCurrent:!!runtime&&current(runtime),day:runtime?.day||null,classification:runtime?.membership?.kind||'not_checked',verified:runtime?.membership?.verified===true,dialogOpen:!!runtime?.panel?.dialog.open,shown:runtime?.panel?.shown===true,acknowledgedInMemory:runtime?.dismissed===true,seenField:'daily.'+SEEN_KEY,dayBasis:'device_local_date',serverDailyAcknowledgement:false};}
++  const api=Object.freeze({install,uninstall,openCalendar,openSandboxPreview,snapshot,classifyMembership,calendarDay,calendarMonth,isBirthday,practiceTheme,dayKey,candidateOnly:true,automaticallyInstalled:false,seenKey:SEEN_KEY});
++  if(typeof module==='object'&&module.exports)module.exports=api;else global.DailyEntryReminderCandidate=api;
++})(typeof window==='object'?window:globalThis);
+--- /dev/null
++++ b/04_研发源码/app/r4/daily-arrival.css
+@@ -0,0 +1,65 @@
++/* Candidate only. No existing product selectors are restyled. */
++.der-dialog {
++  width:min(620px,calc(100vw - 28px));max-height:calc(100dvh - 32px);
++  padding:22px;border:1px solid var(--line,#c8c9c3);border-radius:22px;
++  background:var(--bg,#f7f7f1);color:var(--ink,#1b271e);overflow:auto;
++  overscroll-behavior:contain;box-shadow:0 28px 100px #0005;
++  overflow-wrap:anywhere;font-family:inherit;
++}
++.der-dialog::backdrop { background:#07120cb3; }
++.der-header { display:flex;align-items:flex-start;justify-content:space-between;gap:18px; }
++.der-header h1 { flex:1;margin:0;font-size:23px;line-height:1.65; }
++.der-dialog button,.der-shortcut,.der-month-picker input {
++  font:inherit;font-size:15px;color:inherit;min-height:44px;
++  border:1px solid var(--line,#c8c9c3);border-radius:10px;
++  background:var(--card,#fff);padding:10px 14px;cursor:pointer;
++}
++.der-dialog button:focus-visible,.der-shortcut:focus-visible,.der-month-picker input:focus-visible { outline:2px solid var(--cta,#31563d);outline-offset:3px; }
++.der-dialog button:disabled { opacity:.45;cursor:default; }
++.der-close { flex:none; }
++.der-greeting { margin:24px 0; }
++.der-personal-title { font-size:27px;line-height:1.65;margin:12px 0; }
++.der-dialog p { font-size:15px;line-height:1.95;white-space:pre-wrap;margin:12px 0; }
++.der-dialog .der-basis,.der-source-note { color:var(--muted,#647066);font-size:13px; }
++.der-test-note,.der-unconfirmed { border-inline-start:3px solid var(--cta,#31563d);padding-inline-start:13px; }
++.der-test-note { font-weight:650; }
++.der-birthday { color:var(--cta,#31563d);font-weight:650; }
++.der-dialog .der-primary { background:var(--cta,#31563d);color:var(--on-cta,#fff);border-color:var(--cta,#31563d); }
++.der-dialog .der-link { background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:4px;padding-inline:2px; }
++.der-calendar { border-block-start:1px solid var(--line,#c8c9c3);padding-block-start:18px; }
++.der-month-nav { display:grid;grid-template-columns:46px 1fr 46px;align-items:center;gap:12px; }
++.der-month-nav h3 { margin:0;font-size:20px;line-height:1.75;text-align:center; }
++.der-month-nav button { padding-inline:6px;font-size:25px; }
++.der-month-picker { display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted,#647066);font-size:13px;margin:16px 0; }
++.der-month-picker input { min-width:0;max-width:70%;width:220px; }
++.der-month-grid { width:100%; }
++.der-week { display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin:4px 0; }
++.der-weekday { text-align:center;font-size:12px;line-height:1.8;padding-block:6px;overflow-wrap:anywhere; }
++.der-dialog .der-day { min-width:0;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 1px;border-color:transparent;background:transparent; }
++.der-day-number { font-size:16px;font-variant-numeric:tabular-nums; }
++.der-day-lunar { font-size:11px;line-height:1.6;color:var(--muted,#647066);white-space:normal;overflow-wrap:anywhere; }
++.der-day[aria-current=date] .der-day-number { text-decoration:underline;text-underline-offset:5px; }
++.der-dialog .der-day[aria-selected=true] { border-color:var(--cta,#31563d);background:var(--soft,#e8eee6); }
++.der-selected-day { border-block-start:1px solid var(--line,#c8c9c3);margin-block-start:18px;padding-block-start:14px; }
++.der-selected-day h3 { font-size:20px;margin:6px 0 12px; }
++.der-calendar-facts { margin:12px 0; }
++.der-calendar-facts>div { display:flex;justify-content:space-between;gap:18px;margin:8px 0;font-size:14px;line-height:1.9; }
++.der-calendar-facts dt { color:var(--muted,#647066); }
++.der-calendar-facts dd { margin:0;text-align:end; }
++.der-error { color:var(--ink,#1b271e);border-inline-start:3px solid var(--line,#c8c9c3);padding-inline-start:12px; }
++.der-footer { display:flex;justify-content:flex-end;margin-top:20px; }
++.der-footer button { min-width:120px; }
++.der-shortcut { display:block;margin:24px 0;width:100%;background:transparent; }
++html:lang(bo) .der-dialog,html:lang(bo) .der-shortcut { font-family:'EW Tibetan',serif!important;letter-spacing:normal!important; }
++html:lang(bo) .der-dialog :is(h1,h2,h3,p,button,label,dt,dd,span) { line-height:3; }
++html:lang(bo) .der-dialog .der-day-lunar { line-height:2.4; }
++html:lang(bo) .der-dialog .der-day { min-height:88px; }
++html:lang(bo) .der-weekday { line-height:2.8; }
++@media(max-width:374px) {
++  .der-dialog { width:calc(100vw - 16px);padding:16px 12px;border-radius:16px; }
++  .der-header { gap:9px; }.der-header h1 { font-size:21px; }
++  .der-personal-title { font-size:25px; }
++  .der-dialog .der-close { padding-inline:10px; }
++  .der-week { gap:1px; }.der-dialog .der-day { min-height:64px; }
++  .der-month-nav { gap:6px; }.der-calendar-facts>div { gap:12px; }
++}
+--- a/04_研发源码/app/r4/build.py
++++ b/04_研发源码/app/r4/build.py
+@@ -10,7 +10,7 @@
+ art_vars={'quiet-hour':'--art-day','still-water':'--art-night','living-light':'--art-nature','quote-landscape':'--art-quote','map-life':'--art-life','map-body':'--art-body','map-mind':'--art-mind'}
+ for name in ['quote-landscape','map-life','map-body','map-mind']:
+  art[name]='data:image/png;base64,'+base64.b64encode((ROOT/'images'/f'{name}.png').read_bytes()).decode()
+-css='\n'.join((ROOT/name).read_text(encoding='utf-8') for name in ['base.css','app.css','daily.css','music.css','life.css','body.css','mind.css','academy.css','gateway.css','homepage.css','service-social.css','time-bank.css','membership.css','profile.css','platform.css','xuanliu.css','journey.css','i18n.css','academy-teachers.css','community-feed.css','frame-layout.css','life-charts.css','life-chart-workspace.css','life-chart-bazi.css','bazi-result-version.css','life-chart-western.css','foundation-state.css','app-density.css','commerce-ui.css','privacy-center.css','privacy-retention.css','privacy-domains-ui.css','home-video.css','ai-gateway-ui.css','membership-lifecycle-ui.css','digital-entitlements-ui.css','card-service.css','commission-center.css','privacy-saved.css','memory-service-ui.css','after-sales-ui.css','after-sales-finance.css','account-closure.css','privacy-domains-ui.css','bazi-samples-ui.css','card-import-ui.css','growth-tree.css'])
++css='\n'.join((ROOT/name).read_text(encoding='utf-8') for name in ['base.css','app.css','daily.css','music.css','life.css','body.css','mind.css','academy.css','gateway.css','homepage.css','service-social.css','time-bank.css','membership.css','profile.css','platform.css','xuanliu.css','journey.css','i18n.css','academy-teachers.css','community-feed.css','frame-layout.css','life-charts.css','life-chart-workspace.css','life-chart-bazi.css','bazi-result-version.css','life-chart-western.css','foundation-state.css','app-density.css','commerce-ui.css','privacy-center.css','privacy-retention.css','privacy-domains-ui.css','home-video.css','ai-gateway-ui.css','membership-lifecycle-ui.css','digital-entitlements-ui.css','card-service.css','commission-center.css','privacy-saved.css','memory-service-ui.css','after-sales-ui.css','after-sales-finance.css','account-closure.css','privacy-domains-ui.css','bazi-samples-ui.css','card-import-ui.css','growth-tree.css','daily-arrival.css'])
+ css=css.replace('__TIBETAN_FONT__','data:font/woff2;base64,'+base64.b64encode((ROOT/'vendor/NotoSerifTibetan.woff2').read_bytes()).decode())
+ for name,var in art_vars.items():css=css.replace("url('__ART_"+name+"__')",'var('+var+')')
+ license_text=(ROOT/'vendor'/'iztro-LICENSE.txt').read_text(encoding='utf-8')
+@@ -18,9 +18,9 @@
+ vendor+='\n'+(ROOT/'vendor/opencc-cn2t-1.0.5.js').read_text(encoding='utf-8')
+ for script,license_name,global_name in [('lunar-1.7.7.js','lunar-1.7.7-LICENSE.txt','LCLunar'),('astronomy-engine-2.1.19.min.js','astronomy-engine-LICENSE.txt','LCAstronomy')]:
+  vendor+='\n/* '+global_name+'\n'+(ROOT/'vendor'/license_name).read_text(encoding='utf-8')+'\n*/\n;(function(){const module={exports:{}};const exports=module.exports;\n'+(ROOT/'vendor'/script).read_text(encoding='utf-8')+'\nwindow.'+global_name+'=module.exports;})();\n'
+-js=vendor+'\n;globalThis.BAZI_SAMPLE_SOURCE_MANIFEST='+json.dumps(bazi_sample_manifest,ensure_ascii=False).replace('</script','<\\/script')+';\n'+'\n'.join((ROOT/name).read_text(encoding='utf-8') for name in ['i18n-catalog.js','i18n.js','base.js','app.js','daily.js','music.js','life.js','body.js','mind.js','academy.js','academy-teachers.js','gateway.js','service-social.js','homepage.js','time-bank.js','membership.js','profile.js','platform.js','xuanliu.js','journey.js','community-feed.js','frame-kit.js','frame-home-profile.js','frame-life.js','frame-body-mind.js','map-exploration.js','map-care-paths.js','bazi-sample-engine.js','life-chart-core.js','life-chart-ziwei.js','bazi-time.js','bazi-compare.js','bazi-glossary.js','life-chart-bazi.js','life-chart-bazi-annotations.js','life-chart-bazi-layout.js','life-chart-western.js','life-birth-entry.js','life-western-cities.js','life-western-profile.js','bazi-result-version.js','bazi-result-version-ui.js','navigation-back.js','creator-app.js','analytics-app.js','foundation-state.js','commerce-ui.js','privacy-center.js','privacy-retention.js','privacy-ai-client.js','home-video.js','ai-gateway-ui.js','membership-lifecycle-ui.js','membership-ai-quota-ui.js','digital-entitlements-ui.js','commission-center.js','card-service-ui.js','privacy-saved.js','memory-service-ui.js','after-sales-ui.js','after-sales-finance-money.js','after-sales-finance-ui.js','account-closure.js','privacy-domains-ui.js','payment-support-ui.js','payment-recovery-ui.js','payment-late-ui.js','payment-routing-ui.js','i18n-ui.js','bazi-result-version-release.js','bazi-interpretation-bridge.js','bazi-sample-bridge.js','bazi-samples-ui.js','card-history-migration-ui.js','growth-tree.js'])
++js=vendor+'\n;globalThis.BAZI_SAMPLE_SOURCE_MANIFEST='+json.dumps(bazi_sample_manifest,ensure_ascii=False).replace('</script','<\\/script')+';\n'+'\n'.join((ROOT/name).read_text(encoding='utf-8') for name in ['i18n-catalog.js','i18n.js','base.js','app.js','daily.js','music.js','life.js','body.js','mind.js','academy.js','academy-teachers.js','gateway.js','service-social.js','homepage.js','time-bank.js','membership.js','profile.js','platform.js','xuanliu.js','journey.js','community-feed.js','frame-kit.js','frame-home-profile.js','frame-life.js','frame-body-mind.js','map-exploration.js','map-care-paths.js','bazi-sample-engine.js','life-chart-core.js','life-chart-ziwei.js','bazi-time.js','bazi-compare.js','bazi-glossary.js','life-chart-bazi.js','life-chart-bazi-annotations.js','life-chart-bazi-layout.js','life-chart-western.js','life-birth-entry.js','life-western-cities.js','life-western-profile.js','bazi-result-version.js','bazi-result-version-ui.js','navigation-back.js','creator-app.js','analytics-app.js','foundation-state.js','commerce-ui.js','privacy-center.js','privacy-retention.js','privacy-ai-client.js','home-video.js','ai-gateway-ui.js','membership-lifecycle-ui.js','membership-ai-quota-ui.js','digital-entitlements-ui.js','commission-center.js','card-service-ui.js','privacy-saved.js','memory-service-ui.js','after-sales-ui.js','after-sales-finance-money.js','after-sales-finance-ui.js','account-closure.js','privacy-domains-ui.js','payment-support-ui.js','payment-recovery-ui.js','payment-late-ui.js','payment-routing-ui.js','i18n-ui.js','bazi-result-version-release.js','bazi-interpretation-bridge.js','bazi-sample-bridge.js','bazi-samples-ui.js','card-history-migration-ui.js','growth-tree.js','daily-arrival.js'])
+ # after-sales-ui-install:v1
+-js+='\nAfterSalesUI.install();\nAfterSalesFinanceUI.install();\nGrowthTreeCandidate.install();\n'
++js+='\nAfterSalesUI.install();\nAfterSalesFinanceUI.install();\nGrowthTreeCandidate.install();\nDailyEntryReminderCandidate.install();\n'
+ bundled_node=Path.home()/'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe'
+ node=shutil.which('node') or (str(bundled_node) if bundled_node.is_file() else None)
+ admin_source=(ROOT/'time-bank-admin.html').read_text(encoding='utf-8').replace('/*__CREATOR_ADMIN__*/',(ROOT/'creator-admin.js').read_text(encoding='utf-8')).replace('/*__ANALYTICS_ADMIN__*/',(ROOT/'analytics-admin.js').read_text(encoding='utf-8')).replace('/*__COMMERCE_ADMIN__*/',(ROOT/'commerce-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'payment-support-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'payment-callback-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'payment-recovery-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'payment-late-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'membership-ai-quota-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'digital-entitlements-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'local-tasks-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'payment-routing-admin.js').read_text(encoding='utf-8')).replace('/*__PRIVACY_ADMIN__*/',(ROOT/'privacy-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'privacy-domains-admin.js').read_text(encoding='utf-8')).replace('/*__HOME_VIDEO_ADMIN__*/',(ROOT/'home-video-admin.js').read_text(encoding='utf-8')).replace('/*__AI_GATEWAY_ADMIN__*/',(ROOT/'ai-gateway-admin.js').read_text(encoding='utf-8')).replace('/*__MEMBERSHIP_ADMIN__*/',(ROOT/'membership-lifecycle-admin.js').read_text(encoding='utf-8')).replace('/*__CARD_SERVICE_ADMIN__*/',(ROOT/'card-service-admin.js').read_text(encoding='utf-8')+'\n'+(ROOT/'card-import-admin.js').read_text(encoding='utf-8')).replace('/*__COMMISSION_ADMIN__*/',(ROOT/'commission-admin.js').read_text(encoding='utf-8')).replace('/*__AFTER_SALES_ADMIN__*/',(ROOT/'after-sales-admin.js').read_text(encoding='utf-8')+'\nAfterSalesAdmin.install();').replace('/*__SECRET_REFERENCES_ADMIN__*/',(ROOT/'secret-references-admin.js').read_text(encoding='utf-8')+'\nSecretReferencesAdmin.install();').replace('/*__AFTER_SALES_FINANCE_ADMIN__*/',(ROOT/'after-sales-finance-money.js').read_text(encoding='utf-8')+'\n'+(ROOT/'after-sales-finance-admin.js').read_text(encoding='utf-8')+'\nAfterSalesFinanceAdmin.install();').replace('/*__RECONCILIATION_ADMIN__*/',(ROOT/'reconciliation-admin.js').read_text(encoding='utf-8')).replace('/*__RETENTION_ADMIN__*/',(ROOT/'privacy-retention-admin.js').read_text(encoding='utf-8'))

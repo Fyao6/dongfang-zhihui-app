@@ -1,0 +1,51 @@
+{
+  "module": "card-history-migration-atomic-component",
+  "at": 1794888186998,
+  "formalAcceptance": false,
+  "actualSQLite": true,
+  "syntheticDataOnly": true,
+  "passed": 9,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "portable DDL installed",
+      "passed": true
+    },
+    {
+      "name": "first real batch exactly100",
+      "passed": true
+    },
+    {
+      "name": "resume real remainder1",
+      "passed": true
+    },
+    {
+      "name": "record hash repeated in other file never duplicated",
+      "passed": true
+    },
+    {
+      "name": "later migrated references prevent undo",
+      "passed": true
+    },
+    {
+      "name": "note revision prevents undo while unchanged originals removed",
+      "passed": true
+    },
+    {
+      "name": "stale CAS rolls back without receipt",
+      "passed": true
+    },
+    {
+      "name": "actual session and closed actor final SQL fence",
+      "passed": true
+    },
+    {
+      "name": "same TX body erasure and old epoch rejection",
+      "passed": true
+    }
+  ],
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/card_history_migration.py": "4b3693832165a411d0543d1371533ac43cfbb2c4627525091e3ee7ee088c6a62",
+    "04_研发源码/app/r4/backend/card_history_migration_schema.sql": "9d4d52b80751e86ad0e3ad4d1f47be31783ab9ef7162a81ab369b0da0ce9a9b2"
+  }
+}

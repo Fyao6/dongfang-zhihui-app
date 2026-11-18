@@ -1,0 +1,134 @@
+{
+  "module": "PAY05 支付渠道选择候选合同",
+  "revision": 1,
+  "status": "prepared-not-implemented",
+  "preparedAtBeijing": "2026-11-17T02:53:51+08:00",
+  "scope": "供负责人在Stage27闭环后审读；本文件不授权实施、发布、真实收费或修改当前验收身份。",
+  "productionEnabled": false,
+  "policyAuthority": "原需求是待核实的业务方向，不是2026年各平台或商户当前准入结论；PC01/PC02未确认项不得由代码推定。",
+  "source": {
+    "paragraphs": "02_需求与设计参考/负责人优化建议-逐段原文.json",
+    "document": "02_需求与设计参考/东方智慧APP修改需求文档_v1.0.docx",
+    "taskAudit": "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.json",
+    "sourceMap": {
+      "P387": "业务范围与渠道矩阵",
+      "P388": "发行端、销售地区、类型分别参与匹配；地区例外不预置批准",
+      "P389": "商品分类维度",
+      "P390": "web发行维度",
+      "P391": "app_store发行维度",
+      "P392": "google_play发行维度",
+      "P393": "数字会员/课程/电子书/有声书/AI额度分类",
+      "P394": "web数字候选stripe/paypal，仍受准入与适配就绪门禁",
+      "P395": "apple候选，地区例外另核实",
+      "P396": "google候选，地区例外另核实",
+      "P397": "实体卡牌/茶具/文创分类",
+      "P398": "web实物外部支付候选",
+      "P399": "App Store实物不误送数字IAP",
+      "P400": "Google Play实物不误送数字Billing",
+      "P401": "线下活动/服务分类；现有商城未实现该类型",
+      "P402": "web线下候选，未实现适配拒绝",
+      "P403": "应用外消费须另有明确业务结论",
+      "P404": "实体服务须另有明确业务结论",
+      "P405": "实时真人一对一须有真实性和实时属性",
+      "P406": "web真人服务候选，未实现适配拒绝",
+      "P407": "双真人实时例外不由标签或客户端声明证明",
+      "P408": "不可回放等条件未核实不开放例外",
+      "P409": "群课/录播/回放按数字分类",
+      "P410": "web相应候选仍需准入",
+      "P411": "App Store按数字评估",
+      "P412": "Google Play按数字评估",
+      "P413": "原空段，无软件能力声明",
+      "P414": "AI不套真人例外；混合渠道拆单，禁止实物包装绕规则",
+      "P415": "候选不等于可执行渠道",
+      "P416": "主体/银行/业务/用户地区准入未核实则production拒绝",
+      "P417": "真实披露测算/课程/身体业务，不改名规避",
+      "P418": "统一支付用户流程",
+      "P419": "目录/服务端报价/订单快照/渠道/可信结算同链",
+      "P420": "前端返回不发权益；成功/处理中/失败仍按原可信账事实",
+      "P421": "主体、银行、首发国、发行端、商品、币种、退款与客服待输入",
+      "P440": "PAY05任务标识",
+      "P441": "渠道选择能力",
+      "P442": "不支持场景不展示错误支付入口，服务端同样拒绝"
+    }
+  },
+  "reuse": {
+    "python": "backend/commerce.py: quote/create_order/products/pay；membership_lifecycle.py: snapshot_for_checkout/channel-mappings",
+    "cloud": "cloud/lib/commerce-api.ts: quote/createOrder/products/pay；membership-lifecycle.ts: snapshotForCheckout/channel-mappings",
+    "ui": "commerce-ui.js与membership-lifecycle-ui.js统一下单；commerce-admin.js及membership-lifecycle-admin.js原入口",
+    "invariants": "复用服务端最小单位整数价、SKU版本、库存预占、owner隔离、原限流/闭户栅栏；原会员和数字成交条款、迟到补偿、付款账不改义。"
+  },
+  "enums": {
+    "channel": ["sandbox", "apple", "google", "stripe", "paypal"],
+    "platform": ["web", "app_store", "google_play"],
+    "classification": ["digital_content", "digital_membership", "digital_ai_credits", "physical_goods", "offline_service", "live_one_to_one"],
+    "knownProductTypes": ["digital", "membership", "physical"],
+    "notes": "channel沿用实际会员mapping；不增加另名IAP渠道。现未实现的服务分类可保存待审规则，不能因此变成可购商品。"
+  },
+  "context": {
+    "principle": "发行端与市场来源须由服务器识别并明确证据等级；配送地址国家、body.platform、body.region、UA、Origin或任意请求header都不是商店发行/地区证明。",
+    "candidateLocalSource": "服务器显式配置的隔离sandbox发行身份/ISO两位地区，须真实管理员确认且有contextRevision；仅标server_fixed_sandbox，不称真实商店认证。客户端不能选择或覆盖。",
+    "webSource": "可由服务器固定部署身份确认web发行；不能仅凭部署所在国或IP推断用户销售地区。地区缺可信来源时unknown并拒绝enforced模式。",
+    "nativeSource": "真实native发行/可信storefront来源尚未实现；无验证证据不得将web伪装为App Store/Google Play。",
+    "publicShape": "{platform:null|enum,region:null|ISO2,environment:'sandbox',source:'server_fixed_sandbox'|'unknown',verifiedForSandbox:boolean,contextRevision:int,productionEnabled:false}",
+    "binding": "服务器规范JSON指纹绑定来源、平台、地区、contextRevision和环境；不含session原值/密钥/精确位置。仅context endpoint允许展示安全来源。"
+  },
+  "resolver": {
+    "inputs": "服务端真实商品/SKU/价格版本/分类绑定/会员mapping版本、可信context、已确认policy revision。请求不收金额、channel、review状态或准入证明。",
+    "match": "按environment+platform+region+classification+currency精确匹配。无匹配rule_unmatched；多匹配rule_ambiguous；没有已审分类classification_unverified。候选不设置跨国通配或隐式优先级。",
+    "adapter": "匹配规则后另查真实适配就绪。匹配apple/google/stripe/paypal而未接通时返回adapter_unavailable，不能改报rule_unmatched，也不能静默转sandbox或另一真实渠道。",
+    "sandboxExecution": "本轮仅channel=sandbox可执行，沿用既有模拟付款及可信HMAC查询/回调fixture；该正向闭环不证明apple/google/stripe/paypal可用。真实渠道的矩阵匹配可被预览，但eligible仍false。",
+    "mixed": "先保留数字/实物及币种拆单；再核全部项能否共用唯一channel/规则条件。不能共用返回split_required与仅含已选SKU的分组建议，不自动新增订单/改数量。",
+    "unknown": "未确认policy、未知context/分类/例外、缺mapping、冲突或适配缺失都拒绝新的enforced交易；不改名推断真人/线下例外。",
+    "decision": "{eligible:boolean,mode:'enforced_sandbox'|'legacy_sandbox',channel:null|enum,reasonCode:string,policyRevision:int,ruleVersion:string,ruleIds:string[],context:PublicContext,adapterReady:boolean,productionEnabled:false}"
+  },
+  "persistenceCandidate": {
+    "payment_routing_config": "id=1,data JSON；revision在data内。默认enabled=false/confirmed=false/ruleVersion=''，productionEnabled恒false。",
+    "payment_routing_versions": "id,revision UNIQUE,rule_version,rules_data,digest,actor,created；已保存版本不可UPDATE/DELETE，含规则ID、条件、channel、引用资料和审核范围，不存秘密或真实批准的虚构布尔值。",
+    "payment_product_classifications": "product_id+environment唯一，classification,revision,data,updated；只管理员CAS维护，严格核对原product.type、内容/用途及真实来源；不自动把AI归真人。",
+    "payment_routing_quotes": "id,owner,request_id,fingerprint,context_binding,policy_revision,items_digest,data,expires,created；owner/request_id唯一，冻结报价与安全decision；不预占库存；建议TTL300秒待root确认。",
+    "commerce_order_payment_routes": "order_id PK,owner,environment,mode,policy_revision,rule_version,context_binding,snapshot_data,digest,created；不可UPDATE/DELETE。snapshot含冻结规则/decision、商品分类、SKU价版本、会员mapping版本及来源，不含secret/session。",
+    "migration": "仅建新表；绝不给历史订单按当前矩阵补造快照或改旧fingerprint、账、库存、会员/数字terms。新表须纳隐私owner盘点及安全导出，不默认公开主体内部资料。",
+    "exactDDL": "仅字段职责；root审定后双端锁DDL及事务guard。"
+  },
+  "apiCandidate": {
+    "GET /api/admin/payment-routing": "真实admin；返回{config,versions,classifications,contextReadiness,adapterReadiness,productionEnabled:false}，分页版本/分类不得截断不说明。",
+    "PATCH /api/admin/payment-routing": "完整配置+revision CAS；enabled须confirmed/ruleVersion/无歧义规则；保存新immutable版本及审计同TX。不修改production门禁或替代PC01/02审批。",
+    "POST /api/admin/payment-routing/preview": "显式模拟context+已存在商品/SKU，仅解释匹配/分类/适配缺口；返回simulation:true。模拟context不能进入本人报价或订单授权。",
+    "GET /api/commerce/payment-context": "返回安全PublicContext及routing mode；不把来源不足包装成已验证。",
+    "POST /api/commerce/quote": "本人；{requestId,environment,items,shippingAddress?,membershipRenewalOf?}；服务端核价并调用统一resolver，返回{quoteId,expires,totals,items,decision,productionEnabled:false}。拒绝未知字段/客户端价格与渠道。",
+    "POST /api/commerce/orders": "保留原API；enforced模式另需quoteId。服务器检查本人、内容摘要、有效期、context/policy/SKU/classification/mapping当前版本并同事务写订单/项/预占/各terms/route。相应失败整批回滚。",
+    "GET catalogs/orders": "原catalog和membership/catalog补安全paymentRoute摘要；purchasable与库存/已发布/terms门禁共同AND。订单详情展示原冻结route或legacy_unrouted，不用当前preview覆盖。原所有价格库存条目仍显示真实值。"
+  },
+  "transactionAndIdempotency": {
+    "quote": "同owner/requestId同规范输入及context intent返回原quote；异内容409。不自动续期或用新规则覆盖。报价不等于付款授权。",
+    "order": "先查原owner/environment/requestId重放；新路由订单将quoteId/原语义纳指纹。同内容返回原订单和原route，即使报价后来过期/政策已换；异items/quote/context intent为409。重放不得重新占库存或发权益。",
+    "finalFence": "Py BEGIN IMMEDIATE内复核；Cloud单guarded D1 batch最终核current actor/session/closed、sandbox开关、context binding、config revision、quote owner/expiry及所有版本，再写route和原订单预占。仅JS先查或INSERT WHERE零行不构成强制guard。",
+    "policyChange": "当前目录/新报价立即按新规则；并发旧quote建单409 quote_stale，无半订单。已入账事实不倒退；旧快照保留历史适用范围。",
+    "requestLimits": "保留原限流；新key/定额须root审定，专项不绕过。"
+  },
+  "legacyCompatibilityCandidate": {
+    "defaultOff": "候选采用旁路兼容：routing.enabled=false仅让新矩阵不参与，明确legacy_sandbox模式；现有独立commerce sandboxEnabled及会员/数字/回调/查单门禁仍全部生效。不是矩阵隐式allow，更不允许真实渠道。",
+    "newLegacyOrders": "off时原POST orders不强制quoteId，原规范输入/fingerprint和既有沙箱链路保持。可写标明legacy_sandbox的最小route记录，或保持null，两者需root定一种；不得伪称matrixMatched。",
+    "enabled": "启用后新单必须通过可信context+矩阵+可用sandbox adapter；未知不得fallback到legacy。旧脚本默认off的兼容语义不改；新增专项明确开启矩阵测新拒绝行为，不删旧断言掩盖回归。",
+    "existingOrders": "无route的既有sandbox订单标legacy_unrouted，原查询、幂等重放及明确sandbox-pay保原门禁；不补生成apple/google/stripe/paypal渠道身份，不迁移真实环境。",
+    "membershipAndDigital": "会员/续期仍进统一orders；成交计划、数字有限terms仍在同原子事务；路由不直接授会员、AI额度或媒体权限，不改历史snapshot。",
+    "callbacksRecoveryLate": "PAY08/PAY09/PAY10/PAY13可信沙箱付款仍走原收件/幂等/金额币种/owner/closed/config proof/原子账/库存与late待退款规则。路由只管入场，不能拿当前矩阵否认既有可信付款事实、改原价、清refund_pending或补发会员。新routed订单须核冻结route只允许sandbox，不接受真实渠道伪装fixture。",
+    "disableAfterAdmission": "候选：停用矩阵阻新的enforced订单与新收银发起，已合法受理且可信的回调/查单按原业务栅栏完成，不以当前路由rev替换旧route。准确对新routed订单手工sandbox-pay的停用语义待root裁定。"
+  },
+  "uiAndProof": {
+    "admin": "原中文商城面板增矩阵配置、分类/资料缺口、模拟预览与版本CAS；真实适配未接通明确写不可收银，不增加绕过按钮。",
+    "app": "复用现四语目录/会员/确认订单/订单详情，显示ready_sandbox、context_unverified、rule_unmatched、rule_ambiguous、adapter_unavailable、split_required、quote_stale和legacy说明。不可购保留条目与原因；支持刷新原报价或返回分组，不自动再次付款。",
+    "paymentState": "route ready不等于paid；成功/处理中/失败沿用已验证的付款/权益事实和本人恢复入口，服务端未确认不画成功。",
+    "localProof": "合成真实HTTP/浏览器证明服务端context拒伪造、矩阵/适配分离、CAS并发/幂等/原子性、旧沙箱链兼容与四语布局；不是native实机、上架、地区计划批准、商户准入或真实银行到账验收。",
+    "requiredCases": "off旧链完整；on未知context/伪header/配送国冒充拒；同规则无匹配/多匹配/适配缺失；单一sandbox正向；混单/跨币种拆分；quote过期/改价/换规则/闭户/降权并发；同请求重放；会员/数字terms与late回调兼容；生产始终拒。"
+  },
+  "rootDecisionsBeforeImplementation": [
+    {"id": "R1", "point": "确认defaultOff的legacy_sandbox旁路，以及off期间新单是否显式记录legacy route；不得两端各自选。"},
+    {"id": "R2", "point": "确认sandbox可信context由哪些server env/管理员配置提供、绑定粒度与撤回方式；真实地区来源未齐继续unknown。"},
+    {"id": "R3", "point": "确认enforced报价TTL300秒、必需quoteId及同request遇server context变化的重放规则；保原旧单指纹。"},
+    {"id": "R4", "point": "确认只精确匹配、重叠拒绝；多候选渠道不擅定Stripe优先、地区例外或自动fallback。"},
+    {"id": "R5", "point": "确认停用矩阵后已routed但未发起付款的手工sandbox-pay边界；既有可信付款与late事实不丢弃。"},
+    {"id": "R6", "point": "确认商品分类与未实现线下/真人服务范围；正式主体/地区/业务/币种/渠道商品ID及平台当前政策须另有真实资料和验收。"}
+  ],
+  "notImplemented": "未改产品/QA/构建或运行服务，Stage27身份不变；不得据此将PAY05/PC01/PC02标完成。"
+}

@@ -1,0 +1,94 @@
+'use strict';
+// Eight actual-browser cases, against an explicitly supplied fresh owned server.
+// Historical values below are a labelled synthetic local-storage fixture, not
+// claims that a user performed practices or that a teacher approved content.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const shared=require('./负责人优化建议-卡组迁移测试工具.cjs');
+const h=shared.makeHarness(),ROOT=path.resolve(__dirname,'..');
+assert(h.args.base,'Use the actual owned resource factory; never an old/default DB');
+assert.equal(h.moduleName,'负责人优化建议-卡组迁移-成长树专项');
+assert.equal(h.args.report,'成长树-专项-'+h.target+'.json');
+const ownInputs=['06_验证与后续工作/成长树-专项.cjs','06_验证与后续工作/成长树-全量回归.cjs','06_验证与后续工作/成长树-Cloud全量回归.cjs','04_研发源码/app/r4/growth-tree.js','04_研发源码/app/r4/growth-tree.css'];
+const identity=()=>Object.fromEntries(Object.entries({...shared.identity(),...Object.fromEntries(ownInputs.map(n=>[n,h.sha(fs.readFileSync(path.join(ROOT,n)))]))}).sort(([a],[b])=>a.localeCompare(b,'en')));
+let before,a;const canary='合成成长私有原文_'+h.runId;h.addPrivateValue(canary);
+function fixture(label='A'){
+ const day=new Date().toLocaleDateString('sv-SE'),old='2001-02-03';
+ return {wellness:{intentions:{[day]:{intention:canary+label,strength:'自己的优势',relation:'原有关系观察',direction:'原有方向',theme:'未丢弃主题',unknown:{zero:0,flag:false,nil:null,text:'',array:[],object:{},deep:{keep:canary+'深层'}}},[old]:{intention:'旧日期原文'}},body:{[day]:{sleep:'restless',energy:'low',stress:'high',comfort:'tense',unknown:{preserve:true}}},mind:{[day]:{mood:'calm',note:'本人原有情绪文字',next:'本人下一步',unknown:{preserve:true}}},sessions:[{id:'fixture-session',date:day,practice:'breath',seconds:12,complete:true,endedAt:1,feeling:'same',unknown:'历史合成行'}],plan:[{id:'fixture-plan',time:'morning',practice:'breath',unknown:'安排，不是完成'}],continuity:{cardActions:[{id:'fixture-action',date:day,sourceDrawDate:day,cardId:'unresolved-card',title:'自主行动',action:'温和停顿',actionEn:'A short pause',createdAt:1,doneAt:null,unknown:'未完成仍保留'}],checkpoint:{practice:'breath',seconds:3,date:day},learning:{id:'unresolved-course',at:1},unknownContinuity:{keep:0}},unknownWellness:{keep:false}},daily:{checkins:{[day]:{at:1,unknown:'原签到附加字段'}},draws:{[day]:{cardId:'unresolved-card',date:day,drawnAt:1,snapshot:{title:'已不存在目录中的原卡片',unknown:'全量保留'},selection:'original'}},musicSessions:[{id:'fixture-music',date:day,trackId:'unresolved-track',seconds:4,endedAt:1,unknown:'原音乐元数据'}],traits:{date:day,answers:{one:1},updatedAt:1,unknown:'原特质数据'},favorites:[],arrivalSeen:{schema:1,day,accountId:'technical-only',closedAt:'2026-01-01T00:00:00Z',kind:'general'},unknownDaily:{keep:null}},lifeNotes:{strength:'原无日期优势',direction:'原无日期方向',unknown:'原旧字段'},journal:'原无日期笔记 '+canary+label};
+}
+async function pageFor(label='A',actor=a.user,id=a.first.id){
+ const pair=await h.browserContext(await actor.storageState()),data=fixture(label);
+ data.wellness.intentions[Object.keys(data.wellness.intentions)[0]].unknown.longText='合成保留长段落：记录当时自己的感受，保留原文、标点与全部字段，不作命理或医疗结论。'.repeat(55);
+ await pair.page.addInitScript(({origin,id,data})=>{const key='ew-personal-v1:'+id,seed='growth-owned-seed:'+id;if(location.origin===origin&&sessionStorage.getItem(seed)===null){if(localStorage.getItem(key)===null)localStorage.setItem(key,JSON.stringify({schema:1,scope:id,data}));sessionStorage.setItem(seed,'once');}},{origin:h.base,id,data});
+ await pair.page.goto(h.base+'/experience?page=growth');await pair.page.waitForFunction(id=>px.loaded&&px.user?.id===id&&document.querySelector('[data-gtc-root]'),id);await pair.page.evaluate(()=>document.fonts.ready);
+ return {...pair,data,id};
+}
+async function inPage(label,work){const pair=await pageFor(label);try{return await work(pair);}catch(error){await h.capture(pair.page,'失败-'+label).catch(()=>{});throw error;}finally{await pair.context.close();}}
+async function selectNode(p,{source,kind}={}){
+ await p.locator('[data-gtc-range=all]').click();await p.locator('[data-gtc=expand]').click();
+ const expected=await p.evaluate(({source,kind})=>{const g=GrowthTreeCandidate.project(state),nodes=[];function walk(n){nodes.push(n);n.children.forEach(walk);}walk(g.root);const index=nodes.findIndex(n=>source?n.originalKey===source:n.kind==='category'&&n.recordKind===kind);return {index,titles:nodes.map(n=>n.label),key:index>=0?nodes[index].key:null};},{source,kind});
+ assert(expected.index>=0,'Original record/branch exists in the product projection');
+ assert.deepEqual(await p.locator('[data-gtc-nodes] [role=treeitem] .gtc-node-title').allTextContents(),expected.titles,'Every projected node is actually rendered in the expanded tree');
+ await p.locator('[role=treeitem]').first().focus();for(let i=0;i<expected.index;i++)await p.keyboard.press('ArrowDown');await p.keyboard.press('Enter');
+ return p.locator('[data-gtc-detail]');
+}
+async function saveFixtureProof(p){return p.evaluate(()=>({wellness:state.wellness,daily:state.daily,lifeNotes:state.lifeNotes,journal:state.journal}));}
+async function geometry(p){return p.evaluate(()=>{
+ const root=document.querySelector('[data-gtc-root]'),viewport=root.querySelector('[data-gtc-viewport]'),rows=[];
+ for(const e of root.querySelectorAll('.gtc-node-title,.gtc-field-value')){const css=getComputedStyle(e);if(!e.getClientRects().length)continue;const rect=e.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(e);const glyphs=[...range.getClientRects()].filter(r=>r.width&&r.height),lines=[];for(const r of glyphs.sort((a,b)=>a.top-b.top||a.left-b.left)){let line=lines.find(x=>Math.abs(x.top-r.top)<1);if(!line){line={top:r.top,bottom:r.bottom};lines.push(line);}else line.bottom=Math.max(line.bottom,r.bottom);}rows.push({tag:e.className,fontSize:parseFloat(css.fontSize),lineClamp:css.webkitLineClamp,overflow:css.overflow,clientWidth:e.clientWidth,scrollWidth:e.scrollWidth,rect:{left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom},lines});}
+ return {lang:document.documentElement.lang,mode:document.body.dataset.mode,innerWidth,documentWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,viewport:{width:viewport.clientWidth,height:viewport.clientHeight},rows};
+ });}
+async function run(){
+ await h.start();before=identity();a=await h.seed();h.report.growthTreeInputHashes=before;h.report.scope='Actual browser tree and owner-local synthetic historical records; no fabricated performed practice, teacher approval or server growth-history sync.';h.report.fixtureMutation={kind:'fresh-owned-local-storage',allDataSynthetic:true,accountIds:[a.first.id,a.second.id]};
+ await h.check('01 全部原容器及未知字段进树，悬空引用与无日期完整可读且不改原值',()=>inPage('all',async({page:p})=>{
+  const initial=await saveFixtureProof(p),expected=await p.evaluate(()=>{const g=GrowthTreeCandidate.project(state);return [...g.index.values()].filter(n=>n.kind==='record').map(n=>({key:n.originalKey,kind:n.recordKind}));});
+  assert(expected.some(n=>n.key==='daily.draws.'+new Date().toLocaleDateString('sv-SE')));assert(expected.some(n=>n.key==='daily.musicSessions.0'));assert(!expected.some(n=>n.key==='daily.arrivalSeen'));
+  for(const entry of expected){const detail=await selectNode(p,{source:entry.key});assert.equal(await detail.count(),1);assert(await detail.locator('.gtc-field-branch,.gtc-field').count()>0,'Each original value has in-page fields');}
+  const detail=await selectNode(p,{source:'wellness.intentions.'+new Date().toLocaleDateString('sv-SE')});await detail.getByRole('button',{name:'展开全部字段',exact:true}).click();const value=await detail.textContent();assert(value.includes(canary+'深层'));assert(value.includes('unknown')&&value.includes('null')&&value.includes('[]')&&value.includes('{}'));
+  assert.deepEqual(await saveFixtureProof(p),initial,'Reading and expanding never rewrites original business values');return {records:expected.length,kinds:[...new Set(expected.map(n=>n.kind))],unresolvedReferencesPreserved:true,undatedPreserved:true,technicalSeenMarkerExcluded:true};
+ }));
+ await h.check('02 真实连线树键盘展开收拢及鼠标平移缩放，非卡片列表替身',()=>inPage('navigation',async({page:p})=>{
+  await p.locator('[data-gtc=expand]').click();const count=await p.locator('[role=treeitem]').count();assert(count>15);assert.equal(await p.locator('[data-gtc-edges] path').count(),count-1);
+  await p.locator('[data-gtc=collapse]').click();assert.equal(await p.locator('[role=treeitem][aria-level="4"]').count(),0);await p.locator('[role=treeitem]').first().focus();await p.keyboard.press('ArrowDown');await p.keyboard.press('ArrowRight');assert(await p.locator('[role=treeitem][aria-level="3"]').count()>0);await p.keyboard.press('ArrowLeft');assert.equal(await p.locator('[role=treeitem][aria-level="3"]').count(),0);
+  const viewport=p.locator('[data-gtc-viewport]'),bb=await viewport.boundingBox();assert(bb);const point={x:Math.max(0,bb.x)+Math.min(bb.width/2,150),y:Math.max(0,bb.y)+Math.min(bb.height/2,150)},old=await p.locator('[data-gtc-scene]').getAttribute('style');await p.mouse.move(point.x,point.y);await p.mouse.wheel(130,180);await p.waitForFunction(old=>document.querySelector('[data-gtc-scene]').getAttribute('style')!==old,old);await p.locator('[data-gtc=in]').click();assert((await p.locator('[data-gtc-zoom]').innerText())!=='100%');await p.locator('[data-gtc=reset]').click();assert.equal(await p.locator('[data-gtc-zoom]').innerText(),'100%');
+  assert.equal(await p.locator('[data-gtc-root] .j-review,[data-gtc-root] .daily-growth-entry,[data-gtc-root] .j-record-types,[data-gtc-root] table,[data-gtc-root] .timeline').count(),0);return {actualEdges:count-1,nativeKeyboard:true,nativeWheel:true};
+ }));
+ await h.check('03 四语日夜360与1280共16布局，完整长文实际字形不裁切',()=>inPage('layouts',async({page:p})=>{
+  const matrix=[];for(const lang of ['zh','zh-Hant','en','bo'])for(const mode of ['day','night'])for(const width of [360,1280]){
+   await p.setViewportSize({width,height:900});await p.evaluate(({lang,mode})=>{state.lang=lang;state.mode=mode;render(false);},{lang,mode});await p.evaluate(()=>document.fonts.ready);await selectNode(p,{source:'wellness.intentions.'+new Date().toLocaleDateString('sv-SE')});const data=await geometry(p);assert(data.documentWidth<=data.innerWidth+1&&data.bodyWidth<=data.innerWidth+1,'Only the tree viewport pans; the page does not overflow horizontally');assert.equal(data.mode,mode);assert.equal(data.lang,lang==='zh-Hant'?'zh-Hant':lang==='zh'?'zh-Hans':lang);
+   for(const row of data.rows){assert(row.fontSize>=13,'Text remains readable at the product font size');assert(!['1','2','3'].includes(row.lineClamp),'No text clamp hides original fields');if(row.tag==='gtc-field-value'){assert(row.scrollWidth<=row.clientWidth+1,'Original text wraps within its detail branch');for(let i=1;i<row.lines.length;i++)assert(row.lines[i-1].bottom<=row.lines[i].top+1,'Actual adjacent glyph lines do not overlap');}}
+   await h.capture(p,'布局-'+lang+'-'+mode+'-'+width);matrix.push({lang,mode,width,...data});
+  }h.report.growthTreeLayouts=matrix;return {matrices:matrix.length,actualRangeGeometry:true,layoutInputs:'Actual product language/mode preferences and rendered DOM; no fabricated geometry'};
+ }));
+ await h.check('04 三原编辑器实际保存只merge所改字段，不丢未知或空值',()=>inPage('edit',async({page:p})=>{
+  const day=new Date().toLocaleDateString('sv-SE'),original=await saveFixtureProof(p);
+  for(const kind of ['life','body','mind']){const source='wellness.'+({life:'intentions',body:'body',mind:'mind'})[kind]+'.'+day,detail=await selectNode(p,{source});await detail.getByRole('button',{name:'编辑原有记录',exact:true}).click();
+   if(kind==='life')await p.locator('#life-form [name=intention]').fill('实际原生编辑后的方向');else if(kind==='body')await p.locator('#body-form [name=energy]').selectOption('low');else await p.locator('#mind-form [name=note]').fill('实际原生编辑后的觉察');
+   await p.locator('[data-action='+kind+'-save]').click();await p.waitForFunction(()=>!document.querySelector('#sheet').open);
+  }
+  const after=await saveFixtureProof(p);assert.deepEqual(after.wellness.intentions[day].unknown,original.wellness.intentions[day].unknown);assert.equal(after.wellness.intentions[day].theme,'未丢弃主题');assert.deepEqual(after.wellness.body[day].unknown,original.wellness.body[day].unknown);assert.deepEqual(after.wellness.mind[day].unknown,original.wellness.mind[day].unknown);assert.equal(after.wellness.intentions[day].intention,'实际原生编辑后的方向');assert.equal(after.wellness.mind[day].note,'实际原生编辑后的觉察');
+  const stored=await p.evaluate(()=>JSON.parse(localStorage.getItem(psKey())).data.wellness);assert.deepEqual(stored.intentions[day].unknown,original.wellness.intentions[day].unknown);return {actualNativeSaves:3,unknownFieldsPreserved:true};
+ }));
+ await h.check('05 真双账号切换持旧200读后放行，旧节点选择与焦点不跨owner',()=>inPage('switch',async({page:p,context})=>{
+  await p.evaluate(({id,data})=>localStorage.setItem('ew-personal-v1:'+id,JSON.stringify({schema:1,scope:id,data})),{id:a.second.id,data:fixture('B')});await selectNode(p,{source:'journal'});
+  let release,entered,heldStatus,heldOwner,routeError;const gate=new Promise(r=>release=r),hit=new Promise(r=>entered=r);const route=async r=>{try{const response=await r.fetch();heldStatus=response.status();heldOwner=(await response.json()).user?.id;entered();await gate;await r.fulfill({response});}catch(error){routeError=error;entered();await r.abort().catch(()=>{});}};await p.route('**/api/auth/status',route,{times:1});
+  const pending=p.evaluate(()=>pxApi('auth/status').then(x=>({id:x.user?.id||null}),e=>({code:e.code||null})));pending.catch(()=>{});
+  try{await Promise.race([hit,new Promise((_,reject)=>setTimeout(()=>reject(Error('Actual old auth response was not held')),15000))]);assert.equal(routeError,undefined);assert.equal(heldStatus,200);assert.equal(heldOwner,a.first.id);const login=await context.request.post(h.base+'/api/auth/login',{data:{username:a.credentials.b.username,password:a.credentials.b.password}});assert.equal(login.status(),200);await p.evaluate(()=>{pxInvalidateBootstrap();psSwitch(null);px.user=null;px.loaded=false;return pxBootstrap(true);});await p.waitForFunction(id=>px.user?.id===id&&psToken().scope===id,a.second.id);release();await pending;
+   await p.evaluate(()=>navigate('growth'));const detail=await selectNode(p,{source:'journal'});const content=await detail.textContent();assert(content.includes(canary+'B'));assert(!content.includes(canary+'switch'));assert.equal(await p.evaluate(()=>document.activeElement?.isConnected),true);assert.equal(await p.evaluate(()=>document.querySelectorAll('[role=treeitem][aria-selected=true]').length),1);
+  }finally{release();await pending.catch(()=>{});await p.unroute('**/api/auth/status',route);}return {realOwnerSwitch:true,heldActualStatus200:true,identityRequestDoesNotPopulateTree:true};
+ }));
+ await h.check('06 本人原生本机清理后旧树内容不复活，另一owner原存储保留',()=>inPage('clear',async({page:p})=>{
+  await p.evaluate(({id,data})=>localStorage.setItem('ew-personal-v1:'+id,JSON.stringify({schema:1,scope:id,data})),{id:a.second.id,data:fixture('B')});const other=await p.evaluate(id=>localStorage.getItem('ew-personal-v1:'+id),a.second.id);await selectNode(p,{source:'journal'});
+  await p.evaluate(()=>navigate('privacyCenter'));await p.locator('[data-action=privacy-local-open][data-kind=records]').click();await p.locator('#privacy-request-form button[type=submit],#privacy-request-form button.btn').first().click();await p.waitForFunction(()=>!document.querySelector('#sheet').open);await p.evaluate(()=>navigate('growth'));await p.locator('[data-gtc=expand]').click();assert(!(await p.locator('[data-gtc-root]').textContent()).includes(canary));assert.equal(await p.evaluate(id=>localStorage.getItem('ew-personal-v1:'+id),a.second.id),other);assert.equal(await p.evaluate(()=>GrowthTreeCandidate.project(state).root.children.some(n=>n.recordKind==='session'||n.recordKind==='music'||n.recordKind==='legacy')),false);return {actualNativeLocalClear:true,otherOwnerPreserved:true,serverAndSupplierErasureClaimed:false};
+ }));
+ await h.check('07 全部同名growth入口只树，独立身体与生命档案仍保原语义',()=>inPage('entry',async({page:p})=>{
+  for(const entry of ['home','profile']){await p.evaluate(entry=>navigate(entry),entry);const link=p.locator('[data-to=growth]').first();assert(await link.count()>0);await link.click();await p.waitForFunction(()=>state.page==='growth'&&document.querySelector('[data-gtc-root]'));assert.equal(await p.locator('.j-review,.daily-growth-entry,[data-action=journey-filter]').count(),0);}
+  assert(await p.evaluate(()=>screens.growth===journeyGrowth&&journeyGrowth===showGrowth));await p.locator('.px-top > button[data-to=profile]').click();await p.waitForFunction(()=>state.page==='profile');
+  await p.evaluate(()=>navigate('bodyHistory'));assert.equal(await p.locator('[data-gtc-root]').count(),0);assert(await p.evaluate(()=>screens.bodyHistory!==screens.growth));await p.evaluate(()=>navigate('lifeReview'));assert.equal(await p.locator('[data-gtc-root]').count(),0);assert(await p.evaluate(()=>screens.lifeReview!==screens.growth));return {nativeNamedEntries:2,sharedGrowthRenderer:true,independentArchivesPreserved:true};
+ }));
+ await h.check('08 真计时轻点拖动返回重开，树变换不改业务记录且持久',()=>inPage('timer',async({page:p})=>{
+  const initial=await saveFixtureProof(p),start=await p.evaluate(()=>tbSummary().todayMs);await p.evaluate(()=>{timeBank.visible=true;tbSave();tbRenderFloat();});const timer=p.locator('#tb-float');await timer.locator('.timebar-open').click();const collapsed=await p.evaluate(()=>timeBank.collapsed),bb=await timer.boundingBox();assert(bb);await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2);await p.mouse.down();await p.mouse.move(24,Math.max(120,bb.y+60),{steps:14});await p.mouse.up();assert.equal(await p.evaluate(()=>timeBank.collapsed),collapsed,'Dragging does not toggle shape');assert.match(await timer.locator('[data-tb-today]').innerText(),/^\d{2,}:\d{2}:\d{2}$/);await p.waitForTimeout(1300);assert(await p.evaluate(start=>tbSummary().todayMs>=start+800,start));
+  await p.locator('.px-top > button[data-to=profile]').click();await p.waitForFunction(()=>state.page==='profile');await p.locator('[data-to=growth]').first().click();await p.waitForFunction(()=>!!document.querySelector('[data-gtc-root]'));assert.deepEqual(await saveFixtureProof(p),initial);await p.reload();await p.waitForFunction(()=>px.loaded&&!!document.querySelector('[data-gtc-root]'));assert.deepEqual(await saveFixtureProof(p),initial);await h.capture(p,'真实计时返回');return {actualElapsedMinimumMs:800,nativeTapAndDrag:true,reloadBusinessDataUnchanged:true};
+ }));
+ assert.equal(h.report.results.length,8);h.report.growthTreeSourcesUnchanged=JSON.stringify(identity())===JSON.stringify(before);assert.equal(h.report.growthTreeSourcesUnchanged,true);
+}
+run().then(()=>h.finish()).catch(error=>h.finish(error));

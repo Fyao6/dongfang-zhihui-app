@@ -1,0 +1,678 @@
+{
+  "report": "负责人优化建议 后台现状核查",
+  "audit_kind": "只读代码与模式审计",
+  "as_of_beijing": "2026-11-12 17:11:35 +08:00",
+  "project_root": "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒",
+  "scope": [
+    "本机Python后端与SQLite建表代码",
+    "Cloud Worker与D1建表代码",
+    "AI与隐私",
+    "会员与权益",
+    "支付与分佣",
+    "商城数据基础",
+    "部署与运维说明"
+  ],
+  "method_and_limits": [
+    "已完整按段读取项目AGENTS.md的407行；本轮以父任务指定的唯一根目录为准。",
+    "只检查源代码、SQL/Drizzle模式、非敏感配置文件、说明、文件元信息；没有打开任何原SQLite/D1数据文件，没有调用现有接口或查询生产记录。",
+    "未读取.env、.dev.vars、会话、凭据、个人资料或其内容；只知道部分环境文件存在，不知道其中配置值。",
+    "没有修改业务源码、构建、原数据库、生产配置，没有启动/关闭服务，没有发布、采购、调用真实模型或支付。",
+    "本报告所称已有表示代码中存在相应能力；未重新运行功能或回归测试，不表示本轮运行验收通过，也不证明当前公网状态。",
+    "上轮review_work/tasks.json仅作为98项任务编号参考；未将其中条目当作代码已实现证明。"
+  ],
+  "conclusion": {
+    "can_reuse": "现有账号/角色/会话、内容配置与版本、审核、创作者作品、学习与计时记录、媒体上传和后台界面可复用。",
+    "main_gap": "商城、订单、支付、订阅、单购权益、分佣和全生态隐私是新增业务基础，现有会员配置及购买预览不能代替。现有AI是单一Responses接口兼容调用，不能直接等同双模型生产网关。",
+    "first_step": "先设计并实现统一商品/订单项/价格快照/支付事件/权益关系、规则确认与生产开关、细分后台权限以及隐私数据清单；依赖尚缺时保持真实禁用状态。随后按单一模块在隔离环境做Python及Cloud两套回归。",
+    "deployment": "当前代码支持Python/SQLite本地服务和Worker/D1/R2云适配，Netlify仅同源入口代理原云后端；尚无AWS或Google Cloud的业务、PostgreSQL高可用或GPU推理实现。GitHub Pages属于静态预览，不承载正式后台。"
+  },
+  "implementation_paths": [
+    {
+      "area": "本机服务与模式",
+      "path": "04_研发源码/app/r4/backend/server.py",
+      "evidence": "Store建表129–175行；route约364–459行；ai_chat983–1014行；settings895–950行；get_media1035–1080行",
+      "role": "ThreadingHTTPServer、SQLite、账号内容/社群/计时/AI/媒体接口"
+    },
+    {
+      "area": "本机创作者",
+      "path": "04_研发源码/app/r4/backend/creator.py",
+      "evidence": "init_schema33–45行；publish约161–175行；ai_review190行起",
+      "role": "创作者归属、人工/AI审核预留、发布至APP、作品统计"
+    },
+    {
+      "area": "本机分析",
+      "path": "04_研发源码/app/r4/backend/analytics.py",
+      "evidence": "SCHEMA11–12行",
+      "role": "activity_daily及真实活动统计"
+    },
+    {
+      "area": "云端服务",
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "evidence": "API类25行起；init38行起；settings154行起；media176行；ai177行；route179行起",
+      "role": "Worker环境的D1/R2接口适配"
+    },
+    {
+      "area": "云端基础模式",
+      "path": "04_研发源码/app/cloud/db/schema.ts",
+      "evidence": "users、sessions、settings、contents等16个基础表，含rate_limits",
+      "role": "Drizzle SQLite/D1模式，非PostgreSQL模式"
+    },
+    {
+      "area": "云端基础迁移",
+      "path": "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql",
+      "evidence": "基础16表CREATE TABLE及索引",
+      "role": "现有基础D1迁移"
+    },
+    {
+      "area": "云端创作者",
+      "path": "04_研发源码/app/cloud/lib/creator-api.ts",
+      "evidence": "ddl2–12行；finish约37–55行；自动审核约88–97行",
+      "role": "运行时创建6个创作者表及带版本条件的发布批处理"
+    },
+    {
+      "area": "云端分析",
+      "path": "04_研发源码/app/cloud/lib/analytics-api.ts",
+      "evidence": "ddl5行",
+      "role": "运行时创建activity_daily表"
+    },
+    {
+      "area": "云端入口",
+      "path": "04_研发源码/app/cloud/worker/index.ts",
+      "evidence": "fetch路由及页面映射",
+      "role": "/api到handleAPI，APP/admin/creator到generated页面"
+    },
+    {
+      "area": "Netlify入口",
+      "path": "04_研发源码/app/cloud/worker/netlify-api.js",
+      "evidence": "BACKEND与gateway函数",
+      "role": "检验来源后把同源/api转发至既有Sites后端，转发必要Cookie/请求头，非独立业务库"
+    },
+    {
+      "area": "Netlify发布配置",
+      "path": "04_研发源码/app/cloud/netlify.toml",
+      "evidence": "prepare-netlify.mjs、.netlify/public及/api/* Edge Function",
+      "role": "静态前台及API网关发布，不是AWS/GCP部署"
+    },
+    {
+      "area": "会员前端",
+      "path": "04_研发源码/app/r4/membership.js",
+      "evidence": "memberPlans2–6行；确认与结果页33–40行",
+      "role": "会员方案/权益展示、本机开通预览记录；明确不真实扣款或开通"
+    },
+    {
+      "area": "APP服务绑定",
+      "path": "04_研发源码/app/r4/platform.js",
+      "evidence": "AI页37行、pxAsk39行；会员配置合并87–93行",
+      "role": "本机按账号保存AI对话并调用后端；后台会员展示配置同步"
+    },
+    {
+      "area": "公司后台界面",
+      "path": "04_研发源码/app/r4/time-bank-admin.html",
+      "evidence": "labels10行；fields23行；四语字段68行",
+      "role": "已有会员配置/权益、AI配置、内容审核与权限界面，尚无订单财务商城分佣界面"
+    },
+    {
+      "area": "云适配说明",
+      "path": "04_研发源码/app/cloud/README.md",
+      "evidence": "源码构建、管理员数据、验证边界、Netlify入口",
+      "role": "现有部署依赖与边界，部分部署状态文字属历史，不作当前公网证明"
+    },
+    {
+      "area": "恢复演练边界",
+      "path": "05_后台与研发说明/基础框架阶段说明与验收.txt",
+      "evidence": "30–41行",
+      "role": "记录历史F05仅隔离SQLite/D1恢复，不含R2、浏览器资料或完整生产灾备"
+    }
+  ],
+  "backend_differences": [
+    {
+      "aspect": "运行环境",
+      "python": "标准库ThreadingHTTPServer，仅loopback Host/Origin；使用本地SQLite",
+      "cloud": "Worker Fetch API、D1数据库与R2对象存储；HTTPS同源检查",
+      "implementation_impact": "不能直接将本机服务作为生产云方案，也不能假设两端依赖/连接行为相同。"
+    },
+    {
+      "aspect": "数据库模式",
+      "python": "server.py15个基础表+creator.py6表+analytics.py1表，静态建表代码合计22表",
+      "cloud": "db/schema.ts16个基础表，额外rate_limits；creator6表与activity_daily运行时DDL，静态合计23表",
+      "implementation_impact": "模式真源分散在基础迁移及运行时DDL，新增业务需双端显式版本迁移与向后兼容；未读真实库，未确认其实表数。"
+    },
+    {
+      "aspect": "事务与幂等",
+      "python": "sqlite3连接上下文事务，部分流程BEGIN IMMEDIATE与唯一索引",
+      "cloud": "D1 batch及条件语句/版本校验；例如创作者发布用末条更新判定",
+      "implementation_impact": "订单、库存、权益、佣金不可只复制函数；应定义跨端事务、不重复处理约束和补偿机制并分别测试。"
+    },
+    {
+      "aspect": "限流",
+      "python": "进程内锁+defaultdict/deque，进程重启清空",
+      "cloud": "D1 rate_limits持久化计数与到期",
+      "implementation_impact": "多实例/生产限流及AI额度需要独立统一设计，现有限流不是用户付费额度结算。"
+    },
+    {
+      "aspect": "密码及会话",
+      "python": "PBKDF2 SHA256 260000次，摘要会话；本地Cookie无Secure",
+      "cloud": "PBKDF2 SHA256 100000次，摘要会话；HTTPS时Secure Cookie，启动依赖DEMO_ADMIN_HASH",
+      "implementation_impact": "现有密码摘要不可不处理迭代差异直接搬迁。当前均未见MFA/强认证流程，生产需另补。"
+    },
+    {
+      "aspect": "媒体存储",
+      "python": "media表存BLOB，接口读取支持Range",
+      "cloud": "media表存object_key，文件在R2，接口读取支持Range",
+      "implementation_impact": "备份/删除/恢复与付费媒体短时凭证必须覆盖文件对象；只备份数据库不够。"
+    },
+    {
+      "aspect": "AI请求",
+      "python": "urllib同步读取完整JSON，60秒超时；主AI路径未设置显式禁止重定向的opener",
+      "cloud": "fetch读取完整JSON，AbortSignal 60秒、redirect:error",
+      "implementation_impact": "两端均无流式/用户停止/双模型协议；供应商适配与重定向策略应统一，不能用一个通道测试代替另端。"
+    },
+    {
+      "aspect": "密钥存储",
+      "python": "AI apiKey及设备secret存settings JSON，管理读取仅返回has标志",
+      "cloud": "同样存D1 settings JSON，管理读取仅返回has标志",
+      "implementation_impact": "当前实现隐藏客户端密钥但不是文档要求的独立密钥管理服务；未读取任何实际密钥。"
+    },
+    {
+      "aspect": "创作者外键",
+      "python": "creator_profiles/creator_works等部分表声明REFERENCES users，连接启foreign_keys",
+      "cloud": "creator-api.ts运行时DDL多数creator表未声明对应外键",
+      "implementation_impact": "注销删除与订单受益人归属应显式校验及设计保留引用；不能假设双端级联一致。"
+    }
+  ],
+  "capability_audit": [
+    {
+      "area": "账号与后台权限",
+      "tasks": [
+        "G01",
+        "PR06",
+        "PAY17",
+        "CM06"
+      ],
+      "existing": [
+        "账号注册登录、摘要会话、登出、管理员本人凭原密码修改凭据并撤旧会话",
+        "admin/operator/reviewer/teacher/user角色和管理接口鉴权",
+        "后台审计、内容版本、审核和导出元数据"
+      ],
+      "gaps": [
+        "未见财务/客服独立权限与资金动作审批",
+        "未见MFA等后台强认证",
+        "现有普通角色不能直接代表未来退款、付款、佣金结算权限"
+      ],
+      "evidence": [
+        "backend/server.py:49–52,277–363,457–502,688起",
+        "cloud/lib/eastern-api.ts:5,33–37,66–87,160起"
+      ],
+      "blocking_inputs": [
+        "财务客服业务职责与审批权限表",
+        "后台强认证方式及上线主体"
+      ]
+    },
+    {
+      "area": "双模型AI",
+      "tasks": [
+        "AI01",
+        "AI02",
+        "AI03",
+        "AI04",
+        "AI05",
+        "AI06"
+      ],
+      "existing": [
+        "前端只调本项目/api/ai/chat，服务端持密钥",
+        "单一Responses兼容endpoint/model/prompt/knowledge配置，默认enabled=false",
+        "登录、每分钟8次限流、最近12条消息长度校验、完整JSON超时/错误提示",
+        "创作者文字AI审核预留，未启用或异常转人工；已有作品版本/归属控制"
+      ],
+      "gaps": [
+        "无Claude消息协议/紫微代理适配、DeepSeek自托管或双模型路由",
+        "无按场景默认模型及真实供应商/模型版本请求台账",
+        "无流式停止、已授权备用策略、请求幂等额度预留/结算、上游用量成本记录",
+        "无服务端逐数据域授权记录/撤回门禁，当前context只是前端主动选择摘要",
+        "knowledge为一段配置文字，未见用户权限约束的检索服务或通用工具执行层"
+      ],
+      "evidence": [
+        "backend/server.py:173,895–929,983–1014",
+        "cloud/lib/eastern-api.ts:23,154–158,177",
+        "backend/creator.py:190起",
+        "cloud/lib/creator-api.ts:88–97",
+        "r4/platform.js:37–40"
+      ],
+      "blocking_inputs": [
+        "紫微团队地址、model_id、协议、计量计费限制及数据处理条款",
+        "DeepSeek真实版本许可/权重校验、GPU预算配额与质量性能实测",
+        "场景路由、失败/部分输出扣次、用户权益额度和授权接收方规则"
+      ],
+      "safe_first_work": "先完成可禁用的供应商适配契约、路由配置、请求标识、授权校验和额度账本框架；无真实凭据时不伪造已连接。"
+    },
+    {
+      "area": "全生态隐私",
+      "tasks": [
+        "PR01",
+        "PR02",
+        "PR03",
+        "PR04",
+        "PR05",
+        "PR06",
+        "PR07"
+      ],
+      "existing": [
+        "账号归属隔离、部分后台权限、设备consent_at和解绑",
+        "AI对话由浏览器按账号保存；前端可清空对话/移除所选上下文",
+        "默认监控不记请求正文，管理返回隐藏apiKey/secret，记录导出不含自评消息正文",
+        "本地生辰、命盘、部分笔记按现有规则不上传，须继续保留默认边界"
+      ],
+      "gaps": [
+        "无“隐私与AI设置”统一入口和分项授权/接收方/地区/版本化同意记录",
+        "无长期记忆独立开关、读取门禁、查看改删服务",
+        "无全账户导出、注销、跨数据库/向量/缓存/受托商删除任务和完成状态；现有时间银行导出不等同全资料导出",
+        "无按类保留期限、备份清理计划、供应商删除证明、训练用途许可管理",
+        "未在代码中发现静态敏感数据字段加密或密钥托管；部署层加密状态未核实，不能声称未加密或已加密"
+      ],
+      "evidence": [
+        "r4/platform.js:37–40,153",
+        "backend/server.py:280–284,669–680,895–950",
+        "cloud/lib/eastern-api.ts:121–124,154–158",
+        "r4/membership.js:7及39–40"
+      ],
+      "blocking_inputs": [
+        "上线国家、服务主体、数据清单与合法保留期限",
+        "供应商链路和地区、保存/删除/训练条款",
+        "隐私政策/处理说明/第三方清单/客服与请求处理责任人"
+      ],
+      "safe_first_work": "先建立数据目录、同意/撤回状态和删除导出任务模式及真实未配置提示；不把本机出生资料自动上送，不承诺未经核实零保留。"
+    },
+    {
+      "area": "商城与统一交易模型",
+      "tasks": [
+        "G03",
+        "G05",
+        "SH01",
+        "SH02",
+        "SH03",
+        "SH04",
+        "SH05",
+        "SH06",
+        "SH07",
+        "SH08"
+      ],
+      "existing": [
+        "内容课程ID、创作者作品ID、老师信息、分类、上传/审核/发布和版本可复用",
+        "已有服务需求不是收费预约库存/时段订单；普通社群好友对话已存在"
+      ],
+      "gaps": [
+        "基础及扩展DDL未见products/skus/prices/inventory/carts/orders/order_items等交易表",
+        "未见商品订单售后/库存/配送/数字授权的业务路由或公司后台模块",
+        "无数字实物拆单、数字免地址、实物配送范围或预约名额/时区状态机"
+      ],
+      "evidence": [
+        "backend/server.py:49,137–169,398–459",
+        "cloud/db/schema.ts",
+        "cloud/lib/creator-api.ts:2–12",
+        "r4/time-bank-admin.html:10"
+      ],
+      "blocking_inputs": [
+        "首批正式商品、版权授权、SKU、价格币种、国家、税运履约售后",
+        "是否有服务预约、第三方入驻范围"
+      ],
+      "safe_first_work": "先在两后端建立统一商品/价格快照/订单项/权益ID与类型约束及沙箱流程；演示商品明确标测试，不正式售卖。"
+    },
+    {
+      "area": "会员订阅与单购权益",
+      "tasks": [
+        "MB01",
+        "MB02",
+        "MB03",
+        "MB04",
+        "MB05",
+        "SH06",
+        "PAY10",
+        "PAY11",
+        "PAY12"
+      ],
+      "existing": [
+        "内容中membership/benefits可后台发布、归档、排序、四语维护，前台合并配置",
+        "memberPlans内存默认普通/高级98/尊享298及本机预览草稿，页面明确不扣款不开通",
+        "公开内容接口对非管理者清空member课程mediaUrl，媒体接口限制部分会员素材"
+      ],
+      "gaps": [
+        "无subscription/entitlement/purchase/receipt表及服务端真实会员身份",
+        "默认前端金额和旧参考权益不能当新文档正式定价",
+        "无渠道商品ID映射、多端防重订、状态通知、取消/退款/恢复购买独立真实流程",
+        "无到期/宽限/欠费/取消仍有效/退款撤销生命周期及单购有效期独立授权",
+        "现有内容access是public/member，不能代表课程单购、订阅或内容范围的实际权益"
+      ],
+      "evidence": [
+        "r4/membership.js:2–7,33–40",
+        "r4/platform.js:87–93",
+        "backend/server.py:400–409,825–829,1035起",
+        "cloud/lib/eastern-api.ts:149,176,180"
+      ],
+      "blocking_inputs": [
+        "项目方收费文档、权益范围、币种周期/AI额度重置",
+        "渠道商品ID、适用订阅/退款条款及交易归属规则"
+      ],
+      "safe_first_work": "先增加未确认方案状态和统一权益判定层，停用生产购买；保留既有免费内容与独立单购语义。"
+    },
+    {
+      "area": "付费媒体授权重点",
+      "tasks": [
+        "MB04",
+        "SH06",
+        "SV03",
+        "PAY10"
+      ],
+      "existing": [
+        "媒体会核对上传者、发布引用或授权审核者，并支持Range；创作者现发布课程被强制access=public"
+      ],
+      "gaps": [
+        "没有实际付费权益分支或短时访问凭证",
+        "创作者已发布media/cover是独立公开条件；未来若引入付费作品，仅修改contents.access不足以收口授权"
+      ],
+      "evidence": [
+        "backend/server.py:1035–1058",
+        "backend/creator.py:161–175",
+        "cloud/lib/eastern-api.ts:176",
+        "cloud/lib/creator-api.ts:45–50"
+      ],
+      "finding_status": "这是未来付费启用前必须调整的授权结构，不作为当前已可利用漏洞结论；未创建会员作品或运行越权测试。",
+      "safe_first_work": "统一“内容公开元数据/免费封面/付费主媒体”判定，双端用合成样本证明未登录、免费、会员、单购、到期和作者/审核角色边界。"
+    },
+    {
+      "area": "支付验单与资金可靠性",
+      "tasks": [
+        "PC01",
+        "PC02",
+        "PC03",
+        "PAY01",
+        "PAY02",
+        "PAY03",
+        "PAY04",
+        "PAY05",
+        "PAY06",
+        "PAY07",
+        "PAY08",
+        "PAY09",
+        "PAY10",
+        "PAY11",
+        "PAY12",
+        "PAY13",
+        "PAY14",
+        "PAY15",
+        "PAY16",
+        "PAY17",
+        "PAY18",
+        "PAY19",
+        "PAY20",
+        "PT01"
+      ],
+      "existing": [
+        "会员与课程有确认预览，明确无真实付款/权益；现有账号审计基础可复用"
+      ],
+      "gaps": [
+        "模式、路由和依赖未见Stripe/PayPal/Apple/Google支付验单或SDK、webhook事件、对账、退款拒付服务",
+        "无服务端价格唯一真源、整数金额/币种舍入、幂等下单、验单核对、回调去重/乱序/重放状态机",
+        "无库存预占/迟到付款补偿、权益事务/任务、购买恢复或财务日对账",
+        "微信/支付宝单选仅为旧会员本机预览，不能当作真实渠道能力"
+      ],
+      "evidence": [
+        "backend/server.py路由与DDL",
+        "cloud/lib/eastern-api.ts:179–188",
+        "cloud/package.json",
+        "r4/membership.js:33–40",
+        "r4/base.js:213–214,270–283"
+      ],
+      "blocking_inputs": [
+        "商户主体/银行所在地、发行端、首发国、商品分类、币种、退款政策客服",
+        "支付渠道业务准入/审批、测试凭据、回调签名协议和平台商品ID",
+        "税费运费优惠、生产开关、小额真实测试计划及审批"
+      ],
+      "safe_first_work": "先实现供应商无关状态机和幂等/事件收件箱/权益事务的沙箱框架，并把未配置通道真实禁用；正式资金动作须等准入及规则。"
+    },
+    {
+      "area": "分佣台账与结算",
+      "tasks": [
+        "CM01",
+        "CM02",
+        "CM03",
+        "CM04",
+        "CM05",
+        "CM06"
+      ],
+      "existing": [
+        "已有作者/作品ID及真实行为统计，不是收益或佣金数据；后台审计可复用"
+      ],
+      "gaps": [
+        "未见规则版本、归因、订单项计佣、冻结、结算单、付款凭证或冲正表/接口/后台",
+        "无会员推广与作者分成叠加、基数扣除、舍入、续费、跨币种和追偿逻辑",
+        "现有用户role集合不能表达业务/财务/客服的分权审批"
+      ],
+      "evidence": [
+        "backend/creator.py:33–45",
+        "cloud/lib/creator-api.ts:2–12",
+        "backend/server.py:50,137–169",
+        "r4/time-bank-admin.html:10"
+      ],
+      "blocking_inputs": [
+        "正式会员及首发作品分佣文档：参与层级、归因、基数扣项、比例上限、币种舍入、冻结周期、最低额、续费/退款拒付/终止规则",
+        "真实收款渠道及国家、资料、财务职责"
+      ],
+      "safe_first_work": "规则和账本框架可做但生产计佣/自动打款关闭；账本引用成交快照，冲正不删除历史，记账与实际付款分别验收。"
+    },
+    {
+      "area": "海外部署与运维",
+      "tasks": [
+        "SV01",
+        "SV02",
+        "SV03",
+        "SV04",
+        "SV05",
+        "SVT01",
+        "SVT02",
+        "SVT03",
+        "X03"
+      ],
+      "existing": [
+        "Python本机隔离服务与Cloud Worker/D1/R2适配可运行代码；Netlify代理保留原云后端",
+        "历史F05隔离SQLite/D1恢复说明和现有双后端回归脚本可复用为基线",
+        "现有脚本与规则排除密钥数据库等私密数据，不应把原库或环境归档上线"
+      ],
+      "gaps": [
+        "无AWS/GCP基础设施定义、私网/PostgreSQL高可用、独立GPU推理、自动扩容和生产容量报价",
+        "未见GPU权重部署、健康/冷启动/队列/降级测试",
+        "历史隔离数据库恢复不覆盖R2、浏览器资料及受托服务，不能等同生产RPO/RTO演练",
+        "付费媒体仍经API读取，不具备目标对象存储/CDN短时授权完整方案",
+        "目标地区性能、模型吞吐、GPU故障业务隔离及月成本尚无本轮实测"
+      ],
+      "evidence": [
+        "cloud/README.md",
+        "cloud/worker/index.ts",
+        "cloud/worker/netlify-api.js",
+        "cloud/netlify.toml",
+        "cloud/package.json",
+        "05_后台与研发说明/基础框架阶段说明与验收.txt:30–41",
+        "AGENTS.md最新发布边界"
+      ],
+      "blocking_inputs": [
+        "目标国家分布/用户量并发/预算及付费云账号权限",
+        "AWS/GCP选择、区域GPU配额供应、实际模型与量化配置",
+        "正式RPO/RTO、告警接收、数据地区及跨区要求"
+      ],
+      "safe_first_work": "先形成架构/容量输入表和同口径询价清单；不采购、不另建外部项目、不因本地框架开始而发公网。"
+    }
+  ],
+  "recommended_start_order": [
+    {
+      "order": 1,
+      "tasks": [
+        "G01",
+        "G02",
+        "G04",
+        "G05"
+      ],
+      "deliverable": "确认外部资料责任与版本、保持功能边界、形成未确认生产开关；本核查只完成G01的后台部分",
+      "external_dependency": "可先完成结构与责任清单，具体业务规则保持待确认"
+    },
+    {
+      "order": 2,
+      "tasks": [
+        "G03",
+        "PAY01",
+        "PAY03",
+        "PAY04",
+        "PAY10",
+        "MB01"
+      ],
+      "deliverable": "双后端统一商品/价格/订单项/支付事件/权益模式与幂等契约；先沙箱与禁用生产，使用独立迁移和合成测试",
+      "external_dependency": "字段/状态框架可做，正式价格权益需项目方"
+    },
+    {
+      "order": 3,
+      "tasks": [
+        "PR01",
+        "PR02",
+        "PR03",
+        "PR06",
+        "PAY17"
+      ],
+      "deliverable": "数据目录、分项授权/撤回门禁、角色权限、密钥引用及敏感日志约束",
+      "external_dependency": "实际主体/地区接收方和强认证/密钥服务部署待确认"
+    },
+    {
+      "order": 4,
+      "tasks": [
+        "AI03",
+        "AI04",
+        "AI05",
+        "AI06"
+      ],
+      "deliverable": "双模型适配接口、真实未配置状态、请求台账/额度框架和停止重试契约",
+      "external_dependency": "真实Claude协议、DeepSeek部署与扣次规则缺失时不做生产联调结论"
+    },
+    {
+      "order": 5,
+      "tasks": [
+        "SH01",
+        "SH02",
+        "SH03",
+        "SH04",
+        "SH06",
+        "MB02",
+        "MB03",
+        "MB04",
+        "MB05",
+        "CM02",
+        "CM03",
+        "CM04",
+        "CM05",
+        "CM06"
+      ],
+      "deliverable": "复用统一交易基础逐模块完成商城/会员/分佣后台及APP沙箱闭环",
+      "external_dependency": "正式商品、收费、分佣、售后、渠道规则后续确认"
+    },
+    {
+      "order": 6,
+      "tasks": [
+        "SV01",
+        "SV02",
+        "SV03",
+        "SV04",
+        "SV05",
+        "PC01",
+        "PC02"
+      ],
+      "deliverable": "同步推进云方案同口径询价和支付准入核实，待外部条件具备后联调、性能故障和小额验证",
+      "external_dependency": "不以代码完成代替账号、配额、商户审批或付费采购授权"
+    }
+  ],
+  "validation_next": [
+    "实施每个模块前固定源码与构建哈希，并在项目现有06目录记录本轮真实批次，不改写旧收据。",
+    "所有新增写接口使用隔离SQLite与本地D1/R2、合成账号/商品/订单；不向原库写入测试数据。",
+    "对新增金额/支付/权益/佣金分别验证重复点击、重复/乱序回调、并发、超时、失败重试、部分退款与已结算冲正。",
+    "对隐私与媒体验证未登录、跨账号、拒绝/撤回授权、记忆关闭、删除任务与各角色边界。",
+    "单模块冒烟后运行本轮Python及本地Cloud双后端全量回归与对应专项，通过再推进；本报告没有代替这些测试。",
+    "正式AI、支付、云容量、供应商删除及目标设备环境必须分别真实验收，不能用静态代码审计或沙箱结论冒充。"
+  ],
+  "source_hashes": [
+    {
+      "path": "04_研发源码/app/r4/backend/server.py",
+      "sha256": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+      "bytes": 76585
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/creator.py",
+      "sha256": "dc068ed1136889450065ffecc5ee2bef26930410d0c2bf8d784e8ef6bf73d99d",
+      "bytes": 49455
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/analytics.py",
+      "sha256": "6808341e04d8f81c0d908be32d156802a616deabf20eed584a16d9c55789968f",
+      "bytes": 10561
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "sha256": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "bytes": 46221
+    },
+    {
+      "path": "04_研发源码/app/cloud/db/schema.ts",
+      "sha256": "957d2cb196e43e1329fcc4c3ab6a5ac318f3bc0c7667bc44a8292310b843dffc",
+      "bytes": 4612
+    },
+    {
+      "path": "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql",
+      "sha256": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+      "bytes": 4753
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/creator-api.ts",
+      "sha256": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+      "bytes": 34697
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/analytics-api.ts",
+      "sha256": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+      "bytes": 8561
+    },
+    {
+      "path": "04_研发源码/app/cloud/worker/index.ts",
+      "sha256": "74eaf4dce10c52081181ec6497965be85be1c0f3b93fdfb6293e2293590c40d1",
+      "bytes": 2147
+    },
+    {
+      "path": "04_研发源码/app/cloud/worker/netlify-api.js",
+      "sha256": "b27b2799e566563d7ee8d17060de718381866d6c87f112641dc3059b4dff71df",
+      "bytes": 2583
+    },
+    {
+      "path": "04_研发源码/app/cloud/netlify.toml",
+      "sha256": "5f14f4fdebda142bf114bb2a6153892c459c52796dc995c7b11b487b40f19419",
+      "bytes": 734
+    },
+    {
+      "path": "04_研发源码/app/r4/membership.js",
+      "sha256": "2de127a07bfd8a7f38d68654f89f9cd91fbd2171cb4db90c54426bf60b7ada4b",
+      "bytes": 23601
+    },
+    {
+      "path": "04_研发源码/app/r4/platform.js",
+      "sha256": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "bytes": 68251
+    },
+    {
+      "path": "04_研发源码/app/r4/time-bank-admin.html",
+      "sha256": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+      "bytes": 48910
+    },
+    {
+      "path": "04_研发源码/app/cloud/README.md",
+      "sha256": "ee318a58399f531f083c6906ad430a64c604d659352f0bef0e6546d95ce80740",
+      "bytes": 3520
+    },
+    {
+      "path": "05_后台与研发说明/基础框架阶段说明与验收.txt",
+      "sha256": "b06d5fe7cf1d847b7125b6e774c924e27658be839d04e19ee9c3331b30ebc2b7",
+      "bytes": 7909
+    }
+  ]
+}

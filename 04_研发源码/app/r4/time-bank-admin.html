@@ -15,7 +15,7 @@ const schemas={
  maps:[['name','地图名称','text'],['heroTitle','主标题','text'],['heroText','一句简介','text'],['coverUrl','首页入口图片','image']],
  cards:[['zh','卡片名称','text'],['en','英文名称','text'],['coverUrl','卡面图片','image'],['lineZh','卡面寄语','textarea'],['readingZh','简短解读','textarea'],['actionZh','行动建议','textarea'],['symbol','图标','text'],['lineEn','英文寄语','textarea'],['readingEn','英文解读','textarea'],['actionEn','英文建议','textarea']],
  music:[['zh','音乐名称','text'],['en','英文名称','text'],['descZh','简短介绍','textarea'],['descEn','英文介绍','textarea'],['audioUrl','音频素材','audio']],
- courses:[['categoryIds','筛选分类（可多选）','categories'],['teacherId','所属老师','teacher'],['coverUrl','课程封面（建议4:3，支持图片上传）','image'],['zh','课程名称','text'],['en','英文名称','text'],['summaryZh','课程摘要','textarea'],['summaryEn','英文摘要','textarea'],['theme','主题','select:ziwei=认识自己,tcm=修复自己,healing=提升自己'],['format','形式','select:video=视频,audio=有声书,practice=短时练习'],['access','权益','select:public=非会员,member=会员'],['practice','关联练习','select:breath=一分钟呼吸,scan=身体觉察,ground=安住此刻,focus=专注,sleep=睡前放松,zen=静坐观息'],['goalsZh','学习目标 每行一项','lines'],['sections','章节导读 每段首行为标题 下一行为正文','chapters'],['mediaUrl','课程媒体','media'],['sources','参考出处 每行名称与HTTPS地址 用竖线分隔','sources']],
+ courses:[['sandboxOnly','仅用于独立数字作品沙箱（正式智慧馆不展示）','boolean'],['categoryIds','筛选分类（可多选）','categories'],['teacherId','所属老师','teacher'],['coverUrl','课程封面（建议4:3，支持图片上传）','image'],['zh','课程名称','text'],['en','英文名称','text'],['summaryZh','课程摘要','textarea'],['summaryEn','英文摘要','textarea'],['theme','主题','select:ziwei=认识自己,tcm=修复自己,healing=提升自己'],['format','形式','select:video=视频,audio=有声书,practice=短时练习'],['access','权益','select:public=非会员,member=会员'],['practice','关联练习','select:breath=一分钟呼吸,scan=身体觉察,ground=安住此刻,focus=专注,sleep=睡前放松,zen=静坐观息'],['goalsZh','学习目标 每行一项','lines'],['sections','章节导读 每段首行为标题 下一行为正文','chapters'],['mediaUrl','课程媒体','media'],['sources','参考出处 每行名称与HTTPS地址 用竖线分隔','sources']],
  courseCategories:[['name','筛选项名称','text'],['enabled','启用此筛选项','boolean']],
  teachers:[['verified','平台认证（仅管理员可修改）','certification'],['recommended','加入老师推荐（仅管理员可修改）','certification'],['coverUrl','老师头像','image'],['profileType','资料类型','select:real=真实资料,demo=示例资料'],['name','老师姓名','text'],['specialty','服务方向','text'],['bio','老师介绍','textarea']],
  devices:[['name','供应商名称','text'],['maps','适用地图','list'],['description','接入说明','textarea']],
@@ -124,5 +124,6 @@ window.addEventListener('storage',event=>{if(event.key!=='ew-identity-change-v1'
 /*__AFTER_SALES_FINANCE_ADMIN__*/
 /*__RECONCILIATION_ADMIN__*/
 /*__RETENTION_ADMIN__*/
+/*__BAZI_SAMPLES_ADMIN__*/
 (async()=>{if(!['http:','https:'].includes(location.protocol)){el.innerHTML='<main class="auth"><h1>请通过本地服务打开后台</h1><p>先运行资料包中的“启动本地计时后台.py”，再访问后台。管理数据保存在当前项目内。</p><p><a href="http://127.0.0.1:8765/admin">打开本地管理后台</a></p></main>';return;}await authBootstrap();})();
 </script></body></html>

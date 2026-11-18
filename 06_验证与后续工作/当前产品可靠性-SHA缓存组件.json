@@ -1,0 +1,36 @@
+{
+  "at": "2026-11-17T17:03:50.046444+00:00",
+  "componentOnly": true,
+  "businessTestsRerun": false,
+  "collectorSHA256": "e957dc5414e85b6a31bf1ff254dda76609cbed6201866a7d627b9c75d7d278c0",
+  "checks": [
+    {
+      "name": "canonical-path-cache-hit",
+      "pass": true,
+      "actualReads": 1,
+      "calls": 2
+    },
+    {
+      "name": "real-file-change-rehashed",
+      "pass": true,
+      "additionalActualReads": 1
+    },
+    {
+      "name": "during-read-stat-change-retries-before-cache",
+      "pass": true,
+      "actualReads": 2
+    },
+    {
+      "name": "each-actual-collect-entry-clears-prior-round",
+      "pass": true,
+      "actualEntryCalls": 2,
+      "stoppedBeforeFirstFileHash": true
+    }
+  ],
+  "pass": true,
+  "elapsedSeconds": 0.004655400000046939,
+  "fixture": {
+    "path": "06_验证与后续工作/当前产品可靠性-SHA缓存组件-合成输入.txt",
+    "sha256": "c2e6b659166708d0c9c46dd7f4d43cedbb60e448ff5cc625fe25d628bdbb17ec"
+  }
+}

@@ -1,0 +1,74 @@
+B11 八字结果版本追溯——独立实现及待接入说明
+原任务：06/负责人优化建议-任务拆解.json，B11；原文P143「结果追溯」和P144「缓存键包含输入 引擎及规则版本；规则升级后重算旧结果，关联AI解读标记旧版或重生成」。
+本轮按root明确边界：保留原结果，版本变化后由用户显式确认重算并另存，不后台覆盖旧档案。
+
+状态
+仅新增文件，当前core、出生入口、计算规则、build列表和实际构建均未由本模块改动。B11接入脚本及实际双端浏览器专项只准备，未执行、未启动服务。16组独立逻辑/实际历法适配器检查通过不等于已通过实际页面或完整模块回归；B11尚不可标为交付完成。
+
+已查明现状（当前源位置）
+life-chart-core.js:40 lcRecords仅读取当前scope的ew-life-charts-v1:<scope>，schema1，最多20份；:42 lcSnapshot有engine/rules但无独立规则版本、缓存键及输出指纹，savedAt取当前快照时间。
+:52 save按savedId替换旧行；:53 open按存档UTC用当前adapter复算，然后继续使用原savedId，所以随后save会覆盖原结果。
+life-birth-entry.js:30-37 lbSignature/lbEnsure仅按出生资料记忆命中，不含库/规则发布版本。
+bazi-time.js:24/37节令表缓存仅按year，8项内存Map。本次不改此缓存、历法或其算法；未来若允许运行中替换引擎必须清空或给它加发布版本，当前静态发布会重新加载整个JS。
+因此目前不把任何旧schema1档案自动“升级”为已验证版本，不猜其历史规则、实际计算时间或老师认可状态。
+
+新文件
+04_研发源码/app/r4/bazi-result-version.js：无存储、网络、DOM或自动计算的纯helper。
+04_研发源码/app/r4/bazi-result-version-ui.js：仅调用install后接现有Bazi动作/页面，加载本身不接入。
+04_研发源码/app/r4/bazi-result-version-release.js：冻结实现manifest；只有被未来build引用才调用install。
+04_研发源码/app/r4/bazi-result-version.css：局部版本信息/指纹换行。
+不另建存储，不迁移或批量重写旧数据，不涉及服务端排盘或其他两盘的新框架。
+
+发布manifest
+当前真实库：lunar-javascript 1.7.7（MIT）。
+adapterVersion=sha256:81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5
+ruleVersion=implementation-sha256:69e61f05064b221567e18019a8cf5260d4c7114a722937eb8c6c81e561be472b
+该ruleVersion是下列实现源哈希映射的SHA256（UTF-8 JSON，键排序且紧凑分隔），表示实现发布身份，包含原入口/转换和节令配套源，可能因非算法编辑保守失效，不声称传统学派规则经过确认：
+life-chart-core.js = 479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c
+life-chart-bazi.js = 81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5
+bazi-time.js = 3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c
+life-birth-entry.js = 5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a
+vendor/lunar-1.7.7.js = 9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa
+teacherConfirmed在helper manifest里固定为false。provenance.schema=1只是元数据结构版本，不能冒充老师规则版本。老师规则、30个老师确认样本尚未提供。
+
+纯helper契约
+manifest({engine:{name,version},ruleVersion,adapterVersion}) ->规范化实现声明，teacherConfirmed=false；缺必填版本拒绝。
+fingerprint(JSON) -> Promise<sha256:64hex>。稳定键排序，数组保序、类型保留；非有限数/undefined/循环/稀疏数组/accessor及超体积拒绝。SHA256用于本机一致性追溯，不是签名或服务端可信认证；指纹也不是匿名化。
+captureCalculation({id,normalized,options,result,manifest,calculatedAt?,capturedAt?,title?,view?}) -> 原schema1形状+provenance的新快照。仅供刚实际执行的计算，不用于重新给旧数据宣称当前版本。actual engine与manifest不符拒绝；calculatedAt缺失保留null。
+输入身份包括完整原birth、完整normalized（含UTC/China/时区处理说明）及options。缓存键包括上述输入、engine/version、implementation rule/adapter版本与实际result.rules；输出指纹覆盖完整result。savedAt/view不作为计算键。
+inspectSnapshot(record,currentManifest) -> current/outdated/legacy-unverified及cacheReusable。无provenance的旧档案不赋新版本、不猜时间、不允许缓存复用；有元数据则重算输入/规则/结果指纹并校验重复显示metadata，一致性异常拒绝。
+recalculate({record,manifest,confirmed:true,id?,context,isCurrent,compute,clock?}) -> Promise<新记录>。compute必须传现有lcBaziCalculate，使用克隆的原normalized/options；显式确认前不调用；前后跨所有await检查context；新id不得相同；生成parentRecordId/rootRecordId，新实际计算时间可知，原记录及其savedAt不变。
+appendVersion(rows,candidate,currentManifest) -> Promise<新数组>。同id一律拒绝覆盖；新candidate须仍为当前发布；parent须在同一传入账号数组且指纹正常，计算输入必须与parent相同。20份上限及原4500000个JS字符限制明确拒绝，不slice、不自动删除、不悄悄替换其他档案；调用方立即保存前仍须核对账号与原数组未被其他动作修改。
+bindInterpretation(currentRecord,{id},manifest) -> {schema,interpretationId,recordId,cacheKey,outputFingerprint}；不生成解读正文。
+interpretationStatus(record,binding,currentManifest) -> current/historical/mismatched/unbound，只有current可复用。旧解读可作为历史显示，不当成新版本解释；新版AI请求需重新绑定、重新获相应隐私授权，真实网关当前未由本模块接入，绝不自动启动AI。
+
+UI接入行为（仅install后）
+保留ew-life-charts-v1:<当前scope>与原schema1读写函数。Bazi open读取原快照，不调用当前adapter；原版字段显示为未知/历史，不自动重算；旧格式若当前展示器不支持，退回可导出的原JSON，不用新结果假装旧结果。
+只读档案不展示可直接改规则的表单；save不会覆盖旧档案，export导出原记录（保留旧savedAt）；新建/编辑仍透传现有入口，不改出生四字段。
+重算按钮先给独立确认sheet，列原UTC/出生资料与当前发布/teacher未确认提示；取消不计算。确认后真实调用原adapter，生成独立新id/链并追加，保留原档案；容量满直接拒绝。
+所有异步都用psToken/psCurrent、页面身份和动作nonce保护，保存前重读原数组；若期间其他动作改变档案则失败重试，不覆盖。本版Bazi append与delete-confirm使用同名账号WebLock：ew-life-charts-write-v1:<encodeURIComponent(scope)>。计算在锁外，获锁后重新读取当前账号原档案数组，核对actor/epoch/页面/nonce及原parent，合并后再检查并同步写回原档案键。只锁原档案数组，不保存整个personal payload。排队10秒未获锁则中止重试，绝不steal；回调完成/异常/关闭页面由浏览器释放。无API或SecurityError等实际获锁失败时明确停写，查看/导出保留。WebLocks是同一storage bucket内参与者的协作锁，并非localStorage CAS；未升级旧标签页及紫微/西方原写入者仍不参加，不能称全站原子。
+Ziwei/Western动作直接调用原处理函数，原储存内容和语义不扩展；主出生资料和Western独立城市档案均不写入。
+发布manifest及原日期/当前规则/输出指纹可展开查看。无真实已保存AI解释时仅显示绑定规则，不伪造任何AI已完成状态。
+运行中发布manifest不热切换；install相同manifest幂等，不同manifest要求重载。
+
+接入脚本（此轮未执行）
+06/负责人优化建议-B11接入准备.py 默认只读dry-run，核5个源哈希与锚点；只有显式--apply才写已有r4/build.py列表，不改core，不自动构建/启动服务/写数据库。
+未来由root按模块门禁顺序执行；加入CSS、helper和UI脚本，并把release脚本放所有现有脚本之后。若源hash改变必须人工审查并冻结新manifest，脚本不猜版本、不自动改为通过。
+之后root再正常生成APP/Cloud产物、维护prepare白名单/模块标记并跑全量回归；脚本不改这些公共入口。当前build未引用这些新文件。
+
+验证与待执行
+06/负责人优化建议-B11独立专项.cjs/.json：16组，通过；实际现有lunar-javascript+lcBaziCalculate，合成出生资料；含SHA、版本失效、输入/输出改动检测、旧时间未知、确认前不计算、new id/parent、同输入、20满不淘汰、切账号迟到、AI旧版不复用、无crypto拒绝。UI仅验证加载无副作用；未以此冒充实际页面验收。
+06/负责人优化建议-B11浏览器专项.cjs：准备11组真实UI检查；真实生辰表单/保存、原快照无复算/旧日期、取消与确认另存、20满明确拒绝、原样JSON导出、解读绑定元数据、其他两盘透传、四语375/430日夜、真实cookie换账号后延迟SHA不另存。
+06/负责人优化建议-B11实际专项.cjs：准备真实双端runner，--target=python或cloud；只允许自建随机SQLite或D1/R2状态，不接受既有--base，不触原库。运行前要求当前真实build确已包含本模块；按当前source/build/test身份绑定报告，旧runs保留。
+06/负责人优化建议-B11Python测试服务.py、B11Cloud测试服务.ts：仅测试入口，实际server/handleAPI、实际schema与构建，阻止外部provider；不模拟排盘或AI成功。
+此轮实际浏览器/服务wrapper/接入脚本均未执行。双端11组、完整60及新增门禁实际通过后才可将B11标为本机实现完成；专业规则与真实AI/老师样本仍按外部条件如实待办。
+
+
+WebLocks补强与额外证据（当前仍未接公共build）
+已按root授权解冻并修复仅新UI/helper。SHA canonical只用于校验与哈希，深拷贝保留原对象键序，避免追加时重排旧JSON；首轮双tab检测到的键序问题已修复并保留负责人优化建议-B11-WebLocks界面专项-首次失败.json。
+B11-WebLocks探针.cjs/.json：当前Chromium151.0.7922.34在localhost及独立file同URL双tab实际可获锁，每环境10组通过，含无锁lost update、加锁复读保留两次append、按资源名隔离、排队abort、异常/关页释放。未触APP/原库。
+B11-WebLocks界面专项.cjs/.json：真实浏览器加载当前实际core/原存储函数、实际历法适配器及新UI，合成账号上下文，localhost与file各6组通过（共12）；并发fresh save、明确重算各保留双方、删除/保存同锁、排队换账号不落盘、排队parent删除不复活、无锁只读/导出。该隔离上下文不冒充真实登录或完整APP/字体验收。
+准备的真实APP浏览器专项已增至11组，增加实际双tab重算/删除和无锁环境检查；Cloud QA已绑定public ASSETS，藏文强制确认EW Tibetan真实加载后才测量布局。实际11组尚未执行。
+依据：W3C Web Locks API https://w3c.github.io/web-locks/ 。当前实现只声称本机上述浏览器实证，不声称其他file浏览器/隐私容器/不同origin/旧代码也受保护。
+
+首屏布局修复（本次只解冻新UI/CSS）：默认fresh页面不再在盘面上方插版本长说明；真实可展开的“结果版本与保存说明”放在结果后方。历史只读另保留一句简明提示。日期/引擎/规则/老师未确认及AI旧解读边界仍在details中，原样导出和工具内明确另存保留。无支持时实际保存/删除明确失败，不能靠隐藏错误完成验收。新隔离协作回归12/12；实际双11已加入375x740首屏干支可见与版本展开检查，待新构建重跑。详细新证据见B11首屏布局修复说明.json。

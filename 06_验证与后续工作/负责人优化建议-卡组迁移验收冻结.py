@@ -1,0 +1,254 @@
+"""Read-only DR03/DR08 evidence gate; only main without --inspect writes a new receipt.
+
+No business service, regression, spreadsheet author or progress update is started.
+Previous frozen bytes and every final successful outer invocation must match.
+"""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import hashlib
+import importlib.util
+import json
+import sys
+
+ROOT=Path(__file__).resolve().parent.parent
+OUT=ROOT/'06_验证与后续工作'
+PREFIX='负责人优化建议-卡组迁移'
+BASELINE_SHA256='57ce07817449060e815bc9bcd1a529285451274c61487a2f9a5c2f7156092f46'
+IDS=['DR03','DR08']
+SUITES=[('full','全量',60),('special','专项',40),('visual','补充视觉',4),('b11-compat','B11兼容',11),('card-compat','抽卡兼容',25),('privacy-compat','逐域兼容',28),('closure-compat','注销兼容',27)]
+ENTRIES={'special':PREFIX+'专项.cjs','visual':PREFIX+'补充视觉.cjs','b11-compat':PREFIX+'B11兼容.cjs','card-compat':PREFIX+'抽卡兼容.cjs','privacy-compat':'负责人优化建议-隐私逐域专项.cjs','closure-compat':PREFIX+'注销兼容.cjs'}
+FINAL_SNAPSHOT=PREFIX+'-round3完整依赖诊断.json'
+STRICT_PREFLIGHT='06_验证与后续工作/负责人优化建议-卡组迁移入口预检-all-mwkb5un6-7e2021d8.json'
+STRICT_PREFLIGHT_SHA256='9d268f668139964607e34320d4e92c80e2254e5043b88fd1a977d1915f163a29'
+sha=lambda path:hashlib.sha256(Path(path).read_bytes()).hexdigest()
+read=lambda path:json.loads(Path(path).read_text(encoding='utf-8'))
+
+
+def local_path(name):
+    assert isinstance(name,str) and name and '\\' not in name and '\x00' not in name,name
+    relative=Path(name)
+    assert not relative.is_absolute() and '..' not in relative.parts,name
+    path=(ROOT/relative).resolve()
+    assert path.is_relative_to(ROOT) and path.is_file(),name
+    return path
+
+
+def hashes_match(mapping,label):
+    assert isinstance(mapping,dict) and mapping,(label,'empty identity')
+    for name,digest in mapping.items():
+        assert sha(local_path(name))==digest,(label,'bytes differ',name)
+
+
+def load(name,path):
+    spec=importlib.util.spec_from_file_location(name,path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+
+def stamp(value):
+    result=datetime.fromisoformat(value.replace('Z','+00:00'))
+    assert result.tzinfo is not None
+    return result
+
+
+def report_name(target,suite,title):
+    return PREFIX+'-'+('本轮' if target=='python' else '公网适配')+'全量回归结果.json' if suite=='full' else PREFIX+title+'-'+target+'.json'
+
+
+def collect():
+    baseline_path=OUT/(PREFIX+'-实施前核对.json')
+    assert sha(baseline_path)==BASELINE_SHA256,'Immutable preflight changed'
+    baseline=read(baseline_path)
+    hashes_match(baseline['protectedHistoricalSHA256'],'previous frozen history')
+    hashes_match(baseline['authorizedWorkbookBaselineSHA256'],'books before authorized DR03/DR08 edit') if not (OUT/(PREFIX+'-实施记录.json')).exists() else None
+    inventory=load('stage30_readonly_inventory',OUT/(PREFIX+'依赖盘点.py'))
+    snapshot_path=OUT/FINAL_SNAPSHOT
+    snapshot=read(snapshot_path)
+    current=inventory.inventory()
+    for field in ('sourceAndBuildHashes','canonicalSHA256','inputCount','independentRequiredCount','harnessCount','buildPreparationInputHashes','runtimeCompilerDependencyHashes','cardBuildPreparation','nodeExecutable'):
+        assert current[field]==snapshot[field],('Final snapshot changed',field)
+    assert snapshot['pass'] is True and not snapshot['missingFromHarness'] and not snapshot['harnessAdditional']
+    common=snapshot['sourceAndBuildHashes'];hashes_match(common,'final execution map')
+    preflight_path=local_path(STRICT_PREFLIGHT);assert sha(preflight_path)==STRICT_PREFLIGHT_SHA256
+    preflight=read(preflight_path)
+    assert preflight['pass'] is True and preflight['formalAcceptance'] is False and preflight['preparationOnly'] is False and preflight['incompleteMap'] is False
+    assert len(preflight['results'])==4 and all(row['pass'] is True for row in preflight['results']) and len(preflight['entries'])==14
+    assert preflight['sourceAndBuildHashes']==common and preflight['canonicalSHA256']==snapshot['canonicalSHA256']
+    full_selection=preflight['pythonFullDatabaseSelection']
+    assert full_selection['namespaceMatchesFreshBranch'] is True and full_selection['legacyNamedDatabaseSelected'] is False and full_selection['actualSourceAstVerified'] is True and full_selection['opensOrCreatesDatabase'] is False
+    assert full_selection['sourceSha256']==common['06_验证与后续工作/全量回归.cjs']
+    original_full=local_path('06_验证与后续工作/全量回归.cjs').read_bytes();needle='|八字样本|卡组迁移)'.encode('utf-8');assert original_full.count(needle)==1
+    assert hashlib.sha256(original_full.replace(needle,'|八字样本)'.encode('utf-8'))).hexdigest()==baseline['baselineSHA256']['06_验证与后续工作/全量回归.cjs'],'Only fresh namespace bytes may change, preserving original60 assertions and CRLF'
+    assert sha(local_path('06_验证与后续工作/公网适配全量回归.cjs'))==baseline['baselineSHA256']['06_验证与后续工作/公网适配全量回归.cjs'],'Original Cloud60 entry changed'
+
+    assert local_path('04_研发源码/app/r4/backend/bazi_samples_schema.sql').read_bytes()==local_path('04_研发源码/app/cloud/generated/bazi-samples-schema.sql').read_bytes(),'Shared SQL bytes diverged'
+    source=read(local_path('04_研发源码/app/r4/bazi-sample-source-manifest.json'))
+    hashes_match(source['sourceHashes'],'actual managed source manifest')
+    assert source['implementationReady'] is True and source['teacherConfirmed'] is False and len(source['sourceHashes'])==21
+    core={key:value for key,value in source.items() if key!='manifestSha256'}
+    assert hashlib.sha256(json.dumps(core,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')).hexdigest()==source['manifestSha256']
+    assert local_path('04_研发源码/app/r4/bazi-sample-source-manifest.json').read_bytes()==local_path('04_研发源码/app/cloud/generated/bazi-sample-source-manifest.json').read_bytes()
+    descriptor=read(local_path('04_研发源码/app/cloud/generated/bazi-sample-server-manifest.json'))
+    assert descriptor['implementationReady'] and descriptor['sourceBindingVerified'] and descriptor['sourceManifest']==source
+    assert descriptor['sourceManifestSha256']==source['manifestSha256'] and descriptor['appSha256']==sha(local_path('04_研发源码/app/cloud/generated/experience.html'))
+    marker=('<meta name="ew-bazi-sample-source" content="'+source['manifestSha256']+'">').encode('utf-8')
+    assert all(marker in local_path(name).read_bytes() for name in ('03_当前APP/东方智慧-首页体验R4.html','04_研发源码/app/cloud/generated/experience.html'))
+    runtime_reader=load('stage27_readonly_compiler_validator',OUT/'负责人优化建议-任务告警验收冻结.py')
+    start=stamp(snapshot['at']);verification={};captures={};runtime_hashes={};runtime_evidence={};compiler_common=None;invocations=set();native={};failures=[]
+    preflight_artifacts,preflight_runtime,preflight_compiler=runtime_reader.validate_runtime_artifacts({'runtimeArtifacts':preflight['artifacts']},common,'cloud','严格入口预检Cloud')
+    assert preflight_compiler==snapshot['runtimeCompilerDependencyHashes']
+    runtime_hashes.update(preflight_runtime);runtime_evidence['严格入口预检Cloud']=preflight_artifacts
+
+    for target in ('python','cloud'):
+        for suite,title,count in SUITES:
+            label=('Python' if target=='python' else 'Cloud')+title
+            path=OUT/report_name(target,suite,title);raw=read(path);run=raw.get('latest',raw)
+            assert run['pass'] is True and run['failed']==0 and run['passed']==count,(label,'not passed or wrong count')
+            rows=run['results'];assert len(rows)==count and all(row['pass'] is True for row in rows),label
+            assert len({row['name'] for row in rows})==count,(label,'duplicate case labels')
+            outer=run['cardMigrationLauncher']
+            assert outer['suite']==suite and outer['expectedCount']==count and outer['identityUnchanged'] is True,label
+            entry=('全量回归.cjs' if target=='python' else '公网适配全量回归.cjs') if suite=='full' else ENTRIES[suite]
+            assert outer['entry']=='06_验证与后续工作/'+entry,(label,'different actual entry')
+            family='closure' if suite=='closure-compat' else 'product-full' if suite=='full' and target=='python' else 'main'
+            assert outer['family']==family,(label,'different wrapper family')
+            assert outer['childExitCode']==0 and outer['reportFreshForInvocation'] is True,(label,'failed child or stale report')
+            assert outer['syntheticOnly'] is True and outer['productionEnabled'] is False,label
+            assert outer['sourceAndBuildHashes']==common,(label,'different final execution map')
+            assert outer['buildPreparationInputs']==snapshot['cardBuildPreparation'],(label,'managed FS input binding changed')
+            configured=outer['configuredNodeRuntime'];assert configured['sha256']==snapshot['nodeExecutable']['sha256'] and configured['toolchainIncludedInHandoff'] is False,(label,'Node executable differs')
+            assert outer['runId'] and outer['runId'] not in invocations,(label,'duplicate invocation')
+            invocations.add(outer['runId'])
+            assert stamp(outer['invocationStarted'])>=start and stamp(run['at'])>=stamp(outer['invocationStarted']),(label,'predates snapshot/start')
+            if raw.get('runs'):assert raw['runs'][-1]==run,(label,'latest/history mismatch')
+            compiler_run=dict(run);compiler_run['taskAlertLauncher']=outer
+            artifacts,artifact_hashes,compiler=runtime_reader.validate_runtime_artifacts(compiler_run,common,target,label)
+            runtime_hashes.update(artifact_hashes)
+            if family=='main':
+                assert outer['actualBootstrapCli'] is True,(label,'actual bootstrap missing')
+                anchor=outer['manifestFile'];manifest_path=local_path(anchor['path'])
+                assert anchor['path'].startswith('06_验证与后续工作/'+PREFIX+'manifest-') and sha(manifest_path)==anchor['sha256'],(label,'runtime manifest changed')
+                manifest=read(manifest_path);assert manifest['productionEnabled'] is False
+                assert outer['runtimeManifest']=={key:manifest[key] for key in ('core','manifestSha256')},(label,'manifest payload mismatch')
+                core=manifest['core'];app='03_当前APP/东方智慧-首页体验R4.html' if target=='python' else '04_研发源码/app/cloud/generated/experience.html'
+                assert core['backend']==target and core['appSha256']==common[app],(label,'actual bootstrap APP/backend mismatch')
+                expected_state=ROOT/outer['ownedDatabase'] if target=='python' else ROOT/outer['ownedState']/'state'
+                assert Path(core['statePath']).resolve()==expected_state.resolve(),(label,'actual owned state differs')
+                runtime_hashes[anchor['path']]=anchor['sha256']
+            else:
+                assert outer['actualBootstrapCli'] is False and outer['runtimeManifest'] is None and outer['manifestFile'] is None,(label,'unexpected bootstrap claim')
+            if target=='cloud':
+                runtime_evidence[label]=artifacts
+                if compiler_common is None:compiler_common=compiler
+                assert compiler==compiler_common==snapshot['runtimeCompilerDependencyHashes'],(label,'compiler changed')
+            if suite in ('special','visual'):
+                assert run['cardMigrationSourcesUnchanged'] is True and run['cardMigrationSources']==common,(label,'inner/outer mismatch')
+                native[label]={'coverage':run.get('coverage',{}),'actualRestarts':run.get('cardProcessRestarts',[]),'paginationProof':run.get('paginationProof')}
+            if suite=='special':
+                epochs=run.get('cardWorkerEpochs',[])
+                evidence=[row['evidence'] for row in epochs]+[run['actualCardImportWorkerEvidence']]
+                if target=='python':
+                    launches=[row for item in evidence for row in item.get('launches',[])]
+                    assert launches and any(item.get('actualManagedChildren') is True for item in evidence),(label,'actual fixed Node child evidence missing')
+                    assert {'parse','inspect','canonical'}<=set(row['operation'] for row in launches),(label,'actual worker operations incomplete')
+                    for row in launches:
+                        assert isinstance(row['pid'],int) and row['pid']>0 and row['shell'] is False and row['creationflags']&0x08000000,(label,'actual child did not exit safely')
+                        assert row['nodeSha256']==snapshot['nodeExecutable']['sha256'] and row['workerSha256']==common['04_研发源码/app/r4/backend/card_import_worker.cjs'],(label,'actual child executable/worker changed')
+                        assert 0<=row['stdinBytes']<=6*1024*1024 and 0<=row['stdoutBytes']<=8*1024*1024 and 0<=row['stderrBytes']<=65536,(label,'actual child stream bound exceeded')
+                        assert set(row['environmentKeys'])<= {'SystemRoot','WINDIR','TEMP','TMP','PATH','TZ','LANG'},(label,'actual child inherited excess environment keys')
+                        if row['exitCode']!=0:assert row.get('expectedFailure',{}).get('kind')=='compute_timeout' and row['expectedFailure'].get('expectedStatus')==504 and row['expectedFailure'].get('caseName')=='17 draft及来源和receipt真实SQL故障全回滚，原intent恢复且实际worker有界' and any(case['pass'] is True and case['name']==row['expectedFailure']['caseName'] for case in rows),(label,'unexpected failed actual worker child')
+                else:
+                    assert any(item.get('nativeImportedComputation') is True and item.get('calls') for item in evidence),(label,'native imported Cloud engine evidence missing')
+                native[label]['actualWorkerEvidence']=evidence
+
+            if suite=='full':
+                assert {'东方智慧-首页体验R4.html','发给负责人-东方智慧首页R4.html','计时后台-开发联调.html'}<=set(run['buildHashes']),label
+                if target=='cloud':assert {'generated/experience.html','generated/admin.html','generated/review.html','lib/eastern-api.ts','worker/index.ts','dist/server/index.js'}<=set(run['cloudBuildHashes']),label
+                for field,folder in [('buildHashes','03_当前APP'),('cloudBuildHashes','04_研发源码/app/cloud')]:
+                    for name,digest in run.get(field,{}).items():assert sha(local_path(folder+'/'+name))==digest,(label,'build changed',name)
+            # Shared full runners retain deterministic screenshot names. Bind every
+            # final actual capture after checking freshness; earlier attempts are
+            # preserved under separate byte-copy names before any retry.
+            if suite=='full':
+                full_captures=[p for p in OUT.glob(PREFIX+'-'+target+'-*') if p.suffix.lower() in {'.png','.webm'}]
+                assert full_captures,(label,'full native captures missing')
+                for capture in full_captures:
+                    assert capture.stat().st_mtime>=stamp(outer['invocationStarted']).timestamp(),(label,'stale full screenshot',capture.name)
+                    captures[capture.relative_to(ROOT).as_posix()]=sha(capture)
+                api_name=PREFIX+('-前后端接口实测证据.json' if target=='python' else '-公网适配接口实测证据.json')
+                api_path=OUT/api_name;assert read(api_path)['at']==run['at'],(label,'stale browser HTTP evidence')
+                captures[api_path.relative_to(ROOT).as_posix()]=sha(api_path)
+                for name in run.get('baziExperience',{}).get('captures',[]):
+                    assert '06_验证与后续工作/'+name in captures,(label,'Bazi capture not in final native map',name)
+            for name in run.get('captures',[]):
+                relative=name if name.startswith('06_') else '06_验证与后续工作/'+name
+                captures[relative]=sha(local_path(relative))
+            verification[label]={'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path),'passed':count,'failed':0,'at':run['at'],'reportRunId':run.get('runId'),'launcherRunId':outer['runId'],'freshReportVerified':True,'entry':outer['entry']}
+            for previous in raw.get('runs',[]):
+                if previous.get('pass') is not True:failures.append({'path':path.relative_to(ROOT).as_posix(),'at':previous.get('at'),'passed':previous.get('passed'),'failed':previous.get('failed'),'failedNames':[row['name'] for row in previous.get('results',[]) if row.get('pass') is not True]})
+    assert len(verification)==14 and all(sum(v['passed'] for k,v in verification.items() if k.startswith(t))==195 for t in ('Python','Cloud'))
+    diagnostic={};historical_remapping=[];historical_copies={}
+    for preserved_path in OUT.glob(PREFIX+'-round*保全-*.json'):
+        document=read(preserved_path)
+        for original,copy in document.get('originalToPreservedCopy',{}).items():
+            digest=document['preservedReportCopiesSHA256'][copy]
+            assert sha(local_path(copy))==digest,('Preserved bytes changed',copy)
+            historical_copies[(original,digest)]=copy
+    def resolved_history(mapping,source_report):
+        resolved={}
+        for original,digest in mapping.items():
+            path=local_path(original)
+            if sha(path)==digest:resolved[original]=digest;continue
+            copy=historical_copies.get((original,digest));assert copy,('Historical input changed without its original byte copy',source_report,original)
+            assert sha(local_path(copy))==digest
+            resolved[copy]=digest
+            historical_remapping.append({'evidence':source_report,'originalPath':original,'sha256':digest,'preservedCopy':copy})
+        return resolved
+    for path in OUT.glob(PREFIX+'*.json'):
+        if any(word in path.name for word in ('诊断','组件','入口预检','原报告前存','保全','场景','停止核验','局部','断点','基线核对','父节点','元数据','READY-source','复核')) and path!=snapshot_path:
+            diagnostic[path.relative_to(ROOT).as_posix()]=sha(path)
+            document=read(path)
+            for field in ('preservedReportCopiesSHA256','nativeEvidenceSHA256'):
+                if document.get(field):
+                    resolved=resolved_history(document[field],path.relative_to(ROOT).as_posix());hashes_match(resolved,'preserved failure evidence '+field);diagnostic.update(resolved)
+    for path in OUT.glob(PREFIX+'*构建.log'):diagnostic[path.relative_to(ROOT).as_posix()]=sha(path)
+    # Keep actual component/author/test source bytes as evidence without claiming
+    # their standalone scripts were executed by every formal gate.
+    for path in OUT.glob(PREFIX+'*'):
+        if path.is_file() and path.suffix in {'.py','.cjs','.mjs','.ts'}:
+            diagnostic[path.relative_to(ROOT).as_posix()]=sha(path)
+    helper_names=[PREFIX+'依赖盘点.py',PREFIX+'验收冻结.py',PREFIX+'进度回填.py',PREFIX+'最终核验.py',PREFIX+'-进度表回填.mjs',PREFIX+'-进度表校验.py']
+    helpers={path.relative_to(ROOT).as_posix():sha(path) for path in [OUT/name for name in helper_names]}
+    templates={n:sha(local_path(n)) for n in ['02_需求与设计参考/卡组导入模板-方向原文待审核.json','02_需求与设计参考/方向样卡-P528原文待审核.txt','02_需求与设计参考/旧卡示例归档-文件格式模板.json']}
+    assert templates['02_需求与设计参考/方向样卡-P528原文待审核.txt']=='24960b38b268ac7948fc1ad4fcecae02e5c6245667415e27558132ef538a2f58'
+    for py,cloud in [('card_import_schema.sql','card-import-schema.sql'),('card_history_migration_schema.sql','card-history-migration-schema.sql')]:
+        assert local_path('04_研发源码/app/r4/backend/'+py).read_bytes()==local_path('04_研发源码/app/cloud/generated/'+cloud).read_bytes(),'Shared card SQL diverged'
+    return {'at_beijing':datetime.now(timezone(timedelta(hours=8))).isoformat(),'module':PREFIX,'stage':30,'taskIds':IDS,'pass':True,
+      'status':'local-file-import-immutable-versions-pointer-rollback-and-own-legacy-batches-verified-materials-pending',
+      'scope':'本人管理员严格原字节文件预览、全部诊断与逐字段三语/来源差异、幂等独立待审草稿及私有来源、数据库不可变版本与严重下架单调、激活/回滚指针、完整历史分页、本人旧例独立归档/分批续办与冲突保护撤销、清理及闭户epoch最终写守卫。',
+      'verification':verification,'perBackendGateCount':195,'recordedIdentityChecked':True,
+      'identityMeaning':'All14 actual successful fresh child invocations bind the same complete independent pre-run execution map and current bytes. Actual Cloud emitted bundles, compiler graph and installed tool dependencies are verified separately.',
+      'reportIdentityHashes':common,'source_hashes':{n:h for n,h in common.items() if not n.startswith('03_当前APP/') and '/node_modules/' not in n and '/dist/' not in n and '/generated/' not in n},
+      'build_hashes':{n:h for n,h in common.items() if n.startswith('03_当前APP/') or '/dist/' in n or '/generated/' in n},'buildPreparationInputHashes':snapshot['buildPreparationInputHashes'],
+      'runtimeArtifactSHA256':runtime_hashes,'runtimeArtifactEvidence':runtime_evidence,'visualEvidenceSHA256':captures,'nativeEvidence':native,
+      'preservedHistoricalSHA256':baseline['protectedHistoricalSHA256'],'authorizedWorkbookBaselineSHA256':baseline['authorizedWorkbookBaselineSHA256'],
+      'diagnosticEvidenceSHA256':diagnostic,'historicalInputRemapping':sorted(historical_remapping,key=lambda row:(row['evidence'],row['originalPath'],row['sha256'])),'priorFailedRunsRetained':failures,'freezeHelperSHA256':sha(Path(__file__)),'deliveryHelperSHA256':helpers,
+      'preflight':{'path':baseline_path.relative_to(ROOT).as_posix(),'sha256':sha(baseline_path)},
+      'strictPreflight':{'path':STRICT_PREFLIGHT,'sha256':STRICT_PREFLIGHT_SHA256,'actualStartupChecks':4,'fullDatabaseSelection':full_selection},
+      'finalExecutionSnapshot':{'path':snapshot_path.relative_to(ROOT).as_posix(),'sha256':sha(snapshot_path),'canonicalSHA256':snapshot['canonicalSHA256'],'inputCount':snapshot['inputCount']},
+      'guide':{'path':'05_后台与研发说明/卡组导入与旧例迁移说明.txt','sha256':sha(local_path('05_后台与研发说明/卡组导入与旧例迁移说明.txt'))},
+      'sourceTemplatesSHA256':templates,'cardBuildPreparation':snapshot['cardBuildPreparation'],'nodeExecutable':snapshot['nodeExecutable'],
+      'managedBaziCompatibilityInputs':source['sourceHashes'],'productionEnabled':False,'productionMaterialsVerifiedBySystem':False,
+      'productionPending':['全套原创简繁英文案和卡面/统一卡背','作者与素材版权资料、真实审核人及经典出处','最终卡种与张数/次数/日界等确认规则','藏语母语审校','手机实机及生产部署'],
+      'limitations':['本机Python/本地Cloud/合成夹具与原生浏览器的软件证据，不证明正式卡组版权、专业内容审校或手机实机。','P528原文保持准确来源且仅待审，未生成繁体/英文审核稿，不默认正式36张。','legacy仅本人选择的旧例事实，原正文/版本/规则/时区仍unknown；不按当前卡组重算，不授予权威抽卡、AI或分享权益。','指针回滚不替换历史或退还次数；分批undo只移除本作业未后改新增记录，冲突/引用明确保留。','最小操作哈希/审计期限未确认为null；公司业务卡组与最小防重额度单独保护，不冒称供应商/备份已删除。'],
+      'privacyBoundary':'Private import/migration sources, previews, targets, operations and own legacy facts registered in real media references, current-owner export and same-transaction body erasure/epoch fences. Existing company deck content and minimal operational anti-replay protected explicitly.',
+      'toolchainIncludedInHandoff':False}
+
+
+
+if __name__=='__main__':
+    result=collect()
+    if '--inspect' in sys.argv:print(json.dumps({'pass':True,'gates':len(result['verification']),'perBackend':195,'inputs':len(result['reportIdentityHashes'])}));sys.exit(0)
+    target=OUT/(PREFIX+'-实施记录.json');assert not target.exists(),'Never overwrite frozen receipt'
+    target.write_bytes((json.dumps(result,ensure_ascii=False,indent=2)+'\n').encode('utf-8'))
+    print(json.dumps({'pass':True,'path':str(target),'sha256':sha(target),'stage':30},ensure_ascii=True))

@@ -1,0 +1,20 @@
+{
+  "kind": "fresh-actual-HTTP-SQLite-component-not-formal",
+  "runId": "83d299c00e6c4b91b47fa869b5d1ae63",
+  "results": [
+    {
+      "name": "unexpected actual component failure",
+      "pass": false,
+      "error": "{'path': '/api/auth/setup', 'status': 400, 'expected': 200, 'error': '文本长度应在 1 至 24 字之间。'}",
+      "stack": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移后端组件.py\", line 19, in main\n    password=secrets.token_urlsafe(18);owner=api(admin,'/api/auth/setup','POST',{'username':'card_'+run[:8],'password':password,'name':'Synthetic component admin'})['user']['id'];second=api(other,'/api/auth/register','POST',{'username':'second_'+run[:8],'password':secrets.token_urlsafe(18),'name':'Synthetic secondary'})['user']['id'];api(admin,'/api/admin/users/'+second,'PATCH',{'role':'admin'})\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移后端组件.py\", line 18, in api\n    assert status==expected,{'path':path,'status':status,'expected':expected,'error':v.get('error')};return v\n           ^^^^^^^^^^^^^^^^\nAssertionError: {'path': '/api/auth/setup', 'status': 400, 'expected': 200, 'error': '文本长度应在 1 至 24 字之间。'}\n"
+    }
+  ],
+  "syntheticOnly": true,
+  "professionalApproval": false,
+  "productionEnabled": false,
+  "base": "http://127.0.0.1:55567",
+  "database": "06_验证与后续工作\\card-import-component-83d299c00e6c4b91b47fa869b5d1ae63.sqlite3",
+  "ownedRuntimeStopped": true,
+  "passed": 0,
+  "failed": 1
+}

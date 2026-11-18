@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual-native-d1-import-diagnosis",
+  "at": "2026-11-17T09:53:44.161Z",
+  "runId": "d0d25c5b506a4358a23fa9f72907db9a",
+  "componentOnly": true,
+  "formalAcceptance": false,
+  "productionEnabled": false,
+  "restoredApiClaimed": false,
+  "r2RecoveryClaimed": false,
+  "failedSourceReport": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性恢复-d399983bcf4f4a66aaf1e26a77311767-组件结果.json",
+    "sha256": "079233a7a0ed2dacd2c43c6cbdb0dd79db0f07b6295efb262a0c0f89635ae980"
+  },
+  "repairProof": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性-性能修复复验.json",
+    "sha256": "06e3519db0e08a94c10795e9b59b620b4a4289737c87ea09bb2157d0f1a00b5b"
+  },
+  "authorization": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性性能修复授权基线-rev2.json",
+    "sha256": "1f8b83fa08f0d74dee7d1a1644e023f57b64263410b08fecc2ab202ef7f72edb"
+  },
+  "source": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性D1导入诊断.cjs",
+    "sha256": "83e8b372500e7989a7984330ec56d583db5a281e53b48459f6c15e142a19f7d1"
+  },
+  "sql": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性恢复-d399983bcf4f4a66aaf1e26a77311767-snapshot.sql",
+    "sha256": "2442409b0202b04c6ac8ccb100b1ced731bd4725d6c836e647ddc639372f0004",
+    "bytes": 348837,
+    "originalUnchanged": true
+  },
+  "ownedState": "04_研发源码/app/cloud/.wrangler/local-reliability-import-debug-d0d25c5b506a4358a23fa9f72907db9a",
+  "ownedConfig": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性恢复-D1导入诊断-d0d25c5b506a4358a23fa9f72907db9a-wrangler.json",
+    "sha256": "c77c721f20e0776db0e70f5f9ac8a95b386248f9b3d946184c4d2837a57c2fa0"
+  },
+  "nativeCli": {
+    "path": "04_研发源码/app/cloud/node_modules/wrangler/bin/wrangler.js",
+    "sha256": "72d02815cbffc9ad14e1667188296e7126e13f0d90bfbb6046db8e6c4b6ff39a"
+  },
+  "outcome": {
+    "childPid": 64708,
+    "childExitCode": 1,
+    "signal": null,
+    "timedOut": false,
+    "startFailure": false,
+    "logBytes": 776,
+    "logSha256": "4ec83c8a30e451c4e10413c618e80143fbe67e594dbe9f364ccf0205fb9f97a4",
+    "retainedTextLimitBytes": 2097152,
+    "diagnosis": {
+      "category": "missingTable",
+      "flags": {
+        "syntaxError": false,
+        "incompleteInput": false,
+        "foreignKey": false,
+        "checkConstraint": false,
+        "uniqueConstraint": false,
+        "notAuthorized": false,
+        "missingTable": true,
+        "tooManyStatements": false,
+        "statementTooLong": false,
+        "invalidOption": false,
+        "missingEnvironment": false
+      },
+      "errorCodes": [
+        "SQLITE_ERROR"
+      ],
+      "schemaTableNames": [
+        "users"
+      ],
+      "errorReferencedDdlKinds": [],
+      "rawTextPersisted": false,
+      "insertValuesPersisted": false
+    }
+  },
+  "elapsedMs": 1917.8319000000006,
+  "rawStdoutOrStderrPersisted": false
+}

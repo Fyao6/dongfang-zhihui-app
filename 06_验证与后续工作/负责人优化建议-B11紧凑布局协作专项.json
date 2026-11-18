@@ -1,0 +1,80 @@
+{
+  "at": "2026-11-12T15:05:04.283Z",
+  "kind": "isolated real browser two-tab B11 hook verification",
+  "actualAdapter": "lunar-javascript 1.7.7",
+  "syntheticAccountContext": true,
+  "fullAPPTest": false,
+  "providerRequests": 0,
+  "results": [
+    {
+      "environment": "localhost",
+      "checks": [
+        {
+          "name": "two concurrent fresh saves serialize and preserve both new IDs",
+          "pass": true
+        },
+        {
+          "name": "two explicit recomputations preserve both children and original timestamp",
+          "pass": true
+        },
+        {
+          "name": "Bazi delete-confirm joins the same lock without dropping another tab save",
+          "pass": true
+        },
+        {
+          "name": "account changes while queued prevent a stale archive append",
+          "pass": true
+        },
+        {
+          "name": "deleting a queued child parent stops stale recomputation from resurrecting it",
+          "pass": true
+        },
+        {
+          "name": "no Web Locks means no save/delete; snapshots remain viewable and exportable",
+          "pass": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "environment": "file",
+      "checks": [
+        {
+          "name": "two concurrent fresh saves serialize and preserve both new IDs",
+          "pass": true
+        },
+        {
+          "name": "two explicit recomputations preserve both children and original timestamp",
+          "pass": true
+        },
+        {
+          "name": "Bazi delete-confirm joins the same lock without dropping another tab save",
+          "pass": true
+        },
+        {
+          "name": "account changes while queued prevent a stale archive append",
+          "pass": true
+        },
+        {
+          "name": "deleting a queued child parent stops stale recomputation from resurrecting it",
+          "pass": true
+        },
+        {
+          "name": "no Web Locks means no save/delete; snapshots remain viewable and exportable",
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "browserVersion": "151.0.7922.34",
+  "sourceUnchanged": true,
+  "sourceHashes": {
+    "vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+    "life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+    "bazi-result-version.js": "e31c6787e85dc60c2bd4646d33535ed8347f51664feaa60192ca79e782985989",
+    "bazi-result-version-ui.js": "4b9c339cc8fb5c5f8b46c3cbeb2aaf86594a240fd41cdb1b1998e1389c1e03fb"
+  },
+  "pass": true
+}

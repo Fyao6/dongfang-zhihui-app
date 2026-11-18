@@ -1,0 +1,29 @@
+{
+  "pass": true,
+  "scope": "native D1 bootstrap component probe only; not final stage27",
+  "backend": "cloud",
+  "state": "04_研发源码/app/cloud/.wrangler/task-bootstrap-probe-20261117-010500-59d75b59",
+  "manifest": "06_验证与后续工作/负责人优化建议-任务告警-bootstrapCloud-20261117-010500-59d75b59.manifest.json",
+  "scriptSHA256": "5ed8d5679ddc00c96536edd0a9608e1c21f594d80c6d0385e24b26ab873c9b23",
+  "productionEnabled": false,
+  "checks": [
+    {
+      "name": "actual native Wrangler local fresh seed",
+      "exitCode": 0,
+      "ok": true,
+      "errorCode": null
+    },
+    {
+      "name": "same-state direct read-only SQLite marker verification",
+      "exitCode": 0,
+      "ok": true,
+      "errorCode": null
+    },
+    {
+      "name": "duplicate fresh bootstrap refused",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "fresh_state_and_manifest_required"
+    }
+  ]
+}

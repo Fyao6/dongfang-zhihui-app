@@ -1,0 +1,330 @@
+{
+  "baseCommit": "9b98ae9",
+  "scope": "CM integration only; root applies after previous module gate",
+  "files": [
+    {
+      "path": "04_研发源码/app/r4/backend/server.py",
+      "beforeSha256": "a15882288086cd09d27552fd7464d2f3272af2ce90052d9a04e575c4dab06b51",
+      "operations": [
+        {
+          "label": "import CM with supported module-loader fallback",
+          "anchor": "try:\r\n    from creator import Creator, init_schema as init_creator_schema",
+          "replacement": "try:\r\n    from commission import Commission, init_schema as init_commission_schema\r\nexcept ModuleNotFoundError:\r\n    import importlib.util\r\n    _commission_spec=importlib.util.spec_from_file_location('eastern_commission',Path(__file__).with_name('commission.py'))\r\n    _commission_module=importlib.util.module_from_spec(_commission_spec);_commission_spec.loader.exec_module(_commission_module)\r\n    Commission,init_commission_schema=_commission_module.Commission,_commission_module.init_schema\r\ntry:\r\n    from creator import Creator, init_schema as init_creator_schema",
+          "expectedCount": 1
+        },
+        {
+          "label": "initialize after unified commerce/membership",
+          "anchor": "            init_membership_schema(db)",
+          "replacement": "            init_membership_schema(db)\r\n            init_commission_schema(db)",
+          "expectedCount": 1
+        },
+        {
+          "label": "route before commerce and generic admin",
+          "anchor": "            commerce_result = Commerce(store, self, ApiError, rate_limit).route(method, path)",
+          "replacement": "            commission_result = Commission(store, self, ApiError, rate_limit).route(method, path)\r\n            if commission_result is not None:\r\n                return commission_result\r\n            commerce_result = Commerce(store, self, ApiError, rate_limit).route(method, path)",
+          "expectedCount": 1
+        },
+        {
+          "label": "own staff-only access metadata on auth status",
+          "anchor": "                return {'user': public_user(self.user), 'setupRequired': setup}",
+          "replacement": "                    commission_grant = db.execute('SELECT permission FROM commission_grants WHERE user_id=?',(self.user['id'],)).fetchone() if self.user and self.user['role'] in ('operator','reviewer') else None\r\n                commission_permission = 'admin' if self.user and self.user['role']=='admin' else commission_grant['permission'] if commission_grant else None\r\n                return {'user': public_user(self.user), 'setupRequired': setup, 'commissionPermission': commission_permission}",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "7a4fe292c47938ee8d697620063f1898f9c25f4ccaa7d1f9bf339eb8a531b865"
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "beforeSha256": "0ac8d0b433ad2514ae6ec6df13c1387a28953bb598fd71a9a1a879497a565790",
+      "operations": [
+        {
+          "label": "import CM API",
+          "anchor": "import {initMembership,membershipRoute} from './membership-lifecycle';",
+          "replacement": "import {initMembership,membershipRoute} from './membership-lifecycle';\r\nimport {initCommission,commissionRoute} from './commission-api';",
+          "expectedCount": 1
+        },
+        {
+          "label": "initialize CM after existing membership",
+          "anchor": "await initMembership(this);await initPrivacy(this);",
+          "replacement": "await initMembership(this);await initCommission(this);await initPrivacy(this);",
+          "expectedCount": 1
+        },
+        {
+          "label": "route CM before existing commerce",
+          "anchor": "const commerce=await commerceRoute(this,p,m,fail);",
+          "replacement": "const commissionResult=await commissionRoute(this,p,m,fail);if(commissionResult!==undefined)return commissionResult;const commerce=await commerceRoute(this,p,m,fail);",
+          "expectedCount": 1
+        },
+        {
+          "label": "own staff-only access metadata",
+          "anchor": "if(p==='/api/auth/status'&&m==='GET')return {user:pubUser(this.user),setupRequired:false};",
+          "replacement": "if(p==='/api/auth/status'&&m==='GET')return {user:pubUser(this.user),setupRequired:false,commissionPermission:this.user?.role==='admin'?'admin':['operator','reviewer'].includes(this.user?.role)?(await this.one('SELECT permission FROM commission_grants WHERE user_id=?',this.user.id))?.permission||null:null};",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "4b201976d682a9bcace1a2f35bd61072cdbab701d205265622d037f8fb18f9fe"
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/commerce.py",
+      "beforeSha256": "9af9e1ba7901363f5e5373557f33f8f63c4a0da5cf5a399ac0be488b4d085c45",
+      "operations": [
+        {
+          "label": "import CM derivation helpers",
+          "anchor": "HOLD_MS = 15 * 60 * 1000",
+          "replacement": "try:\r\n    from commission import snapshot_order as commission_snapshot_order, sync_commission_order as commission_sync_order\r\nexcept ModuleNotFoundError:\r\n    import importlib.util\r\n    _commission_spec=importlib.util.spec_from_file_location('eastern_commerce_commission',__import__('pathlib').Path(__file__).with_name('commission.py'))\r\n    _commission_module=importlib.util.module_from_spec(_commission_spec);_commission_spec.loader.exec_module(_commission_module)\r\n    commission_snapshot_order,commission_sync_order=_commission_module.snapshot_order,_commission_module.sync_commission_order\r\n\r\nHOLD_MS = 15 * 60 * 1000",
+          "expectedCount": 1
+        },
+        {
+          "label": "capture in SAME creation transaction after membership snapshot",
+          "anchor": "            if lifecycle:lifecycle.capture_order_snapshots(db,self.uid,oid,snapshots)",
+          "replacement": "            if lifecycle:lifecycle.capture_order_snapshots(db,self.uid,oid,snapshots)\r\n            commission_snapshot_order(db,oid)",
+          "expectedCount": 1
+        },
+        {
+          "label": "best-effort derivative at all authorized order return paths",
+          "anchor": "    def order(self, db, row):",
+          "replacement": "    def commission_processing(self, db, row):\r\n        opened=False\r\n        try:\r\n            db.execute('SAVEPOINT commission_derive');opened=True\r\n            result=commission_sync_order(db,row['id'])\r\n            rows=db.execute('SELECT status FROM commission_ledger WHERE order_id=?',(row['id'],)).fetchall()\r\n            db.execute('RELEASE SAVEPOINT commission_derive');opened=False\r\n            if not result.get('synced'):\r\n                return {'status':result.get('reason','unavailable'),'retryAvailable':False,'sandboxOnly':True,'actualPaid':False}\r\n            paid=row['payment_status'] in ('paid','partially_refunded','refunded')\r\n            return {'status':'awaiting_payment' if not paid else 'waiting_facts' if any(x['status']=='waiting_facts' for x in rows) else 'synchronized','ledgerItemCount':len(rows),'retryAvailable':False,'sandboxOnly':True,'actualPaid':False}\r\n        except Exception:\r\n            if opened:\r\n                try:\r\n                    db.execute('ROLLBACK TO SAVEPOINT commission_derive');db.execute('RELEASE SAVEPOINT commission_derive')\r\n                except Exception:\r\n                    pass\r\n            return {'status':'sync_pending','retryAvailable':True,'retryAction':'refresh-order','sandboxOnly':True,'actualPaid':False}\r\n\r\n    def order(self, db, row):",
+          "expectedCount": 1
+        },
+        {
+          "label": "include truthful processing receipt",
+          "anchor": "return {'membershipProcessing':membership_processing,'id': row['id']",
+          "replacement": "return {'commissionProcessing':self.commission_processing(db,row),'membershipProcessing':membership_processing,'id': row['id']",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "b1e9ef2fdf9b31bb0e8ac485f951d6134eae8cc76eaa0e3c9afb7b219d68032d"
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/commerce-api.ts",
+      "beforeSha256": "5af4660e0f9a0bf00f928b2983f281fe926248b7c1ed5bd96c3d6b2ef25a5bea",
+      "operations": [
+        {
+          "label": "import snapshot and derivative helper",
+          "anchor": "import {initMembership,MembershipLifecycle} from './membership-lifecycle';",
+          "replacement": "import {initMembership,MembershipLifecycle} from './membership-lifecycle';\r\nimport {commissionSnapshotStatements,syncCommissionOrder} from './commission-api';",
+          "expectedCount": 1
+        },
+        {
+          "label": "snapshot statements combined with existing membership SAME batch",
+          "anchor": "  if(lifecycle)ops.push(...lifecycle.captureStatements(owner,oid,preparedLines,snapshots));",
+          "replacement": "  if(lifecycle)ops.push(...lifecycle.captureStatements(owner,oid,preparedLines,snapshots));\r\n  ops.push(...commissionSnapshotStatements(a,oid));",
+          "expectedCount": 1
+        },
+        {
+          "label": "committed-commerce safe derivative",
+          "anchor": " const order=async(r:any)=>{",
+          "replacement": " const commissionProcessing=async(r:any):Promise<any>=>{\r\n  try{const result=await syncCommissionOrder(a,r.id),rows=await a.all('SELECT status FROM commission_ledger WHERE order_id=?',r.id);if(!result.synced)return {status:result.reason||'unavailable',retryAvailable:false,sandboxOnly:true,actualPaid:false};return {status:!['paid','partially_refunded','refunded'].includes(r.payment_status)?'awaiting_payment':rows.some((x:any)=>x.status==='waiting_facts')?'waiting_facts':'synchronized',ledgerItemCount:rows.length,retryAvailable:false,sandboxOnly:true,actualPaid:false};}\r\n  catch{try{await a.audit('commission.sync.pending',r.id,'统一交易事实保留；派生佣金可刷新重试，不重复付款或退款。');}catch{}return {status:'sync_pending',retryAvailable:true,retryAction:'refresh-order',sandboxOnly:true,actualPaid:false};}\r\n };\r\n const order=async(r:any)=>{",
+          "expectedCount": 1
+        },
+        {
+          "label": "truthful receipt on paid/refund/fulfill/GET/replay serializer",
+          "anchor": "return {membershipProcessing,id:r.id,ownerId:r.owner,",
+          "replacement": "return {commissionProcessing:await commissionProcessing(r),membershipProcessing,id:r.id,ownerId:r.owner,",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "f90430fe3ee343d59f481b7f3b7d4a17ee96cdf6430038d21dd294d8c19e9963"
+    },
+    {
+      "path": "04_研发源码/app/r4/time-bank-admin.html",
+      "beforeSha256": "1984ceb9bf41cb2ca5504e876ef92522ef67c05e9a8624345e370941ad29366e",
+      "operations": [
+        {
+          "label": "default denied, explicit staff grant navigation",
+          "anchor": "function allowedNavs(user=state.user){return Object.keys(labels).filter(k=>user?.role==='admin'||user?.role==='operator'&&!['users','settings','moderation','commerce','privacy','aiGateway','memberSubscriptions'].includes(k)||user?.role==='reviewer'&&['dashboard','posts','audits','creators','creatorReviews'].includes(k));}",
+          "replacement": "function allowedNavs(user=state.user){const cmAllowed=user?.role==='admin'||['operator','reviewer'].includes(user?.role)&&['business','finance','support'].includes(state.commissionPermission);return Object.keys(labels).filter(k=>k==='commission'?cmAllowed:user?.role==='admin'||user?.role==='operator'&&!['users','settings','moderation','commerce','privacy','aiGateway','memberSubscriptions','commission'].includes(k)||user?.role==='reviewer'&&['dashboard','posts','audits','creators','creatorReviews'].includes(k));}",
+          "expectedCount": 1
+        },
+        {
+          "label": "clear access receipt on identity invalidation",
+          "anchor": "Object.assign(state,{user:null,items:[],editing:null,settings:null,records:null,analytics:null,",
+          "replacement": "Object.assign(state,{user:null,commissionPermission:null,items:[],editing:null,settings:null,records:null,analytics:null,",
+          "expectedCount": 1
+        },
+        {
+          "label": "authoritative status receipt before shell",
+          "anchor": "state.user=d.user;if(state.user&&['admin','operator','reviewer'].includes(state.user.role))shell();",
+          "replacement": "state.user=d.user;state.commissionPermission=d.commissionPermission||null;if(state.user&&['admin','operator','reviewer'].includes(state.user.role))shell();",
+          "expectedCount": 1
+        },
+        {
+          "label": "login repeats authoritative bootstrap for fine-grained permission",
+          "anchor": "return;}shell();}catch(error){if(authCurrent(loginEpoch)",
+          "replacement": "return;}await authBootstrap();}catch(error){if(authCurrent(loginEpoch)",
+          "expectedCount": 1
+        },
+        {
+          "label": "new source marker before bootstrap",
+          "anchor": "/*__MEMBERSHIP_ADMIN__*/",
+          "replacement": "/*__MEMBERSHIP_ADMIN__*/\r\n/*__COMMISSION_ADMIN__*/",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "8be1db51de0432c2b462520a749458a477a327ca592ac5dc318f089d2e07391c"
+    },
+    {
+      "path": "04_研发源码/app/r4/build.py",
+      "beforeSha256": "b910aa9f3b8d34bb6553dd1994467bcd861d0c8103af1a7ca60cee52b23aa70d",
+      "operations": [
+        {
+          "label": "CSS inclusion",
+          "anchor": "'membership-lifecycle-ui.css'])",
+          "replacement": "'membership-lifecycle-ui.css','commission-center.css'])",
+          "expectedCount": 1
+        },
+        {
+          "label": "APP module before i18n finalization",
+          "anchor": "'membership-lifecycle-ui.js','i18n-ui.js'",
+          "replacement": "'membership-lifecycle-ui.js','commission-center.js','i18n-ui.js'",
+          "expectedCount": 1
+        },
+        {
+          "label": "admin injection",
+          "anchor": ".replace('/*__MEMBERSHIP_ADMIN__*/',(ROOT/'membership-lifecycle-admin.js').read_text(encoding='utf-8'))",
+          "replacement": ".replace('/*__MEMBERSHIP_ADMIN__*/',(ROOT/'membership-lifecycle-admin.js').read_text(encoding='utf-8')).replace('/*__COMMISSION_ADMIN__*/',(ROOT/'commission-admin.js').read_text(encoding='utf-8'))",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "504a04effe4968ac28daa6b8886295bf11c8a3b1a77fa9316c2519557ca02926"
+    },
+    {
+      "path": "04_研发源码/app/cloud/prepare.py",
+      "beforeSha256": "4271bbdf1b512b9adcfe4d7f5be04aefd9096a4aaa1215bd4835e354df8ff739",
+      "operations": [
+        {
+          "label": "Cloud admin injection",
+          "anchor": ".replace('/*__MEMBERSHIP_ADMIN__*/',(source/'membership-lifecycle-admin.js').read_text(encoding='utf-8'))",
+          "replacement": ".replace('/*__MEMBERSHIP_ADMIN__*/',(source/'membership-lifecycle-admin.js').read_text(encoding='utf-8')).replace('/*__COMMISSION_ADMIN__*/',(source/'commission-admin.js').read_text(encoding='utf-8'))",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "cba2a9f29901c0b470d27df7f2c846923f2e9e6086a057f3882a890ea7209db5"
+    },
+    {
+      "path": "04_研发源码/app/r4/frame-home-profile.js",
+      "beforeSha256": "f7dd0229db7fd63483dea3ba78c1e2d5062f442b35366fa194ccc7d41ed31ea3",
+      "operations": [
+        {
+          "label": "personal account real destination",
+          "anchor": "${flRow('clock',t('Time bank','时间银行'),t('Your actual time, in one place.','记录真实停留，回看日常累积。'),'timeBank')}",
+          "replacement": "${flRow('clock',t('Time bank','时间银行'),t('Your actual time, in one place.','记录真实停留，回看日常累积。'),'timeBank')}${flRow('report',flText('My commission reports','我的分佣报表','我的分佣報表','རང་གི་བགོ་འགྲེམ་རྩིས་ཐོ།'),flText('My account · sandbox bookkeeping','本人账号 · 沙箱记账','本人帳號 · 沙箱記帳','རང་གི་རྩིས་ཐོ། ཚོད་ལྟའི་རྩིས་ཐོ།'),'commissionCenter')}",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "b00357a66c20dd256a6ae75ab32cae60de7c54d7dda3115345ad97800ebb6951"
+    },
+    {
+      "path": "04_研发源码/app/r4/creator-center.html",
+      "beforeSha256": "7551f6857283dd6353c861d976f43430daa9c3cf3ab438315ba7ab2820c41f85",
+      "operations": [
+        {
+          "label": "creator real account report destination",
+          "anchor": "<a href=\"/experience\">返回东方智慧 APP ",
+          "replacement": "<a href=\"/experience?page=commissionCenter\">本人分佣报表（沙箱记账）</a><a href=\"/experience\">返回东方智慧 APP ",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "59efed1a18b2f3a1b05a2964e85189de356535975052d1254dd5295926cd3a7c"
+    },
+    {
+      "path": "04_研发源码/app/r4/navigation-back.js",
+      "beforeSha256": "c0bba8ca5d1ef41de54bc4c3c8290a730b99c20d4091d52791939d455a6e92fb",
+      "operations": [
+        {
+          "label": "back hierarchy retains profile",
+          "anchor": "const ewNavigation={",
+          "replacement": "ewNavigationDefaults.commissionCenter='profile';\nconst ewNavigation={",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "55f1224be687c5cf680f0a7ff90f2adfe6f6ef58d77cba3aacc2cdfec77e63e0"
+    },
+    {
+      "path": "04_研发源码/app/r4/commerce-ui.js",
+      "beforeSha256": "0afb8c52dd031e5cf3a3f40a46316cff79d9c8f55c0cddfff10fa477d860f926",
+      "operations": [
+        {
+          "label": "owner-visible derivative failure/retry status",
+          "anchor": "function coOrderPage(){",
+          "replacement": "function coCommissionProcessing(o){const p=o.commissionProcessing;if(!p||p.status==='awaiting_payment')return '';const pending=p.status==='sync_pending',missing=p.status==='missing_creation_snapshot';return `<section class=\"co-commission-processing\"><p>${pending?coText('The payment/refund record is retained. Commission synchronization is pending; retrying does not charge again.','付款/退款事实已保留，分佣同步待处理；重试不会再次扣款。','付款/退款事實已保留，分佣同步待處理；重試不會再次扣款。','དངུལ་སྤྲོད་ཟིན་ཐོ་ཉར་ཡོད། བགོ་དངུལ་མཐུན་སྒྲིག་སྒུག་པ།'):missing?coText('This historical order has no commission snapshot. Current rules will not be applied retrospectively.','此历史订单没有成交时分佣快照，不会按当前规则补算。','此歷史訂單沒有成交時分佣快照，不會依目前規則補算。','མངགས་ཐོ་རྙིང་པ་ལ་བགོ་འགྲེམ་སྒྲིག་གཞི་མེད།'):p.status==='waiting_facts'?coText('Commission bookkeeping awaits confirmed fee facts. No real transfer has occurred.','分佣记账仍待费用事实确认，未发生真实转账。','分佣記帳仍待費用事實確認，未發生真實轉帳。','གྲོན་དངུལ་ངོས་ལེན་སྒུག་པ། དངུལ་མ་བསྐུར།'):coText('Sandbox commission facts were checked. This is separate from settlement and real payments.','沙箱分佣事实已核对，与结算记账和真实付款分别处理。','沙箱分佣事實已核對，與結算記帳及真實付款分別處理。','ཚོད་ལྟའི་བགོ་དངུལ་ཞིབ་བཤེར། དངོས་དངུལ་མ་བསྐུར།')}</p>${pending?`<button class=\"btn secondary full\" type=\"button\" data-commerce-action=\"refresh\">${coText('Retry commission synchronization','重试分佣同步','重試分佣同步','བསྐྱར་དུ་མཐུན་སྒྲིག')}</button>`:''}</section>`;}\r\nfunction coOrderPage(){",
+          "expectedCount": 1
+        },
+        {
+          "label": "receipt inside actual order view",
+          "anchor": "${coAftersaleHistory(o)}",
+          "replacement": "${coAftersaleHistory(o)}${coCommissionProcessing(o)}",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "9bef5f570b27105cdc945d8febf3e2227fa677e533f9a08a0eb6fcc02cf78def"
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/privacy.py",
+      "beforeSha256": "28a6dacaf65aea1d424a4a19a02754672b280b4c28cb34d1c5b362e7db7f1f4a",
+      "operations": [
+        {
+          "label": "explicit owner/beneficiary export whitelist",
+          "anchor": "            'aiGatewayWallet': ('SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',),",
+          "replacement": "            'commissionLedger': (\"SELECT id,order_id,item_id,rule_id,rule_version,currency,quantity,refunded_quantity,base_minor,amount_minor,net_minor,status,freeze_until,payment_event,json_extract(data,'$.rule') AS rule_snapshot,json_extract(data,'$.orderItem') AS order_item,created,updated FROM commission_ledger WHERE beneficiary=?\",),\r\n            'commissionAdjustments': ('SELECT id,ledger_id,currency,refunded_quantity,amount_minor,target_minor,status,reason,source_event,created FROM commission_adjustments WHERE beneficiary=?',),\r\n            'commissionStatements': ('SELECT id,currency,total_minor,status,version,period_from,period_to,created,updated FROM commission_statements WHERE beneficiary=?',),\r\n            'commissionStatementLines': ('SELECT l.statement_id,l.kind,l.source_id,l.amount_minor FROM commission_statement_lines l JOIN commission_statements s ON s.id=l.statement_id WHERE s.beneficiary=?',),\r\n            'commissionPaymentSummary': (\"SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?\",),\r\n            'commissionOwnAttributions': ('SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?',),\r\n            'commissionOwnInvitations': ('SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?',),\r\n            'aiGatewayWallet': ('SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',),",
+          "expectedCount": 1
+        },
+        {
+          "label": "financial retention is explicit, no ledger deletion",
+          "anchor": "'commerce-ledger', 'ai-request-quota-metadata'",
+          "replacement": "'commerce-ledger', 'commission-ledger', 'ai-request-quota-metadata'",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "9f4c52da05a3ebd70304988ecde22ccc316706a12da30820c1bfb8ef0175cb33"
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/privacy-api.ts",
+      "beforeSha256": "b7cb59492a1b192d0a0fb297f89fd5db96eebbe77bf9aaf08ae5a02a00db70fc",
+      "operations": [
+        {
+          "label": "explicit owner/beneficiary export whitelist",
+          "anchor": "   aiGatewayWallet:'SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',",
+          "replacement": "   commissionLedger:\"SELECT id,order_id,item_id,rule_id,rule_version,currency,quantity,refunded_quantity,base_minor,amount_minor,net_minor,status,freeze_until,payment_event,json_extract(data,'$.rule') AS rule_snapshot,json_extract(data,'$.orderItem') AS order_item,created,updated FROM commission_ledger WHERE beneficiary=?\",\r\n   commissionAdjustments:\"SELECT id,ledger_id,currency,refunded_quantity,amount_minor,target_minor,status,reason,source_event,created FROM commission_adjustments WHERE beneficiary=?\",\r\n   commissionStatements:\"SELECT id,currency,total_minor,status,version,period_from,period_to,created,updated FROM commission_statements WHERE beneficiary=?\",\r\n   commissionStatementLines:\"SELECT l.statement_id,l.kind,l.source_id,l.amount_minor FROM commission_statement_lines l JOIN commission_statements s ON s.id=l.statement_id WHERE s.beneficiary=?\",\r\n   commissionPaymentSummary:\"SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?\",\r\n   commissionOwnAttributions:\"SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?\",\r\n   commissionOwnInvitations:\"SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?\",\r\n   aiGatewayWallet:'SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',",
+          "expectedCount": 1
+        },
+        {
+          "label": "financial retention is explicit, no ledger deletion",
+          "anchor": "'commerce-ledger','ai-request-quota-metadata'",
+          "replacement": "'commerce-ledger','commission-ledger','ai-request-quota-metadata'",
+          "expectedCount": 1
+        }
+      ],
+      "afterSha256": "83e899624c10e4fd7452ddcedfc7e2e1de80b667f31969ab814087ce7bb17ff5"
+    }
+  ],
+  "newSourcePrerequisites": {
+    "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+    "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+    "04_研发源码/app/r4/commission-admin.js": "82c29bca9561912aa7343df553b9f214cb3f1dcdf9243244f4154d0fb5305776",
+    "04_研发源码/app/r4/commission-center.js": "c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b",
+    "04_研发源码/app/r4/commission-center.css": "5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135"
+  },
+  "exports": {
+    "commissionLedger": "SELECT id,order_id,item_id,rule_id,rule_version,currency,quantity,refunded_quantity,base_minor,amount_minor,net_minor,status,freeze_until,payment_event,json_extract(data,'$.rule') AS rule_snapshot,json_extract(data,'$.orderItem') AS order_item,created,updated FROM commission_ledger WHERE beneficiary=?",
+    "commissionAdjustments": "SELECT id,ledger_id,currency,refunded_quantity,amount_minor,target_minor,status,reason,source_event,created FROM commission_adjustments WHERE beneficiary=?",
+    "commissionStatements": "SELECT id,currency,total_minor,status,version,period_from,period_to,created,updated FROM commission_statements WHERE beneficiary=?",
+    "commissionStatementLines": "SELECT l.statement_id,l.kind,l.source_id,l.amount_minor FROM commission_statement_lines l JOIN commission_statements s ON s.id=l.statement_id WHERE s.beneficiary=?",
+    "commissionPaymentSummary": "SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?",
+    "commissionOwnAttributions": "SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?",
+    "commissionOwnInvitations": "SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?"
+  },
+  "notExecuted": true,
+  "prerequisiteHistory": [
+    {
+      "reason": "pre D1 SQL fix",
+      "hashes": {
+        "04_研发源码/app/r4/backend/commission.py": "4e1b851a8db29391311e963ca279de988f8ed7805438e2409517e9eb10246e8a",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "b41fc69c87e06a21589038ebf3c8517cddddbf81093c75eac8734cfe1afb7e9c",
+        "04_研发源码/app/r4/commission-admin.js": "82c29bca9561912aa7343df553b9f214cb3f1dcdf9243244f4154d0fb5305776",
+        "04_研发源码/app/r4/commission-center.js": "c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b",
+        "04_研发源码/app/r4/commission-center.css": "5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135"
+      }
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "at": "2026-11-16T18:38:42.216270+00:00",
+  "pass": true,
+  "passed": 11,
+  "failed": 0,
+  "scope": "Actual product fence INSERT extracted from AST and unchanged trigger SQL on fresh synthetic SQLite; no formal HTTP/auth/settlement claim.",
+  "sourceSHA256": "a55304855989d821487379f785bc4701028b5b0648b96c74d140a4f70322e181",
+  "sqlInsert": "INSERT INTO ops_claim_fences VALUES(?,?,?,?,?,?,?,(CAST(strftime('%s','now') AS INTEGER)*1000+CAST(substr(strftime('%f','now'),4,3) AS INTEGER))+?)",
+  "checks": [
+    {
+      "name": "callback_actual_run_500ms_rejected_before_attempt",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 500,
+      "initialScheduleRemainingMs": 60000,
+      "elapsedMs": 0,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "callback_actual_schedule_500ms_rejected_before_attempt",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 60000,
+      "initialScheduleRemainingMs": 500,
+      "elapsedMs": 1,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "callback_strict_1000ms_boundary_rejected",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 1000,
+      "initialScheduleRemainingMs": 1000,
+      "elapsedMs": 0,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "callback_above_1000ms_accepted",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 1200,
+      "initialScheduleRemainingMs": 1200,
+      "elapsedMs": 0,
+      "accepted": true,
+      "callbackAttempts": 1,
+      "proofRows": 0
+    },
+    {
+      "name": "recovery_actual_500ms_rejected",
+      "pass": true,
+      "budgetMs": 9000,
+      "initialRunRemainingMs": 500,
+      "initialScheduleRemainingMs": 500,
+      "elapsedMs": 1,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "recovery_strict_9000ms_boundary_rejected",
+      "pass": true,
+      "budgetMs": 9000,
+      "initialRunRemainingMs": 9000,
+      "initialScheduleRemainingMs": 9000,
+      "elapsedMs": 0,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "recovery_above_9000ms_accepted",
+      "pass": true,
+      "budgetMs": 9000,
+      "initialRunRemainingMs": 9200,
+      "initialScheduleRemainingMs": 9200,
+      "elapsedMs": 0,
+      "accepted": true,
+      "callbackAttempts": 1,
+      "proofRows": 0
+    },
+    {
+      "name": "metadata_zero_budget_keeps_valid_500ms",
+      "pass": true,
+      "budgetMs": 0,
+      "initialRunRemainingMs": 500,
+      "initialScheduleRemainingMs": 500,
+      "elapsedMs": 1,
+      "accepted": true,
+      "callbackAttempts": 1,
+      "proofRows": 0
+    },
+    {
+      "name": "token_guard_preserved",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 60000,
+      "initialScheduleRemainingMs": 60000,
+      "elapsedMs": 0,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "current_admin_guard_preserved",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 60000,
+      "initialScheduleRemainingMs": 60000,
+      "elapsedMs": 0,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    },
+    {
+      "name": "current_config_guard_preserved",
+      "pass": true,
+      "budgetMs": 1000,
+      "initialRunRemainingMs": 60000,
+      "initialScheduleRemainingMs": 60000,
+      "elapsedMs": 1,
+      "accepted": false,
+      "callbackAttempts": 0,
+      "proofRows": 0
+    }
+  ],
+  "productionEnabled": false,
+  "oldDatabaseUsed": false,
+  "businessOrQAFileChanged": false
+}

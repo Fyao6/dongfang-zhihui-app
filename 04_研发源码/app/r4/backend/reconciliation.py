@@ -44,12 +44,14 @@ def parse(v,default=None):
     try:return json.loads(v) if isinstance(v,str) else v
     except (ValueError,TypeError):return default
 
-def build_report(data,metadata,observed_at,filters=None):
+def build_report(data,metadata,observed_at,filters=None,with_groups=False):
     """Pure computations on one captured snapshot; imported math helpers are pure."""
-    filters=filters or {};findings=[];checks=[];related_statements=set()
+    filters=filters or {};findings=[];checks=[];related_statements=set();current_group=['']
     def add(code,severity='error',order=None,item=None,source=None,currency=None,observed=None,expected=None,detail=''):
         findings.append({'id':code+':'+str(source or item or order or 'scope'),'code':code,'severity':severity,'orderId':order,'itemId':item,'sourceId':source,'currency':currency,'observed':observed,'expected':expected,'deltaMinor':safe(observed-expected) if integer(observed) and integer(expected) else None,'detail':detail})
+        if with_groups:findings[-1]['checkGroup']=current_group[0]
     def ready(code,*tables):
+        current_group[0]=code
         missing=[t for t in tables if not metadata[t]['exists'] or metadata[t]['truncated']]
         checks.append({'code':code,'status':'not-covered' if missing else 'covered','sourceTables':list(tables)})
         if missing:add(code+'_not_covered','not-covered',detail='Missing or truncated sources: '+','.join(missing))
@@ -256,6 +258,24 @@ def build_report(data,metadata,observed_at,filters=None):
     if filters.get('currency'):findings=[f for f in findings if f['currency'] in (None,filters['currency'])]
     errors=sum(f['severity']=='error' for f in findings);partial=any(not m['exists'] or m['truncated'] for m in metadata.values())
     return {'schemaVersion':1,'environment':'sandbox','scope':'current-read-only-consistency-snapshot','observedAt':observed_at,'readOnly':True,'productionEnabled':False,'realChannelReconciliationEnabled':False,'externalAlertsEnabled':False,'alertSent':False,'actualPaid':False,'fundsMutated':False,'filters':filters,'sourceScope':'bounded sandbox tables; filters select visible findings/totals and do not remove source truncation','statementScope':'whole statements intersecting the selected order','sources':metadata,'checks':checks,'uncovered':uncovered,'partial':partial,'aggregateCoverage':aggregate_coverage,'findings':findings,'counts':{'errors':errors,'warnings':sum(f['severity']=='warning' for f in findings),'notCovered':sum(f['severity']=='not-covered' for f in findings)},'totalsByCurrency':totals,'crossCurrencyGrandTotal':None,'conclusion':'mismatches-detected' if errors else 'partial-internal-coverage' if partial else 'no-detected-mismatch-in-covered-internal-checks'}
+
+def capture_snapshot(db):
+    """Server-only pure read capture; caller supplies its consistent read transaction."""
+    tables={r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    data={};metadata={}
+    for name,(table,columns,where) in SOURCES.items():
+        exists=table in tables
+        count=db.execute('SELECT count(*) FROM '+table+' WHERE '+where).fetchone()[0] if exists else 0
+        rows=[dict(r) for r in db.execute('SELECT '+columns+' FROM '+table+' WHERE '+where+' ORDER BY 1 LIMIT ?',(LIMIT,))] if exists else []
+        data[name]=rows
+        metadata[name]={'table':table,'exists':exists,'totalRows':count,'loadedRows':len(rows),'truncated':count>LIMIT,'limit':LIMIT}
+    return data, metadata
+
+
+def capture_report(db, observed_at=None, filters=None):
+    data,metadata=capture_snapshot(db)
+    return build_report(data,metadata,time.time_ns()//1_000_000 if observed_at is None else observed_at,filters)
+
 
 class Reconciliation:
     def __init__(self,store,handler,error,limiter):self.store,self.h,self.Error,self.rate=store,handler,error,limiter

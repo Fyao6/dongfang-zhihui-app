@@ -1,0 +1,416 @@
+{
+  "schema": 1,
+  "syntheticOnly": true,
+  "professionalValidation": false,
+  "teacherConfirmed": false,
+  "teacherConfirmedCaseCount": 0,
+  "purpose": "All examples are technical regression inputs, not independent calendar correctness or teacher-approved reference data.",
+  "baseDataset": {
+    "schema": 1,
+    "setId": "qa-bazi-samples",
+    "version": "synthetic-v1",
+    "title": "本轮合成八字样本，不代表专业标准",
+    "source": {
+      "kind": "synthetic",
+      "reference": "Owned local QA synthetic examples; no real birth record or teacher approval.",
+      "documentSha256": null,
+      "permissionReference": null
+    },
+    "cases": [
+      {
+        "caseId": "ordinary-male",
+        "label": "合成普通男样本（非老师标准）",
+        "tags": [
+          "ordinary",
+          "male"
+        ],
+        "input": {
+          "date": "1990-06-15",
+          "time": "23:30",
+          "sex": "male",
+          "name": "SYNTHETIC_BAZI_PRIVATE_BIRTH"
+        },
+        "context": {
+          "mode": "shared-current",
+          "legacyTimezone": null,
+          "archivedUtc": null,
+          "sourceRecordSha256": null,
+          "ambiguity": "reject",
+          "asOfUtc": "2026-06-15T04:00:00.000Z"
+        },
+        "options": {
+          "daySect": 2,
+          "yunSect": 2,
+          "trueSolarTime": false
+        },
+        "selection": {
+          "mode": "current",
+          "period": null,
+          "year": null,
+          "month": null
+        },
+        "expected": {
+          "/originalInput/date": {
+            "state": "value",
+            "value": "1990-06-15"
+          },
+          "/normalizedInput/utc": {
+            "state": "value",
+            "value": "1990-06-15T15:30:00.000Z"
+          },
+          "/rawOutput/pillars/0/stem": {
+            "state": "value",
+            "value": "庚"
+          },
+          "/rawOutput/periods/0/ganZhi": {
+            "state": "not_applicable",
+            "reasonCode": "before-first-period"
+          }
+        },
+        "expectedRuleIdentity": null,
+        "teacherApproval": {
+          "claimedReviewer": null,
+          "evidenceReference": null,
+          "evidenceSha256": null,
+          "verification": "unverified-external-claim"
+        }
+      }
+    ]
+  },
+  "cases": {
+    "ordinary-male": {
+      "caseId": "ordinary-male",
+      "label": "合成普通男样本（非老师标准）",
+      "tags": [
+        "ordinary",
+        "male"
+      ],
+      "input": {
+        "date": "1990-06-15",
+        "time": "23:30",
+        "sex": "male",
+        "name": "SYNTHETIC_BAZI_PRIVATE_BIRTH"
+      },
+      "context": {
+        "mode": "shared-current",
+        "legacyTimezone": null,
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {
+        "/originalInput/date": {
+          "state": "value",
+          "value": "1990-06-15"
+        },
+        "/normalizedInput/utc": {
+          "state": "value",
+          "value": "1990-06-15T15:30:00.000Z"
+        },
+        "/rawOutput/pillars/0/stem": {
+          "state": "value",
+          "value": "庚"
+        },
+        "/rawOutput/periods/0/ganZhi": {
+          "state": "not_applicable",
+          "reasonCode": "before-first-period"
+        }
+      },
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "unknown-time": {
+      "caseId": "unknown-time",
+      "label": "合成未知时刻，不猜完整盘",
+      "tags": [
+        "unknown-time"
+      ],
+      "input": {
+        "date": "1990-06-15",
+        "time": null,
+        "sex": "female"
+      },
+      "context": {
+        "mode": "shared-current",
+        "legacyTimezone": null,
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {
+        "/originalInput/time": {
+          "state": "value",
+          "value": null
+        },
+        "/rawOutput/pillars/0/stem": {
+          "state": "value",
+          "value": null
+        }
+      },
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "dst-overlap-earlier": {
+      "caseId": "dst-overlap-earlier",
+      "label": "合成海外重复时刻较早一次",
+      "tags": [
+        "overseas",
+        "dst-overlap",
+        "legacy-utc"
+      ],
+      "input": {
+        "date": "2021-11-07",
+        "time": "01:30",
+        "sex": "female"
+      },
+      "context": {
+        "mode": "legacy-reference",
+        "legacyTimezone": "America/New_York",
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "earlier",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {
+        "/normalizedInput/utc": {
+          "state": "value",
+          "value": "2021-11-07T05:30:00.000Z"
+        }
+      },
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "dst-overlap-later": {
+      "caseId": "dst-overlap-later",
+      "label": "合成海外重复时刻较晚一次",
+      "tags": [
+        "overseas",
+        "dst-overlap",
+        "legacy-utc"
+      ],
+      "input": {
+        "date": "2021-11-07",
+        "time": "01:30",
+        "sex": "female"
+      },
+      "context": {
+        "mode": "legacy-reference",
+        "legacyTimezone": "America/New_York",
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "later",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {
+        "/normalizedInput/utc": {
+          "state": "value",
+          "value": "2021-11-07T06:30:00.000Z"
+        }
+      },
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "dst-overlap-reject": {
+      "caseId": "dst-overlap-reject",
+      "label": "合成海外重复时刻未确认应拒绝",
+      "tags": [
+        "overseas",
+        "dst-overlap"
+      ],
+      "input": {
+        "date": "2021-11-07",
+        "time": "01:30",
+        "sex": "female"
+      },
+      "context": {
+        "mode": "legacy-reference",
+        "legacyTimezone": "America/New_York",
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {},
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "dst-gap": {
+      "caseId": "dst-gap",
+      "label": "合成海外缺失时刻应拒绝",
+      "tags": [
+        "overseas",
+        "dst-gap"
+      ],
+      "input": {
+        "date": "2021-03-14",
+        "time": "02:30",
+        "sex": "male"
+      },
+      "context": {
+        "mode": "legacy-reference",
+        "legacyTimezone": "America/New_York",
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {},
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    "legacy-utc": {
+      "caseId": "legacy-utc",
+      "label": "合成旧UTC保留原指纹，不套新共享偏移",
+      "tags": [
+        "legacy-utc"
+      ],
+      "input": {
+        "date": "1990-06-15",
+        "time": "23:30",
+        "sex": "male"
+      },
+      "context": {
+        "mode": "legacy-reference",
+        "legacyTimezone": "Asia/Shanghai",
+        "archivedUtc": "1990-06-15T14:30:00.000Z",
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {
+        "/normalizedInput/utc": {
+          "state": "value",
+          "value": "1990-06-15T14:30:00.000Z"
+        }
+      },
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    }
+  },
+  "privateCanaries": [
+    "SYNTHETIC_BAZI_PRIVATE_BIRTH"
+  ],
+  "limits": {
+    "maxImportBytes": 2097152,
+    "maxCases": 100,
+    "maxCaseCanonicalBytes": 262144,
+    "maxExpectedFieldsPerCase": 2000,
+    "maxExpectedValueBytes": 8192,
+    "maxCaseWorkerOutputBytes": 4194304,
+    "workerIpcInputBytes": 6291456
+  }
+}

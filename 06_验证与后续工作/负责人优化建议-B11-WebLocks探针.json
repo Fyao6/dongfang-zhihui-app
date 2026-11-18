@@ -1,0 +1,165 @@
+{
+  "at": "2026-11-12T13:31:39.614Z",
+  "runId": "mwdl6wv2_793a32",
+  "scope": "Owned synthetic pages, no actual app; browser semantics only",
+  "reference": "https://w3c.github.io/web-locks/",
+  "results": [
+    {
+      "name": "localhost",
+      "urlKind": "localhost",
+      "observations": {
+        "features": {
+          "isSecureContext": true,
+          "origin": "http://127.0.0.1:53828",
+          "locks": true,
+          "localStorage": true
+        },
+        "acquisition": {
+          "entered": true,
+          "error": null
+        },
+        "storageShared": true
+      },
+      "checks": [
+        {
+          "name": "actual exclusive lock acquired",
+          "pass": true
+        },
+        {
+          "name": "same name in another tab is excluded",
+          "pass": true,
+          "observed": true
+        },
+        {
+          "name": "another account resource is independent",
+          "pass": true,
+          "observed": true
+        },
+        {
+          "name": "queued request can abort without callback",
+          "pass": true,
+          "observed": {
+            "ran": false,
+            "error": "AbortError"
+          }
+        },
+        {
+          "name": "same URL tabs share synthetic storage",
+          "pass": true
+        },
+        {
+          "name": "unlocked whole-array update demonstrates lost append",
+          "pass": true,
+          "observed": [
+            "B"
+          ]
+        },
+        {
+          "name": "second writer remains queued",
+          "pass": true
+        },
+        {
+          "name": "lock plus reread preserves both appended records",
+          "pass": true,
+          "observed": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "name": "throwing callback releases lock",
+          "pass": true
+        },
+        {
+          "name": "closing lock owner releases it for next tab",
+          "pass": true
+        }
+      ],
+      "available": true
+    },
+    {
+      "name": "file",
+      "urlKind": "file",
+      "observations": {
+        "features": {
+          "isSecureContext": true,
+          "origin": "file://",
+          "locks": true,
+          "localStorage": true
+        },
+        "acquisition": {
+          "entered": true,
+          "error": null
+        },
+        "storageShared": true
+      },
+      "checks": [
+        {
+          "name": "actual exclusive lock acquired",
+          "pass": true
+        },
+        {
+          "name": "same name in another tab is excluded",
+          "pass": true,
+          "observed": true
+        },
+        {
+          "name": "another account resource is independent",
+          "pass": true,
+          "observed": true
+        },
+        {
+          "name": "queued request can abort without callback",
+          "pass": true,
+          "observed": {
+            "ran": false,
+            "error": "AbortError"
+          }
+        },
+        {
+          "name": "same URL tabs share synthetic storage",
+          "pass": true
+        },
+        {
+          "name": "unlocked whole-array update demonstrates lost append",
+          "pass": true,
+          "observed": [
+            "B"
+          ]
+        },
+        {
+          "name": "second writer remains queued",
+          "pass": true
+        },
+        {
+          "name": "lock plus reread preserves both appended records",
+          "pass": true,
+          "observed": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "name": "throwing callback releases lock",
+          "pass": true
+        },
+        {
+          "name": "closing lock owner releases it for next tab",
+          "pass": true
+        }
+      ],
+      "available": true
+    }
+  ],
+  "browserVersion": "151.0.7922.34",
+  "sourceUnchanged": true,
+  "sourceHashes": {
+    "04_研发源码\\app\\r4\\life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+    "04_研发源码\\app\\r4\\life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+    "04_研发源码\\app\\r4\\life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+    "04_研发源码\\app\\r4\\bazi-time.js": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+    "04_研发源码\\app\\r4\\bazi-result-version.js": "93b986427dadf4e35c46a13e09666b35d069f7732da40952897df7511cba773e",
+    "04_研发源码\\app\\r4\\bazi-result-version-ui.js": "7b8caa4a274dd39e6119c711c65d8e03954554e437a03fff855493e0a935f443"
+  },
+  "pass": true
+}

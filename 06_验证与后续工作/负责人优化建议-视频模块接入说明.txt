@@ -1,0 +1,69 @@
+负责人优化建议 首页视频模块接入说明
+
+范围与状态
+本模块依据原文P050至P082及V01至V04准备，五个独占源码已由主代理接入实际APP并重建。真实独立Python与Cloud HTTP/UI专项各22项通过；本代理未直接修改公共入口，主代理整套回归以其最终记录为准。没有把现有社群短片改名为APP正式介绍片，未发布公网，也未配置生产CDN。
+
+五个源文件
+04_研发源码/app/r4/home-video.js
+04_研发源码/app/r4/home-video.css
+04_研发源码/app/r4/home-video-admin.js
+04_研发源码/app/r4/backend/video.py
+04_研发源码/app/cloud/lib/video-api.ts
+
+公共入口接入点
+Python导入Video、validate_video_item、authorize_video_media。Video(store,handler,ApiError,rate_limit).route(method,path)在通用admin路由之前调用，非本模块返回None。init_schema不建新表，内容复用contents.kind=quotes，旧版本仍用revisions，操作仍用audits。
+Cloud导入videoRoute、validateVideoItem、authorizeVideoMedia。videoRoute(a,path,method,fail)在通用admin路由之前调用，非本模块返回undefined。initVideo是无新表入口。
+现有通用admin/content/quotes保存必须在已取得status并去除下划线元数据后，执行item=validate_video_item(item,status,ApiError)，再执行authorize_video_media(db,item,uid,ApiError)。Cloud对应validateVideoItem及await authorizeVideoMedia。不能只在新视频管理API校验，留旧入口绕过。
+现有admin/revisions恢复quotes也必须对将恢复的item与status执行同一结构及素材归属校验。视频配置使用校验返回的clean item；旧图文记录不被重写或要求字幕。
+未声明video却携带非空mediaUrl、subtitleTracks、mediaReviewed或rightsNote会被拒绝；把mediaType改image或删掉不能绕视频发布校验。正常只含图文与coverUrl的旧quotes保持兼容。
+authorize_video_media对视频和封面验证实际media表MIME及归属；其他账号私有素材不可通过猜测URL发布。已发布会员课程的mediaUrl和coverUrl不构成公开媒体授权，查询使用COALESCE(access,'public')区分。普通图文封面也检查image MIME，防把私有视频藏进coverUrl。
+标准公开媒体仍使用现有mediaUrl/coverUrl字段，现get_media/Cloud media对公开quotes的这些字段已有准确引用逻辑。字幕采用HTTPS外链或内嵌WEBVTT文字生成Blob track，不需要放宽通用/api/media MIME或把任意字符串引用变成公开授权。
+
+构建与前端顺序
+home-video.css加入现有CSS拼接，放在xuanliu等主题样式后。
+home-video.js在homepage/platform/xuanliu/journey/frame-kit及页面模块之后、i18n-ui之前加载。它包装homeBannerItems/dailyQuote/dailyBanner和renderNow，只对mediaType=video的轮播渲染专用封面卡；图片/文字返回原dailyBanner。停用视频会从轮播计数与内容选择同时排除，避免计数与卡片错位。
+home-video-admin.js注入现有后台script，放在load/labels/通用上传及鉴权函数定义之后、首次authBootstrap之前。该模块新增labels.homeVideos并包装load('homeVideos')，沿现有后台侧栏与authEpoch/seq防晚到响应；不需要另建后台页面。可在build.py注入一个新的HOME_VIDEO_ADMIN标记，或在最终后台脚本启动前拼入本文件。
+
+数据契约
+仍为quotes记录，示意字段：
+id:合法内容ID
+mediaType:'video'
+zh,en,hant,bo:四语标题
+bannerLabel及En/Hant/Bo、description及En/Hant/Bo、buttonLabel及En/Hant/Bo:沿现动态语言字段
+mediaUrl:HTTPS视频或/api/media/UUID
+coverUrl:HTTPS图片或/api/media/UUID
+subtitleTracks:[{lang:'zh'|'zh-Hant'|'en'|'bo',label:可选,text:真实WEBVTT文本}]，或各条使用url:HTTPS WebVTT地址，text和url二选一
+target:原允许APP页面或HTTPS网址，可选
+rightsNote:实际可核对的素材与商用授权依据，非凭据
+mediaReviewed:操作者已实际审看成片和材料的标记，不能当系统已独立验证授权
+enabled:布尔，正式停用建议归档
+原文建议约40秒、16:9横版1080p并非服务端强行固定时长；实际媒体编码、分辨率与跨端播放须正式素材实测。
+
+接口
+GET /api/admin/videos，admin/operator/reviewer可读。返回同一quotes中的视频记录，带_status/_position/_updatedAt。formalMediaPresent仅表示存在published元数据，不等于网络可播、CDN上线或版权已由系统核实。
+POST或PATCH /api/admin/videos，admin/operator可写；reviewer不可写。
+请求{item,status:'draft'|'published'|'archived',position:-10000至10000整数,expectedUpdatedAt:当前_updatedAt或新建时0}。
+乐观锁检查与版本写入同一事务；冲突409要求重新读取，防覆盖其他管理员更新。
+发布要求中文标题、真实视频地址、专用封面、简繁英三条字幕、已审标记及授权依据齐全。藏文字幕可另行审校补齐，四语标题字段都可维护。资料不齐可存草稿，不能用占位当完成。
+内嵌WEBVTT须有有效头、每条正确时间轴及文字、结束晚于开始；每条最多20000字符，总配置最多90000字符。读取本机.vtt只把文字加入配置，未伪称存入对象存储。
+
+播放生命周期
+首页只显示封面与明确播放按钮，进入首页不创建video、不自动播放。减少动态效果也不会触发自动预览。
+用户手动点击后使用真实原生video播放，默认静音，可开声音、暂停、选择字幕及全屏。完整视频等比展示；没有把宽封面比例强加给片源。
+打开播放器时暂停原轮播；关闭恢复之前的轮播暂停选择。切页、关闭、替换弹层、切后台均停止/暂停声音；切回前台不自动恢复播放。释放时清除src和Blob字幕URL。播放请求带意图版本，快速暂停/关闭不会被迟到play Promise重新启动。
+失败仍显示原封面、重试与关闭，不锁死首页。字幕失败不强迫隐藏可播放视频，可选择其他字幕或重新加载。
+外部字幕会启用anonymous CORS；对应视频和字幕CDN需真实配置CORS后在目标端验证。内嵌VTT以同源Blob track提供，不发送本机隐私资料。
+保留原图文轮播、现有练习入口与自动累计规则；是否被时间银行浮层遮挡，须在实际APP集成后专项验证。
+
+已执行隔离检查
+JS node --check、Python AST、Cloud独立tsc --noEmit通过。
+负责人优化建议-视频模块隔离自检.py：35项内存数据库检查通过，含旧图文兼容、发布素材门槛、字幕时间、恶意URL、改mediaType绕过阻断、其他账号私有/会员课程视频及封面拒绝、乐观锁、角色权限、内容版本与日志。
+负责人优化建议-视频控件隔离浏览器.cjs：受限127.0.0.1动态端口夹具，36项真实Chromium控件检查通过。验证四语、reduce-motion不自动播放、真实媒体手动播放/暂停/静音、原生字幕cue激活、关闭/离页停声释放、失败保留封面与重试、其他控件可用、旧图文及停用视频；无JS运行异常。
+浏览器夹具仅白名单提供新控件、字体及原有用户社群短片/封面，不提供真实APP账号接口，不读取原数据库，不下载媒体。该短片仅作测试片，不是正式介绍片。四张截图已逐张查看，无截断或重叠。
+以上35/36为独立预检。主代理接入后，负责人优化建议-视频实际双端专项.cjs自起全新SQLite与Cloud D1/R2状态，通过真实server.py与eastern-api.ts各22项HTTP/UI检查；当前最终run为Python mwdggxhw_c308c9和Cloud mwdggxha_f3182f（vh6dca），两端无JS异常、源码与构建身份不变，8张实际APP四语截图已查看。
+实际专项覆盖管理权限、真实素材上传、发布校验、旧入口防绕、旧图文兼容、乐观锁、版本回滚、私有及会员素材拒绝、后台真实保存、四语播放/暂停/静音/字幕cue、离页释放、时间银行自动累计、媒体失败重试、真实拖动防误触和停用归档后的媒体权限。
+真实专项曾发现后台form中name=id遮蔽form.id，使提交守卫未拦截浏览器原生提交；已改getAttribute('id')并由主代理重建，最终双端22项全部重跑通过。旧失败run和截图完整保留，不以失败批次冒称当前仍未通过，也不拿旧通过替代修后结果。
+这些结果仍不等于iOS/Android实机、正式片、商业版权审核或生产CDN验收；主代理整套回归需绑定最终实际构建。
+
+素材与制作待办
+见同目录负责人优化建议-首页介绍视频分镜初稿.txt。当前只有待审脚本/分镜，未制作正式片、未调用AI视频服务、未取得旁白或音乐商用授权、未接生产CDN。可在后续以真实APP录屏制作明确标记的无旁白无音乐待审初剪，不能冒称正式成片。

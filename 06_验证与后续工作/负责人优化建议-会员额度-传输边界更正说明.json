@@ -1,0 +1,27 @@
+{
+  "at": "2026-11-16T10:41:30.264Z",
+  "module": "负责人优化建议-会员额度",
+  "kind": "QA transport boundary correction",
+  "oldReportsPreserved": true,
+  "productionSupplierTested": false,
+  "oldWrapper": {
+    "path": "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts",
+    "sha256": "d3f717ee04198695bacb1483faa7b2f59c22566e685a15b80a11eb391244872b",
+    "overriddenOption": "redirect:manual"
+  },
+  "affectedCloudSpecialRuns": [
+    "mwj43kim_f20e20",
+    "mwj48rac_bfa48e",
+    "mwj4cdkd_dd5116"
+  ],
+  "affectedCloudVisualRuns": [
+    "mwj48rb1_a91fd4",
+    "mwj4cdkd_75d672",
+    "mwj4izoh_c55d23",
+    "mwj4mvnx_671b30"
+  ],
+  "beforeBoundary": "Actual server HTTP, independent local upstream HTTP/SSE and quota accounting were exercised. The QA URL mapping additionally overwrote redirect, so those runs do not verify preservation of the product gateway transport options.",
+  "finding": "Product Cloud AI gateway still selected redirect:error, unsupported by the installed workerd runtime as previously observed in PAY09 transport probes. The QA override masked that runtime boundary.",
+  "correction": "The QA wrapper now changes only the exact reserved .invalid endpoint to this run's exact loopback fixture URL, forwarding original options unchanged. Product Cloud gateway uses redirect:manual and retains its existing non-ok response rejection. Case14 now sends a genuine HTTP302 and checks upstream_http_302, one settlement and zero redirect-trap requests on both backends.",
+  "finalAcceptance": "Requires fresh final source/build bound dual-backend 21-case suites plus visual4, full60, membership29, gateway25 and trade31. Earlier runs remain historical evidence and are not final transport acceptance."
+}

@@ -1,0 +1,2182 @@
+{
+  "audit_kind": "98项逐条只读覆盖审计，不是98项完成证明",
+  "scope": {
+    "taskJSONModified": false,
+    "businessSourceModified": false,
+    "entryOrBuildModified": false,
+    "originalDatabaseRead": false,
+    "newFilesOnlyUnder06": true
+  },
+  "reviewed": {
+    "taskCount": 98,
+    "referencedVisibleParagraphCount": 577,
+    "missingSourceIds": [],
+    "readSourceFields": true,
+    "originalDocumentInstructionsTreatedAsSourceMaterial": true
+  },
+  "currentIntegrationOrder": "root最新顺序：卡片最终gate → P1保存快照/guarded legacy → B11 → 只读对账 → 独立沙箱售后。",
+  "critical": [
+    {
+      "priority": "P1",
+      "taskIds": [
+        "PR03",
+        "PR04"
+      ],
+      "finding": "旧legacy save不核启动epoch/消息tag，删会话或撤回后重新同意仍可能保存旧迟到回复。",
+      "evidence": [
+        "r4/backend/privacy.py:188-199",
+        "cloud/lib/privacy-api.ts:73-75",
+        "r4/backend/server.py:1115"
+      ],
+      "action": "新guarded保存模块已写，root已优先分派接入及真实双端门禁，不归为外部资料阻塞。",
+      "owner": "coverage_audit/root",
+      "remediationUpdate": {
+        "at_beijing": "2026-11-12T22:43:01.021466+08:00",
+        "source": "保存快照作者状态回报；root最终全量仍在合并",
+        "taskIds": [
+          "PR03",
+          "PR04"
+        ],
+        "status": "保存快照/guarded legacy已实际接入并重建；Python20/20、Cloud20/20通过，身份稳定，0浏览器错误；root新双60待合并。长期记忆CRUD/最终注销/备份期限调度仍未完成。",
+        "runs": {
+          "python": "mwdmvi6j_c33cc0",
+          "cloud": "mwdmvi6k_efd709"
+        }
+      }
+    },
+    {
+      "priority": "后续软件",
+      "taskIds": [
+        "SH03",
+        "SH04",
+        "SH05",
+        "PAY19"
+      ],
+      "finding": "缺完整受理/驳回/退货物流/实物验收/明确数量幂等入库链，原申请pending及退款不等于完整售后。",
+      "action": "root刚授权本agent准备独立默认关闭sandbox模块，只新增不接入口；资金继续原refund事实，原自动退款回库不能再次加库存。",
+      "owner": "review_first_half"
+    },
+    {
+      "priority": "后续软件",
+      "taskIds": [
+        "PR03"
+      ],
+      "finding": "真正长期记忆查看/编辑/清除未实现，saved请求快照不能冒充记忆。",
+      "action": "可先准备owner隔离、版本与撤回保护、用户明确维护的测试记录；生产用途/保留待确认，不能自动推断敏感记忆。"
+    },
+    {
+      "priority": "后续软件",
+      "taskIds": [
+        "PR04",
+        "PR05"
+      ],
+      "finding": "最终注销执行链、分域回执及自动期限清理调度未实现；当前仅pending-review/期限null。",
+      "action": "本机可准备审批/执行状态机、session撤销、候选dry-run与测试期限清理；生产财务/备份/供应商期限未知时停在待政策，不能虚报全删完成。"
+    },
+    {
+      "priority": "已分派准备",
+      "taskIds": [
+        "PAY16",
+        "PAY18"
+      ],
+      "finding": "只读对账/内部异常面板三个新源已写专项中，尚未接公共入口。",
+      "action": "不重复派工；后续真实渠道日账、回调积压、银行到账和外部告警仍须可信实际来源。",
+      "owner": "review_second_half"
+    },
+    {
+      "priority": "已备源待门禁",
+      "taskIds": [
+        "B11"
+      ],
+      "finding": "独立版本/协作锁/UI四源已冻结，尚未接构建；实际AI解释关联只有helper合同。",
+      "action": "接入原schema1存档并跑真实双端11/全量；后续把真实请求/保存解释与record/cacheKey/outputFingerprint对应，不以模型未接通代替版本层软件。",
+      "owner": "review_first_half/root"
+    },
+    {
+      "priority": "可安全准备",
+      "taskIds": [
+        "PAY05",
+        "PAY07",
+        "PAY08",
+        "PAY09",
+        "PAY13",
+        "PAY15",
+        "PAY20"
+      ],
+      "finding": "正式渠道路由、验证适配、持久化回调inbox/异步重试、查单乱序恢复、迟到无货待退款和凭证适配仍缺软件。",
+      "action": "基于已选官方协议和SDK准备默认关闭适配/去重状态机、明确fixtures和拒绝负例；不自造验签/收银/正式付款成功，不因接口可编程就声称银行/商户验收。"
+    },
+    {
+      "priority": "可安全准备",
+      "taskIds": [
+        "PR06",
+        "SV04",
+        "SVT01",
+        "SVT03",
+        "X01",
+        "X02",
+        "X03",
+        "X04"
+      ],
+      "finding": "仍可做部署元信息预检、会话失效/审计负例、含登录和写入的持续负载、含金融事实的恢复演练及本轮交接与公开资料核对。",
+      "action": "不临时自造生产MFA/加密，不把marker=true当部署证明；本机/Chromium/SQLite通过不能替代境外/PG/实机/真实渠道。"
+    }
+  ],
+  "externalBlockers": [
+    {
+      "tasks": [
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B12"
+      ],
+      "required": "老师规则/流派、神煞清单来源、逐字段标准样本与确认版本；不得修改受保护出生四字段或编老师确认。"
+    },
+    {
+      "tasks": [
+        "AI01",
+        "AI02",
+        "AI03",
+        "AI04",
+        "SVT02"
+      ],
+      "required": "紫微完整API/商业和数据条款/凭据；实际DeepSeek revision/权重校验/GPU配额预算及运行环境。公开版本与MIT核实已有，不等于实际部署。"
+    },
+    {
+      "tasks": [
+        "MB01",
+        "MB02",
+        "CM01",
+        "CM02",
+        "CM03",
+        "CM04",
+        "CM05"
+      ],
+      "required": "正式会员/首发作品收费权益、AI额度/重置、分佣基数/比例/冻结/结算/收款/终止规则。框架/隔离测试已实现不可重报未做。"
+    },
+    {
+      "tasks": [
+        "PC01",
+        "PC02",
+        "PAY05",
+        "PAY06",
+        "PAY07",
+        "PAY08",
+        "PAY11",
+        "PAY12",
+        "PAY14",
+        "PAY16",
+        "PAY20"
+      ],
+      "required": "真实签约主体/银行/国家/发行端/商品准入、商户产品ID、凭据、官方渠道测试环境和账单/通知/查询能力；未授权不能收费或采购。"
+    },
+    {
+      "tasks": [
+        "SH05",
+        "SH08"
+      ],
+      "required": "首批实物/数字商品、版权、规格/库存/价格、销售国、物流及正式售后联系人/政策。"
+    },
+    {
+      "tasks": [
+        "DR01",
+        "DR02",
+        "DR03",
+        "DR04",
+        "DR08"
+      ],
+      "required": "最终卡种/次数/时区日界、全卡组文案三语、作者审核和图片授权；36卡为建议，不能自动写正式生产卡。"
+    },
+    {
+      "tasks": [
+        "V01",
+        "V02",
+        "V04"
+      ],
+      "required": "品牌/脚本/旁白音乐和素材授权、语言审核、正式目标端与媒体CDN；现40秒初剪为待审。"
+    },
+    {
+      "tasks": [
+        "PR02",
+        "PR04",
+        "PR05",
+        "PR06",
+        "PR07"
+      ],
+      "required": "主体/地区/客服、接收方真实处理/删除协议、逐类与备份/财务保留政策，选定受管身份与云加密实际环境。"
+    },
+    {
+      "tasks": [
+        "SV01",
+        "SV02",
+        "SV03",
+        "SV05",
+        "SVT01",
+        "SVT03",
+        "X01"
+      ],
+      "required": "目标国/实际负载预算、云平台/区域/GPU/IAM/网络、正式PG/备份/切换环境及iOS/Android设备。"
+    }
+  ],
+  "doNotMisclassify": [
+    "数据缺失不阻止本地状态机、权限、字段校验、官方协议适配和测试工具准备；也不授权填写生产值。",
+    "生产硬关闭、sandbox不能解锁正式媒体/会员/钱包是正确安全边界，不按软件故障处理；正式履约hook仍需后续开发验收。",
+    "已写未接入或最终门禁中的新源不是未写：保存快照、B11、只读对账，以及已集成等待完整门禁收口的卡片。",
+    "一期服务预约/第三方入驻按明确触发条件启用；未确认首批包含它们时不为凑覆盖造完整子系统。",
+    "所有旧实施记录仅证明记录时点；本审计未重复执行业务测试，不能把原双60/31/29冒充未来新构建门禁。"
+  ],
+  "rows": [
+    {
+      "id": "G01",
+      "title": "盘点现有实现与数据",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P004",
+        "P043",
+        "P044",
+        "P045",
+        "P046",
+        "P047",
+        "P048",
+        "P562",
+        "P566",
+        "P567",
+        "P568",
+        "P619"
+      ],
+      "stage": "现状盘点已有；统筹未收口",
+      "local_next": "汇总本轮最新模块状态、未接源和分阶段工期范围；避免把旧报告当新构建证据。",
+      "external_blocker": "最终工期受规则/接口就绪及上线范围影响。",
+      "evidence": "现状核查、任务JSON、各模块实施记录"
+    },
+    {
+      "id": "G02",
+      "title": "锁定本轮范围与既有功能保护",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P044",
+        "P229",
+        "P619",
+        "P650",
+        "P656"
+      ],
+      "stage": "既有功能保护已有多轮回归",
+      "local_next": "新增模块完成后继续完整回归；对新接入源与实际构建绑定，保留原数据与旧证据。",
+      "external_blocker": "视觉/目标端最终验收未完成。",
+      "evidence": "实施记录、统一交易/会员/分佣全量"
+    },
+    {
+      "id": "G03",
+      "title": "建立统一商品订单权益与佣金关系",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P424",
+        "P461",
+        "P562",
+        "P573",
+        "P574",
+        "P620"
+      ],
+      "stage": "统一订单/权益/会员/佣金关系已接",
+      "local_next": "已统一保存独立状态；保持派生失败可重试，后续售后仍复用原订单/退款/库存事件。",
+      "external_blocker": "真实渠道和正式财务规则未齐。",
+      "evidence": "统一交易、会员订阅、分佣实施记录"
+    },
+    {
+      "id": "G04",
+      "title": "收齐九类外部资料并登记确认版本",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P582",
+        "P583",
+        "P584",
+        "P585",
+        "P586",
+        "P587",
+        "P588",
+        "P589",
+        "P590",
+        "P591",
+        "P592",
+        "P593",
+        "P594",
+        "P595",
+        "P596",
+        "P597",
+        "P598",
+        "P599",
+        "P600",
+        "P601",
+        "P602",
+        "P603",
+        "P604",
+        "P605",
+        "P606",
+        "P607",
+        "P608",
+        "P609",
+        "P610",
+        "P611",
+        "P612",
+        "P613",
+        "P614"
+      ],
+      "stage": "九类资料仍未收齐",
+      "local_next": "可维护提供方/版本/影响任务/待补方式清单，不需要先采购或向他人发送消息。",
+      "external_blocker": "老师样本、代理条款、主体银行、正式会员分佣、首批商品、地区预算、卡组授权、品牌、保留期限等。",
+      "evidence": "原文P582-P614"
+    },
+    {
+      "id": "G05",
+      "title": "控制待定规则的生产启用",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P004",
+        "P045",
+        "P046",
+        "P047",
+        "P287",
+        "P614",
+        "P619",
+        "P621",
+        "P622"
+      ],
+      "stage": "生产关闭/沙箱隔离已有",
+      "local_next": "继续以服务端拒绝为准；不得靠后台填true或演示数据宣称生产启用。",
+      "external_blocker": "各项正式业务规则及上线计划。",
+      "evidence": "交易/会员/分佣/AI/卡片新源"
+    },
+    {
+      "id": "V01",
+      "title": "确认视频脚本与分镜",
+      "module": "01 首页介绍视频",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P050",
+        "P051",
+        "P052",
+        "P053",
+        "P054",
+        "P055",
+        "P056",
+        "P057",
+        "P058",
+        "P059",
+        "P060",
+        "P061",
+        "P062",
+        "P063",
+        "P064",
+        "P065",
+        "P066",
+        "P067",
+        "P068",
+        "P069",
+        "P070",
+        "P071",
+        "P072",
+        "P073",
+        "P074",
+        "P075",
+        "P076",
+        "P607",
+        "P608",
+        "P609"
+      ],
+      "stage": "40秒六段分镜/旁白初稿已有",
+      "local_next": "可先做逐句多语校对清单、镜头时码及品牌待确认清单。",
+      "external_blocker": "品牌、旁白、语言和素材商业审核。",
+      "evidence": "首页视频实施记录、真实介绍片待审验收"
+    },
+    {
+      "id": "V02",
+      "title": "制作介绍片及完整素材包",
+      "module": "01 首页介绍视频",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P053",
+        "P076",
+        "P077"
+      ],
+      "stage": "真实录屏无声WebM初剪已有",
+      "local_next": "待审材料仍可做高分辨率重采、合适格式转码与字幕时码/文件一致性检查，不能把放大画面算原生1080p。",
+      "external_blocker": "正式脚本、旁白音乐/素材商用授权、生成工具额度及目标端确认。",
+      "evidence": "真实介绍片待审验收"
+    },
+    {
+      "id": "V03",
+      "title": "接入轮播视频与播放器",
+      "module": "01 首页介绍视频",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P079",
+        "P080",
+        "P082"
+      ],
+      "stage": "本机播放器与生命周期已验",
+      "local_next": "不需重做播放器；补目标端真实播放/弱网/字幕遮挡证据。",
+      "external_blocker": "正式成片与iOS/Android实机。",
+      "evidence": "首页视频实施记录双60+22"
+    },
+    {
+      "id": "V04",
+      "title": "配置视频后台与媒体分发",
+      "module": "01 首页介绍视频",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P081",
+        "P082",
+        "P627"
+      ],
+      "stage": "后台配置/归属保护已有",
+      "local_next": "可先做分发地址/CORS/Range/字幕可达性配置检查和失败诊断；不购买CDN。",
+      "external_blocker": "对象存储/CDN实际部署、域名CORS及实机。",
+      "evidence": "首页视频实施记录"
+    },
+    {
+      "id": "B01",
+      "title": "重组基础盘与独立流运区",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P085",
+        "P086",
+        "P087",
+        "P088"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "默认四柱/独立流运区与资料收起已实现；保留后续真实视觉验收。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B02",
+      "title": "调整表格列宽与详细字段展开",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P089",
+        "P090",
+        "P123"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "默认/展开字段、列宽及横滑已实现；继续按实际新构建核对完整字段。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B03",
+      "title": "提供专业完整盘面视图",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P091"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "完整6/7列对照已有；最终方案/视觉待确认，不需因老师样本缺失重做已完成视图。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B04",
+      "title": "校准字号间距与触控面积",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P092",
+        "P093",
+        "P094",
+        "P095",
+        "P096",
+        "P097",
+        "P098",
+        "P099",
+        "P100",
+        "P101",
+        "P102",
+        "P103",
+        "P104",
+        "P105",
+        "P106",
+        "P107",
+        "P108",
+        "P109",
+        "P110",
+        "P111",
+        "P112",
+        "P113",
+        "P114",
+        "P115",
+        "P116",
+        "P117"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "字号/16px留白已有专项；系统文字放大及目标端可进一步补证，不能用视口代替实机。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B05",
+      "title": "完善术语与神煞解释及无障碍辨识",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P119",
+        "P120",
+        "P123"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "术语、神煞数量、五行图例已实现；术语专业文案/翻译仍待老师及母语审校。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B06",
+      "title": "同步流运交互并避让时间银行",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P121",
+        "P122",
+        "P123",
+        "P657"
+      ],
+      "stage": "呈现软件本机已验、视觉待验",
+      "local_next": "流运/返回当前和时间银行已有回归；新页面继续验证浮层不遮挡，不改计时规则。",
+      "external_blocker": "项目方视觉确认；专业含义审核单列，不作为前端布局未实施理由。",
+      "evidence": "首批实施记录、八字原五专项"
+    },
+    {
+      "id": "B07",
+      "title": "确认并版本化老师排盘规则",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P126",
+        "P133",
+        "P134",
+        "P135",
+        "P136",
+        "P137",
+        "P138",
+        "P139",
+        "P140",
+        "P147",
+        "P586",
+        "P587",
+        "P588"
+      ],
+      "stage": "专业规则确认未完成",
+      "local_next": "可整理现实现口径/版本与差异模板，不能替老师选择真太阳时、换日、流派等。",
+      "external_blocker": "老师规则及确认记录。",
+      "evidence": "原文P126/P134-P140、现有计算源"
+    },
+    {
+      "id": "B08",
+      "title": "核查出生输入与海外时间处理",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P129",
+        "P130",
+        "P131",
+        "P132",
+        "P133",
+        "P134"
+      ],
+      "stage": "既有四字段口径已受用户保护；待定输入不擅改",
+      "local_next": "可审计原始输入/UTC转换记录、未知/歧义时刻的已有测试；不得私自恢复出生地等字段。",
+      "external_blocker": "老师所需规则与用户是否调整输入的明确确认。",
+      "evidence": "AGENTS、life-birth-entry/core、原文P130-P134"
+    },
+    {
+      "id": "B09",
+      "title": "逐项建立神煞计算规则",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P126",
+        "P141",
+        "P142",
+        "P159",
+        "P160"
+      ],
+      "stage": "现确定性神煞已有；未获老师规则认可",
+      "local_next": "可把现有每条规则、参照字段与来源导出成核对表，并建立输入到结果映射；不能自造正式神煞标准。",
+      "external_blocker": "老师神煞清单、来源及期望结果。",
+      "evidence": "life-chart-bazi-annotations、原文P142"
+    },
+    {
+      "id": "B10",
+      "title": "排查输入算法与前端列映射",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P126",
+        "P147",
+        "P163"
+      ],
+      "stage": "已有软件展示/适配回归；标准差异审计未完成",
+      "local_next": "可先生成现引擎原始输出—列绑定对照与差异分类器，不必等老师才能校验显示映射；专业正确性另验。",
+      "external_blocker": "老师标准样本及规则差异结论。",
+      "evidence": "原文P147、八字审查/回归"
+    },
+    {
+      "id": "B11",
+      "title": "实现规则升级与缓存结果追溯",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P143",
+        "P144"
+      ],
+      "stage": "四新源已备/冻结，未接构建",
+      "local_next": "按root顺序接入原存储，跑真实双端11组与全量；AI实际请求/保存解释还需关联recordId/cacheKey/outputFingerprint，不止元数据helper。",
+      "external_blocker": "老师规则仍未确认；真实AI上游另待，不阻止本机版本层。",
+      "evidence": "B11准备核验、16独立+20锁probe+12UIhook"
+    },
+    {
+      "id": "B12",
+      "title": "建立老师确认样本及回归",
+      "module": "02 八字排盘",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P148",
+        "P149",
+        "P150",
+        "P151",
+        "P152",
+        "P153",
+        "P154",
+        "P155",
+        "P156",
+        "P157",
+        "P158",
+        "P159",
+        "P160",
+        "P161",
+        "P162",
+        "P163",
+        "P629"
+      ],
+      "stage": "老师确认30样本未提供",
+      "local_next": "可准备可重复样本格式/差异报告和现库边界测试，但不得把合成或库自测冒充老师确认样本。",
+      "external_blocker": "老师确认输入/逐字段期望与规则版本；30建议须定稿。",
+      "evidence": "原文P148-P163、现有隔离测试"
+    },
+    {
+      "id": "AI01",
+      "title": "收齐Claude接口与数据处理条款",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P170",
+        "P171",
+        "P172",
+        "P173",
+        "P174",
+        "P175",
+        "P176",
+        "P177",
+        "P178",
+        "P179",
+        "P180",
+        "P181",
+        "P182",
+        "P183",
+        "P184",
+        "P185",
+        "P225",
+        "P589",
+        "P590",
+        "P591"
+      ],
+      "stage": "官方协议已核、紫微实际接口未齐",
+      "local_next": "三协议适配框架已有；可核对资料清单/错误映射，不替换模型假装Claude通道成功。",
+      "external_blocker": "紫微地址/model_id/鉴权/计量/地区/代理及数据条款、凭据。",
+      "evidence": "模型依据核实、统一AI网关实施记录"
+    },
+    {
+      "id": "AI02",
+      "title": "核实DeepSeek并自部署独立GPU推理",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P166",
+        "P167",
+        "P168",
+        "P169",
+        "P170",
+        "P171",
+        "P172",
+        "P173",
+        "P174",
+        "P175",
+        "P176",
+        "P177",
+        "P178",
+        "P179",
+        "P180",
+        "P181",
+        "P182",
+        "P183",
+        "P349"
+      ],
+      "stage": "指定版本公开依据已核，未部署",
+      "local_next": "可做固定revision与权重/推理配置校验清单、部署与质量评测脚本；未实际下载/验算不能报通过。",
+      "external_blocker": "GPU型号/配额/预算、实际权重和选定运行环境。",
+      "evidence": "模型依据核实"
+    },
+    {
+      "id": "AI03",
+      "title": "建设统一AI网关与场景路由",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P166",
+        "P187",
+        "P188",
+        "P192",
+        "P655"
+      ],
+      "stage": "三协议/四场景网关已接并本机验证",
+      "local_next": "不需重建网关；正式权益适配、实际模型/场景效果仍须接入验收。",
+      "external_blocker": "两上游实际配置/凭据/商业数据处理条款。",
+      "evidence": "统一AI网关实施记录双60+25"
+    },
+    {
+      "id": "AI04",
+      "title": "实现流式停止超时重试与授权备用",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P189",
+        "P192"
+      ],
+      "stage": "SSE停止/超时/独立授权备用已验",
+      "local_next": "维持事件级撤回/nonce门禁；补真实上游及移动网络断开验证，不能一次性文本冒充流。",
+      "external_blocker": "真实上游与网络/故障策略确认。",
+      "evidence": "统一AI网关实施记录"
+    },
+    {
+      "id": "AI05",
+      "title": "实现AI额度预留结算及费用记录",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P190",
+        "P191"
+      ],
+      "stage": "测试额度预留/幂等结算已验",
+      "local_next": "正式会员AI额度发放/周期重置及供应商账单对接仍是后续软件工作；可在隔离账本测同环境幂等，不开真实钱包。",
+      "external_blocker": "正式权益、计次规则、供应商价格/账单。",
+      "evidence": "统一AI网关/会员订阅记录"
+    },
+    {
+      "id": "AI06",
+      "title": "校验知识检索与工具调用权限",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P191",
+        "P192"
+      ],
+      "stage": "权限化只读白名单工具已验",
+      "local_next": "已拒资金/权限写工具；有明确授权语料时才能扩展检索，不把目录元数据工具宣称完整知识库。",
+      "external_blocker": "真实课程/知识库授权范围与上游工具输出。",
+      "evidence": "统一AI网关实施记录"
+    },
+    {
+      "id": "PR01",
+      "title": "建立全生态数据分类及AI最小输入",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P195",
+        "P196",
+        "P197",
+        "P198",
+        "P199",
+        "P200",
+        "P201",
+        "P202",
+        "P203",
+        "P204",
+        "P205",
+        "P206",
+        "P207",
+        "P208",
+        "P209",
+        "P210",
+        "P211",
+        "P212",
+        "P213",
+        "P214",
+        "P215",
+        "P216"
+      ],
+      "stage": "分类/最小输入/隔离已有",
+      "local_next": "新售后/记忆/注销领域继续列数据流及导出白名单；真实出站字段需接通后复核。",
+      "external_blocker": "实际接收方/处理用途及地区。",
+      "evidence": "隐私设置/AI网关/本人导出"
+    },
+    {
+      "id": "PR02",
+      "title": "新增隐私与AI设置及分项授权",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P195",
+        "P219",
+        "P220"
+      ],
+      "stage": "分项/总体授权及供应商绑定已有",
+      "local_next": "不重复做设置；正式披露从真实配置生成，缺资料应关而非写成已确认。",
+      "external_blocker": "主体/接收方/地区/政策正式文本与母语审校。",
+      "evidence": "隐私设置、全局registry桥"
+    },
+    {
+      "id": "PR03",
+      "title": "实现撤回授权与长期记忆管理",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P208",
+        "P209",
+        "P210",
+        "P220"
+      ],
+      "stage": "保存快照和P1 guard已接入/双端20通过，最终完整门禁中；其余子项仍缺",
+      "local_next": "先接guarded legacy和快照门禁；长期记忆需独立owner隔离的查看/编辑/清除、版本与撤回栅栏，现available=false不能算已完成。可先做明确用户维护记录的隔离软件，不自动推断敏感记忆。",
+      "external_blocker": "记忆用途/保留与是否采用向量服务的方案；真实外发仍需授权。",
+      "evidence": "privacy_saved新源/接口、隐私memoryAvailable=false",
+      "stage_at_initial_audit": "会话快照四新源已备；长期记忆仍未实现"
+    },
+    {
+      "id": "PR04",
+      "title": "实现删除导出与账号注销",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P221",
+        "P226"
+      ],
+      "stage": "保存快照和P1 guard已接入/双端20通过，最终完整门禁中；其余子项仍缺",
+      "local_next": "P1旧保存hook须接新事务epoch guard；再补最终注销审批/执行状态机与全session撤销、分域清理/保留回执，实际停用能力可复用既有管理员逻辑。不能pending-review冒充已关闭。",
+      "external_blocker": "供应商/向量/备份删除能力及财务保留例外政策。",
+      "evidence": "privacy.py188-199/server1115、privacy_saved、原文P221",
+      "stage_at_initial_audit": "整类删/导出已有；单条待接；最终注销仍未执行"
+    },
+    {
+      "id": "PR05",
+      "title": "明确数据期限备份清理与训练用途",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P222",
+        "P223",
+        "P224",
+        "P225",
+        "P610",
+        "P611",
+        "P612"
+      ],
+      "stage": "期限配置null未知；自动执行尚无",
+      "local_next": "仍缺本地清理调度/到期候选dry-run、幂等分域执行和可核对回执；可先以测试期限验证，未知期限一律跳过，不自行定生产天数。",
+      "external_blocker": "逐类实际天数、备份/财务保留目的和限制、代理存储条款。",
+      "evidence": "privacy.py DEFAULT_CONFIG.retention、隐私实施记录"
+    },
+    {
+      "id": "PR06",
+      "title": "落实加密后台强认证及最小权限",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P224",
+        "P226"
+      ],
+      "stage": "最小权限/元数据审计已有；生产强认证/加密未证",
+      "local_next": "可补现有会话失效、敏感访问审计负例、部署配置/存储元信息预检与验证清单；正式MFA/KMS/TLS采用选定受管方案和可靠SDK，不自写加密/TOTP或用布尔标记冒充。",
+      "external_blocker": "已选身份体系/域名、云账号IAM/KMS与真实加密/MFA部署证明。",
+      "evidence": "隐私实施记录、admin metadata路由"
+    },
+    {
+      "id": "PR07",
+      "title": "交付隐私文件与内容输出边界",
+      "module": "03 双模型AI与隐私",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P223",
+        "P224",
+        "P225",
+        "P226",
+        "P631"
+      ],
+      "stage": "本地数据说明已有；正式文件未齐",
+      "local_next": "可据真实实现更新第三方/保留删除矩阵及未完成标记，维持健康/传统命盘固定边界；真实模型输出仍未测。",
+      "external_blocker": "主体、客服、地区、条款与法律/内容审校。",
+      "evidence": "05隐私与AI数据处理说明、AI网关base instructions"
+    },
+    {
+      "id": "SH01",
+      "title": "增加商城入口及商城首页",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "待验收",
+      "source_ids": [
+        "P229",
+        "P230",
+        "P231",
+        "P232",
+        "P233",
+        "P656"
+      ],
+      "stage": "商城入口/分类搜索/购物车订单已有",
+      "local_next": "保留旧社群导航；正式分类精选需数据及运营配置，不能示例充正式。",
+      "external_blocker": "首批商品与视觉验收。",
+      "evidence": "统一交易实施记录双60+31"
+    },
+    {
+      "id": "SH02",
+      "title": "建设商品详情与购买信息",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P234",
+        "P235",
+        "P236",
+        "P237"
+      ],
+      "stage": "图文金额/库存配送退款快照已有",
+      "local_next": "商品规格/多变体及运营分类结构需按首批模型补齐；可先做可配置字段/空态，不编业务取值。正式权益期限与支付方式仍需适配。",
+      "external_blocker": "正式SKU/规格、价格、税运规则和渠道。",
+      "evidence": "commerce产品data/UI、原文P235/P237"
+    },
+    {
+      "id": "SH03",
+      "title": "建设支付结果订单中心与售后",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P238",
+        "P239",
+        "P240",
+        "P241",
+        "P242",
+        "P243",
+        "P255",
+        "P633"
+      ],
+      "stage": "本人申请pending与统一退款已有；独立售后处理链缺",
+      "local_next": "已新授权本人准备独立沙箱模块：按项申请→受理/驳回→退货物流→收货验收，进度真实，不把售后状态当资金到账。",
+      "external_blocker": "正式售后政策/客服与真实承运接口。",
+      "evidence": "commerce.aftersale、原文P243；root本轮新分派"
+    },
+    {
+      "id": "SH04",
+      "title": "建设商城管理后台",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P244",
+        "P245",
+        "P255"
+      ],
+      "stage": "商品/发货/退款后台已有；客服处理尚缺",
+      "local_next": "与SH03合并新模块，补角色受理/理由/退货验收及一次性库存事件；真实分类运营另补。不改原资金事实。",
+      "external_blocker": "正式权限运营方案及分类/退换货政策。",
+      "evidence": "commerce.py45/66/380、root新分派"
+    },
+    {
+      "id": "SH05",
+      "title": "落实实体商品履约规则",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P248",
+        "P251",
+        "P254",
+        "P255"
+      ],
+      "stage": "实物配送/拆单/发货与退款库存保护已有",
+      "local_next": "售后新模块须明确可重新入库数量并防原refund已回库双加；已发货才可退货验收，登记物流不能自动退款或全量入库。",
+      "external_blocker": "首批实物规格、销售国、真实物流、退换货政策。",
+      "evidence": "统一交易31、root售后新分派"
+    },
+    {
+      "id": "SH06",
+      "title": "关联数字作品与独立购买权益",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P249",
+        "P251",
+        "P255"
+      ],
+      "stage": "数字单购沙箱账/退款冲正已有",
+      "local_next": "正式媒体权益解析与短期鉴权/有效期适配仍需实现并独立验；保持沙箱绝不打开正式媒体，这是正确安全门禁。",
+      "external_blocker": "作品授权/期限及真实付款验单。",
+      "evidence": "统一交易/会员隔离验收"
+    },
+    {
+      "id": "SH07",
+      "title": "确定服务预约和第三方入驻范围",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P250",
+        "P252"
+      ],
+      "stage": "明确条件性不启用",
+      "local_next": "首期自营/授权作品且未含预约则无需造预约/入驻；只有明确触发后再做时区/名额/改期或商家结算。",
+      "external_blocker": "项目方首批范围与责任确认。",
+      "evidence": "原文P250/P252、任务备注"
+    },
+    {
+      "id": "SH08",
+      "title": "准备正式首批商品数据与授权",
+      "module": "04 社群商城",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P253",
+        "P254",
+        "P255",
+        "P598",
+        "P599",
+        "P600"
+      ],
+      "stage": "正式资料仍缺",
+      "local_next": "可提供商品资料导入校验/预览与空态，不填正式售价/授权。",
+      "external_blocker": "正式商品、版权、价格、库存、国家、履约、售后联系人。",
+      "evidence": "原文P254/P598-P600"
+    },
+    {
+      "id": "MB01",
+      "title": "配置会员方案及逐项权益",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P258",
+        "P259",
+        "P260",
+        "P261",
+        "P262",
+        "P263",
+        "P264",
+        "P265",
+        "P266",
+        "P267",
+        "P268",
+        "P269",
+        "P270",
+        "P271",
+        "P272",
+        "P273",
+        "P274",
+        "P275",
+        "P592",
+        "P593",
+        "P594"
+      ],
+      "stage": "方案/版本/有限周期配置与隔离订阅已有",
+      "local_next": "不重做会员生命周期；正式媒体/课程/AI额度和重置履约需后续hook与隔离验证，生产保持关闭。",
+      "external_blocker": "正式收费/权益与重置规则。",
+      "evidence": "会员订阅双29、CM兼容双29"
+    },
+    {
+      "id": "MB02",
+      "title": "完善会员中心披露与跨渠道映射",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P276",
+        "P277",
+        "P284"
+      ],
+      "stage": "本人原成交披露与渠道映射已有",
+      "local_next": "保留旧价格/条款快照；多端真实重复订阅防重需渠道验单映射落地。",
+      "external_blocker": "真实渠道商品ID、价格、渠道状态。",
+      "evidence": "会员订阅实施记录"
+    },
+    {
+      "id": "MB03",
+      "title": "提供取消续费退款恢复三个入口",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P279",
+        "P280"
+      ],
+      "stage": "三个独立沙箱管理入口已有",
+      "local_next": "网站/原生真实取消退款适配仍缺；仅提供官方帮助不能声称正式取消完成。",
+      "external_blocker": "渠道准入/凭据/退款政策。",
+      "evidence": "会员订阅实施记录"
+    },
+    {
+      "id": "MB04",
+      "title": "实现完整订阅状态与权益变更",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P281",
+        "P284"
+      ],
+      "stage": "隔离订单驱动生命周期已有",
+      "local_next": "维护真实付款事实与可重试派生；正式通知/权益同步另验，试用未确认保持关。",
+      "external_blocker": "渠道通知及正式试用/宽限/暂停规则。",
+      "evidence": "会员订阅双29、CM会员兼容"
+    },
+    {
+      "id": "MB05",
+      "title": "处理购买恢复单购保留与注销提醒",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P282",
+        "P283",
+        "P284"
+      ],
+      "stage": "本人恢复/单购保留/注销提醒已有",
+      "local_next": "最终注销执行链另由PR04补，真实跨设备receipt恢复仍需渠道集成，不清有效单购。",
+      "external_blocker": "真实交易查询、购买授权期限。",
+      "evidence": "会员订阅/注销提示实际UI"
+    },
+    {
+      "id": "CM01",
+      "title": "确认正式分佣文档与生产开关",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P287",
+        "P310",
+        "P311",
+        "P312",
+        "P313",
+        "P314"
+      ],
+      "stage": "正式规则缺但完整沙箱框架已接",
+      "local_next": "生产/实际打款固定关，不能把正式缺文档说成框架未写。",
+      "external_blocker": "正式分佣文档/参与层级/计佣/冻结/结算/收款/终止政策。",
+      "evidence": "分佣实施记录双60+31"
+    },
+    {
+      "id": "CM02",
+      "title": "建设分佣规则与归因管理",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P290",
+        "P291",
+        "P292",
+        "P293",
+        "P308"
+      ],
+      "stage": "规则版本/归因与成交快照已有",
+      "local_next": "保留first/last_touch及旧单快照，不重算旧账；链接运营规则待确认。",
+      "external_blocker": "正式归因冲突/有效期/对象政策。",
+      "evidence": "分佣实施记录"
+    },
+    {
+      "id": "CM03",
+      "title": "建设计佣基数与订单项台账",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P294",
+        "P295",
+        "P296",
+        "P297",
+        "P308",
+        "P315"
+      ],
+      "stage": "整数项台账/未知渠道费等待已有",
+      "local_next": "真实费用/到账导入后才能完整核账；只读对账作者准备中。",
+      "external_blocker": "渠道费/税费/舍入与正式基数。",
+      "evidence": "分佣/reconciliation新源"
+    },
+    {
+      "id": "CM04",
+      "title": "实现冻结审批结算及实际付款登记",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P298",
+        "P299",
+        "P304",
+        "P305",
+        "P308",
+        "P315"
+      ],
+      "stage": "冻结/双人审批/记账/测试凭证分开已有",
+      "local_next": "实际付款证据必须真实渠道，现actualPaid/proofVerified=false应保留；不临时做转账实现。",
+      "external_blocker": "正式周期/最低额/收款/银行及付款审批。",
+      "evidence": "分佣实施记录"
+    },
+    {
+      "id": "CM05",
+      "title": "实现分佣退款拒付冲正",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P300",
+        "P301",
+        "P308",
+        "P309",
+        "P315"
+      ],
+      "stage": "按项全部分退款/已结算追偿已有",
+      "local_next": "正式拒付仍需可信渠道事件；可用官方确定协议fixture做适配测试，不用管理员假状态冒充拒付。",
+      "external_blocker": "正式拒付来源和合作终止约定。",
+      "evidence": "分佣双31"
+    },
+    {
+      "id": "CM06",
+      "title": "提供分佣报表导出与角色分权",
+      "module": "05 会员与分佣",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P302",
+        "P303"
+      ],
+      "stage": "本人报表/安全CSV/即时grant权限已有",
+      "local_next": "内部一致性面板准备中；客服只必要元数据，不扩大原文读取权限。",
+      "external_blocker": "正式业务/财务运营授权。",
+      "evidence": "分佣实施记录、隐私导出"
+    },
+    {
+      "id": "SV01",
+      "title": "确认目标负载地区预算与云平台",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P318",
+        "P352",
+        "P601",
+        "P602",
+        "P603"
+      ],
+      "stage": "询价架构底稿已有；目标未定",
+      "local_next": "可维护两云等口径参数和决策模板，不能先买资源填完成。",
+      "external_blocker": "目标国、负载、媒体量、预算、团队平台决定。",
+      "evidence": "任务备注/海外架构底稿"
+    },
+    {
+      "id": "SV02",
+      "title": "评估主区域与GPU实际供应",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P342",
+        "P343",
+        "P344",
+        "P345",
+        "P346"
+      ],
+      "stage": "地区/GPU实际选型未完成",
+      "local_next": "可公开资料核对和测点脚本准备；地区存在不等于账户可申请该GPU。",
+      "external_blocker": "首发国、数据驻留、GPU配额与供应。",
+      "evidence": "原文P342-P346"
+    },
+    {
+      "id": "SV03",
+      "title": "设计隔离业务数据库媒体与GPU架构",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P319",
+        "P320",
+        "P321",
+        "P322",
+        "P323",
+        "P324",
+        "P325",
+        "P326",
+        "P327",
+        "P328",
+        "P329",
+        "P330",
+        "P331",
+        "P332",
+        "P333",
+        "P334",
+        "P335",
+        "P336",
+        "P337",
+        "P338",
+        "P339",
+        "P340",
+        "P341",
+        "P347",
+        "P348"
+      ],
+      "stage": "隔离架构设计已有；当前仍SQLite/D1",
+      "local_next": "PostgreSQL目标schema/迁移映射、恢复和媒体短时凭证的适配仍是软件工作，待选平台后做；不能说写了架构图即已部署。",
+      "external_blocker": "云选择/IAM、目标PG实例、CDN/媒体与GPU资源。",
+      "evidence": "任务备注、当前server/D1代码"
+    },
+    {
+      "id": "SV04",
+      "title": "落实环境隔离运维与安全基础",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P341",
+        "P349"
+      ],
+      "stage": "随机隔离测试与生产关已有",
+      "local_next": "可本机补只读部署预检、版本清单/迁移检查、故障/恢复脚本与发布回滚演练；不得临时自造生产加密/身份方案。",
+      "external_blocker": "真实网络私网/TLS/KMS/IAM、云MFA、部署/告警接收环境。",
+      "evidence": "PR06、SVT03、阶段记录"
+    },
+    {
+      "id": "SV05",
+      "title": "形成两云同口径详细询价",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P351",
+        "P352",
+        "P353",
+        "P354",
+        "P355",
+        "P356",
+        "P357",
+        "P358",
+        "P359",
+        "P360",
+        "P361",
+        "P362",
+        "P363",
+        "P364",
+        "P365",
+        "P366",
+        "P367",
+        "P368",
+        "P369",
+        "P370"
+      ],
+      "stage": "共同询价字段已列",
+      "local_next": "缺参数的项目保留unknown；可补官方计算器配置清单及报价记录模板，不用估价当实际报价。",
+      "external_blocker": "目标负载、实际模型/GPU、供应商报价/计费选择。",
+      "evidence": "任务备注、原文P352-P370"
+    },
+    {
+      "id": "SVT01",
+      "title": "执行普通业务与媒体性能测试",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P371",
+        "P372",
+        "P373",
+        "P374",
+        "P375",
+        "P376",
+        "P377",
+        "P385"
+      ],
+      "stage": "仅100匿名/20RPS/30秒探索，非正式达标",
+      "local_next": "可先补登录态多路业务/交易和媒体计时负载脚本、持续运行与失败归因；本机30分钟可做但仍非目标国验收。",
+      "external_blocker": "确认指标、目标国测点/网络、资源及正式环境。",
+      "evidence": "SVT01本机探索600请求报告"
+    },
+    {
+      "id": "SVT02",
+      "title": "执行模型实际性能与成本评测",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P181",
+        "P182",
+        "P183",
+        "P365",
+        "P366",
+        "P378",
+        "P379"
+      ],
+      "stage": "实际模型性能/费用未测",
+      "local_next": "评测采集工具可准备；固定输入/输出长度、并发与质量集，未知usage不当0。",
+      "external_blocker": "可用双模型、实际GPU/权重与费用。",
+      "evidence": "模型依据核实、AI网关限制"
+    },
+    {
+      "id": "SVT03",
+      "title": "执行容错与备份恢复演练",
+      "module": "06 海外服务器",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P380",
+        "P381",
+        "P382",
+        "P383",
+        "P384",
+        "P385",
+        "P637"
+      ],
+      "stage": "SQLite隔离在线备份恢复10项通过",
+      "local_next": "需扩到有实际沙箱订单/会员/佣金/抽卡和并发写的恢复一致性，并检查D1导出恢复；不能用空金融表或仅公开目录证明账不丢。",
+      "external_blocker": "PG主备/跨区/GPU故障环境、PITR、正式RPO/RTO和渠道流水。",
+      "evidence": "隔离备份恢复演练含备份后1写丢失"
+    },
+    {
+      "id": "PC01",
+      "title": "确认支付准入主体与各端商品路由",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P387",
+        "P388",
+        "P389",
+        "P390",
+        "P391",
+        "P392",
+        "P393",
+        "P394",
+        "P395",
+        "P396",
+        "P397",
+        "P398",
+        "P399",
+        "P400",
+        "P401",
+        "P402",
+        "P403",
+        "P404",
+        "P405",
+        "P406",
+        "P407",
+        "P408",
+        "P409",
+        "P410",
+        "P411",
+        "P412",
+        "P413",
+        "P414",
+        "P421"
+      ],
+      "stage": "业务路由规则文档已有，准入未确认",
+      "local_next": "可先做默认拒绝的发行端/国家/类型渠道矩阵配置校验与负例；未知场景不显示购买入口。",
+      "external_blocker": "主体银行、发行端、国家、商品、币种与当地政策结论。",
+      "evidence": "原文P388-P421"
+    },
+    {
+      "id": "PC02",
+      "title": "核实Stripe与PayPal真实业务准入",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P415",
+        "P416",
+        "P417"
+      ],
+      "stage": "商户业务准入仍外部阻塞",
+      "local_next": "准备真实业务说明与审核清单；不改名规避，不替渠道作批准结论。",
+      "external_blocker": "Stripe/PayPal实际商户注册/银行/业务审批。",
+      "evidence": "原文P416-P417"
+    },
+    {
+      "id": "PC03",
+      "title": "设计付款与结果查询流程",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P418",
+        "P419",
+        "P420"
+      ],
+      "stage": "沙箱核价到结果闭环已有",
+      "local_next": "正式收银/主动查单/异步处理中必须接可信服务端状态；不提示无凭据重付。",
+      "external_blocker": "真实渠道。",
+      "evidence": "统一交易/会员/分佣"
+    },
+    {
+      "id": "PAY01",
+      "title": "服务端商品价格",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P428",
+        "P429",
+        "P430"
+      ],
+      "stage": "服务端价格/版本/币种/税运已有",
+      "local_next": "正式渠道商品ID配置及校验层仍需接，不信任客户端价。",
+      "external_blocker": "正式SKU和渠道ID。",
+      "evidence": "统一交易31"
+    },
+    {
+      "id": "PAY02",
+      "title": "结算金额与条款展示",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P431",
+        "P432",
+        "P433"
+      ],
+      "stage": "金额/地址/会员成交条款已有",
+      "local_next": "优惠未确认保持禁用；正式支付确认条款以成交快照为准。",
+      "external_blocker": "正式税运/优惠/续费政策。",
+      "evidence": "交易/会员实际29"
+    },
+    {
+      "id": "PAY03",
+      "title": "金额精度与币种舍入",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P434",
+        "P435",
+        "P436"
+      ],
+      "stage": "整数金额/币种精度已有",
+      "local_next": "继续按实际支持币种边界核价/退款/CSV；生产渠道费用舍入另验。",
+      "external_blocker": "真实渠道结算和舍入规则。",
+      "evidence": "交易/分佣整数验证"
+    },
+    {
+      "id": "PAY04",
+      "title": "幂等创建订单",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P437",
+        "P438",
+        "P439"
+      ],
+      "stage": "订单/沙箱付款幂等已有",
+      "local_next": "正式创建渠道交易还要复用本方requestId/渠道幂等映射，不重建本方订单。",
+      "external_blocker": "渠道协议与准入配置。",
+      "evidence": "交易/会员并发验证"
+    },
+    {
+      "id": "PAY05",
+      "title": "支付渠道选择",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P440",
+        "P441",
+        "P442"
+      ],
+      "stage": "正式渠道路由软件未实现",
+      "local_next": "可在已选官方渠道资料基础上实现默认关的配置矩阵/适配接口与未支持拒绝用例；不是仅等商户才能写校验框架。",
+      "external_blocker": "发行地区/商户批准与实际产品ID。",
+      "evidence": "当前commerce仅sandbox、原文P442"
+    },
+    {
+      "id": "PAY06",
+      "title": "渠道收银与银行验证",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P443",
+        "P444",
+        "P445"
+      ],
+      "stage": "正式SDK/托管收银未接",
+      "local_next": "采用已选渠道官方SDK/托管页面，准备错误/返回状态接口；不写自家卡号收集或临时收银方案。",
+      "external_blocker": "商户/SDK选择与测试凭据、银行验证。",
+      "evidence": "原文P445、production关闭"
+    },
+    {
+      "id": "PAY07",
+      "title": "服务端验单",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P446",
+        "P447",
+        "P448"
+      ],
+      "stage": "真实验单适配未接",
+      "local_next": "可先按官方SDK建立严格输入/环境/账号/商品/金额映射与签名负例；没可信验签结果一律不发权。",
+      "external_blocker": "已选渠道实际端点、官方协议、凭据及商户配置。",
+      "evidence": "原文P448、commerce付款事件仅sandbox"
+    },
+    {
+      "id": "PAY08",
+      "title": "异步回调可靠接收",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P449",
+        "P450",
+        "P451"
+      ],
+      "stage": "持久化真实回调inbox/异步处理未实现",
+      "local_next": "可先建统一事件接收/去重/重试/死信/审计合同；验签用官方SDK与明确夹具，不自造签名或伪造正式事件。",
+      "external_blocker": "官方渠道事件协议/验签secret、公网回调。",
+      "evidence": "原文P451、现仅commerce_payment_events"
+    },
+    {
+      "id": "PAY09",
+      "title": "支付异常恢复与主动查单",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P452",
+        "P453",
+        "P454",
+        "P501"
+      ],
+      "stage": "正式查询/乱序恢复未实现",
+      "local_next": "可做已验证事件到业务状态的乱序/延迟/幂等状态机、本人处理中查询和补偿队列；真实查单仍必须官方适配。",
+      "external_blocker": "渠道通知和查询接口/凭据。",
+      "evidence": "原文P454/P501"
+    },
+    {
+      "id": "PAY10",
+      "title": "订单与权益一致性",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P455",
+        "P456",
+        "P457",
+        "P460"
+      ],
+      "stage": "沙箱付款权益原子/派生重试已有",
+      "local_next": "正式权益解析/补偿与付费媒体鉴权仍要接；保持单购/会员/环境分开，不能因测试隔离而开正式访问。",
+      "external_blocker": "真实已验证交易、正式权限/授权期限。",
+      "evidence": "交易/会员/分佣记录"
+    },
+    {
+      "id": "PAY11",
+      "title": "订阅生命周期同步",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P467",
+        "P468",
+        "P469",
+        "P498"
+      ],
+      "stage": "隔离生命周期已有，正式平台通知未接",
+      "local_next": "可复用现状态机完善渠道事件映射/重放fixture，不以通知正文代替Google实际查询。",
+      "external_blocker": "Apple/Google/网站协议/查询/实际凭据。",
+      "evidence": "会员订阅记录"
+    },
+    {
+      "id": "PAY12",
+      "title": "跨设备恢复购买",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P470",
+        "P471",
+        "P472",
+        "P503"
+      ],
+      "stage": "本人沙箱服务器恢复已有",
+      "local_next": "正式跨设备交易查询/receipt绑定适配仍缺，未绑定或他人交易不能领。",
+      "external_blocker": "渠道购买token/receipt验证。",
+      "evidence": "会员29"
+    },
+    {
+      "id": "PAY13",
+      "title": "库存预占与迟到支付处理",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P473",
+        "P474",
+        "P475"
+      ],
+      "stage": "原子预占和惰性过期释放已有，迟到成功退款队列缺",
+      "local_next": "可先做已验证付款迟到后的库存再分配/无货待退款状态队列及用户通知，不模拟正式收款或自动给无货商品发权。",
+      "external_blocker": "真实渠道迟到事件与退款能力、预占时长确认。",
+      "evidence": "commerce.expire、原文P475"
+    },
+    {
+      "id": "PAY14",
+      "title": "退款拒付及关联调整",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P476",
+        "P477",
+        "P478",
+        "P460",
+        "P504"
+      ],
+      "stage": "沙箱按项退款联动会员佣金已有",
+      "local_next": "正式退款/拒付适配仍缺；售后验收/库存与资金事实独立，不能用退款当收到货。",
+      "external_blocker": "真实退款能力、拒付来源和政策。",
+      "evidence": "交易/会员/分佣全链"
+    },
+    {
+      "id": "PAY15",
+      "title": "用户订单凭证",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P479",
+        "P480",
+        "P481"
+      ],
+      "stage": "本人真实沙箱订单与退款记录已有",
+      "local_next": "渠道凭证/票据状态模型与安全展示仍可预备，未知不得生成貌似正式付款凭证。",
+      "external_blocker": "渠道原始凭证与适用票据要求。",
+      "evidence": "commerce order本人接口"
+    },
+    {
+      "id": "PAY16",
+      "title": "财务每日对账",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P482",
+        "P483",
+        "P484",
+        "P504"
+      ],
+      "stage": "新只读对账三源准备中（已分派）",
+      "local_next": "作者正实现内部一致性快照/差异定位及权限/CSV；待集成真实双端门禁，不重复派工，不改原账。",
+      "external_blocker": "正式渠道日账/手续费/到账、税务与财务规则。",
+      "evidence": "reconciliation.py/ts/admin新源、作者状态"
+    },
+    {
+      "id": "PAY17",
+      "title": "资金操作权限与环境隔离",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P485",
+        "P486",
+        "P487"
+      ],
+      "stage": "admin资金门禁、专项grant与隔离已有",
+      "local_next": "可补敏感资金操作step-up接入点、会话失效及负例；正式强认证必须接选定受管身份体系，不自造OTP/加密。",
+      "external_blocker": "生产密钥/IAM/MFA/财务授权策略。",
+      "evidence": "分佣权限、PR06限制"
+    },
+    {
+      "id": "PAY18",
+      "title": "支付监控与告警",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P488",
+        "P489",
+        "P490"
+      ],
+      "stage": "新只读异常面板准备中（已分派）",
+      "local_next": "内部超时/缺权益/不同步/对账异常先可真实定位；回调积压、渠道失败和外部告警须有实际源/接收通道才能报已告警。",
+      "external_blocker": "外部告警接收/处理机制与正式事件源。",
+      "evidence": "reconciliation新源、作者状态"
+    },
+    {
+      "id": "PAY19",
+      "title": "用户支付自助与客服支持",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P491",
+        "P492",
+        "P493"
+      ],
+      "stage": "订单定位/自由理由售后已有",
+      "local_next": "补按重复扣款/未到账/恢复/退订分流的本人支持申请及后台可处理队列；与新售后状态链合并，客服未知不能填假联系方式。",
+      "external_blocker": "真实客服联系方式、SLA和渠道流程。",
+      "evidence": "原文P493、commerce.aftersale"
+    },
+    {
+      "id": "PAY20",
+      "title": "分范围上线开关与小额验证",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P494",
+        "P495",
+        "P496"
+      ],
+      "stage": "production硬关和沙箱标识已有",
+      "local_next": "可先做范围矩阵默认拒绝与上线前核对，不因缺批准而留下可误开入口。",
+      "external_blocker": "国家/渠道/类型上线批准及授权小额真实测试。",
+      "evidence": "统一交易/各生产开关"
+    },
+    {
+      "id": "PT01",
+      "title": "验证支付全链路与独立状态",
+      "module": "07 支付模块",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P424",
+        "P459",
+        "P460",
+        "P461",
+        "P499",
+        "P500",
+        "P501",
+        "P502",
+        "P503",
+        "P504",
+        "P639"
+      ],
+      "stage": "多模块沙箱实际回归已有",
+      "local_next": "真实渠道闭环仍未验；新增inbox/对账/售后各需独立幂等/状态/权限/并发证据，既有60不是这些新模块证明。",
+      "external_blocker": "真实验单、收银/银行验证及渠道账单。",
+      "evidence": "双31交易、双29会员、双31分佣"
+    },
+    {
+      "id": "DR01",
+      "title": "确认首期卡种与完整36卡方案",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P506",
+        "P507",
+        "P508",
+        "P509",
+        "P510",
+        "P511",
+        "P512",
+        "P513",
+        "P514",
+        "P515",
+        "P516",
+        "P517",
+        "P518",
+        "P519",
+        "P531",
+        "P604",
+        "P605",
+        "P606"
+      ],
+      "stage": "36卡为建议，正式卡种未定",
+      "local_next": "可保存可审核样卡/内容模板，不能编36张正式卡或变造授权。",
+      "external_blocker": "卡种体系/完整卡组及版权。",
+      "evidence": "原文P507/P531、卡片默认关闭"
+    },
+    {
+      "id": "DR02",
+      "title": "确认次数主题卡池与日界规则",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P521",
+        "P530"
+      ],
+      "stage": "规则可配置/沙箱防重已写，正式日界未批",
+      "local_next": "正式配置继续null关闭；软件已测时区/换主题/同日防重，不因规则未定说功能没写。",
+      "external_blocker": "项目方次数/时区切换规则。",
+      "evidence": "card_service新源/实际双25作者状态"
+    },
+    {
+      "id": "DR03",
+      "title": "制作逐卡内容与三语言资料",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "待资料",
+      "source_ids": [
+        "P522",
+        "P523",
+        "P524",
+        "P525",
+        "P526",
+        "P527",
+        "P528"
+      ],
+      "stage": "逐卡schema/审核后台已有，正式内容未齐",
+      "local_next": "方向样卡/语言缺项检查可先做，不生成伪引文/诊断承诺，不拿沙箱夹具充全卡组。",
+      "external_blocker": "完整简繁英、作者/审核/素材授权与母语审校。",
+      "evidence": "原文P523-P528、卡片后台"
+    },
+    {
+      "id": "DR04",
+      "title": "设计卡面与抽卡页面视觉",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P533",
+        "P534",
+        "P550",
+        "P551",
+        "P552"
+      ],
+      "stage": "五源已集成；最终整套门禁中",
+      "local_next": "页面/编辑文字/卡背与四语64视图已有实际专项；正式设计/卡面素材待审，不重复开发。",
+      "external_blocker": "最终卡面视觉/全套授权图。",
+      "evidence": "卡片双25已过、root双60合并中"
+    },
+    {
+      "id": "DR05",
+      "title": "实现抽取前中后与已用次数状态",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P535",
+        "P536",
+        "P537",
+        "P538",
+        "P539",
+        "P540",
+        "P541",
+        "P542",
+        "P543",
+        "P544",
+        "P545",
+        "P546",
+        "P547",
+        "P548",
+        "P559"
+      ],
+      "stage": "抽前中后/防重/弱网恢复已集成",
+      "local_next": "分享异步修复已复测；待root当前完整门禁合并，不用旧失败报告或未重建报告冒充。",
+      "external_blocker": "最终规则和目标端实机/母语。",
+      "evidence": "卡片实际双25作者更新"
+    },
+    {
+      "id": "DR06",
+      "title": "实现收藏记录练习与历史版本",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P543",
+        "P544",
+        "P545",
+        "P546",
+        "P556",
+        "P559"
+      ],
+      "stage": "收藏/感受/练习/历史版本已集成",
+      "local_next": "历史原快照/下架提示软件已有；本机删除后旧draw不得复活已有erasure epoch验证。",
+      "external_blocker": "正式下架/授权保留政策及课程素材。",
+      "evidence": "card_record_epochs、卡片双25"
+    },
+    {
+      "id": "DR07",
+      "title": "实现服务端随机防重与抽取记录",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P530",
+        "P555",
+        "P559"
+      ],
+      "stage": "服务端随机/时区/唯一约束/原子防重已有",
+      "local_next": "保持配额与时区最小防重不因删内容重抽；限期仍null未知不能承诺永久或零保留。",
+      "external_blocker": "正式卡池/随机/日界规则与最低数据保留政策。",
+      "evidence": "card_service双后端实际25"
+    },
+    {
+      "id": "DR08",
+      "title": "建设卡组后台与发布审核",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P554",
+        "P559"
+      ],
+      "stage": "卡组后台审核/版本/三语预览已集成",
+      "local_next": "最终正式发布必须完整卡组/授权/审核；沙箱发布不等于生产36卡已齐。",
+      "external_blocker": "完整卡文/卡面/授权与最终卡组。",
+      "evidence": "卡片admin、双25"
+    },
+    {
+      "id": "DR09",
+      "title": "约束抽卡AI及分享数据",
+      "module": "08 每日抽卡",
+      "task_table_status_at_audit": "进行中",
+      "source_ids": [
+        "P544",
+        "P557",
+        "P558",
+        "P559",
+        "P641"
+      ],
+      "stage": "独立AI授权/分享最小字段已接",
+      "local_next": "只发已审卡义/卡ID；分享选中字段跨异步保留修复已验；真实上游与额外资料必须单独授权。",
+      "external_blocker": "真实AI接口/额度和正式卡组审核。",
+      "evidence": "卡片share修复/双25、AI网关"
+    },
+    {
+      "id": "X01",
+      "title": "核对目标端与浮层跨页回归",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P044",
+        "P082",
+        "P117",
+        "P120",
+        "P122",
+        "P123",
+        "P622",
+        "P657"
+      ],
+      "stage": "本机多轮浮层/视口回归已有",
+      "local_next": "可补393px/文字放大/新页面浮层跨页与自动化可达性专项；不能把Chromium当iOS/Android实机。",
+      "external_blocker": "目标设备/发行端与网络。",
+      "evidence": "多模块全60和专项截图"
+    },
+    {
+      "id": "X02",
+      "title": "完成五阶段验收与版本交付记录",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P561",
+        "P562",
+        "P563",
+        "P564",
+        "P565",
+        "P566",
+        "P567",
+        "P568",
+        "P569",
+        "P570",
+        "P571",
+        "P572",
+        "P573",
+        "P574",
+        "P575",
+        "P576",
+        "P577",
+        "P578",
+        "P579",
+        "P580",
+        "P619",
+        "P620",
+        "P621",
+        "P622",
+        "P623",
+        "P624",
+        "P625",
+        "P626",
+        "P627",
+        "P628",
+        "P629",
+        "P630",
+        "P631",
+        "P632",
+        "P633",
+        "P634",
+        "P635",
+        "P636",
+        "P637",
+        "P638",
+        "P639",
+        "P640",
+        "P641",
+        "P642",
+        "P643"
+      ],
+      "stage": "分阶段记录已有但最终版本未封板",
+      "local_next": "汇总当前同一最终构建的门禁、迁移/配置/接口与源码清单；待接源单列，不把98条都写完成。",
+      "external_blocker": "项目方正式规则/整体验收与真实地区条件。",
+      "evidence": "各模块实施记录+本审计"
+    },
+    {
+      "id": "X03",
+      "title": "准备上线回滚与完整交接包",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P579",
+        "P580",
+        "P621",
+        "P622",
+        "P643"
+      ],
+      "stage": "历史回退包/部分隔离恢复已有；本轮交付未完成",
+      "local_next": "可准备本轮发布/回滚演练和脱敏交接清单；不覆盖旧冻结收据、不包含数据库凭据，不自行上线或新打整包。",
+      "external_blocker": "正式验收、发布/采购计划与生产环境。",
+      "evidence": "AGENTS、原文P643、阶段记录"
+    },
+    {
+      "id": "X04",
+      "title": "上线前复核26项官方资料和新规则文档",
+      "module": "00 跨模块统筹",
+      "task_table_status_at_audit": "待实施",
+      "source_ids": [
+        "P183",
+        "P225",
+        "P660",
+        "P661",
+        "P662",
+        "P663",
+        "P664",
+        "P665",
+        "P666",
+        "P667",
+        "P668",
+        "P669",
+        "P670",
+        "P671",
+        "P672",
+        "P673",
+        "P674",
+        "P675",
+        "P676",
+        "P677",
+        "P678",
+        "P679",
+        "P680",
+        "P681",
+        "P682",
+        "P683",
+        "P684",
+        "P685",
+        "P686",
+        "P687",
+        "P688",
+        "P689"
+      ],
+      "stage": "S01-S03及Claude公开协议已核；其余上线前需再核",
+      "local_next": "其余26项官方页面可只读核实并记录日期/适用范围，不必等商户凭据才核公开资料；正式业务适用结论不能代渠道批准。",
+      "external_blocker": "项目方新规则/渠道地区主体与实际部署条件。",
+      "evidence": "模型依据核实、原文P660-P689"
+    }
+  ],
+  "at_beijing": "2026-11-12T21:59:57.497893+08:00",
+  "source_artifacts": {
+    "task_json": "06_验证与后续工作\\负责人优化建议-任务拆解.json",
+    "task_sha256": "ed81f6b3bd5977879f8c46cb399d6f89cacba5f54500ee07bf434192c2ddadf0",
+    "original_visible_text_json": "02_需求与设计参考\\负责人优化建议-逐段原文.json",
+    "source_sha256": "8d8327f89fa3130d7ee0fef99824273980af929d73f3ad2c21d1145ea812a382",
+    "referenced_paragraph_count": 577
+  },
+  "evidence_artifacts": {
+    "06_验证与后续工作\\负责人优化建议-实施记录.json": "5b79bf206368409cde3b5a136eaaafb04d6a5829ca41993a3011b2b13d93a4cc",
+    "06_验证与后续工作\\负责人优化建议-统一交易-实施记录.json": "42337e9ede59a070f1ca8be1ec6beffdee261e170ba1f7bf4041d84361ae6615",
+    "06_验证与后续工作\\负责人优化建议-隐私设置-实施记录.json": "9b85000e50b581607857e99519ca8051cd0edb21c3250690bc74d6301eab3fe3",
+    "06_验证与后续工作\\负责人优化建议-统一AI网关-实施记录.json": "9a29c66942f7b3e78da46b1bfbb20e862d76b616aa5d38ff8c4dac47f6ed951f",
+    "06_验证与后续工作\\负责人优化建议-首页视频-实施记录.json": "99376c1e1d7daa1e90e58b22ed28e2f805c39512b638ae9f1b7efa0e809e2a2a",
+    "06_验证与后续工作\\负责人优化建议-会员订阅-实施记录.json": "15f24112cb9527c30f38a2941e0fd6e3841950a58d40d61d789b60ccc75e7e7c",
+    "06_验证与后续工作\\负责人优化建议-分佣-实施记录.json": "a10957b0479abdcc96648b3a2671517e77063bdbbb0ff4cdbf6086c99fd01dff",
+    "06_验证与后续工作\\负责人优化建议-模型依据核实.json": "32d6ad0a92b4a3e289b7d5ab5232d13444f10d29e670563406f03b7470a4e787",
+    "06_验证与后续工作\\负责人优化建议-B11准备核验.json": "2d6943e89aa8758d01467f6bd2bb5b04596224dc444d4ea0200df736ea15871e",
+    "06_验证与后续工作\\负责人优化建议-CM会员兼容验收摘要.json": "8c1f9e8e8670bbafdaa311be9e15ac19867242ea61627896a6bcf2b88f47925c",
+    "06_验证与后续工作\\负责人优化建议-SVT01本机探索.json": "eab06ee3ead750198a1fdffe0bcd820783a06fec2ff096a4dff2bf997d61bff8",
+    "06_验证与后续工作\\负责人优化建议-隔离备份恢复演练.json": "53c4002c71013704886af666f7b8c32828aa969a2e02cfca6d3b7ac5679cef37",
+    "06_验证与后续工作\\负责人优化建议-真实介绍片待审验收.json": "921fb04cf7b1fb6029b277063d0e3caa3333a93bb587c6094e34e2d1f99efc75",
+    "06_验证与后续工作\\负责人优化建议-保存快照接口说明.txt": "e26a8e277da4a1d49a8b64cde78f643aaf3e7c6a521bc967b9a8d5f904ea39f1"
+  },
+  "coverage_check": {
+    "rows": 98,
+    "uniqueTaskIds": 98,
+    "allTaskIdsCovered": true,
+    "allSourceIdsResolve": true
+  },
+  "subsequentUpdates": [
+    {
+      "at_beijing": "2026-11-12T22:43:01.021466+08:00",
+      "source": "保存快照作者状态回报；root最终全量仍在合并",
+      "taskIds": [
+        "PR03",
+        "PR04"
+      ],
+      "status": "保存快照/guarded legacy已实际接入并重建；Python20/20、Cloud20/20通过，身份稳定，0浏览器错误；root新双60待合并。长期记忆CRUD/最终注销/备份期限调度仍未完成。",
+      "runs": {
+        "python": "mwdmvi6j_c33cc0",
+        "cloud": "mwdmvi6k_efd709"
+      }
+    }
+  ]
+}

@@ -1,0 +1,456 @@
+{
+  "pass": true,
+  "at": "2026-11-18T01:12:31.177445+08:00",
+  "stage": 31,
+  "updatedTaskIds": [
+    "SVT01",
+    "SVT03",
+    "X03"
+  ],
+  "other95TaskAndAuditRowsPreserved": true,
+  "counts": {
+    "进行中": 70,
+    "待资料": 16,
+    "待验收": 9,
+    "待实施": 3
+  },
+  "rowsWithEvidenceIncludingPartial": 72,
+  "otherRows": 26,
+  "receipt": "06_验证与后续工作/负责人优化建议-当前产品可靠性-实施记录.json",
+  "receiptSHA256": "b160dffa0d808a2ba0873f7ae4b31a7af251d92d184d3138f8c10754b806bd56",
+  "verification": {
+    "loadPython": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-python-ef7be1de6455486591623f9e408de5e8.json",
+      "sha256": "7ca72f5a7acf829fef6a5c98964487c7a98509869526487cf5f6082278ea8ea6",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "requests": 36000,
+        "users": 100,
+        "scheduledRps": 20,
+        "seconds": 1800,
+        "actualElapsedSeconds": 1800.0125845999996,
+        "measurementStartedAt": "2026-11-17T15:52:15.362Z",
+        "firstActualDispatchMs": 0.2106999999959953,
+        "lastActualDispatchMs": 1799965.5077,
+        "p50Ms": 10.761699999973644,
+        "p95Ms": 16.568399999989197,
+        "p99Ms": 17.639599999878556,
+        "professional800msThresholdConfirmed": false,
+        "clientTransport": {
+          "policy": "one-request-per-TCP-connection",
+          "keepAlive": false,
+          "sessionCookiesRetainedPerActor": true,
+          "latencyIncludesConnectionSetup": true,
+          "retries": 0,
+          "workloadContractUnchanged": true,
+          "priorKeepAliveDiagnosticRetained": true,
+          "oldKeepAliveIssueResolvedNotClaimed": true
+        }
+      }
+    },
+    "loadCloud": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-ed2d1071c3cb4657996a61bffcdf4970.json",
+      "sha256": "3797778a8da282914cabc8dc1ff935a93ab76b43cef247fd5817a1892726cc12",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "requests": 36000,
+        "users": 100,
+        "scheduledRps": 20,
+        "seconds": 1800,
+        "actualElapsedSeconds": 1800.0047818,
+        "measurementStartedAt": "2026-11-17T15:52:15.228Z",
+        "firstActualDispatchMs": 0.240700000023935,
+        "lastActualDispatchMs": 1799956.9166,
+        "p50Ms": 20.615700000198558,
+        "p95Ms": 31.62829999998212,
+        "p99Ms": 38.383000000030734,
+        "professional800msThresholdConfirmed": false,
+        "clientTransport": {
+          "policy": "one-request-per-TCP-connection",
+          "keepAlive": false,
+          "sessionCookiesRetainedPerActor": true,
+          "latencyIncludesConnectionSetup": true,
+          "retries": 0,
+          "workloadContractUnchanged": true,
+          "priorKeepAliveDiagnosticRetained": true,
+          "oldKeepAliveIssueResolvedNotClaimed": true
+        }
+      }
+    },
+    "recoveryPython": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复-cd871640393d4c6cb046131bc9d68758-演练结果.json",
+      "sha256": "f0058f2ecaae587ae24a7b12c8f0eef4f9c39995794e81d4ac401a1b0a6e6237",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualPassedChecks": 11,
+        "actualNonzeroRpoDifference": {
+          "acknowledgedPostSnapshotWrites": 1,
+          "notRecoveredAcknowledgedWrites": 1,
+          "ack": {
+            "acknowledged": true,
+            "bodySha256": "b30a8b0f1dc35e56193a138809551fbd73b91cb9899e85696c8b32be3711a1cd",
+            "acknowledgedAt": "2026-11-17T16:25:31.008Z",
+            "afterSnapshotObservedGapMs": 97.33209999999963
+          },
+          "productionRPO": null,
+          "zeroLossClaimed": false
+        },
+        "productionRPOConfirmed": false,
+        "productionRTOConfirmed": false
+      }
+    },
+    "recoveryCloud": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性恢复-c57ae42521804bc489de32a3f1a46842-演练结果.json",
+      "sha256": "f939877f814338d70d629a8d06e763a0a455d61787d468e3ba5271dd74d4d9b6",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualPassedChecks": 11,
+        "actualNonzeroRpoDifference": {
+          "acknowledgedPostSnapshotWrites": 1,
+          "notRecoveredAcknowledgedWrites": 1,
+          "ack": {
+            "acknowledged": true,
+            "bodySha256": "42714565458dfa3fe430f9afd8ac7674d81dcc24a69181f2fe523927facbf072",
+            "acknowledgedAt": "2026-11-17T16:26:04.318Z",
+            "afterSnapshotObservedGapMs": 21035.453800000003
+          },
+          "productionRPO": null,
+          "zeroLossClaimed": false
+        },
+        "productionRPOConfirmed": false,
+        "productionRTOConfirmed": false
+      }
+    },
+    "mediaPython": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性后端媒体-python-39ce29b4fa7b4ff5a16f4156ae92728c.json",
+      "sha256": "fb71d249b77d3af5fdb21e429851f91b12d7c224906bc8659a9411bb2a5c754a",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualAuthenticatedBackendMedia": true,
+        "samples": 5,
+        "metrics": {
+          "firstPresentedFrameFromNativePlay": {
+            "n": 5,
+            "values": [
+              225.2999999880791,
+              60.00000001192092,
+              58.89999997615814,
+              75.90000001192095,
+              42.10000004768372
+            ],
+            "p50Ms": 60.00000001192092,
+            "p95Ms": 225.2999999880791,
+            "p99Ms": 225.2999999880791,
+            "minimumMs": 42.10000004768372,
+            "maximumMs": 225.2999999880791
+          },
+          "loadeddataFromContentSetRequest": {
+            "n": 5,
+            "values": [
+              76.19999998807907,
+              76.30000001192093,
+              78.5,
+              80.30000001192093,
+              83.5
+            ],
+            "p50Ms": 78.5,
+            "p95Ms": 83.5,
+            "p99Ms": 83.5,
+            "minimumMs": 76.19999998807907,
+            "maximumMs": 83.5
+          },
+          "loadeddataRelativeToNativePlay": {
+            "n": 5,
+            "values": [
+              -107.30000001192093,
+              -69.39999997615814,
+              -59.10000002384186,
+              -71.19999998807907,
+              -66.69999998807907
+            ],
+            "p50Ms": -69.39999997615814,
+            "p95Ms": -59.10000002384186,
+            "p99Ms": -59.10000002384186,
+            "minimumMs": -107.30000001192093,
+            "maximumMs": -59.10000002384186
+          },
+          "seekedEventFromNativeSeek": {
+            "n": 5,
+            "values": [
+              301.89999997615814,
+              293.5,
+              290.5999999642372,
+              282.4000000357628,
+              282.89999997615814
+            ],
+            "p50Ms": 290.5999999642372,
+            "p95Ms": 301.89999997615814,
+            "p99Ms": 301.89999997615814,
+            "minimumMs": 282.4000000357628,
+            "maximumMs": 301.89999997615814
+          },
+          "presentedFrameRecoveryFromNativeSeek": {
+            "n": 5,
+            "values": [
+              360.50000001192075,
+              344.99999996423685,
+              345.3999999642374,
+              362.5,
+              328.7000000238422
+            ],
+            "p50Ms": 345.3999999642374,
+            "p95Ms": 362.5,
+            "p99Ms": 362.5,
+            "minimumMs": 328.7000000238422,
+            "maximumMs": 362.5
+          },
+          "firstMediaRequestTTFB": {
+            "n": 5,
+            "values": [
+              20.185,
+              18.197,
+              17.617,
+              18.883,
+              22.577
+            ],
+            "p50Ms": 18.883,
+            "p95Ms": 22.577,
+            "p99Ms": 22.577,
+            "minimumMs": 17.617,
+            "maximumMs": 22.577
+          }
+        },
+        "actualNativeCloud": false,
+        "ownerFullAndRangeVerified": true,
+        "anonymousAndOtherOwnerDenied": true,
+        "browserCacheDisabled": true,
+        "storageCacheCold": false,
+        "prePlaybackVerificationWarmsStorage": true,
+        "appPlayerIntegrationCovered": false,
+        "cdnOrDeviceOrCountryCovered": false,
+        "professionalLatencyThresholdConfirmed": false
+      }
+    },
+    "mediaCloud": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性后端媒体-cloud-e286333823cd40b09b8cee4a3eda167e.json",
+      "sha256": "a7b8660e42c37dc637c7ac59977ad10acd4dab688804bef232fc25db84e83a57",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualAuthenticatedBackendMedia": true,
+        "samples": 5,
+        "metrics": {
+          "firstPresentedFrameFromNativePlay": {
+            "n": 5,
+            "values": [
+              193.3,
+              44.90000002384187,
+              43.900000000000006,
+              43.69999998807907,
+              62.000000023841864
+            ],
+            "p50Ms": 44.90000002384187,
+            "p95Ms": 193.3,
+            "p99Ms": 193.3,
+            "minimumMs": 43.69999998807907,
+            "maximumMs": 193.3
+          },
+          "loadeddataFromContentSetRequest": {
+            "n": 5,
+            "values": [
+              118.69999998807907,
+              99.69999998807907,
+              84.80000001192093,
+              100.19999998807907,
+              80.10000002384186
+            ],
+            "p50Ms": 99.69999998807907,
+            "p95Ms": 118.69999998807907,
+            "p99Ms": 118.69999998807907,
+            "minimumMs": 80.10000002384186,
+            "maximumMs": 118.69999998807907
+          },
+          "loadeddataRelativeToNativePlay": {
+            "n": 5,
+            "values": [
+              -105.69999998807907,
+              -54.69999998807907,
+              -64.19999998807907,
+              -57,
+              -44
+            ],
+            "p50Ms": -57,
+            "p95Ms": -44,
+            "p99Ms": -44,
+            "minimumMs": -105.69999998807907,
+            "maximumMs": -44
+          },
+          "seekedEventFromNativeSeek": {
+            "n": 5,
+            "values": [
+              275,
+              275.19999998807907,
+              268.69999998807907,
+              285.89999997615814,
+              264.19999998807907
+            ],
+            "p50Ms": 275,
+            "p95Ms": 285.89999997615814,
+            "p99Ms": 285.89999997615814,
+            "minimumMs": 264.19999998807907,
+            "maximumMs": 285.89999997615814
+          },
+          "presentedFrameRecoveryFromNativeSeek": {
+            "n": 5,
+            "values": [
+              345.0000000238415,
+              328.60000000000036,
+              311,
+              326.49999996423685,
+              311.1000000119211
+            ],
+            "p50Ms": 326.49999996423685,
+            "p95Ms": 345.0000000238415,
+            "p99Ms": 345.0000000238415,
+            "minimumMs": 311,
+            "maximumMs": 345.0000000238415
+          },
+          "firstMediaRequestTTFB": {
+            "n": 5,
+            "values": [
+              27.417,
+              32.573,
+              35.248,
+              31.284,
+              30.835
+            ],
+            "p50Ms": 31.284,
+            "p95Ms": 35.248,
+            "p99Ms": 35.248,
+            "minimumMs": 27.417,
+            "maximumMs": 35.248
+          }
+        },
+        "actualNativeCloud": true,
+        "ownerFullAndRangeVerified": true,
+        "anonymousAndOtherOwnerDenied": true,
+        "browserCacheDisabled": true,
+        "storageCacheCold": false,
+        "prePlaybackVerificationWarmsStorage": true,
+        "appPlayerIntegrationCovered": false,
+        "cdnOrDeviceOrCountryCovered": false,
+        "professionalLatencyThresholdConfirmed": false
+      }
+    },
+    "probePython": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-python-interfaces-70689f02a7044922bf0643a1fb20fdb1.json",
+      "sha256": "4ac18b7ba8adf236de2ccdd561ff398b52a83c20ab4488fb74c8fff728a7eca3",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualAccounts": 2,
+        "actualInterfaceRequests": 13,
+        "loadTestCovered": false
+      }
+    },
+    "probeCloud": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-interfaces-448c98390ed546c0898079335473e153.json",
+      "sha256": "b2c337832866d94fa94e40b75b75f5dc66df188b2eaa94d64d5700cf68d76121",
+      "childExitCode": 0,
+      "pass": true,
+      "observed": {
+        "actualAccounts": 2,
+        "actualInterfaceRequests": 13,
+        "loadTestCovered": false
+      }
+    }
+  },
+  "backups": {
+    "06_验证与后续工作/负责人优化建议-任务拆解.json": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-负责人优化建议-任务拆解.json",
+      "sha256": "9ca9b85b3be41ba62ac39250e2bf6fcbb286833b389203138f3483a078a871c6"
+    },
+    "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.json": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-负责人优化建议-98项最终覆盖审计.json",
+      "sha256": "8c4d674760e9fcb84ec3821da9c3a61ce477d2c762b1d7cd9c2cc25d1e5f2945"
+    },
+    "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.txt": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-负责人优化建议-98项最终覆盖审计.txt",
+      "sha256": "0f645b09de12cfb00efe84bd54242f0e7245135edd680b8ab6c0da1d2edd4d44"
+    },
+    "06_验证与后续工作/公司同步-进度与记忆.json": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-公司同步-进度与记忆.json",
+      "sha256": "90ab609f921caea52079805f1f894392da7bfc80828c08216495e3b5620dd460"
+    },
+    "06_验证与后续工作/负责人优化建议-交付收尾推进.json": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-负责人优化建议-交付收尾推进.json",
+      "sha256": "71d8b0f741bae02437ec5e488c9f1cb6fe549553982da621ca91dbe908a7bf15"
+    },
+    "公司同步-先读我.txt": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-公司同步-先读我.txt",
+      "sha256": "c5f10d1671eebe33b8b621dd6008e03642dbed0ba223fb43005f4d6c78f9caf1"
+    },
+    "AGENTS.md": {
+      "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性回填前-20261118-011231-AGENTS.md",
+      "sha256": "e3f5d28eba6aa72ab6a6a78f1362672cd3cd2caed3a77d0b6ebfb828a7d815d1"
+    }
+  },
+  "workbookBackups": {
+    "东方智慧APP需求进度表-20261116.xlsx": {
+      "path": "06_验证与后续工作/当前产品可靠性-负责人进度表回填前-20261118-010759.xlsx",
+      "sha256": "b6af34bae2e695bfe77f64d5f3404fcac62195258748ba51256854e524496cc4"
+    },
+    "东方智慧APP优化任务表_依据v1.0_20261112.xlsx": {
+      "path": "06_验证与后续工作/当前产品可靠性-原98项任务表回填前-20261118-010759.xlsx",
+      "sha256": "75f383b023ebb2605e43323a5cc0824d983ab57a4ac1e70b7a43de05ba03f58c"
+    }
+  },
+  "hashes": {
+    "06_验证与后续工作/负责人优化建议-任务拆解.json": "d04e0bb2924cf976e168903e7ec7a3f0ebd00945c50bd4f349e2a2b27d248d67",
+    "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.json": "651ad988d4bcc018aeea869ce19c2a573307798f0c7e89789800ef42c3398cc3",
+    "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.txt": "d7ce487f95d18d274b7040d2edece7cdad68917534a336e8a06bae435e3fecb8",
+    "06_验证与后续工作/公司同步-进度与记忆.json": "310ee87d97819cd35684e5de5bbb6614922b7221fe94e236f2f6969f3930bdeb",
+    "06_验证与后续工作/负责人优化建议-交付收尾推进.json": "e2b4e3c9f7a3b7568865b5bb17f46a77a92168a20440de7100507f293c8cc5d0",
+    "公司同步-先读我.txt": "8482e1abe31e72da2a397c88010fde0e63617d38ca2ba9f45a19f71e3e0a25b8",
+    "AGENTS.md": "adeb5b8e2721321ec41df6fae3c48f1d704073d1926d56a6f434e54b1c2b9b35"
+  },
+  "published": false,
+  "zipRepacked": false,
+  "additionalRequirements": [
+    {
+      "id": "ADD-WEB",
+      "title": "东方智慧官网",
+      "status": "本地已验证",
+      "original98Scope": false,
+      "perBackendPassed": 66,
+      "receipt": "06_验证与后续工作/官网接入-本地验收只读复核.json",
+      "receiptSHA256": "62f6cdbf23d8c1f6ac65c349100f871c4bd1d498b548b755270ca238a1c78b41",
+      "productionPublished": false
+    },
+    {
+      "id": "ADD-GROWTH",
+      "title": "成长记录唯树状图",
+      "status": "本地已验证",
+      "original98Scope": false,
+      "perBackendPassed": 68,
+      "receipt": "06_验证与后续工作/成长树-本地验收记录.json",
+      "receiptSHA256": "d45c39ac1d8df622bcdbaaa050feeb6b5ce2e24c4fd08df098a559635cdb135e",
+      "productionPublished": false
+    },
+    {
+      "id": "ADD-DAILY",
+      "title": "每日进入提醒与会员专属",
+      "status": "本地已验证",
+      "original98Scope": false,
+      "perBackendPassed": 72,
+      "receipt": "06_验证与后续工作/每日进入提醒-本地验收记录.json",
+      "receiptSHA256": "ebd17147257eb3841067a528261a4e4d268a7ff9a1e82479ee52df0edda11f12",
+      "productionPublished": false
+    }
+  ]
+}

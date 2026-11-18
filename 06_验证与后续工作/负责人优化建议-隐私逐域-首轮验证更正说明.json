@@ -1,0 +1,32 @@
+{
+  "at": "2026-11-16T22:40:23.565165+08:00",
+  "status": "corrections-prepared-awaiting-repeat-not-accepted",
+  "pythonFirstRun": {
+    "report": "负责人优化建议-隐私逐域专项-python.json",
+    "passed": 23,
+    "failed": 5,
+    "sourceIdentityUnchanged": true,
+    "preservedInRuns": true,
+    "causes": [
+      "测试helper将privacy/config GET的派生只读字段spread回PATCH，被产品严格未知字段校验正确拒绝；修为7字段白名单，未放宽产品。",
+      "adopt expiry一项承接前置政策配置失败，后续重跑仍须实际验证。",
+      "原生设置入口定位匹配三个控件，改为唯一顶栏齿轮，保留真实点击。"
+    ]
+  },
+  "cloudStartup": {
+    "formalChildStarted": false,
+    "diagnosticPatterns": [
+      "负责人优化建议-隐私逐域启动诊断-cloud-*.json",
+      "负责人优化建议-隐私逐域D1只读诊断-*.json"
+    ],
+    "cause": "真实D1拒绝PRAGMA schema_version，不能将普通SQLite编译通过当作workerd实际支持。",
+    "correction": "用受支持的表目录元数据生成schema指纹，仍检查新表和新增字段并刷新未知引用守卫，不吞异常跳过保护。",
+    "documentation": [
+      "https://developers.cloudflare.com/d1/sql-api/sql-statements/",
+      "https://github.com/cloudflare/workerd/blob/main/src/workerd/util/sqlite-metadata.h"
+    ]
+  },
+  "productionEnabled": false,
+  "finalPassClaimed": false,
+  "frozenHistoricalRecordsAndPreviewDatabaseUnchanged": true
+}

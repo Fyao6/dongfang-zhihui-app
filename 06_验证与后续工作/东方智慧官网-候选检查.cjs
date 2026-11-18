@@ -1,0 +1,27 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{pathToFileURL}=require('node:url');
+const {chromium}=require('C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const revision=process.argv[2]||'2';assert(/^[2-9][0-9]*$/.test(revision));
+async function main(){
+ const browser=await chromium.launch({executablePath:'C:/Users/Administrator/AppData/Local/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-win64/chrome-headless-shell.exe',headless:true});
+ const results=[];
+ try{for(const size of [{width:1440,height:1000},{width:390,height:844},{width:320,height:740}]){
+  const context=await browser.newContext({viewport:size}),page=await context.newPage(),errors=[];
+  page.on('pageerror',error=>errors.push(error.name));
+  await page.goto(pathToFileURL(path.join(__dirname,'东方智慧官网-候选.html')).href);
+  await page.locator('h1').waitFor();
+  assert.equal(await page.locator('h1').count(),1);
+  assert.equal(await page.locator('main section[id]').count(),4);
+  const dimensions=await page.evaluate(()=>({view:innerWidth,document:document.documentElement.scrollWidth}));
+  assert(dimensions.document<=dimensions.view,'Horizontal overflow');
+  if(size.width<=600){await page.getByRole('button',{name:'展开导航'}).click();await page.getByRole('navigation',{name:'主导航'}).getByRole('link',{name:'成长之树'}).click();assert.equal(await page.locator('.menu-button').getAttribute('aria-expanded'),'false');await page.getByRole('button',{name:'展开导航'}).click();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-button').getAttribute('aria-expanded'),'false');}
+  assert.deepEqual(errors,[]);
+  const image=path.join(__dirname,'东方智慧官网-候选-v'+revision+'-'+size.width+'.png');
+  await page.screenshot({path:image,fullPage:true});
+  results.push({viewport:size,pass:true,pageErrors:errors,screenshot:path.basename(image),dimensions});
+  await context.close();
+ }}finally{await browser.close();}
+ fs.writeFileSync(path.join(__dirname,'东方智慧官网-候选检查-v'+revision+'.json'),JSON.stringify({candidateOnly:true,installed:false,productionPublished:false,results},null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({candidateOnly:true,passed:results.length,installed:false}));
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});

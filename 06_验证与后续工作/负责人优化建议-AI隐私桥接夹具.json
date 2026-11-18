@@ -1,0 +1,57 @@
+{
+  "privacy": {
+    "policyVersion": "bridge-policy-v1",
+    "controllerName": "本机桥接测试主体",
+    "contact": "仅合成测试",
+    "recipients": [
+      {"id":"alpha","name":"甲模拟供应商","endpoint":"https://alpha.example.invalid/v1/responses","models":["alpha-model","alpha-next"],"regions":["QA-A","QA-藏"],"purpose":"合成桥接验证","policyUrl":"https://alpha.example.invalid/privacy","retentionDays":null,"deletionSupported":false},
+      {"id":"beta","name":"乙模拟供应商","endpoint":"https://beta.example.invalid/v1/messages","models":["beta-model"],"regions":["QA-B"],"purpose":"合成桥接验证","policyUrl":"https://beta.example.invalid/privacy","retentionDays":null,"deletionSupported":false},
+      {"id":"unused","name":"未引用模拟供应商","endpoint":"https://unused.example.invalid/v1/chat/completions","models":["unused-model"],"regions":["QA-C"],"purpose":"合成桥接验证","policyUrl":"https://unused.example.invalid/privacy","retentionDays":null,"deletionSupported":false}
+    ],
+    "retention":{"recordsDays":null,"conversationsDays":null,"backupDays":null,"financeDays":null},
+    "purposeDetails":{"trainingImprovement":"","marketing":""},
+    "revision":1
+  },
+  "legacy":{"providerId":"alpha","endpoint":"https://alpha.example.invalid/v1/responses","model":"alpha-model","processingRegions":["QA-藏","QA-A"],"privacyPolicyVersion":"bridge-policy-v1"},
+  "gateway":{
+    "revision":3,"enabled":false,"allowExternalCalls":false,"environment":"local-test",
+    "providers":[
+      {"id":"alpha","name":"甲模拟供应商","protocol":"responses","endpoint":"https://alpha.example.invalid/v1/responses","model":"alpha-model","processingRegions":["QA-A","QA-藏"],"privacyPolicyVersion":"bridge-policy-v1","enabled":false,"secretRef":"EW_AI_ALPHA","streaming":true},
+      {"id":"beta","name":"乙模拟供应商","protocol":"anthropic_messages","endpoint":"https://beta.example.invalid/v1/messages","model":"beta-model","processingRegions":["QA-B"],"privacyPolicyVersion":"bridge-policy-v1","enabled":false,"secretRef":"EW_AI_BETA","streaming":true},
+      {"id":"unused","name":"未引用模拟供应商","protocol":"chat_completions","endpoint":"https://unused.example.invalid/v1/chat/completions","model":"unused-model","processingRegions":["QA-C"],"privacyPolicyVersion":"bridge-policy-v1","enabled":false,"secretRef":"EW_AI_UNUSED","streaming":false}
+    ],
+    "routes":{"chat":{"primary":"alpha","fallback":["beta"]},"chart":{"primary":"alpha","fallback":[]},"course":{"primary":"beta","fallback":[]},"card":{"primary":"alpha","fallback":[]}},
+    "requestTimeoutSeconds":60,"charging":{"confirmed":false,"ruleVersion":"","successCredits":null,"failureCredits":null,"partialCredits":null,"cancelCredits":null}
+  },
+  "cases":[
+    {"name":"registry-only reference manifest","valid":true,"sameAsBase":true},
+    {"name":"valid legacy takes precedence","legacy":true,"valid":true,"mode":"legacy","set":[["gateway.providers",null]]},
+    {"name":"invalid legacy falls back to registry","legacy":true,"valid":true,"sameAsBase":true,"set":[["legacy.model","not-disclosed"]]},
+    {"name":"unknown referenced provider","valid":false,"set":[["gateway.routes.chat.primary","ghost"]]},
+    {"name":"missing recipient","valid":false,"set":[["privacy.recipients.1.id","not-beta"]]},
+    {"name":"duplicate provider id","valid":false,"set":[["gateway.providers.2.id","alpha"]]},
+    {"name":"duplicate recipient id","valid":false,"set":[["privacy.recipients.2.id","alpha"]]},
+    {"name":"raw endpoint mismatch","valid":false,"set":[["gateway.providers.0.endpoint","https://ALPHA.example.invalid/v1/responses"]]},
+    {"name":"non HTTPS endpoint","valid":false,"set":[["gateway.providers.0.endpoint","http://alpha.example.invalid/v1/responses"]]},
+    {"name":"credentials in endpoint","valid":false,"set":[["gateway.providers.0.endpoint","https://secret@alpha.example.invalid/v1/responses"]]},
+    {"name":"endpoint query forbidden","valid":false,"set":[["gateway.providers.0.endpoint","https://alpha.example.invalid/v1/responses?key=synthetic"]]},
+    {"name":"unlisted model","valid":false,"set":[["gateway.providers.1.model","not-disclosed"]]},
+    {"name":"regions mismatch","valid":false,"set":[["gateway.providers.0.processingRegions",["QA-A"]]]},
+    {"name":"recipient whitespace is not a region match","valid":false,"set":[["privacy.recipients.1.regions",[" QA-B"]]]},
+    {"name":"provider policy mismatch","valid":false,"set":[["gateway.providers.1.privacyPolicyVersion","bridge-policy-old"]]},
+    {"name":"missing disclosure controller","valid":false,"set":[["privacy.controllerName",""]]},
+    {"name":"missing disclosure purpose","valid":false,"set":[["privacy.recipients.1.purpose",""]]},
+    {"name":"unsupported production environment","valid":false,"set":[["gateway.environment","production"]]},
+    {"name":"protocol endpoint mismatch","valid":false,"set":[["gateway.providers.0.protocol","anthropic_messages"]]},
+    {"name":"missing mandatory route","valid":false,"delete":["gateway.routes.card"]},
+    {"name":"duplicate fallback provider","valid":false,"set":[["gateway.routes.chat.fallback",["beta","beta"]]]},
+    {"name":"primary repeated as fallback","valid":false,"set":[["gateway.routes.chat.fallback",["alpha"]]]},
+    {"name":"reordered arrays preserve aggregate","valid":true,"sameAsBase":true,"reverse":["privacy.recipients","gateway.providers","gateway.providers.2.processingRegions","privacy.recipients.2.regions"]},
+    {"name":"unreferenced provider payload does not enter digest","valid":true,"sameAsBase":true,"set":[["gateway.providers.2.model","another-unused-model"],["gateway.providers.2.prompt","SYNTHETIC_SECRET_NOT_IN_DIGEST"]]},
+    {"name":"secret ref and charging do not enter disclosure binding","valid":true,"sameAsBase":true,"set":[["gateway.providers.0.secretRef","EW_AI_OTHER"],["gateway.charging.ruleVersion","not-a-privacy-change"],["gateway.revision",99]]},
+    {"name":"provider switches do not prevent prior disclosure review","valid":true,"sameAsBase":true,"set":[["gateway.enabled",true],["gateway.allowExternalCalls",true],["gateway.providers.0.enabled",true]]},
+    {"name":"valid replacement model changes aggregate","valid":true,"sameAsBase":false,"set":[["gateway.providers.0.model","alpha-next"]]},
+    {"name":"unused fallback removal changes actual reference set","valid":true,"sameAsBase":false,"set":[["gateway.routes.chat.fallback",[]],["gateway.routes.course.primary","alpha"]]},
+    {"name":"policy URL query remains a valid public policy link","valid":true,"sameAsBase":true,"set":[["privacy.recipients.1.policyUrl","https://beta.example.invalid/privacy?lang=zh#notice"]]}
+  ]
+}

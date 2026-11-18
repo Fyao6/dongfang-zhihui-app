@@ -1,0 +1,645 @@
+{
+  "latest": {
+    "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+    "passed": 26,
+    "failed": 0,
+    "results": [
+      {
+        "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+        "pass": true
+      },
+      {
+        "name": "password required and actual existing Cloud password verifier rejects wrong password",
+        "pass": true
+      },
+      {
+        "name": "both explicit confirmations are strict and do not create a closure claim",
+        "pass": true
+      },
+      {
+        "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+        "pass": true
+      },
+      {
+        "name": "expired final challenge rolls back complete D1 batch",
+        "pass": true
+      },
+      {
+        "name": "session/password revocation just before final D1 batch blocks all cleanup",
+        "pass": true
+      },
+      {
+        "name": "changing same request nonce/session returns conflict",
+        "pass": true
+      },
+      {
+        "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+        "pass": true
+      },
+      {
+        "name": "two prepared administrators cannot close the last active admin",
+        "pass": true
+      },
+      {
+        "name": "concurrent same challenge claims commit once and replay original receipt",
+        "pass": true
+      },
+      {
+        "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+        "pass": true
+      },
+      {
+        "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+        "pass": true
+      },
+      {
+        "name": "new closed account login cookie insert is denied by DB final guard",
+        "pass": true
+      },
+      {
+        "name": "authority failure rolls full batch back including closure/nonce/session state",
+        "pass": true
+      },
+      {
+        "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+        "pass": true
+      },
+      {
+        "name": "real API.settings require passed then body waited; closure wins and no settings change",
+        "pass": true
+      },
+      {
+        "name": "real API.admin role require passed then body waited; closure wins and target role unchanged",
+        "pass": true
+      },
+      {
+        "name": "real API.community body waited after require; closed author cannot publish late",
+        "pass": true
+      },
+      {
+        "name": "real API.upload arrayBuffer waited after require; closed user cannot upload; temporary R2 object cleaned",
+        "pass": true
+      },
+      {
+        "name": "guarded prepare.run, DML RETURNING all/first and batch all check final actor atomically",
+        "pass": true
+      },
+      {
+        "name": "fresh required role is checked at final statement even if account stays active",
+        "pass": true
+      },
+      {
+        "name": "closure itself works through guarded D1 batch despite deleting its own session; no credential fence remains",
+        "pass": true
+      },
+      {
+        "name": "existing gateway fact can finish charged settlement after closure; trusted scope cannot write settings/new jobs/body",
+        "pass": true
+      },
+      {
+        "name": "verified-session internal path can issue after legitimate old-session deletion but cannot write arbitrary settings",
+        "pass": true
+      },
+      {
+        "name": "closed recipients/teacher cannot receive new friend/message/booking/device facts; retained message remains",
+        "pass": true
+      },
+      {
+        "name": "actual unified refund kind is refund; internal order gate accepts that existing applied fact independently of pay match",
+        "pass": true
+      }
+    ],
+    "sourceSha256": {
+      "account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+      "account-write-guard.ts": "968b68391e1c0911dca5700de15d60672d9f9b08873dce741712533c0e15efc6",
+      "privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6"
+    }
+  },
+  "runs": [
+    {
+      "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+      "passed": 15,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+          "pass": true
+        },
+        {
+          "name": "password required and actual existing Cloud password verifier rejects wrong password",
+          "pass": true
+        },
+        {
+          "name": "both explicit confirmations are strict and do not create a closure claim",
+          "pass": true
+        },
+        {
+          "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+          "pass": true
+        },
+        {
+          "name": "expired final challenge rolls back complete D1 batch",
+          "pass": true
+        },
+        {
+          "name": "session/password revocation just before final D1 batch blocks all cleanup",
+          "pass": true
+        },
+        {
+          "name": "changing same request nonce/session returns conflict",
+          "pass": true
+        },
+        {
+          "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+          "pass": true
+        },
+        {
+          "name": "two prepared administrators cannot close the last active admin",
+          "pass": true
+        },
+        {
+          "name": "concurrent same challenge claims commit once and replay original receipt",
+          "pass": true
+        },
+        {
+          "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+          "pass": true
+        },
+        {
+          "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+          "pass": true
+        },
+        {
+          "name": "new closed account login cookie insert is denied by DB final guard",
+          "pass": true
+        },
+        {
+          "name": "authority failure rolls full batch back including closure/nonce/session state",
+          "pass": true
+        },
+        {
+          "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account-closure.ts": "2ddbd7c2761ec1a7cb4b27331b7173e40ad89b0a9f289f8454cc83be87acdf04",
+        "privacy-retention.ts": "6f47771a60a796fa6d837414bbb904813dea1150c23d550324ace2b6b8f96567"
+      }
+    },
+    {
+      "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+      "passed": 25,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+          "pass": true
+        },
+        {
+          "name": "password required and actual existing Cloud password verifier rejects wrong password",
+          "pass": true
+        },
+        {
+          "name": "both explicit confirmations are strict and do not create a closure claim",
+          "pass": true
+        },
+        {
+          "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+          "pass": true
+        },
+        {
+          "name": "expired final challenge rolls back complete D1 batch",
+          "pass": true
+        },
+        {
+          "name": "session/password revocation just before final D1 batch blocks all cleanup",
+          "pass": true
+        },
+        {
+          "name": "changing same request nonce/session returns conflict",
+          "pass": true
+        },
+        {
+          "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+          "pass": true
+        },
+        {
+          "name": "two prepared administrators cannot close the last active admin",
+          "pass": true
+        },
+        {
+          "name": "concurrent same challenge claims commit once and replay original receipt",
+          "pass": true
+        },
+        {
+          "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+          "pass": true
+        },
+        {
+          "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+          "pass": true
+        },
+        {
+          "name": "new closed account login cookie insert is denied by DB final guard",
+          "pass": true
+        },
+        {
+          "name": "authority failure rolls full batch back including closure/nonce/session state",
+          "pass": true
+        },
+        {
+          "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+          "pass": true
+        },
+        {
+          "name": "real API.settings require passed then body waited; closure wins and no settings change",
+          "pass": true
+        },
+        {
+          "name": "real API.admin role require passed then body waited; closure wins and target role unchanged",
+          "pass": true
+        },
+        {
+          "name": "real API.community body waited after require; closed author cannot publish late",
+          "pass": true
+        },
+        {
+          "name": "real API.upload arrayBuffer waited after require; closed user cannot upload; temporary R2 object cleaned",
+          "pass": true
+        },
+        {
+          "name": "guarded prepare.run, DML RETURNING all/first and batch all check final actor atomically",
+          "pass": true
+        },
+        {
+          "name": "fresh required role is checked at final statement even if account stays active",
+          "pass": true
+        },
+        {
+          "name": "closure itself works through guarded D1 batch despite deleting its own session; no credential fence remains",
+          "pass": true
+        },
+        {
+          "name": "existing gateway fact can finish charged settlement after closure; trusted scope cannot write settings/new jobs/body",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal path can issue after legitimate old-session deletion but cannot write arbitrary settings",
+          "pass": true
+        },
+        {
+          "name": "closed recipients/teacher cannot receive new friend/message/booking/device facts; retained message remains",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account-closure.ts": "affedc7f34f678764ec38c0e6db05afe47ddfe84910191c692ac6ed843509068",
+        "privacy-retention.ts": "02ade7e6b8c5f709627e55cfd2ce828e2333fb295bec93c91a8ddab64b256fd4"
+      }
+    },
+    {
+      "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+      "passed": 25,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+          "pass": true
+        },
+        {
+          "name": "password required and actual existing Cloud password verifier rejects wrong password",
+          "pass": true
+        },
+        {
+          "name": "both explicit confirmations are strict and do not create a closure claim",
+          "pass": true
+        },
+        {
+          "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+          "pass": true
+        },
+        {
+          "name": "expired final challenge rolls back complete D1 batch",
+          "pass": true
+        },
+        {
+          "name": "session/password revocation just before final D1 batch blocks all cleanup",
+          "pass": true
+        },
+        {
+          "name": "changing same request nonce/session returns conflict",
+          "pass": true
+        },
+        {
+          "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+          "pass": true
+        },
+        {
+          "name": "two prepared administrators cannot close the last active admin",
+          "pass": true
+        },
+        {
+          "name": "concurrent same challenge claims commit once and replay original receipt",
+          "pass": true
+        },
+        {
+          "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+          "pass": true
+        },
+        {
+          "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+          "pass": true
+        },
+        {
+          "name": "new closed account login cookie insert is denied by DB final guard",
+          "pass": true
+        },
+        {
+          "name": "authority failure rolls full batch back including closure/nonce/session state",
+          "pass": true
+        },
+        {
+          "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+          "pass": true
+        },
+        {
+          "name": "real API.settings require passed then body waited; closure wins and no settings change",
+          "pass": true
+        },
+        {
+          "name": "real API.admin role require passed then body waited; closure wins and target role unchanged",
+          "pass": true
+        },
+        {
+          "name": "real API.community body waited after require; closed author cannot publish late",
+          "pass": true
+        },
+        {
+          "name": "real API.upload arrayBuffer waited after require; closed user cannot upload; temporary R2 object cleaned",
+          "pass": true
+        },
+        {
+          "name": "guarded prepare.run, DML RETURNING all/first and batch all check final actor atomically",
+          "pass": true
+        },
+        {
+          "name": "fresh required role is checked at final statement even if account stays active",
+          "pass": true
+        },
+        {
+          "name": "closure itself works through guarded D1 batch despite deleting its own session; no credential fence remains",
+          "pass": true
+        },
+        {
+          "name": "existing gateway fact can finish charged settlement after closure; trusted scope cannot write settings/new jobs/body",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal path can issue after legitimate old-session deletion but cannot write arbitrary settings",
+          "pass": true
+        },
+        {
+          "name": "closed recipients/teacher cannot receive new friend/message/booking/device facts; retained message remains",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+        "privacy-retention.ts": "c80404ba76151d1245b6fd5d5018acbdbc8dbee92fdad004b5ca9c5a61185f99"
+      }
+    },
+    {
+      "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+      "passed": 26,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+          "pass": true
+        },
+        {
+          "name": "password required and actual existing Cloud password verifier rejects wrong password",
+          "pass": true
+        },
+        {
+          "name": "both explicit confirmations are strict and do not create a closure claim",
+          "pass": true
+        },
+        {
+          "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+          "pass": true
+        },
+        {
+          "name": "expired final challenge rolls back complete D1 batch",
+          "pass": true
+        },
+        {
+          "name": "session/password revocation just before final D1 batch blocks all cleanup",
+          "pass": true
+        },
+        {
+          "name": "changing same request nonce/session returns conflict",
+          "pass": true
+        },
+        {
+          "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+          "pass": true
+        },
+        {
+          "name": "two prepared administrators cannot close the last active admin",
+          "pass": true
+        },
+        {
+          "name": "concurrent same challenge claims commit once and replay original receipt",
+          "pass": true
+        },
+        {
+          "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+          "pass": true
+        },
+        {
+          "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+          "pass": true
+        },
+        {
+          "name": "new closed account login cookie insert is denied by DB final guard",
+          "pass": true
+        },
+        {
+          "name": "authority failure rolls full batch back including closure/nonce/session state",
+          "pass": true
+        },
+        {
+          "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+          "pass": true
+        },
+        {
+          "name": "real API.settings require passed then body waited; closure wins and no settings change",
+          "pass": true
+        },
+        {
+          "name": "real API.admin role require passed then body waited; closure wins and target role unchanged",
+          "pass": true
+        },
+        {
+          "name": "real API.community body waited after require; closed author cannot publish late",
+          "pass": true
+        },
+        {
+          "name": "real API.upload arrayBuffer waited after require; closed user cannot upload; temporary R2 object cleaned",
+          "pass": true
+        },
+        {
+          "name": "guarded prepare.run, DML RETURNING all/first and batch all check final actor atomically",
+          "pass": true
+        },
+        {
+          "name": "fresh required role is checked at final statement even if account stays active",
+          "pass": true
+        },
+        {
+          "name": "closure itself works through guarded D1 batch despite deleting its own session; no credential fence remains",
+          "pass": true
+        },
+        {
+          "name": "existing gateway fact can finish charged settlement after closure; trusted scope cannot write settings/new jobs/body",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal path can issue after legitimate old-session deletion but cannot write arbitrary settings",
+          "pass": true
+        },
+        {
+          "name": "closed recipients/teacher cannot receive new friend/message/booking/device facts; retained message remains",
+          "pass": true
+        },
+        {
+          "name": "actual unified refund kind is refund; internal order gate accepts that existing applied fact independently of pay match",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+        "account-write-guard.ts": "968b68391e1c0911dca5700de15d60672d9f9b08873dce741712533c0e15efc6",
+        "privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6"
+      }
+    },
+    {
+      "scope": "actual TS+native SQLite/D1 atomic batches and existing Cloud password verifier; no HTTP/original DB/provider",
+      "passed": 26,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual TS verifier, authority cleanup and all sessions revoked atomically; other owner kept",
+          "pass": true
+        },
+        {
+          "name": "password required and actual existing Cloud password verifier rejects wrong password",
+          "pass": true
+        },
+        {
+          "name": "both explicit confirmations are strict and do not create a closure claim",
+          "pass": true
+        },
+        {
+          "name": "challenge is owner/current-session bound; foreign owner and second session cannot confirm",
+          "pass": true
+        },
+        {
+          "name": "expired final challenge rolls back complete D1 batch",
+          "pass": true
+        },
+        {
+          "name": "session/password revocation just before final D1 batch blocks all cleanup",
+          "pass": true
+        },
+        {
+          "name": "changing same request nonce/session returns conflict",
+          "pass": true
+        },
+        {
+          "name": "completed replay needs original strong nonce, returns same receipt without re-cleanup or Set-Cookie",
+          "pass": true
+        },
+        {
+          "name": "two prepared administrators cannot close the last active admin",
+          "pass": true
+        },
+        {
+          "name": "concurrent same challenge claims commit once and replay original receipt",
+          "pass": true
+        },
+        {
+          "name": "late owned INSERT/UPDATE and session issuance cannot resurrect closed personal data",
+          "pass": true
+        },
+        {
+          "name": "old cookie cannot downgrade into visitor writes; static/public read and new login stay reachable",
+          "pass": true
+        },
+        {
+          "name": "new closed account login cookie insert is denied by DB final guard",
+          "pass": true
+        },
+        {
+          "name": "authority failure rolls full batch back including closure/nonce/session state",
+          "pass": true
+        },
+        {
+          "name": "response contains no password/session/nonce/hash and closure never rewrites wallet or source audit",
+          "pass": true
+        },
+        {
+          "name": "real API.settings require passed then body waited; closure wins and no settings change",
+          "pass": true
+        },
+        {
+          "name": "real API.admin role require passed then body waited; closure wins and target role unchanged",
+          "pass": true
+        },
+        {
+          "name": "real API.community body waited after require; closed author cannot publish late",
+          "pass": true
+        },
+        {
+          "name": "real API.upload arrayBuffer waited after require; closed user cannot upload; temporary R2 object cleaned",
+          "pass": true
+        },
+        {
+          "name": "guarded prepare.run, DML RETURNING all/first and batch all check final actor atomically",
+          "pass": true
+        },
+        {
+          "name": "fresh required role is checked at final statement even if account stays active",
+          "pass": true
+        },
+        {
+          "name": "closure itself works through guarded D1 batch despite deleting its own session; no credential fence remains",
+          "pass": true
+        },
+        {
+          "name": "existing gateway fact can finish charged settlement after closure; trusted scope cannot write settings/new jobs/body",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal path can issue after legitimate old-session deletion but cannot write arbitrary settings",
+          "pass": true
+        },
+        {
+          "name": "closed recipients/teacher cannot receive new friend/message/booking/device facts; retained message remains",
+          "pass": true
+        },
+        {
+          "name": "actual unified refund kind is refund; internal order gate accepts that existing applied fact independently of pay match",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+        "account-write-guard.ts": "968b68391e1c0911dca5700de15d60672d9f9b08873dce741712533c0e15efc6",
+        "privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6"
+      }
+    }
+  ]
+}

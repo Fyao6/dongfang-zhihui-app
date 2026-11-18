@@ -1,0 +1,22 @@
+{
+  "kind": "interrupted-run-observation",
+  "source": "exec tool captured stdout",
+  "productDefectEstablished": false,
+  "cause": "browser hold fixture attempted route.fulfill after the route had already been handled; unhandled rejection skipped normal finish",
+  "python": {
+    "runId": "mwdj2w5n_7cf485",
+    "passedHttpChecksBeforeInterruption": 18,
+    "passedUiChecksBeforeInterruption": 3,
+    "exitCode": 1
+  },
+  "cloud": {
+    "ownedState": "mqd63af7",
+    "passedHttpChecksBeforeInterruption": 18,
+    "passedUiChecksBeforeInterruption": 3,
+    "exitCode": 1
+  },
+  "errorStdout": "route.fulfill: Route is already handled!\n    at handler (负责人优化建议-会员浏览器专项.cjs:12:140)\nNode.js v24.22.1",
+  "fixOwner": "root",
+  "fix": "wait for delivered handler completion before unroute; bounded expected abort/handled cleanup",
+  "originalReportsOverwritten": false
+}

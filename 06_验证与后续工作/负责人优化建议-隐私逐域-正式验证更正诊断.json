@@ -1,0 +1,46 @@
+{
+  "status": "corrections-recorded-final-acceptance-requires-all-eighteen-gates",
+  "productionEnabled": false,
+  "originalReportsPreserved": true,
+  "changes": [
+    {
+      "failedGate": "Python首轮补充视觉3通过1失败",
+      "cause": "记录列表被重复渲染，原生下一页按钮实际出现两个。",
+      "correction": "移除旧的重复面板，保留一个完整资料列表和全部字段、翻页与返回入口；未弱化唯一定位断言。"
+    },
+    {
+      "failedGate": "Cloud首轮补充视觉0通过4失败",
+      "cause": "真实D1在保留统计的106项联合查询上拒绝过多compound SELECT项。",
+      "correction": "全部106条归属谓词保留，以每组不超过5项、共22条只读查询放进同一D1 batch；核对返回106条且各组统计与原始查询一致，不用异常吞并或零值代替。",
+      "actualProbe": "负责人优化建议-隐私逐域D1真实批读执行探测-1794841258847.json"
+    },
+    {
+      "failedGate": "Cloud首轮完整专项27通过1失败",
+      "case": "17 新私稿引用先于删除则本批保护，删除先于新引用则最终DB守卫拒绝复活",
+      "cause": "数据库正确拒绝已删素材的新引用，但通用异常处理漏掉两个明确的业务冲突码，返回500。",
+      "correction": "仅将privacy_deleted_media_reference与privacy_deleted_media_identity精确映射为409；数据库守卫、引用核验、权限和未知存储故障500保留。",
+      "repeat": "最终Cloud专项28项及Python专项28项已通过；仍须其余最终门禁共同身份核验，不由本说明宣布阶段验收。"
+    }
+  ],
+  "coverageCorrections": [
+    "媒体实际字节与Range覆盖默认为false；只在实际请求和响应断言成功后标记，补充视觉为字节true而Range false。",
+    "本轮记录列表有51及57条的实际跨页证据；jobs、receipts、objects没有超过50项的专门压力验证，不能扩写为全部列表大分页已验证。",
+    "失败子进程不能给旧通过报告重新绑定身份；每个最终启动必须有成功退出、新报告时间与runId、未变源码和构建。"
+  ],
+  "compatibilityDiagnosis": [
+    {
+      "gate": "隐私兼容",
+      "actual": "privacy/preferences.memory.storedCount为null",
+      "cause": "既有PR03接线已明确将preferences的记忆计数关闭；数量由独立memory/settings提供，不是本轮将真实0改为null。",
+      "historicalSource": "负责人优化建议-长期记忆接线续写临时.py第25与32行（仅读追溯，未重执行helper）",
+      "requiredCorrection": "新派生兼容脚本精确断言preferences为null，并额外通过真实本人memory/settings数量0和memory列表为空证明空记忆，保留六项默认关闭与发送门禁断言。"
+    },
+    {
+      "gate": "注销兼容的管理员降权竞态",
+      "actual": "会话仍有效但管理员角色已被撤回，最终写入拒绝403",
+      "requiredCorrection": "设置服务的独立管理员守卫明确403；角色修改的通用最终数据库actor守卫按既有account_actor_inactive映射为401。两条路径均额外核当前同本人会话仍有效且角色已为user，并核原数据不变。闭户路径仍严格401；不放宽为任选状态，也不为测试归一化改权限产品。",
+      "reviewCorrection": "首轮将所有demote概括为403不准确：新增role预期导致两端26/1，随后根据SecretReferences.active与account_closure.integrity_response/accountFailure两类明确源合同作精确区分。原失败报告继续保留。"
+    }
+  ],
+  "boundary": "本说明保存发现、修复与范围更正；最终状态、源码和报告SHA以不可覆盖的实施记录及最终交付核验为准。"
+}

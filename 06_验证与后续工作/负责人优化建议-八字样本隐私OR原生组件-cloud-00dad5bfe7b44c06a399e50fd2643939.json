@@ -1,0 +1,146 @@
+{
+  "kind": "fresh-native-workerd-D1-HTTP-component-not-formal-acceptance",
+  "runId": "00dad5bfe7b44c06a399e50fd2643939",
+  "at": "2026-11-17T02:26:09.306Z",
+  "results": [
+    {
+      "name": "all eight added columns retain both permanent reference triggers",
+      "pass": true,
+      "evidence": {
+        "columnCount": 8,
+        "triggerCount": 16
+      }
+    },
+    {
+      "name": "schema refresh registers every unknown column without skipping Unicode protection",
+      "pass": true,
+      "evidence": {
+        "unknownColumns": 3,
+        "permanentTriggers": 6
+      }
+    },
+    {
+      "name": "all eight explicit and all three unknown references protect real uploaded media",
+      "pass": true,
+      "evidence": {
+        "uploaded": 12,
+        "protectedExplicit": 8,
+        "protectedUnknown": 3,
+        "unreferencedEligible": 1,
+        "unicodeBareIdCovered": true
+      }
+    },
+    {
+      "name": "actual final guard fault rolls back the whole original apply batch",
+      "pass": true,
+      "evidence": {
+        "HTTP": 500,
+        "intentionalOwnedFault": true,
+        "mediaUnchanged": true,
+        "receipts": 0,
+        "tombstones": 0,
+        "processedTargets": 0
+      }
+    },
+    {
+      "name": "same original intent completes original apply and leaves final guards empty",
+      "pass": true,
+      "evidence": {
+        "HTTP": 200,
+        "deleted": 1,
+        "allReferencedRowsPreserved": 11,
+        "guardRows": 0,
+        "sameReceiptOnReplay": true,
+        "noAttemptOrStatusReset": true
+      }
+    },
+    {
+      "name": "native R2 delete plus missing HEAD completes only the original authorized queue",
+      "pass": true,
+      "evidence": {
+        "queueCompleted": true,
+        "nativeCompletedCalls": {
+          "delete": 1,
+          "head": 1,
+          "headMissing": 1
+        },
+        "secureWipe": false,
+        "externalDeletionClaimed": false
+      }
+    },
+    {
+      "name": "permanent tombstone blocks later Unicode bare-id reference and old media identity reuse",
+      "pass": true,
+      "evidence": {
+        "unicodeReferenceBlocked": true,
+        "originalIdentityBlocked": true
+      }
+    },
+    {
+      "name": "actual closure runs the first 100 non-media targets in its original transaction",
+      "pass": true,
+      "evidence": {
+        "HTTP": 200,
+        "planned": 206,
+        "firstBatchScrubbed": 100,
+        "pendingNonMedia": 105,
+        "pendingMedia": 1,
+        "accountClosed": true
+      }
+    },
+    {
+      "name": "real current admin resumes closed-owner batches, with media last and no reset",
+      "pass": true,
+      "evidence": {
+        "batchStates": [
+          {
+            "nonMedia": 5,
+            "media": 1
+          },
+          {
+            "nonMedia": 0,
+            "media": 1
+          },
+          {
+            "nonMedia": 0,
+            "media": 0
+          }
+        ],
+        "all205BodiesScrubbed": true,
+        "guardRows": 0,
+        "actualR2QueueCompleted": true,
+        "ordinarySelfSessionAfterClosure": 401
+      }
+    }
+  ],
+  "referenceFixtures": "synthetic rows, not calculated sample output",
+  "professionalValidation": false,
+  "teacherConfirmed": false,
+  "productionEnabled": false,
+  "changedProductPaths": [
+    "04_研发源码/app/cloud/lib/privacy-domains.ts"
+  ],
+  "originalSourceCopy": "06_验证与后续工作/负责人优化建议-八字样本隐私OR修复前-14c360bb7a37.ts.txt",
+  "bundle": {
+    "path": "06_验证与后续工作\\bazi-privacy-or-native-00dad5bfe7b44c06a399e50fd2643939.mjs",
+    "sha256": "8fc12e823e5dbb8ae8cb5055883c46f4ddc152d76fce734dd677f97499928831",
+    "inputCount": 41
+  },
+  "base": "http://127.0.0.1:62377",
+  "state": "04_研发源码\\app\\cloud\\.wrangler\\bazi-privacy-or-native-00dad5bfe7b44c06a399e50fd2643939",
+  "serviceFixtureColumns": [
+    "id",
+    "user_id",
+    "teacher_id",
+    "teacher_name",
+    "body",
+    "preferred_date",
+    "status",
+    "created"
+  ],
+  "ownedRuntimeStopped": true,
+  "passed": 9,
+  "failed": 0,
+  "sourceSHA256": "10d3bc97d8a8e80f6ddb8d1942560004367755df0fcda4c1fc19fc1b63ce22af",
+  "sourceUnchangedDuringComponent": true
+}

@@ -1,0 +1,1875 @@
+{
+  "at": "2026-11-12T16:00:55.086Z",
+  "module": "负责人优化建议-B11解读桥",
+  "target": "cloud",
+  "runId": "mwdqiuy6_93ade9",
+  "syntheticDataOnly": true,
+  "productionWrites": false,
+  "providerMode": "local-process-mock",
+  "externalProviderTested": false,
+  "promptLogging": false,
+  "fixtureProtocols": [
+    "legacy-responses",
+    "responses"
+  ],
+  "backendEntry": "Actual eastern-api.ts handleAPI through separate local-only QA Worker; reserved .invalid fetch fixture",
+  "coverage": {
+    "realHttp": true,
+    "realBrowser": true,
+    "realSupplier": false,
+    "frameworkAdapterCoveredByThisWrapper": false
+  },
+  "results": [
+    {
+      "name": "真实更多操作入口，不占默认首屏；未授权chart拒绝且无新assistant绑定",
+      "pass": true,
+      "ms": 3475
+    },
+    {
+      "name": "实际legacy客户端调用+新assistant：未存档绑定recordId=null，保存默认关无正文或metadata落盘",
+      "pass": true,
+      "ms": 1435
+    },
+    {
+      "name": "真实HTTP及本机provider出站仅四柱/当前流运，无姓名/精确出生/UTC/版本metadata",
+      "pass": true,
+      "ms": 4,
+      "observed": {
+        "actualProviderCalled": true,
+        "providerKind": "explicit-local-process-fixture",
+        "rawPromptLogged": false
+      }
+    },
+    {
+      "name": "真实保存排盘+授权会话保存：只为新assistant追加纯metadata，旧消息/存档不改",
+      "pass": true,
+      "ms": 1315
+    },
+    {
+      "name": "真实刷新后校验本人已存档源、reply指纹和新鲜授权，恢复原metadata不重写旧记录",
+      "pass": true,
+      "ms": 1949
+    },
+    {
+      "name": "实际切换流运选择使旧回复historical，旧context重试不误发送新选择",
+      "pass": true,
+      "ms": 188
+    },
+    {
+      "name": "保存记录只读server快照不声称迁移B11，旧无metadata回复保持unbound",
+      "pass": true,
+      "ms": 160
+    },
+    {
+      "name": "真实gateway独立receipt+本机SSE，新成功job绑定真实jobID，默认保存关",
+      "pass": true,
+      "ms": 4365
+    },
+    {
+      "name": "gateway真实部分SSE有显示对象但不伪称成功绑定",
+      "pass": true,
+      "ms": 931
+    },
+    {
+      "name": "gateway保存授权后持久绑定；真实终态旧job恢复不新领/不重复扣次",
+      "pass": true,
+      "ms": 2317
+    },
+    {
+      "name": "真实provider撤回时在途SSE/新回复不得晚写绑定或持久化",
+      "pass": true,
+      "ms": 1073
+    },
+    {
+      "name": "真实账号切换迟到legacy回复不绑定或写入另一账号",
+      "pass": true,
+      "ms": 1638
+    },
+    {
+      "name": "真实本机清除撤销run，late reply不能复活正文或metadata",
+      "pass": true,
+      "ms": 1779
+    },
+    {
+      "name": "真实回复后最终metadata读取在途完成全删：最新epoch不允许旧绑定/第二次落盘",
+      "pass": true,
+      "ms": 1353
+    },
+    {
+      "name": "四宽双主题四语实际版本/未绑定badge可读，无溢出，藏文字体实际加载",
+      "pass": true,
+      "ms": 1047,
+      "observed": {
+        "actualViews": 32,
+        "fontCheck": true
+      }
+    },
+    {
+      "name": "实际两协议provider出站不含本机metadata；真实供应商/专业规则未验",
+      "pass": true,
+      "ms": 14499,
+      "observed": {
+        "providerMode": "explicit-local-process-mock",
+        "externalProviderTested": false,
+        "teacherRulesValidated": false,
+        "serverOnlySnapshotsRemainUnbound": true,
+        "rateBudgets": {
+          "readsPerMinute": 180,
+          "read181Status": 429,
+          "writesPerMinute": 30,
+          "write31Status": 429,
+          "readDoesNotSpendWriteBudget": true,
+          "writeDoesNotSpendReadBudget": true,
+          "noJobOrQuotaCreated": true,
+          "limiterDisabled": false
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    "负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实legacy未保存计算与内存关联.png",
+    "负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实刷新后本人档案与原解读绑定.png",
+    "负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实gateway成功job关联且默认不保存.png",
+    "负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实四语未绑定与历史版本badge.png"
+  ],
+  "captureEvidence": [
+    {
+      "path": "06_验证与后续工作/负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实legacy未保存计算与内存关联.png",
+      "sha256": "01567cb817d7d80abba11768cca8425dc9551e0f6221b68ab742f183dea9d0e8",
+      "at": "2026-11-12T16:01:03.615Z",
+      "target": "cloud",
+      "runId": "mwdqiuy6_93ade9",
+      "servedBuildSha256": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+      "sourceIdentitySha256": "bf06d402da84c2902ccdc3a9fa3c49345fefe2772bcefaf58c2a32e0a72f3abe"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实刷新后本人档案与原解读绑定.png",
+      "sha256": "bf8be724106a679b0ccb80030cb3e2fd5fe62f8ee8dd0bb2f4417d8c32c01729",
+      "at": "2026-11-12T16:01:06.885Z",
+      "target": "cloud",
+      "runId": "mwdqiuy6_93ade9",
+      "servedBuildSha256": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+      "sourceIdentitySha256": "bf06d402da84c2902ccdc3a9fa3c49345fefe2772bcefaf58c2a32e0a72f3abe"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实gateway成功job关联且默认不保存.png",
+      "sha256": "2ef5b4a6a335274ad25f5306e89aa4e2e0ac5ceea6cfcb2ad56a6cded887f27c",
+      "at": "2026-11-12T16:01:11.599Z",
+      "target": "cloud",
+      "runId": "mwdqiuy6_93ade9",
+      "servedBuildSha256": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+      "sourceIdentitySha256": "bf06d402da84c2902ccdc3a9fa3c49345fefe2772bcefaf58c2a32e0a72f3abe"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-B11解读桥-cloud-mwdqiuy6_93ade9-真实四语未绑定与历史版本badge.png",
+      "sha256": "9a9b2dfb4ac392132b2b6c707a5ab35ad811c08d19eddd37dd5e8b7739bb4c7b",
+      "at": "2026-11-12T16:01:21.742Z",
+      "target": "cloud",
+      "runId": "mwdqiuy6_93ade9",
+      "servedBuildSha256": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+      "sourceIdentitySha256": "bf06d402da84c2902ccdc3a9fa3c49345fefe2772bcefaf58c2a32e0a72f3abe"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "ms": 149
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 179
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 141
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/settings",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/privacy/config",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/privacy/config",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 133
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 70
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 99
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/ced26540-cdc1-4f4a-a700-3125073ebdc5",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/ai-gateway",
+      "status": 200,
+      "ms": 46
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/ai-gateway/config",
+      "status": 200,
+      "ms": 54
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 112
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 46
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/ai-gateway/grants",
+      "status": 200,
+      "ms": 56
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/providers/alpha/consent",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs",
+      "status": 200,
+      "ms": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs/a8650fd7-a3ff-402e-862a-8deace700fac",
+      "status": 200,
+      "ms": 56
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs/66b6eff1-26e0-47ac-9abb-a81ee1cfa42a",
+      "status": 200,
+      "ms": 54
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 51
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 71
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/providers/alpha/consent",
+      "status": 200,
+      "ms": 99
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/ai-gateway/providers/alpha/consent",
+      "status": 200,
+      "ms": 52
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/ai-gateway/config",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 50
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "ms": 165
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "status": 200,
+      "ms": 225
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "ms": 155
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 135
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 139
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 171
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 73
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 113
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 118
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 80
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 70
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 96
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 88
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 95
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 81
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 82
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 73
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 70
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 79
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 77
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 81
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 74
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 87
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 79
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 77
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 74
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 95
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 74
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 73
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 92
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 84
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 80
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 77
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 139
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 98
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 106
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 92
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 71
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 77
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 81
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 66
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 70
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 89
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 92
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 87
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 74
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 71
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 94
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 86
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 89
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 79
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 76
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 107
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 56
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 73
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 88
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 60
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 66
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 60
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 71
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 73
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 71
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 68
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 75
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 56
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 66
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 66
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 51
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 43
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 99
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 54
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 58
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 54
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 54
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 429,
+      "ms": 32
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 35
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 37
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 36
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 35
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 36
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 36
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 38
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 45
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 49
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 48
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 41
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 41
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 41
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 45
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 42
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 43
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 46
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 43
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 44
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 39
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 41
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 43
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 42
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 41
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 47
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 59
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 37
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 38
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 72
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 38
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 400,
+      "ms": 42
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 429,
+      "ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs",
+      "status": 200,
+      "ms": 39
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200,
+      "ms": 226
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200,
+      "ms": 233
+    }
+  ],
+  "identity": {
+    "sources": {
+      "04_研发源码/app/r4/bazi-result-version.css": "17d1cddc0df54870a344f24abdea450a85381e33bf482a264d8a677e85170b7e",
+      "04_研发源码/app/r4/life-chart-bazi-layout.js": "135df0d96735c446a8de0ef3b0624a8fdc3d398c526f3933e5001b034cf5cc9d",
+      "04_研发源码/app/r4/bazi-time.js": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+      "04_研发源码/app/r4/bazi-compare.js": "fcafec07c99c34613fd47caa975095c50f59d0244d1b4938f6988bf3c371f7a4",
+      "04_研发源码/app/r4/bazi-glossary.js": "790768831879e28406575952c14ef35345c2cadaab97a82ed84fe4ba0dec8e53",
+      "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+      "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+      "04_研发源码/app/r4/vendor/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+      "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+      "04_研发源码/app/r4/platform.js": "0e559f14c27af327bd50af82c54f10c50b527da6155613bee68d906b8f675181",
+      "04_研发源码/app/r4/service-social.js": "9425eff718d00a976690ca1ae694abbdf2511478510a528f99c59be4e05a96db",
+      "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+      "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+      "04_研发源码/app/cloud/worker/index.ts": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+      "04_研发源码/app/r4/bazi-interpretation-bridge.js": "73e7d9bd98af37494b74a2b1bde2276ad686b4b80275e8116bcf0025fff3a701",
+      "04_研发源码/app/r4/bazi-result-version.js": "e31c6787e85dc60c2bd4646d33535ed8347f51664feaa60192ca79e782985989",
+      "04_研发源码/app/r4/bazi-result-version-ui.js": "4b9c339cc8fb5c5f8b46c3cbeb2aaf86594a240fd41cdb1b1998e1389c1e03fb",
+      "04_研发源码/app/r4/bazi-result-version-release.js": "24575cfb39f912d400c31e9c6083b00563e438975be68e2a934c0a5799c2d1a4",
+      "04_研发源码/app/r4/life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+      "04_研发源码/app/r4/life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+      "04_研发源码/app/r4/backend/privacy_saved.py": "b69f05a201fc6baab9962a2ea462d8699a47b6ce63890c54b94392e831db9ce7",
+      "04_研发源码/app/cloud/lib/privacy-saved.ts": "7b55419968de863aa9eab39abe3eca34da3f10e87709ff99e9794d3b6337e839",
+      "04_研发源码/app/r4/privacy-saved.js": "943bb04ee8f5a49ab3d123a37053b17a34ec07d7ff9bca5f8ac219b559b12f3c",
+      "04_研发源码/app/r4/privacy-saved.css": "3e5b2ee7eddada977e76156de6c5dd083721f9bb0171c8787fa809864d981375",
+      "04_研发源码/app/r4/backend/privacy.py": "e97bacca00d6ab0df0b04686bcf12812d340cef2f4118447e962f06f5424e77c",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b",
+      "04_研发源码/app/r4/backend/ai_gateway.py": "9eaf46835e66346877cd306a2091d02b36f880574084542f27ffbce89218e760",
+      "04_研发源码/app/cloud/lib/ai-gateway.ts": "c815adcc9ffb8da30383b5eac110b9c2f7c272dcc3a01655f360d8d377b0912f",
+      "04_研发源码/app/r4/ai-gateway-ui.js": "44b1ba4a330863ce453a6367ca33c8878427604080a5d5fa92b326bbd9f699bb",
+      "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+      "04_研发源码/app/r4/privacy-center.js": "72402a0cf85977a8825c7502e07f8ac25bb7a814e9a4a27d69f91493f6deab1e",
+      "04_研发源码/app/r4/backend/server.py": "d9c98d138c1a9951b18f2706df7213eb6b588cca40da17e5304b7edfa4b31f9b",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "14c7139480ad897d3ab68d3731563807727aed11801db61b197f5a9bea7b11ba",
+      "04_研发源码/app/r4/build.py": "be6c9ff45f772278c331c54516578172701f5a3d463af3a9ac94e18bc5c4205b",
+      "04_研发源码/app/cloud/prepare.py": "7a54df3171bc1ba39200e06ebf2ddfb3528bfd656cbd7c2462e412a0fcce2140"
+    },
+    "builds": {
+      "03_当前APP/发给负责人-东方智慧首页R4.html": "0794bb7f01df95707125f13f522bf266be3bcfebf785cee5338e2f6d496bfce6",
+      "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "04_研发源码/app/cloud/dist/server/BUILD_ID": "82cd98474f59fa152da17de7cb3880159a64213e996113ed7dc385e35fe4e06a",
+      "04_研发源码/app/cloud/public/assets/NotoSerifTibetan.woff2": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+      "03_当前APP/东方智慧-首页体验R4.html": "59a1763becd18037931eb28708407be77d23e3253b3520e4a72d9e9aa1819d44",
+      "03_当前APP/计时后台-开发联调.html": "9480ce7130390ad40a8861d39039a2a7ee2b60b5b9a5ec42029a3ba58ee251e0",
+      "04_研发源码/app/cloud/generated/experience.html": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+      "04_研发源码/app/cloud/generated/admin.html": "7917ba41eb1734ab29eec39cbc7d943365aa34b8912ba2a1cfc7ab10f9a2e5af",
+      "04_研发源码/app/cloud/dist/server/index.js": "6843bcf66b84a431787859dfcf04045b7935238702c9afaffa8fe74a43ece8ae"
+    }
+  },
+  "testHashes": {
+    "负责人优化建议-B11解读桥测试工具.cjs": "330c8189e98c4d42780806ceadbdc55b7da0e38f65ac70aa2adc192c9d2c9ab6",
+    "负责人优化建议-B11解读桥专项.cjs": "35db001a1af966ef8c7a211ad2f1daa0f0a7d1262762bf0bcc8071602c1e2234",
+    "负责人优化建议-B11解读桥Python测试服务.py": "3824c4692c772803ea4cf801c46bffbb1ee6389b0fc9355bb17797f6818d8471",
+    "负责人优化建议-B11解读桥Cloud测试服务.ts": "37c9edfbfc5c0ae570549bef3d963f759e48a86f53a2bbdf6ca6b33a39eff7dd"
+  },
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\bq7ab2",
+  "testWrapperConfig": "04_研发源码\\app\\cloud\\.wrangler\\bq7ab2c\\wrangler.json",
+  "ownedProcessId": 11332,
+  "base": "http://127.0.0.1:58891",
+  "localFontAssetVerified": true,
+  "servedBuildSha256": "52cc27f8c18e075b71ff0267cd2883d762b4f329b1bbc508e473e270c4c517df",
+  "fontIdentity": {
+    "sourcePath": "04_研发源码/app/r4/vendor/NotoSerifTibetan.woff2",
+    "sha256": "539ab699f3f2d3844122f9d121f1812c74b51b034da2ccfcc8eaf8c978f72f1b",
+    "bytes": 772924,
+    "embeddedVerified": false,
+    "assetVerified": true
+  },
+  "realAppFontLoaded": true,
+  "rateBudgets": {
+    "readsPerMinute": 180,
+    "read181Status": 429,
+    "writesPerMinute": 30,
+    "write31Status": 429,
+    "readDoesNotSpendWriteBudget": true,
+    "writeDoesNotSpendReadBudget": true,
+    "noJobOrQuotaCreated": true,
+    "limiterDisabled": false
+  },
+  "identityUnchanged": true,
+  "pass": true,
+  "passed": 16,
+  "failed": 0,
+  "completed": true
+}

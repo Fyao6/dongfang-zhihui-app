@@ -1,43 +1,6 @@
 // Deterministic Ba Zi adapter and interactive view. Calendar source: lunar-javascript 1.7.7 (MIT).
 // Dates passed to this adapter have already been converted to fixed UTC+08:00 by the shared birth form.
-function lcBaziCalculate(normalized,options={}){
- const library=typeof LCLunar!=='undefined'?LCLunar:(typeof Solar!=='undefined'?{Solar}:null);
- if(!library?.Solar)throw new Error('The lunar-javascript calculation library is unavailable.');
- const c=normalized?.china,b=normalized?.birth;
- if(!c||!b||!['male','female'].includes(b.sex))throw new Error('Complete the birth time and calculation gender first.');
- const daySect=Number(options.daySect??2),yunSect=Number(options.yunSect??2);
- if(![1,2].includes(daySect)||![1,2].includes(yunSect))throw new Error('Unknown Ba Zi calculation rule.');
- const solar=library.Solar.fromYmdHms(c.year,c.month,c.day,c.hour,c.minute,c.second||0),lunar=solar.getLunar(),eight=lunar.getEightChar();
- eight.setSect(daySect);
- const columns=[['year','Year'],['month','Month'],['day','Day'],['time','Time']];
- const pillars=columns.map(([key,method])=>({
-  key,ganZhi:eight['get'+method](),stem:eight['get'+method+'Gan'](),branch:eight['get'+method+'Zhi'](),
-  hiddenStems:[...eight['get'+method+'HideGan']()],fiveElements:eight['get'+method+'WuXing'](),
-  stemTenGod:eight['get'+method+'ShiShenGan'](),branchTenGods:[...eight['get'+method+'ShiShenZhi']()],
-  naYin:eight['get'+method+'NaYin'](),growthStage:eight['get'+method+'DiShi'](),xun:eight['get'+method+'Xun'](),voidBranches:eight['get'+method+'XunKong']()
- }));
- const auxiliary={
-  taiYuan:{ganZhi:eight.getTaiYuan(),naYin:eight.getTaiYuanNaYin()},
-  taiXi:{ganZhi:eight.getTaiXi(),naYin:eight.getTaiXiNaYin()},
-  mingGong:{ganZhi:eight.getMingGong(),naYin:eight.getMingGongNaYin()},
-  shenGong:{ganZhi:eight.getShenGong(),naYin:eight.getShenGongNaYin()}
- };
- const yun=eight.getYun(b.sex==='male'?1:0,yunSect);
- const periods=yun.getDaYun(10).map(period=>{
-  const ganZhi=period.getGanZhi();
-  return {index:period.getIndex(),ganZhi,startYear:period.getStartYear(),endYear:period.getEndYear(),startAge:period.getStartAge(),endAge:period.getEndAge(),
-   xun:ganZhi?period.getXun():'',voidBranches:ganZhi?period.getXunKong():'',
-   smallFortunes:period.getXiaoYun().map(small=>({year:small.getYear(),age:small.getAge(),ganZhi:small.getGanZhi(),xun:small.getXun(),voidBranches:small.getXunKong()})),
-   years:period.getLiuNian().map(year=>({year:year.getYear(),age:year.getAge(),ganZhi:year.getGanZhi(),xun:year.getXun(),voidBranches:year.getXunKong(),
-    months:year.getLiuYue().map(month=>({index:month.getIndex(),ordinal:month.getIndex()+1,monthName:month.getMonthInChinese(),ganZhi:month.getGanZhi(),xun:month.getXun(),voidBranches:month.getXunKong()}))
-   }))
-  };
- });
- return {kind:'bazi',schemaVersion:1,engine:{name:'lunar-javascript',version:'1.7.7',license:'MIT'},
-  rules:{calculationTimeZone:'UTC+08:00',trueSolarTime:false,yearBoundary:'LiChun',monthBoundary:'JieQi',daySect,dayBoundary:daySect===1?'23:00':'00:00',yunSect,ageMode:'nominal',monthSequence:'Yin through Chou; solar-term month sequence',auxBasis:'EightChar auxiliary methods; TaiXi follows selected daySect',smallFortuneBasis:'DaYun.getXiaoYun; natal time pillar, Yun direction and nominal calendar-year ages'},
-  calculationCivilTime:solar.toYmdHms(),lunarDate:lunar.toString(),pillars,auxiliary,
-  startFortune:{forward:yun.isForward(),years:yun.getStartYear(),months:yun.getStartMonth(),days:yun.getStartDay(),hours:yun.getStartHour(),solar:yun.getStartSolar().toYmdHms()},periods};
-}
+function lcBaziCalculate(normalized,options={}){return lcBaziShared().calculate(normalized,options);}
 function lcbText(en,zh,hant,bo){return lcText(en,zh,hant,bo);}
 function lcbLabels(){return {
  title:lcbText('Ba Zi chart','八字排盘','八字排盤','བ་ཙི་སྐར་རྩིས།'),

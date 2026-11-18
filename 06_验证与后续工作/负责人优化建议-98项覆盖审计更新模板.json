@@ -1,0 +1,2208 @@
+{
+  "kind": "准备模板；等待桥/售后最终冻结后再运行更新",
+  "taskCount": 98,
+  "tasksMustRemainUnmodified": true,
+  "oldAuditMustRemainUntilExplicitReplace": true,
+  "blankGapListIsNotCompletionProof": true,
+  "rowOverrides": {
+    "PR03": {
+      "records": [
+        "负责人优化建议-保存快照-实施记录.json",
+        "负责人优化建议-隐私设置-实施记录.json"
+      ],
+      "resolvedSoftware": [
+        "最终保存入口事务/条件INSERT复核epoch/策略/provider，旧legacy迟到保存窗口已修；本人保存快照查看/单删已有。"
+      ],
+      "softwareNotImplemented": [
+        "真正长期记忆的owner隔离CRUD、版本/撤回栅栏及新对话受控检索仍未实现；memoryAvailable=false与保存快照不能冒充记忆管理。"
+      ],
+      "externalInputs": [
+        "记忆用途/保留期限、是否采用向量服务及处理地区/供应商方案。"
+      ],
+      "productionGates": [
+        "真实检索/保留/删除与撤回全链路验收。"
+      ]
+    },
+    "PR04": {
+      "records": [
+        "负责人优化建议-保存快照-实施记录.json",
+        "负责人优化建议-隐私设置-实施记录.json"
+      ],
+      "resolvedSoftware": [
+        "本人主动查看/单删保存快照、整类清空/本人导出、当前实际表删除与迟到响应失效已有。"
+      ],
+      "softwareNotImplemented": [
+        "最终注销审批/执行状态机及全session撤销尚未实现；pending-review不是已关闭。",
+        "供应商/备份删除任务执行、核验回执与重试连接器仍缺；启用向量索引/缓存时须覆盖其真实清除，不只是缺供应商资料。"
+      ],
+      "externalInputs": [
+        "供应商删除能力/契约、备份删除与保留例外、财务留存政策及操作授权。"
+      ],
+      "productionGates": [
+        "本人已停用、所有session失效、各存储域删除/保留回执与外部确认的实际验收。"
+      ]
+    },
+    "PR05": {
+      "records": [
+        "负责人优化建议-隐私设置-实施记录.json"
+      ],
+      "softwareNotImplemented": [
+        "逐类保留政策定稿后仍需实际到期任务、备份清理/回执与失败重试；可配置天数不等于已有调度。"
+      ],
+      "externalInputs": [
+        "记录/会话/备份/财务/安全日志各类保留期限与合法留存例外。"
+      ],
+      "productionGates": [
+        "真实任务运行记录与隔离过期删除演练。"
+      ]
+    },
+    "PR06": {
+      "records": [
+        "负责人优化建议-隐私设置-实施记录.json"
+      ],
+      "additionalEvidence": [
+        "负责人优化建议-PR06与SV04部署前阻塞证据说明.txt"
+      ],
+      "softwareNotImplemented": [
+        "legacy AI/设备凭据仍可写业务settings原值；需受管secret resolver连接器及批准的旧凭据迁移/轮换，不能只算外部资料。",
+        "后台受管身份/MFA、生产可信代理/Cookie策略、敏感访问审计/受管日志连接器尚未完成。"
+      ],
+      "externalInputs": [
+        "生产身份租户/MFA政策、云账号IAM/Secrets/KMS、域名与入口、迁移授权/日志保留政策。"
+      ],
+      "productionGates": [
+        "真实TLS/静态加密/备份加密、MFA强制、最小IAM与审计部署证明；本机HTTP/密码哈希不替代。"
+      ]
+    },
+    "SV04": {
+      "additionalEvidence": [
+        "负责人优化建议-PR06与SV04部署前阻塞证据说明.txt",
+        "负责人优化建议-隔离备份恢复演练.json"
+      ],
+      "softwareNotImplemented": [
+        "生产PostgreSQL适配/兼容迁移、受管密钥/日志/备份/告警连接器和可回滚部署预检仍缺；不是只有云账号资料。",
+        "当前备份是新SQLite隔离演练，尚无生产PITR/常驻保留任务/故障恢复编排。"
+      ],
+      "externalInputs": [
+        "云账号/区域/网络/身份/域名/告警接收端、RPO/RTO与保留策略。"
+      ],
+      "productionGates": [
+        "私网与资源隔离、生产TLS/KMS/MFA、真实备份PITR/恢复和多可用区故障、付款事实保全及连接重建。"
+      ]
+    },
+    "PAY16": {
+      "records": [
+        "负责人优化建议-只读对账-实施记录.json"
+      ],
+      "resolvedSoftware": [
+        "沙箱原订单/付款退款/权益/会员/佣金/结算同一只读快照、差异定位、CSV和角色/grant门禁已验证；缺来源汇总为null。"
+      ],
+      "softwareNotImplemented": [
+        "真实渠道日账/手续费/到账接入、按日对账与差异处置流程仍未实现；当前手动沙箱一致性不是财务每日渠道对账。"
+      ],
+      "externalInputs": [
+        "渠道正式账单格式/账户/费用/结算与税务、日界线和差异处置政策。"
+      ],
+      "productionGates": [
+        "真实渠道和银行事实核验、日任务运行及权限/差异追溯。"
+      ],
+      "requiredStatus": "进行中"
+    },
+    "PAY18": {
+      "records": [
+        "负责人优化建议-只读对账-实施记录.json"
+      ],
+      "resolvedSoftware": [
+        "后台手动沙箱差异/待核/未覆盖面板，CSV，不补账不外发告警。"
+      ],
+      "softwareNotImplemented": [
+        "支付失败/回调积压/真实退款失败/拒付等事件源采集、常驻监测、告警投递/去重/重试/确认连接器仍未实现。"
+      ],
+      "externalInputs": [
+        "真实渠道事件、告警接收责任人/端点、阈值/SLO与升级政策。"
+      ],
+      "productionGates": [
+        "真实异常注入与投递确认/订单定位演练；无事件记录不代表0失败。"
+      ],
+      "requiredStatus": "进行中"
+    },
+    "X01": {
+      "softwareNotImplemented": [],
+      "externalInputs": [
+        "实际iOS/Android目标设备、母语审校及目标国家网络测试点。"
+      ],
+      "productionGates": [
+        "桌面本机Chromium/字体通过不代表iOS/Android和目标网络验收。"
+      ],
+      "requiredStatus": "进行中"
+    },
+    "X02": {
+      "softwareNotImplemented": [
+        "真实渠道/生产数据恢复与第五阶段目标地区容量、容灾验收未完成。"
+      ],
+      "externalInputs": [
+        "正式业务政策、目标地区与负载、生产基础设施/支付/推理服务。"
+      ],
+      "productionGates": [
+        "分模块本地提交/双端门禁属于阶段性证据，不能宣布五阶段或98项全部完成。"
+      ],
+      "requiredStatus": "进行中"
+    },
+    "SH03": {
+      "records": [],
+      "takeAfterSalesFinalRecord": true,
+      "softwareNotImplemented": [
+        "逐case退款关联与确认状态尚未实现：caseRefundLinked=false、caseRefundConfirmed=false；资金仅展示原订单累计sandbox refund，并不证明本申请已退款。仍需将明确批准的售后项/数量与原退款事件建立幂等关联，处理退款重放、部分退款、撤销/失败和该case完成状态。",
+        "真实承运/仓储核验与渠道资金事实连接器仍未接通；本地登记物流、实收与入库不替代其外部验证。"
+      ],
+      "externalInputs": [
+        "正式售后/退款/运费/审批及部分退款归属政策；仓储/承运/客服服务与真实渠道接口资料。"
+      ],
+      "productionGates": [
+        "正式售后与真实资金保持关闭；必须先证明case与退款事件幂等关联，再分别核验真实资金/承运事实，不能以received或订单累计退款冒充该case已退款。"
+      ],
+      "currentSoftwareBoundary": {
+        "caseRefundLinked": false,
+        "caseRefundConfirmed": false,
+        "moneySource": "original-commerce-payment-events",
+        "amountScope": "original-order-cumulative-sandbox-refund",
+        "caseSpecificRefundConfirmed": false
+      },
+      "softwareGapEvidence": [
+        "04_研发源码/app/r4/backend/after_sales.py:158",
+        "04_研发源码/app/cloud/lib/after-sales.ts:88"
+      ]
+    },
+    "SH04": {
+      "records": [],
+      "takeAfterSalesFinalRecord": true,
+      "softwareNotImplemented": [
+        "逐case退款关联与确认状态尚未实现：caseRefundLinked=false、caseRefundConfirmed=false；资金仅展示原订单累计sandbox refund，并不证明本申请已退款。仍需将明确批准的售后项/数量与原退款事件建立幂等关联，处理退款重放、部分退款、撤销/失败和该case完成状态。",
+        "真实承运/仓储核验与渠道资金事实连接器仍未接通；本地登记物流、实收与入库不替代其外部验证。"
+      ],
+      "externalInputs": [
+        "正式售后/退款/运费/审批及部分退款归属政策；仓储/承运/客服服务与真实渠道接口资料。"
+      ],
+      "productionGates": [
+        "正式售后与真实资金保持关闭；必须先证明case与退款事件幂等关联，再分别核验真实资金/承运事实，不能以received或订单累计退款冒充该case已退款。"
+      ],
+      "currentSoftwareBoundary": {
+        "caseRefundLinked": false,
+        "caseRefundConfirmed": false,
+        "moneySource": "original-commerce-payment-events",
+        "amountScope": "original-order-cumulative-sandbox-refund",
+        "caseSpecificRefundConfirmed": false
+      },
+      "softwareGapEvidence": [
+        "04_研发源码/app/r4/backend/after_sales.py:158",
+        "04_研发源码/app/cloud/lib/after-sales.ts:88"
+      ]
+    },
+    "SH05": {
+      "records": [],
+      "takeAfterSalesFinalRecord": true,
+      "softwareNotImplemented": [
+        "逐case退款关联与确认状态尚未实现：caseRefundLinked=false、caseRefundConfirmed=false；资金仅展示原订单累计sandbox refund，并不证明本申请已退款。仍需将明确批准的售后项/数量与原退款事件建立幂等关联，处理退款重放、部分退款、撤销/失败和该case完成状态。",
+        "真实承运/仓储核验与渠道资金事实连接器仍未接通；本地登记物流、实收与入库不替代其外部验证。"
+      ],
+      "externalInputs": [
+        "正式售后/退款/运费/审批及部分退款归属政策；仓储/承运/客服服务与真实渠道接口资料。"
+      ],
+      "productionGates": [
+        "正式售后与真实资金保持关闭；必须先证明case与退款事件幂等关联，再分别核验真实资金/承运事实，不能以received或订单累计退款冒充该case已退款。"
+      ],
+      "currentSoftwareBoundary": {
+        "caseRefundLinked": false,
+        "caseRefundConfirmed": false,
+        "moneySource": "original-commerce-payment-events",
+        "amountScope": "original-order-cumulative-sandbox-refund",
+        "caseSpecificRefundConfirmed": false
+      },
+      "softwareGapEvidence": [
+        "04_研发源码/app/r4/backend/after_sales.py:158",
+        "04_研发源码/app/cloud/lib/after-sales.ts:88"
+      ]
+    },
+    "PAY19": {
+      "records": [],
+      "takeAfterSalesFinalRecord": true,
+      "softwareNotImplemented": [
+        "逐case退款关联与确认状态尚未实现：caseRefundLinked=false、caseRefundConfirmed=false；资金仅展示原订单累计sandbox refund，并不证明本申请已退款。仍需将明确批准的售后项/数量与原退款事件建立幂等关联，处理退款重放、部分退款、撤销/失败和该case完成状态。",
+        "真实承运/仓储核验与渠道资金事实连接器仍未接通；本地登记物流、实收与入库不替代其外部验证。"
+      ],
+      "externalInputs": [
+        "正式售后/退款/运费/审批及部分退款归属政策；仓储/承运/客服服务与真实渠道接口资料。"
+      ],
+      "productionGates": [
+        "正式售后与真实资金保持关闭；必须先证明case与退款事件幂等关联，再分别核验真实资金/承运事实，不能以received或订单累计退款冒充该case已退款。"
+      ],
+      "currentSoftwareBoundary": {
+        "caseRefundLinked": false,
+        "caseRefundConfirmed": false,
+        "moneySource": "original-commerce-payment-events",
+        "amountScope": "original-order-cumulative-sandbox-refund",
+        "caseSpecificRefundConfirmed": false
+      },
+      "softwareGapEvidence": [
+        "04_研发源码/app/r4/backend/after_sales.py:158",
+        "04_研发源码/app/cloud/lib/after-sales.ts:88"
+      ]
+    },
+    "SVT01": {
+      "additionalEvidence": [
+        "负责人优化建议-SVT01本机探索说明.txt",
+        "负责人优化建议-隔离备份恢复演练.json"
+      ],
+      "externalInputs": [
+        "目标国家/实际负载/生产节点、真实CDN/模型及恢复目标。"
+      ],
+      "productionGates": [
+        "本机20RPS30秒100匿名逻辑访客探索，不替代目标地区30分钟/100登录会话性能验收；本机快照恢复不证明生产PITR/零丢失。"
+      ]
+    },
+    "SVT02": {
+      "additionalEvidence": [
+        "负责人优化建议-SVT01本机探索说明.txt",
+        "负责人优化建议-隔离备份恢复演练.json"
+      ],
+      "externalInputs": [
+        "目标国家/实际负载/生产节点、真实CDN/模型及恢复目标。"
+      ],
+      "productionGates": [
+        "本机20RPS30秒100匿名逻辑访客探索，不替代目标地区30分钟/100登录会话性能验收；本机快照恢复不证明生产PITR/零丢失。"
+      ]
+    },
+    "SVT03": {
+      "additionalEvidence": [
+        "负责人优化建议-SVT01本机探索说明.txt",
+        "负责人优化建议-隔离备份恢复演练.json"
+      ],
+      "externalInputs": [
+        "目标国家/实际负载/生产节点、真实CDN/模型及恢复目标。"
+      ],
+      "productionGates": [
+        "本机20RPS30秒100匿名逻辑访客探索，不替代目标地区30分钟/100登录会话性能验收；本机快照恢复不证明生产PITR/零丢失。"
+      ]
+    },
+    "B11": {
+      "records": [
+        "负责人优化建议-八字版本追溯-实施记录.json",
+        "负责人优化建议-八字解读关联-实施记录.json"
+      ],
+      "takeBridgeFinalRecord": true,
+      "softwareNotImplemented": [],
+      "externalInputs": [
+        "老师规则/术语确认及真实AI上游授权按现任务说明保留。"
+      ],
+      "productionGates": [
+        "排盘记录/实际AI请求与保存追溯以桥最终记录scope为准；不将准备hook当集成。"
+      ]
+    }
+  },
+  "preparedRows": [
+    {
+      "id": "G01",
+      "title": "盘点现有实现与数据",
+      "source_ids": [
+        "P004",
+        "P043",
+        "P044",
+        "P045",
+        "P046",
+        "P047",
+        "P048",
+        "P562",
+        "P566",
+        "P567",
+        "P568",
+        "P619"
+      ],
+      "requirement": "核查现有前端、后端、数据库、部署说明及八项需求实现位置；登记已有、缺失、待核验能力和依赖，不将截图当作接口或算法验证。",
+      "acceptance": "提交现状清单、实现位置、缺失能力、依赖表和工期评估。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已完成前端、后台、八字、部署与测试现状核查；后续分阶段工期需按规则及外部资料就绪情况细化。",
+      "dependencies": "先检查现有代码后评估具体工期。",
+      "verification_record": null
+    },
+    {
+      "id": "G02",
+      "title": "锁定本轮范围与既有功能保护",
+      "source_ids": [
+        "P044",
+        "P229",
+        "P619",
+        "P650",
+        "P656"
+      ],
+      "requirement": "在现有项目内修改；保留三大地图、智慧馆、学习内容、命盘、会员入口、时间银行、原社群功能和既有数据。预览侧栏及假手机外框不作为原生APP必须保留的元素。",
+      "acceptance": "八项需求有可追踪任务；既有功能与数据的保留检查通过。",
+      "declaredStatus": "进行中",
+      "declaredScope": "",
+      "dependencies": "实际实现状态须代码核验。",
+      "verification_record": null
+    },
+    {
+      "id": "G03",
+      "title": "建立统一商品订单权益与佣金关系",
+      "source_ids": [
+        "P424",
+        "P461",
+        "P562",
+        "P573",
+        "P574",
+        "P620"
+      ],
+      "requirement": "商城、会员、支付复用统一商品、订单和权益系统，订单项关联规则快照与佣金。分别保存支付、履约、订阅和佣金状态。",
+      "acceptance": "关系模型和接口职责清晰，不各建一套订单与权限；状态可分别追踪。",
+      "declaredStatus": "进行中",
+      "declaredScope": "商城、会员及分佣复用统一商品/订单/付款/退款，会员/佣金保存独立状态和成交快照，失败派生可重试；双后端完整与实际专项通过。真实渠道/正式业务文档仍待补。",
+      "dependencies": "商品类型、会员规则、分佣文档。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "G04",
+      "title": "收齐九类外部资料并登记确认版本",
+      "source_ids": [
+        "P582",
+        "P583",
+        "P584",
+        "P585",
+        "P586",
+        "P587",
+        "P588",
+        "P589",
+        "P590",
+        "P591",
+        "P592",
+        "P593",
+        "P594",
+        "P595",
+        "P596",
+        "P597",
+        "P598",
+        "P599",
+        "P600",
+        "P601",
+        "P602",
+        "P603",
+        "P604",
+        "P605",
+        "P606",
+        "P607",
+        "P608",
+        "P609",
+        "P610",
+        "P611",
+        "P612",
+        "P613",
+        "P614"
+      ],
+      "requirement": "收集老师规则与样本、Claude接口、会员收费与分佣、签约主体支付资料、首批商品、用户地区流量预算、卡种卡组授权、品牌视频资料、数据保留与供应商资料。",
+      "acceptance": "每项资料有提供方、确认版本、影响任务和未齐处理方式。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "详见原文P582–P614；责任提供方沿用原文。",
+      "verification_record": null
+    },
+    {
+      "id": "G05",
+      "title": "控制待定规则的生产启用",
+      "source_ids": [
+        "P004",
+        "P045",
+        "P046",
+        "P047",
+        "P287",
+        "P614",
+        "P619",
+        "P621",
+        "P622"
+      ],
+      "requirement": "价格、权益、比例、排盘口径和供应商条件未确认时先完成配置、数据结构、适配层与沙箱。正式收费、自动分佣和未经校验的算法结果按对应条件启用。",
+      "acceptance": "未定规则有明确待补项；生产开关与规则确认关联，不用占位内容标记完成。",
+      "declaredStatus": "进行中",
+      "declaredScope": "交易生产开关固定关闭，沙箱不授正式权限；其余AI/排盘/分佣待各模块条件接入。",
+      "dependencies": "项目方后续确认及上线计划。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "V01",
+      "title": "确认视频脚本与分镜",
+      "source_ids": [
+        "P050",
+        "P051",
+        "P052",
+        "P053",
+        "P054",
+        "P055",
+        "P056",
+        "P057",
+        "P058",
+        "P059",
+        "P060",
+        "P061",
+        "P062",
+        "P063",
+        "P064",
+        "P065",
+        "P066",
+        "P067",
+        "P068",
+        "P069",
+        "P070",
+        "P071",
+        "P072",
+        "P073",
+        "P074",
+        "P075",
+        "P076",
+        "P607",
+        "P608",
+        "P609"
+      ],
+      "requirement": "首页顶部红框轮播区增加“认识东方智慧”视频卡。建议约40秒：0–5品牌首页；5–12生命地图紫微/星盘/八字；12–19身体地图茶道/中医/藏医；19–26心智疗愈/禅修；26–34智慧馆与长条时间银行；34–40返回首页与体验入口。屏幕字和完整旁白逐项审核。",
+      "acceptance": "脚本、六段分镜、品牌名、旁白、屏幕文字与简繁英语言审核完成。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已形成原文六段40秒分镜、屏幕文字及旁白初稿；品牌/语言/旁白审核尚未完成。",
+      "dependencies": "项目方与设计提供品牌、素材、旁白审核。",
+      "verification_record": "负责人优化建议-首页视频-实施记录.json"
+    },
+    {
+      "id": "V02",
+      "title": "制作介绍片及完整素材包",
+      "source_ids": [
+        "P053",
+        "P076",
+        "P077"
+      ],
+      "requirement": "AI生成服务调用及剪辑需要实际可用工具和额度；真实界面用录屏或现有素材，中文标题后期叠加，素材、声音和音乐可商用。建议交付16:9横版1080p主片、专用封面、独立简繁英字幕及无字幕母版。",
+      "acceptance": "可播放成片及素材包齐全；宽轮播封面适配，完整视频等比展示；授权可核对。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已制作40.00秒真实APP录屏待审初剪，静音WebM1080p母版、封面、简繁英VTT及预览齐全，8项素材核验通过；源画面960×540放大，正式脚本/授权/旁白音乐/MP4及实机待审。",
+      "dependencies": "分镜定稿、生成工具与额度、商用素材。",
+      "verification_record": "负责人优化建议-真实介绍片待审验收.json"
+    },
+    {
+      "id": "V03",
+      "title": "接入轮播视频与播放器",
+      "source_ids": [
+        "P079",
+        "P080",
+        "P082"
+      ],
+      "requirement": "默认封面加播放按钮；自动预览如启用须静音且仅可见卡播放；主动播放暂停轮播，离页停声音。支持播放、暂停、音量、字幕、全屏、关闭。",
+      "acceptance": "自动播放受限、弱网或加载失败时仍显示封面并可重试；首页保持可操作。",
+      "declaredStatus": "待验收",
+      "declaredScope": "真实播放器/字幕/开声音/暂停/全屏/关闭、失败回退及离页释放已接入；双端全量60/60和实际专项22/22通过；正式片与视觉待验收。",
+      "dependencies": "成片、封面、字幕、目标端清单。",
+      "verification_record": "负责人优化建议-首页视频-实施记录.json"
+    },
+    {
+      "id": "V04",
+      "title": "配置视频后台与媒体分发",
+      "source_ids": [
+        "P081",
+        "P082",
+        "P627"
+      ],
+      "requirement": "后台管理地址、封面、字幕、语言、排序、启停、跳转目标，使用对象存储和CDN。",
+      "acceptance": "修改后台配置可生效；iOS、Android、H5可播，切页不串音，字幕不被按钮遮挡。",
+      "declaredStatus": "进行中",
+      "declaredScope": "后台地址/封面/简繁英藏VTT/排序/启停/跳转已与quotes及revisions统一；素材归属与会员私有保护通过；生产CDN/CORS及实机待验。",
+      "dependencies": "媒体存储/CDN与目标端。",
+      "verification_record": "负责人优化建议-首页视频-实施记录.json"
+    },
+    {
+      "id": "B01",
+      "title": "重组基础盘与独立流运区",
+      "source_ids": [
+        "P085",
+        "P086",
+        "P087",
+        "P088"
+      ],
+      "requirement": "顶部按返回、标题、资料摘要、修改资料排列；完整出生信息默认收起。固定显示年/月/日/时四柱，大运、流年、流月置于独立流运区并展示选中日期或区间。",
+      "acceptance": "默认四柱清晰；资料摘要可展开；流运选择和结果对应。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "先核对现有页面及数据映射。",
+      "verification_record": null
+    },
+    {
+      "id": "B02",
+      "title": "调整表格列宽与详细字段展开",
+      "source_ids": [
+        "P089",
+        "P090",
+        "P123"
+      ],
+      "requirement": "固定行名、统一列宽；藏干、十神、星运、纳音、空亡等通过展开查看；保留档案、流运、神煞导航。小屏分区和横向滚动承载附加列，不挤小字号。",
+      "acceptance": "默认与展开视图字段一致，原有完整字段可查询，无错列。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "既有排盘完整字段清单。",
+      "verification_record": null
+    },
+    {
+      "id": "B03",
+      "title": "提供专业完整盘面视图",
+      "source_ids": [
+        "P091"
+      ],
+      "requirement": "建议增加可选完整盘面或横屏视图，保持与基础视图相同字段。",
+      "acceptance": "选择方案经确认；专业视图与基础视图逐字段一致。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "需确定完整盘面或横屏的本期方案。",
+      "verification_record": null
+    },
+    {
+      "id": "B04",
+      "title": "校准字号间距与触控面积",
+      "source_ids": [
+        "P092",
+        "P093",
+        "P094",
+        "P095",
+        "P096",
+        "P097",
+        "P098",
+        "P099",
+        "P100",
+        "P101",
+        "P102",
+        "P103",
+        "P104",
+        "P105",
+        "P106",
+        "P107",
+        "P108",
+        "P109",
+        "P110",
+        "P111",
+        "P112",
+        "P113",
+        "P114",
+        "P115",
+        "P116",
+        "P117"
+      ],
+      "requirement": "建议标题20–22px、干支24–28px且两行对齐并保留五行辨识、柱名核心数值14–16px、次要12–14px、正文14–16px及行高1.4–1.6、边距16px起、触控44px起。使用既有字体与合适字重。",
+      "acceptance": "390px设计基准待锁定；同时检查375/393/430px、深浅色、系统文字放大；文字不制作成图片。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "建议值按项目基准校准后定稿。",
+      "verification_record": null
+    },
+    {
+      "id": "B05",
+      "title": "完善术语与神煞解释及无障碍辨识",
+      "source_ids": [
+        "P119",
+        "P120",
+        "P123"
+      ],
+      "requirement": "缩写术语可点击解释；神煞显示数量和展开入口；五行除颜色外增加文字或图例，检查英文、繁体溢出。",
+      "acceptance": "术语可解释、神煞不堆满屏、五行可脱离颜色辨识；四种宽度无截字和重叠。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "老师术语说明与三语言文案。",
+      "verification_record": null
+    },
+    {
+      "id": "B06",
+      "title": "同步流运交互并避让时间银行",
+      "source_ids": [
+        "P121",
+        "P122",
+        "P123",
+        "P657"
+      ],
+      "requirement": "切流年、流月更新选中与对应结果；一键回当前日期不重置出生档案。保留浮层移动、隐藏和原计时规则，排盘按钮及导航不被遮挡。",
+      "acceptance": "连续切换和回当前正确；浮层移动/隐藏不影响累计，盘面和按钮可操作。",
+      "declaredStatus": "待验收",
+      "declaredScope": "八字呈现本地实现及双后端60/60、新专项36/36和原五专项8/14/15/16/12通过；视觉待项目方验收。",
+      "dependencies": "既有计时规则与流运接口。",
+      "verification_record": null
+    },
+    {
+      "id": "B07",
+      "title": "确认并版本化老师排盘规则",
+      "source_ids": [
+        "P126",
+        "P133",
+        "P134",
+        "P135",
+        "P136",
+        "P137",
+        "P138",
+        "P139",
+        "P140",
+        "P147",
+        "P586",
+        "P587",
+        "P588"
+      ],
+      "requirement": "由老师确定真太阳时、换日与子时划分、年/月柱切换、节气来源与精度、公农历转换版本、顺逆行、起运算法/岁数/日期、虚岁或周岁、流年流月区间。不同流派差异作为明确设置。",
+      "acceptance": "形成规则说明、规则版本及老师确认记录；不能凭截图判断正确柱。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "老师团队规则口径与期望结果。",
+      "verification_record": null
+    },
+    {
+      "id": "B08",
+      "title": "核查出生输入与海外时间处理",
+      "source_ids": [
+        "P129",
+        "P130",
+        "P131",
+        "P132",
+        "P133",
+        "P134"
+      ],
+      "requirement": "确认公农历、闰月、年月日时分、出生地、时区、规则所需性别、精度及未知时辰，不默填。保存原始当地时间与IANA时区，处理历史夏令时、重复/不存在时刻。",
+      "acceptance": "输入与转换记录可追溯；边界与未知值不被假定为准确生辰。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "老师规则确认；出生地/输入字段是否调整待确认。",
+      "verification_record": null
+    },
+    {
+      "id": "B09",
+      "title": "逐项建立神煞计算规则",
+      "source_ids": [
+        "P126",
+        "P141",
+        "P142",
+        "P159",
+        "P160"
+      ],
+      "requirement": "列出神煞名称、判断依据、适用柱、参照年干/日干等字段及来源，使用确定性引擎，AI仅解释。",
+      "acceptance": "每项结果可对应规则与输入；存在、不存在、多项及不适用可验证。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "老师指定神煞清单与标准结果。",
+      "verification_record": null
+    },
+    {
+      "id": "B10",
+      "title": "排查输入算法与前端列映射",
+      "source_ids": [
+        "P126",
+        "P147",
+        "P163"
+      ],
+      "requirement": "后端逐字段比对原始输入和计算输出，前端核对列绑定。每项差异归为输入问题、规则差异、算法错误或显示错误。",
+      "acceptance": "错误清单、原因分类、修复记录与新版页面齐全。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "标准样本、现有引擎与界面。",
+      "verification_record": null
+    },
+    {
+      "id": "B11",
+      "title": "实现规则升级与缓存结果追溯",
+      "source_ids": [
+        "P143",
+        "P144"
+      ],
+      "requirement": "缓存键包含输入、引擎与规则版本。规则升级重算旧结果，关联AI解读标旧版或重新生成。",
+      "acceptance": "可追溯历史版本；旧缓存不混用，新计算与AI解释版本对应。",
+      "declaredStatus": "进行中",
+      "declaredScope": "档案缓存键/原规则版本/结果指纹已接，旧档案只读、确认后重算另存关联父档；多标签协作写与满容量拒绝实测。双端各60+11通过。实际AI回复版本绑定待独立联调，老师规则/30条样本未齐。",
+      "dependencies": "引擎版本、规则升级策略。",
+      "verification_record": null
+    },
+    {
+      "id": "B12",
+      "title": "建立老师确认样本及回归",
+      "source_ids": [
+        "P148",
+        "P149",
+        "P150",
+        "P151",
+        "P152",
+        "P153",
+        "P154",
+        "P155",
+        "P156",
+        "P157",
+        "P158",
+        "P159",
+        "P160",
+        "P161",
+        "P162",
+        "P163",
+        "P629"
+      ],
+      "requirement": "建议至少30个确认样本，覆盖男女/地点、节气前后、子时换日、跨年、闰月、时区跨日、历史夏令时、歧义时刻、改资料/连续切流运/回当前及神煞边界。",
+      "acceptance": "规则约定后字段一致率目标100%；交付标准样本与可重复回归结果。未经老师确认不标“算法已验证”；不将规则一致描述为预测保证。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "老师确认样本；30个及一致率目标须定稿。",
+      "verification_record": null
+    },
+    {
+      "id": "AI01",
+      "title": "收齐Claude接口与数据处理条款",
+      "source_ids": [
+        "P170",
+        "P171",
+        "P172",
+        "P173",
+        "P174",
+        "P175",
+        "P176",
+        "P177",
+        "P178",
+        "P179",
+        "P180",
+        "P181",
+        "P182",
+        "P183",
+        "P184",
+        "P185",
+        "P225",
+        "P589",
+        "P590",
+        "P591"
+      ],
+      "requirement": "紫微团队提供测试/生产地址、实际model_id、鉴权、请求响应与流式协议、上下文/并发、错误码/超时、计量、重试计费、地区、版本更新和故障联系人；确认代理链路、保存时间、训练用途、删除机制及商业使用。",
+      "acceptance": "接口资料、调用协议与代理数据条款完整，可分别联调。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "紫微团队资料及服务协议。",
+      "verification_record": null
+    },
+    {
+      "id": "AI02",
+      "title": "核实DeepSeek并自部署独立GPU推理",
+      "source_ids": [
+        "P166",
+        "P167",
+        "P168",
+        "P169",
+        "P170",
+        "P171",
+        "P172",
+        "P173",
+        "P174",
+        "P175",
+        "P176",
+        "P177",
+        "P178",
+        "P179",
+        "P180",
+        "P181",
+        "P182",
+        "P183",
+        "P349"
+      ],
+      "requirement": "本方部署DeepSeek独立GPU推理服务。原文建议验证DeepSeek-V4.1-Flash-1017；实施前核实官方发布、权重与许可。固定实际仓库版本、权重校验及推理配置，评测硬件、性能、质量、运维；API别名不当作权重版本，参考推理代码不等于生产服务。",
+      "acceptance": "实际可用版本、许可、硬件验证、内容质量评测、运维方案及推理服务齐全，不用普通CPU规格承诺GPU能力。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "版本与许可尚未在本任务表中独立核实；GPU预算/配额及实际模型。",
+      "verification_record": null
+    },
+    {
+      "id": "AI03",
+      "title": "建设统一AI网关与场景路由",
+      "source_ids": [
+        "P166",
+        "P187",
+        "P188",
+        "P192",
+        "P655"
+      ],
+      "requirement": "APP仅请求项目后端；登录、权益、资料授权、限流、调用及密钥管理在后端。普通对话/命盘解释/课程问答/抽卡分别配置默认模型；两通道可用但不默认同题双发。前端提供请求状态、用户额度及隐私设置入口。",
+      "acceptance": "前端显示真实提供方及连接状态，后台记录实际模型版本与请求号；无客户端密钥。",
+      "declaredStatus": "进行中",
+      "declaredScope": "三协议网关/四场景路由/逐供应商注册已接入，双端60+25通过；Claude/DeepSeek真实接口、部署及场景效果未联调。",
+      "dependencies": "两模型接口、账号与权益系统。",
+      "verification_record": "负责人优化建议-统一AI网关-实施记录.json"
+    },
+    {
+      "id": "AI04",
+      "title": "实现流式停止超时重试与授权备用",
+      "source_ids": [
+        "P189",
+        "P192"
+      ],
+      "requirement": "支持流式、停止生成、超时提示、重试；备用模型必须是已授权接收方，不静默将资料转发给未授权模型。",
+      "acceptance": "正常/超时/限流/停止/重试与备用路径可复现，两通道分别成功。",
+      "declaredStatus": "进行中",
+      "declaredScope": "真实SSE协议转换、停止/超时/独立授权备用、nonce撤回、幂等查询与跨账号门禁已本机验证；真实上游/公网/移动稳定性待联调。",
+      "dependencies": "授权接收方、故障切换策略。",
+      "verification_record": "负责人优化建议-统一AI网关-实施记录.json"
+    },
+    {
+      "id": "AI05",
+      "title": "实现AI额度预留结算及费用记录",
+      "source_ids": [
+        "P190",
+        "P191"
+      ],
+      "requirement": "唯一请求号预留与结算用户额度；连点和重试不重复扣次；区分权益与上游实际费用，配置失败及部分输出扣次规则。记录响应、错误、用量和成本，监控默认不存完整对话。",
+      "acceptance": "重复请求只结算一次；失败/部分输出按确认规则扣次，成本可核对。",
+      "declaredStatus": "进行中",
+      "declaredScope": "独立测试credits预占/一次结算/并发限额、逐attempt用量及未知成本保留、后台配置与本人导出通过；正式会员额度/供应商价格及对账未确认。",
+      "dependencies": "项目方确认扣次规则与AI权益额度。",
+      "verification_record": "负责人优化建议-统一AI网关-实施记录.json"
+    },
+    {
+      "id": "AI06",
+      "title": "校验知识检索与工具调用权限",
+      "source_ids": [
+        "P191",
+        "P192"
+      ],
+      "requirement": "每次检索和工具调用均核验账号权限；课程、私信等内容中的指令不得触发退款、转账或改权限。",
+      "acceptance": "跨账号档案不可读；内容注入不能越权执行资金或权限操作。",
+      "declaredStatus": "进行中",
+      "declaredScope": "只读已发布免费课程目录/本人记录计数/时长工具已校验权限，写资金/权限工具拒绝；真实知识库、检索内容及模型工具输出待正式联调。",
+      "dependencies": "资料权限与工具权限清单。",
+      "verification_record": "负责人优化建议-统一AI网关-实施记录.json"
+    },
+    {
+      "id": "PR01",
+      "title": "建立全生态数据分类及AI最小输入",
+      "source_ids": [
+        "P195",
+        "P196",
+        "P197",
+        "P198",
+        "P199",
+        "P200",
+        "P201",
+        "P202",
+        "P203",
+        "P204",
+        "P205",
+        "P206",
+        "P207",
+        "P208",
+        "P209",
+        "P210",
+        "P211",
+        "P212",
+        "P213",
+        "P214",
+        "P215",
+        "P216"
+      ],
+      "requirement": "覆盖账号联系方式、命盘出生信息、身体情绪、聊天记忆、时间学习、私信购物。普通对话不发送姓名手机邮箱；命盘请求且授权取必要字段；身体情绪有需要且单独授权，不作广告标签；时间学习不默认完整轨迹；私信地址订单分域，客服不取完整支付信息。",
+      "acceptance": "各类默认边界与进入AI条件落实到接口字段和访问权限。",
+      "declaredStatus": "进行中",
+      "declaredScope": "新增保存记录只列本人元数据，正文须主动查看且不恢复AI上下文；单删只影响明确ID，保护其他重叠记录与金融额度。全生态/供应商正式数据分类和保留政策仍待项目方补齐。",
+      "dependencies": "上线地区、主体、供应商协议及数据清单。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR02",
+      "title": "新增隐私与AI设置及分项授权",
+      "source_ids": [
+        "P195",
+        "P219",
+        "P220"
+      ],
+      "requirement": "“我的”增加入口；首用说明目的、类别、接收方、处理地区。命盘、身体情绪、长期记忆、训练改进与营销分别授权。",
+      "acceptance": "拒绝某项不影响无依赖功能；实际请求只发送已授权所需资料。",
+      "declaredStatus": "待验收",
+      "declaredScope": "我的→设置→隐私与AI已接入；实际接收方/端点/模型/地区/政策绑定、六项独立开关及总体撤回均通过；视觉待验收，正式披露资料待确认。",
+      "dependencies": "项目方及接收方实际处理说明。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR03",
+      "title": "实现撤回授权与长期记忆管理",
+      "source_ids": [
+        "P208",
+        "P209",
+        "P210",
+        "P220"
+      ],
+      "requirement": "会话保存和长期记忆分设，记忆默认关闭；开启后可查看、修改、清除；关闭后新对话不读取旧记忆，撤回授权阻止后续调用。",
+      "acceptance": "拒绝/撤回/关闭记忆的接口行为与设置一致。",
+      "declaredStatus": "进行中",
+      "declaredScope": "撤回/删除后最终保存入口在事务/条件INSERT内再次核epoch、策略及真实provider配置，旧legacy迟到保存窗口已修；本人保存快照可查看/单删。长期记忆真实CRUD仍无服务、保持关闭，不以快照管理代替。",
+      "dependencies": "记忆保存与授权状态模型。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR04",
+      "title": "实现删除导出与账号注销",
+      "source_ids": [
+        "P221",
+        "P226"
+      ],
+      "requirement": "单条删除、清空对话、删记忆、资料导出、注销；删除覆盖数据库、向量索引、缓存及相关受托服务商，记录完成状态。",
+      "acceptance": "删除及导出可实际执行；受托商处理状态可追踪。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人元数据列表/主动看正文/单条确认删除/幂等回执已接，关联job正文为空、测试额度原账不变；全量删除成功后旧详情和迟到读失效。双端各60+20通过。供应商/备份确认、最终注销/全session撤销仍未完成。",
+      "dependencies": "供应商删除能力；数据保留例外。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR05",
+      "title": "明确数据期限备份清理与训练用途",
+      "source_ids": [
+        "P222",
+        "P223",
+        "P224",
+        "P225",
+        "P610",
+        "P611",
+        "P612"
+      ],
+      "requirement": "逐类填写实际保存天数、备份清理周期；保留财务记录须有目的、期限和访问限制。默认不将用户内容训练/微调，新用途另行说明授权，不承诺未经核实的全链路零保留。",
+      "acceptance": "数据保留删除表、备份清理策略与生产配置一致；核实紫微代理和Claude实际保存边界。",
+      "declaredStatus": "进行中",
+      "declaredScope": "逐类期限配置支持null未知，训练营销默认关及用途单独授权；数据说明已交付待补全。未部署实际期限和备份清理任务。",
+      "dependencies": "项目方及供应商确认期限和条款。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR06",
+      "title": "落实加密后台强认证及最小权限",
+      "source_ids": [
+        "P224",
+        "P226"
+      ],
+      "requirement": "传输/存储加密、后台强认证、最小权限和审计同步上线；普通运营不可直接看敏感原文。",
+      "acceptance": "越权测试通过；敏感访问留痕、权限与部署一致。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人归属、管理员配置、普通运营拒绝和元数据审计已实测；原有部分AI/设备密钥仍可落settings明文，尚需迁移；公网TLS/存储加密/MFA/KMS须真实部署落实，未全部完成。",
+      "dependencies": "后台角色及密钥管理。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "PR07",
+      "title": "交付隐私文件与内容输出边界",
+      "source_ids": [
+        "P223",
+        "P224",
+        "P225",
+        "P226",
+        "P631"
+      ],
+      "requirement": "交付隐私政策、AI使用与数据处理说明、第三方服务清单和保留删除表。身体情绪内容不输出无依据诊断、治疗保证或敏感推断促销。",
+      "acceptance": "验证真实请求、越权、撤回、记忆关闭、删除和导出；文件与实际生产一致。",
+      "declaredStatus": "进行中",
+      "declaredScope": "交付本地实施的数据分类、授权/保存/删除边界及待补全说明；两端60+27通过。正式政策、实际第三方条款与真实模型输出待确认。",
+      "dependencies": "实际主体/地区/接收方/客服信息与审核。",
+      "verification_record": "负责人优化建议-隐私设置-实施记录.json"
+    },
+    {
+      "id": "SH01",
+      "title": "增加商城入口及商城首页",
+      "source_ids": [
+        "P229",
+        "P230",
+        "P231",
+        "P232",
+        "P233",
+        "P656"
+      ],
+      "requirement": "社群原好友/对话/老师推荐/推荐视频导航新增商城，建议横滑标签且首屏入口清晰，保留旧功能。首页含分类、搜索、精选、币种价格、购物车及订单入口。",
+      "acceptance": "从社群可进入商城并使用分类搜索、购物车及订单入口。",
+      "declaredStatus": "待验收",
+      "declaredScope": "已接入原社群第五标签、分类搜索、购物车和本人订单；双后端全量60/60、专项31/31，视觉待验收。",
+      "dependencies": "现有导航结构、首批商品。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH02",
+      "title": "建设商品详情与购买信息",
+      "source_ids": [
+        "P234",
+        "P235",
+        "P236",
+        "P237"
+      ],
+      "requirement": "显示图文、规格、价格、类型、库存、配送或使用范围、退款说明；确认订单展示商品、优惠、税费、运费、总额、收货信息与可用支付方式。",
+      "acceptance": "用户能在支付前核对完整商品和总价；服务端核价。",
+      "declaredStatus": "进行中",
+      "declaredScope": "图文、类型、库存、配送国家、退款说明与订单金额快照已实现；正式SKU规格/价格/可用支付方式待资料及渠道接入。",
+      "dependencies": "商品与支付配置、税费运费规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH03",
+      "title": "建设支付结果订单中心与售后",
+      "source_ids": [
+        "P238",
+        "P239",
+        "P240",
+        "P241",
+        "P242",
+        "P243",
+        "P255",
+        "P633"
+      ],
+      "requirement": "结果区分成功/处理中/失败并可查询；订单显示待支付/已支付/履约中/完成/关闭/售后/退款。售后含申请理由、进度、退货物流和客服。",
+      "acceptance": "可从沙箱下单追踪到订单与售后；以服务端验单结果为准。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已完成沙箱创建、模拟支付、订单查询、履约独立状态与售后理由进度；真实渠道状态、退货物流及客服处理流程未完。",
+      "dependencies": "统一订单、支付、客服与售后规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH04",
+      "title": "建设商城管理后台",
+      "source_ids": [
+        "P244",
+        "P245",
+        "P255"
+      ],
+      "requirement": "管理分类、商品、SKU、库存、上下架、发货、售后、退款及审计。",
+      "acceptance": "无库存、下架商品不能付款；发货与售后可追溯。",
+      "declaredStatus": "进行中",
+      "declaredScope": "后台商品/SKU/库存/上下架/发货/沙箱退款与审计已实现；售后处理、正式分类运营规则待补。",
+      "dependencies": "后台权限及操作规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH05",
+      "title": "落实实体商品履约规则",
+      "source_ids": [
+        "P248",
+        "P251",
+        "P254",
+        "P255"
+      ],
+      "requirement": "明确规格、库存、地址、配送国家、运费、发货与退换货。实物校验配送范围，数字/实物按支付规则拆单。",
+      "acceptance": "实物沙箱订单进入正确发货流程，配送不支持地区不能下单。",
+      "declaredStatus": "进行中",
+      "declaredScope": "实物沙箱地址与国家校验、运税核价、数字实物拆单、发货及退款库存保护通过；正式规格与退换货规则未确认。",
+      "dependencies": "首批实物、销售国、物流运费与退换货。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH06",
+      "title": "关联数字作品与独立购买权益",
+      "source_ids": [
+        "P249",
+        "P251",
+        "P255"
+      ],
+      "requirement": "绑定智慧馆内容ID；支付验证后解锁；单购与会员分开记账。数字订单不强制地址，失败支付不发权益。",
+      "acceptance": "作品正确解锁；数字订单与实物拆分且不索要无关地址。",
+      "declaredStatus": "进行中",
+      "declaredScope": "内容ID关联、无地址数字单、单购隔离权益和退款冲正已通过；生产验单与真实解锁未启用。",
+      "dependencies": "作品授权、ID和有效期；统一权益系统。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "SH07",
+      "title": "确定服务预约和第三方入驻范围",
+      "source_ids": [
+        "P250",
+        "P252"
+      ],
+      "requirement": "首批包含服务预约时才启用老师、时段、时区、名额、改期/取消。第一期建议平台自营与授权作品；若需商家自入驻，另补结算与平台责任。",
+      "acceptance": "两项范围均有确认记录；仅在触发条件满足时实施相应规则。",
+      "declaredStatus": "进行中",
+      "declaredScope": "按P250/252的首期建议保持平台自营/授权作品范围；统一商品目前不接受服务预约类型，也无第三方自入驻入口。首批若包含预约或需入驻，须补时区/名额/改期及商家结算责任后另行启用。",
+      "dependencies": "项目方确认首批服务与入驻范围。",
+      "verification_record": null
+    },
+    {
+      "id": "SH08",
+      "title": "准备正式首批商品数据与授权",
+      "source_ids": [
+        "P253",
+        "P254",
+        "P255",
+        "P598",
+        "P599",
+        "P600"
+      ],
+      "requirement": "补名称、类型、图片版权、介绍、SKU、售价币种、库存或授权范围、销售国家、履约方式、售后联系人。",
+      "acceptance": "正式上架数据完整，演示占位不冒充正式商品。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "运营与内容团队提供首批商品。",
+      "verification_record": null
+    },
+    {
+      "id": "MB01",
+      "title": "配置会员方案及逐项权益",
+      "source_ids": [
+        "P258",
+        "P259",
+        "P260",
+        "P261",
+        "P262",
+        "P263",
+        "P264",
+        "P265",
+        "P266",
+        "P267",
+        "P268",
+        "P269",
+        "P270",
+        "P271",
+        "P272",
+        "P273",
+        "P274",
+        "P275",
+        "P592",
+        "P593",
+        "P594"
+      ],
+      "requirement": "保留智慧馆会员/非会员内容区分；建议免费、月度、年度及独立单购结构。配置币种、价格、周期、续费/一次性方式、智慧馆范围、课程、AI额度与重置周期。",
+      "acceptance": "价格权益可配置；单购独立记账；免费按既有规则。未确认不启用试用优惠，不预设永久会员、无限AI或固定折扣。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已实现绑定统一SKU的方案/不可变版本、有限计费周期与逐项权益配置；双端全60+会员专项29通过。正式价格/权益尚未提供，生产、试用、优惠均关闭。",
+      "dependencies": "项目方收费文档；月/年建议结构需定稿。",
+      "verification_record": null
+    },
+    {
+      "id": "MB02",
+      "title": "完善会员中心披露与跨渠道映射",
+      "source_ids": [
+        "P276",
+        "P277",
+        "P284"
+      ],
+      "requirement": "展示当前方案、币种、计费周期、首期/续费价、权益、渠道、有效期、下次扣费、试用结束、条款、退订退款。各渠道商品ID映射统一方案，防多端重复订阅。",
+      "acceptance": "信息齐全，多端状态一致，不显示虚构价格。",
+      "declaredStatus": "进行中",
+      "declaredScope": "会员中心按本人原成交快照展开首期/续期价、币种、周期、权益、渠道、试用和条款；渠道商品映射可配置，真实Apple/Google/网站验单尚未接通。见会员订阅实施记录。",
+      "dependencies": "正式定价、渠道商品ID、权益映射。",
+      "verification_record": null
+    },
+    {
+      "id": "MB03",
+      "title": "提供取消续费退款恢复三个入口",
+      "source_ids": [
+        "P279",
+        "P280"
+      ],
+      "requirement": "取消自动续费、申请退款、恢复购买分别提供。Apple/Google走对应管理并同步通知，网站自助取消；取消后展示停止扣费及本期权益结束，退款另处理。",
+      "acceptance": "三个入口独立可用；取消通常保留已付期权益，按实际渠道规则确认。",
+      "declaredStatus": "进行中",
+      "declaredScope": "取消自动续期、申请退款、恢复购买三个独立真实入口已完成；沙箱取消保留已付周期、退款申请待处理不冒充资金退回，恢复不重置周期。正式渠道仅官方管理帮助，生产仍待接入。",
+      "dependencies": "各渠道订阅接入及适用退款规则。",
+      "verification_record": null
+    },
+    {
+      "id": "MB04",
+      "title": "实现完整订阅状态与权益变更",
+      "source_ids": [
+        "P281",
+        "P284"
+      ],
+      "requirement": "覆盖试用、正常、续费失败、宽限、暂停/欠费、已取消但仍有效、到期、退款撤销，以渠道服务端状态为准。",
+      "acceptance": "到期、续费取消、退款权益正确；非会员接口不可绕过资源权限。",
+      "declaredStatus": "进行中",
+      "declaredScope": "统一订单驱动active/失败/宽限/暂停/欠费/取消仍有效/到期/退款撤销；双端实际29项通过，支付取消竞态原子拒绝，Cloud补接中断可重试。试用未确认关闭，正式平台通知待接。",
+      "dependencies": "渠道通知与统一权益系统。",
+      "verification_record": null
+    },
+    {
+      "id": "MB05",
+      "title": "处理购买恢复单购保留与注销提醒",
+      "source_ids": [
+        "P282",
+        "P283",
+        "P284"
+      ],
+      "requirement": "恢复核验交易及账号，同笔不能多账号领取；到期不删除仍有效单购。注销前提示现有自动续费和取消方式，卸载/注销不视为第三方已取消。",
+      "acceptance": "换设备恢复成功，跨账号不可领，单购不误锁，注销提醒准确。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人原付款与账号归属验证、同一成交不重复领取、到期/退款不误删独立单购；注销弹窗核对本方仍续期测试订阅并明确第三方未知。双端验证通过，真实渠道恢复/最终注销未完成。",
+      "dependencies": "交易归属与单购授权期限。",
+      "verification_record": null
+    },
+    {
+      "id": "CM01",
+      "title": "确认正式分佣文档与生产开关",
+      "source_ids": [
+        "P287",
+        "P310",
+        "P311",
+        "P312",
+        "P313",
+        "P314"
+      ],
+      "requirement": "明确参与人/层级、推广与作品分成能否并存、归因冲突、基数扣税/费/运费/优惠、费率/上限/币种/舍入、冻结与周期/最低额/换汇/收款、续费/退款/拒付/终止处理。",
+      "acceptance": "规则版本确认后才启用生产计佣与自动打款；未齐先建框架和沙箱。",
+      "declaredStatus": "进行中",
+      "declaredScope": "正式分佣文档仍缺；可配置沙箱框架已接入，生产计佣/真实打款固定关闭。双端全量各60、分佣专项各31、交易兼容各31通过。见分佣实施记录。",
+      "dependencies": "项目方会员及首发作品分佣文档。",
+      "verification_record": null
+    },
+    {
+      "id": "CM02",
+      "title": "建设分佣规则与归因管理",
+      "source_ids": [
+        "P290",
+        "P291",
+        "P292",
+        "P293",
+        "P308"
+      ],
+      "requirement": "区分会员推广和作品作者分成，保存规则版本、生效时间、商品、受益人、比例或固定额；管理邀请码/链接、归属时点/期限/优先级、重复与变更。",
+      "acceptance": "规则与归因均可追溯，历史订单保持成交时规则。",
+      "declaredStatus": "进行中",
+      "declaredScope": "规则按版本追加，服务端邀请码归因，成交快照与会员快照同订单事务/同D1 batch保存；first/last_touch在真实D1均验证。旧单不套当前规则，正式归因政策待确认。",
+      "dependencies": "确认参与对象与归因规则。",
+      "verification_record": null
+    },
+    {
+      "id": "CM03",
+      "title": "建设计佣基数与订单项台账",
+      "source_ids": [
+        "P294",
+        "P295",
+        "P296",
+        "P297",
+        "P308",
+        "P315"
+      ],
+      "requirement": "按项记录实付、税费、运费、优惠、渠道费、退款；保存订单项、受益人、版本、基数、费率、金额币种状态。支付验单后按有效规则及快照生成待确认，不重复计佣。",
+      "acceptance": "规则确认后可人工复算，同一订单不重复，状态不混用。",
+      "declaredStatus": "进行中",
+      "declaredScope": "统一订单项整数最小币种台账，比例用整数/BigInt中间计算；未知渠道费null进入waiting_facts，不冒充0。计佣基数/费率正式文档待定。",
+      "dependencies": "确认计佣扣项、比例、舍入。",
+      "verification_record": null
+    },
+    {
+      "id": "CM04",
+      "title": "实现冻结审批结算及实际付款登记",
+      "source_ids": [
+        "P298",
+        "P299",
+        "P304",
+        "P305",
+        "P308",
+        "P315"
+      ],
+      "requirement": "待确认、冻结、可结算、已结算、撤销分开；履约及冻结满足后转可结算，财务生成结算单并审批。记录收款人、国别、币种、渠道和付款凭证，记账与实际打款分别验收。",
+      "acceptance": "每笔结算追溯订单、规则、审批和真实付款凭证；不把记账能力描述为已打款。",
+      "declaredStatus": "进行中",
+      "declaredScope": "待确认/冻结/可结算/另一财务审批/结算记账/测试付款资料分别存储；自批拒绝，actualPaid和proofVerified均false，未实际转账。正式周期/冻结/收款资料仍待确认。",
+      "dependencies": "冻结期、结算周期、收款渠道及财务权限。",
+      "verification_record": null
+    },
+    {
+      "id": "CM05",
+      "title": "实现分佣退款拒付冲正",
+      "source_ids": [
+        "P300",
+        "P301",
+        "P308",
+        "P309",
+        "P315"
+      ],
+      "requirement": "全/部分退款与拒付关联原订单项按规则调整；已付佣金生成待抵扣/追偿调整并保留原账及审计。取消续费仅影响后续订单，不等于退历史佣金。",
+      "acceptance": "部分退款只调相关部分，已结算不删账，比例变更不无记录重算旧账。",
+      "declaredStatus": "进行中",
+      "declaredScope": "实际统一按项退款按原成交规则累计冲正；已结算保留原账并产生待抵扣/追偿，重复重放不二次调整。真实拒付事件与渠道接口未接，不伪造拒付。",
+      "dependencies": "退款冲正规则及合作终止约定。",
+      "verification_record": null
+    },
+    {
+      "id": "CM06",
+      "title": "提供分佣报表导出与角色分权",
+      "source_ids": [
+        "P302",
+        "P303"
+      ],
+      "requirement": "按作品、老师、推广人、周期查询导出；业务、财务、客服分别授权。",
+      "acceptance": "报表可核对原台账，越权访问与操作被拒绝。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人报表、按作品/受益人/类型/币种/时间筛选和防公式CSV已实现；staff+显式business/finance/support分权，降权即时失效。隐私导出仅本人且金融账保留明确。",
+      "dependencies": "后台角色与财务操作权限。",
+      "verification_record": null
+    },
+    {
+      "id": "SV01",
+      "title": "确认目标负载地区预算与云平台",
+      "source_ids": [
+        "P318",
+        "P352",
+        "P601",
+        "P602",
+        "P603"
+      ],
+      "requirement": "AWS建议优先；可按团队GCP经验、GPU配额或同口径报价选GCP。采购前补目标国家、活跃用户、并发、媒体库、月播放量、GPU预算。",
+      "acceptance": "有AWS/GCP二选一决策与完整资源清单；最终购买规格基于实测。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "项目方与运维提供目标与预算。",
+      "verification_record": null
+    },
+    {
+      "id": "SV02",
+      "title": "评估主区域与GPU实际供应",
+      "source_ids": [
+        "P342",
+        "P343",
+        "P344",
+        "P345",
+        "P346"
+      ],
+      "requirement": "亚太优先评测AWS ap-southeast-1或GCP asia-southeast1；美加按用户东西海岸分布选择；欧洲按用户和数据处理要求评测。建议一主区加全球CDN，GPU可用区、型号、配额和供应单独核实。",
+      "acceptance": "目标地区延迟与数据要求有记录；区域存在不等于GPU可购买。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "首发国、数据存放及GPU预算。",
+      "verification_record": null
+    },
+    {
+      "id": "SV03",
+      "title": "设计隔离业务数据库媒体与GPU架构",
+      "source_ids": [
+        "P319",
+        "P320",
+        "P321",
+        "P322",
+        "P323",
+        "P324",
+        "P325",
+        "P326",
+        "P327",
+        "P328",
+        "P329",
+        "P330",
+        "P331",
+        "P332",
+        "P333",
+        "P334",
+        "P335",
+        "P336",
+        "P337",
+        "P338",
+        "P339",
+        "P340",
+        "P341",
+        "P347",
+        "P348"
+      ],
+      "requirement": "业务用EC2/Compute Engine及负载均衡自动扩容；数据库RDS PostgreSQL Multi-AZ/Cloud SQL区域高可用；媒体S3+CloudFront/Cloud Storage+Cloud CDN；GPU独立。Claude由后端调紫微接口。",
+      "acceptance": "GPU故障时登录/课程/商城/订单仍可用；业务节点不持续转发视频；付费媒体鉴权和短时凭证有效。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已按P317–385形成业务/数据库/媒体/GPU隔离运行架构与两云同口径询价底稿；当前实际后端仍Python/SQLite与Cloud/D1，PostgreSQL生产迁移和资源部署未执行。",
+      "dependencies": "云平台、模型、权益与媒体方案。",
+      "verification_record": null
+    },
+    {
+      "id": "SV04",
+      "title": "落实环境隔离运维与安全基础",
+      "source_ids": [
+        "P341",
+        "P349"
+      ],
+      "requirement": "生产/测试隔离，数据库和推理不直接公网开放；配置密钥管理、备份、监控、告警、可回滚发布及连接重建。高可用仍需恢复和故障演练。",
+      "acceptance": "安全拓扑、配置与发布回滚方案齐全。",
+      "declaredStatus": "进行中",
+      "declaredScope": "随机隔离测试库、默认生产关闭及只读部署阻塞证据已有；原有密钥落库路径、保留期任务和生产密钥管理/TLS/私网/MFA/告警/部署回滚仍未完成，不能只归为资料缺口。",
+      "dependencies": "云账号、网络与权限方案。",
+      "verification_record": null
+    },
+    {
+      "id": "SV05",
+      "title": "形成两云同口径详细询价",
+      "source_ids": [
+        "P351",
+        "P352",
+        "P353",
+        "P354",
+        "P355",
+        "P356",
+        "P357",
+        "P358",
+        "P359",
+        "P360",
+        "P361",
+        "P362",
+        "P363",
+        "P364",
+        "P365",
+        "P366",
+        "P367",
+        "P368",
+        "P369",
+        "P370"
+      ],
+      "requirement": "建议2台跨可用区业务节点各2–4vCPU/8GB；DB2vCPU/8GB起、100GB，测试单区与生产主备分列；对象1TB并列请求/备份费；CDN月5TB按地区/超量价；每日备份/时间点恢复/对象版本、日志按30天估价。GPU模型/量化/上下文/并发/显存/框架/小时价/时数单列。",
+      "acceptance": "另列Claude、LB、防护、跨区、监控、运维；写币种税费、按需/承诺、优惠到期价、出网恢复费，附官方计算器明细。以上不作已验证容量。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已列两云共同资源、区域/配额、出网/日志/备份/GPU/API/运维分项询价字段；没有供应商正式报价或官方计算器实际价格，待容量输入与询价。",
+      "dependencies": "业务量、实际模型与供应商报价。",
+      "verification_record": null
+    },
+    {
+      "id": "SVT01",
+      "title": "执行普通业务与媒体性能测试",
+      "source_ids": [
+        "P371",
+        "P372",
+        "P373",
+        "P374",
+        "P375",
+        "P376",
+        "P377",
+        "P385"
+      ],
+      "requirement": "建议选定目标国，100活跃会话、20RPS、30分钟，业务P95≤800ms；约定网络视频首帧P95≤3秒并记录卡顿率和拖动恢复。普通业务排除AI和第三方支付耗时、单列报告。",
+      "acceptance": "双方确认基线后交真实压测数据与费用估算，再定生产规格。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已在新隔离库进行100匿名逻辑访客、20RPS30秒本机探索：600/600成功、P95 15.57ms；非100登录并发、非目标国家、非30分钟，不能当正式容量达标。见SVT01本机探索报告。",
+      "dependencies": "目标国测试点、网络、正式确认指标。",
+      "verification_record": null
+    },
+    {
+      "id": "SVT02",
+      "title": "执行模型实际性能与成本评测",
+      "source_ids": [
+        "P181",
+        "P182",
+        "P183",
+        "P365",
+        "P366",
+        "P378",
+        "P379"
+      ],
+      "requirement": "按实际模型和约定输入长度分别记录首字、延迟、排队、生成速度、成功率和费用，不用业务机规格代替GPU测算。",
+      "acceptance": "双模型性能/质量/费用有真实评测，GPU资源与模型匹配。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "实际权重、量化、输入长度、并发及GPU。",
+      "verification_record": null
+    },
+    {
+      "id": "SVT03",
+      "title": "执行容错与备份恢复演练",
+      "source_ids": [
+        "P380",
+        "P381",
+        "P382",
+        "P383",
+        "P384",
+        "P385",
+        "P637"
+      ],
+      "requirement": "演练单应用节点故障、GPU中断、数据库切换，订单不重复不丢失。建议RPO≤15分钟、RTO≤60分钟，恢复后与支付流水复核。",
+      "acceptance": "提交真实故障与恢复记录；指标经双方确认并达标。",
+      "declaredStatus": "进行中",
+      "declaredScope": "隔离SQLite在线备份/恢复10项通过，实际恢复服务可读相同公开目录；显式记录备份后1条已确认写入未恢复。未演练PostgreSQL主备/GPU中断/支付流水核对或生产RPO/RTO。",
+      "dependencies": "可演练环境、备份方案、确认RPO/RTO。",
+      "verification_record": null
+    },
+    {
+      "id": "PC01",
+      "title": "确认支付准入主体与各端商品路由",
+      "source_ids": [
+        "P387",
+        "P388",
+        "P389",
+        "P390",
+        "P391",
+        "P392",
+        "P393",
+        "P394",
+        "P395",
+        "P396",
+        "P397",
+        "P398",
+        "P399",
+        "P400",
+        "P401",
+        "P402",
+        "P403",
+        "P404",
+        "P405",
+        "P406",
+        "P407",
+        "P408",
+        "P409",
+        "P410",
+        "P411",
+        "P412",
+        "P413",
+        "P414",
+        "P421"
+      ],
+      "requirement": "根据发行端/国家/商品配置。数字会员/课程/电子书/有声书/AI额度在网站评估Stripe/PayPal，App Store默认IAP、Google Play默认Billing，地区例外另核实。实物用外部支付；线下按端外消费规则；实时真人一对一例外需两名真人实时等条件，Google还要求不可回放等；群课/录播/回放按数字评估。",
+      "acceptance": "形成渠道矩阵；AI对话不套真人例外；混合拆单，不以实物包装数字权益绕规则。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "公司/签约/银行所在地、发行端、首发国、商品、币种、退款政策、客服。",
+      "verification_record": null
+    },
+    {
+      "id": "PC02",
+      "title": "核实Stripe与PayPal真实业务准入",
+      "source_ids": [
+        "P415",
+        "P416",
+        "P417"
+      ],
+      "requirement": "Stripe建议主、PayPal补充；按主体、银行、业务、用户地区、准入核实。真实申报测算、课程和身体相关业务，核实占卜等限制，不改名掩盖业务。",
+      "acceptance": "有适用渠道与业务准入结论后才开放相应收费。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "商户主体、业务说明和渠道审批。",
+      "verification_record": null
+    },
+    {
+      "id": "PC03",
+      "title": "设计付款与结果查询流程",
+      "source_ids": [
+        "P418",
+        "P419",
+        "P420"
+      ],
+      "requirement": "选商品/会员→服务端核价→确认总额条款→渠道收银→服务端验证→权益/履约→订单查询。结果分成功/处理中/失败；前端返回/截图/本地状态不作唯一发权益依据，回调未到先查单。",
+      "acceptance": "结果准确，异步等待不误报失败或盲目提示再次付款。",
+      "declaredStatus": "进行中",
+      "declaredScope": "服务端核价→订单明细→模拟付款→隔离权益/履约→查询已跑通；正式收银/验单/异步查单未启用。",
+      "dependencies": "统一商品、订单、权益接口。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY01",
+      "title": "服务端商品价格",
+      "source_ids": [
+        "P428",
+        "P429",
+        "P430"
+      ],
+      "requirement": "保存类型、SKU、价格版本、币种、税费、渠道商品ID，不信任前端金额。",
+      "acceptance": "篡改客户端金额不改变服务端应付。",
+      "declaredStatus": "进行中",
+      "declaredScope": "服务端SKU价格版本/币种/运税核价已实现并验证防篡价；渠道商品ID未提供。",
+      "dependencies": "商品与价格配置。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY02",
+      "title": "结算金额与条款展示",
+      "source_ids": [
+        "P431",
+        "P432",
+        "P433"
+      ],
+      "requirement": "展示商品价、折扣、税费、运费、总额、续费条款；实物校验地址。",
+      "acceptance": "支付前完整金额可核对，配送无效被拒绝。",
+      "declaredStatus": "进行中",
+      "declaredScope": "付款前订单明细有优惠/税费/运费/总额，实物配送校验通过；正式续费条款未确认。",
+      "dependencies": "税费运费优惠与续费规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY03",
+      "title": "金额精度与币种舍入",
+      "source_ids": [
+        "P434",
+        "P435",
+        "P436"
+      ],
+      "requirement": "使用最小货币单位整数或可靠十进制，按币种处理小数位及舍入。",
+      "acceptance": "不同币种与边界金额计算、退款、对账精度一致。",
+      "declaredStatus": "进行中",
+      "declaredScope": "最小货币单位整数、币种精度与沙箱退款核价通过；真实渠道对账与舍入待联调。",
+      "dependencies": "币种及舍入规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY04",
+      "title": "幂等创建订单",
+      "source_ids": [
+        "P437",
+        "P438",
+        "P439"
+      ],
+      "requirement": "绑定账号、保存价格与规则快照，唯一业务请求号防重复创建/扣款。",
+      "acceptance": "连点与重试只产生一次业务订单或扣款。",
+      "declaredStatus": "进行中",
+      "declaredScope": "同账号业务请求号和负载指纹、订单项快照、并发幂等创建/模拟支付通过；实际渠道扣款幂等待联调。",
+      "dependencies": "统一订单模型及幂等键。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY05",
+      "title": "支付渠道选择",
+      "source_ids": [
+        "P440",
+        "P441",
+        "P442"
+      ],
+      "requirement": "按发行平台、地区、商品类型路由；未支持场景不显示错误入口。",
+      "acceptance": "各端商品渠道矩阵逐项通过。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "PC01/PC02准入结论。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY06",
+      "title": "渠道收银与银行验证",
+      "source_ids": [
+        "P443",
+        "P444",
+        "P445"
+      ],
+      "requirement": "使用SDK或托管页面，覆盖银行验证，本方不存卡号与安全码。",
+      "acceptance": "收银含银行验证可完成，敏感卡数据不落本方。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "渠道商户、SDK与测试凭据。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY07",
+      "title": "服务端验单",
+      "source_ids": [
+        "P446",
+        "P447",
+        "P448"
+      ],
+      "requirement": "核对签名/渠道结果、交易号、商品、金额或平台价格、币种、环境和账号归属。",
+      "acceptance": "伪造、跨账号、测试混生产等无效交易不发权益。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "各渠道服务端验证能力。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY08",
+      "title": "异步回调可靠接收",
+      "source_ids": [
+        "P449",
+        "P450",
+        "P451"
+      ],
+      "requirement": "验签、持久化接收、按事件与交易去重，快速应答后异步执行。",
+      "acceptance": "同事件/同交易重复通知只处理一次且有接收记录。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "回调签名与事件协议。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY09",
+      "title": "支付异常恢复与主动查单",
+      "source_ids": [
+        "P452",
+        "P453",
+        "P454",
+        "P501"
+      ],
+      "requirement": "处理重复、乱序、延迟、超时、断网、关闭页面，必要时主动向渠道查询。",
+      "acceptance": "关APP后重开仍见真实结果，延迟显示处理中。",
+      "declaredStatus": "待实施",
+      "declaredScope": "",
+      "dependencies": "通知与主动查询接口。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY10",
+      "title": "订单与权益一致性",
+      "source_ids": [
+        "P455",
+        "P456",
+        "P457",
+        "P460"
+      ],
+      "requirement": "订单确认和发权益保持一致，失败可重试，重复回调不重复赠送。",
+      "acceptance": "付款确认后权益最终一致且仅发一次。",
+      "declaredStatus": "进行中",
+      "declaredScope": "沙箱付款/独立权益一次发放与退款冲正通过；生产回调和权益补偿待实现。",
+      "dependencies": "权益服务及独立发放唯一键。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY11",
+      "title": "订阅生命周期同步",
+      "source_ids": [
+        "P467",
+        "P468",
+        "P469",
+        "P498"
+      ],
+      "requirement": "首购、续费、取消、宽限、欠费、到期、退款、撤销同步，支持通知补偿查询；Google通知后查询验证当前购买并完成必要确认。",
+      "acceptance": "宽限与欠费冻结权益分别处理，不仅依赖通知内容。",
+      "declaredStatus": "进行中",
+      "declaredScope": "订阅沙箱生命周期已关联统一付款/退款，成交规则与价格快照不被当前改价覆盖；真实原生及网站平台通知未接通，不能标为正式同步完成。",
+      "dependencies": "Apple/Google/网站订阅协议。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY12",
+      "title": "跨设备恢复购买",
+      "source_ids": [
+        "P470",
+        "P471",
+        "P472",
+        "P503"
+      ],
+      "requirement": "验证交易与账号绑定，支持换设备，同交易不得多人领取。",
+      "acceptance": "本人换设备恢复成功，其他账号不可领取。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人沙箱已付原单可从服务器恢复，验证归属/幂等且不延长或复开续期；真实跨设备渠道receipt/token验单仍待配置。",
+      "dependencies": "渠道交易查询与账号绑定。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY13",
+      "title": "库存预占与迟到支付处理",
+      "source_ids": [
+        "P473",
+        "P474",
+        "P475"
+      ],
+      "requirement": "下单原子预占，付款扣减，超时释放后收到成功须再查库存；无货转退款队列并通知。",
+      "acceptance": "并发不超卖，迟到支付不直接发无货商品。",
+      "declaredStatus": "进行中",
+      "declaredScope": "原子预占、并发防超卖、付款扣库和到期释放结构已实现；15分钟到期/迟到成功真实渠道路径未验。",
+      "dependencies": "库存超时与退款队列。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY14",
+      "title": "退款拒付及关联调整",
+      "source_ids": [
+        "P476",
+        "P477",
+        "P478",
+        "P460",
+        "P504"
+      ],
+      "requirement": "按渠道实现全额与适用部分退款，同步订单、权益、库存及佣金；退款独立幂等。",
+      "acceptance": "部分退款仅调关联订单项，拒付与已付佣金可追溯。",
+      "declaredStatus": "进行中",
+      "declaredScope": "沙箱按项退款实际联动库存、独立数字权益、会员状态与佣金累计冲正/追偿；生产资金/真实拒付与平台退款适配仍未接入。",
+      "dependencies": "渠道退款能力、权益与佣金规则。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY15",
+      "title": "用户订单凭证",
+      "source_ids": [
+        "P479",
+        "P480",
+        "P481"
+      ],
+      "requirement": "展示订单、渠道、金额、状态、退款记录及适用票据。",
+      "acceptance": "用户可查询真实订单和凭证，不暴露他人记录。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人订单金额/支付/履约/售后记录可查且账号隔离；渠道凭证和适用票据未接入。",
+      "dependencies": "各渠道票据与订单接口。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY16",
+      "title": "财务每日对账",
+      "source_ids": [
+        "P482",
+        "P483",
+        "P484",
+        "P504"
+      ],
+      "requirement": "每日核对渠道交易、APP订单、退款、手续费、到账与佣金差异。",
+      "acceptance": "每项差异可解释与追踪；测试账不影响生产。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已接沙箱订单/付款退款/权益/会员/佣金/结算当前只读一致性与异常面板，金融表100次读取前后hash未变；缺表/截断对应汇总null。双端各60+42通过。真实渠道日账单、费用、银行到账与日对账仍未实现。",
+      "dependencies": "渠道账单、费用与结算数据。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY17",
+      "title": "资金操作权限与环境隔离",
+      "source_ids": [
+        "P485",
+        "P486",
+        "P487"
+      ],
+      "requirement": "密钥仅服务端、测试/生产隔离，退款与财务操作独立授权留日志。",
+      "acceptance": "越权退款/财务访问被拒绝，测试支付不污染生产账。",
+      "declaredStatus": "进行中",
+      "declaredScope": "资金操作维持管理员门禁；分佣另按当前基础staff+显式专项grant鉴权，降级立即拒绝。生产与实际打款固定关闭，正式强认证/生产角色运营待配置。",
+      "dependencies": "角色权限、密钥及环境配置。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY18",
+      "title": "支付监控与告警",
+      "source_ids": [
+        "P488",
+        "P489",
+        "P490"
+      ],
+      "requirement": "监控支付失败、回调积压、付款未发权益、退款失败、对账差异。",
+      "acceptance": "相应异常可触发告警并定位订单/事件。",
+      "declaredStatus": "进行中",
+      "declaredScope": "后台可手动查沙箱本地不一致/待核/未覆盖并导出CSV，角色与财务授权实时复核；不会自动补账、不会外发告警。回调队列/真实支付失败/拒付及告警联动仍未实现。",
+      "dependencies": "告警接收与处置机制。",
+      "verification_record": null
+    },
+    {
+      "id": "PAY19",
+      "title": "用户支付自助与客服支持",
+      "source_ids": [
+        "P491",
+        "P492",
+        "P493"
+      ],
+      "requirement": "为重复扣款、未到账、无法恢复、退订提供查询和客服路径。",
+      "acceptance": "四类问题均有可用支持入口及订单定位。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人订单可定位并提交真实售后理由/回看进度；实际重复扣款/恢复/退订处理未完。",
+      "dependencies": "客服联系方式与处理流程。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PAY20",
+      "title": "分范围上线开关与小额验证",
+      "source_ids": [
+        "P494",
+        "P495",
+        "P496"
+      ],
+      "requirement": "按国家/渠道/商品类型控制，先沙箱后按上线计划小额真实验证。",
+      "acceptance": "未启用范围不能真实收费；沙箱证据和授权计划下真实验证记录齐全。",
+      "declaredStatus": "进行中",
+      "declaredScope": "生产支付禁用、沙箱明显标注并双后端验证；按国家渠道放量和授权小额真实验证待条件。",
+      "dependencies": "项目方确认上线计划与真实支付准入。",
+      "verification_record": "负责人优化建议-统一交易-实施记录.json"
+    },
+    {
+      "id": "PT01",
+      "title": "验证支付全链路与独立状态",
+      "source_ids": [
+        "P424",
+        "P459",
+        "P460",
+        "P461",
+        "P499",
+        "P500",
+        "P501",
+        "P502",
+        "P503",
+        "P504",
+        "P639"
+      ],
+      "requirement": "创建、回调、权益、退款、佣金各有独立唯一键，不仅前端禁连点。支付/履约/订阅/佣金状态分开。测正常一次、连点、重试、重复回调、关闭APP/延迟、取消/到期/退款拒付、恢复/单购保留、部分退款、隔离与对账。",
+      "acceptance": "付款/权益/佣金各一次；渠道到业务映射保留原始凭证号，多端一致且所有重点用例有证据。",
+      "declaredStatus": "进行中",
+      "declaredScope": "统一交易兼容两端各31、会员专项各29与完整回归各60通过；只证明隔离沙箱，不代表真实渠道、银行验证或生产付款全链路验收。",
+      "dependencies": "PAY01–PAY20及确认规则、沙箱。",
+      "verification_record": null
+    },
+    {
+      "id": "DR01",
+      "title": "确认首期卡种与完整36卡方案",
+      "source_ids": [
+        "P506",
+        "P507",
+        "P508",
+        "P509",
+        "P510",
+        "P511",
+        "P512",
+        "P513",
+        "P514",
+        "P515",
+        "P516",
+        "P517",
+        "P518",
+        "P519",
+        "P531",
+        "P604",
+        "P605",
+        "P606"
+      ],
+      "requirement": "建议每日智慧卡共36张、生命/身体/心智各12张。生命：方向、选择、边界、关系、责任、勇气、变化、取舍、信任、专注、机会、耐心。身体：呼吸、休息、睡眠、饮水、行走、伸展、饮食、温度、感官、节律、放松、倾听。心智：觉察、接纳、放下、慈心、感恩、安静、当下、宽容、清明、松弛、平衡、整理。",
+      "acceptance": "卡种、36名称及定位经项目方确认；若选塔罗/紫微星曜/八卦另定体系、张数、正逆位、牌阵、规则与授权，不仅换名。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "内容设计团队卡种、文案和素材授权。",
+      "verification_record": null
+    },
+    {
+      "id": "DR02",
+      "title": "确认次数主题卡池与日界规则",
+      "source_ids": [
+        "P521",
+        "P530"
+      ],
+      "requirement": "建议首页默认整卡组抽一张，可先选主题再从对应池抽。免费与会员均每天一次正式抽，换主题不加次数；不同规则后台配置。按用户已选时区定义自然日，限制频繁改时区。",
+      "acceptance": "正式次数/日界规则确认；改主题、刷新、重复点击不多抽。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "项目方确认次数、时区切换限制。",
+      "verification_record": null
+    },
+    {
+      "id": "DR03",
+      "title": "制作逐卡内容与三语言资料",
+      "source_ids": [
+        "P522",
+        "P523",
+        "P524",
+        "P525",
+        "P526",
+        "P527",
+        "P528"
+      ],
+      "requirement": "每卡唯一ID、主题、卡名、卡面、统一卡背、替代文本、简繁英和版本；提示、约80–120字解读、自问、1–3分钟可选行动、课程/练习入口；作者、授权、审核、发布日期、上下架。完整保存“方向”样卡供审核。",
+      "acceptance": "全套文案三语言可审核；经典有准确出处、不拼伪引文；仅观察启发，身体类不诊断/处方/治疗保证。",
+      "declaredStatus": "待资料",
+      "declaredScope": "",
+      "dependencies": "卡种定稿、作者授权与内容审核。",
+      "verification_record": null
+    },
+    {
+      "id": "DR04",
+      "title": "设计卡面与抽卡页面视觉",
+      "source_ids": [
+        "P533",
+        "P534",
+        "P550",
+        "P551",
+        "P552"
+      ],
+      "requirement": "延续现有深色金色，原文建议底#0F1E27、卡#1C303B、金#E7BD7C、正文#F2EEE4，以实际组件为准。建议2:3源图≥1200×1800；标题短句可编辑叠字、全解读在下方。390px页面建议边16px、主卡216×324、名20–24px、正文14–16px、按钮高≥48px。",
+      "acceptance": "卡背统一、主题简洁；无文字过满或烘焙全部文字；实际规格与设计定稿一致。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已实现卡面展示、卡组主题/规则待确认、历史与分享页面框架；四语/日夜/四宽64视图实测。正式图案、完整卡文与版权未提供，合成白底测试图不当正式视觉方案。",
+      "dependencies": "设计系统、卡面素材、最终色值尺寸确认。",
+      "verification_record": null
+    },
+    {
+      "id": "DR05",
+      "title": "实现抽取前中后与已用次数状态",
+      "source_ids": [
+        "P535",
+        "P536",
+        "P537",
+        "P538",
+        "P539",
+        "P540",
+        "P541",
+        "P542",
+        "P543",
+        "P544",
+        "P545",
+        "P546",
+        "P547",
+        "P548",
+        "P559"
+      ],
+      "requirement": "前：返回标题、主题、卡背、抽取按钮、次数用途；中：短洗牌/翻转、防重，支持减少动效；后：卡名图、提示、解读、自问、行动可滚动；次数用完显示今日结果与下次时间，不空按钮或重复扣费。",
+      "acceptance": "完整状态可操作，弱网可重试并恢复原结果，三语言无溢出。",
+      "declaredStatus": "进行中",
+      "declaredScope": "抽取前/请求中/结果/当日已用/失败重试状态实际接服务端；弱网复用同requestId取原结果，分享选择跨异步读取保留。双端全60+专项25通过，生产规则仍待确认。",
+      "dependencies": "正式次数规则与卡组接口。",
+      "verification_record": null
+    },
+    {
+      "id": "DR06",
+      "title": "实现收藏记录练习与历史版本",
+      "source_ids": [
+        "P543",
+        "P544",
+        "P545",
+        "P546",
+        "P556",
+        "P559"
+      ],
+      "requirement": "结果含收藏、感受记录、开始练习、分享；按日期看主题/卡名/收藏，历史保持当时版本。下架若因错误或授权，按规则提示不静默换另一卡。",
+      "acceptance": "收藏、历史和练习入口可用；内容更新不改历史抽卡。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本人收藏、感受、练习标记与原卡文/图片引用/规则版本历史实际保存；新卡组不覆盖旧结果；删除后结果清除但额度仍已用。未把加入练习当真实练习时长。",
+      "dependencies": "记录感受权限、练习内容、下架处理规则。",
+      "verification_record": null
+    },
+    {
+      "id": "DR07",
+      "title": "实现服务端随机防重与抽取记录",
+      "source_ids": [
+        "P530",
+        "P555",
+        "P559"
+      ],
+      "requirement": "在当前有效卡池随机并持久化，重复同日返回同卡；保存用户、日期、时区、卡ID、版本、请求号，同用户同日唯一约束。建议等概率，不按生辰/情绪/金额暗调。",
+      "acceptance": "并发连点/刷新/重试只一条记录；随机规则与卡组版本可追溯。",
+      "declaredStatus": "进行中",
+      "declaredScope": "两端服务器CSPRNG、跨主题/版本共用本人环境额度、原子唯一/幂等、时区冷却与删除代际防迟到已验证；删除不重抽，客户端指定结果/权重/日期拒绝。正式次数/日界未确认保持关。",
+      "dependencies": "确认卡池、等概率方案、日界。",
+      "verification_record": null
+    },
+    {
+      "id": "DR08",
+      "title": "建设卡组后台与发布审核",
+      "source_ids": [
+        "P554",
+        "P559"
+      ],
+      "requirement": "管理分类、排序、语言、图文、授权、版本、启停，发布前预览简繁英。正式发布前确认卡面与最终确认卡组的全套文案；若采用建议方案则为36张。",
+      "acceptance": "后台三语言预览、版本和上下架可用，发布资料齐全。",
+      "declaredStatus": "进行中",
+      "declaredScope": "卡组规则/三语逐卡/审核/版本发布下架后台已接入，只有授权管理员可变更；未审核/资料不全不得发布。真实表单与媒体ACL验证通过，正式36卡与授权未提供。",
+      "dependencies": "内容/设计团队确认全套卡面文案。",
+      "verification_record": null
+    },
+    {
+      "id": "DR09",
+      "title": "约束抽卡AI及分享数据",
+      "source_ids": [
+        "P544",
+        "P557",
+        "P558",
+        "P559",
+        "P641"
+      ],
+      "requirement": "“与AI聊聊”独立触发授权和额度检查，默认仅发卡ID及已审卡义；用户补问再处理必要资料，不自动带命盘。分享只含卡面及主动选择文字，默认无姓名、生辰、情绪或聊天。",
+      "acceptance": "AI与分享入口可用，实际出站字段符合授权及最小范围。",
+      "declaredStatus": "进行中",
+      "declaredScope": "AI需另行点击且仅送当前卡最小字段；分享默认仅卡图，文字主动选择，不包含感受/出生/聊天。实际分享预览与隔离验证通过，未外发；真实AI与正式输出审定待接口。",
+      "dependencies": "统一AI网关、隐私授权与用户额度。",
+      "verification_record": null
+    },
+    {
+      "id": "X01",
+      "title": "核对目标端与浮层跨页回归",
+      "source_ids": [
+        "P044",
+        "P082",
+        "P117",
+        "P120",
+        "P122",
+        "P123",
+        "P622",
+        "P657"
+      ],
+      "requirement": "视频、排盘、商城新增页均查时间银行遮挡；浮层可移动隐藏且不改计时。布局、视频按iOS/Android/H5目标检查，保留既有功能与数据。",
+      "acceptance": "目标端检查截图与问题记录齐全；排盘四宽/三语言/深浅色与浮层验证通过。",
+      "declaredStatus": "进行中",
+      "declaredScope": "H5本机Chromium已反复全量60项，覆盖浮层移动隐藏/计时、窄屏和离页暂停；新增模块另有四语真实字体及布局专项。真实iOS/Android设备与目标网络尚未验收，不能以桌面浏览器替代。",
+      "dependencies": "实际目标端、既有功能与计时基线。",
+      "verification_record": null
+    },
+    {
+      "id": "X02",
+      "title": "完成五阶段验收与版本交付记录",
+      "source_ids": [
+        "P561",
+        "P562",
+        "P563",
+        "P564",
+        "P565",
+        "P566",
+        "P567",
+        "P568",
+        "P569",
+        "P570",
+        "P571",
+        "P572",
+        "P573",
+        "P574",
+        "P575",
+        "P576",
+        "P577",
+        "P578",
+        "P579",
+        "P580",
+        "P619",
+        "P620",
+        "P621",
+        "P622",
+        "P623",
+        "P624",
+        "P625",
+        "P626",
+        "P627",
+        "P628",
+        "P629",
+        "P630",
+        "P631",
+        "P632",
+        "P633",
+        "P634",
+        "P635",
+        "P636",
+        "P637",
+        "P638",
+        "P639",
+        "P640",
+        "P641",
+        "P642",
+        "P643"
+      ],
+      "requirement": "原文顺序：1盘点登记和规则接口；2八字/AI/隐私/海外准备；3商品订单权益及会员支付分佣；4商城视频抽卡；5目标地区压测、退款权限、备份恢复。每阶段交可运行版、说明、验收记录，改动可追踪提交。",
+      "acceptance": "各阶段有文件清单、数据库迁移、配置项、接口说明和证据；八项总体验收逐项核对。",
+      "declaredStatus": "进行中",
+      "declaredScope": "已分模块保存本地提交、可运行构建及双后端全量/专项冻结证据；各阶段资料与生产缺口单列。第五阶段目标地区压测、正式支付与生产恢复未完成，未宣称五阶段全部交付。",
+      "dependencies": "前序任务及项目方规则确认；工期在代码盘点后评估。",
+      "verification_record": null
+    },
+    {
+      "id": "X03",
+      "title": "准备上线回滚与完整交接包",
+      "source_ids": [
+        "P579",
+        "P580",
+        "P621",
+        "P622",
+        "P643"
+      ],
+      "requirement": "部署前备份和回滚；交付本轮页面截图、已知问题、测试账号说明、API变更、环境变量名称、下一步待办及发布回滚说明，不含真密钥、用户隐私或完整付款凭证。",
+      "acceptance": "交付包可审核，实际采购收费按项目方确认计划执行。",
+      "declaredStatus": "进行中",
+      "declaredScope": "本轮已列APP/源码SHA、模块冻结证据、接口说明、环境变量名和无密钥交接/恢复步骤；原库与8880/8879未动，未重打完整ZIP。正式发布、数据库迁移/付款事实补偿及生产回滚演练尚未完成。",
+      "dependencies": "正式验收、上线计划与回滚演练。",
+      "verification_record": null
+    },
+    {
+      "id": "X04",
+      "title": "上线前复核26项官方资料和新规则文档",
+      "source_ids": [
+        "P183",
+        "P225",
+        "P660",
+        "P661",
+        "P662",
+        "P663",
+        "P664",
+        "P665",
+        "P666",
+        "P667",
+        "P668",
+        "P669",
+        "P670",
+        "P671",
+        "P672",
+        "P673",
+        "P674",
+        "P675",
+        "P676",
+        "P677",
+        "P678",
+        "P679",
+        "P680",
+        "P681",
+        "P682",
+        "P683",
+        "P684",
+        "P685",
+        "P686",
+        "P687",
+        "P688",
+        "P689"
+      ],
+      "requirement": "保留S01–S26原始引用及用途，实施与上线前复核模型/权重/许可、Anthropic与代理条款、Apple/Google支付订阅、Stripe/PayPal准入、Webhooks幂等、云区域/HA/CDN/报价/GPU。收到会员/分佣/老师文档后更新规则与验收。",
+      "acceptance": "使用当时适用版本、地区和条款；形成核对记录，不将文档自称核实视作本任务表已验证。",
+      "declaredStatus": "进行中",
+      "declaredScope": "26个原官方链接均逐个打开复核相关章节并存证；S22计算器0行不可读、实际报价未做，S23只读入口未估价。PayPal页11月4日更新已登记。新规则/分佣补充文档及实际主体地区未齐，上线前复核未结束。",
+      "dependencies": "官方最新资料、供应商/项目方新文档。",
+      "verification_record": null
+    }
+  ]
+}

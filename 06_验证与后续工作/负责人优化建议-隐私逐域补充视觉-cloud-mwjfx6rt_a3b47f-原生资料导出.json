@@ -1,0 +1,674 @@
+{
+  "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+  "asOf": 1794844253224,
+  "inventory": {
+    "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+    "asOf": 1794844253306,
+    "domains": [
+      {
+        "id": "records",
+        "label": "records",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "records",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/requests",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "conversations",
+        "label": "conversations",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "conversations",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/saved-conversations",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {
+          "legacyGatewayOutputs": 0
+        }
+      },
+      {
+        "id": "timer",
+        "label": "timer",
+        "total": 1,
+        "eligible": 1,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "timer",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/retention",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "activity",
+        "label": "activity",
+        "total": 1,
+        "eligible": 1,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "activity",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/retention",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "measurements",
+        "label": "measurements",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "measurements",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/retention",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "cards",
+        "label": "cards",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "cards",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/retention",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "memory",
+        "label": "memory",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "existing-entry",
+        "exportKey": "memory",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/memory",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0,
+        "details": {}
+      },
+      {
+        "id": "creatorDrafts",
+        "label": "未公开创作者草稿",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "delete",
+        "exportKey": "creatorWorks",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/domains/creatorDrafts/records",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0
+      },
+      {
+        "id": "creatorPrivateProfiles",
+        "label": "未完成入驻申请",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "delete",
+        "exportKey": "creatorProfile",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/domains/creatorPrivateProfiles/records",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0
+      },
+      {
+        "id": "serviceRequestContent",
+        "label": "本人咨询申请正文",
+        "total": 2,
+        "eligible": 0,
+        "protected": 2,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "scrub",
+        "exportKey": "serviceRequests",
+        "binaryIncluded": false,
+        "blockedReasons": [
+          {
+            "code": "missing",
+            "count": 2
+          }
+        ],
+        "entryPoint": "/api/privacy/domains/serviceRequestContent/records",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0
+      },
+      {
+        "id": "privateMedia",
+        "label": "无引用的本人素材",
+        "total": 0,
+        "eligible": 0,
+        "protected": 0,
+        "ageUnknown": 0,
+        "retentionDays": null,
+        "deleteMode": "delete-with-object-queue",
+        "exportKey": "uploadedMediaMetadata",
+        "binaryIncluded": false,
+        "blockedReasons": [],
+        "entryPoint": "/api/privacy/domains/privateMedia/records",
+        "protectionStarted": 0,
+        "adoptableUnknown": 0
+      }
+    ],
+    "retained": [
+      {
+        "id": "identityAndSecurity",
+        "recordCount": 2,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "身份归属与账号安全；正式期限待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "privacyAndSourceAudits",
+        "recordCount": 15,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "最小授权、安全及处理证明；正式期限待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "deviceConnections",
+        "recordCount": 0,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "设备连接与授权归属；断连和保留政策待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "commerceAndFulfilment",
+        "recordCount": 2,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "购物状态、成交履约、资金核对与售后；各类正式期限待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "membershipQuotaCommissionAndAftersale",
+        "recordCount": 0,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "已确认权益、使用及资金归属；不抹掉已用或改余额",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "communityAndShared",
+        "recordCount": 0,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "公开或共有互动及对方权益；删除或匿名化政策待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      },
+      {
+        "id": "publishedCreatorAndReviews",
+        "recordCount": 0,
+        "reasonCode": "policy_unconfirmed",
+        "purpose": "已公开、审核/申诉或尚有引用的数据；保留政策待确认",
+        "retentionDays": null,
+        "policyConfirmed": false
+      }
+    ],
+    "external": {
+      "providers": "pending-confirmation",
+      "backupsAndWAL": "pending-confirmation",
+      "vectorIndex": "not-implemented",
+      "externalCache": "not-implemented",
+      "browserLocalData": "not-automatically-cleared"
+    },
+    "unclassifiedOwnerTables": [],
+    "schedulerDeployed": false,
+    "config": {
+      "revision": 0,
+      "enabled": false,
+      "confirmed": false,
+      "policyVersion": "",
+      "retentionDays": {
+        "creatorDrafts": null,
+        "creatorPrivateProfiles": null,
+        "serviceRequestContent": null,
+        "privateMedia": null
+      }
+    }
+  },
+  "serverData": {
+    "cardDraws": [],
+    "cardActions": [],
+    "cardPracticeOpenings": [],
+    "cardQuota": [],
+    "cardTimezonePreferences": [],
+    "cardRecordErasureState": [],
+    "account": [
+      {
+        "id": "63940a48-1678-43e6-a6c6-e32e823a3318",
+        "username": "pd_3_visual_mwjfx6rt_a3b",
+        "name": "隐私逐域合成 visual",
+        "role": "user",
+        "created": 1794844246948
+      }
+    ],
+    "memoryItems": [],
+    "memoryState": [],
+    "memoryTombstones": [],
+    "memoryCleanupReceipts": [],
+    "records": [],
+    "timeRecords": [
+      {
+        "id": "e690c3ec-16c4-46d1-a828-cdcc46fc0a31",
+        "start_ms": 1794844248906,
+        "end_ms": null,
+        "last_seen": 1794844248906,
+        "zone": "Asia/Shanghai"
+      }
+    ],
+    "activity": [
+      {
+        "day": "2026-11-16",
+        "feature": "other",
+        "visits": 1,
+        "first_seen": 1794844248634,
+        "last_seen": 1794844248634,
+        "last_visit": 1794844248634
+      }
+    ],
+    "myPosts": [],
+    "uploadedMediaMetadata": [],
+    "mySentMessages": [],
+    "serviceRequests": [
+      {
+        "id": "8eecffa7-27a4-4a22-a4e6-4564da30842b",
+        "teacher_id": "privacy-domain-qa-teacher",
+        "teacher_name": "独立合成老师标识",
+        "body": "",
+        "preferred_date": "",
+        "status": "pending",
+        "created": 1794844246965
+      },
+      {
+        "id": "d1829801-6c5e-43e2-8e7f-eef6f50c8506",
+        "teacher_id": "privacy-domain-qa-teacher",
+        "teacher_name": "独立合成老师标识",
+        "body": "",
+        "preferred_date": "",
+        "status": "pending",
+        "created": 1794844246965
+      }
+    ],
+    "devices": [],
+    "measurements": [],
+    "creatorProfile": [],
+    "creatorWorks": [],
+    "mySavedCreatorWorks": [],
+    "myFollows": [],
+    "conversations": [],
+    "authorizationHistory": [],
+    "transferAttempts": [],
+    "privacyRequests": [],
+    "commerceOrders": [],
+    "commerceOrderItems": [],
+    "commerceEntitlements": [],
+    "commerceCart": [],
+    "commercePaymentSummary": [],
+    "commerceAftersaleRequests": [],
+    "commerceInventoryEvents": [],
+    "afterSalesCases": [],
+    "afterSalesItems": [],
+    "afterSalesActions": [],
+    "afterSalesShipments": [],
+    "afterSalesInspections": [],
+    "afterSalesReceiptItems": [],
+    "accountLifecycle": [],
+    "paymentSupportTickets": [],
+    "paymentSupportReplies": [],
+    "accountClosureReceipts": [],
+    "afterSalesFinanceHeads": [],
+    "afterSalesFinanceActions": [],
+    "afterSalesFinanceTargets": [],
+    "afterSalesFinanceLinks": [],
+    "afterSalesFinanceReversals": [],
+    "membershipSubscriptions": [],
+    "membershipOrderTerms": [],
+    "membershipEvents": [],
+    "membershipPurchaseLocks": [],
+    "commissionLedger": [],
+    "commissionAdjustments": [],
+    "commissionStatements": [],
+    "commissionStatementLines": [],
+    "commissionPaymentSummary": [],
+    "commissionOwnAttributions": [],
+    "commissionOwnInvitations": [],
+    "digitalOrderSnapshots": [],
+    "digitalEntitlementGrants": [],
+    "digitalAccessLeases": [],
+    "digitalEntitlementUses": [],
+    "membershipAIPeriods": [],
+    "membershipAIAllocations": [],
+    "membershipAIEvents": [],
+    "aiGatewayWallet": [],
+    "aiGatewayGrants": [],
+    "aiGatewayProviderPermissions": [],
+    "aiGatewayRequests": [],
+    "legacyGatewayOutputs": [],
+    "privacyDomainJobs": [
+      {
+        "id": "dc1e7b82-25ce-4764-a9a6-c82fcdec4a3b",
+        "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+        "mode": "manual",
+        "domains": [
+          "privateMedia",
+          "serviceRequestContent"
+        ],
+        "asOf": 1794844250271,
+        "configRevision": 0,
+        "policyVersion": "",
+        "version": 2,
+        "status": "objects_pending",
+        "planned": 3,
+        "pending": 0,
+        "truncated": false,
+        "confirmedAt": 1794844251021,
+        "confirmationSource": "owner",
+        "created": 1794844250271,
+        "updated": 1794844251786,
+        "summary": {
+          "processed": {
+            "1": 3
+          },
+          "objects": {
+            "applicable": true,
+            "pending": 1,
+            "retry": 0,
+            "verified": 0,
+            "manualReview": 0
+          }
+        },
+        "phase": "completed",
+        "pendingNonMedia": 0,
+        "pendingMedia": 0,
+        "pendingObjects": 1
+      }
+    ],
+    "privacyDomainReceipts": [
+      {
+        "id": "ea1003a0-6e1c-4178-94ac-c3bf5a38f6a3",
+        "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+        "requestId": "d74c5f0a-d4ad-43b9-a4b4-c2585a96d38a",
+        "domains": [
+          "privateMedia",
+          "serviceRequestContent"
+        ],
+        "adoptedCounts": {
+          "privateMedia": 0,
+          "serviceRequestContent": 2
+        },
+        "alreadyKnownSkipped": {
+          "privateMedia": 1,
+          "serviceRequestContent": 0
+        },
+        "protectionStart": 1794844249600,
+        "historicalLastWriteKnown": false,
+        "deleted": 0,
+        "created": 1794844249600,
+        "mode": "adopt",
+        "jobId": null,
+        "status": "local_completed"
+      },
+      {
+        "id": "deabd522-b6f2-4abd-955f-05e76b8faced",
+        "jobId": "dc1e7b82-25ce-4764-a9a6-c82fcdec4a3b",
+        "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+        "mode": "manual",
+        "status": "local_completed",
+        "asOf": 1794844250271,
+        "created": 1794844251021,
+        "updated": 1794844251021,
+        "localDatabase": {
+          "status": "batch-completed",
+          "counts": {
+            "creatorDrafts": 0,
+            "creatorPrivateProfiles": 0,
+            "serviceRequestContent": 2,
+            "privateMedia": 0
+          },
+          "skippedChanged": 0,
+          "skippedReferenced": 0,
+          "missing": 0,
+          "pending": 1
+        },
+        "objects": {
+          "applicable": false,
+          "pending": 0,
+          "retry": 0,
+          "verified": 0,
+          "manualReview": 0
+        },
+        "retained": [
+          {
+            "id": "identityAndSecurity",
+            "recordCount": 2,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "身份归属与账号安全；正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "privacyAndSourceAudits",
+            "recordCount": 11,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "最小授权、安全及处理证明；正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "deviceConnections",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "设备连接与授权归属；断连和保留政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "commerceAndFulfilment",
+            "recordCount": 2,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "购物状态、成交履约、资金核对与售后；各类正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "membershipQuotaCommissionAndAftersale",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "已确认权益、使用及资金归属；不抹掉已用或改余额",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "communityAndShared",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "公开或共有互动及对方权益；删除或匿名化政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "publishedCreatorAndReviews",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "已公开、审核/申诉或尚有引用的数据；保留政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          }
+        ],
+        "providersStatus": "pending-confirmation",
+        "backupsStatus": "pending-confirmation",
+        "vectorIndexStatus": "not-implemented",
+        "externalCacheStatus": "not-implemented",
+        "localBrowserCleared": false,
+        "allFirstPartyDataErased": false,
+        "receiptContainsBody": false
+      },
+      {
+        "id": "f6f85144-19a1-4dc8-9d0b-f99e6b8fcde9",
+        "jobId": "dc1e7b82-25ce-4764-a9a6-c82fcdec4a3b",
+        "accountId": "63940a48-1678-43e6-a6c6-e32e823a3318",
+        "mode": "manual",
+        "status": "objects_pending",
+        "asOf": 1794844250271,
+        "created": 1794844251786,
+        "updated": 1794844251786,
+        "localDatabase": {
+          "status": "batch-completed",
+          "counts": {
+            "creatorDrafts": 0,
+            "creatorPrivateProfiles": 0,
+            "serviceRequestContent": 0,
+            "privateMedia": 1
+          },
+          "skippedChanged": 0,
+          "skippedReferenced": 0,
+          "missing": 0,
+          "pending": 0
+        },
+        "objects": {
+          "applicable": true,
+          "pending": 1,
+          "retry": 0,
+          "verified": 0,
+          "manualReview": 0
+        },
+        "retained": [
+          {
+            "id": "identityAndSecurity",
+            "recordCount": 2,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "身份归属与账号安全；正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "privacyAndSourceAudits",
+            "recordCount": 12,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "最小授权、安全及处理证明；正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "deviceConnections",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "设备连接与授权归属；断连和保留政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "commerceAndFulfilment",
+            "recordCount": 2,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "购物状态、成交履约、资金核对与售后；各类正式期限待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "membershipQuotaCommissionAndAftersale",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "已确认权益、使用及资金归属；不抹掉已用或改余额",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "communityAndShared",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "公开或共有互动及对方权益；删除或匿名化政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          },
+          {
+            "id": "publishedCreatorAndReviews",
+            "recordCount": 0,
+            "reasonCode": "policy_unconfirmed",
+            "purpose": "已公开、审核/申诉或尚有引用的数据；保留政策待确认",
+            "retentionDays": null,
+            "policyConfirmed": false
+          }
+        ],
+        "providersStatus": "pending-confirmation",
+        "backupsStatus": "pending-confirmation",
+        "vectorIndexStatus": "not-implemented",
+        "externalCacheStatus": "not-implemented",
+        "localBrowserCleared": false,
+        "allFirstPartyDataErased": false,
+        "receiptContainsBody": false
+      }
+    ],
+    "privacyObjectDeletions": [
+      {
+        "id": "523722c1-c82b-44ee-8d72-fd2a99783ec0",
+        "receiptId": "f6f85144-19a1-4dc8-9d0b-f99e6b8fcde9",
+        "mediaId": "e66af0ad-919b-427e-a419-f54def9d57a3",
+        "status": "pending",
+        "attempts": 0,
+        "leaseUntil": 0,
+        "nextAttempt": 0,
+        "lastError": "",
+        "created": 1794844251786,
+        "updated": 1794844251786
+      }
+    ],
+    "privacyRetentionJobs": [],
+    "privacyRetentionReceipts": [],
+    "aiGatewayQuotaEvents": [],
+    "aiGatewayAttempts": []
+  },
+  "files": [],
+  "binaryIncluded": false,
+  "credentialsIncluded": false
+}

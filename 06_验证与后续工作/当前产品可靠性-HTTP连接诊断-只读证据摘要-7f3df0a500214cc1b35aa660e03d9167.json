@@ -1,0 +1,106 @@
+{
+  "kind": "transport-diagnostic-readonly-evidence-summary",
+  "componentOnly": true,
+  "formalAcceptance": false,
+  "thirtyMinuteCompleted": false,
+  "productionEnabled": false,
+  "generatedAt": "2026-11-17T15:43:23.769Z",
+  "report": {
+    "path": "06_验证与后续工作/当前产品可靠性-HTTP连接诊断-7f3df0a500214cc1b35aa660e03d9167.json",
+    "sha256": "22e7da00712d93bc8ac84db29c77ea31d8e87a7ae0bdf3499630f19e53a94209"
+  },
+  "helper": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-HTTP连接诊断.cjs",
+    "sha256": "ef9a299300a948e83e19b46624d25cedca4a154e8287b34884c93757a4b476b0"
+  },
+  "unchangedDriver": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-登录负载.cjs",
+    "sha256": "f4191a5c62bb236458f45dca1d216c1802efbf9e620a9b2dc1bedf41e146b3bd"
+  },
+  "httpRequests": 49,
+  "http200": 48,
+  "httpErrors": [
+    {
+      "sequence": 38,
+      "error": "ECONNRESET",
+      "headersMs": null,
+      "socketId": 9,
+      "reusedSocketAtAssigned": true,
+      "reusedSocketAtComplete": true,
+      "observedIdleMs": 5006.217000000004,
+      "elapsedMs": 1.6424000000042724
+    }
+  ],
+  "naturalIdleBaselineClose": [
+    {
+      "socketId": 1,
+      "hadError": false,
+      "idleSinceResponseEndMs": 5010.929
+    },
+    {
+      "socketId": 2,
+      "hadError": false,
+      "idleSinceResponseEndMs": 5029.644
+    }
+  ],
+  "connectionHeaders": [
+    {
+      "connection": null,
+      "keepAlive": null
+    }
+  ],
+  "oneTimeConnectionControl": [
+    {
+      "sequence": 49,
+      "status": 200,
+      "error": null,
+      "reusedSocket": false
+    },
+    {
+      "sequence": 48,
+      "status": 200,
+      "error": null,
+      "reusedSocket": false
+    }
+  ],
+  "historicalPartial": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-17f9bd7864d64f7ba270a968238a5ca7-requests.ndjson",
+    "sha256": "e66d0d54908cbe9fd2af419a82935bcd02cbad6d060ce2705e8af04b41a677db",
+    "failedIndex": 8414,
+    "userIndex": 98,
+    "error": "ECONNRESET",
+    "priorSameUserIndex": 8315,
+    "priorCompletionMs": 415770.32159999997,
+    "gapToFailedDispatchMs": 4937.022899999982,
+    "gapToFailedErrorCompletionMs": 5004.34719999996,
+    "originalFalseReusedSocketIsNotErrorPathEvidence": true
+  },
+  "officialReference": {
+    "url": "https://nodejs.org/download/release/v24.22.1/docs/api/http.html#requestreusedsocket",
+    "readAt": "2026-11-17T15:43:23.784Z",
+    "scope": "Node documents possible reused-connection ECONNRESET around server idle close. This is a general mechanism, not proof of the historical request cause."
+  },
+  "interpretation": {
+    "directlyObserved": "The same local native Cloud entry used by the locked load driver can reset a truly reused connection at the observed approximately five-second idle boundary.",
+    "notProven": [
+      "The historical failed request had no socket identity or error-path reusedSocket evidence; exact attribution remains an inference.",
+      "Two successful fresh-connection control requests do not establish full-load reliability.",
+      "No packet trace attributes idle close to a specific Miniflare front server or workerd process."
+    ],
+    "endpointScope": "Original nativeCloudServer Miniflare.ready origin and actual application handler; not a replacement HTTP fixture."
+  },
+  "sourceIdentityUnchanged": true,
+  "childClose": {
+    "code": 0,
+    "signal": null,
+    "atMs": 68964.487,
+    "expected": true
+  },
+  "cleanup": {
+    "ownedWrapperStillAlive": false,
+    "trackedRemainingPids": [],
+    "processInventoryComplete": true,
+    "privateVarsFilesCreated": 0,
+    "privateVarsRemaining": 0
+  }
+}

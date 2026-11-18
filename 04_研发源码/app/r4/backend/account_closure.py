@@ -108,12 +108,14 @@ class AccountClosure:
         self.cleanup=cleanup
         self.clock=clock or (lambda:int(time.time()*1000))
 
-    def receipt(self,row):
+    def receipt(self,row,db=None):
         details=json.loads(row['details'])
+        from privacy_domains import closure_snapshot
+        domain_cleanup=closure_snapshot(db,row['owner'],row['id']) if db is not None else None
         return {'receipt':{'id':row['id'],'status':'closed','accountClosed':True,'sessionsRevoked':True,
                  'credentialVerifierInvalidated':True,'closedAt':row['created'],'local':details,'providersStatus':'pending-confirmation',
                  'backupsStatus':'pending-confirmation','thirdPartyRenewalCancelled':False,
-                 'localBrowserCleared':False},'reauthenticate':True}
+                 'localBrowserCleared':False,'domainCleanup':domain_cleanup},'reauthenticate':True}
 
     def clear_cookie(self):
         self.h.cookies_out.append('ew_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict')
@@ -175,7 +177,7 @@ class AccountClosure:
             old=db.execute('SELECT * FROM account_closure_receipts WHERE challenge_id=?',(cid,)).fetchone()
             if old:
                 if (self.h.user and self.h.user['id']!=old['owner']) or old['request_id']!=key or not hmac.compare_digest(old['nonce_hash'],nh): raise self.Error(404,'确认凭证无效。')
-                result=self.receipt(old)
+                result=self.receipt(old,db)
             else:
                 u=self.h.require();owner=u['id'];require_active(db,owner,self.Error)
                 challenge=db.execute('SELECT * FROM account_closure_challenges WHERE id=? AND owner=?',(cid,owner)).fetchone()
@@ -183,13 +185,20 @@ class AccountClosure:
                 rid=str(uuid4())
                 db.execute('INSERT INTO account_closure_receipts VALUES (?,?,?,?,?,?,?,?)',(rid,owner,cid,key,nh,str(uuid4()),stamp,'{}'))
                 cleanup=self.cleanup(db,owner,rid,stamp)
+                from card_imports import erase as card_import_erase
+                from card_history_migration import privacy_delete_records as card_history_erase
+                cleanup['cardImports']=card_import_erase(db,owner,'closure',rid,stamp);cleanup['cardLegacy']=card_history_erase(db,owner)
+                from bazi_samples import erase as sample_erase
+                cleanup['baziSamples']=sample_erase(db,owner,'closure',rid,stamp)
                 db.execute('UPDATE account_closure_receipts SET details=? WHERE id=?',(json.dumps(cleanup,ensure_ascii=False),rid))
+                from privacy_domains import append_closure_cleanup as append_domain_cleanup
+                append_domain_cleanup(db,owner,rid,stamp)
                 db.execute('UPDATE users SET password=? WHERE id=?',(secrets.token_hex(16)+':'+secrets.token_hex(32),owner))
                 db.execute('UPDATE account_closure_challenges SET consumed=1 WHERE owner=?',(owner,))
                 db.execute('INSERT OR IGNORE INTO account_revoked_sessions SELECT token,user_id,? FROM sessions WHERE user_id=?',(stamp,owner))
                 db.execute('DELETE FROM sessions WHERE user_id=?',(owner,))
                 db.execute("INSERT INTO account_lifecycle VALUES (?,'closed',1,?,?) ON CONFLICT(owner) DO UPDATE SET status='closed',epoch=epoch+1,closed_at=excluded.closed_at,receipt_id=excluded.receipt_id",(owner,stamp,rid))
-                result=self.receipt(db.execute('SELECT * FROM account_closure_receipts WHERE id=?',(rid,)).fetchone())
+                result=self.receipt(db.execute('SELECT * FROM account_closure_receipts WHERE id=?',(rid,)).fetchone(),db)
         return result
 
 

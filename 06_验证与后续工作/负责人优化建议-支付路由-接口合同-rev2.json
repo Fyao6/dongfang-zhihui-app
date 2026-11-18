@@ -1,0 +1,138 @@
+{
+  "module": "PAY05 支付路由候选合同：负责人R1–R6决策整理",
+  "revision": 2,
+  "status": "prepared-not-implemented",
+  "preparedAtBeijing": "2026-11-17T04:39:21+08:00",
+  "authority": "以下R1–R6为负责人本轮本地软件决策，不需向用户弹窗；仅整理合同，产品实施仍等Stage27完全闭环后另行授权。",
+  "previousCandidate": {
+    "path": "06_验证与后续工作/负责人优化建议-支付路由-接口合同.json",
+    "sha256": "aa955926e53074f2c7552fea4dc82fac9a527fa4819a9492e7e5d4839436a183",
+    "bytesPreserved": true,
+    "sourceMapping": "继承rev1对原文P387–421及P440–442全部38段的映射；本rev2覆盖其mode/context/quote/兼容方案及未决政策点。"
+  },
+  "productionEnabled": false,
+  "policyBoundary": "PC01/PC02当前主体、银行、国家、发行计划、业务和币种准入均未由本合同核实。原文渠道方向不是当前专业准入结论；合成本地验证不等于native实机、商店上架、真实渠道收费或银行到账验收。",
+  "decisions": {
+    "R1": {
+      "mode": ["legacy_sandbox", "enforced_sandbox", "paused"],
+      "legacy_sandbox": "默认模式，保留原独立沙箱下单链；新单同TX写immutable最小legacy route，matrixApplied=false，不要求quote、不声称矩阵授权。",
+      "enforced_sandbox": "新订单必须有有效本人quote及可信sandbox context/已确认规则；无匹配、适配缺失等不能fallback到legacy。",
+      "paused": "拒绝新quote、新order及所有新的手动sandbox-pay发起；既有订单、报价和已提交幂等结果仍可本人只读回查。既有可信callback/query/late付款事实按原门禁完成，不冒称收回已提交动作。",
+      "oldOrders": "无route的既有单只读标legacy_unrouted，永不补造route。enforced下旧legacy单保原sandbox链；paused挡其新手动付款，但不抹掉历史付款或重发权益。"
+    },
+    "R2": {
+      "envEnabled": "EW_PAYMENT_ROUTING_SANDBOX_CONTEXT_ENABLED 必须精确为'1'才有可用enforced context。",
+      "envJsonCandidateName": "EW_PAYMENT_ROUTING_SANDBOX_CONTEXT_JSON",
+      "json": "严格且仅{schema:1,id,revision,platform,region}；拒重复key、非法UTF-8、额外字段/嵌套、非整数revision及字符串空白变体。id为[A-Za-z0-9:_-]{1,100}，revision为1..2147483647整数，platform为web/app_store/google_play，region为两位大写地区代码。",
+      "source": "固定server_fixed_sandbox；只证明服务器本机/沙箱声明，不称真实storefront验证。未知/未开/坏配置不给可用context。",
+      "publicDigest": "SHA256 UTF-8 canonical JSON {enabled:'1',schema:1,id,revision,platform,region}，键排序、无额外空白；不含secret/session。policy必须明确确认当前digest，env变化未重新确认就拒绝新的enforced授权。",
+      "untrusted": "shippingAddress.country仅配送用途；body、UA、Origin、header、IP/部署地区均不能覆盖或证明商店地区。",
+      "compatibility": "该context是矩阵授权条件，不作为默认legacy原沙箱链的额外启用条件；legacy route不假造context验证。paused对两类手动新发起均有效。"
+    },
+    "R3": {
+      "ttlSeconds": 300,
+      "quoteReplay": "同owner/requestId同原始规范intent返回原冻结quote及当前usability；不延时、不覆盖旧context/规则/价格。context变化不改变旧row；需新意图时用新requestId。",
+      "singleConsumption": "一个new_order quote最多创建一个order；与订单、预占、全部成交terms、route及quote消费在同TX写入。并发不同订单请求抢同quote仅一件成功，其他409 quote_consumed。",
+      "orderReplay": "同owner/environment/requestId同原始items/address intent/quoteId返回原订单及原snapshot，即使当前mode、context、policy或expiry已变；异items/quote为409。重放不是新支付发起。",
+      "finalCheck": "实际SKU价/币种/数量、分类、context digest、policy revision、mapping/会员计划等版本最终TX重核；失败不留半订单或预占。",
+      "pii": "报价不重复保存地址姓名/电话/街道正文；冻结必要SKU/数量/金额/配送国家及规范完整intent指纹，建单时用原地址重新规范并比指纹。指纹仍按个人元数据保护，不称匿名。"
+    },
+    "R4": "精确平台/地区/分类/币种/环境匹配；无通配、无隐式priority或渠道fallback，多命中拒绝。混单先按原type/currency拆分，再给channel分组建议，不自动替用户创建新单或调整数量。",
+    "R5": "enforced route未付订单的新手动sandbox-pay必须当前mode允许、当前context/policy及相关条件仍适用；过时明确重新确认，不改原价或原snapshot。已受理可信callback/recovery/late不因当前路由rev变更而丢弃。",
+    "R6": "只实现actual physical→physical_goods、digital→digital_content、membership→digital_membership。独立AIcredits/offline/live_one_to_one没有实际SKU履约类型，明确classification_not_implemented，不生成服务类型。apple/google/stripe/paypal只匹配预览并adapter_unavailable；会员渠道映射draft不是审批/接通。"
+  },
+  "fixedTypes": {
+    "channel": ["sandbox", "apple", "google", "stripe", "paypal"],
+    "platform": ["web", "app_store", "google_play"],
+    "classification": ["physical_goods", "digital_content", "digital_membership", "digital_ai_credits", "offline_service", "live_one_to_one"],
+    "classifierVersion": "actual-commerce-type-v1",
+    "classifier": "服务器从真实commerce_products.type映射前三种，不接受客户端或商品标题声明。无需新增可任意覆盖type的分类管理表；会员包含AI权益仍是digital_membership，不是独立AI额度SKU。"
+  },
+  "defaultConfig": {
+    "revision": 0,
+    "mode": "legacy_sandbox",
+    "confirmed": false,
+    "ruleVersion": "",
+    "contextDigest": "",
+    "rules": [],
+    "productionEnabled": false
+  },
+  "rules": {
+    "shape": "{id,environment:'sandbox',platform,region,classification,currency,channel,reference}",
+    "validation": "完整严格字段；id稳定且唯一，currency三位大写。无wildcard/default/priority/百分比权重；相同匹配条件重复即拒保存。preview也可演示不支持分类，但其decision不得eligible。",
+    "confirmedEnforced": "mode=enforced_sandbox须confirmed=true、非空ruleVersion、有效server context及config.contextDigest等于当前publicDigest。legacy/paused可以保留已存规则供审查，不把未确认规则称已应用。",
+    "resultStages": "classification/context→policy→精确match→adapter readiness→既有商品/terms/库存约束。rule_unmatched、rule_ambiguous和adapter_unavailable分开记录；真实渠道匹配后主状态仍adapter_unavailable，可附mapping缺口，不能伪改rule_unmatched。",
+    "availableAdapter": "本轮仅sandbox，沿用原模拟付款和HMAC fixture；不把apple/google/stripe/paypal匹配成功等同能收银。sandbox会员mapping非必需的新条件；仍复用现计划与成交校验。"
+  },
+  "publicShapes": {
+    "context": "{schema:1,id:null|string,revision:0|int,platform:null|enum,region:null|string,source:'server_fixed_sandbox'|'unknown',ready:boolean,digest:null|string,reasonCode:string,productionEnabled:false}",
+    "decision": "{eligible:boolean,mode,channel:null|enum,matrixApplied:boolean,reasonCode,blockedReasons:string[],policyRevision:int,ruleVersion:string,ruleIds:string[],classifierVersion,contextDigest:null|string,adapterReady:boolean,productionEnabled:false}",
+    "usability": "{usable:boolean,reasonCode,checkedAt:int,currentMode,currentPolicyRevision:int,currentContextDigest:null|string}；只读现算，不更新quote内容或expiry。",
+    "quote": "{id,purpose:'new_order'|'order_reconfirm',orderId:null|string,created,expires,items,totals,decision,usability,consumedOrderId:null|string,productionEnabled:false}",
+    "route": "{mode:'legacy_sandbox'|'enforced_sandbox'|'legacy_unrouted',matrixApplied:boolean,channel:'sandbox',policyRevision:int,ruleVersion:string,contextDigest:null|string,quoteId:null|string,created:int|null,productionEnabled:false}",
+    "newLegacyMinimum": "{mode:'legacy_sandbox',matrixApplied:false,channel:'sandbox',policyRevision:创建时配置revision,ruleVersion:'',contextDigest:null,quoteId:null,created:order.created}；snapshot内部contextRequired=false。"
+  },
+  "sharedDDLCandidate": [
+    "CREATE TABLE IF NOT EXISTS payment_routing_config(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL CHECK(json_valid(data)));",
+    "CREATE TABLE IF NOT EXISTS payment_routing_versions(id TEXT PRIMARY KEY,revision INTEGER NOT NULL UNIQUE CHECK(revision>0),rule_version TEXT NOT NULL,context_digest TEXT NOT NULL,data TEXT NOT NULL CHECK(json_valid(data)),digest TEXT NOT NULL,actor TEXT NOT NULL,created INTEGER NOT NULL);",
+    "CREATE TABLE IF NOT EXISTS payment_routing_quotes(id TEXT PRIMARY KEY,owner TEXT NOT NULL,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,purpose TEXT NOT NULL CHECK(purpose IN ('new_order','order_reconfirm')),order_id TEXT NOT NULL DEFAULT '',mode TEXT NOT NULL CHECK(mode='enforced_sandbox'),policy_revision INTEGER NOT NULL,context_digest TEXT NOT NULL,snapshot_data TEXT NOT NULL CHECK(json_valid(snapshot_data)),created INTEGER NOT NULL,expires INTEGER NOT NULL CHECK(expires>created),UNIQUE(owner,request_id));",
+    "CREATE TABLE IF NOT EXISTS commerce_order_payment_routes(order_id TEXT PRIMARY KEY,owner TEXT NOT NULL,mode TEXT NOT NULL CHECK(mode IN ('legacy_sandbox','enforced_sandbox')),quote_id TEXT UNIQUE,policy_revision INTEGER NOT NULL,context_digest TEXT NOT NULL,matrix_applied INTEGER NOT NULL CHECK(matrix_applied IN (0,1)),snapshot_data TEXT NOT NULL CHECK(json_valid(snapshot_data)),digest TEXT NOT NULL,created INTEGER NOT NULL,CHECK((mode='legacy_sandbox' AND matrix_applied=0 AND context_digest='') OR (mode='enforced_sandbox' AND matrix_applied=1 AND quote_id IS NOT NULL AND length(context_digest)=64)));",
+    "CREATE TABLE IF NOT EXISTS payment_routing_quote_consumptions(quote_id TEXT PRIMARY KEY,order_id TEXT NOT NULL UNIQUE,owner TEXT NOT NULL,created INTEGER NOT NULL);",
+    "CREATE TABLE IF NOT EXISTS payment_routing_confirmations(id TEXT PRIMARY KEY,owner TEXT NOT NULL,order_id TEXT NOT NULL,quote_id TEXT NOT NULL UNIQUE,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,policy_revision INTEGER NOT NULL,context_digest TEXT NOT NULL,snapshot_data TEXT NOT NULL CHECK(json_valid(snapshot_data)),digest TEXT NOT NULL,created INTEGER NOT NULL,expires INTEGER NOT NULL CHECK(expires>created),UNIQUE(owner,request_id));",
+    "CREATE TABLE IF NOT EXISTS payment_routing_atomic_guards(id TEXT PRIMARY KEY,ok INTEGER NOT NULL CHECK(ok=1));",
+    "CREATE INDEX IF NOT EXISTS payment_routing_quotes_owner ON payment_routing_quotes(owner,created,id);",
+    "CREATE INDEX IF NOT EXISTS payment_routing_confirmations_order ON payment_routing_confirmations(owner,order_id,created,id);"
+  ],
+  "dbGuards": {
+    "immutable": "versions/quotes/order routes/consumptions/confirmations全部UPDATE/DELETE拒绝（账号依法清理另按最终保留政策，不借普通API开后门）；atomic_guards为批内临时证明，成功后删除。配置只CAS更新JSON revision。",
+    "quoteAdmission": "报价插入核真实owner未闭户、mode非paused。enforced核当前确认policy/context摘要及真实商品版本；legacy不借context未就绪改变原链。input快照内不含地址正文。",
+    "newRoute": "只允许same TX新建、尚未付款的sandbox本人订单；已付/旧订单不能补写。legacy最小记录固定matrixApplied=0；enforced quote.purpose=new_order、owner与items/totals/context/policy完全匹配且未消费。",
+    "consumption": "消费记录必须关联同TX创建且引用该quote的同owner order route；quote purpose=new_order，唯一quote_id和order_id保证一次使用。条件失败必须abort，不能INSERT WHERE零行后继续订单。",
+    "confirmation": "只允许本人未付enforced订单、purpose=order_reconfirm且原order_id/owner相符；不得创建另一个订单或改原route。每个确认quote最多一confirmation，消费类型由purpose隔离。",
+    "finalAtomicity": "Py BEGIN IMMEDIATE内核actor/config/quote/全版本；Cloud单guarded D1 batch写quote消费、order/items/reservations、原会员/数字/commission terms与route，再final guard，任一缺失全部回滚。不放宽原account write fence或伪造owner/user。",
+    "envBoundary": "SQL不能直接读取server env；每次授权读取严格context，构造事务前再次校digest，SQL最终核config确认digest与本次proof相同。不得把仅DB存着旧digest说成已复核当前env；部署切换和已提交动作边界如实说明。",
+    "technicalStatus": "以上为共用字段顺序与职责建议；精确trigger SQL需实施时双端对齐和实际SQLite/D1编译核验，本候选未运行DDL。"
+  },
+  "api": {
+    "GET /api/admin/payment-routing": "真实当前admin；{config,versions,next,context,adapterReadiness,productionEnabled:false}。上下文只安全结构/digest，不返回env原文或会话。",
+    "PATCH /api/admin/payment-routing": "完整defaultConfig字段+revision CAS；mode唯一，不再同时用enabled开关。保存下一revision immutable版本、current config及audit同TX。paused无需有效context即可立即停新发起；enforced须确认当前digest。",
+    "POST /api/admin/payment-routing/preview": "{context:{platform,region},items:[{skuId,quantity}],environment:'sandbox'}→{simulation:true,decision,groups,productionEnabled:false}。模拟context不能发quote/建单；不接受client price/channel。",
+    "GET /api/commerce/payment-context": "本人或原目录同权限；{mode,context,productionEnabled:false}；公开digest用于admin确认，但不是客户端签发权限。",
+    "POST /api/commerce/quote": "本人；{requestId,environment:'sandbox',items,shippingAddress?,membershipRenewalOf?}→{quote,productionEnabled:false}。先查同owner/request重放原quote+现usability；新paused返回503 routing_paused。最小技术方案仅enforced新增quote，legacy沿原内部核价并返回409 quote_not_required、不写quote，避免给旧链隐式附新条件。非法输入400；enforced矩阵拒绝可冻结拒绝decision，eligible=false不得消费。",
+    "GET /api/commerce/quotes/:id": "本人404隔离；原冻结quote加实时usability，过期不延时；不返回他人或地址正文。",
+    "POST /api/commerce/orders": "先按原请求语义重放既有order及其模式。新legacy保原字段/指纹、写最小legacy route，不使用quoteId，显式传入应拒绝而非静默忽略；enforced必需quoteId并纳指纹。新单最终核300秒expiry、quote单次消费及所有版本，失效409 quote_stale/quote_consumed。paused只拒新单，不把原幂等查询当新单。",
+    "GET 原catalog/会员catalog/订单": "统一resolver安全摘要；purchasable和库存/已发布/会员及数字门禁AND。不隐藏数据或伪0库存；旧无route返回legacy_unrouted，不补写。",
+    "POST /api/commerce/orders/:id/sandbox-pay": "先认证及原请求已提交幂等事实回查；新的发起paused一律503 routing_paused。legacy/旧unrouted在非paused沿原链。enforced order要求current mode=enforced、当前context/policy仍适用或有效新confirmation；不得因切回legacy自动降级。其余保持原支付状态/商品/库存/terms栅栏。",
+    "POST /api/commerce/orders/:id/payment-route/quote": "重新确认候选技术接口：{requestId}，只本人尚未付enforced订单，当前mode=enforced；以原订单冻结items/原价/币种/条款作order_reconfirm quote，重新核当前规则/context/商品可用性，绝不按当前SKU重写原价。不能安全支持的变化返回order_requote_required，提示另建新单。",
+    "POST /api/commerce/orders/:id/payment-route/confirm": "{requestId,quoteId,confirmed:true}→{confirmation,route:原快照,currentUsability,productionEnabled:false}。同TX核原订单未付、原价/项未变及quote目的/版本/expiry；新增immutable确认事实，不更新原route/价格。该接口与表为落实R5的技术提议，不新增真实收银。"
+  },
+  "reconfirmationAndExpiry": {
+    "manual": "当前policy/context变更使enforced手动付款不可用，返回409 route_reconfirmation_required及本人确认入口。重新确认仍看原价；如分类、履约、商品绑定等变化无法安全兼容，拒绝并让用户主动新单，不能偷偷替换原单或补扣差价。",
+    "expiry": "quote及confirmation技术TTL300秒，不等于原库存预占时长。每次新发起验证当前mode/context/policy；读取/重放不延长任何期限。原订单过期不通过确认复活预占，只走原可信迟到路径。",
+    "noRepricing": "当前商品涨价不改已生成订单/原terms；重新报价给新订单才用当前价。该确认只是当前路由适用性记录，不能生成新的付款事实、权益或库存消费。"
+  },
+  "settlementCompatibility": {
+    "legacy": "默认legacy无需routing context/quote，原统一交易测试、会员与数字成交、安全HMAC回调/本人查单及late链保持。新增legacy route是最小来源记录，不是矩阵命中。旧fingerprint不迁移。",
+    "trustedFacts": "PAY08/PAY09/PAY10/PAY13收到既有order可信付款/查询结果时，继续原账号/金额币种/环境/租约/secret配置binding/交易幂等/库存与late待办原子链；不套当前routing revision撤销已受理付款，不把paused当退款。",
+    "newEnforcedReceipt": "订单原route必须完整、原入场decision eligible且channel=sandbox，冻结digest/owner/items/totals仍相符。当前矩阵变化不改该入场事实；原callback/query自身关闭或secret撤回仍按原门禁。没有真实adapter的订单不能以fixture伪装真实支付。",
+    "membershipDigital": "会员/续期仍统一orders及原计划snapshot；数字finite terms仍同TX；本模块不发会员周期额度、直接解锁媒体、伪造legacy grant或补造旧单条款。会员不安全的原manual_review保持。",
+    "late": "过期可信付款仍原价处理；有货按原可信迟到规则原子履约，无货/绑定变化持久refund_pending，不因route stale丢付款事实或假退款，不改库存余量/退款后乱序规则。"
+  },
+  "uiAndErrors": {
+    "admin": "沿中文商城面板新增三mode、当前安全context/digest、明确确认、精确矩阵预览、版本CAS/历史及真实adapter未接入提示，不增加绕过入口。",
+    "app": "保原四语目录/会员/结算/订单。区分legacy说明及quote_not_required、ready_sandbox、routing_paused、context_unverified/context_confirmation_required、classification_not_implemented、rule_unmatched/rule_ambiguous、adapter_unavailable、split_required、quote_stale/quote_consumed、route_reconfirmation_required/order_requote_required。保商品真价真库存、全部条款和返回/刷新入口。",
+    "state": "route ready/确认成功均不是paid。付款处理中/成功/失败及用户恢复继续看原可信账；不提示未知结果用户盲目再付，不自动改requestId重试收费。"
+  },
+  "verificationPlan": {
+    "compatibility": "原旧套默认legacy，仍实测原下单/fingerprint/会员/数字/回调查单/late；新断言确认legacy新单确有matrixApplied=false immutable route，旧单仍null且未改字节。不得删旧业务断言掩盖行为变化。",
+    "newModes": "显式enforced严格context+digest确认、规则/adapter分别负例；paused拒新quote/order/manual-pay，但既有幂等回查和可信callback/query/late仍完成；legacy/enforced/paused切换无降级fallback。",
+    "concurrency": "同quote不同order并发只一次消费；同request重放/异items或quote409；过期/改价/换context/policy/mapping/角色撤回/闭户在最终TX拒绝无半单；reconfirmation不改原价/snapshot或库存期限。",
+    "evidence": "双端fresh实际HTTP/原生浏览器、四语布局、最终构建全回归及源/构建/fixture身份；仅local proof。正式PC01/02、真实四渠道SDK/验单、实机/商店上架另验。"
+  },
+  "implementationReviewItems": [
+    "R1–R6政策已由负责人裁定，不再向用户重复确认；本文件所拟env JSON变量名及R5两个确认endpoint/独立表属于技术建议，负责人实施前统一命名即可。",
+    "quote地址只保摘要：实施时锁定规范算法及指纹版本，严格区分请求intent与可变server context，不能context变化覆盖旧quote。",
+    "所有新增owner表纳Stage26逐域盘点与安全导出；已消费报价/route为交易留存事实，未用报价期限与清理政策未定则明确null，不虚称自动删除。",
+    "SQL guard及trigger必须真实SQLite/D1验证；本rev2没有运行代码、测试、服务、构建或修改Stage27的329输入。"
+  ]
+}

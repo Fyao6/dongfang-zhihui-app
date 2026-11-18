@@ -1,0 +1,48 @@
+{
+  "at": "2026-11-16T14:41:14.992Z",
+  "formalAcceptance": false,
+  "pass": true,
+  "target": "cloud",
+  "ownedState": "04_研发源码/app/cloud/.wrangler/privacy-domains-mwjd3amq-0b3194cc/state",
+  "nativeD1": true,
+  "healthStatuses": [
+    200,
+    200,
+    200
+  ],
+  "tableCatalogCount": 136,
+  "newUnknownTableGuards": 6,
+  "afterAddedColumnGuards": 8,
+  "platformInternalGuards": 0,
+  "operations": [
+    {
+      "sql": "SELECT count(*) AS n FROM sqlite_master WHERE type='table' AND sql IS NOT NULL",
+      "exitCode": 0
+    },
+    {
+      "sql": "CREATE TABLE qa_domain_catalog_probe_b52e7118(id TEXT PRIMARY KEY,owner TEXT NOT NULL,body TEXT)",
+      "exitCode": 0
+    },
+    {
+      "sql": "SELECT count(*) AS n FROM sqlite_master WHERE type='trigger' AND tbl_name='qa_domain_catalog_probe_b52e7118'",
+      "exitCode": 0
+    },
+    {
+      "sql": "ALTER TABLE qa_domain_catalog_probe_b52e7118 ADD COLUMN extra_reference TEXT",
+      "exitCode": 0
+    },
+    {
+      "sql": "SELECT count(*) AS n FROM sqlite_master WHERE type='trigger' AND tbl_name='qa_domain_catalog_probe_b52e7118'",
+      "exitCode": 0
+    },
+    {
+      "sql": "SELECT count(*) AS n FROM sqlite_master WHERE type='trigger' AND substr(lower(tbl_name),1,4)='_cf_'",
+      "exitCode": 0
+    }
+  ],
+  "privacyDomainsSourceSHA256": "e9077df0623f8e7bbcc8be356bac3596b9ffbe7c745a4c82826c12c1060759ae",
+  "qaCodeChanged": false,
+  "originalDatabaseUsed": false,
+  "queryAgainstRemote": false,
+  "secretsIncluded": false
+}

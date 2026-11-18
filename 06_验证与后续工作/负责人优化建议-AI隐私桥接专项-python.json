@@ -1,0 +1,808 @@
+{
+  "latest": {
+    "at": 1794482347.578853,
+    "scope": "Pure binding fixtures plus transformed-in-memory actual privacy API/gateway receipt hooks. No frozen-source writes, network, builds, original DB or provider calls.",
+    "productionWrites": false,
+    "pass": true,
+    "passed": 37,
+    "failed": 0,
+    "results": [
+      {
+        "name": "fixture: registry-only reference manifest",
+        "pass": true
+      },
+      {
+        "name": "fixture: valid legacy takes precedence",
+        "pass": true
+      },
+      {
+        "name": "fixture: invalid legacy falls back to registry",
+        "pass": true
+      },
+      {
+        "name": "fixture: unknown referenced provider",
+        "pass": true
+      },
+      {
+        "name": "fixture: missing recipient",
+        "pass": true
+      },
+      {
+        "name": "fixture: duplicate provider id",
+        "pass": true
+      },
+      {
+        "name": "fixture: duplicate recipient id",
+        "pass": true
+      },
+      {
+        "name": "fixture: raw endpoint mismatch",
+        "pass": true
+      },
+      {
+        "name": "fixture: non HTTPS endpoint",
+        "pass": true
+      },
+      {
+        "name": "fixture: credentials in endpoint",
+        "pass": true
+      },
+      {
+        "name": "fixture: endpoint query forbidden",
+        "pass": true
+      },
+      {
+        "name": "fixture: unlisted model",
+        "pass": true
+      },
+      {
+        "name": "fixture: regions mismatch",
+        "pass": true
+      },
+      {
+        "name": "fixture: recipient whitespace is not a region match",
+        "pass": true
+      },
+      {
+        "name": "fixture: provider policy mismatch",
+        "pass": true
+      },
+      {
+        "name": "fixture: missing disclosure controller",
+        "pass": true
+      },
+      {
+        "name": "fixture: missing disclosure purpose",
+        "pass": true
+      },
+      {
+        "name": "fixture: unsupported production environment",
+        "pass": true
+      },
+      {
+        "name": "fixture: protocol endpoint mismatch",
+        "pass": true
+      },
+      {
+        "name": "fixture: missing mandatory route",
+        "pass": true
+      },
+      {
+        "name": "fixture: duplicate fallback provider",
+        "pass": true
+      },
+      {
+        "name": "fixture: primary repeated as fallback",
+        "pass": true
+      },
+      {
+        "name": "fixture: reordered arrays preserve aggregate",
+        "pass": true
+      },
+      {
+        "name": "fixture: unreferenced provider payload does not enter digest",
+        "pass": true
+      },
+      {
+        "name": "fixture: secret ref and charging do not enter disclosure binding",
+        "pass": true
+      },
+      {
+        "name": "fixture: provider switches do not prevent prior disclosure review",
+        "pass": true
+      },
+      {
+        "name": "fixture: valid replacement model changes aggregate",
+        "pass": true
+      },
+      {
+        "name": "fixture: unused fallback removal changes actual reference set",
+        "pass": true
+      },
+      {
+        "name": "fixture: policy URL query remains a valid public policy link",
+        "pass": true
+      },
+      {
+        "name": "virtual integration is idempotent and preserves legacy outbound/save functions",
+        "pass": true,
+        "observed": {
+          "pythonSites": 3,
+          "cloudSites": 4,
+          "sourceWrites": false,
+          "legacyAuthorizeAndSaveUnchanged": true
+        }
+      },
+      {
+        "name": "registry-only actual preferences PATCH acknowledges aggregate without authorizing any provider",
+        "pass": true
+      },
+      {
+        "name": "pure response hook equals virtual API and rejects another account",
+        "pass": true
+      },
+      {
+        "name": "global aggregate never bypasses individual receipt or legacy outbound/save gates",
+        "pass": true
+      },
+      {
+        "name": "actual provider consent creates only its receipt and remains account/provider isolated",
+        "pass": true
+      },
+      {
+        "name": "global withdrawal invalidates receipts and reconfirmation does not restore them automatically",
+        "pass": true
+      },
+      {
+        "name": "provider change invalidates aggregate, valid legacy priority keeps original acknowledgment/save semantics",
+        "pass": true
+      },
+      {
+        "name": "frozen privacy files remain unchanged on disk",
+        "pass": true,
+        "observed": true
+      }
+    ],
+    "bindings": {
+      "registry-only reference manifest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "valid legacy takes precedence": "00454e069ecc2a144b4903119de57ab5642644191e6b11514ebf877c65733ee6",
+      "invalid legacy falls back to registry": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "unknown referenced provider": null,
+      "missing recipient": null,
+      "duplicate provider id": null,
+      "duplicate recipient id": null,
+      "raw endpoint mismatch": null,
+      "non HTTPS endpoint": null,
+      "credentials in endpoint": null,
+      "endpoint query forbidden": null,
+      "unlisted model": null,
+      "regions mismatch": null,
+      "recipient whitespace is not a region match": null,
+      "provider policy mismatch": null,
+      "missing disclosure controller": null,
+      "missing disclosure purpose": null,
+      "unsupported production environment": null,
+      "protocol endpoint mismatch": null,
+      "missing mandatory route": null,
+      "duplicate fallback provider": null,
+      "primary repeated as fallback": null,
+      "reordered arrays preserve aggregate": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "unreferenced provider payload does not enter digest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "secret ref and charging do not enter disclosure binding": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "provider switches do not prevent prior disclosure review": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+      "valid replacement model changes aggregate": "0a2da47d4355a3e78f88b8d7815f30f2d71defce8b3d037f93d37aec000ed47d",
+      "unused fallback removal changes actual reference set": "78362891febb363255da1b684f333d95bc72d45327d79ad3d58d27aa640bf53d",
+      "policy URL query remains a valid public policy link": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962"
+    },
+    "frozenSourceHashes": {
+      "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+    },
+    "helperHash": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232"
+  },
+  "runs": [
+    {
+      "at": 1794481882.5005112,
+      "scope": "Pure binding fixtures plus transformed-in-memory actual privacy API/gateway receipt hooks. No frozen-source writes, network, builds, original DB or provider calls.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fixture: registry-only reference manifest",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid legacy takes precedence",
+          "pass": true
+        },
+        {
+          "name": "fixture: invalid legacy falls back to registry",
+          "pass": true
+        },
+        {
+          "name": "fixture: unknown referenced provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing recipient",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate provider id",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate recipient id",
+          "pass": true
+        },
+        {
+          "name": "fixture: raw endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: non HTTPS endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: credentials in endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: endpoint query forbidden",
+          "pass": true
+        },
+        {
+          "name": "fixture: unlisted model",
+          "pass": true
+        },
+        {
+          "name": "fixture: regions mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: recipient whitespace is not a region match",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider policy mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure controller",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure purpose",
+          "pass": true
+        },
+        {
+          "name": "fixture: unsupported production environment",
+          "pass": true
+        },
+        {
+          "name": "fixture: protocol endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing mandatory route",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate fallback provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: primary repeated as fallback",
+          "pass": true
+        },
+        {
+          "name": "fixture: reordered arrays preserve aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unreferenced provider payload does not enter digest",
+          "pass": true
+        },
+        {
+          "name": "fixture: secret ref and charging do not enter disclosure binding",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider switches do not prevent prior disclosure review",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid replacement model changes aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unused fallback removal changes actual reference set",
+          "pass": true
+        },
+        {
+          "name": "fixture: policy URL query remains a valid public policy link",
+          "pass": true
+        },
+        {
+          "name": "virtual integration is idempotent and preserves legacy outbound/save functions",
+          "pass": true,
+          "observed": {
+            "pythonSites": 3,
+            "cloudSites": 4,
+            "sourceWrites": false,
+            "legacyAuthorizeAndSaveUnchanged": true
+          }
+        },
+        {
+          "name": "registry-only actual preferences PATCH acknowledges aggregate without authorizing any provider",
+          "pass": true
+        },
+        {
+          "name": "pure response hook equals virtual API and rejects another account",
+          "pass": true
+        },
+        {
+          "name": "global aggregate never bypasses individual receipt or legacy outbound/save gates",
+          "pass": true
+        },
+        {
+          "name": "actual provider consent creates only its receipt and remains account/provider isolated",
+          "pass": true
+        },
+        {
+          "name": "global withdrawal invalidates receipts and reconfirmation does not restore them automatically",
+          "pass": true
+        },
+        {
+          "name": "provider change invalidates aggregate, valid legacy priority keeps original acknowledgment/save semantics",
+          "pass": true
+        },
+        {
+          "name": "frozen privacy files remain unchanged on disk",
+          "pass": true,
+          "observed": true
+        }
+      ],
+      "bindings": {
+        "registry-only reference manifest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid legacy takes precedence": "00454e069ecc2a144b4903119de57ab5642644191e6b11514ebf877c65733ee6",
+        "invalid legacy falls back to registry": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unknown referenced provider": null,
+        "missing recipient": null,
+        "duplicate provider id": null,
+        "duplicate recipient id": null,
+        "raw endpoint mismatch": null,
+        "non HTTPS endpoint": null,
+        "credentials in endpoint": null,
+        "endpoint query forbidden": null,
+        "unlisted model": null,
+        "regions mismatch": null,
+        "recipient whitespace is not a region match": null,
+        "provider policy mismatch": null,
+        "missing disclosure controller": null,
+        "missing disclosure purpose": null,
+        "unsupported production environment": null,
+        "protocol endpoint mismatch": null,
+        "missing mandatory route": null,
+        "duplicate fallback provider": null,
+        "primary repeated as fallback": null,
+        "reordered arrays preserve aggregate": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unreferenced provider payload does not enter digest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "secret ref and charging do not enter disclosure binding": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "provider switches do not prevent prior disclosure review": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid replacement model changes aggregate": "0a2da47d4355a3e78f88b8d7815f30f2d71defce8b3d037f93d37aec000ed47d",
+        "unused fallback removal changes actual reference set": "78362891febb363255da1b684f333d95bc72d45327d79ad3d58d27aa640bf53d",
+        "policy URL query remains a valid public policy link": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962"
+      },
+      "frozenSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+      },
+      "helperHash": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232"
+    },
+    {
+      "at": 1794482001.060162,
+      "scope": "Pure binding fixtures plus transformed-in-memory actual privacy API/gateway receipt hooks. No frozen-source writes, network, builds, original DB or provider calls.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fixture: registry-only reference manifest",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid legacy takes precedence",
+          "pass": true
+        },
+        {
+          "name": "fixture: invalid legacy falls back to registry",
+          "pass": true
+        },
+        {
+          "name": "fixture: unknown referenced provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing recipient",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate provider id",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate recipient id",
+          "pass": true
+        },
+        {
+          "name": "fixture: raw endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: non HTTPS endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: credentials in endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: endpoint query forbidden",
+          "pass": true
+        },
+        {
+          "name": "fixture: unlisted model",
+          "pass": true
+        },
+        {
+          "name": "fixture: regions mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: recipient whitespace is not a region match",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider policy mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure controller",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure purpose",
+          "pass": true
+        },
+        {
+          "name": "fixture: unsupported production environment",
+          "pass": true
+        },
+        {
+          "name": "fixture: protocol endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing mandatory route",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate fallback provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: primary repeated as fallback",
+          "pass": true
+        },
+        {
+          "name": "fixture: reordered arrays preserve aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unreferenced provider payload does not enter digest",
+          "pass": true
+        },
+        {
+          "name": "fixture: secret ref and charging do not enter disclosure binding",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider switches do not prevent prior disclosure review",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid replacement model changes aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unused fallback removal changes actual reference set",
+          "pass": true
+        },
+        {
+          "name": "fixture: policy URL query remains a valid public policy link",
+          "pass": true
+        },
+        {
+          "name": "virtual integration is idempotent and preserves legacy outbound/save functions",
+          "pass": true,
+          "observed": {
+            "pythonSites": 3,
+            "cloudSites": 4,
+            "sourceWrites": false,
+            "legacyAuthorizeAndSaveUnchanged": true
+          }
+        },
+        {
+          "name": "registry-only actual preferences PATCH acknowledges aggregate without authorizing any provider",
+          "pass": true
+        },
+        {
+          "name": "pure response hook equals virtual API and rejects another account",
+          "pass": true
+        },
+        {
+          "name": "global aggregate never bypasses individual receipt or legacy outbound/save gates",
+          "pass": true
+        },
+        {
+          "name": "actual provider consent creates only its receipt and remains account/provider isolated",
+          "pass": true
+        },
+        {
+          "name": "global withdrawal invalidates receipts and reconfirmation does not restore them automatically",
+          "pass": true
+        },
+        {
+          "name": "provider change invalidates aggregate, valid legacy priority keeps original acknowledgment/save semantics",
+          "pass": true
+        },
+        {
+          "name": "frozen privacy files remain unchanged on disk",
+          "pass": true,
+          "observed": true
+        }
+      ],
+      "bindings": {
+        "registry-only reference manifest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid legacy takes precedence": "00454e069ecc2a144b4903119de57ab5642644191e6b11514ebf877c65733ee6",
+        "invalid legacy falls back to registry": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unknown referenced provider": null,
+        "missing recipient": null,
+        "duplicate provider id": null,
+        "duplicate recipient id": null,
+        "raw endpoint mismatch": null,
+        "non HTTPS endpoint": null,
+        "credentials in endpoint": null,
+        "endpoint query forbidden": null,
+        "unlisted model": null,
+        "regions mismatch": null,
+        "recipient whitespace is not a region match": null,
+        "provider policy mismatch": null,
+        "missing disclosure controller": null,
+        "missing disclosure purpose": null,
+        "unsupported production environment": null,
+        "protocol endpoint mismatch": null,
+        "missing mandatory route": null,
+        "duplicate fallback provider": null,
+        "primary repeated as fallback": null,
+        "reordered arrays preserve aggregate": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unreferenced provider payload does not enter digest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "secret ref and charging do not enter disclosure binding": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "provider switches do not prevent prior disclosure review": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid replacement model changes aggregate": "0a2da47d4355a3e78f88b8d7815f30f2d71defce8b3d037f93d37aec000ed47d",
+        "unused fallback removal changes actual reference set": "78362891febb363255da1b684f333d95bc72d45327d79ad3d58d27aa640bf53d",
+        "policy URL query remains a valid public policy link": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962"
+      },
+      "frozenSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+      },
+      "helperHash": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232"
+    },
+    {
+      "at": 1794482347.578853,
+      "scope": "Pure binding fixtures plus transformed-in-memory actual privacy API/gateway receipt hooks. No frozen-source writes, network, builds, original DB or provider calls.",
+      "productionWrites": false,
+      "pass": true,
+      "passed": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fixture: registry-only reference manifest",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid legacy takes precedence",
+          "pass": true
+        },
+        {
+          "name": "fixture: invalid legacy falls back to registry",
+          "pass": true
+        },
+        {
+          "name": "fixture: unknown referenced provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing recipient",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate provider id",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate recipient id",
+          "pass": true
+        },
+        {
+          "name": "fixture: raw endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: non HTTPS endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: credentials in endpoint",
+          "pass": true
+        },
+        {
+          "name": "fixture: endpoint query forbidden",
+          "pass": true
+        },
+        {
+          "name": "fixture: unlisted model",
+          "pass": true
+        },
+        {
+          "name": "fixture: regions mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: recipient whitespace is not a region match",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider policy mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure controller",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing disclosure purpose",
+          "pass": true
+        },
+        {
+          "name": "fixture: unsupported production environment",
+          "pass": true
+        },
+        {
+          "name": "fixture: protocol endpoint mismatch",
+          "pass": true
+        },
+        {
+          "name": "fixture: missing mandatory route",
+          "pass": true
+        },
+        {
+          "name": "fixture: duplicate fallback provider",
+          "pass": true
+        },
+        {
+          "name": "fixture: primary repeated as fallback",
+          "pass": true
+        },
+        {
+          "name": "fixture: reordered arrays preserve aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unreferenced provider payload does not enter digest",
+          "pass": true
+        },
+        {
+          "name": "fixture: secret ref and charging do not enter disclosure binding",
+          "pass": true
+        },
+        {
+          "name": "fixture: provider switches do not prevent prior disclosure review",
+          "pass": true
+        },
+        {
+          "name": "fixture: valid replacement model changes aggregate",
+          "pass": true
+        },
+        {
+          "name": "fixture: unused fallback removal changes actual reference set",
+          "pass": true
+        },
+        {
+          "name": "fixture: policy URL query remains a valid public policy link",
+          "pass": true
+        },
+        {
+          "name": "virtual integration is idempotent and preserves legacy outbound/save functions",
+          "pass": true,
+          "observed": {
+            "pythonSites": 3,
+            "cloudSites": 4,
+            "sourceWrites": false,
+            "legacyAuthorizeAndSaveUnchanged": true
+          }
+        },
+        {
+          "name": "registry-only actual preferences PATCH acknowledges aggregate without authorizing any provider",
+          "pass": true
+        },
+        {
+          "name": "pure response hook equals virtual API and rejects another account",
+          "pass": true
+        },
+        {
+          "name": "global aggregate never bypasses individual receipt or legacy outbound/save gates",
+          "pass": true
+        },
+        {
+          "name": "actual provider consent creates only its receipt and remains account/provider isolated",
+          "pass": true
+        },
+        {
+          "name": "global withdrawal invalidates receipts and reconfirmation does not restore them automatically",
+          "pass": true
+        },
+        {
+          "name": "provider change invalidates aggregate, valid legacy priority keeps original acknowledgment/save semantics",
+          "pass": true
+        },
+        {
+          "name": "frozen privacy files remain unchanged on disk",
+          "pass": true,
+          "observed": true
+        }
+      ],
+      "bindings": {
+        "registry-only reference manifest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid legacy takes precedence": "00454e069ecc2a144b4903119de57ab5642644191e6b11514ebf877c65733ee6",
+        "invalid legacy falls back to registry": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unknown referenced provider": null,
+        "missing recipient": null,
+        "duplicate provider id": null,
+        "duplicate recipient id": null,
+        "raw endpoint mismatch": null,
+        "non HTTPS endpoint": null,
+        "credentials in endpoint": null,
+        "endpoint query forbidden": null,
+        "unlisted model": null,
+        "regions mismatch": null,
+        "recipient whitespace is not a region match": null,
+        "provider policy mismatch": null,
+        "missing disclosure controller": null,
+        "missing disclosure purpose": null,
+        "unsupported production environment": null,
+        "protocol endpoint mismatch": null,
+        "missing mandatory route": null,
+        "duplicate fallback provider": null,
+        "primary repeated as fallback": null,
+        "reordered arrays preserve aggregate": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "unreferenced provider payload does not enter digest": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "secret ref and charging do not enter disclosure binding": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "provider switches do not prevent prior disclosure review": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962",
+        "valid replacement model changes aggregate": "0a2da47d4355a3e78f88b8d7815f30f2d71defce8b3d037f93d37aec000ed47d",
+        "unused fallback removal changes actual reference set": "78362891febb363255da1b684f333d95bc72d45327d79ad3d58d27aa640bf53d",
+        "policy URL query remains a valid public policy link": "84a659d35c0f497a0a9d3fa94477d7d1318b5245e443e1b8ab55e77d15c63962"
+      },
+      "frozenSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+      },
+      "helperHash": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232"
+    }
+  ]
+}

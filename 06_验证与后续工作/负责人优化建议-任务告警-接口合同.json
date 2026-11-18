@@ -1,0 +1,811 @@
+{
+  "contractVersion": "local-task-alerts-v1",
+  "revision": 5,
+  "status": "implemented-awaiting-repaired-final-verification",
+  "taskIds": [
+    "PAY18",
+    "SV04"
+  ],
+  "scope": "本地隔离持续任务运行、当前可观测异常、管理员确认及loopback通知夹具；实施合同不等于验收收据或生产调度证明。",
+  "prerequisite": "Stage26已闭环并授权实施；Stage27首轮未验收，修复后重新锁定完整执行输入，完成所有18套实际双端验收再冻结。",
+  "ownership": {
+    "root": "stdlib Python独立runner、已有commerce中文后台、构建与证据。 唯一fresh前置seed工具backend/local_task_bootstrap.py（QA真实调用）；两backend不得各自实现浏览器bootstrap。",
+    "python": "backend运行身份/config/tick/native wrappers/collector/告警及通知持久化。",
+    "cloud": "对应D1/Worker native wrappers/collector及真实native R2消费者复用。",
+    "qa": "新fresh SQLite、明确独立wrangler state/port、实际HTTP通知夹具、强停重启、并发及权限撤回。"
+  },
+  "taskKinds": [
+    "payment_callbacks",
+    "payment_recovery",
+    "privacy_objects",
+    "payment_monitor",
+    "alert_notifications"
+  ],
+  "defaultConfig": {
+    "revision": 0,
+    "enabled": false,
+    "confirmed": false,
+    "ruleVersion": "",
+    "tasks": {
+      "payment_callbacks": {
+        "enabled": false,
+        "intervalSeconds": 5,
+        "batchLimit": 1
+      },
+      "payment_recovery": {
+        "enabled": false,
+        "intervalSeconds": 5,
+        "batchLimit": 1
+      },
+      "privacy_objects": {
+        "enabled": false,
+        "intervalSeconds": 5,
+        "batchLimit": 1
+      },
+      "payment_monitor": {
+        "enabled": false,
+        "intervalSeconds": 30,
+        "batchLimit": 1
+      },
+      "alert_notifications": {
+        "enabled": false,
+        "intervalSeconds": 5,
+        "batchLimit": 1
+      }
+    },
+    "thresholdSeconds": {
+      "callbackBacklog": null,
+      "recoveryBacklog": null,
+      "lateRefundPending": null,
+      "lateRefundProcessing": null,
+      "privacyObjectPending": null
+    }
+  },
+  "configValidation": {
+    "strictExactKeys": true,
+    "booleans": "strict bool; no integer/string coercion",
+    "revision": "0..9007199254740991 integer; PATCH full object CAS; no bool",
+    "ruleVersion": "trimmed string length1..80 when enabled; empty permitted while disabled",
+    "intervalSeconds": "Integer5..3600 for callbacks/recovery/objects/notifications; monitor30..3600. No bool.",
+    "batchLimit": "callbacks1..10,recovery1..5,objects1..10,notifications1..10; monitor exactly1. No bool.",
+    "thresholdSeconds": "Each exact key independently null or integer0..31536000. null means no aging rule authorized, not infinite/zero. ruleVersion length1..80 nonblank when enabling.",
+    "enableGate": "environment gate ready AND immutable local-isolated runtimeId AND confirmed=true AND nonempty ruleVersion. config.enabled=false stops new claims."
+  },
+  "runtime": {
+    "environmentGate": {
+      "EW_LOCAL_TASK_RUNTIME_ENABLED": "literal 1 required; unset/off disables writes/ticks",
+      "EW_LOCAL_TASK_RUNTIME_ID": "explicit UUID lowercase36, persisted exact id on first explicitly fresh local bootstrap; restart must match",
+      "EW_LOCAL_TASK_MANIFEST_SHA256": "64 lowercasehex; must equal persisted marker.manifest_hash. Env alone never inserts/repairs a marker."
+    },
+    "identity": "Marker maximum1, immutable insert-after-first/update/delete rejected. Enabled env+runtimeId+manifestSHA must match the pre-seeded marker. Normal GET/PATCH/tick never insert or repair identity.",
+    "manifest": {
+      "schemaVersion": 1,
+      "core": "exact bootstrap manifestCore object",
+      "manifestSha256": "canonical core SHA256",
+      "productionEnabled": false
+    },
+    "manifestRules": [
+      "Only explicit --manifest and --base; no default database/state/port, no original preview/production DB, no default wrangler state.",
+      "GET runtime id/backend/appSha256 and actual GET /experience bytes must all match manifest before a tick. APP SHA is APP identity only, not a claim of all source/build identity.",
+      "Manifest, CLI logs, DB and API never contain session/password/env secret raw values. Secret-bearing server env references are resolved only in server/runner process; no legacy plaintext fallback.",
+      "statePath is the explicit launcher declaration, not proof that an HTTP server inspected the host filesystem path. runtimeUUID establishes DB/state continuity; native fixture/state ownership is separately verified by the launcher.",
+      "First launch uses sole bootstrap helper above before health; restart uses --verify-existing only. Verify actual GET /experience SHA against both explicit --app and manifest.core.appSha256 after app starts."
+    ],
+    "authentication": "Runner uses an explicitly supplied current real admin session by server-side/runner env reference. Every tick/native wrapper rechecks current sessions/role/account closure and final actor fence. Never fabricate handler.user/a.user or expand trustedService/service_allowed. No automatic password login or session renewal after revocation. First authorized tick binds workerId permanently to runtimeId+actor+session_hash; same workerId with another session is409, never silently replace session_hash. Explicit new authorized session requires an explicit new workerId; no registration/update API.",
+    "loop": "Single stdlib process, one outstanding tick per worker; graceful stop sends no new tick. Lost transport is unknown until server lookup/reconciliation, not cancelled. Reconnect probes must match runtime identity; changed id/app stops writes.",
+    "sessionLoss": "Runner displays auth_required and stops writes; old DB run may remain running/unknown. Only a new actually authorized admin may reconcile it. No trusted-service fallback writes a success marker after actor loss.",
+    "bootstrapProtocol": {
+      "owner": "root sole backend/local_task_bootstrap.py; no public/admin HTTP bootstrap route",
+      "firstCli": [
+        "--backend python|cloud",
+        "--state <explicit absolute SQLite file or fresh wrangler persist path>",
+        "--manifest <explicit new absolute local JSON file>",
+        "--base http://127.0.0.1:<explicitPort> or http://[::1]:<explicitPort>",
+        "--app <explicit actual APP HTML artifact>",
+        "--config <explicit wrangler config; required for cloud>"
+      ],
+      "firstPreconditions": "Refuse existing state target and existing manifest. Resolve target within user-authorized workspace/fresh scope; reject default/remote/shared/production paths. No implicit defaults or shell-built commands.",
+      "manifestCore": [
+        "created integer epochms",
+        "runtimeId generated UUID",
+        "mode=local-isolated",
+        "backend=python|cloud",
+        "appSha256=SHA256 explicit --app bytes",
+        "base=literal explicit loopback origin",
+        "statePath=resolved absolute declared --state"
+      ],
+      "canonicalHash": "SHA256 UTF8 JSON of manifest core only, recursively sorted keys/no spaces/ensure_ascii=false, no self hash field. Store manifestSha256 beside core in file and marker.manifest_hash. No session/credential fields.",
+      "sqlite": "Use exclusive file creation (fail if exists); seed only ops_runtime_identity marker in the new SQLite database, transactionally. Actual product init later creates normal tables and never inserts/replaces a marker.",
+      "cloud": "Resolve bundled native Node/Wrangler; exec each argument structurally, with explicit --local --persist-to <new --state> --config <explicit config> and target D1 binding. Seed marker before first health/API request. Never remote or default Wrangler state. Preserve own fresh resources on failure for diagnosis; no retry into another existing state.",
+      "marker": "ops_runtime_identity(id=1,runtime_id=manifest.core.runtimeId,mode=local-isolated,created=manifest.core.created,manifest_hash=manifest.manifestSha256), immutable and at most one row.",
+      "restartCli": "Same flags plus --verify-existing: require existing exact manifest/state, recompute canonical SHA and actual --app bytes, read/verify same marker. Never seed/reset/upsert or create a replacement state/identity during restart.",
+      "product": "init_schema only CREATE tables/triggers; never auto INSERT runtime marker from env or browser payload. Unmarked DB gives runtime.mode=unconfigured; PATCH/tick cannot confer isolated identity. Validate all three env runtimeEnabled/runtimeId/manifestSHA against marker before any claim.",
+      "truthBoundary": "statePath is a launcher declaration verified by local CLI file/state operations, not something Cloud HTTP claims to have physically inspected. DB UUID+manifest hash prove marker continuity, not production resource isolation."
+    },
+    "runnerProtocol": {
+      "requiredCli": [
+        "--manifest <explicit existing absolute manifest>",
+        "--base <matching literal loopback origin>",
+        "--worker-id <explicit ID>",
+        "--session-ref <explicit runner env variable name>"
+      ],
+      "startup": "Verify manifest canonical SHA, server runtime identity/env marker and actual GET /experience bytes before any tick. No implicit state, port, workerId, credentials or login. First tick registers only the supplied workerId with the actual current session; existing matching tuple is a restart, not a session rebind.",
+      "lostResponse": "Keep one outstanding immutable tick requestId in runner memory. On transport loss reuse that requestId with identical runtimeId/workerId/appSha256, or GET runs filtered by workerId+requestId. Never infer failure/success from HTTP abort.",
+      "restart": "After SIGKILL, same explicit session and workerId may inspect prior persistent runs before new work. New session requires new explicit workerId; old worker remains bound and its read projection is auth_required when its original session is no longer current/valid. No automatic relogin or silent credential refresh.",
+      "staleRun": "Only a new actual authorized admin tick may mark an expired run unknown/lease_lost after schedule expiry under current runtime/config guards. It never impersonates the prior actor or changes native business status to success."
+    }
+  },
+  "nativeExecution": {
+    "payment_callbacks": "Explicit server-only wrapper around current PaymentCallbacks.process; current real admin require+original rate key preserved; use canonical inbox only.",
+    "payment_recovery": "Extract/reuse current admin batch loop as server-only process_batch; retain current owner/order/query binding and receipt-only consumer; no body/user spoofing.",
+    "privacy_objects": "Reuse current admin process_objects/processObjects and authorized existing owner-confirmed/real closure queue guards. Python SQLite has no R2 and reports applicable=false; Cloud uses real native BUCKET delete+HEAD.",
+    "payment_monitor": "Read-only capture original financial snapshot plus actual current callback/recovery/late/object sources; does not auto-fix ledger/stock/entitlement/refund.",
+    "alert_notifications": "Only local fixture outbox consumer below; no arbitrary URL/recipient supplied by API/runner.",
+    "limits": [
+      "Each wrapper keeps its own current admin require/rate. No limiters disabled; cadence defaults respect original30/min write/financial reads.",
+      "Original business leases30s/max5 and nextAttempt remain unchanged. Runtime schedules60s are separate and never clear business attempts or force manual_review back to retry.",
+      "Late settlement runs only through verified existing receipt logic; refund_pending/refund_processing is not an automatic refund or auto-ack.",
+      "No automatic creation/confirmation of private-data cleanup jobs or expiry scopes. Only the already-authorized object queue is in this task whitelist.",
+      "Adapter disabled/not ready is a skipped runtime step, not repeated business claims consuming the five attempts."
+    ],
+    "claimFence": "All automated callbacks/recovery/object native wrappers pass the server-only optional hook specified in schedule.claimFence. Ordinary existing routes do not pass it and retain exact previous behavior. Monitor collection/outbox writes use their own whole guarded transaction, notifications use per-unit guarded claims; none accepts proofs or business results from the runner."
+  },
+  "schedule": {
+    "leaseMs": 60000,
+    "claim": "Atomic due+lease-expiry+configRevision+enabled CAS and actual admin fence; run inserted with claim in same transaction/batch. Claim one due kind per tick, ordered next_due/kind. Keep separate persisted run/schedule tokens; every automated native unit also uses claimFence below in its native mutation transaction.",
+    "businessLeaseMs": 30000,
+    "businessMaxAttempts": 5,
+    "network": "outside DB transaction; recovery worst case5x8s≈40s. Privacy R2 IO currently has no firm outer timeout: defaultlow batch, budget observation, unknown/lease_lost on transport/lease uncertainty; abort is not cancellation.",
+    "disable": "Runtime disable/unready/insufficient budget blocks every new native unit through current per-unit hook plus final SQL ops_claim_fences guard, not just an entrance check. An already claimed operation remains subject to its original business gates; do not misreport it cancelled. Runtime metadata final stores still need valid run/schedule/config/actor guards, otherwise unknown/lease_lost.",
+    "finish": "Same run/schedule lease token and configRevision CAS; stale old worker cannot overwrite newer completion. Actual native result recorded server-side, never accepted from runner as authoritative processed/payment status. Run and schedule each persist lease_token/lease_until; finish binds both tokens and the claimed configRevision. Never overwrite a newer schedule nextDue or config.",
+    "retry": "Business and notification max5 preserved. Runtime network loss reuses the same tick requestId; no new requestId resets existing work. Recovery of expired runtime lease marks prior run unknown/lease_lost by a new real admin and relies on original business CAS.",
+    "stepBudget": "Before every notification/new native business claim recheck runtime identity, both run/schedule leases, current configRevision/enabled and actual admin. Default batch1. Stop initiating further IO when the remaining60s schedule budget cannot cover the configured operation deadline plus finalization margin; do not extend a lease or imply that timed-out/aborted IO was cancelled. An already in-flight uncertain step is unknown/lease_lost, never a fabricated zero-failure completion.",
+    "claimFence": {
+      "purpose": "Every automated native unit claim is authorized by the same database transaction/batch as its actual native mutation, not only a tick entry check. This is a server-only optional hook; normal existing public/admin business routes do not pass it.",
+      "table": "ops_claim_fences; exact8 ordered fields in tables; no HTTP create/list/update endpoint, no client supplied proof.",
+      "tokens": "run_lease_token and schedule_lease_token are explicit independent fields. Both must exactly match the separately persisted current run and schedule lease tokens; never assume they are equal or collapse them into one proof.",
+      "pythonSignature": "ClaimFence = Callable[[GuardedConnection], None]. Optional keyword claim_guard=None on automated process/claim call chain; call guard(db) immediately after that unit BEGIN IMMEDIATE and before attempt++ or any preclaim terminal/recover mutation. Hook inserts one current proof in that same db transaction.",
+      "cloudSignature": "type ClaimFence = () => Promise<D1PreparedStatement[]>; optional fence argument on automated process/run call chain. Hook returns the current real a.stmt proof prefix only. claimBatch(ops,fence) computes prefix=fence?await fence():[], awaits a.db.batch([...prefix,...ops]) and returns results.slice(prefix.length). Preserve old native result indexes after slicing.",
+      "freshness": "At each hook call re-read runtime env/manifest gate and actual caller, retain captured-deadline fast checks, and verify config/task/actor/dual-token predicates in the final native transaction. The eighth proof field is freshly computed by SQL at execution as DB_NOW + this operation requiredBudgetMs; both actual persisted lease_until values must exceed it. Never substitute captured deadlines or an application timestamp for the final remaining-budget guard.",
+      "databaseNowSql": "CAST(strftime('%s','now') AS INTEGER)*1000+CAST(substr(strftime('%f','now'),4,3) AS INTEGER)",
+      "beforeInsertGuard": [
+        "Current immutable ops_runtime_identity row id=1 has mode local-isolated, runtime_id equals run.runtime_id and worker.runtime_id; hook also verified current env runtimeId/manifestSHA against this row.",
+        "NEW.run_id identifies status running; run.actor=NEW.actor, run.config_revision=NEW.config_revision, run.lease_token=NEW.run_lease_token, run.lease_until>DB_NOW and >NEW.stamp.",
+        "The schedule kind equals run.kind, schedule.last_run_id=run.id, schedule.config_revision=NEW.config_revision, schedule.lease_token=NEW.schedule_lease_token, schedule.lease_until>DB_NOW and >NEW.stamp.",
+        "Current ops_task_config revision equals NEW.config_revision and its exact parsed data enabled=true, confirmed=true, nonempty ruleVersion, tasks[run.kind].enabled=true. Do not rely on stale copied TaskConfig JSON from the tick entrance.",
+        "run.worker_id identifies the original worker; worker.actor=NEW.actor, worker.session_hash=NEW.session_hash and runtime_id matches the immutable runtime. The real current session with this hash belongs to NEW.actor, is not revoked and expires>DB_NOW. The same actor still has actual admin role and has not closed their account.",
+        "The request retains the original account_write_guard fence; no fake user/service identity or widened service_allowed. Proof stamp is server-generated, never accepted from API/runner."
+      ],
+      "triggers": "BEFORE INSERT checks all predicates and RAISE(ABORT,ops_claim_rejected) on failure. AFTER INSERT immediately deletes this proof row; insert/native mutation/delete share the same native transaction/batch. This transient table is never an authorization cache or durable lease replacement.",
+      "callbackPositions": {
+        "python": "PaymentCallbacks.process(actor,data,claim_guard=None) passes hook to claim(actor,claim_guard=None). After claim BEGIN, guard runs before candidate mutation, including attempts>=5 manual_review/recover branch; no hook on apply/failed postclaim transactions.",
+        "cloud": "process(limit,actor,fence?) uses claimBatch for both attempts>=5 recover batch and normal claim+alias+attempt+SELECT batch. sliced native claimed[3] remains the original SELECT result."
+      },
+      "recoveryPositions": {
+        "python": "Admin process_batch/data loop passes claim_guard through execute/run to claim(job_id,actor,claim_guard=None). After claim BEGIN it guards normal attempts++, local terminal preclaim completion and attempts>=5 manual_review. Public own recovery route passes no hook; receipt consumption after an existing job claim passes no runtime hook.",
+        "cloud": "process(data,actor,fence?) passes to run(id,actor,fence?). Guard terminal preclaim batch, attempts>=5 UPDATE converted into a batch, and normal claim+attempt+SELECT batch. sliced native claimed[2] remains original SELECT result."
+      },
+      "privacyObjectPositions": {
+        "python": "Automated Python native wrapper reports applicable=false because this runtime has no R2 queue IO. If shared process_objects receives a hook, call it before each actual eligible unit mutation inside its BEGIN transaction, never on reads or after claimed unit completion.",
+        "cloud": "processObjects(limit,admin,fence?) wraps its one unit claim UPDATE in claimBatch([stmtUPDATE],fence)[0], including attempts>=5/identity manual-review transition. Existing actual object delete/head/final verify uses its original30s business lease and current authenticated account/queue guards."
+      },
+      "failureBoundary": "Claim hook/prefix failures occur before the native business try/catch and before attempt increment; propagate a fixed runtime claim/lease/auth failure to the outer tick, never translate into storage_unavailable, native retry or a burned attempt. Failed transaction changes no native row/audit. If runtime lease/config/actor is already lost the old tick cannot fabricate run success; retain uncertain old run for actual-authorized stale reconciliation.",
+      "alreadyClaimedBoundary": "Do not insert a new ops fence into an already-claimed unit postIO persistPaid, receipt-only consumer/apply, native finish/failure or R2 verify completion. Those finish under their original30s business lease, owner/config-specific gates and actual authenticated account fence. Runtime disable stops new claims and does not retroactively cancel already-started operations.",
+      "stampSemantics": "The unchanged internal stamp column is a transient required-until threshold, not an event timestamp: SQL DB_NOW + requiredBudgetMs at the actual INSERT. Callback new claim needs1000ms; recovery/notification new claim needs9000ms. Existing Python metadata/monitor default0 and Cloud finalization/monitor margin1000ms remain; already-claimed original business completion boundaries are unchanged. No HTTP client may supply it; AFTER self-delete leaves no durable proof."
+    }
+  },
+  "apis": [
+    {
+      "method": "GET",
+      "path": "/api/admin/local-tasks/runtime",
+      "response": "{runtime:RuntimeView,config:TaskConfig,productionEnabled:false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/local-tasks/config",
+      "response": "{config:TaskConfig,runtime:RuntimeView,productionEnabled:false}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/local-tasks/config",
+      "body": "full TaskConfig including revision CAS; exact keys",
+      "response": "{config:TaskConfig,runtime:RuntimeView,productionEnabled:false}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/local-tasks/tick",
+      "body": {
+        "runtimeId": "UUID",
+        "workerId": "ID",
+        "requestId": "ID",
+        "appSha256": "64 lowercasehex"
+      },
+      "response": "{run:Run,worker:Worker,items:StepResult[],configRevision,nextDue,replayed:boolean,productionEnabled:false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/local-tasks/runs?before=<runId>&kind=<kind|idle>&status=<runstatus>&requestId=<optional>&workerId=<optional>",
+      "response": "{items:Run[],next,productionEnabled:false}; page50; validated same-filter cursor"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/local-tasks/runs/:id",
+      "response": "{run:Run,items:StepResult[],productionEnabled:false}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/local-tasks/workers?before=<workerId>",
+      "response": "{items:Worker[],next,productionEnabled:false}; page50"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/payment-alerts?status=<open|acknowledged|resolved>&before=<alertId>",
+      "response": "{items:Alert[],next,coverage:MonitorCoverage,productionEnabled:false,externalSent:false}; page50"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/payment-alerts/:id?actionsBefore=<id>&notificationsBefore=<id>&attemptsBefore=<id>&receiptsBefore=<id>",
+      "response": "{item:Alert,actions:AlertAction[],actionsNext,notifications:Notification[],notificationsNext,attempts:NotificationAttempt[],attemptsNext,receipts:NotificationReceipt[],receiptsNext,productionEnabled:false,externalSent:false}; each50 DESC: actions/notifications/attempts by(created,id), receipts by(confirmed_at,id), cursor belongs same alert/category or400; no internal secrets."
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/payment-alerts/:id/ack",
+      "body": {
+        "requestId": "ID",
+        "version": "integer",
+        "note": "trimmed1..1000 Unicode chars, no controls except tab/newline"
+      },
+      "response": "{item:Alert,replayed:boolean,productionEnabled:false,externalSent:false}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/payment-alerts/notifications/:id/retry",
+      "body": {},
+      "response": "{item:Notification,productionEnabled:false,externalSent:false}; only retry/manual_review and attempts<5, never reset attempts"
+    }
+  ],
+  "validationAndAccess": {
+    "IDs": "[A-Za-z0-9:_-]{1,100}; decode exactly one path segment, reject malformed encoding/slashes; requestId min8",
+    "adminOnly": "All listed routes require current real admin. Anonymous401, wrong role403, unknown id404, malformed400, CAS/idempotency/runtime mismatch409, disabled/unready tick503. GET runtime/config remain readable while disabled.",
+    "tickIdempotency": "unique(actor,requestId) and canonical fingerprint(runtimeId,workerId,appSha256). Same body returns original run/current persistent result; different body409. Even idle/skipped ticks persist one idempotent run. A client may not send kind/source ids/processed results/owner/token/URL.",
+    "workerBinding": "workerId permanently binds runtimeId+actual actor+first session_hash. Another runtime/actor/session reuse is409; a new explicit authorized session must use a new workerId. All worker heartbeats are actual authorized DB mutations; GET may project stale/auth_required from current original session facts without impersonated writes or silently rebinding it."
+  },
+  "shapes": {
+    "RuntimeView": {
+      "runtimeId": "UUID|null",
+      "mode": "local-isolated|unconfigured",
+      "backend": "python|cloud",
+      "appSha256": "64hex|null",
+      "envEnabled": false,
+      "notificationReady": false,
+      "productionEnabled": false,
+      "identityReady": false,
+      "manifestSha256": "64hex|null",
+      "state": "unconfigured|disabled|ready|identity_mismatch"
+    },
+    "Run": {
+      "id": "UUID",
+      "runtimeId": "UUID",
+      "workerId": "ID",
+      "actor": "actual admin id",
+      "kind": "one taskKinds or idle",
+      "requestId": "ID",
+      "configRevision": 0,
+      "status": "running|succeeded|skipped|failed|unknown|lease_lost",
+      "started": 0,
+      "finished": 0,
+      "processed": 0,
+      "lastError": "fixed code or empty",
+      "leaseUntil": 0
+    },
+    "Worker": {
+      "id": "ID",
+      "runtimeId": "UUID",
+      "actor": "actual admin id",
+      "lastHeartbeat": 0,
+      "status": "active|stopped|stale|auth_required",
+      "lastError": "fixed code or empty"
+    },
+    "StepResult": {
+      "kind": "taskKind",
+      "applicable": true,
+      "status": "succeeded|skipped|failed|unknown|lease_lost",
+      "processed": 0,
+      "sourceIds": [
+        "minimal source ids"
+      ],
+      "errorCode": "fixed code or empty",
+      "coverage": "MonitorCoverage|null"
+    },
+    "MonitorCoverage": {
+      "scanId": "UUID|null",
+      "observedAt": 0,
+      "partial": true,
+      "sources": "[{source,exists,loadedRows,totalRows,truncated,covered}]",
+      "uncovered": "fixed source names",
+      "unsupportedMetrics": "nullable real channel metrics, never fake0"
+    },
+    "Alert": {
+      "id": "UUID",
+      "ruleCode": "fixed code",
+      "sourceType": "fixed kind",
+      "sourceId": "minimal id",
+      "owner": "owner id|null, admin only",
+      "episode": 1,
+      "severity": "error|warning|info",
+      "status": "open|acknowledged|resolved",
+      "firstSeen": 0,
+      "lastSeen": 0,
+      "seenScanCount": 1,
+      "version": 0,
+      "ackBy": "id|empty",
+      "ackAt": 0,
+      "resolvedAt": 0,
+      "summary": "fixed metadata fields only",
+      "externalSent": false
+    },
+    "AlertAction": {
+      "id": "UUID",
+      "alertId": "UUID",
+      "actor": "actual admin",
+      "requestId": "ID",
+      "version": 0,
+      "action": "ack",
+      "note": "admin only",
+      "created": 0
+    },
+    "Notification": {
+      "id": "UUID",
+      "eventId": "UUID",
+      "alertId": "UUID",
+      "episode": 1,
+      "status": "pending|processing|retry|fixture_confirmed|manual_review",
+      "attempts": 0,
+      "leaseUntil": 0,
+      "nextAttempt": 0,
+      "lastError": "fixed code",
+      "created": 0,
+      "updated": 0,
+      "externalSent": false
+    },
+    "NotificationReceipt": {
+      "id": "UUID",
+      "notificationId": "UUID",
+      "eventId": "UUID",
+      "attempt": 1,
+      "httpStatus": 200,
+      "actor": "actual current admin",
+      "confirmedAt": 0,
+      "mode": "loopback-fixture",
+      "externalSent": false
+    },
+    "NotificationAttempt": {
+      "id": "UUID",
+      "notificationId": "UUID",
+      "attempt": 1,
+      "actor": "actual admin id",
+      "action": "claim|complete|retry",
+      "result": "fixed status",
+      "errorCode": "fixed code or empty",
+      "created": 0
+    }
+  },
+  "monitor": {
+    "knownSources": [
+      "canonical payment_callback_inbox joined transaction primary receipt",
+      "payment_recovery_jobs/attempts",
+      "payment_late_cases/attempts",
+      "authorized privacy_object_deletions",
+      "read-only reconciliation findings and coverage",
+      "digitalFiniteGrants: immutable finite digital checkout snapshots and original applied payment linked to finite grants",
+      "membershipMaterializedQuota: already materialized periods and their original paid snapshot/grant events",
+      "membershipBoundJobs: already existing membership-period gateway jobs, allocations and reserve/settle event links"
+    ],
+    "rules": [
+      "callback_backlog:received/retry/expired processing older than configured callbackBacklog",
+      "callback_manual_review:canonical receipt manual_review, code and receipt/order localization",
+      "recovery_backlog/persistent query error:existing job actual status/attempt/error, configured age where applicable",
+      "late_refund_pending/late_refund_processing:durable work-item ageing, not proof that money refund failed",
+      "privacy_object_pending/manual_review:actual deletion job id and code; no object URL/key in alert",
+      "recon:<code>:covered actual error finding e.g. paid-item entitlement missing and original financial mismatch",
+      "digital_grant_missing/digital_grant_binding_mismatch: only verified historical finite checkout+unique applied sandbox_pay facts; independent of old generic commerce entitlement existence.",
+      "membership_period_binding_mismatch/membership_grant_event_missing/membership_grant_event_orphan: validate already materialized historical quota facts, never demand lazy unmaterialized buckets.",
+      "membership_job_allocation_missing/membership_job_binding_mismatch/membership_job_settlement_mismatch: validate existing membership_period jobs/allocations and their actual accounting links, including orphan allocations."
+    ],
+    "unavailableSources": {
+      "realChannelPaymentFailure": null,
+      "realRefundFailure": null,
+      "chargeback": null,
+      "bankArrival": null,
+      "realChannelStatement": null
+    },
+    "coverage": "Store scan id/time/source availability/truncated/loaded limits. Missing or truncated sources are not-covered, not zero. Original reconciliation LIMIT5000 and old uncovered declarations remain truthful; new collectors separately label newly covered local callback source. A null threshold, disabled category/task, missing source or changed policy is not-covered, never proof condition cleared. Keep prior open/acknowledged alerts unresolved under those conditions.",
+    "episode": "unique(ruleCode,sourceType,sourceId,episode). Stable repeated scans update lastSeen/seenScanCount only, never inflate failure counts. Store minimal lastSourceVersion from trusted status/attempt/code metadata, not body/hash of personal content. Alert.summary freezes thresholdSeconds/ruleVersion/configRevision/source observed time for interpretation; source updates are only trusted typed metadata, no private body hashes.",
+    "stateMachine": "open -> acknowledged -> resolved. Ack is requestId+version CAS and immutable actual-actor note, not business resolution or source mutation. Only a later complete covered scan proving the condition cleared may resolve; partial/unknown/source-not-found does not auto-resolve. A genuinely reappearing condition after verified resolution starts a new episode.",
+    "writeAtomicity": "After capture, scan/alert creation+version update/episode allocation/outbox insertion/resolve are one guarded DB transaction or D1 batch bound to current runtimeId + run.id/status=running + exact run and schedule lease token/expiry + claimed configRevision=current confirmed enabled config + actual current admin fence. Finish-run CAS alone is insufficient. Old/expired scan writes no alert/outbox/resolve/nextDue updates. Resolve also CASes alert version/lastSourceVersion and never overwrites newer observed state.",
+    "independentSources": {
+      "digitalFiniteGrants": {
+        "requiredTables": [
+          "digital_order_snapshots",
+          "digital_entitlement_grants",
+          "commerce_orders",
+          "commerce_order_items",
+          "commerce_entitlements",
+          "commerce_payment_events"
+        ],
+        "snapshotFields": [
+          "item_id",
+          "owner",
+          "order_id",
+          "content_id",
+          "media_id",
+          "policy_snapshot",
+          "created"
+        ],
+        "grantFields": [
+          "id",
+          "owner",
+          "order_id",
+          "item_id",
+          "content_id",
+          "media_id",
+          "policy_snapshot",
+          "uses_per_unit",
+          "original_quantity",
+          "starts",
+          "expires"
+        ],
+        "expectedFacts": "Only an already existing valid finite digital_order_snapshots row joined to its original sandbox order/item and exactly one original commerce_payment_events(kind=sandbox_pay,status=applied,environment=sandbox) with matching owner/order creates an expectation for one finite grant. Existing generic commerce_entitlements does not satisfy the finite grant expectation. Do not pick min/max payment time from multiple ambiguous ledger facts.",
+        "bindingChecks": [
+          "grant.id='digital:'+item.id, unique grant.item_id and owner/order/item/content/media/policy_snapshot match the immutable checkout snapshot plus original order/item; original_quantity=item.quantity and uses_per_unit=frozen policy usesPerUnit.",
+          "Frozen policy JSON is valid/typed with integer validityDays1..3650 and usesPerUnit1..1000, not bool/string; no current settings are used to recalculate original terms.",
+          "starts=the unique original applied payment.created, not checkout snapshot.created/grant.created/updated/current time; expires=starts+frozen validityDays*86400000 and expires>starts."
+        ],
+        "historyBoundary": "A later refund/full refund, expiry, policy disable, asset disable or course withdrawal does not excuse a missing historical finite grant once original immutable finite snapshot and trusted original applied payment exist. Do not require current order.payment_status=paid or current access BASE_GUARD to recognize this history.",
+        "legitimateNoGrant": [
+          "legacy order without a finite checkout snapshot; never retroactively create a snapshot/grant or report it as missing finite grant",
+          "unpaid finite checkout without original applied payment",
+          "late refund_pending without a normal applied sandbox_pay ledger; retained payment/refund work-item facts remain separate"
+        ],
+        "lateFulfilled": "Late fulfilled follows the same original applied payment/finite snapshot grant rules as ordinary payment.",
+        "notCovered": "Missing required table, truncated input, malformed/ill-typed policy JSON or ambiguous original payment identity marks this source affected coverage not-covered with a fixed reason. No fabricated zero-issue result and no resolution of existing alerts from uncovered facts."
+      },
+      "membershipMaterializedQuota": {
+        "requiredTables": [
+          "membership_ai_periods",
+          "membership_ai_events",
+          "membership_order_snapshots",
+          "membership_subscriptions",
+          "commerce_orders",
+          "commerce_order_items",
+          "commerce_entitlements",
+          "commerce_payment_events"
+        ],
+        "periodFields": [
+          "id",
+          "owner",
+          "subscription_id",
+          "item_id",
+          "cycle_start",
+          "cycle_end",
+          "credits",
+          "balance",
+          "reserved",
+          "status",
+          "reason",
+          "policy_snapshot",
+          "benefits_snapshot",
+          "created",
+          "updated"
+        ],
+        "eventFields": [
+          "id",
+          "owner",
+          "period_id",
+          "job_id",
+          "action",
+          "credits",
+          "created"
+        ],
+        "snapshotFields": [
+          "item_id",
+          "owner",
+          "order_id",
+          "subscription_id",
+          "payment_event_id",
+          "period_start",
+          "period_end",
+          "data",
+          "state"
+        ],
+        "expectedFacts": "Inspect existing periods and existing grant events only. A paid membership snapshot with no bucket, no grant event and no membership-source job is a legitimate lazy-unmaterialized state; never create a missing-bucket finding just because a payment exists.",
+        "bindingChecks": [
+          "period.id='mai:'+sha256(canonical JSON [owner,item_id,cycle_start]); unique(owner,item_id,cycle_start); referenced item/snapshot/subscription/original payment rows exist with matching owner/order/item/subscription and sandbox environment.",
+          "snapshot.payment_event_id identifies original sandbox_pay/applied event matching snapshot order/owner; frozen benefits.aiCredits is strict int0..1000000 and equals period.credits, including legitimate0; period.benefits_snapshot equals the original snapshot benefits by canonical parsed JSON.",
+          "cycle_start/cycle_end match month/year/billing_period calculation anchored at this snapshot original period_start with original UTC month-end/leap-day clamp; do not anchor to current subscription period/current_item_id. Cycle lies within that original paid window, and creation must not grant a future unpaid/unstarted window.",
+          "Every existing period has exactly one event id='grant:'+period.id with action=grant, matching owner/period_id, job_id='', credits=original period.credits and grant-created anchor. An existing grant event referring to a missing period is also a missing binding finding."
+        ],
+        "lazyAndHistoryBoundary": [
+          "No automatic requirement to materialize future renewal periods, past missed cycles or periods whose benefits are null/resetCycle none. Zero credits is valid, not a missing positive grant.",
+          "pause/grace/past_due/trial/current policy disabled or revision changed does not itself demand a new bucket; cancellation of renewal keeps its paid current period.",
+          "Later snapshot revocation, subscription expired/revoked/current_item_id pointing to future renewal, order refund, entitlement revoked, account closure or bucket closing/closed does not erase original historical paid snapshot/bucket/grant facts. Validate original immutable linkage, not current LIVE/access predicates."
+        ],
+        "notCovered": "Required table missing, truncated inputs, malformed/ill-typed frozen policy/benefits/snapshot JSON or ambiguous original paid identity is not-covered with a fixed reason; no fake zero or alert resolution."
+      },
+      "membershipBoundJobs": {
+        "requiredTables": [
+          "ai_gateway_jobs",
+          "membership_ai_allocations",
+          "membership_ai_periods",
+          "membership_ai_events",
+          "ai_gateway_quota_events"
+        ],
+        "jobFields": [
+          "id",
+          "owner",
+          "quota_source",
+          "quota_period_id",
+          "reserve_credits",
+          "charged_credits",
+          "status",
+          "created",
+          "updated"
+        ],
+        "allocationFields": [
+          "job_id",
+          "owner",
+          "period_id",
+          "reserved_credits",
+          "charged_credits",
+          "state",
+          "created",
+          "updated"
+        ],
+        "expectedFacts": "Inspect only already existing jobs with quota_source=membership_period plus existing allocations (including orphan allocation with no job). No job or allocation is invented from a subscription payment or a grantPending view.",
+        "bindingChecks": [
+          "Each actual membership-source job has exactly one allocation by job_id. job.owner/quota_period_id/reserve_credits match allocation.owner/period_id/reserved_credits and referenced period.owner; original reserve_credits>0 and bound period.credits>0. A legitimate0-credit bucket does not authorize a positive reserved job.",
+          "queued/running job requires allocation.state=reserved and charged_credits NULL; terminal succeeded/failed/partial/cancelled requires allocation.state=settled, allocation.charged_credits=job.charged_credits and strict integer0..reserved_credits.",
+          "Reserve event id='reserve:'+job.id must have action=reserve, same owner/period/job and original reserve credits. Terminal jobs additionally require id='settle:'+job.id with action=settle and charged credits. Match original ai_gateway_quota_events reserve/settle job/owner/credits links, without comparing today's policy revision.",
+          "Existing allocation without job, wrong quota_source, missing period, cross-owner or mismatched source/period/reserve/terminal charge is a binding finding. Do not demand current bucket active/positive available balance for historical or already-inflight settlement facts.",
+          "release:<job> and close:<period> expire_unused events are conditional actual positive unused recovery facts; do not require them for0 remainder/no-recovery cases."
+        ],
+        "notCovered": "Required table missing, input truncated or malformed/ill-typed required data is not-covered; never treat unavailable accounting evidence as0 issues or resolve prior alerts."
+      },
+      "captureRules": [
+        "These3 coverage keys are independent of legacy reconciliation. Preserve original reconciliation findings/LIMIT5000/uncovered truth; do not rewrite old receipts or let generic entitlement existence conceal finite grants.",
+        "Read only consistent relational tuples (joined query/transactional source capture); avoid mixing pre-settlement job with post-settlement allocation from separate asynchronous reads and manufacturing a mismatch.",
+        "No lifecycle.sync, quota refresh, grant=True, entitlement repair, wallet transfer, refund, order or allocation mutation occurs during monitor capture.",
+        "Store source availability/loadedRows/totalRows/truncated/covered plus fixed uncovered reasons. Partial/missing/malformed/ambiguous input never means healthy0; only complete covered later evidence may resolve the corresponding source alert.",
+        "Coverage is historical materialized link validation, not automatic on-time quota grant, full quota balance conservation, provider billing audit or re-evaluation of legacy test_wallet applicability."
+      ]
+    }
+  },
+  "notifications": {
+    "mode": "loopback-fixture only; default unconfigured, not a real provider adapter",
+    "defaultEndpoint": null,
+    "environmentGate": {
+      "EW_LOCAL_ALERT_FIXTURE_ENABLED": "literal1",
+      "EW_LOCAL_ALERT_FIXTURE_ENDPOINT": "Validate original ASCII string first against ^http://(?:127\\.0\\.0\\.1|\\[::1\\]):([1-9][0-9]{0,4})/task-alert-fixture/events$ and port<=65535. Then parse. Reject localhost,127.1,integer/hex IPv4,mappedIPv6,userinfo/query/fragment/other path/host; preserve original string in binding.",
+      "EW_LOCAL_ALERT_FIXTURE_SECRET_REF": "^EW_LOCAL_ALERT_[A-Z0-9_]{1,80}$; server env resolved value32..500chars; no raw values in DB/log/API"
+    },
+    "outboxCreation": "In the guarded complete covered monitor transaction/batch, create at most one immutable outbox per active(open|acknowledged) alert episode when explicit fixture gate is ready. If unavailable, leave delivery unavailable locally; a later ready complete covered monitor may create its one missing outbox. Do not backfill resolved episodes or claim prior external delivery. UNIQUE(alert_id,episode) and event_id preserve identity.",
+    "eventBody": {
+      "eventId": "UUID",
+      "alertId": "UUID",
+      "episode": "integer",
+      "ruleCode": "fixed code",
+      "severity": "error|warning|info",
+      "sourceType": "fixed source kind",
+      "sourceId": "minimal internal id",
+      "observedAt": "fixed outbox.created epochms",
+      "environment": "sandbox"
+    },
+    "bodyRules": "Strict exact keys, canonical UTF8 JSON, no owner identity/name/body/admin note/credentials/session/URL/object key; <=8192 bytes.",
+    "request": "Actual POST, timeout8s. Cloud fetch redirect:manual, Python no-redirect opener; reject every redirect. X-EW-Alert-Timestamp epoch seconds and X-EW-Alert-Signature HMACSHA256 hex over timestamp+dot+raw canonical bytes. Explicit fixture protocol only.",
+    "acknowledgment": "Accept exact HTTP200 and parsed media type application/json (optional charset=utf-8, case-insensitive) only. Read actual bytes with hard8192 limit regardless of Content-Length; fatal UTF8 decoding, duplicate-key rejection, no constants, strict exact object {accepted:true,eventId:same exact string}; accepted must be boolean true. Response timestamp integer seconds +/-300 and signature64hex HMAC over raw bytes required. Every redirect/204/202/othercode/wrongcharset/malformed/mismatched/unsigned ACK is unconfirmed.",
+    "durability": "After verified matching ACK, persist own NotificationReceipt row and notification.status=fixture_confirmed in the same guarded DB transaction. Confirmation means only actual local fixture acknowledgment, externalSent remains false.",
+    "leaseMs": 30000,
+    "maxAttempts": 5,
+    "backoffSeconds": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "retry": "Attempts increment only on lease claim. Retrying the same event keeps eventId. Explicit retry only retry/manual_review and attempts<5; no counter reset or replacement notification to evade max5.",
+    "adapterBinding": "Capture current ready binding at each new lease claim (only enabled/endpoint/ref/secretHash SHA256, no secret). Store it on notification and attempt. Re-read env/config proof after IO and final CAS; config disabled/rotated old ACK cannot confirm. A later explicitly enabled configuration may claim the same stable event with a new binding without resetting attempts. Old run unknown does not mean receiver saw no delivery.",
+    "receiverFixture": "Independent actual loopback HTTP service durably deduplicates eventId and returns the same accepted event after repeated delivery; QA must inspect persisted receiver event/receipt and inject response loss, 500, timeout, invalid ACK/signature and restart.",
+    "payloadFreeze": "At outbox creation freeze exact minimal eventBody as canonical UTF8 JSON in immutable payload_data. observedAt equals outbox.created; eventId/alertId/episode/ruleCode/severity/sourceType/sourceId/environment come from this episode at that creation. Every retry/restart sends identical payload_data bytes with a fresh signature timestamp; later alert.lastSeen/summary/severity edits never change the same eventId body. No raw source body, owner identity, admin note or secret is permitted.",
+    "claimGuard": "Each new notification claim also checks current runtime identity, current real admin, both runtime run/schedule lease tokens and expiry, configRevision/enabled, notification lease/attempt cap and adapter readiness/binding. Stop new claims when schedule remaining budget is insufficient for8s IO plus finalization; preserve every original attempt. Verified ACK persistence remains guarded after IO and cannot succeed after runtime/config/auth/adapter proof changes."
+  },
+  "tables": {
+    "ops_runtime_identity": [
+      "id INTEGER PRIMARY KEY CHECK(id=1)",
+      "runtime_id TEXT NOT NULL UNIQUE",
+      "mode TEXT NOT NULL CHECK(mode=local-isolated)",
+      "created INTEGER NOT NULL",
+      "manifest_hash TEXT NOT NULL"
+    ],
+    "ops_task_config": [
+      "id INTEGER PRIMARY KEY CHECK(id=1)",
+      "data TEXT NOT NULL"
+    ],
+    "ops_task_schedules": [
+      "kind TEXT PRIMARY KEY",
+      "next_due INTEGER NOT NULL DEFAULT 0",
+      "lease_token TEXT NOT NULL DEFAULT empty",
+      "lease_until INTEGER NOT NULL DEFAULT 0",
+      "config_revision INTEGER NOT NULL DEFAULT 0",
+      "last_run_id TEXT NOT NULL DEFAULT empty"
+    ],
+    "ops_task_runs": [
+      "id TEXT PRIMARY KEY",
+      "runtime_id TEXT NOT NULL",
+      "actor TEXT NOT NULL",
+      "worker_id TEXT NOT NULL",
+      "kind TEXT NOT NULL",
+      "request_id TEXT NOT NULL",
+      "fingerprint TEXT NOT NULL",
+      "config_revision INTEGER NOT NULL",
+      "lease_token TEXT NOT NULL DEFAULT empty",
+      "lease_until INTEGER NOT NULL DEFAULT 0",
+      "status TEXT NOT NULL",
+      "started INTEGER NOT NULL",
+      "finished INTEGER NOT NULL DEFAULT 0",
+      "processed INTEGER NOT NULL DEFAULT 0",
+      "last_error TEXT NOT NULL DEFAULT empty",
+      "details TEXT NOT NULL",
+      "UNIQUE(actor,request_id)"
+    ],
+    "ops_workers": [
+      "id TEXT PRIMARY KEY",
+      "runtime_id TEXT NOT NULL",
+      "actor TEXT NOT NULL",
+      "session_hash TEXT NOT NULL",
+      "last_heartbeat INTEGER NOT NULL",
+      "status TEXT NOT NULL",
+      "last_error TEXT NOT NULL DEFAULT empty",
+      "created INTEGER NOT NULL",
+      "updated INTEGER NOT NULL"
+    ],
+    "payment_monitor_scans": [
+      "id TEXT PRIMARY KEY",
+      "runtime_id TEXT NOT NULL",
+      "run_id TEXT NOT NULL UNIQUE",
+      "observed_at INTEGER NOT NULL",
+      "partial INTEGER NOT NULL",
+      "coverage TEXT NOT NULL"
+    ],
+    "payment_alerts": [
+      "id TEXT PRIMARY KEY",
+      "rule_code TEXT NOT NULL",
+      "source_type TEXT NOT NULL",
+      "source_id TEXT NOT NULL",
+      "owner TEXT",
+      "episode INTEGER NOT NULL",
+      "severity TEXT NOT NULL",
+      "status TEXT NOT NULL",
+      "first_seen INTEGER NOT NULL",
+      "last_seen INTEGER NOT NULL",
+      "last_source_version TEXT NOT NULL",
+      "seen_scan_count INTEGER NOT NULL DEFAULT 1",
+      "version INTEGER NOT NULL DEFAULT 0",
+      "ack_by TEXT NOT NULL DEFAULT empty",
+      "ack_at INTEGER NOT NULL DEFAULT 0",
+      "resolved_at INTEGER NOT NULL DEFAULT 0",
+      "summary TEXT NOT NULL",
+      "UNIQUE(rule_code,source_type,source_id,episode)"
+    ],
+    "payment_alert_actions": [
+      "id TEXT PRIMARY KEY",
+      "alert_id TEXT NOT NULL",
+      "actor TEXT NOT NULL",
+      "request_id TEXT NOT NULL",
+      "fingerprint TEXT NOT NULL",
+      "expected_version INTEGER NOT NULL",
+      "action TEXT NOT NULL CHECK(action=ack)",
+      "note TEXT NOT NULL",
+      "created INTEGER NOT NULL",
+      "UNIQUE(actor,request_id)"
+    ],
+    "payment_alert_notifications": [
+      "id TEXT PRIMARY KEY",
+      "event_id TEXT NOT NULL UNIQUE",
+      "alert_id TEXT NOT NULL",
+      "owner TEXT",
+      "created_by TEXT NOT NULL",
+      "episode INTEGER NOT NULL",
+      "payload_data TEXT NOT NULL",
+      "status TEXT NOT NULL",
+      "attempts INTEGER NOT NULL DEFAULT 0",
+      "lease_token TEXT NOT NULL DEFAULT empty",
+      "lease_until INTEGER NOT NULL DEFAULT 0",
+      "next_attempt INTEGER NOT NULL DEFAULT 0",
+      "last_error TEXT NOT NULL DEFAULT empty",
+      "adapter_binding TEXT NOT NULL",
+      "created INTEGER NOT NULL",
+      "updated INTEGER NOT NULL",
+      "UNIQUE(alert_id,episode)"
+    ],
+    "payment_alert_notification_attempts": [
+      "id TEXT PRIMARY KEY",
+      "notification_id TEXT NOT NULL",
+      "attempt INTEGER NOT NULL",
+      "actor TEXT NOT NULL",
+      "action TEXT NOT NULL",
+      "result TEXT NOT NULL",
+      "error_code TEXT NOT NULL",
+      "adapter_binding TEXT NOT NULL",
+      "created INTEGER NOT NULL"
+    ],
+    "payment_alert_notification_receipts": [
+      "id TEXT PRIMARY KEY",
+      "notification_id TEXT NOT NULL UNIQUE",
+      "event_id TEXT NOT NULL UNIQUE",
+      "attempt INTEGER NOT NULL",
+      "http_status INTEGER NOT NULL",
+      "adapter_binding TEXT NOT NULL",
+      "actor TEXT NOT NULL",
+      "confirmed_at INTEGER NOT NULL"
+    ],
+    "ops_claim_fences": [
+      "id TEXT PRIMARY KEY",
+      "run_id TEXT NOT NULL",
+      "run_lease_token TEXT NOT NULL",
+      "schedule_lease_token TEXT NOT NULL",
+      "config_revision INTEGER NOT NULL",
+      "actor TEXT NOT NULL",
+      "session_hash TEXT NOT NULL",
+      "stamp INTEGER NOT NULL"
+    ]
+  },
+  "privacyAndAudit": [
+    "Only truly non-personal ops_runtime_identity/ops_task_config/ops_task_schedules metadata are SYSTEM. New tables with owner/actor are not hidden as SYSTEM.",
+    "ops_task_runs and ops_workers retained processing audit predicates actor=?; payment_monitor_scans via run_id→ops_task_runs.actor=? (minimal processing evidence).",
+    "payment_alerts retained financial/processing predicate owner=?; payment_alert_actions predicate actor=? OR EXISTS(alert.owner=?).",
+    "ops_claim_fences has explicit retained-process-audit registry with actor=owner despite being transient and normally empty; never SYSTEM merely to avoid unknown scanning. No session_hash/lease proof appears in exports, inventory details or API logs.",
+    "payment_alert_notifications retained predicate owner=? OR created_by=?; attempts/receipts predicate actor=? OR EXISTS(parent notification.owner=?). Registration counts once per matching row, not UNION double counting.",
+    "All above require exact explicit registry entries, no guess by name/prefix. Any owner copied onto notification must match trusted alert owner inside final SQL guard.",
+    "Safe per-owner export selects only id/kind/status/timestamps/counts/errorCode and own alert localization; never run.details containing unrelated sourceIds, other-user rows, admin internal notes, session hashes, lease tokens or binding internals.",
+    "Alert localization uses business receipt/job/order/objectDeletion id; no media URL/key/receipt body. Unknown table scanning remains conservative and is not weakened for new metadata.",
+    "Query/notification/R2 IO remains outside write transactions. After IO, every mutation uses the same actual current authenticated request fence; no fake user/service fallback after revocation."
+  ],
+  "acceptanceRequired": [
+    "Dual-backend current full60 plus approved actual dedicated suite, same final source/build/QA identity.",
+    "Defaultoff/env/config doublegate, runtime/state/app identity mismatch, anonymous/wrong role/current demotion/closed admin/session expiry fail closed.",
+    "Background runner really continues without browser/foreground click, heartbeats actual DB; actual stop/restart same fresh state and no duplicate settlement/entitlement/deletion confirmation.",
+    "Two actual runners compete; schedule leases/CAS and original business leases protect all effects; no force/reset/auto manual_review retry.",
+    "Callback/recovery actual inbox/HTTP fixture and Cloud native R2 queues progress; Python SQLite explicitly has no R2 operation.",
+    "Actual local alert collection/dedupe/episodes/ack records locate real synthetic source facts; partial/unknown scans do not resolve or manufacture zero failures.",
+    "Finite digital snapshot+original paid ledger with generic entitlement but deleted/misbound finite grant is detected; legacy-no-snapshot/unpaid/late-refund-pending and valid later refunded/expired histories are not falsely equated. Existing membership period/grant/memberjob/allocation link faults are detected while legitimate lazy/no-bucket/future/none/null/0/pause/grace/currentpolicyoff states do not demand new grants. Each source missing/truncated/badJSON/ambiguous is independently not-covered and never auto-resolves.",
+    "Actual notification loopback HTTP success/duplicate/500/timeout/invalid/mismatched ACK/rotation/finite5/restart produces durable own and receiver receipts.",
+    "Disable/new config/role removal while IO is held does not falsely record completed; old lease cannot overwrite the new result; network abort is not business cancellation.",
+    "No external messages, no production cron/real cloud deployment, no real money/refund, no original DB writes."
+  ],
+  "remaining": [
+    "Real channel payment/refund failure and chargeback adapters, receiver responsibility/threshold escalation policy, production APM/cron/managed worker identity remain separate implementation and acceptance.",
+    "SV04 private network/TLS/KMS/IAM/MFA/production backups-PITR/compatible deployment rollback and real failover are not completed by this local runner.",
+    "PAY18/SV04 remain进行中; local software evidence and remaining software/environment inputs are reported separately."
+  ],
+  "schemaRules": [
+    "ops_runtime_identity is a maximum-one immutable pre-seeded row; product init never inserts it, ordinary handlers never bootstrap/repair it.",
+    "Column arrays fix exact shared order; strings empty/enum labels above are semantic schema descriptors, implementation uses correctly quoted SQL literals and explicit enum CHECKs.",
+    "Notification identity event/alert/episode/owner/created_by/created/payload_data immutable; strict typed canonical payload only. Receipts immutable, no delete/reset attempt API.",
+    "Schedule claim/run insert and final CAS use current real admin fence; DB/IO uncertainty must not write success through trustedService.",
+    "No raw sensitive source body or body hash is stored in summary/details; only explicit typed fields.",
+    "Worker id/runtime_id/actor/session_hash/created are immutable after first authorized tick; heartbeat/status projections never rebind a session. Notification owner/created_by are immutable and derived from actual source/actor, never client payload. Run/schedule lease identity guards are separate from original business lease.",
+    "Monitor scans and every alert/outbox/resolve write enforce the monitor.writeAtomicity guard in the actual final SQL transaction/batch, including actor invalidation; never defer this solely to run finish.",
+    "ops_claim_fences is a transient proof table with explicit independent run/schedule tokens. BEFORE guard and AFTER self-delete are atomic with native unit claim; no HTTP writer or replayable proof cache.",
+    "ClaimFence prefix results must be sliced before native indexes are used. Guard failure occurs outside native application-error catch and must not increment original business attempts or turn runtime disable into native failure.",
+    "SQL final guard uses actual database millisecond NOW as well as fresh hook stamp for run/schedule/session expiry, so a queued stale statement cannot pass on old application time."
+  ],
+  "pagination": "Runs use stable(started,id)DESC; workers/actions/notifications/attempts use(created,id)DESC; alerts use(first_seen,id)DESC; notification receipts use(confirmed_at,id)DESC. Worker.created is immutable despite heartbeat. before cursor belongs the same filter/alert/category; malformed400, unknown404, foreign-filter cursor400.",
+  "peerAlignment": {
+    "cloud": "原始endpoint字串先校验、Cloud redirect:manual/只收200、IPv6 literal与JS hostname差异仅内部；native wrapper保持当前真实a和权限、迟到finish双租约/CAS；真实APP bytes identity；新个人审计表明确registry。",
+    "root": "仅06prepared合同；代码/QA须待stage26闭环后另授权，不提前开始阶段。",
+    "revision2Followup": "Root explicit workerId/session binding plus Cloud markerDDL/run-order/payload/notification-budget peer corrections. Prepared document only; no product/QA implementation before stage26 freeze and root authorization.",
+    "revision3Followup": "Root and Cloud exact per-unit claimFence contract, explicit dual lease-token fields, fresh env/config/budget plus SQL final real-session predicates, all native preclaim terminal branches, Cloud prefix slicing; no fence retroactively inserted in existing-unit postIO completion. Prepared document only.",
+    "revision4Followup": "Root/Cloud actual final digital and membership DDL/trigger peer: add independent finite-grant and materialized quota/job sources only, preserve lazy/history boundaries and strict source coverage. No product/QA changes; prepared-not-implemented remains.",
+    "revision5Followup": "First formal Python probe exposed a real budget TOCTOU: actual lease shortened to491ms still claimed against stale ctx. Both backends must bind remaining-budget SQL to actual execution without changing the8-column schema. Preserve first diagnostics and use corrected notification QA actor-specific/new worker IDs, immediately observed promises and actual HTTP timing after limiter pacing; standalone Cloud QA must load actual ?raw HTML bytes through its reviewed bundler. No role, identity, attempt or rate limit relaxation."
+  }
+}

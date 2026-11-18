@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "scope": "Read-only native SQL over this lab's actual API-created nonempty facts; no mutation or synthetic payment rows.",
+  "queries": [
+    {
+      "name": "paidOrders",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM commerce_orders WHERE environment='sandbox' AND payment_status='paid'"
+    },
+    {
+      "name": "originalAppliedPayments",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM commerce_payment_events WHERE environment='sandbox' AND kind='sandbox_pay' AND status='applied'"
+    },
+    {
+      "name": "duplicateOriginalPaymentPerOrder",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM (SELECT owner,order_id,count(*) n FROM commerce_payment_events WHERE environment='sandbox' AND kind='sandbox_pay' AND status='applied' GROUP BY owner,order_id HAVING count(*)<>1)"
+    },
+    {
+      "name": "paymentOwnerOrderAmountMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM commerce_payment_events e LEFT JOIN commerce_orders o ON o.id=e.order_id WHERE e.kind='sandbox_pay' AND e.status='applied' AND (o.id IS NULL OR e.owner<>o.owner OR e.environment<>o.environment OR e.amount_minor<>o.total_minor OR e.currency<>o.currency)"
+    },
+    {
+      "name": "paidEntitlements",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM commerce_entitlements e JOIN commerce_order_items i ON i.id=e.item_id JOIN commerce_orders o ON o.id=i.order_id WHERE o.payment_status='paid' AND e.owner=o.owner AND e.order_id=o.id"
+    },
+    {
+      "name": "entitlementMissingOrDuplicate",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM commerce_order_items i JOIN commerce_orders o ON o.id=i.order_id WHERE o.payment_status='paid' AND i.type IN ('membership','digital') AND (SELECT count(*) FROM commerce_entitlements e WHERE e.item_id=i.id AND e.owner=o.owner AND e.order_id=o.id AND e.quantity=i.quantity)<>1"
+    },
+    {
+      "name": "memberPaidSnapshots",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM membership_order_snapshots WHERE payment_event_id IS NOT NULL AND period_start IS NOT NULL AND period_end>period_start"
+    },
+    {
+      "name": "memberSnapshotPaymentBindingMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM membership_order_snapshots s LEFT JOIN commerce_order_items i ON i.id=s.item_id LEFT JOIN commerce_orders o ON o.id=s.order_id LEFT JOIN commerce_payment_events p ON p.id=s.payment_event_id LEFT JOIN membership_subscriptions sub ON sub.id=s.subscription_id WHERE s.payment_event_id IS NOT NULL AND (i.id IS NULL OR o.id IS NULL OR p.id IS NULL OR sub.id IS NULL OR i.order_id<>s.order_id OR s.owner<>o.owner OR p.owner<>s.owner OR p.order_id<>s.order_id OR sub.owner<>s.owner OR p.kind<>'sandbox_pay' OR p.status<>'applied')"
+    },
+    {
+      "name": "memberMaterializedPeriods",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM membership_ai_periods"
+    },
+    {
+      "name": "memberPeriodGrantBindingMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM membership_ai_periods p WHERE (SELECT count(*) FROM membership_ai_events e WHERE e.id='grant:'||p.id AND e.action='grant' AND e.owner=p.owner AND e.period_id=p.id AND e.credits=p.credits AND e.job_id='')<>1"
+    },
+    {
+      "name": "commissionRows",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM commission_ledger"
+    },
+    {
+      "name": "commissionOriginalPaymentBindingMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM commission_ledger l LEFT JOIN commerce_order_items i ON i.id=l.item_id LEFT JOIN commerce_payment_events p ON p.id=l.payment_event WHERE i.id IS NULL OR p.id IS NULL OR i.order_id<>l.order_id OR p.order_id<>l.order_id OR p.kind<>'sandbox_pay' OR p.status<>'applied'"
+    },
+    {
+      "name": "authoritativeDraws",
+      "minimum": 1,
+      "sql": "SELECT count(*) AS n FROM card_draws"
+    },
+    {
+      "name": "cardRequestDrawQuotaBindingMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM card_draws d WHERE (SELECT count(*) FROM card_draw_requests r WHERE r.draw_id=d.id AND r.owner=d.owner AND r.environment=d.environment)<1 OR (SELECT count(*) FROM card_daily_quota q WHERE q.owner=d.owner AND q.environment=d.environment AND q.business_date=d.business_date)<>1"
+    },
+    {
+      "name": "paidReservationQuantityMismatch",
+      "exact": 0,
+      "sql": "SELECT count(*) AS n FROM commerce_order_items i JOIN commerce_orders o ON o.id=i.order_id WHERE o.payment_status='paid' AND coalesce((SELECT sum(r.quantity) FROM commerce_reservations r WHERE r.order_id=o.id AND r.sku_id=i.sku_id AND r.state='consumed'),0)<>i.quantity"
+    }
+  ]
+}

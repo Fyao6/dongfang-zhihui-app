@@ -1,0 +1,1706 @@
+{
+  "latest": {
+    "at": "2026-11-16T12:41:10.550Z",
+    "module": "负责人优化建议-数字权益回调兼容",
+    "runId": "mwj95eae_553050",
+    "target": "cloud",
+    "base": "http://127.0.0.1:50463",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "scope": "PAY08 compatibility on the final late-compensation build. The old expired→manual assertion is replaced by separately verified positive late-stock and refund-pending cases. All signature, ownership, duplicate, retry, manual-close and UI assertions remain; no real provider or production payment.",
+    "results": [
+      {
+        "name": "正式渠道、禁用测试适配与非法服务端密钥引用全部拒绝",
+        "pass": true,
+        "ms": 597
+      },
+      {
+        "name": "缺失错误过期签名与签名后篡改均拒绝，收件数量不变",
+        "pass": true,
+        "ms": 330
+      },
+      {
+        "name": "严格最小负载、整数金额、字段白名单与8192字节边界",
+        "pass": true,
+        "ms": 765
+      },
+      {
+        "name": "持久化失败不返回接收成功，也不改变账与库存",
+        "pass": true,
+        "ms": 132
+      },
+      {
+        "name": "返回202之前已落盘，接收与消费分离且未提前扣库存发权益",
+        "pass": true,
+        "ms": 212
+      },
+      {
+        "name": "并发重复事件只保留一个收件，内容冲突持久审计并返回409",
+        "pass": true,
+        "ms": 872
+      },
+      {
+        "name": "匿名与普通账号不能读取或消费队列，非法分页与状态明确拒绝",
+        "pass": true,
+        "ms": 689
+      },
+      {
+        "name": "并发消费者与同交易多事件仅结算一次，账和库存状态原子一致",
+        "pass": true,
+        "ms": 673
+      },
+      {
+        "name": "未知订单、金额币种不符与主动关闭订单仍进入人工核查",
+        "pass": true,
+        "ms": 1334
+      },
+      {
+        "name": "已付款或已退款订单收到另一交易，不覆盖原账且不复开权益",
+        "pass": true,
+        "ms": 1186
+      },
+      {
+        "name": "真实SQL暂时故障回滚全部结算，人工重试不重置次数且可恢复",
+        "pass": true,
+        "ms": 770
+      },
+      {
+        "name": "中断后的过期租约可恢复，旧租约不会造成重复结算",
+        "pass": true,
+        "ms": 412
+      },
+      {
+        "name": "第五次仍失败转人工核查并封顶，重复重试不能绕过上限",
+        "pass": true,
+        "ms": 534
+      },
+      {
+        "name": "独立请求读取持久收件和待处理任务（不声明进程重启）",
+        "pass": true,
+        "ms": 593,
+        "observed": {
+          "processRestart": false,
+          "cloudBoundary": "Cloud only verifies separate request/API-object persistence; no worker process restart is claimed"
+        }
+      },
+      {
+        "name": "后台原生刷新横滑查看处理与重试、长编号和商城订单返回",
+        "pass": true,
+        "ms": 5545
+      },
+      {
+        "name": "最终身份与权限边界未变化，不在报告中保存签名或密钥",
+        "pass": true,
+        "ms": 110
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-1280-长编号详情.png",
+      "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-360-长编号详情.png",
+      "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台重试.png"
+    ],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "status": 200,
+        "ms": 89
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 79
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "ms": 147
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 85
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 147
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 151
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/commerce/settings",
+        "status": 200,
+        "ms": 99
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/production",
+        "status": 503
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/stripe",
+        "status": 503
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 503
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 200,
+        "ms": 105
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 503
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 200,
+        "ms": 90
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 200,
+        "ms": 79
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 400
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 413
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 415
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 500
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+        "status": 200,
+        "ms": 83
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+        "status": 200,
+        "ms": 92
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 409
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 127
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 409
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/2972e1c7-11b6-4004-af03-b073158b1cc2",
+        "status": 200,
+        "ms": 80
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 401,
+        "ms": 67
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 403,
+        "ms": 73
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+        "status": 403,
+        "ms": 76
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 403,
+        "ms": 74
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16/retry",
+        "status": 403,
+        "ms": 76
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 400,
+        "ms": 74
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 404,
+        "ms": 90
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 400,
+        "ms": 82
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 400,
+        "ms": 74
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 181
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 181
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+        "status": 200,
+        "ms": 84
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/2972e1c7-11b6-4004-af03-b073158b1cc2",
+        "status": 200,
+        "ms": 85
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 80
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16/retry",
+        "status": 409,
+        "ms": 89
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 126
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 134
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 172
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/83608b3e-65a6-4acd-b011-3f1f97a70780",
+        "status": 200,
+        "ms": 87
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/f7c89ea6-42f3-42f1-a094-f93de486ca58",
+        "status": 200,
+        "ms": 86
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/bb050de2-372c-400d-8a5b-f9958cb1fc40",
+        "status": 200,
+        "ms": 89
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/ce9163c7-d8c5-45a4-83ed-fc5551c1684f",
+        "status": 200,
+        "ms": 93
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 122
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 115
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/1dc7d119-70f5-4e51-a69d-97b1bf86042c/sandbox-pay",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/6ea65996-930c-4097-b5e8-8848ec08e741/sandbox-pay",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/orders/6ea65996-930c-4097-b5e8-8848ec08e741/refund",
+        "status": 200,
+        "ms": 129
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 156
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/26d2c0ef-00db-4db2-ab15-7a5face4104c",
+        "status": 200,
+        "ms": 81
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/93e7f6f0-fefd-452e-8900-8bec09a9be23",
+        "status": 200,
+        "ms": 83
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 117
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 114
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a",
+        "status": 200,
+        "ms": 83
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a/retry",
+        "status": 200,
+        "ms": 84
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 109
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a",
+        "status": 200,
+        "ms": 83
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 101
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/08431d7b-4281-4697-aec2-3f9ec916acc8",
+        "status": 200,
+        "ms": 85
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 115
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/27550872-dac8-4b43-92f7-c0dc7b9872e2",
+        "status": 200,
+        "ms": 86
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/27550872-dac8-4b43-92f7-c0dc7b9872e2/retry",
+        "status": 409,
+        "ms": 94
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 113
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/a35dcca4-3a0a-455b-b932-081c3e2b0831",
+        "status": 200,
+        "ms": 81
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 128
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/a35dcca4-3a0a-455b-b932-081c3e2b0831",
+        "status": 200,
+        "ms": 101
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 141
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/be25e041-a974-4656-985b-f092c78e8694",
+        "status": 200,
+        "ms": 121
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 180
+      },
+      {
+        "method": "POST",
+        "path": "/api/payment-callbacks/sandbox",
+        "status": 202
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 109
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/62d6a957-5db1-48d3-b440-415219ad7c7e",
+        "status": 200,
+        "ms": 86
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/62d6a957-5db1-48d3-b440-415219ad7c7e",
+        "status": 200,
+        "ms": 79
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks",
+        "status": 200,
+        "ms": 108
+      }
+    ],
+    "coverage": {
+      "http": true,
+      "ui": true,
+      "realPayments": false,
+      "production": false,
+      "signature": "sandbox-hmac-fixture-only",
+      "automaticScheduling": false,
+      "processRestart": false
+    },
+    "harnessSha256": {
+      "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+      "06_验证与后续工作/负责人优化建议-数字权益回调兼容.cjs": "a1619495e2b5e25470629e651f5c79878722088f247a567cffcc734994a755da"
+    },
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/commerce.py": "dbb7c25d46ed39941c561fbba28bfebf326859379d3858e5d692a07c90163392",
+        "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+        "04_研发源码/app/r4/commerce-ui.js": "862b19597dc39e92a9f59ed3ec98ecbc7374f89843b3c1c39b46dd7aa5c13744",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "2d4ec03626c58a36c87c0e2fb74e3184536320a8036db8ed2e85d2e924232225"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+        "03_当前APP/计时后台-开发联调.html": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+        "04_研发源码/app/cloud/generated/experience.html": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+        "04_研发源码/app/cloud/generated/admin.html": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+        "04_研发源码/app/cloud/dist/server/index.js": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474"
+      }
+    },
+    "servedBuildSha256": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+    "compatibilityBaseline": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调专项.cjs",
+      "sha256": "7f9b40d0bb9983738b87c8b289dd8fd28c343f4839bb8d840d73e9a5fa32e7d6",
+      "replacement": "Only the old expired→manual assertion is replaced by the late-payment positive stock/refund and trusted-query cases. Signature, ownership, manual closure and all other assertions remain."
+    },
+    "lateSources": {
+      "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+      "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+      "04_研发源码/app/r4/payment-late-ui.js": "f46ec2d7b451d65de5f7684c99b648295fc905cf9aec3b9d17288f04ed6a0645",
+      "04_研发源码/app/r4/payment-late-admin.js": "a1be77b50e5cb458056f54277b5fb432a7b46adbfbc94c8d6453f621f64628f9"
+    },
+    "callbackSources": {
+      "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+      "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+      "04_研发源码/app/r4/payment-late-ui.js": "f46ec2d7b451d65de5f7684c99b648295fc905cf9aec3b9d17288f04ed6a0645",
+      "04_研发源码/app/r4/payment-late-admin.js": "a1be77b50e5cb458056f54277b5fb432a7b46adbfbc94c8d6453f621f64628f9",
+      "04_研发源码/app/r4/backend/payment_callbacks.py": "1a37d801c19b1c49a62a03f83030bde013f2c30f9108b4bc5ee2bcaf8f8a3934",
+      "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+      "04_研发源码/app/cloud/lib/payment-callbacks.ts": "cb696a9b142a71dbec656195f0ecf82e3e430c2786e0607a8f070329b2ae30b7",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+      "04_研发源码/app/r4/payment-callback-admin.js": "cbe50be6f550d325c66533a6ff7d7ca13dab54397cf6347c9d43c0ef95b9aeb3",
+      "04_研发源码/app/r4/build.py": "4337e776eacc698df4529ef4a5693f88f5c31e45ab0868680ba618fcc154b2d4",
+      "04_研发源码/app/cloud/prepare.py": "47bf59782d280aea0ad0eee705feda9d2432ad459dafe493d791ff1a1cc99418"
+    },
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 16,
+    "failed": 0,
+    "digitalEntitlementsLauncher": {
+      "runId": "mwj95c6q-c84397a1",
+      "suite": "callback-compat",
+      "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\digital-entitlements-mwj95c6q-c84397a1",
+      "ownedDatabase": null,
+      "syntheticDataOnly": true,
+      "realPaymentProvider": false,
+      "sourceAndBuildHashes": {
+        "04_研发源码/app/r4/backend/digital_entitlements.py": "af07994d17ea6c806e28492744e1eb067685d3ba660980c3b2536cb932ad4937",
+        "04_研发源码/app/cloud/lib/digital-entitlements.ts": "c5d79cb772c0c6cfe4cbbc7fd426115beff199bba1ff4aac51877842ee557f99",
+        "04_研发源码/app/r4/backend/commerce.py": "dbb7c25d46ed39941c561fbba28bfebf326859379d3858e5d692a07c90163392",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+        "04_研发源码/app/r4/backend/payment_callbacks.py": "1a37d801c19b1c49a62a03f83030bde013f2c30f9108b4bc5ee2bcaf8f8a3934",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "cb696a9b142a71dbec656195f0ecf82e3e430c2786e0607a8f070329b2ae30b7",
+        "04_研发源码/app/r4/backend/payment_recovery.py": "ddfefe6a0e53cf223b19072268a0deb8d08b586c86a7751f53fda5252697487a",
+        "04_研发源码/app/cloud/lib/payment-recovery.ts": "09c358b3e54ea9b3440bce7dcf5b22775a1948db4c9321dd605aba7076cf7e47",
+        "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+        "04_研发源码/app/r4/backend/privacy.py": "b4e7fdd50a5b37ceecbc148a8706bed3e32649e71c7511d7d26a13aee7a1b509",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "cfdd647e3410d956540d24bb9d03f0dcb56052c28279c882e66558701e3946f4",
+        "04_研发源码/app/r4/backend/account_write_guard.py": "fce39098baaffa4417bbcd90f1344b6c32c0219d4d6a3e213d387ce6471fd45b",
+        "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+        "04_研发源码/app/r4/digital-entitlements-ui.js": "b5d6d10b4c9c25435dfa80915c39276bbeb41dbfadede48372f08cb27ad6468b",
+        "04_研发源码/app/r4/digital-entitlements-admin.js": "efca583d57cc13c9a1ed07fccf0473a479c2fe22ee085bcab8bec080248a1f69",
+        "04_研发源码/app/r4/digital-entitlements-ui.css": "01dfa345d206ea93ce5f153d63ad61ebcd1617cb10166c1f0f5255f3fc3ab84a",
+        "04_研发源码/app/r4/commerce-ui.js": "862b19597dc39e92a9f59ed3ec98ecbc7374f89843b3c1c39b46dd7aa5c13744",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "2d4ec03626c58a36c87c0e2fb74e3184536320a8036db8ed2e85d2e924232225",
+        "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+        "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+        "04_研发源码/app/r4/platform.js": "ffd0d765aa980d82f880b53a4506e9f7eaae0d853083e4d73e4ca1b2ae9b2d51",
+        "04_研发源码/app/r4/build.py": "4337e776eacc698df4529ef4a5693f88f5c31e45ab0868680ba618fcc154b2d4",
+        "04_研发源码/app/cloud/prepare.py": "47bf59782d280aea0ad0eee705feda9d2432ad459dafe493d791ff1a1cc99418",
+        "03_当前APP/东方智慧-首页体验R4.html": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+        "03_当前APP/计时后台-开发联调.html": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+        "04_研发源码/app/cloud/generated/experience.html": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+        "04_研发源码/app/cloud/generated/admin.html": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+        "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "04_研发源码/app/cloud/dist/server/index.js": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474",
+        "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+        "04_研发源码/app/cloud/scripts/sites-env.mjs": "21d7bde6acb9f716287e652c1b0e43ae4803d79be367ca2192fcba14740b5338",
+        "06_验证与后续工作/负责人优化建议-数字权益测试工具.cjs": "97bc12f778c68173efbf7f731e8d9e78490c092367402b62c8ddf7d0c343358e",
+        "06_验证与后续工作/负责人优化建议-数字权益验收启动.cjs": "94ce5bb37370ec40fa1181c476f695d0d5242cfccfa9960b4a5a0d6ba3005b1d",
+        "06_验证与后续工作/负责人优化建议-数字权益用例工具.cjs": "43b3de5a8daa89a712a07867bed44c41d6dffa6548b926fb6e20202c69764deb",
+        "06_验证与后续工作/负责人优化建议-数字权益专项.cjs": "ef6313716931a87bcdf2412ebeb1b9875a3924dbc4a2f96e0c00566e9d92721c",
+        "06_验证与后续工作/负责人优化建议-数字权益补充视觉.cjs": "a1e74580b9c7e13d6a85b7a69d80a89e368ba6f36bda0fc02ea92f27a348c30c",
+        "06_验证与后续工作/负责人优化建议-数字权益Python测试服务.py": "9e017f4486d91e8700e48a9895c1afd780ae13413305f9f27c7613d8e5cad97c",
+        "06_验证与后续工作/负责人优化建议-数字权益Cloud测试服务.ts": "2049167e19b248c0a6453466cca7d14067c79322adfa740f90d41391caa6a71d",
+        "06_验证与后续工作/负责人优化建议-数字权益回调兼容.cjs": "a1619495e2b5e25470629e651f5c79878722088f247a567cffcc734994a755da",
+        "06_验证与后续工作/负责人优化建议-数字权益恢复兼容.cjs": "652d80c5ad292d5e53d62e241aa3a632bd146d284b360a3525d75700636b538b",
+        "06_验证与后续工作/负责人优化建议-数字权益迟到兼容.cjs": "f3ff41aad3754b5d78a5d06c6883622a5b90ad58370fde9b8e90e80da93906d9",
+        "06_验证与后续工作/负责人优化建议-支付恢复HTTP查询夹具.py": "d4ab3fc284c0fc091637c348a2ce2d2488f8f0264c5044fe34e54566f794c504",
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-交易专项.cjs": "0361aea627db9ce6fb927fba409602c61dffae079dd6b54104f5f94144c37867",
+        "06_验证与后续工作/全量回归.cjs": "ab6ce3b5fc85570d3218fc32f60f758695df59fd30e8510ffe8244ca4d09c284",
+        "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879"
+      },
+      "identityUnchanged": true
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-16T12:41:10.550Z",
+      "module": "负责人优化建议-数字权益回调兼容",
+      "runId": "mwj95eae_553050",
+      "target": "cloud",
+      "base": "http://127.0.0.1:50463",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "PAY08 compatibility on the final late-compensation build. The old expired→manual assertion is replaced by separately verified positive late-stock and refund-pending cases. All signature, ownership, duplicate, retry, manual-close and UI assertions remain; no real provider or production payment.",
+      "results": [
+        {
+          "name": "正式渠道、禁用测试适配与非法服务端密钥引用全部拒绝",
+          "pass": true,
+          "ms": 597
+        },
+        {
+          "name": "缺失错误过期签名与签名后篡改均拒绝，收件数量不变",
+          "pass": true,
+          "ms": 330
+        },
+        {
+          "name": "严格最小负载、整数金额、字段白名单与8192字节边界",
+          "pass": true,
+          "ms": 765
+        },
+        {
+          "name": "持久化失败不返回接收成功，也不改变账与库存",
+          "pass": true,
+          "ms": 132
+        },
+        {
+          "name": "返回202之前已落盘，接收与消费分离且未提前扣库存发权益",
+          "pass": true,
+          "ms": 212
+        },
+        {
+          "name": "并发重复事件只保留一个收件，内容冲突持久审计并返回409",
+          "pass": true,
+          "ms": 872
+        },
+        {
+          "name": "匿名与普通账号不能读取或消费队列，非法分页与状态明确拒绝",
+          "pass": true,
+          "ms": 689
+        },
+        {
+          "name": "并发消费者与同交易多事件仅结算一次，账和库存状态原子一致",
+          "pass": true,
+          "ms": 673
+        },
+        {
+          "name": "未知订单、金额币种不符与主动关闭订单仍进入人工核查",
+          "pass": true,
+          "ms": 1334
+        },
+        {
+          "name": "已付款或已退款订单收到另一交易，不覆盖原账且不复开权益",
+          "pass": true,
+          "ms": 1186
+        },
+        {
+          "name": "真实SQL暂时故障回滚全部结算，人工重试不重置次数且可恢复",
+          "pass": true,
+          "ms": 770
+        },
+        {
+          "name": "中断后的过期租约可恢复，旧租约不会造成重复结算",
+          "pass": true,
+          "ms": 412
+        },
+        {
+          "name": "第五次仍失败转人工核查并封顶，重复重试不能绕过上限",
+          "pass": true,
+          "ms": 534
+        },
+        {
+          "name": "独立请求读取持久收件和待处理任务（不声明进程重启）",
+          "pass": true,
+          "ms": 593,
+          "observed": {
+            "processRestart": false,
+            "cloudBoundary": "Cloud only verifies separate request/API-object persistence; no worker process restart is claimed"
+          }
+        },
+        {
+          "name": "后台原生刷新横滑查看处理与重试、长编号和商城订单返回",
+          "pass": true,
+          "ms": 5545
+        },
+        {
+          "name": "最终身份与权限边界未变化，不在报告中保存签名或密钥",
+          "pass": true,
+          "ms": 110
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-1280-长编号详情.png",
+        "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-360-长编号详情.png",
+        "负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台重试.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 89
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 79
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": 147
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 85
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 147
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 151
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 99
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/production",
+          "status": 503
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/stripe",
+          "status": 503
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 503
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 200,
+          "ms": 105
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 503
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 200,
+          "ms": 90
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 200,
+          "ms": 79
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 401
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 401
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 401
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 401
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 400
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 413
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 415
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 500
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+          "status": 200,
+          "ms": 83
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+          "status": 200,
+          "ms": 92
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 409
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 127
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 409
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/2972e1c7-11b6-4004-af03-b073158b1cc2",
+          "status": 200,
+          "ms": 80
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 401,
+          "ms": 67
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 403,
+          "ms": 73
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+          "status": 403,
+          "ms": 76
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 403,
+          "ms": 74
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16/retry",
+          "status": 403,
+          "ms": 76
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 400,
+          "ms": 74
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 404,
+          "ms": 90
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 400,
+          "ms": 82
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 400,
+          "ms": 74
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 181
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 181
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16",
+          "status": 200,
+          "ms": 84
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/2972e1c7-11b6-4004-af03-b073158b1cc2",
+          "status": 200,
+          "ms": 85
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 80
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/876b332e-81b8-4da5-9fbd-90aedc48ab16/retry",
+          "status": 409,
+          "ms": 89
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 126
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 134
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 172
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/83608b3e-65a6-4acd-b011-3f1f97a70780",
+          "status": 200,
+          "ms": 87
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/f7c89ea6-42f3-42f1-a094-f93de486ca58",
+          "status": 200,
+          "ms": 86
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/bb050de2-372c-400d-8a5b-f9958cb1fc40",
+          "status": 200,
+          "ms": 89
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/ce9163c7-d8c5-45a4-83ed-fc5551c1684f",
+          "status": 200,
+          "ms": 93
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 122
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 115
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/1dc7d119-70f5-4e51-a69d-97b1bf86042c/sandbox-pay",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/6ea65996-930c-4097-b5e8-8848ec08e741/sandbox-pay",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/orders/6ea65996-930c-4097-b5e8-8848ec08e741/refund",
+          "status": 200,
+          "ms": 129
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 156
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/26d2c0ef-00db-4db2-ab15-7a5face4104c",
+          "status": 200,
+          "ms": 81
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/93e7f6f0-fefd-452e-8900-8bec09a9be23",
+          "status": 200,
+          "ms": 83
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 117
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 114
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a",
+          "status": 200,
+          "ms": 83
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a/retry",
+          "status": 200,
+          "ms": 84
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 109
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/472f0df3-0ac3-4fc0-bd61-1d3d2370646a",
+          "status": 200,
+          "ms": 83
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 101
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/08431d7b-4281-4697-aec2-3f9ec916acc8",
+          "status": 200,
+          "ms": 85
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 115
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/27550872-dac8-4b43-92f7-c0dc7b9872e2",
+          "status": 200,
+          "ms": 86
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/27550872-dac8-4b43-92f7-c0dc7b9872e2/retry",
+          "status": 409,
+          "ms": 94
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 113
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/a35dcca4-3a0a-455b-b932-081c3e2b0831",
+          "status": 200,
+          "ms": 81
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 128
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/a35dcca4-3a0a-455b-b932-081c3e2b0831",
+          "status": 200,
+          "ms": 101
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 141
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/be25e041-a974-4656-985b-f092c78e8694",
+          "status": 200,
+          "ms": 121
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 180
+        },
+        {
+          "method": "POST",
+          "path": "/api/payment-callbacks/sandbox",
+          "status": 202
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 109
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/62d6a957-5db1-48d3-b440-415219ad7c7e",
+          "status": 200,
+          "ms": 86
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/62d6a957-5db1-48d3-b440-415219ad7c7e",
+          "status": 200,
+          "ms": 79
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks",
+          "status": 200,
+          "ms": 108
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "signature": "sandbox-hmac-fixture-only",
+        "automaticScheduling": false,
+        "processRestart": false
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-数字权益回调兼容.cjs": "a1619495e2b5e25470629e651f5c79878722088f247a567cffcc734994a755da"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "dbb7c25d46ed39941c561fbba28bfebf326859379d3858e5d692a07c90163392",
+          "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+          "04_研发源码/app/r4/commerce-ui.js": "862b19597dc39e92a9f59ed3ec98ecbc7374f89843b3c1c39b46dd7aa5c13744",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "2d4ec03626c58a36c87c0e2fb74e3184536320a8036db8ed2e85d2e924232225"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+          "03_当前APP/计时后台-开发联调.html": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+          "04_研发源码/app/cloud/generated/experience.html": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+          "04_研发源码/app/cloud/generated/admin.html": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+          "04_研发源码/app/cloud/dist/server/index.js": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474"
+        }
+      },
+      "servedBuildSha256": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+      "compatibilityBaseline": {
+        "path": "06_验证与后续工作/负责人优化建议-支付回调专项.cjs",
+        "sha256": "7f9b40d0bb9983738b87c8b289dd8fd28c343f4839bb8d840d73e9a5fa32e7d6",
+        "replacement": "Only the old expired→manual assertion is replaced by the late-payment positive stock/refund and trusted-query cases. Signature, ownership, manual closure and all other assertions remain."
+      },
+      "lateSources": {
+        "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/r4/payment-late-ui.js": "f46ec2d7b451d65de5f7684c99b648295fc905cf9aec3b9d17288f04ed6a0645",
+        "04_研发源码/app/r4/payment-late-admin.js": "a1be77b50e5cb458056f54277b5fb432a7b46adbfbc94c8d6453f621f64628f9"
+      },
+      "callbackSources": {
+        "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/r4/payment-late-ui.js": "f46ec2d7b451d65de5f7684c99b648295fc905cf9aec3b9d17288f04ed6a0645",
+        "04_研发源码/app/r4/payment-late-admin.js": "a1be77b50e5cb458056f54277b5fb432a7b46adbfbc94c8d6453f621f64628f9",
+        "04_研发源码/app/r4/backend/payment_callbacks.py": "1a37d801c19b1c49a62a03f83030bde013f2c30f9108b4bc5ee2bcaf8f8a3934",
+        "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "cb696a9b142a71dbec656195f0ecf82e3e430c2786e0607a8f070329b2ae30b7",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+        "04_研发源码/app/r4/payment-callback-admin.js": "cbe50be6f550d325c66533a6ff7d7ca13dab54397cf6347c9d43c0ef95b9aeb3",
+        "04_研发源码/app/r4/build.py": "4337e776eacc698df4529ef4a5693f88f5c31e45ab0868680ba618fcc154b2d4",
+        "04_研发源码/app/cloud/prepare.py": "47bf59782d280aea0ad0eee705feda9d2432ad459dafe493d791ff1a1cc99418"
+      },
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 16,
+      "failed": 0,
+      "digitalEntitlementsLauncher": {
+        "runId": "mwj95c6q-c84397a1",
+        "suite": "callback-compat",
+        "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\digital-entitlements-mwj95c6q-c84397a1",
+        "ownedDatabase": null,
+        "syntheticDataOnly": true,
+        "realPaymentProvider": false,
+        "sourceAndBuildHashes": {
+          "04_研发源码/app/r4/backend/digital_entitlements.py": "af07994d17ea6c806e28492744e1eb067685d3ba660980c3b2536cb932ad4937",
+          "04_研发源码/app/cloud/lib/digital-entitlements.ts": "c5d79cb772c0c6cfe4cbbc7fd426115beff199bba1ff4aac51877842ee557f99",
+          "04_研发源码/app/r4/backend/commerce.py": "dbb7c25d46ed39941c561fbba28bfebf326859379d3858e5d692a07c90163392",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+          "04_研发源码/app/r4/backend/payment_callbacks.py": "1a37d801c19b1c49a62a03f83030bde013f2c30f9108b4bc5ee2bcaf8f8a3934",
+          "04_研发源码/app/cloud/lib/payment-callbacks.ts": "cb696a9b142a71dbec656195f0ecf82e3e430c2786e0607a8f070329b2ae30b7",
+          "04_研发源码/app/r4/backend/payment_recovery.py": "ddfefe6a0e53cf223b19072268a0deb8d08b586c86a7751f53fda5252697487a",
+          "04_研发源码/app/cloud/lib/payment-recovery.ts": "09c358b3e54ea9b3440bce7dcf5b22775a1948db4c9321dd605aba7076cf7e47",
+          "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+          "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+          "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+          "04_研发源码/app/r4/backend/privacy.py": "b4e7fdd50a5b37ceecbc148a8706bed3e32649e71c7511d7d26a13aee7a1b509",
+          "04_研发源码/app/cloud/lib/privacy-api.ts": "cfdd647e3410d956540d24bb9d03f0dcb56052c28279c882e66558701e3946f4",
+          "04_研发源码/app/r4/backend/account_write_guard.py": "fce39098baaffa4417bbcd90f1344b6c32c0219d4d6a3e213d387ce6471fd45b",
+          "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+          "04_研发源码/app/r4/digital-entitlements-ui.js": "b5d6d10b4c9c25435dfa80915c39276bbeb41dbfadede48372f08cb27ad6468b",
+          "04_研发源码/app/r4/digital-entitlements-admin.js": "efca583d57cc13c9a1ed07fccf0473a479c2fe22ee085bcab8bec080248a1f69",
+          "04_研发源码/app/r4/digital-entitlements-ui.css": "01dfa345d206ea93ce5f153d63ad61ebcd1617cb10166c1f0f5255f3fc3ab84a",
+          "04_研发源码/app/r4/commerce-ui.js": "862b19597dc39e92a9f59ed3ec98ecbc7374f89843b3c1c39b46dd7aa5c13744",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "2d4ec03626c58a36c87c0e2fb74e3184536320a8036db8ed2e85d2e924232225",
+          "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+          "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+          "04_研发源码/app/r4/platform.js": "ffd0d765aa980d82f880b53a4506e9f7eaae0d853083e4d73e4ca1b2ae9b2d51",
+          "04_研发源码/app/r4/build.py": "4337e776eacc698df4529ef4a5693f88f5c31e45ab0868680ba618fcc154b2d4",
+          "04_研发源码/app/cloud/prepare.py": "47bf59782d280aea0ad0eee705feda9d2432ad459dafe493d791ff1a1cc99418",
+          "03_当前APP/东方智慧-首页体验R4.html": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+          "03_当前APP/计时后台-开发联调.html": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+          "04_研发源码/app/cloud/generated/experience.html": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+          "04_研发源码/app/cloud/generated/admin.html": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+          "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+          "04_研发源码/app/cloud/dist/server/index.js": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474",
+          "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+          "04_研发源码/app/cloud/scripts/sites-env.mjs": "21d7bde6acb9f716287e652c1b0e43ae4803d79be367ca2192fcba14740b5338",
+          "06_验证与后续工作/负责人优化建议-数字权益测试工具.cjs": "97bc12f778c68173efbf7f731e8d9e78490c092367402b62c8ddf7d0c343358e",
+          "06_验证与后续工作/负责人优化建议-数字权益验收启动.cjs": "94ce5bb37370ec40fa1181c476f695d0d5242cfccfa9960b4a5a0d6ba3005b1d",
+          "06_验证与后续工作/负责人优化建议-数字权益用例工具.cjs": "43b3de5a8daa89a712a07867bed44c41d6dffa6548b926fb6e20202c69764deb",
+          "06_验证与后续工作/负责人优化建议-数字权益专项.cjs": "ef6313716931a87bcdf2412ebeb1b9875a3924dbc4a2f96e0c00566e9d92721c",
+          "06_验证与后续工作/负责人优化建议-数字权益补充视觉.cjs": "a1e74580b9c7e13d6a85b7a69d80a89e368ba6f36bda0fc02ea92f27a348c30c",
+          "06_验证与后续工作/负责人优化建议-数字权益Python测试服务.py": "9e017f4486d91e8700e48a9895c1afd780ae13413305f9f27c7613d8e5cad97c",
+          "06_验证与后续工作/负责人优化建议-数字权益Cloud测试服务.ts": "2049167e19b248c0a6453466cca7d14067c79322adfa740f90d41391caa6a71d",
+          "06_验证与后续工作/负责人优化建议-数字权益回调兼容.cjs": "a1619495e2b5e25470629e651f5c79878722088f247a567cffcc734994a755da",
+          "06_验证与后续工作/负责人优化建议-数字权益恢复兼容.cjs": "652d80c5ad292d5e53d62e241aa3a632bd146d284b360a3525d75700636b538b",
+          "06_验证与后续工作/负责人优化建议-数字权益迟到兼容.cjs": "f3ff41aad3754b5d78a5d06c6883622a5b90ad58370fde9b8e90e80da93906d9",
+          "06_验证与后续工作/负责人优化建议-支付恢复HTTP查询夹具.py": "d4ab3fc284c0fc091637c348a2ce2d2488f8f0264c5044fe34e54566f794c504",
+          "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+          "06_验证与后续工作/负责人优化建议-交易专项.cjs": "0361aea627db9ce6fb927fba409602c61dffae079dd6b54104f5f94144c37867",
+          "06_验证与后续工作/全量回归.cjs": "ab6ce3b5fc85570d3218fc32f60f758695df59fd30e8510ffe8244ca4d09c284",
+          "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879"
+        },
+        "identityUnchanged": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "status": "prepared-not-applied-not-run",
+  "atScope": "current repository inputs; no service/browser/build started",
+  "patch": "06_验证与后续工作/每日进入提醒-接入候选.patch",
+  "patchSHA256": "9f15a5dda03a6a2ff8919287fa78a5a8bf5b75b9865d5552c521b0d0203b7c84",
+  "currentInputs": {
+    "06_验证与后续工作/每日进入提醒-候选.js": "73e96a9be064be9b9ac28137769ca9a0a931dcfafe87fa0d1155eedaad477161",
+    "06_验证与后续工作/每日进入提醒-候选.css": "d6bdc793ef330be42b417198d8c57f6558c12e5c6f397448f011dae84f7b0e41",
+    "04_研发源码/app/r4/build.py": "44380fff8259b361742ce3efcdd5c6e454fa9300403f17e70360348a0b193c21",
+    "04_研发源码/app/cloud/prepare.py": "0d56a0fed2750c4bbda612d375a2708fb87397faa841f62b787da6321ed6402a",
+    "04_研发源码/app/r4/growth-tree.js": "d4631ba620020b4d03969f585a7edf7a174f7c16a0d1fe781a8032134d61b432",
+    "04_研发源码/app/r4/membership-lifecycle-ui.js": "12071e036af541ede1f3f23ca496f30de0e6870a83a6d9f4ebc2870927ce4dbf",
+    "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+    "04_研发源码/app/r4/journey.js": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f"
+  },
+  "virtualPatchedInputs": {
+    "04_研发源码/app/r4/daily-arrival.js": "6626678ea7feb4e42a81a5b20f3b71a03b209da4fb43c9789138f34f072f847e",
+    "04_研发源码/app/r4/daily-arrival.css": "d6bdc793ef330be42b417198d8c57f6558c12e5c6f397448f011dae84f7b0e41",
+    "04_研发源码/app/r4/build.py": "34475764022c1a0f22def265c7fbaba3d38c173c032dea6f9188ed64ee0f5c85"
+  },
+  "actualChangesInPatch": [
+    "new r4/daily-arrival.js copied from candidate, with global scheduling hooks and ONLY profile/profileSettings manual shortcuts",
+    "new r4/daily-arrival.css copied exactly",
+    "build.py append CSS/JS after growth-tree and explicit install after GrowthTreeCandidate.install"
+  ],
+  "candidateFilesModified": false,
+  "productFilesModified": false,
+  "buildRun": false,
+  "cloudPreparation": {
+    "source": "04_研发源码/app/cloud/prepare.py",
+    "requiresSourceChange": false,
+    "reason": "existing prepare reads rebuilt 03 HTML, then creates exact Cloud HTML and source-binding descriptor; run after the authorized APP build"
+  },
+  "growthBoundary": "No manual calendar shortcut on home or growth. Home original three shortcuts and final home-shortcuts are unchanged. Manual entry only profile/profileSettings. Growth retains only its connected tree, record details, existing record edit and tree controls. Independent bodyHistory/lifeReview retained.",
+  "seenField": "state.daily.arrivalSeen",
+  "seenBoundary": "owner/browser storage/device-local date; marked after actual visible show and voluntary close; no cross-device once guarantee or server acknowledgement",
+  "productionMembershipBoundary": "current server productionEnabled/grantsProductionAccess/providerVerified false => no production paid positive. Only real server facts qualify; sandbox preview is separate and explicit, never production purchase acceptance.",
+  "formalPlan": {
+    "targets": [
+      "python",
+      "cloud"
+    ],
+    "perBackend": {
+      "full": 60,
+      "arrival-special": 12
+    },
+    "total": 144,
+    "formalRunNotAuthorizedByThisFile": true,
+    "fullDerivation": "new copies of accepted growth-tree full60; preserve every business assertion and namespace. Shared browser navigation helper may click the actual displayed reminder close button after visible show. Never disable install or prewrite seen to make regression pass.",
+    "reports": "unique daily-reminder prefix and run IDs, preserve prior failures/raw/captures, attach current actual source/build graph, actual compiler bundle/metafile/toolchain and owned cleanup",
+    "inputGraph": "current actual entry/import/FS reads; new candidate patch itself is preparation metadata, not a claimed runtime input unless read by the runner"
+  },
+  "cases": [
+    {
+      "name": "01",
+      "topic": "身份确认与敏感流程延期",
+      "requiredEvidence": "实际hold当前/public身份响应、保持真实其他dialog或输入焦点；身份未就绪、账号/付款/播放流程不抢弹；safe页渲染/visibility/pageshow/focusout后再显示。"
+    },
+    {
+      "name": "02",
+      "topic": "真正show关闭后才每日一次",
+      "requiredEvidence": "实际DOM show及RAF前marker不存在，真实关闭/Esc后只写daily.arrivalSeen；同owner刷新不再自动弹；手动再开可用，前一日marker fixture被本日替换，不声称实等24小时。"
+    },
+    {
+      "name": "03",
+      "topic": "双账号与旧状态晚回隔离",
+      "requiredEvidence": "持真实ownerA membership/status 200原body，实际换至B再释放；旧弹窗context关闭不得给A写seen，旧回包不得覆盖B/生日/推荐；session/owner不匹配严格不认资格。"
+    },
+    {
+      "name": "04",
+      "topic": "真实非会员只通用历法",
+      "requiredEvidence": "新真实注册账号status items空或无有效正式资格，通用日历完整；改变本地selected/静态会员字样不产生正式资格。生产资格当前未接通，不捏造正向会员。"
+    },
+    {
+      "name": "05",
+      "topic": "真实沙箱权益独立明确预览",
+      "requiredEvidence": "通过原实际sandbox下单/付款/权益流程取得hasSandboxAccess，再显式点击测试提醒；始终有测试边界，不冒正式付费。过期/退款资格撤回后重查不继续个性化测试预览。"
+    },
+    {
+      "name": "06",
+      "topic": "状态失败与真实重试",
+      "requiredEvidence": "仅固定一次status网络503/丢响应负例，显示通用日历及未确认说明，不称已确认普通会员；重试走原真实HTTP且同actor/epoch，不静默循环请求。"
+    },
+    {
+      "name": "07",
+      "topic": "四主题仅沿已有自述与练习",
+      "requiredEvidence": "原生记录身体回答及真实短练习反馈，分别使journeyRecommendation选择breath/ground/scan/sleep；标题静心/安住/觉察/休养，原因逐字来自原推荐，不新造八字/吉凶。无个人资料明确只是可选起点。"
+    },
+    {
+      "name": "08",
+      "topic": "生日仅本人保存公历月日",
+      "requiredEvidence": "用共享生日真实表单保存本日月日/其他日/月日未知时间，实际lbProfile读取；仅生日月日相同祝福，未知时辰保持未知；本人资料无模型/外部请求载荷，不影响别的出生档案。"
+    },
+    {
+      "name": "09",
+      "topic": "真实月历与日期导航",
+      "requiredEvidence": "实际LCLunar数字农历/干支/节气/民俗节日；原生前后月/month选择/键盘日期/闰年二月/真实闰月。库缺失fallback以纯组件library=null单列，不冒实际服务失效证据；不造公休安排或藏历。"
+    },
+    {
+      "name": "10",
+      "topic": "四语两主题窄宽16布局",
+      "requiredEvidence": "360/1280、zh/zh-Hant/en/bo、day/night实际字体及长理由/节日文本，原Range字形/相邻行不重叠、dialog可纵向滚动且无页面横溢/裁切；仅本地浏览器，藏语非母语审核。"
+    },
+    {
+      "name": "11",
+      "topic": "原生关闭返回焦点与旧流程",
+      "requiredEvidence": "真实close/Esc/返回恢复原焦点，已有dialog关闭后再排队；日历前后月不改变实际今日；切页/切号/pagehide关闭不标旧seen，不保存旧owner待办；没有自动开始练习，只有本人明确点开始才调用journeyStart。"
+    },
+    {
+      "name": "12",
+      "topic": "个人域存储与成长树排除技术标记",
+      "requiredEvidence": "seen仅既有owner personal snapshot内；本人本机records清理删除，另owner不动；growth-tree project不把arrivalSeen当成长记录；无新独立localStorage域，无自动上传，设备/日期首次边界写清。"
+    }
+  ],
+  "beforeFinalRun": [
+    "root applies reviewed patch in authorized source window",
+    "build APP then Cloud prepare/framework build",
+    "syntax + actual owned startup and minimal live UI smoke",
+    "lock actual current source/build/QA inputs before each formal new suite",
+    "run both full60 and arrival12 against fresh owned resources; do not overwrite growth-tree or older reports"
+  ],
+  "remaining": [
+    "production paid verification/provider integration is unavailable",
+    "no expert/fortune rules or birth-time inference",
+    "cross-device first-entry coordination not implemented",
+    "real devices/target-country/CDN not represented by local browser"
+  ],
+  "manualEntryPages": [
+    "profile",
+    "profileSettings"
+  ],
+  "homeShortcutsChanged": false,
+  "automaticDailyScheduling": "Global render/visibility/pageshow/focusout hooks, with the current candidate fail-closed SAFE_PAGES allowlist; not yet every nonsensitive deep-link page.",
+  "automaticSchedulingBoundary": {
+    "currentSafePages": [
+      "home",
+      "profile",
+      "profileSettings",
+      "growth"
+    ],
+    "globalHooks": true,
+    "allNonsensitivePageEntryReady": false,
+    "remainingSoftware": "If automatic first-entry must also work from academy/body/other readonly deep links, replace the positive page allowlist with reviewed real sensitive-flow/form/playback guards before applying; retain identity/dialog/input/epoch deferral."
+  }
+}

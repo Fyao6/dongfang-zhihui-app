@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-17T11:31:48.748720+00:00",
+  "pass": false,
+  "formalAcceptance": false,
+  "target": "cloud",
+  "suite": "special",
+  "chainStopped": true,
+  "sourceChanged": false,
+  "firstBusinessFailure": {
+    "case": 6,
+    "operation": "GET import diff page",
+    "cursorOffset": 14300,
+    "error": "ECONNRESET",
+    "subsequent": "ECONNREFUSED"
+  },
+  "nativeErrors": [
+    "V8 fatal error; location = Reached heap limit; message = : allocation failed: JavaScript heap out of memory"
+  ],
+  "originalFilesSHA256": {
+    "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验-special-cloud.json": "f699d23c780904fc1b6e58f15c6ad7f9d188c02f737eb8787fec67433b2cc61c",
+    "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验-启动诊断-cloud-special-mwklqfs8-75b9d60850.json": "e5060df5d53ba21ab7c03252639761496ae2a657ac4caf4fe24c99d80b40f166",
+    "06_验证与后续工作/负责人优化建议-卡组迁移启动诊断-cloud-special-mwklqfs9-15820ec3.json": "ba6d7f8df588a9ad0cb73e9fd031ec855e56989eee7b8cab22db0d98ad62a423",
+    "04_研发源码/app/cloud/.wrangler/card-migration-special-mwklqfs9-15820ec3/fixture-entry.mjs": "8ba7f5fc40402bbb5ec3d196d4aefd63ef5cfa5a082e58c760745938090dbf98",
+    "04_研发源码/app/cloud/.wrangler/card-migration-special-mwklqfs9-15820ec3/fixture-entry.mjs.metafile.json": "4e2ff5156d9335b097363e2f4787b19dc9e9852550a8f73e8be91c48ef3885eb",
+    "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验-round1完整依赖诊断.json": "7c383abdbaad681f02fd3327ef2cbbfa4860a18859bc322e2fd52d1d7fbf8803"
+  },
+  "runtimeArtifacts": [
+    {
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移Cloud测试服务.ts",
+      "bundle": "04_研发源码/app/cloud/.wrangler/card-migration-special-mwklqfs9-15820ec3/fixture-entry.mjs",
+      "bundleSha256": "8ba7f5fc40402bbb5ec3d196d4aefd63ef5cfa5a082e58c760745938090dbf98",
+      "metafile": "04_研发源码/app/cloud/.wrangler/card-migration-special-mwklqfs9-15820ec3/fixture-entry.mjs.metafile.json",
+      "metafileSha256": "4e2ff5156d9335b097363e2f4787b19dc9e9852550a8f73e8be91c48ef3885eb",
+      "inputHashes": {
+        "04_研发源码/app/cloud/generated/payment-routing-schema.sql": "58adc88f369df620692e1f967dc5bc21224ef3487fc15f8d0d1e92f1eb888a09",
+        "04_研发源码/app/cloud/lib/payment-routing.ts": "97c0c6b963814d95e89de5e140efc983e244150b4632e0eb3d43980ec39a55f3",
+        "04_研发源码/app/cloud/generated/card-import-schema.sql": "668f76c6565f8ec2cdc1654f19c6121c809913facb1477b418da03566dcae871",
+        "04_研发源码/app/r4/card-import-engine.js": "a70f9ea22f6fb568eab8c7ce77bc2030bbae6a40125e156218b2de07f533ce62",
+        "04_研发源码/app/cloud/generated/card-history-migration-schema.sql": "9d4d52b80751e86ad0e3ad4d1f47be31783ab9ef7162a81ab369b0da0ce9a9b2",
+        "04_研发源码/app/cloud/lib/card-history-migration.ts": "7fdb18a611776b398464848536cfafb8c48da864654d4e332f37cc08c5215c78",
+        "04_研发源码/app/cloud/lib/card-service.ts": "b7e3b034cd6ee31f2e077f7af1bc59c2ae77abc964c5d98d27f1f39a0e47bacc",
+        "04_研发源码/app/cloud/lib/card-imports.ts": "8c2f0c451edf593bdaba813a0e55a644d693fe96260c8b89e2e5147155e6145c",
+        "04_研发源码/app/cloud/generated/bazi-samples-schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1",
+        "04_研发源码/app/cloud/generated/experience.html": "b2871ba05bd33303a47298a3766cf860cd599d5870baff439d5e51c6a8ad0b0e",
+        "04_研发源码/app/cloud/generated/bazi-sample-server-manifest.json": "00a69633e34401743f7eff2bd9c15d6e3207c80176e6cec91a6d77cac495e3b5",
+        "04_研发源码/app/r4/bazi-sample-engine.js": "f6cd7442f90b82ac3e5e5f0b63d837988a1f22b19a0ef313e6ce267d4bbb79e5",
+        "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+        "04_研发源码/app/cloud/lib/bazi-samples.ts": "1fa9cd1130652699764d56fff06e426eff0ef72c57753a4bb476a2285b530754",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/cloud/lib/payment-recovery.ts": "cef424fda97cc6125f45f9c51937431ec29010776091efac855a50597c1264db",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "1a8df8ef56c13c56619f2d9e00f2abe8be4bc8d725d769a43d15195a3e130d32",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/cloud/lib/memory-service.ts": "6df507b12632849e22c5ab34a7ae72121058413fdd17a6f3eeaec72367e5761e",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ed75f5d4b8d2cefb4c3b4af8907fc3a8370a7e9914089db6b84f8c5c56235c40",
+        "04_研发源码/app/cloud/lib/privacy-domains.ts": "c2a7dcdeb7d2c7481dd39f2a0e7709ef03058406f823ff680ae6f5a9a8d4c417",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "fb842c1ff85ffbb63604950ee2c36471078c7209eafc71fe230e14b2801c9f34",
+        "04_研发源码/app/cloud/lib/local-tasks.ts": "891c00982b238230a3158e9cd2d67fdf9fd36615638049652713a126267cd6fc",
+        "04_研发源码/app/cloud/lib/digital-entitlements.ts": "5d1da0e0a348aa00f1f46c265efe91a169324788b22b7e10beb36ab9a2781b1b",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/cloud/lib/after-sales-finance.ts": "8d8f549c7e5eeed0e10e0936bab0345405a8fb4059cf7ad6a579e8798d717059",
+        "04_研发源码/app/cloud/lib/after-sales.ts": "5471f08625b24f1ed8a0863ab30a850e53d3c335a3f707e36569a62c3b5919af",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "cf0feb38f827720626613f3569ef063e18e98efdc0a6fa54dc60f10e2fd02c11",
+        "04_研发源码/app/cloud/lib/privacy-saved.ts": "f24b54a1c272edc0df7841d928867c659ecd8afba7408cac6c99c55cb66b5334",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "c1a4dbd87b360c050c749af60d07e2c5161e3131e314720cce8ad8ea0a56ce72",
+        "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+        "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+        "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b",
+        "04_研发源码/app/cloud/lib/account-closure.ts": "47cc407d803db265a02b00c91b5b3bc88ba5519552ffe4617f962cf0219c82a7",
+        "04_研发源码/app/cloud/generated/seed.json": "9d92c330847d0f8aafe1c8fe647b42d514dff5039d036f5325845e2b21bdd05e",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "71b9edbae4ddcd749dacd74dbdc4d44bbeb49679b84983e4789834aa91ffa8f2",
+        "06_验证与后续工作/负责人优化建议-卡组迁移夹具控制.ts": "47e7fadc8f02426d624e2bc087366805561b02dd830efc45a66586a7fb5cd72b",
+        "06_验证与后续工作/负责人优化建议-隐私逐域场景夹具.json": "15e53270f04169e13539151177a8140b8b3863f6d608648474f73cc184fced8a",
+        "06_验证与后续工作/负责人优化建议-卡组迁移隐私夹具控制.ts": "a586b99aead039c05494ad2eacb7a75762745f31936ab18f242e8ec17b8f5f3e",
+        "04_研发源码/app/cloud/generated/admin.html": "33b57d803c5f6badbef5e71379e32faa5cc2913a076e38ccabb87c40a57281bc",
+        "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+        "06_验证与后续工作/负责人优化建议-卡组迁移Cloud测试服务.ts": "b87e4730081c2d3ab25a2f64114d9ad6d8dcdcceedd9e4638085ac4d61af6c73"
+      },
+      "runtimeDependencyHashes": {
+        "04_研发源码/app/cloud/node_modules/esbuild/lib/main.js": "41abefec8704d24e069532fb38a418905d16f8fee4da88e54ecd65adc71f5507",
+        "04_研发源码/app/cloud/node_modules/esbuild/package.json": "4316bc9a54bbf659d5760f299910d1824045178557e0aea6a1e3c64148fe8a50",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/package.json": "c93a604e2f0009a29f93dd8671885586241a155fc5f0264a4d3c89172f83869d",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/esbuild.exe": "2ccfd6d5292493a810d21c0b40f9de3ff5252a0a24eb5dea3df07f33dcea0c0e"
+      },
+      "compilerVersion": "0.28.0",
+      "toolchainIncludedInHandoff": false,
+      "rawReadsActualSourceBytes": true,
+      "originalBusinessOptionsPreserved": true,
+      "preparationOnly": false,
+      "missingFixedQaInputs": []
+    }
+  ],
+  "reportCounts": {
+    "passed": 5,
+    "failed": 36,
+    "expectedBusinessCases": 40,
+    "additionalFinishCheckFailed": true
+  },
+  "cleanupObservation": {
+    "privateVarsRemaining": false,
+    "port62067ListenerObserved": false,
+    "processInventoryComplete": false,
+    "boundary": "Original factory finally returned and vars/port were separately checked; no complete startup PID inventory is invented after the fatal exit."
+  },
+  "next": "No rerun or source change. Parent coordinates retained evidence and any repair."
+}

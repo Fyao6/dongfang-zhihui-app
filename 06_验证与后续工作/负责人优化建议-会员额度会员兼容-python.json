@@ -1,0 +1,3786 @@
+{
+  "latest": {
+    "at": "2026-11-16T10:59:34.879Z",
+    "module": "负责人优化建议-会员额度会员兼容",
+    "runId": "mwj5iqu7_2c6aca",
+    "target": "python",
+    "base": "http://127.0.0.1:53607",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+    "results": [
+      {
+        "name": "默认无正式方案，模块与真实渠道关闭，匿名和普通用户不能管理",
+        "pass": true,
+        "ms": 145
+      },
+      {
+        "name": "双沙箱明确启用，生产开关和错误类型拒绝",
+        "pass": true,
+        "ms": 249
+      },
+      {
+        "name": "缺完整方案的membership商品不能建单，原库存与订单表不发生占用",
+        "pass": true,
+        "ms": 203
+      },
+      {
+        "name": "方案严格验证、有限周期与未知AI额度，真实渠道仅draft映射",
+        "pass": true,
+        "ms": 204
+      },
+      {
+        "name": "实际统一建单同事务保存成交条款，同requestId重放且异续期上下文409",
+        "pass": true,
+        "ms": 182
+      },
+      {
+        "name": "改当前方案与SKU价格后，合法旧订单仍保留原成交快照并原价支付",
+        "pass": true,
+        "ms": 243
+      },
+      {
+        "name": "重复开通、数量2、未付款激活与跨账号激活拒绝，不产生另一笔有效订阅",
+        "pass": true,
+        "ms": 255
+      },
+      {
+        "name": "已付会员订阅与单购均不解正式member媒体或提升角色",
+        "pass": true,
+        "ms": 399
+      },
+      {
+        "name": "同账号同组不同请求并发建单仅一笔和一次库存预占",
+        "pass": true,
+        "ms": 148
+      },
+      {
+        "name": "同笔付款并发与激活重放只产生一次已付周期和一条付款事件",
+        "pass": true,
+        "ms": 191
+      },
+      {
+        "name": "同请求并发重放只建一个统一订单与同一份快照",
+        "pass": true,
+        "ms": 429
+      },
+      {
+        "name": "真实续期订单必须再付款，周期只延长一次且重复请求不叠加",
+        "pass": true,
+        "ms": 198
+      },
+      {
+        "name": "取消、退款申请、恢复互相独立且都按账号隔离",
+        "pass": true,
+        "ms": 292
+      },
+      {
+        "name": "管理员按统一订单退款后同步买家订阅，单购持有不误撤销",
+        "pass": true,
+        "ms": 101
+      },
+      {
+        "name": "付款回调中断不伪造交易结果，补接/重试不重复付款或重置周期",
+        "pass": true,
+        "ms": 651
+      },
+      {
+        "name": "支付请求在途时取消续期，最终付款原子拒绝且保持原已付周期",
+        "pass": true,
+        "ms": 665,
+        "observed": {
+          "barrierPosition": "before-original-python-pay-transaction"
+        }
+      },
+      {
+        "name": "沙箱状态演练基于已付订单，暂停欠费无权、恢复不加时、伪付款拒绝",
+        "pass": true,
+        "ms": 713
+      },
+      {
+        "name": "到期和恢复不会清除单购、重新开续费或领取别人的交易",
+        "pass": true,
+        "ms": 520
+      },
+      {
+        "name": "会员真实页面：三项管理入口与正式服务未开放说明",
+        "pass": true,
+        "ms": 3496
+      },
+      {
+        "name": "会员真实下单：先展示有限周期与条款，统一订单保留原成交版本后支付",
+        "pass": true,
+        "ms": 1119
+      },
+      {
+        "name": "会员中心本人原成交披露及注销前续期核对，不冒充第三方已取消",
+        "pass": true,
+        "ms": 370
+      },
+      {
+        "name": "会员及商城环境切换竞态：旧沙箱读取未返回时仍完成正式目录加载",
+        "pass": true,
+        "ms": 1079
+      },
+      {
+        "name": "会员取消竞态：变更前延迟状态不能覆盖成功后的取消结果，已付期保留",
+        "pass": true,
+        "ms": 358
+      },
+      {
+        "name": "会员退款入口提交待处理统一售后申请，不冒充退款成功",
+        "pass": true,
+        "ms": 235
+      },
+      {
+        "name": "会员恢复入口核对本人原订单，刷新后不重置时间或重新打开续期",
+        "pass": true,
+        "ms": 3178
+      },
+      {
+        "name": "会员四语375/430窄屏及日夜均可使用，无横向溢出",
+        "pass": true,
+        "ms": 405,
+        "observed": [
+          {
+            "lang": "zh",
+            "width": 375,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "zh",
+            "width": 430,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "zh-Hant",
+            "width": 375,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "zh-Hant",
+            "width": 430,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "en",
+            "width": 375,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "en",
+            "width": 430,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "bo",
+            "width": 375,
+            "visibleSubscriptions": 1
+          },
+          {
+            "lang": "bo",
+            "width": 430,
+            "visibleSubscriptions": 1
+          }
+        ]
+      },
+      {
+        "name": "隐私导出包含本人订阅和原成交条款，排除其他买家的会员资料",
+        "pass": true,
+        "ms": 151
+      },
+      {
+        "name": "会员切换真实登录账号：旧账号延迟状态与成交条款不混入新账号",
+        "pass": true,
+        "ms": 829
+      },
+      {
+        "name": "会员后台真实方案版本与渠道草稿表单，普通用户不能访问",
+        "pass": true,
+        "ms": 1107,
+        "observed": {
+          "realChannelVerified": false,
+          "productionEnabled": false
+        }
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-成交条款与已付测试订单.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-注销前真实测试续期提醒.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-取消后保留已付周期.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-zh.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-zh-Hant.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-en.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-bo.png",
+      "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-后台真实方案与渠道草稿.png"
+    ],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/setup",
+        "status": 200,
+        "ms": 222
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 214
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 214
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 225
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/users/2097cf4e-4f22-4270-b8a0-fbca713326d7",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 223
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/users/601f9e0e-aed0-4c5e-9442-a0579262981a",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/catalog",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 69
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 401,
+        "ms": 2
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/membership",
+        "status": 403,
+        "ms": 20
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/commerce/settings",
+        "status": 200,
+        "ms": 46
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/membership",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/membership/settings",
+        "status": 400,
+        "ms": 32
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/membership/settings",
+        "status": 400,
+        "ms": 27
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/membership/settings",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 71
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 503,
+        "ms": 48
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/commerce",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 400,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 400,
+        "ms": 29
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 400,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 400,
+        "ms": 26
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/catalog",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/channel-mappings",
+        "status": 400,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/channel-mappings",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 54
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+        "status": 200,
+        "ms": 22
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 46
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 409,
+        "ms": 38
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+        "status": 404,
+        "ms": 20
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 40
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 47
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+        "status": 200,
+        "ms": 21
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/sandbox-pay",
+        "status": 200,
+        "ms": 52
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 409,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 400,
+        "ms": 48
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/activate",
+        "status": 404,
+        "ms": 33
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 55
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/orders/c8644918-23e7-4095-b81e-de1c94220e3f/activate",
+        "status": 409,
+        "ms": 36
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 74
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/content/courses",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "GET",
+        "path": "/api/media/8af720e3-191d-4b01-9ce9-e86df4637f73",
+        "status": 403,
+        "ms": 15
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/187c3d58-2e29-43b1-b5ee-efde71cfd102/sandbox-pay",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "GET",
+        "path": "/api/media/8af720e3-191d-4b01-9ce9-e86df4637f73",
+        "status": 403,
+        "ms": 14
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 68
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 210
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 409,
+        "ms": 77
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/commerce",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/sandbox-pay",
+        "status": 200,
+        "ms": 67
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/sandbox-pay",
+        "status": 200,
+        "ms": 80
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/activate",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 220
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 62
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 74
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/orders/899bb0a8-cd18-43ff-8ed3-5f48eaf218fe/snapshots",
+        "status": 200,
+        "ms": 20
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 56
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/b463da80-f7b8-49c0-8816-55d8b2a547e9/sandbox-pay",
+        "status": 200,
+        "ms": 54
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/orders/b463da80-f7b8-49c0-8816-55d8b2a547e9/activate",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+        "status": 200,
+        "ms": 32
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+        "status": 200,
+        "ms": 32
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+        "status": 409,
+        "ms": 26
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+        "status": 404,
+        "ms": 26
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/restore",
+        "status": 404,
+        "ms": 24
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/restore",
+        "status": 200,
+        "ms": 33
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/restore",
+        "status": 403,
+        "ms": 20
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/refund",
+        "status": 200,
+        "ms": 47
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 220
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 53
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/sandbox-pay",
+        "status": 500,
+        "ms": 46
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+        "status": 200,
+        "ms": 34
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/sandbox-pay",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/activate",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 217
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 52
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/d9820a97-658c-41b7-afee-313fff69e16c/sandbox-pay",
+        "status": 200,
+        "ms": 54
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/subscriptions/cef554ca-08f1-4306-9659-4820d17ff8fb/cancel-renewal",
+        "status": 200,
+        "ms": 30
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/c2c64313-15d9-43d9-bb28-7938b9fa39aa/sandbox-pay",
+        "status": 409,
+        "ms": 89
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/c2c64313-15d9-43d9-bb28-7938b9fa39aa",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 221
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/0ce1bfa7-215b-442f-add6-bbd15ced6b87/sandbox-pay",
+        "status": 200,
+        "ms": 55
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 200,
+        "ms": 44
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 200,
+        "ms": 47
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 400,
+        "ms": 28
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/sandbox-events",
+        "status": 403,
+        "ms": 28
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 219
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 53
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders/c49b9c85-3b7d-48e7-b05d-b34db78c46d1/sandbox-pay",
+        "status": 200,
+        "ms": 51
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/membership/restore",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 211
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/membership/plans",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/85f32973-3066-40f8-929a-9eccfafd6689",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "GET",
+        "path": "/api/membership/status",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 76
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 74
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 253
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/users/ee8a5607-bf51-4eee-80c9-467cb59b569a",
+        "status": 200,
+        "ms": 38
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/membership",
+        "status": 403,
+        "ms": 25
+      }
+    ],
+    "coverage": {
+      "http": true,
+      "ui": true,
+      "realPayments": false,
+      "production": false,
+      "actualServerHttp": true,
+      "upstream": "independent loopback HTTP/SSE fixture via exact reserved .invalid endpoint mapping",
+      "realSupplier": false,
+      "syntheticClock": true
+    },
+    "harnessSha256": {
+      "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+      "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca"
+    },
+    "compatibilitySource": {
+      "file": "负责人优化建议-会员专项.cjs",
+      "sha256": "5f63448f4928513ad341d2d306559469ebfe42e3ff2da98da6c6e80249eb921d",
+      "businessAssertions": "retained unchanged",
+      "adaptation": "new owned-state harness, independent real HTTP/SSE fixture, module-specific report",
+      "browser": {
+        "file": "负责人优化建议-会员浏览器专项.cjs",
+        "sha256": "9864bc52b10c1dae6877480b2bfd0d720ab22514b870444c3b6d9260e846b2e6",
+        "derived": "负责人优化建议-会员额度会员浏览器兼容.cjs",
+        "businessAssertions": "original assertions retained; payment case additionally holds a real unpaid GET until after native payment; next renewal date asserted"
+      }
+    },
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/commerce.py": "f9a35a74d6a2a13cbd8b046989effedf7377de127cdc8acfca4c1877192974c6",
+        "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "2ff289988b8bc3a84d6d42a5e2acff8d0608860887e3b05eee05cfe79c0e2a70",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "b180da875f086e49a615eaf8c379e1f9bab6aaa105633c8a645a48a3cf038d80"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+        "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+        "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+        "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+        "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f"
+      }
+    },
+    "servedBuildSha256": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+    "quotaSources": {
+      "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+      "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+      "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+      "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+      "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+      "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+      "04_研发源码/app/r4/membership-ai-quota-ui.js": "2105f1716c7cfa2462ced579ccb6eb8cf591dd12439f70eb1e5fe02660a82e81",
+      "04_研发源码/app/r4/membership-ai-quota-admin.js": "8f7dd98bb59af463057512efb333c2a9529b3ad7e0390c5629d60008ef3041eb",
+      "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+      "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+      "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+      "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+      "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+      "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+      "04_研发源码/app/r4/ai-gateway-ui.js": "5b997fa8e80ea2bce75cf4459363edad558433ac6a90fbc557b88970f0d13ab1",
+      "04_研发源码/app/r4/ai-gateway-admin.js": "fb46521b51252ba05555e8c8829fe42a211230d179672d277e6e2f0191bed3fa",
+      "04_研发源码/app/r4/backend/privacy.py": "dc70288129e8b2e3a66ba9aacc884e30bfe6f26162cf0cfee7161c585110fb33",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "85038094daf4d6ca6ac57ebfcd7f98866d7b99e5fbc0a80dc4e9ec0b449f6599",
+      "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+      "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+      "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+      "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+      "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+      "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+      "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+      "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+      "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+      "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+      "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+      "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+      "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+      "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+      "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+    },
+    "nativePaymentStaleRead": {
+      "held": "actual successful unpaid GET response, released after native payment and fresh paid view",
+      "paymentStatusBeforeRelease": "paid",
+      "paymentStatusAfterRelease": "paid",
+      "newPaymentFactsMocked": false
+    },
+    "nativeCommerceEnvironmentRace": {
+      "held": "actual sandbox catalog GET",
+      "newEnvironmentLoadedBeforeRelease": "production",
+      "oldReadFinishedAfterRelease": true,
+      "environmentAfterOldRead": "production"
+    },
+    "quotaSourcesUnchanged": true,
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 29,
+    "failed": 0,
+    "membershipQuotaLauncher": {
+      "runId": "mwj5ipsn-cbdf604f",
+      "suite": "member-compat",
+      "syntheticDataOnly": true,
+      "realSupplier": false,
+      "realHttpSseFixture": true,
+      "sourceAndBuildHashes": {
+        "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+        "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+        "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+        "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+        "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+        "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+        "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+        "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f",
+        "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+        "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+        "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+        "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+        "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+        "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+        "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+        "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+        "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+        "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+        "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+        "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+        "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+      },
+      "identityUnchanged": true
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-16T10:46:17.861Z",
+      "module": "负责人优化建议-会员额度会员兼容",
+      "runId": "mwj51nut_d3b1a5",
+      "target": "python",
+      "base": "http://127.0.0.1:51820",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "results": [
+        {
+          "name": "默认无正式方案，模块与真实渠道关闭，匿名和普通用户不能管理",
+          "pass": true,
+          "ms": 152
+        },
+        {
+          "name": "双沙箱明确启用，生产开关和错误类型拒绝",
+          "pass": true,
+          "ms": 239
+        },
+        {
+          "name": "缺完整方案的membership商品不能建单，原库存与订单表不发生占用",
+          "pass": true,
+          "ms": 211
+        },
+        {
+          "name": "方案严格验证、有限周期与未知AI额度，真实渠道仅draft映射",
+          "pass": true,
+          "ms": 208
+        },
+        {
+          "name": "实际统一建单同事务保存成交条款，同requestId重放且异续期上下文409",
+          "pass": true,
+          "ms": 186
+        },
+        {
+          "name": "改当前方案与SKU价格后，合法旧订单仍保留原成交快照并原价支付",
+          "pass": true,
+          "ms": 253
+        },
+        {
+          "name": "重复开通、数量2、未付款激活与跨账号激活拒绝，不产生另一笔有效订阅",
+          "pass": true,
+          "ms": 260
+        },
+        {
+          "name": "已付会员订阅与单购均不解正式member媒体或提升角色",
+          "pass": true,
+          "ms": 428
+        },
+        {
+          "name": "同账号同组不同请求并发建单仅一笔和一次库存预占",
+          "pass": true,
+          "ms": 171
+        },
+        {
+          "name": "同笔付款并发与激活重放只产生一次已付周期和一条付款事件",
+          "pass": true,
+          "ms": 197
+        },
+        {
+          "name": "同请求并发重放只建一个统一订单与同一份快照",
+          "pass": true,
+          "ms": 495
+        },
+        {
+          "name": "真实续期订单必须再付款，周期只延长一次且重复请求不叠加",
+          "pass": true,
+          "ms": 245
+        },
+        {
+          "name": "取消、退款申请、恢复互相独立且都按账号隔离",
+          "pass": true,
+          "ms": 328
+        },
+        {
+          "name": "管理员按统一订单退款后同步买家订阅，单购持有不误撤销",
+          "pass": true,
+          "ms": 101
+        },
+        {
+          "name": "付款回调中断不伪造交易结果，补接/重试不重复付款或重置周期",
+          "pass": true,
+          "ms": 667
+        },
+        {
+          "name": "支付请求在途时取消续期，最终付款原子拒绝且保持原已付周期",
+          "pass": true,
+          "ms": 686,
+          "observed": {
+            "barrierPosition": "before-original-python-pay-transaction"
+          }
+        },
+        {
+          "name": "沙箱状态演练基于已付订单，暂停欠费无权、恢复不加时、伪付款拒绝",
+          "pass": true,
+          "ms": 692
+        },
+        {
+          "name": "到期和恢复不会清除单购、重新开续费或领取别人的交易",
+          "pass": true,
+          "ms": 569
+        },
+        {
+          "name": "会员真实页面：三项管理入口与正式服务未开放说明",
+          "pass": true,
+          "ms": 3694
+        },
+        {
+          "name": "会员真实下单：先展示有限周期与条款，统一订单保留原成交版本后支付",
+          "pass": false,
+          "ms": 30703,
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:38:14\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:26:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-19.png"
+        },
+        {
+          "name": "会员中心本人原成交披露及注销前续期核对，不冒充第三方已取消",
+          "pass": false,
+          "ms": 30164,
+          "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-ml-subscription=\"undefined\"] .ml-current-plan').locator('summary')\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:45:127\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:43:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-20.png"
+        },
+        {
+          "name": "会员环境切换竞态：旧沙箱读取未返回时仍能完成正式目录加载",
+          "pass": true,
+          "ms": 535
+        },
+        {
+          "name": "会员取消竞态：变更前延迟状态不能覆盖成功后的取消结果，已付期保留",
+          "pass": false,
+          "ms": 30103,
+          "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-ml-action=cancel][data-id=\"undefined\"]')\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:72:80\n    at async hold (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:15:7)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:70:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:69:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-22.png"
+        },
+        {
+          "name": "会员退款入口提交待处理统一售后申请，不冒充退款成功",
+          "pass": false,
+          "ms": 30027,
+          "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-ml-action=refund][data-id=\"undefined\"]')\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:83:79\n    at check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:80)\n    at browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:82:8)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-23.png"
+        },
+        {
+          "name": "会员恢复入口核对本人原订单，刷新后不重置时间或重新打开续期",
+          "pass": false,
+          "ms": 331,
+          "error": "TypeError: Cannot read properties of undefined (reading 'periodEnd')\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:95:18\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:90:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-24.png"
+        },
+        {
+          "name": "会员四语375/430窄屏及日夜均可使用，无横向溢出",
+          "pass": false,
+          "ms": 30049,
+          "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-ml-subscription=\"undefined\"]') to be visible\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:104:70\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:99:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-25.png"
+        },
+        {
+          "name": "隐私导出包含本人订阅和原成交条款，排除其他买家的会员资料",
+          "pass": false,
+          "ms": 164,
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(own.membershipSubscriptions.some(x=>x.id===subscriptionId))\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:114:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async browserChecks (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员浏览器专项.cjs:112:2)\n    at async main (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:51:26)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-会员额度会员兼容.cjs:55:26",
+          "screenshot": "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-26.png"
+        },
+        {
+          "name": "会员切换真实登录账号：旧账号延迟状态与成交条款不混入新账号",
+          "pass": true,
+          "ms": 876
+        },
+        {
+          "name": "会员后台真实方案版本与渠道草稿表单，普通用户不能访问",
+          "pass": true,
+          "ms": 1110,
+          "observed": {
+            "realChannelVerified": false,
+            "productionEnabled": false
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-19.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-20.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-22.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-23.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-24.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-25.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-失败-26.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj51nut_d3b1a5-后台真实方案与渠道草稿.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 237
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 17
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 220
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 225
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 219
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/e724b6fa-4c97-47b7-b8d6-cf8929f069ff",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 231
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/40d622d2-5ce3-498a-8044-9476c25a5da2",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/catalog",
+          "status": 200,
+          "ms": 28
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 72
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 403,
+          "ms": 20
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 400,
+          "ms": 26
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 400,
+          "ms": 25
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 67
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 48
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 503,
+          "ms": 51
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/commerce",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 32
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 28
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/catalog",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/channel-mappings",
+          "status": 400,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/channel-mappings",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/snapshots",
+          "status": 200,
+          "ms": 21
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 40
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/snapshots",
+          "status": 404,
+          "ms": 23
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/snapshots",
+          "status": 200,
+          "ms": 21
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/sandbox-pay",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 50
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 400,
+          "ms": 47
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/activate",
+          "status": 404,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/76f05ac4-6d0d-4c6e-b883-789f7e02b010/activate",
+          "status": 409,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 76
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/content/courses",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/media/503fc181-aa36-4e13-b86b-8d9eae05a61d",
+          "status": 403,
+          "ms": 16
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 48
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/9e350715-9cd5-4f18-9df2-ef27f9fd095f/sandbox-pay",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "GET",
+          "path": "/api/media/503fc181-aa36-4e13-b86b-8d9eae05a61d",
+          "status": 403,
+          "ms": 16
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 73
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 221
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 57
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 99
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 33
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/commerce",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/b8a2e973-6184-4de1-8c58-e247c3fa266e/sandbox-pay",
+          "status": 200,
+          "ms": 78
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/b8a2e973-6184-4de1-8c58-e247c3fa266e/sandbox-pay",
+          "status": 200,
+          "ms": 102
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 23
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/b8a2e973-6184-4de1-8c58-e247c3fa266e",
+          "status": 200,
+          "ms": 34
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/b8a2e973-6184-4de1-8c58-e247c3fa266e/activate",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 221
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 58
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 81
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 101
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/fc184f1f-40cc-4781-b7d4-19f7ffcf636e/snapshots",
+          "status": 200,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/9c67e98a-407d-4643-991b-ec8499ef72a4/sandbox-pay",
+          "status": 200,
+          "ms": 82
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/9c67e98a-407d-4643-991b-ec8499ef72a4/activate",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/cancel-renewal",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/cancel-renewal",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/refund-request",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/refund-request",
+          "status": 200,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/refund-request",
+          "status": 409,
+          "ms": 29
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/8c4d888a-24ab-49d8-9495-53240649de04/cancel-renewal",
+          "status": 404,
+          "ms": 29
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 404,
+          "ms": 29
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 403,
+          "ms": 21
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/orders/c37ae0fa-d675-4b3f-b3d4-70a4d585e597/refund",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 233
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda/sandbox-pay",
+          "status": 500,
+          "ms": 44
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda/sandbox-pay",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/dd5d918c-dc9d-49ac-a031-98fa2a3cbbda/activate",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 225
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/e670ce44-e23b-4b50-8036-d0ee96d21905/sandbox-pay",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/ec135b97-dca7-4a89-b054-f21e22c930d8/cancel-renewal",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/6e04aec7-2ffd-4de1-9fe6-8a32aebfbafe/sandbox-pay",
+          "status": 409,
+          "ms": 109
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/6e04aec7-2ffd-4de1-9fe6-8a32aebfbafe",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 222
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/b02ea111-45fe-4dd8-b7d1-3f3a0281f41a/sandbox-pay",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 400,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 403,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 239
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 62
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/98c495c2-d4b1-4e2d-983c-cfbb82bf04e3/sandbox-pay",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 220
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 68
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 69
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 219
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/a195e699-222f-42be-befc-765c66aa4b22",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 403,
+          "ms": 20
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "actualServerHttp": true,
+        "upstream": "independent loopback HTTP/SSE fixture via exact reserved .invalid endpoint mapping",
+        "realSupplier": false,
+        "syntheticClock": true
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "25a7e92430d4ab3a72df0e58e3c201c67f569d1beb42abb37bdbd9d060b907c1"
+      },
+      "compatibilitySource": {
+        "file": "负责人优化建议-会员专项.cjs",
+        "sha256": "5f63448f4928513ad341d2d306559469ebfe42e3ff2da98da6c6e80249eb921d",
+        "businessAssertions": "retained unchanged",
+        "adaptation": "new owned-state harness, independent real HTTP/SSE fixture, module-specific report"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "f9a35a74d6a2a13cbd8b046989effedf7377de127cdc8acfca4c1877192974c6",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "2ff289988b8bc3a84d6d42a5e2acff8d0608860887e3b05eee05cfe79c0e2a70",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/commerce-ui.js": "361e8e00d9b2bea4ee8b7b73137d8eaf78991dffe6cfbefabb284c222d4744bb",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "b180da875f086e49a615eaf8c379e1f9bab6aaa105633c8a645a48a3cf038d80"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "4b13270b2c6876affec1fa1d7807dc8bcceb914d7622248d0e026cb5185b7447",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "d5b11342e291a6f4d1768323650baa3c4d7be812307e931ed65d177ed29de878",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "b6ac6a8a7d0ffde4180fa29af32e501785edb2eb57b966877b8ca85f299a3964"
+        }
+      },
+      "servedBuildSha256": "4b13270b2c6876affec1fa1d7807dc8bcceb914d7622248d0e026cb5185b7447",
+      "quotaSources": {
+        "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/r4/membership-ai-quota-ui.js": "2105f1716c7cfa2462ced579ccb6eb8cf591dd12439f70eb1e5fe02660a82e81",
+        "04_研发源码/app/r4/membership-ai-quota-admin.js": "8f7dd98bb59af463057512efb333c2a9529b3ad7e0390c5629d60008ef3041eb",
+        "04_研发源码/app/r4/membership-lifecycle-ui.js": "26bb07001d85fbce2e60c7b485660040aa0294174ddfeb8b24264886079174ab",
+        "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+        "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+        "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+        "04_研发源码/app/r4/ai-gateway-ui.js": "5b997fa8e80ea2bce75cf4459363edad558433ac6a90fbc557b88970f0d13ab1",
+        "04_研发源码/app/r4/ai-gateway-admin.js": "fb46521b51252ba05555e8c8829fe42a211230d179672d277e6e2f0191bed3fa",
+        "04_研发源码/app/r4/backend/privacy.py": "dc70288129e8b2e3a66ba9aacc884e30bfe6f26162cf0cfee7161c585110fb33",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "85038094daf4d6ca6ac57ebfcd7f98866d7b99e5fbc0a80dc4e9ec0b449f6599",
+        "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+        "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+        "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+        "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+        "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "25a7e92430d4ab3a72df0e58e3c201c67f569d1beb42abb37bdbd9d060b907c1",
+        "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+        "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "7c30c902c60866d28ef52b9eae26a2c851a645567824a4661c100a48d8f5418e",
+        "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+        "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+        "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "8cc246a01ebb0bd9d64cdcdf8aeb16419fdcb43fd326e0155439fd445a7ef591",
+        "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "ba72cd25746bcd64edeb0637709eabcf6192af2877388dd2ceac9766630fcae7",
+        "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "130f56df67ea05b75d0d584adc9615d14be0263308349eed69ada8dfc01bc7ba"
+      },
+      "quotaSourcesUnchanged": true,
+      "identityUnchanged": true,
+      "pass": false,
+      "passed": 22,
+      "failed": 7,
+      "membershipQuotaLauncher": {
+        "runId": "mwj51mrz-ef6998f3",
+        "suite": "member-compat",
+        "syntheticDataOnly": true,
+        "realSupplier": false,
+        "realHttpSseFixture": true,
+        "sourceAndBuildHashes": {
+          "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+          "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+          "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+          "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+          "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+          "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+          "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+          "03_当前APP/东方智慧-首页体验R4.html": "4b13270b2c6876affec1fa1d7807dc8bcceb914d7622248d0e026cb5185b7447",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "d5b11342e291a6f4d1768323650baa3c4d7be812307e931ed65d177ed29de878",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "b6ac6a8a7d0ffde4180fa29af32e501785edb2eb57b966877b8ca85f299a3964",
+          "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+          "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+          "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+          "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+          "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+          "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "25a7e92430d4ab3a72df0e58e3c201c67f569d1beb42abb37bdbd9d060b907c1",
+          "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+          "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "7c30c902c60866d28ef52b9eae26a2c851a645567824a4661c100a48d8f5418e",
+          "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+          "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+          "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+          "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "8cc246a01ebb0bd9d64cdcdf8aeb16419fdcb43fd326e0155439fd445a7ef591",
+          "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "ba72cd25746bcd64edeb0637709eabcf6192af2877388dd2ceac9766630fcae7",
+          "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "130f56df67ea05b75d0d584adc9615d14be0263308349eed69ada8dfc01bc7ba"
+        },
+        "identityUnchanged": true
+      }
+    },
+    {
+      "at": "2026-11-16T10:59:34.879Z",
+      "module": "负责人优化建议-会员额度会员兼容",
+      "runId": "mwj5iqu7_2c6aca",
+      "target": "python",
+      "base": "http://127.0.0.1:53607",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "results": [
+        {
+          "name": "默认无正式方案，模块与真实渠道关闭，匿名和普通用户不能管理",
+          "pass": true,
+          "ms": 145
+        },
+        {
+          "name": "双沙箱明确启用，生产开关和错误类型拒绝",
+          "pass": true,
+          "ms": 249
+        },
+        {
+          "name": "缺完整方案的membership商品不能建单，原库存与订单表不发生占用",
+          "pass": true,
+          "ms": 203
+        },
+        {
+          "name": "方案严格验证、有限周期与未知AI额度，真实渠道仅draft映射",
+          "pass": true,
+          "ms": 204
+        },
+        {
+          "name": "实际统一建单同事务保存成交条款，同requestId重放且异续期上下文409",
+          "pass": true,
+          "ms": 182
+        },
+        {
+          "name": "改当前方案与SKU价格后，合法旧订单仍保留原成交快照并原价支付",
+          "pass": true,
+          "ms": 243
+        },
+        {
+          "name": "重复开通、数量2、未付款激活与跨账号激活拒绝，不产生另一笔有效订阅",
+          "pass": true,
+          "ms": 255
+        },
+        {
+          "name": "已付会员订阅与单购均不解正式member媒体或提升角色",
+          "pass": true,
+          "ms": 399
+        },
+        {
+          "name": "同账号同组不同请求并发建单仅一笔和一次库存预占",
+          "pass": true,
+          "ms": 148
+        },
+        {
+          "name": "同笔付款并发与激活重放只产生一次已付周期和一条付款事件",
+          "pass": true,
+          "ms": 191
+        },
+        {
+          "name": "同请求并发重放只建一个统一订单与同一份快照",
+          "pass": true,
+          "ms": 429
+        },
+        {
+          "name": "真实续期订单必须再付款，周期只延长一次且重复请求不叠加",
+          "pass": true,
+          "ms": 198
+        },
+        {
+          "name": "取消、退款申请、恢复互相独立且都按账号隔离",
+          "pass": true,
+          "ms": 292
+        },
+        {
+          "name": "管理员按统一订单退款后同步买家订阅，单购持有不误撤销",
+          "pass": true,
+          "ms": 101
+        },
+        {
+          "name": "付款回调中断不伪造交易结果，补接/重试不重复付款或重置周期",
+          "pass": true,
+          "ms": 651
+        },
+        {
+          "name": "支付请求在途时取消续期，最终付款原子拒绝且保持原已付周期",
+          "pass": true,
+          "ms": 665,
+          "observed": {
+            "barrierPosition": "before-original-python-pay-transaction"
+          }
+        },
+        {
+          "name": "沙箱状态演练基于已付订单，暂停欠费无权、恢复不加时、伪付款拒绝",
+          "pass": true,
+          "ms": 713
+        },
+        {
+          "name": "到期和恢复不会清除单购、重新开续费或领取别人的交易",
+          "pass": true,
+          "ms": 520
+        },
+        {
+          "name": "会员真实页面：三项管理入口与正式服务未开放说明",
+          "pass": true,
+          "ms": 3496
+        },
+        {
+          "name": "会员真实下单：先展示有限周期与条款，统一订单保留原成交版本后支付",
+          "pass": true,
+          "ms": 1119
+        },
+        {
+          "name": "会员中心本人原成交披露及注销前续期核对，不冒充第三方已取消",
+          "pass": true,
+          "ms": 370
+        },
+        {
+          "name": "会员及商城环境切换竞态：旧沙箱读取未返回时仍完成正式目录加载",
+          "pass": true,
+          "ms": 1079
+        },
+        {
+          "name": "会员取消竞态：变更前延迟状态不能覆盖成功后的取消结果，已付期保留",
+          "pass": true,
+          "ms": 358
+        },
+        {
+          "name": "会员退款入口提交待处理统一售后申请，不冒充退款成功",
+          "pass": true,
+          "ms": 235
+        },
+        {
+          "name": "会员恢复入口核对本人原订单，刷新后不重置时间或重新打开续期",
+          "pass": true,
+          "ms": 3178
+        },
+        {
+          "name": "会员四语375/430窄屏及日夜均可使用，无横向溢出",
+          "pass": true,
+          "ms": 405,
+          "observed": [
+            {
+              "lang": "zh",
+              "width": 375,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "zh",
+              "width": 430,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "zh-Hant",
+              "width": 375,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "zh-Hant",
+              "width": 430,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "en",
+              "width": 375,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "en",
+              "width": 430,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "bo",
+              "width": 375,
+              "visibleSubscriptions": 1
+            },
+            {
+              "lang": "bo",
+              "width": 430,
+              "visibleSubscriptions": 1
+            }
+          ]
+        },
+        {
+          "name": "隐私导出包含本人订阅和原成交条款，排除其他买家的会员资料",
+          "pass": true,
+          "ms": 151
+        },
+        {
+          "name": "会员切换真实登录账号：旧账号延迟状态与成交条款不混入新账号",
+          "pass": true,
+          "ms": 829
+        },
+        {
+          "name": "会员后台真实方案版本与渠道草稿表单，普通用户不能访问",
+          "pass": true,
+          "ms": 1107,
+          "observed": {
+            "realChannelVerified": false,
+            "productionEnabled": false
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-成交条款与已付测试订单.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-注销前真实测试续期提醒.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-取消后保留已付周期.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-zh.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-zh-Hant.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-en.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-会员中心-bo.png",
+        "负责人优化建议-会员额度会员兼容-python-mwj5iqu7_2c6aca-后台真实方案与渠道草稿.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 222
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 214
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 214
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 225
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/2097cf4e-4f22-4270-b8a0-fbca713326d7",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 223
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/601f9e0e-aed0-4c5e-9442-a0579262981a",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/catalog",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 69
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 403,
+          "ms": 20
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 400,
+          "ms": 32
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 400,
+          "ms": 27
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/membership/settings",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 71
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 503,
+          "ms": 48
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/commerce",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 29
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 400,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/catalog",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/channel-mappings",
+          "status": 400,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/channel-mappings",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+          "status": 200,
+          "ms": 22
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 46
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+          "status": 404,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 47
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/snapshots",
+          "status": 200,
+          "ms": 21
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/sandbox-pay",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 400,
+          "ms": 48
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/activate",
+          "status": 404,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/c8644918-23e7-4095-b81e-de1c94220e3f/activate",
+          "status": 409,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 74
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/content/courses",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "GET",
+          "path": "/api/media/8af720e3-191d-4b01-9ce9-e86df4637f73",
+          "status": 403,
+          "ms": 15
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/187c3d58-2e29-43b1-b5ee-efde71cfd102/sandbox-pay",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/media/8af720e3-191d-4b01-9ce9-e86df4637f73",
+          "status": 403,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 68
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 210
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 409,
+          "ms": 77
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/commerce",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/sandbox-pay",
+          "status": 200,
+          "ms": 67
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/sandbox-pay",
+          "status": 200,
+          "ms": 80
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/8c6a9bbb-deb2-405c-9c6c-29fcc461f48f/activate",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 220
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 62
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 74
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/orders/899bb0a8-cd18-43ff-8ed3-5f48eaf218fe/snapshots",
+          "status": 200,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/b463da80-f7b8-49c0-8816-55d8b2a547e9/sandbox-pay",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/b463da80-f7b8-49c0-8816-55d8b2a547e9/activate",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/refund-request",
+          "status": 409,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/9edad9ff-ab54-409e-920c-b9e06223c90b/cancel-renewal",
+          "status": 404,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 404,
+          "ms": 24
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 200,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 403,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/orders/23a279fd-adc8-4d84-84e8-736d9228a12f/refund",
+          "status": 200,
+          "ms": 47
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 220
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/sandbox-pay",
+          "status": 500,
+          "ms": 46
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+          "status": 200,
+          "ms": 34
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/sandbox-pay",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/679509ba-8b4c-4d54-a69d-1919538fed0e",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/orders/679509ba-8b4c-4d54-a69d-1919538fed0e/activate",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 217
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/d9820a97-658c-41b7-afee-313fff69e16c/sandbox-pay",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/subscriptions/cef554ca-08f1-4306-9659-4820d17ff8fb/cancel-renewal",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/c2c64313-15d9-43d9-bb28-7938b9fa39aa/sandbox-pay",
+          "status": 409,
+          "ms": 89
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/c2c64313-15d9-43d9-bb28-7938b9fa39aa",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 221
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/0ce1bfa7-215b-442f-add6-bbd15ced6b87/sandbox-pay",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 44
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 200,
+          "ms": 47
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 400,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/sandbox-events",
+          "status": 403,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 219
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders/c49b9c85-3b7d-48e7-b05d-b34db78c46d1/sandbox-pay",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/membership/restore",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 211
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/membership/plans",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/85f32973-3066-40f8-929a-9eccfafd6689",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "GET",
+          "path": "/api/membership/status",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 76
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 74
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 253
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/ee8a5607-bf51-4eee-80c9-467cb59b569a",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/membership",
+          "status": 403,
+          "ms": 25
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "actualServerHttp": true,
+        "upstream": "independent loopback HTTP/SSE fixture via exact reserved .invalid endpoint mapping",
+        "realSupplier": false,
+        "syntheticClock": true
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca"
+      },
+      "compatibilitySource": {
+        "file": "负责人优化建议-会员专项.cjs",
+        "sha256": "5f63448f4928513ad341d2d306559469ebfe42e3ff2da98da6c6e80249eb921d",
+        "businessAssertions": "retained unchanged",
+        "adaptation": "new owned-state harness, independent real HTTP/SSE fixture, module-specific report",
+        "browser": {
+          "file": "负责人优化建议-会员浏览器专项.cjs",
+          "sha256": "9864bc52b10c1dae6877480b2bfd0d720ab22514b870444c3b6d9260e846b2e6",
+          "derived": "负责人优化建议-会员额度会员浏览器兼容.cjs",
+          "businessAssertions": "original assertions retained; payment case additionally holds a real unpaid GET until after native payment; next renewal date asserted"
+        }
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "f9a35a74d6a2a13cbd8b046989effedf7377de127cdc8acfca4c1877192974c6",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "2ff289988b8bc3a84d6d42a5e2acff8d0608860887e3b05eee05cfe79c0e2a70",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "b180da875f086e49a615eaf8c379e1f9bab6aaa105633c8a645a48a3cf038d80"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f"
+        }
+      },
+      "servedBuildSha256": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+      "quotaSources": {
+        "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/r4/membership-ai-quota-ui.js": "2105f1716c7cfa2462ced579ccb6eb8cf591dd12439f70eb1e5fe02660a82e81",
+        "04_研发源码/app/r4/membership-ai-quota-admin.js": "8f7dd98bb59af463057512efb333c2a9529b3ad7e0390c5629d60008ef3041eb",
+        "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+        "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+        "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+        "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+        "04_研发源码/app/r4/ai-gateway-ui.js": "5b997fa8e80ea2bce75cf4459363edad558433ac6a90fbc557b88970f0d13ab1",
+        "04_研发源码/app/r4/ai-gateway-admin.js": "fb46521b51252ba05555e8c8829fe42a211230d179672d277e6e2f0191bed3fa",
+        "04_研发源码/app/r4/backend/privacy.py": "dc70288129e8b2e3a66ba9aacc884e30bfe6f26162cf0cfee7161c585110fb33",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "85038094daf4d6ca6ac57ebfcd7f98866d7b99e5fbc0a80dc4e9ec0b449f6599",
+        "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+        "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+        "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+        "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+        "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+        "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+        "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+        "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+        "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+        "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+        "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+        "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+        "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+      },
+      "nativePaymentStaleRead": {
+        "held": "actual successful unpaid GET response, released after native payment and fresh paid view",
+        "paymentStatusBeforeRelease": "paid",
+        "paymentStatusAfterRelease": "paid",
+        "newPaymentFactsMocked": false
+      },
+      "nativeCommerceEnvironmentRace": {
+        "held": "actual sandbox catalog GET",
+        "newEnvironmentLoadedBeforeRelease": "production",
+        "oldReadFinishedAfterRelease": true,
+        "environmentAfterOldRead": "production"
+      },
+      "quotaSourcesUnchanged": true,
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 29,
+      "failed": 0,
+      "membershipQuotaLauncher": {
+        "runId": "mwj5ipsn-cbdf604f",
+        "suite": "member-compat",
+        "syntheticDataOnly": true,
+        "realSupplier": false,
+        "realHttpSseFixture": true,
+        "sourceAndBuildHashes": {
+          "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+          "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+          "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+          "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+          "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+          "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+          "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+          "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+          "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+          "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f",
+          "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+          "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+          "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+          "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+          "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+          "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+          "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+          "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+          "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+          "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+          "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+          "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+          "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+          "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+          "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+        },
+        "identityUnchanged": true
+      }
+    }
+  ]
+}

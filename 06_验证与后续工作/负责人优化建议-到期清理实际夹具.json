@@ -1,0 +1,167 @@
+{
+  "syntheticOnly": true,
+  "commands": {
+    "seed": [
+      [
+        "INSERT OR REPLACE INTO settings VALUES('privacy',?)",
+        [
+          "{\"policyVersion\":\"retention-fixture-v1\",\"revision\":1,\"retention\":{\"recordsDays\":1,\"conversationsDays\":1,\"backupDays\":null,\"financeDays\":null}}"
+        ]
+      ],
+      [
+        "INSERT INTO records VALUES(?,'body','2000-01-01','{\"fixture\":\"expired-body\"}',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO records VALUES(?,'life','2000-01-02','{\"fixture\":\"age-unknown\"}',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO records VALUES(?,'body','2000-01-01','{\"fixture\":\"other-owner\"}',1)",
+        [
+          "@OTHER"
+        ]
+      ],
+      [
+        "INSERT INTO privacy_preferences VALUES(?,'{\"chart\":false,\"wellbeing\":false,\"saveConversations\":false,\"longTermMemory\":false,\"trainingImprovement\":false,\"marketing\":false}','',0,1,'') ON CONFLICT(user_id) DO NOTHING",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO privacy_conversations VALUES('rt-fixture-conversation',?,'[{\"role\":\"user\",\"content\":\"synthetic saved secret\"}]',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO timer_runs VALUES('rt-ended',?,?,?,?, 'UTC')",
+        [
+          "@OWNER",
+          "@RECENT",
+          "@ENDED",
+          "@ENDED"
+        ]
+      ],
+      [
+        "INSERT INTO timer_runs VALUES('rt-stale',?,?,NULL,?,'UTC')",
+        [
+          "@OWNER",
+          "@RECENT",
+          "@STALE"
+        ]
+      ],
+      [
+        "INSERT INTO activity_daily VALUES(?,'2000-01-01','body',1,1,1,1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO devices VALUES('rt-device',?,'synthetic-retention','synthetic-device','body','connected',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO measurements VALUES('rt-measure','rt-device','stress',2,'score','2000-01-01T00:00:00Z')",
+        []
+      ],
+      [
+        "INSERT INTO card_draws VALUES('rt-draw',?,'sandbox','2000-01-01','UTC','synthetic-deck','synthetic-card','synthetic-rules','{\"syntheticOnly\":true}','retention-draw-req',2,1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO card_draw_actions VALUES(?,'rt-draw',0,'synthetic note',0,1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO card_practice_events VALUES('rt-practice',?,'rt-draw','retention-practice-req','synthetic',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO card_draw_requests VALUES(?,'sandbox','retention-draw-req','synthetic','rt-draw',1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO card_daily_quota VALUES(?,'sandbox','2000-01-01',2,1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO card_zone_preferences VALUES(?,'sandbox','UTC','',0,0,0)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO ai_gateway_wallets VALUES(?,100,0,1)",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "INSERT INTO ai_gateway_jobs(id,owner,request_id,fingerprint,scene,environment,status,reserve_credits,policy_snapshot,provider_snapshot,route_snapshot,config_revision,provider_id,output_text,lease_until,created,updated,saved_conversation_id) VALUES('rt-job',?,'retention-job-req','synthetic','chat','local-test','running',0,'{\"ruleVersion\":\"synthetic\"}','{}','{}',0,'synthetic','synthetic output',?,1,1,'rt-fixture-conversation')",
+        [
+          "@OWNER",
+          "@FUTURE"
+        ]
+      ],
+      [
+        "DELETE FROM privacy_retention_tracking WHERE owner=? AND scope='records' AND k1='life' AND k2='2000-01-02'",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "UPDATE privacy_retention_tracking SET write_at=? WHERE owner=?",
+        [
+          "@OLD",
+          "@OWNER"
+        ]
+      ]
+    ],
+    "edit": [
+      [
+        "UPDATE records SET data='{\"fixture\":\"fresh-edit\"}' WHERE owner=? AND kind='body' AND day='2000-01-01'",
+        [
+          "@OWNER"
+        ]
+      ],
+      [
+        "UPDATE timer_runs SET last_seen=? WHERE owner=? AND id='rt-stale'",
+        [
+          "@NOW",
+          "@OWNER"
+        ]
+      ]
+    ],
+    "downgrade": [
+      [
+        "UPDATE users SET role='user' WHERE id=?",
+        [
+          "@TARGET"
+        ]
+      ]
+    ],
+    "policy-change": [
+      [
+        "UPDATE settings SET data=json_set(data,'$.revision',2) WHERE key='privacy'",
+        []
+      ]
+    ]
+  }
+}

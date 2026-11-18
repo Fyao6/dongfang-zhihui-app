@@ -1,0 +1,565 @@
+{
+  "latest": {
+    "at": "2026-11-16T07:42:50.464Z",
+    "module": "负责人优化建议-支付回调补充视觉",
+    "runId": "mwiyhqhs_05a809",
+    "target": "python",
+    "base": "http://127.0.0.1:60768",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "scope": "Supplemental native browser viewport captures of the new Chinese admin panel at 360 and 1280 widths, plus actual sandbox digital entitlement deduplication. No full-page downscaling or pixel editing.",
+    "results": [
+      {
+        "name": "360与1280视口显示顶部控件、长编号列表及横向滚动后的操作列",
+        "pass": true,
+        "ms": 545
+      },
+      {
+        "name": "原生消费数字订单后只发一份沙箱权益，重复事件和交易不重复发放",
+        "pass": true,
+        "ms": 336
+      },
+      {
+        "name": "360与1280视口完整阅读通知详情及接收领取应用记录",
+        "pass": true,
+        "ms": 246
+      },
+      {
+        "name": "原生重新排队与恢复处理后的状态有可读视口证据",
+        "pass": true,
+        "ms": 532
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-收件箱顶部与列表.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-列表操作列.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-收件箱顶部与列表.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-列表操作列.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-通知详情与处理记录.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-通知详情与处理记录.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-等待重试详情.png",
+      "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-重试成功与处理记录.png"
+    ],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 8
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/setup",
+        "status": 200,
+        "ms": 213
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 210
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 210
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/commerce/settings",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/public",
+        "status": 200,
+        "ms": 52
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/commerce/products",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/entitlements",
+        "status": 200,
+        "ms": 30
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/entitlements",
+        "status": 200,
+        "ms": 36
+      },
+      {
+        "method": "GET",
+        "path": "/api/commerce/orders/3a62ccf9-4e71-4c61-99dd-ea1be708f3be",
+        "status": 404,
+        "ms": 36
+      },
+      {
+        "method": "POST",
+        "path": "/api/commerce/orders",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/payment-callbacks/process",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/payment-callbacks/2e48e839-5d2a-4056-9261-ee8748a00c7b",
+        "status": 200,
+        "ms": 16
+      }
+    ],
+    "coverage": {
+      "http": true,
+      "ui": true,
+      "realPayments": false,
+      "production": false,
+      "signature": "sandbox-hmac-fixture-only",
+      "capture": "native viewport screenshots"
+    },
+    "harnessSha256": {
+      "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+      "06_验证与后续工作/负责人优化建议-支付回调补充视觉.cjs": "d2c01c08e6cae741f91f8755f5c2fdb38388edf019778a42b04af2a9c8736b1d"
+    },
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+        "04_研发源码/app/r4/backend/server.py": "b2717a82e68512672276e6239efe2d9a26ed9903076a0faa10afac3ac8914e7e",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "392bef26ec082016cfa60ae1942bc1127e2a90353567aae767cd8e45e71cd01f",
+        "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "434338c645d49e5e187288965cfc36dda01c7fc8b0e771ee49ef9a7894b645b4"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+        "03_当前APP/计时后台-开发联调.html": "c02851072012baf576b3cbe32fa89e1212018123963ea7f014aab69c450c935b",
+        "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+        "04_研发源码/app/cloud/generated/admin.html": "9a836e8dc713a7a1e37a3f10d8eda14b045039574b22e46cb446ec1f2ecf157f",
+        "04_研发源码/app/cloud/dist/server/index.js": "adf6112f3b1688b539c34bfdb9827164d48cfc2a92edc56359ee031f7a7a2e7e"
+      }
+    },
+    "servedBuildSha256": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+    "callbackSources": {
+      "04_研发源码/app/r4/backend/payment_callbacks.py": "ffd9b55b0cebf8da57909cbb023fc5ee6d1d87fc71afcc8d54b656b9ef1ea566",
+      "04_研发源码/app/cloud/lib/payment-callbacks.ts": "749aed7be9ee2ed3e072f67a107f3e7701b2bb81b0aa97cd86a87a43cf22192d",
+      "04_研发源码/app/r4/payment-callback-admin.js": "b4546c8ac9c377ac8eedbf8b0246ba4fcba4037ae5e70ea450690907c6a2fc97"
+    },
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 4,
+    "failed": 0
+  },
+  "runs": [
+    {
+      "at": "2026-11-16T07:39:03.473Z",
+      "module": "负责人优化建议-支付回调补充视觉",
+      "runId": "mwiycvcg_8d8269",
+      "target": "python",
+      "base": "http://127.0.0.1:59752",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Supplemental native browser viewport captures of the new Chinese admin panel at 360 and 1280 widths, plus actual sandbox digital entitlement deduplication. No full-page downscaling or pixel editing.",
+      "results": [
+        {
+          "name": "360与1280视口显示顶部控件、长编号列表及横向滚动后的操作列",
+          "pass": true,
+          "ms": 550
+        },
+        {
+          "name": "原生消费数字订单后只发一份沙箱权益，重复事件和交易不重复发放",
+          "pass": true,
+          "ms": 338
+        },
+        {
+          "name": "360与1280视口完整阅读通知详情及接收领取应用记录",
+          "pass": true,
+          "ms": 278
+        },
+        {
+          "name": "原生重新排队与恢复处理后的状态有可读视口证据",
+          "pass": true,
+          "ms": 730
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-360-收件箱顶部与列表.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-360-列表操作列.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-1280-收件箱顶部与列表.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-1280-列表操作列.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-360-通知详情与处理记录.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-1280-通知详情与处理记录.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-360-等待重试详情.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiycvcg_8d8269-360-重试成功与处理记录.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 230
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 225
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 221
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 38
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 51
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/entitlements",
+          "status": 200,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/entitlements",
+          "status": 200,
+          "ms": 33
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/11811fd6-dfa6-47ba-9b77-7a0993cf1a12",
+          "status": 404,
+          "ms": 33
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/67592d55-6bf8-4274-8b71-56bf53d7bfb5",
+          "status": 200,
+          "ms": 19
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "signature": "sandbox-hmac-fixture-only",
+        "capture": "native viewport screenshots"
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-支付回调补充视觉.cjs": "d2c01c08e6cae741f91f8755f5c2fdb38388edf019778a42b04af2a9c8736b1d"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+          "04_研发源码/app/r4/backend/server.py": "b2717a82e68512672276e6239efe2d9a26ed9903076a0faa10afac3ac8914e7e",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "392bef26ec082016cfa60ae1942bc1127e2a90353567aae767cd8e45e71cd01f",
+          "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "434338c645d49e5e187288965cfc36dda01c7fc8b0e771ee49ef9a7894b645b4"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+          "03_当前APP/计时后台-开发联调.html": "220490c062fd6bf04c71220cb487279c762a6718079d41c6178070d2b875d7c6",
+          "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+          "04_研发源码/app/cloud/generated/admin.html": "7c68911e1f4d3940adcb4010a60beb85cf57603e27350533af2a37890f8022ac",
+          "04_研发源码/app/cloud/dist/server/index.js": "25e714cc6a172f9afd6915880b3955d54fbc9847c9e89585a8c1c09360252a30"
+        }
+      },
+      "servedBuildSha256": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+      "callbackSources": {
+        "04_研发源码/app/r4/backend/payment_callbacks.py": "ffd9b55b0cebf8da57909cbb023fc5ee6d1d87fc71afcc8d54b656b9ef1ea566",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "749aed7be9ee2ed3e072f67a107f3e7701b2bb81b0aa97cd86a87a43cf22192d",
+        "04_研发源码/app/r4/payment-callback-admin.js": "73b3eba8e2d82949f2e0ffb81f60826029af42dfc2248d2c637872535796091a"
+      },
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "at": "2026-11-16T07:42:50.464Z",
+      "module": "负责人优化建议-支付回调补充视觉",
+      "runId": "mwiyhqhs_05a809",
+      "target": "python",
+      "base": "http://127.0.0.1:60768",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Supplemental native browser viewport captures of the new Chinese admin panel at 360 and 1280 widths, plus actual sandbox digital entitlement deduplication. No full-page downscaling or pixel editing.",
+      "results": [
+        {
+          "name": "360与1280视口显示顶部控件、长编号列表及横向滚动后的操作列",
+          "pass": true,
+          "ms": 545
+        },
+        {
+          "name": "原生消费数字订单后只发一份沙箱权益，重复事件和交易不重复发放",
+          "pass": true,
+          "ms": 336
+        },
+        {
+          "name": "360与1280视口完整阅读通知详情及接收领取应用记录",
+          "pass": true,
+          "ms": 246
+        },
+        {
+          "name": "原生重新排队与恢复处理后的状态有可读视口证据",
+          "pass": true,
+          "ms": 532
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-收件箱顶部与列表.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-列表操作列.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-收件箱顶部与列表.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-列表操作列.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-通知详情与处理记录.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-通知详情与处理记录.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-等待重试详情.png",
+        "负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-重试成功与处理记录.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 213
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 210
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 210
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/commerce/settings",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/public",
+          "status": 200,
+          "ms": 52
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/commerce/products",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/entitlements",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/entitlements",
+          "status": 200,
+          "ms": 36
+        },
+        {
+          "method": "GET",
+          "path": "/api/commerce/orders/3a62ccf9-4e71-4c61-99dd-ea1be708f3be",
+          "status": 404,
+          "ms": 36
+        },
+        {
+          "method": "POST",
+          "path": "/api/commerce/orders",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/payment-callbacks/process",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/payment-callbacks/2e48e839-5d2a-4056-9261-ee8748a00c7b",
+          "status": 200,
+          "ms": 16
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "signature": "sandbox-hmac-fixture-only",
+        "capture": "native viewport screenshots"
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-支付回调补充视觉.cjs": "d2c01c08e6cae741f91f8755f5c2fdb38388edf019778a42b04af2a9c8736b1d"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "d65635727717f2ff1a7b00e99c3576bcb6a03f78114d49260ebf264a08b5fa61",
+          "04_研发源码/app/r4/backend/server.py": "b2717a82e68512672276e6239efe2d9a26ed9903076a0faa10afac3ac8914e7e",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "0efea93b727e82f8f428f8d962041bcc18865b3b8e797f8d9c75fbfe647dd998",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "392bef26ec082016cfa60ae1942bc1127e2a90353567aae767cd8e45e71cd01f",
+          "04_研发源码/app/r4/commerce-ui.js": "274be18e364015e6888d5a621d494fa26f9b306408a1be6188017af84633fbce",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "434338c645d49e5e187288965cfc36dda01c7fc8b0e771ee49ef9a7894b645b4"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+          "03_当前APP/计时后台-开发联调.html": "c02851072012baf576b3cbe32fa89e1212018123963ea7f014aab69c450c935b",
+          "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+          "04_研发源码/app/cloud/generated/admin.html": "9a836e8dc713a7a1e37a3f10d8eda14b045039574b22e46cb446ec1f2ecf157f",
+          "04_研发源码/app/cloud/dist/server/index.js": "adf6112f3b1688b539c34bfdb9827164d48cfc2a92edc56359ee031f7a7a2e7e"
+        }
+      },
+      "servedBuildSha256": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+      "callbackSources": {
+        "04_研发源码/app/r4/backend/payment_callbacks.py": "ffd9b55b0cebf8da57909cbb023fc5ee6d1d87fc71afcc8d54b656b9ef1ea566",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "749aed7be9ee2ed3e072f67a107f3e7701b2bb81b0aa97cd86a87a43cf22192d",
+        "04_研发源码/app/r4/payment-callback-admin.js": "b4546c8ac9c377ac8eedbf8b0246ba4fcba4037ae5e70ea450690907c6a2fc97"
+      },
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 4,
+      "failed": 0
+    }
+  ]
+}

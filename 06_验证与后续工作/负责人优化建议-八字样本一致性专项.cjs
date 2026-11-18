@@ -1,0 +1,216 @@
+'use strict';
+const assert=require('node:assert/strict'),crypto=require('node:crypto');
+
+// Actual HTTP, native DB guards and managed children. No computed output is supplied by this module.
+module.exports=async function sampleConsistencyChecks({h,a,f,api,check,key}){
+ const base='admin/bazi-samples',resultTables=['bazi_sample_results','bazi_sample_raw_chunks','bazi_sample_field_results'];
+ let serial=0;const K=label=>key('cs'+(++serial)+'_'+label),C=p=>f.context(p),O=p=>f.owner(p);
+ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const observe=promise=>promise.then(value=>({value}),error=>({error}));
+ const rows=(s,t)=>{assert(Array.isArray(s[t]),'Actual fixed table snapshot: '+t);return s[t];};
+ const own=(s,t,p)=>rows(s,t).filter(r=>r.owner===O(p));
+ const digest=value=>f.sha(f.canonical(value));
+ async function until(work,label,ms=20000){const end=Date.now()+ms;while(Date.now()<end){const value=await work();if(value)return value;await wait(50);}throw Error('Bounded real observation timed out: '+label);}
+ async function pending(p=a.admin,sample=f.case()){
+  const dataset=f.dataset([sample]),version=(await f.importSet(p,dataset)).item,requestId=K('run');
+  const run=(await f.createRun(p,version,{caseIds:[sample.caseId],requestId})).run;
+  return {p,sample,dataset,version,run,requestId};
+ }
+ async function barrierEntered(){return until(async()=>{const s=await f.barrier('state');return s.entered?s:null;},'native product barrier');}
+ async function held(x,position,expected,work,options={}){
+  await f.barrier('arm',{position});
+  const requestId=options.requestId||K('held'),version=options.version??x.run.version;
+  const observed=observe(f.process(x.p,x.run,{requestId,version,expected}));
+  let workError;
+  try{await barrierEntered();await work({requestId,version});}catch(error){workError=error;}
+  finally{await f.barrier('release');}
+  const outcome=await observed;if(workError)throw workError;if(outcome.error)throw outcome.error;return outcome.value;
+ }
+ function noResultsFor(s,run){assert.equal(rows(s,'bazi_sample_results').filter(r=>r.run_id===run.id).length,0);}
+ function resultFacts(s,resultId){return Object.fromEntries(resultTables.map(t=>[t,rows(s,t).filter(r=>t==='bazi_sample_results'?r.id===resultId:r.result_id===resultId)]));}
+ async function closePerson(p){
+  const credential=p.credential||p.credentials,requestId=K('close'),nonce=crypto.randomBytes(32).toString('hex');
+  const prepared=(await api(C(p),'account-closure/prepare',{requestId,nonce,password:credential.password})).data;
+  return (await api(C(p),'account-closure/confirm',{requestId,nonce,challengeId:prepared.challengeId,confirmed:true,renewalAcknowledged:true})).data;
+ }
+ async function findings(p,x){
+  // Locate a supplied assertion through the actual paged API without fetching thousands of uncovered fields.
+  const paths=x.report.fieldIndex.map(v=>v.path).sort(),index=paths.findIndex(path=>Object.hasOwn(x.sampleCase.expected,path));assert(index>=0);
+  const route=base+'/runs/'+x.run.id+'/cases/'+x.sampleCase.caseId+'/fields'+(index?'?before='+encodeURIComponent(paths[index-1]):'');
+  const page=(await api(C(p),route)).data;assert.equal(page.items[0].path,paths[index]);assert(page.items[0].id);return page.items.filter(v=>v.id);
+ }
+ async function review(p,field,x,extra={},expected=200){
+  const body={requestId:K('review'),category:'undetermined',evidence:{paths:[field.path],fingerprints:x.item.fingerprints,reference:'Synthetic technical observation; no teacher approval.'},note:'合成分类建议，不作为专业结论。',...extra};
+  return {body,...await api(C(p),base+'/findings/'+field.id+'/reviews',body,'POST',expected)};
+ }
+
+ await check('26 当前admin本人样本入口隔离；普通账号、他人源case与闭户旧会话均拒绝',async()=>{
+  const first=await f.admin('csown'),second=await f.admin('csother'),x=await f.completeCase(first),y=await f.completeCase(second);
+  for(const [p,status]of [[a.anonymous,401],[a.user,403]])await api(C(p),base,undefined,'GET',status);
+  await api(C(second),base+'/'+x.version.id,undefined,'GET',404);
+  await f.getRun(second,x.run,{expected:404});await f.detail(second,x.run,x.sampleCase.caseId,{expected:404});
+  await f.createRun(second,y.version,{caseIds:['not-in-this-owner-version'],expected:400});
+  await f.exportCase(second,x.run,x.sampleCase.caseId,{expected:404});
+  // Keep the completed-order checks and additionally close this same real account
+  // after a second native compute, before its final transaction. No lease/clock mutation.
+  const inflight=await pending(first),otherBefore=digest(resultFacts(await f.snapshot(),y.item.id));let closed,closedFacts,processRequestId;
+  const closedDenied=await held(inflight,'after-compute',401,async({requestId})=>{
+   processRequestId=requestId;const claimed=await f.snapshot(),work=own(claimed,'bazi_sample_workitems',first).find(r=>r.run_id===inflight.run.id);assert.equal(work.state,'processing');assert.equal(work.attempts,1);assert.equal(own(claimed,'bazi_sample_runs',first).find(r=>r.id===inflight.run.id).processed,0);
+   const operation=own(claimed,'bazi_sample_operations',first).find(r=>r.kind==='process'&&r.request_id===requestId);assert(operation);assert.equal(JSON.parse(operation.response_data).done,false);
+   closed=await closePerson(first);closedFacts=await f.snapshot();
+  });
+  assert.equal(closed.receipt.accountClosed,true);
+  assert.equal(typeof closedDenied.error,'string');assert(closedDenied.error.length>0,'The actual closed-account denial reason is retained');const afterFinal=await f.snapshot();
+  const ownFacts=s=>Object.fromEntries(Object.keys(s).map(table=>[table,own(s,table,first)]));assert.equal(digest(ownFacts(afterFinal)),digest(ownFacts(closedFacts)),'Rejected old final changes no post-closure sample row or operation');
+  const erasedRun=own(afterFinal,'bazi_sample_runs',first).find(r=>r.id===inflight.run.id);assert.equal(erasedRun.state,'erased');assert.equal(erasedRun.processed,0);assert.equal(erasedRun.succeeded,0);assert.equal(erasedRun.failed,0);assert.equal(erasedRun.blocked,0);
+  for(const table of ['bazi_sample_cases','bazi_sample_workitems',...resultTables,'bazi_sample_reviews'])assert.equal(own(afterFinal,table,first).length,0,table+' remains erased after the old final');
+  const erasedOperation=own(afterFinal,'bazi_sample_operations',first).find(r=>r.kind==='process'&&r.request_id===processRequestId);assert(erasedOperation);assert.equal(erasedOperation.response_data,'{}');assert(own(afterFinal,'bazi_sample_operations',first).filter(r=>r.kind!=='erase').every(r=>r.response_data==='{}'),'No completed operation response is recreated');
+  await f.getRun(first,x.run,{expected:401});await f.process(first,x.run,{expected:401});
+  await f.importSet(first,f.dataset(),{expected:401});
+  assert.equal(digest(resultFacts(await f.snapshot(),y.item.id)),otherBefore);
+  return {realOwnerAdmins:2,closedSessionRejected:true,foreignSourceCaseRejected:true,otherOwnerUnchanged:true,closedAfterNativeCompute:true,closedFinalStatus:401,closedFinalReason:closedDenied.error,pendingRunProcessed:erasedRun.processed,noResultChunkFieldOrCompletedOperationAfterClosure:true};
+ });
+
+ await check('27 原生计算后真实撤回admin，最终真实actor门禁拒绝且无半份结果',async()=>{
+  const p=await f.admin('csrevoke'),x=await pending(p),status=h.target==='python'?403:401;
+  const response=await held(x,'after-compute',status,async()=>{await f.demote(p);const auth=(await api(C(p),'auth/status')).data;assert.equal(auth.user.id,O(p));assert.equal(auth.user.role,'user');});
+  assert(response.error,'Actual denial response is retained');const s=await f.snapshot();noResultsFor(s,x.run);
+  const work=own(s,'bazi_sample_workitems',p).find(r=>r.run_id===x.run.id);assert.equal(work.state,'processing');assert.equal(work.attempts,1);
+  assert.equal(own(s,'bazi_sample_raw_chunks',p).length,0);assert.equal(own(s,'bazi_sample_field_results',p).length,0);
+  return {nativeComputeCompletedBeforeRevocation:true,expectedFinalStatus:status,noResultOrChunkOrFieldCommit:true};
+ });
+
+ await check('28 真实等待租约失效后同intent恢复领取，旧计算不能覆盖或重复提交',async()=>{
+  const p=await f.admin('cslease'),x=await pending(p),requestId=K('lease'),version=x.run.version;
+  await f.barrier('arm',{position:'after-compute'});
+  const original=observe(f.process(p,x.run,{requestId,version,expected:409}));let recovered,waited,workError;
+  try{
+   await barrierEntered();const before=await f.snapshot(),work=own(before,'bazi_sample_workitems',p).find(r=>r.run_id===x.run.id);assert.equal(work.attempts,1);
+   const started=Date.now();await wait(31050);waited=Date.now()-started;assert(waited>=31000);assert(Date.now()>work.lease_until);
+   recovered=await f.process(p,x.run,{requestId,version});assert.equal(recovered.run.processed,1);assert.equal(recovered.item.state,'succeeded');
+  }catch(error){workError=error;}finally{await f.barrier('release');}
+  const old=await original;if(workError)throw workError;if(old.error)throw old.error;assert.match(old.value.error,/bazi_sample_(?:changed|lease_lost)/);
+  const replay=await f.process(p,x.run,{requestId,version});assert.equal(replay.duplicate,true);assert.equal(replay.item.id,recovered.item.id);
+  const s=await f.snapshot();assert.equal(own(s,'bazi_sample_results',p).length,1);const work=own(s,'bazi_sample_workitems',p).find(r=>r.run_id===x.run.id);assert.equal(work.attempts,2);assert.equal(work.state,'succeeded');assert.equal(work.lease_token,'');
+  return {realLeaseWaitMs:waited,actualClaims:2,committedResults:1,oldCompletionRejected:true,sameRequestRecovered:true};
+ });
+
+ await check('29 本人真实隐私清理提高epoch，在途计算、旧intent与旧版本不得复活',async()=>{
+  const p=await f.admin('cserase'),other=await f.admin('csekeep'),kept=await f.completeCase(other),x=await pending(p),before=await f.snapshot();
+  const keepDigest=digest(resultFacts(before,kept.item.id)),epoch=own(before,'bazi_sample_owner_state',p)[0]?.epoch||1;
+  const response=await held(x,'after-compute',409,async()=>{const erased=(await api(C(p),'privacy/requests',{requestId:K('erase'),kind:'delete-records'})).data.item;assert.equal(erased.details.local.status,'completed');assert(erased.details.local.deletedCounts.baziSamples.cases>=1);assert.equal(erased.details.local.deletedCounts.baziSamples.secureWipe,false);});
+  assert.equal(response.error,'bazi_sample_erased');const s=await f.snapshot();assert.equal(own(s,'bazi_sample_owner_state',p)[0].epoch,epoch+1);
+  for(const t of ['bazi_sample_cases','bazi_sample_workitems',...resultTables,'bazi_sample_reviews'])assert.equal(own(s,t,p).length,0,t+' owner body erased');
+  await f.getRun(p,x.run,{expected:410});await f.createRun(p,x.version,{caseIds:[x.sample.caseId],requestId:x.requestId,expected:410});
+  assert.equal(digest(resultFacts(s,kept.item.id)),keepDigest);
+  return {actualPrivacyReceipt:true,epochBefore:epoch,epochAfter:epoch+1,inflightResurrectionBlocked:true,otherOwnerUnchanged:true,physicalWipeClaimed:false};
+ });
+
+ await check('30 实际实现漂移拒绝继续计算，原createRun重放仍返回原冻结manifest',async()=>{
+  const p=await f.admin('csdrift'),x=await pending(p);let mutation,oldRun=x.run,requestId=x.requestId,version=x.version;
+  try{
+   if(h.target==='python')mutation=await h.sampleControl({action:'sample-app-drift',enabled:true});
+   else{mutation=await h.sampleControl({action:'sample-historical-run',baseRunId:x.run.id});assert.equal(mutation.fixtureMutation,true);assert.equal(mutation.fixtureKind,'synthetic-historical-unfinished');assert.equal(mutation.originalRowsUnchanged,true);oldRun=mutation.run;requestId=mutation.requestId;version=mutation.setVersionId;}
+   assert.notEqual(mutation.oldSha256||mutation.previousAppSha256,mutation.newSha256||mutation.currentAppSha256);
+   const denied=await f.process(p,oldRun,{expected:409});assert.equal(denied.error,'implementation_changed');
+   const replay=await f.createRun(p,version,{caseIds:[x.sample.caseId],requestId});assert.equal(replay.duplicate,true);assert.equal(replay.run.id,oldRun.id);assert.deepEqual(replay.run.manifest,oldRun.manifest);assert.equal(replay.run.manifestHash,oldRun.manifestHash);
+   noResultsFor(await f.snapshot(),oldRun);
+  }finally{if(h.target==='python')await h.sampleControl({action:'sample-app-drift',enabled:false});}
+  if(h.target==='python')assert.equal((await f.process(p,x.run)).item.state,'succeeded');
+  return {actualServedArtifactMutation:h.target==='python',syntheticHistoricalUnfinished:h.target==='cloud',actualDeploymentSwitchCovered:false,originalIntentManifestPreserved:true,mutation};
+ });
+
+ await check('31 真实result/chunk/field SQL失败整批回滚，解除故障后原intent可恢复一次',async()=>{
+  const p=await f.admin('csfault'),proof=[];
+  for(const kind of ['result','chunk','field']){
+   const x=await pending(p),requestId=K('fault_'+kind),version=x.run.version;
+   try{await h.sampleControl({action:'sample-fault',kind,enabled:true});await f.process(p,x.run,{requestId,version,expected:500});}
+   finally{await h.sampleControl({action:'sample-fault',kind,enabled:false});}
+   const s=await f.snapshot();noResultsFor(s,x.run);const r=own(s,'bazi_sample_runs',p).find(r=>r.id===x.run.id);assert.equal(r.processed,0);
+   const w=own(s,'bazi_sample_workitems',p).find(r=>r.run_id===x.run.id);assert.equal(w.state,'processing');assert.equal(w.attempts,1);
+   // The failed final transaction retains the real claim. Do not alter its lease or clock.
+   const waitMs=Math.max(0,w.lease_until-Date.now()+150);await wait(waitMs);
+   const result=await f.process(p,x.run,{requestId,version});assert.equal(result.item.state,'succeeded');assert.equal(result.run.processed,1);
+   const after=await f.snapshot(),facts=resultFacts(after,result.item.id);assert.equal(facts.bazi_sample_results.length,1);assert(facts.bazi_sample_raw_chunks.length>=11);assert.equal(facts.bazi_sample_field_results.length,Object.keys(x.sample.expected).length);
+   proof.push({kind,actualDatabaseFault:true,committedHalfResults:0,recoveryWaitMs:waitMs,finalResultId:result.item.id});
+  }
+  return {faults:proof,nativeLeaseRecoveryUnchanged:true};
+ });
+
+ await check('32 Python固定真实Node缺失、15秒超时、PID终止及并发2均有界；Cloud如实直接import',async()=>{
+  if(h.target==='cloud'){
+   const x=await f.completeCase(a.admin),state=await h.sampleControl({action:'sample-worker-state'});assert.equal(state.actualManagedChildren,false);assert.equal(state.nativeImportedComputation,true);assert.equal(state.backend,'cloud');assert.equal(state.launches.length,0);assert(state.calls.some(r=>r.ok));assert.equal(x.item.state,'succeeded');
+   return {pythonManagedNodeChecks:'not_applicable',actualManagedChildren:false,nativeImportedComputation:true,nodeTimeoutOrEnvironmentClaimed:false};
+  }
+  const p=await f.admin('csnode'),missing=await pending(p);let failure;
+  try{await h.sampleControl({action:'sample-node-mode',mode:'missing'});failure=await f.process(p,missing.run,{expected:503});assert.equal(failure.error,'adapter_unavailable');const s=await f.snapshot();noResultsFor(s,missing.run);assert.equal(own(s,'bazi_sample_workitems',p).find(r=>r.run_id===missing.run.id).attempts,0);}
+  finally{await h.sampleControl({action:'sample-node-release'});}
+  assert.equal((await f.process(p,missing.run)).item.state,'succeeded');
+  const timeout=await pending(p),start=Date.now();await h.sampleControl({action:'sample-node-mode',mode:'suspend-next'});const timed=await f.process(p,timeout.run);const timeoutMs=Date.now()-start;assert.equal(timed.item.state,'failed');assert.equal(timed.item.errorCode,'compute_timeout');assert(timeoutMs>=14500&&timeoutMs<30000,'Actual managed child obeys the fixed fifteen-second deadline');
+  const killed=await pending(p);await h.sampleControl({action:'sample-node-mode',mode:'suspend-next'});const killedPromise=observe(f.process(p,killed.run));
+  const live=await until(async()=>{const state=await h.sampleControl({action:'sample-worker-state'});return state.launches.findLast(r=>r.operation==='compute'&&r.suspended&&r.exitCode===null);},'owned suspended compute child');
+  await h.sampleControl({action:'sample-node-kill',pid:live.pid});const killedResult=await killedPromise;if(killedResult.error)throw killedResult.error;assert.equal(killedResult.value.item.state,'failed');assert.equal(killedResult.value.item.errorCode,'adapter_failed');
+  const jobs=[await pending(p),await pending(p),await pending(p)],active=[];let workError;const beforeCount=(await h.sampleControl({action:'sample-worker-state'})).launches.length;
+  try{
+   for(let index=0;index<2;index++){await h.sampleControl({action:'sample-node-mode',mode:'suspend-next'});active.push(observe(f.process(p,jobs[index].run)));await until(async()=>{const s=await h.sampleControl({action:'sample-worker-state'});return s.launches.slice(beforeCount).filter(r=>r.operation==='compute'&&r.suspended&&r.exitCode===null).length===index+1;},'two native owned worker slots');}
+   const busy=await f.process(p,jobs[2].run,{expected:503});assert.equal(busy.error,'adapter_busy');const s=await f.snapshot();noResultsFor(s,jobs[2].run);assert.equal(own(s,'bazi_sample_workitems',p).find(r=>r.run_id===jobs[2].run.id).attempts,0);
+  }catch(error){workError=error;}finally{await h.sampleControl({action:'sample-node-release'});}
+  const completions=await Promise.all(active);if(workError)throw workError;
+  for(const outcome of completions){if(outcome.error)throw outcome.error;assert.equal(outcome.value.item.state,'succeeded');}
+  assert.equal((await f.process(p,jobs[2].run)).item.state,'succeeded');
+  const state=await h.sampleControl({action:'sample-worker-state'}),allowed=new Set(['SystemRoot','WINDIR','TEMP','TMP','PATH','TZ','LANG']);assert.equal(state.actualManagedChildren,true);
+  for(const launch of state.launches){assert.equal(launch.shell,false);assert(launch.environmentKeys.every(k=>allowed.has(k)),'No inherited credentials in actual child environment');assert(launch.stdoutBytes<=4194304);assert(launch.stderrBytes<=65536);assert.equal(launch.workerSha256,h.report.baziSampleSources['04_研发源码/app/r4/backend/bazi_sample_worker.cjs']);assert.match(launch.nodeSha256,/^[a-f0-9]{64}$/);assert.notEqual(launch.exitCode,null,'Owned child has terminated');}
+  return {actualManagedChildren:true,timeoutMs,killedOwnedPid:live.pid,concurrentWorkerCap:2,thirdAdmissionRejected:true,observedChildren:state.launches.length,maxObservedStdoutBytes:Math.max(...state.launches.map(r=>r.stdoutBytes)),credentialEnvironmentInherited:false};
+ });
+
+ await check('33 普通SQL更新与删除由实际immutable triggers阻断，原结果/完整raw不变',async()=>{
+  const p=await f.admin('csimmut'),x=await f.completeCase(p),before=await f.snapshot(),full=await f.exportCase(p,x.run,x.sampleCase.caseId,{includeName:true});
+  const attempted=await h.sampleControl({action:'sample-immutable-attempts',resultId:x.item.id});assert.equal(attempted.actualDatabaseTriggers,true);assert(attempted.checks.length>=6);
+  for(const c of attempted.checks){assert.equal(c.blocked,true,c.table+' '+c.operation);assert.equal(c.unchanged,true);}
+  for(const table of resultTables)for(const operation of ['update','delete'])assert(attempted.checks.some(c=>c.table===table&&String(c.operation).toLowerCase()===operation),'Both actual ordinary mutations tried for '+table);
+  assert.deepEqual(resultFacts(await f.snapshot(),x.item.id),resultFacts(before,x.item.id));assert.deepEqual(await f.exportCase(p,x.run,x.sampleCase.caseId,{includeName:true}),full);
+  return {actualDatabaseAttempts:attempted.checks,privacyErasureIsSeparateAuthorizedPath:true,originalReportAndRawUnchanged:true};
+ });
+
+ await check('34 分类建议严格本人/evidence/幂等，仅追加proposed，不能管理员自批算法或老师通过',async()=>{
+  const p=await f.admin('csreview'),other=await f.admin('csrview2'),x=await f.completeCase(p),field=(await findings(p,x))[0];assert(field);
+  const before=digest(resultFacts(await f.snapshot(),x.item.id));
+  await review(other,field,x,{},404);await review(a.user,field,x,{},403);
+  await review(p,field,x,{category:'approved'},400);await review(p,field,x,{teacherConfirmed:true},400);
+  await review(p,field,x,{evidence:{paths:['/not/allowlisted'],fingerprints:x.item.fingerprints,reference:null}},400);
+  await review(p,field,x,{evidence:{paths:[field.path],fingerprints:{rawOutput:'f'.repeat(64)},reference:null}},400);
+  const accepted=await review(p,field,x,{category:'algorithm'});assert.equal(accepted.data.item.classificationState,'proposed');
+  const duplicate=(await api(C(p),base+'/findings/'+field.id+'/reviews',accepted.body)).data;assert.equal(duplicate.item.id,accepted.data.item.id);
+  await api(C(p),base+'/findings/'+field.id+'/reviews',{...accepted.body,note:'changed same request'},'POST',409);
+  const detail=await f.detail(p,x.run,x.sampleCase.caseId);assert.equal(detail.reviews.filter(r=>r.id===accepted.data.item.id).length,1);assert.equal(detail.item.teacherConfirmed,false);assert.equal(detail.item.professionalValidation,false);assert.equal(detail.item.counts.teacherAgreementRate,null);assert.equal(digest(resultFacts(await f.snapshot(),x.item.id)),before);
+  return {proposalCategory:'algorithm',classificationState:'proposed',teacherConfirmed:false,professionalValidation:false,sameRequestAppendCount:1,originalReportUnchanged:true};
+ });
+
+ await check('35 复测链接仅追加本人同case的新run，旧报告不改、不伪resolved',async()=>{
+  const p=await f.admin('csretest'),other=await f.admin('csrtother'),x=await f.completeCase(p),field=(await findings(p,x))[0],before=digest(resultFacts(await f.snapshot(),x.item.id));
+  const created=await f.createRun(p,x.version,{caseIds:[x.sampleCase.caseId]}),retest=(await f.process(p,created.run)).run,foreign=await pending(other),wrong=await pending(p,f.case('unknown-time'));
+  await review(p,field,x,{retestRunId:x.run.id},400);await review(p,field,x,{retestRunId:foreign.run.id},404);await review(p,field,x,{retestRunId:wrong.run.id},400);
+  const accepted=await review(p,field,x,{category:'display',retestRunId:retest.id,note:'新运行仅为同源技术复测链接，不代表老师审核或差异已解决。'});assert.equal(accepted.data.item.retestRunId,retest.id);assert.equal(accepted.data.item.classificationState,'proposed');
+  assert.equal(digest(resultFacts(await f.snapshot(),x.item.id)),before);const d=await f.detail(p,x.run,x.sampleCase.caseId);assert(d.reviews.some(r=>r.id===accepted.data.item.id&&r.retestRunId===retest.id));assert.equal(d.item.teacherConfirmed,false);assert.equal(d.item.professionalValidation,false);
+  return {oldRunId:x.run.id,retestRunId:retest.id,linkedSameCase:true,oldReportUnchanged:true,resolvedClaimed:false,teacherConfirmed:false};
+ });
+
+ await check('36 十二表显式本人归类；导出默认去名，实际清理不动他人样本与真实额度账',async()=>{
+  const p=await f.admin('csexport'),other=await f.admin('csexpother'),canary='SYNTHETIC_SAMPLE_OWN_'+K('name'),foreignCanary='SYNTHETIC_SAMPLE_OTHER_'+K('name');
+  const input=f.case();input.input.name=canary;const foreignInput=f.case();foreignInput.input.name=foreignCanary;
+  const x=await f.completeCase(p,input),kept=await f.completeCase(other,foreignInput);
+  await api(a.admin,'admin/ai-gateway/grants',{requestId:K('credit'),accountId:O(p),credits:17,environment:'local-test'});
+  const inventory=(await api(C(p),'privacy/domains')).data;const allTables=Object.keys(await f.snapshot());assert.equal(allTables.length,12);for(const table of allTables)assert(!inventory.unclassifiedOwnerTables.includes(table),table+' is in the explicit personal registry');assert(inventory.retained.some(r=>r.id==='privacyAndSourceAudits'&&r.recordCount>0));
+  const exported=await f.ownExport(p),sampleKeys=['OwnerState','Sets','Versions','Cases','Runs','Results','RawChunks','FieldResults','Reviews'].map(s=>'baziSample'+s);
+  for(const k of sampleKeys)assert(Array.isArray(exported.serverData[k]),'Explicit safe own export '+k);
+  const sampleData=Object.fromEntries(sampleKeys.map(k=>[k,exported.serverData[k]])),text=JSON.stringify(sampleData);assert(!text.includes(canary));assert(!text.includes(foreignCanary));assert(!text.includes(kept.run.id));assert(!/\"(?:lease_token|session_hash|password|token_hash)\"/.test(text));assert.equal(exported.serverData.baziSampleExportPrivacy.knownNameFieldsRedacted,true);assert.equal(exported.serverData.baziSampleExportPrivacy.freeTextAnonymized,false);
+  const named=(await api(C(p),'privacy/export?includeBaziSampleNames=1')).data;assert(JSON.stringify(named.serverData.baziSampleCases).includes(canary));assert.equal(named.serverData.baziSampleExportPrivacy.includesPrivateNames,true);
+  const financialKeys=['aiGatewayWallet','aiGatewayGrants','aiGatewayRequests','aiGatewayQuotaEvents','aiGatewayAttempts','membershipAIPeriods','membershipAIAllocations','membershipAIEvents'];
+  const money=digest(Object.fromEntries(financialKeys.map(k=>[k,named.serverData[k]||[]])));assert(named.serverData.aiGatewayWallet.some(r=>r.balance===17&&r.reserved===0));
+  const keepDigest=digest(resultFacts(await f.snapshot(),kept.item.id)),erased=(await api(C(p),'privacy/requests',{requestId:K('clear'),kind:'delete-records'})).data.item;
+  assert(erased.details.local.deletedCounts.baziSamples.results>=1);assert.equal(erased.details.local.deletedCounts.baziSamples.secureWipe,false);
+  const after=await f.ownExport(p);for(const k of ['baziSampleCases','baziSampleResults','baziSampleRawChunks','baziSampleFieldResults','baziSampleReviews'])assert.equal(after.serverData[k].length,0);
+  assert.equal(digest(Object.fromEntries(financialKeys.map(k=>[k,after.serverData[k]||[]]))),money);assert.equal(digest(resultFacts(await f.snapshot(),kept.item.id)),keepDigest);await f.exportCase(p,x.run,x.sampleCase.caseId,{expected:410});
+  return {explicitKnownPersonalTables:12,ownExportDefaultNameRedacted:true,explicitNamedExport:true,actualWalletGrantCredits:17,financialFactsUnchanged:true,otherOwnerUnchanged:true,secureWipe:false};
+ });
+};

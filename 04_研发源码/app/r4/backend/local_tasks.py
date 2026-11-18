@@ -1,0 +1,761 @@
+"""Explicit isolated local task execution and metadata-only sandbox alerts.
+
+The runtime marker is seeded solely by the explicit local bootstrap CLI.  This
+module never enables production, logs credentials, or manufactures an actor.
+"""
+import copy
+import hashlib
+import hmac
+import json
+import os
+import re
+import sqlite3
+import time
+from queue import Queue, Empty
+from threading import Thread
+from urllib.error import HTTPError, URLError
+from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
+from uuid import uuid4
+
+KINDS = ('payment_callbacks','payment_recovery','privacy_objects','payment_monitor','alert_notifications')
+DEFAULT = {'revision':0,'enabled':False,'confirmed':False,'ruleVersion':'',
+    'tasks':{kind:{'enabled':False,'intervalSeconds':30 if kind=='payment_monitor' else 5,'batchLimit':1} for kind in KINDS},
+    'thresholdSeconds':dict.fromkeys(('callbackBacklog','recoveryBacklog','lateRefundPending','lateRefundProcessing','privacyObjectPending'))}
+NOW_SQL = "CAST(strftime('%s','now') AS INTEGER)*1000+CAST(substr(strftime('%f','now'),4,3) AS INTEGER)"
+DDL = """
+CREATE TABLE IF NOT EXISTS ops_runtime_identity(id INTEGER PRIMARY KEY CHECK(id=1),runtime_id TEXT NOT NULL UNIQUE,mode TEXT NOT NULL CHECK(mode='local-isolated'),created INTEGER NOT NULL,manifest_hash TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS ops_task_config(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS ops_task_schedules(kind TEXT PRIMARY KEY,next_due INTEGER NOT NULL DEFAULT 0,lease_token TEXT NOT NULL DEFAULT '',lease_until INTEGER NOT NULL DEFAULT 0,config_revision INTEGER NOT NULL DEFAULT 0,last_run_id TEXT NOT NULL DEFAULT '');
+CREATE TABLE IF NOT EXISTS ops_task_runs(id TEXT PRIMARY KEY,runtime_id TEXT NOT NULL,actor TEXT NOT NULL,worker_id TEXT NOT NULL,kind TEXT NOT NULL,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,config_revision INTEGER NOT NULL,lease_token TEXT NOT NULL DEFAULT '',lease_until INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL CHECK(status IN ('running','succeeded','skipped','failed','unknown','lease_lost')),started INTEGER NOT NULL,finished INTEGER NOT NULL DEFAULT 0,processed INTEGER NOT NULL DEFAULT 0,last_error TEXT NOT NULL DEFAULT '',details TEXT NOT NULL,UNIQUE(actor,request_id));
+CREATE TABLE IF NOT EXISTS ops_workers(id TEXT PRIMARY KEY,runtime_id TEXT NOT NULL,actor TEXT NOT NULL,session_hash TEXT NOT NULL,last_heartbeat INTEGER NOT NULL,status TEXT NOT NULL,last_error TEXT NOT NULL DEFAULT '',created INTEGER NOT NULL,updated INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS payment_monitor_scans(id TEXT PRIMARY KEY,runtime_id TEXT NOT NULL,run_id TEXT NOT NULL UNIQUE,observed_at INTEGER NOT NULL,partial INTEGER NOT NULL,coverage TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS payment_alerts(id TEXT PRIMARY KEY,rule_code TEXT NOT NULL,source_type TEXT NOT NULL,source_id TEXT NOT NULL,owner TEXT,episode INTEGER NOT NULL,severity TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('open','acknowledged','resolved')),first_seen INTEGER NOT NULL,last_seen INTEGER NOT NULL,last_source_version TEXT NOT NULL,seen_scan_count INTEGER NOT NULL DEFAULT 1,version INTEGER NOT NULL DEFAULT 0,ack_by TEXT NOT NULL DEFAULT '',ack_at INTEGER NOT NULL DEFAULT 0,resolved_at INTEGER NOT NULL DEFAULT 0,summary TEXT NOT NULL,UNIQUE(rule_code,source_type,source_id,episode));
+CREATE TABLE IF NOT EXISTS payment_alert_actions(id TEXT PRIMARY KEY,alert_id TEXT NOT NULL,actor TEXT NOT NULL,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,expected_version INTEGER NOT NULL,action TEXT NOT NULL CHECK(action='ack'),note TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(actor,request_id));
+CREATE TABLE IF NOT EXISTS payment_alert_notifications(id TEXT PRIMARY KEY,event_id TEXT NOT NULL UNIQUE,alert_id TEXT NOT NULL,owner TEXT,created_by TEXT NOT NULL,episode INTEGER NOT NULL,payload_data TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('pending','processing','retry','fixture_confirmed','manual_review')),attempts INTEGER NOT NULL DEFAULT 0,lease_token TEXT NOT NULL DEFAULT '',lease_until INTEGER NOT NULL DEFAULT 0,next_attempt INTEGER NOT NULL DEFAULT 0,last_error TEXT NOT NULL DEFAULT '',adapter_binding TEXT NOT NULL,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(alert_id,episode));
+CREATE TABLE IF NOT EXISTS payment_alert_notification_attempts(id TEXT PRIMARY KEY,notification_id TEXT NOT NULL,attempt INTEGER NOT NULL,actor TEXT NOT NULL,action TEXT NOT NULL,result TEXT NOT NULL,error_code TEXT NOT NULL,adapter_binding TEXT NOT NULL,created INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS payment_alert_notification_receipts(id TEXT PRIMARY KEY,notification_id TEXT NOT NULL UNIQUE,event_id TEXT NOT NULL UNIQUE,attempt INTEGER NOT NULL,http_status INTEGER NOT NULL,adapter_binding TEXT NOT NULL,actor TEXT NOT NULL,confirmed_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS ops_claim_fences(id TEXT PRIMARY KEY,run_id TEXT NOT NULL,run_lease_token TEXT NOT NULL,schedule_lease_token TEXT NOT NULL,config_revision INTEGER NOT NULL,actor TEXT NOT NULL,session_hash TEXT NOT NULL,stamp INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS ops_runs_page ON ops_task_runs(started,id);
+CREATE INDEX IF NOT EXISTS payment_alerts_page ON payment_alerts(first_seen,id);
+CREATE INDEX IF NOT EXISTS payment_notifications_queue ON payment_alert_notifications(status,next_attempt,created,id);
+CREATE TRIGGER IF NOT EXISTS ops_runtime_no_replace BEFORE INSERT ON ops_runtime_identity WHEN EXISTS(SELECT 1 FROM ops_runtime_identity) BEGIN SELECT RAISE(ABORT,'ops_runtime_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_runtime_no_update BEFORE UPDATE ON ops_runtime_identity BEGIN SELECT RAISE(ABORT,'ops_runtime_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_runtime_no_delete BEFORE DELETE ON ops_runtime_identity BEGIN SELECT RAISE(ABORT,'ops_runtime_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_worker_identity BEFORE UPDATE OF id,runtime_id,actor,session_hash,created ON ops_workers WHEN NEW.id IS NOT OLD.id OR NEW.runtime_id IS NOT OLD.runtime_id OR NEW.actor IS NOT OLD.actor OR NEW.session_hash IS NOT OLD.session_hash OR NEW.created IS NOT OLD.created BEGIN SELECT RAISE(ABORT,'ops_worker_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_notification_identity BEFORE UPDATE OF id,event_id,alert_id,owner,created_by,episode,payload_data,created ON payment_alert_notifications WHEN NEW.id IS NOT OLD.id OR NEW.event_id IS NOT OLD.event_id OR NEW.alert_id IS NOT OLD.alert_id OR NEW.owner IS NOT OLD.owner OR NEW.created_by IS NOT OLD.created_by OR NEW.episode IS NOT OLD.episode OR NEW.payload_data IS NOT OLD.payload_data OR NEW.created IS NOT OLD.created BEGIN SELECT RAISE(ABORT,'ops_notification_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_notification_receipt_immutable BEFORE UPDATE ON payment_alert_notification_receipts BEGIN SELECT RAISE(ABORT,'ops_receipt_immutable'); END;
+CREATE TRIGGER IF NOT EXISTS ops_notification_receipt_retained BEFORE DELETE ON payment_alert_notification_receipts BEGIN SELECT RAISE(ABORT,'ops_receipt_immutable'); END;
+"""
+
+
+def claim_trigger_sql():
+    return """CREATE TRIGGER IF NOT EXISTS ops_claim_check BEFORE INSERT ON ops_claim_fences BEGIN
+ SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM ops_task_runs r
+ JOIN ops_task_schedules s ON s.kind=r.kind AND s.last_run_id=r.id
+ JOIN ops_workers w ON w.id=r.worker_id AND w.runtime_id=r.runtime_id AND w.actor=r.actor
+ JOIN ops_runtime_identity i ON i.id=1 AND i.runtime_id=r.runtime_id AND i.mode='local-isolated'
+ JOIN ops_task_config c ON c.id=1
+ JOIN sessions se ON se.token=w.session_hash AND se.user_id=w.actor
+ JOIN users u ON u.id=w.actor AND u.role='admin'
+ WHERE r.id=NEW.run_id AND r.actor=NEW.actor AND r.status='running'
+ AND r.lease_token=NEW.run_lease_token AND s.lease_token=NEW.schedule_lease_token
+ AND r.config_revision=NEW.config_revision AND s.config_revision=NEW.config_revision
+ AND r.lease_until>NEW.stamp AND s.lease_until>NEW.stamp
+ AND r.lease_until>"""+NOW_SQL+""" AND s.lease_until>"""+NOW_SQL+"""
+ AND se.expires>"""+NOW_SQL+""" AND w.session_hash=NEW.session_hash
+ AND NOT EXISTS(SELECT 1 FROM account_lifecycle l WHERE l.owner=u.id AND l.status='closed')
+ AND json_valid(c.data) AND json_extract(c.data,'$.revision')=NEW.config_revision
+ AND json_type(c.data,'$.enabled')='true' AND json_type(c.data,'$.confirmed')='true'
+ AND length(trim(json_extract(c.data,'$.ruleVersion')))>0
+ AND json_type(c.data,'$.tasks.'||r.kind||'.enabled')='true')
+ THEN RAISE(ABORT,'ops_claim_rejected') END;
+END;
+CREATE TRIGGER IF NOT EXISTS ops_claim_clear AFTER INSERT ON ops_claim_fences BEGIN DELETE FROM ops_claim_fences WHERE id=NEW.id; END;"""
+
+
+def now():
+    return time.time_ns()//1_000_000
+
+
+def canonical(value):
+    return json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False)
+
+
+def digest(value):
+    return hashlib.sha256(canonical(value).encode()).hexdigest()
+
+
+def strict_json(raw):
+    def pairs(items):
+        value={}
+        for key,item in items:
+            if key in value:raise ValueError('duplicate')
+            value[key]=item
+        return value
+    return json.loads(raw,object_pairs_hook=pairs,parse_constant=lambda _:(_ for _ in ()).throw(ValueError('constant')))
+
+
+def init_schema(db):
+    # Bootstrap owns INSERT of the identity; even a valid environment cannot seed it.
+    db.executescript(DDL+claim_trigger_sql())
+    db.execute('INSERT OR IGNORE INTO ops_task_config VALUES(1,?)',(canonical(DEFAULT),))
+    for kind in KINDS:db.execute('INSERT OR IGNORE INTO ops_task_schedules(kind) VALUES(?)',(kind,))
+
+
+def config(db):
+    row=db.execute('SELECT data FROM ops_task_config WHERE id=1').fetchone()
+    return strict_json(row['data']) if row else copy.deepcopy(DEFAULT)
+
+
+def notification_adapter():
+    endpoint=os.environ.get('EW_LOCAL_ALERT_FIXTURE_ENDPOINT','')
+    match=re.fullmatch(r'http://(?:127\.0\.0\.1|\[::1\]):([1-9][0-9]{0,4})/task-alert-fixture/events',endpoint,flags=re.ASCII)
+    ref=os.environ.get('EW_LOCAL_ALERT_FIXTURE_SECRET_REF','')
+    value=os.environ.get(ref,'') if re.fullmatch(r'EW_LOCAL_ALERT_[A-Z0-9_]{1,80}',ref,flags=re.ASCII) else ''
+    if os.environ.get('EW_LOCAL_ALERT_FIXTURE_ENABLED')!='1' or not match or int(match[1])>65535 or not 32<=len(value)<=500:return None
+    binding=digest({'enabled':'1','endpoint':endpoint,'secretRef':ref,'secretHash':hashlib.sha256(value.encode()).hexdigest()})
+    return endpoint,value,binding
+
+
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self,*args,**kwargs):return None
+
+
+class ClaimLost(Exception):
+    pass
+
+
+class LocalTasks:
+    def __init__(self,store,handler,error,rate,app_path=None):
+        self.store,self.h,self.Error,self.rate=store,handler,error,rate
+        self.app_path=app_path
+
+    def fail(self,status,message):raise self.Error(status,message)
+
+    def session_hash(self):return hashlib.sha256(self.h.session_token.encode()).hexdigest()
+
+    def runtime(self,db):
+        row=db.execute('SELECT * FROM ops_runtime_identity WHERE id=1').fetchone()
+        enabled=os.environ.get('EW_LOCAL_TASK_RUNTIME_ENABLED')=='1'
+        ready=bool(row and re.fullmatch(r'[a-f0-9]{64}',os.environ.get('EW_LOCAL_TASK_MANIFEST_SHA256','')) and row['runtime_id']==os.environ.get('EW_LOCAL_TASK_RUNTIME_ID') and row['manifest_hash']==os.environ.get('EW_LOCAL_TASK_MANIFEST_SHA256'))
+        app_sha=hashlib.sha256(self.app_path.read_bytes()).hexdigest() if self.app_path and self.app_path.is_file() else None
+        return {'runtimeId':row['runtime_id'] if row else None,'mode':row['mode'] if row else 'unconfigured','backend':'python',
+            'appSha256':app_sha,'envEnabled':enabled,'identityReady':ready,'manifestSha256':row['manifest_hash'] if row else None,
+            'state':'unconfigured' if not row else 'identity_mismatch' if not ready else 'ready' if enabled else 'disabled',
+            'notificationReady':notification_adapter() is not None,'productionEnabled':False}
+
+    def ready(self,db):
+        view=self.runtime(db)
+        if not view['identityReady'] or not view['envEnabled'] or not view['appSha256']:self.fail(503,'本地任务运行身份未配置或不匹配。')
+        return view
+
+    def validate_config(self,value):
+        if not isinstance(value,dict) or set(value)!=set(DEFAULT):self.fail(400,'任务配置字段无效。')
+        if type(value['revision']) is not int or not 0<=value['revision']<=9_007_199_254_740_991 or any(type(value[k]) is not bool for k in ('enabled','confirmed')):self.fail(400,'任务配置版本或开关无效。')
+        rule=value['ruleVersion']
+        if not isinstance(rule,str) or rule!=rule.strip() or len(rule)>80 or value['enabled'] and (not rule or not value['confirmed']):self.fail(400,'启用前须明确确认规则版本。')
+        if not isinstance(value['tasks'],dict) or set(value['tasks'])!=set(KINDS):self.fail(400,'任务白名单无效。')
+        for kind,item in value['tasks'].items():
+            if not isinstance(item,dict) or set(item)!={'enabled','intervalSeconds','batchLimit'} or type(item['enabled']) is not bool:self.fail(400,'任务字段无效。')
+            if type(item['intervalSeconds']) is not int or not (30 if kind=='payment_monitor' else 5)<=item['intervalSeconds']<=3600:self.fail(400,'任务间隔无效。')
+            if type(item['batchLimit']) is not int or not 1<=item['batchLimit']<={'payment_callbacks':10,'payment_recovery':5,'privacy_objects':10,'payment_monitor':1,'alert_notifications':10}[kind]:self.fail(400,'任务批量无效。')
+        thresholds=value['thresholdSeconds']
+        if not isinstance(thresholds,dict) or set(thresholds)!=set(DEFAULT['thresholdSeconds']) or any(v is not None and (type(v) is not int or not 0<=v<=31536000) for v in thresholds.values()):self.fail(400,'独立老化期限无效。')
+        return copy.deepcopy(value)
+
+    def ident(self,value):
+        if not isinstance(value,str):self.fail(400,'资源编号无效。')
+        try:value=unquote(value,errors='strict')
+        except UnicodeError:self.fail(400,'资源编号无效。')
+        if not isinstance(value,str) or not re.fullmatch(r'[A-Za-z0-9:_-]{1,100}',value):self.fail(400,'资源编号无效。')
+        return value
+
+    def run_view(self,row):
+        keys={'runtime_id':'runtimeId','worker_id':'workerId','request_id':'requestId','config_revision':'configRevision','last_error':'lastError','lease_until':'leaseUntil'}
+        return {(keys.get(k,k)):row[k] for k in ('id','runtime_id','worker_id','actor','kind','request_id','config_revision','status','started','finished','processed','last_error','lease_until')}
+
+    def worker_view(self,db,row):
+        session=db.execute("SELECT 1 FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token=? AND s.user_id=? AND s.expires>? AND u.role='admin' AND NOT EXISTS(SELECT 1 FROM account_lifecycle l WHERE l.owner=u.id AND l.status='closed')",(row['session_hash'],row['actor'],now())).fetchone()
+        return {'id':row['id'],'runtimeId':row['runtime_id'],'actor':row['actor'],'lastHeartbeat':row['last_heartbeat'],
+            'status':'auth_required' if not session else 'stale' if row['last_heartbeat']<now()-60000 else row['status'],'lastError':row['last_error']}
+
+    def alert_view(self,row):
+        names={'rule_code':'ruleCode','source_type':'sourceType','source_id':'sourceId','first_seen':'firstSeen','last_seen':'lastSeen','seen_scan_count':'seenScanCount','ack_by':'ackBy','ack_at':'ackAt','resolved_at':'resolvedAt'}
+        result={names.get(k,k):row[k] for k in ('id','rule_code','source_type','source_id','owner','episode','severity','status','first_seen','last_seen','seen_scan_count','version','ack_by','ack_at','resolved_at')}
+        return dict(result,summary=strict_json(row['summary']),externalSent=False)
+
+    def notification_view(self,row):
+        return {'id':row['id'],'eventId':row['event_id'],'alertId':row['alert_id'],'episode':row['episode'],'status':row['status'],'attempts':row['attempts'],
+            'leaseUntil':row['lease_until'],'nextAttempt':row['next_attempt'],'lastError':row['last_error'],'created':row['created'],'updated':row['updated'],'externalSent':False}
+
+    def body(self):
+        try:
+            length=int(self.h.headers.get('Content-Length','0'))
+            if self.h.headers.get_content_type()!='application/json':self.fail(415,'需要JSON数据。')
+            if not 0<length<=16384:self.fail(413,'任务请求为空或过大。')
+            value=strict_json(self.h.rfile.read(length).decode('utf-8',errors='strict'))
+        except (ValueError,UnicodeError):self.fail(400,'任务JSON无效或字段重复。')
+        if not isinstance(value,dict):self.fail(400,'任务请求须为对象。')
+        return value
+
+    def fence(self,db,ctx,budget=0):
+        actor=self.h.require(['admin'])['id']
+        view=self.runtime(db);stamp=now()
+        if actor!=ctx['actor'] or self.session_hash()!=ctx['session'] or not view['identityReady'] or not view['envEnabled'] or view['appSha256']!=ctx['appSha'] or view['runtimeId']!=ctx['runtimeId']:
+            raise ClaimLost('runtime_identity_changed')
+        if min(ctx['runUntil'],ctx['scheduleUntil'])<=stamp+budget:raise ClaimLost('lease_lost')
+        try:
+            # The transient stamp is a required-until proof.  Compute it in SQL
+            # so current stored leases, rather than the captured ctx deadlines,
+            # must retain the full unit budget when the claim actually executes.
+            db.execute('INSERT INTO ops_claim_fences VALUES(?,?,?,?,?,?,?,('+NOW_SQL+')+?)',
+                (str(uuid4()),ctx['runId'],ctx['runLease'],ctx['scheduleLease'],ctx['revision'],actor,ctx['session'],budget))
+        except sqlite3.IntegrityError as exc:
+            if 'ops_claim_rejected' in str(exc):raise ClaimLost('lease_lost') from None
+            raise
+
+    def tick_view(self,db,run,worker,replayed=False):
+        details=strict_json(run['details'])
+        return {'run':self.run_view(run),'worker':self.worker_view(db,worker),'items':details.get('items',[]),
+            'configRevision':run['config_revision'],'nextDue':db.execute('SELECT min(next_due) FROM ops_task_schedules').fetchone()[0] or 0,
+            'replayed':replayed,'productionEnabled':False}
+
+    def tick(self,data):
+        if set(data)!={'runtimeId','workerId','requestId','appSha256'} or not isinstance(data['runtimeId'],str) or not re.fullmatch(r'[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}',data['runtimeId']) or not isinstance(data['appSha256'],str) or not re.fullmatch('[a-f0-9]{64}',data['appSha256']):self.fail(400,'任务运行身份格式无效。')
+        worker_id=self.ident(data['workerId']);request_id=self.ident(data['requestId'])
+        if len(request_id)<8:self.fail(400,'请求编号至少8位。')
+        actor=self.h.require(['admin'])['id'];session=self.session_hash()
+        token=digest({'actor':actor,'runtimeId':data['runtimeId'],'workerId':worker_id,'appSha256':data['appSha256']})
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE');view=self.ready(db);cfg=config(db);stamp=now()
+            if view['runtimeId']!=data['runtimeId'] or view['appSha256']!=data['appSha256']:self.fail(409,'本地运行身份或APP字节已变化。')
+            worker=db.execute('SELECT * FROM ops_workers WHERE id=?',(worker_id,)).fetchone()
+            if worker and (worker['actor']!=actor or worker['runtime_id']!=view['runtimeId'] or worker['session_hash']!=session):self.fail(409,'此worker已绑定另一运行身份或会话，请显式使用新workerId。')
+            old=db.execute('SELECT * FROM ops_task_runs WHERE actor=? AND request_id=?',(actor,request_id)).fetchone()
+            if old:
+                if old['fingerprint']!=token:self.fail(409,'请求编号已用于不同的任务身份。')
+                return self.tick_view(db,old,worker,True)
+            if not cfg['enabled'] or not cfg['confirmed'] or not cfg['ruleVersion']:self.fail(503,'本地任务仍处于关闭状态。')
+            if not worker:
+                db.execute('INSERT INTO ops_workers VALUES(?,?,?,?,?,?,?,?,?)',(worker_id,view['runtimeId'],actor,session,stamp,'active','',stamp,stamp))
+            else:db.execute("UPDATE ops_workers SET last_heartbeat=?,status='active',last_error='',updated=? WHERE id=?",(stamp,stamp,worker_id))
+            due=[r for r in db.execute('SELECT * FROM ops_task_schedules WHERE next_due<=? AND lease_until<=? ORDER BY next_due,kind',(stamp,stamp)) if cfg['tasks'].get(r['kind'],{}).get('enabled') is True]
+            kind=due[0]['kind'] if due else 'idle';run_id=str(uuid4());run_lease=str(uuid4()) if due else '';schedule_lease=str(uuid4()) if due else ''
+            if due:
+                previous=db.execute("SELECT id FROM ops_task_runs WHERE id=? AND status='running' AND lease_until<=?",(due[0]['last_run_id'],stamp)).fetchone()
+                if previous:
+                    db.execute("UPDATE ops_task_runs SET status='unknown',last_error='lease_lost',finished=? WHERE id=? AND status='running' AND lease_until<=?",(stamp,previous['id'],stamp))
+                    self.store.audit(db,actor,'local_task.recover',previous['id'],'过期运行结果未知；未改业务事实')
+                db.execute('UPDATE ops_task_schedules SET lease_token=?,lease_until=?,config_revision=?,last_run_id=? WHERE kind=? AND lease_until<=?',(schedule_lease,stamp+60000,cfg['revision'],run_id,kind,stamp))
+            db.execute('INSERT INTO ops_task_runs VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                (run_id,view['runtimeId'],actor,worker_id,kind,request_id,token,cfg['revision'],run_lease,stamp+60000 if due else 0,'running' if due else 'skipped',stamp,0 if due else stamp,0,'' if due else 'no_due_task',canonical({'items':[]})))
+            ctx={'runId':run_id,'runtimeId':view['runtimeId'],'actor':actor,'session':session,'revision':cfg['revision'],
+                'runLease':run_lease,'scheduleLease':schedule_lease,'runUntil':stamp+60000,'scheduleUntil':stamp+60000,'appSha':data['appSha256'],'kind':kind}
+            if not due:return self.tick_view(db,db.execute('SELECT * FROM ops_task_runs WHERE id=?',(run_id,)).fetchone(),db.execute('SELECT * FROM ops_workers WHERE id=?',(worker_id,)).fetchone())
+        result={'kind':kind,'applicable':True,'status':'succeeded','processed':0,'sourceIds':[],'errorCode':'','coverage':None}
+        try:
+            result.update(self.perform(ctx,cfg['tasks'][kind]['batchLimit'],cfg))
+        except ClaimLost:
+            result.update(status='lease_lost',errorCode='lease_lost')
+        except sqlite3.IntegrityError as exc:
+            if 'account_actor_' in str(exc) or 'account_settlement_' in str(exc):raise
+            result.update(status='failed',errorCode='storage_conflict')
+        except sqlite3.OperationalError:
+            result.update(status='unknown',errorCode='storage_unavailable')
+        # Fresh current identity/role is essential; never use a service scope to finish.
+        self.h.require(['admin'])
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            try:self.fence(db,ctx)
+            except ClaimLost:
+                run=db.execute('SELECT * FROM ops_task_runs WHERE id=?',(run_id,)).fetchone()
+                reply=self.tick_view(db,run,db.execute('SELECT * FROM ops_workers WHERE id=?',(worker_id,)).fetchone())
+                reply['items']=[dict(result,status='unknown',errorCode='lease_lost')]
+                return reply
+            final=now()
+            db.execute('UPDATE ops_task_runs SET status=?,finished=?,processed=?,last_error=?,details=? WHERE id=? AND status=\'running\' AND lease_token=?',
+                (result['status'],final,result['processed'],result['errorCode'],canonical({'items':[result]}),run_id,run_lease))
+            db.execute("UPDATE ops_task_schedules SET next_due=?,lease_token='',lease_until=0 WHERE kind=? AND last_run_id=? AND lease_token=? AND config_revision=?",(final+cfg['tasks'][kind]['intervalSeconds']*1000,kind,run_id,schedule_lease,cfg['revision']))
+            db.execute('UPDATE ops_workers SET last_heartbeat=?,updated=? WHERE id=? AND session_hash=?',(final,final,worker_id,session))
+            return self.tick_view(db,db.execute('SELECT * FROM ops_task_runs WHERE id=?',(run_id,)).fetchone(),db.execute('SELECT * FROM ops_workers WHERE id=?',(worker_id,)).fetchone())
+
+    def perform(self,ctx,limit,cfg):
+        actor=self.h.require(['admin'])['id'];kind=ctx['kind']
+        if kind=='payment_callbacks':
+            from payment_callbacks import PaymentCallbacks
+            service=PaymentCallbacks(self.store,self.h,self.Error,self.rate)
+            if not service.settings()['sandboxEnabled']:return {'status':'skipped','errorCode':'adapter_disabled'}
+            self.rate('payment-callbacks:write:'+actor,30)
+            value=service.process(actor,{'limit':limit},claim_guard=lambda db:self.fence(db,ctx,1000))
+        elif kind=='payment_recovery':
+            from payment_recovery import PaymentRecovery, configuration
+            if configuration() is None:return {'status':'skipped','errorCode':'adapter_disabled'}
+            self.rate('payment-recovery:admin:write:'+actor,30)
+            value=PaymentRecovery(self.store,self.h,self.Error,self.rate).process_batch(actor,{'limit':limit},claim_guard=lambda db:self.fence(db,ctx,9000))
+        elif kind=='privacy_objects':
+            return {'status':'skipped','applicable':False,'errorCode':'python_sqlite_no_object_store'}
+        elif kind=='payment_monitor':return self.monitor(ctx,cfg)
+        elif kind=='alert_notifications':return self.process_notifications(ctx,limit)
+        else:raise ClaimLost('unknown_task')
+        items=value.get('items',[])
+        return {'processed':value.get('processed',len(items)),'sourceIds':[item['id'] for item in items]}
+
+    def page(self,db,table,where,args,before='',time_column='created'):
+        if before:
+            cursor=db.execute('SELECT * FROM '+table+' WHERE id=?',(self.ident(before),)).fetchone()
+            if not cursor:self.fail(404,'分页位置不存在。')
+            if not db.execute('SELECT 1 FROM '+table+' WHERE id=? AND ('+where+')',[cursor['id'],*args]).fetchone():self.fail(400,'分页位置不属于当前筛选。')
+            where+=' AND ('+time_column+',id)<(?,?)';args=[*args,cursor[time_column],cursor['id']]
+        rows=db.execute('SELECT * FROM '+table+' WHERE '+where+' ORDER BY '+time_column+' DESC,id DESC LIMIT 51',args).fetchall()
+        return rows[:50],rows[49]['id'] if len(rows)>50 else None
+
+    def create_outbox(self,db,alert,actor,stamp):
+        if notification_adapter() is None:return
+        if db.execute('SELECT 1 FROM payment_alert_notifications WHERE alert_id=? AND episode=?',(alert['id'],alert['episode'])).fetchone():return
+        event=str(uuid4())
+        payload={'eventId':event,'alertId':alert['id'],'episode':alert['episode'],'ruleCode':alert['rule_code'],'severity':alert['severity'],
+            'sourceType':alert['source_type'],'sourceId':alert['source_id'],'observedAt':stamp,'environment':'sandbox'}
+        db.execute('INSERT INTO payment_alert_notifications VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            (str(uuid4()),event,alert['id'],alert['owner'],actor,alert['episode'],canonical(payload),'pending',0,'',0,0,'','',stamp,stamp))
+
+    def monitor(self,ctx,cfg):
+        self.rate('sandbox-reconciliation:'+ctx['actor'],30)
+        with self.store.connect() as db:
+            db.execute('BEGIN')
+            result=collect_monitor(db,cfg,now())
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE');self.fence(db,ctx)
+            coverage=result['coverage'];stamp=coverage['observedAt']
+            def target_known(source,summary,source_id):
+                if source not in result['covered']:return False
+                for scope,kind,ident in result['uncertain']:
+                    if scope!=source:continue
+                    if kind=='scope' or source_id=='scope' or kind=='item' and summary.get('itemId')==ident or kind=='order' and summary.get('orderId')==ident or kind=='source' and source_id==ident:return False
+                return True
+            db.execute('INSERT INTO payment_monitor_scans VALUES(?,?,?,?,?,?)',(coverage['scanId'],ctx['runtimeId'],ctx['runId'],stamp,int(coverage['partial']),canonical(coverage)))
+            seen=set()
+            for finding in result['findings']:
+                key=(finding['ruleCode'],finding['sourceType'],finding['sourceId']);seen.add(key)
+                old=db.execute('SELECT * FROM payment_alerts WHERE rule_code=? AND source_type=? AND source_id=? ORDER BY episode DESC LIMIT 1',key).fetchone()
+                summary=dict(finding['summary'],coverageSource=finding['coverageSource'],ruleVersion=cfg['ruleVersion'],configRevision=cfg['revision'],observedAt=stamp)
+                if old and old['status']!='resolved':
+                    db.execute('UPDATE payment_alerts SET last_seen=?,last_source_version=?,seen_scan_count=seen_scan_count+1,version=version+1 WHERE id=? AND version=?',
+                        (stamp,finding['sourceVersion'],old['id'],old['version']))
+                    ident=old['id']
+                else:
+                    ident=str(uuid4());episode=old['episode']+1 if old else 1
+                    db.execute('INSERT INTO payment_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                        (ident,*key,finding['owner'],episode,finding['severity'],'open',stamp,stamp,finding['sourceVersion'],1,0,'',0,0,canonical(summary)))
+                alert=db.execute('SELECT * FROM payment_alerts WHERE id=?',(ident,)).fetchone()
+                if target_known(finding['coverageSource'],summary,finding['sourceId']):self.create_outbox(db,alert,ctx['actor'],stamp)
+            for old in db.execute("SELECT * FROM payment_alerts WHERE status IN ('open','acknowledged')").fetchall():
+                key=(old['rule_code'],old['source_type'],old['source_id']);summary=strict_json(old['summary'])
+                source=summary.get('coverageSource','')
+                age_key={'callback_backlog':'callbackBacklog','recovery_backlog':'recoveryBacklog','late_refund_pending':'lateRefundPending','late_refund_processing':'lateRefundProcessing','privacy_object_pending':'privacyObjectPending'}.get(old['rule_code'])
+                policy_same=summary.get('ruleVersion')==cfg['ruleVersion'] and (age_key is None or summary.get('thresholdSeconds')==cfg['thresholdSeconds'][age_key])
+                if key not in seen and policy_same and target_known(source,summary,old['source_id']) and (old['rule_code'] in result['resolvable'] or old['rule_code'].startswith('recon:')) and (old['source_type'],old['source_id']) in result['present']:
+                    db.execute("UPDATE payment_alerts SET status='resolved',resolved_at=?,last_seen=?,version=version+1 WHERE id=? AND version=? AND last_source_version=?",(stamp,stamp,old['id'],old['version'],old['last_source_version']))
+                elif key in seen and target_known(source,summary,old['source_id']):
+                    self.create_outbox(db,old,ctx['actor'],stamp)
+        return {'processed':len(result['findings']),'sourceIds':[coverage['scanId']],'coverage':coverage}
+
+    def notify_http(self,adapter,row):
+        # A socket timeout alone is not a total response deadline.  This worker
+        # receives only immutable minimal metadata and a captured adapter. It
+        # cannot touch a DB/session; late responses never perform confirmation.
+        outcome=Queue(maxsize=1)
+        def transport():
+            try:code=LocalTasks._notify_transport(adapter,row)
+            except Exception:code='notification_transport_unavailable'
+            outcome.put_nowait(code)
+        Thread(target=transport,daemon=True).start()
+        try:return outcome.get(timeout=8)
+        except Empty:return 'notification_timeout'
+
+    @staticmethod
+    def _notify_transport(adapter,row):
+        endpoint,secret,_=adapter;timestamp=str(now()//1000);raw=row['payload_data'].encode('utf-8')
+        try:
+            payload=strict_json(row['payload_data'])
+            if not isinstance(payload,dict) or set(payload)!={'eventId','alertId','episode','ruleCode','severity','sourceType','sourceId','observedAt','environment'} or len(raw)>8192 or canonical(payload)!=row['payload_data']:return 'invalid_notification_payload'
+            if any(type(payload[key]) is not str or not re.fullmatch(r'[A-Za-z0-9:_-]{1,100}',payload[key]) for key in ('eventId','alertId','ruleCode','sourceType','sourceId')):return 'invalid_notification_payload'
+            if payload['eventId']!=row['event_id'] or payload['alertId']!=row['alert_id'] or type(payload['episode']) is not int or payload['episode']!=row['episode'] or type(payload['observedAt']) is not int or payload['observedAt']!=row['created'] or payload['environment']!='sandbox' or payload['severity'] not in ('error','warning','info'):return 'invalid_notification_payload'
+        except (ValueError,TypeError):return 'invalid_notification_payload'
+        signature=hmac.new(secret.encode(),timestamp.encode()+b'.'+raw,hashlib.sha256).hexdigest()
+        request=Request(endpoint,data=raw,method='POST',headers={'Content-Type':'application/json; charset=utf-8','X-EW-Alert-Timestamp':timestamp,'X-EW-Alert-Signature':signature})
+        try:
+            with build_opener(ProxyHandler({}),NoRedirect()).open(request,timeout=8) as response:
+                if response.status!=200:return 'notification_http_error'
+                if response.headers.get_content_type().lower()!='application/json' or (response.headers.get_content_charset() or 'utf-8').lower()!='utf-8':return 'invalid_notification_ack'
+                body=response.read(8193)
+                if len(body)>8192:return 'invalid_notification_ack'
+                stamp=response.headers.get('X-EW-Alert-Timestamp','');signed=response.headers.get('X-EW-Alert-Signature','')
+                if not re.fullmatch(r'[0-9]{1,12}',stamp) or abs(now()//1000-int(stamp))>300 or not re.fullmatch('[A-Fa-f0-9]{64}',signed):return 'invalid_notification_ack'
+                expected=hmac.new(secret.encode(),stamp.encode()+b'.'+body,hashlib.sha256).hexdigest()
+                if not hmac.compare_digest(expected,signed.lower()):return 'invalid_notification_ack'
+                ack=strict_json(body.decode('utf-8',errors='strict'))
+                if not isinstance(ack,dict) or set(ack)!={'accepted','eventId'} or ack['accepted'] is not True or type(ack['eventId']) is not str or ack['eventId']!=row['event_id']:return 'invalid_notification_ack'
+                return ''
+        except (TimeoutError,):return 'notification_timeout'
+        except HTTPError:return 'notification_http_error'
+        except URLError as exc:return 'notification_timeout' if isinstance(exc.reason,TimeoutError) else 'notification_transport_unavailable'
+        except (ValueError,UnicodeError):return 'invalid_notification_ack'
+        except OSError:return 'notification_transport_unavailable'
+
+    def process_notifications(self,ctx,limit):
+        if notification_adapter() is None:return {'status':'skipped','errorCode':'notification_unavailable'}
+        ids=[];last_error=''
+        for _ in range(limit):
+            with self.store.connect() as db:
+                db.execute('BEGIN IMMEDIATE');self.fence(db,ctx,9000);stamp=now();adapter=notification_adapter()
+                if adapter is None:break
+                row=db.execute("SELECT * FROM payment_alert_notifications WHERE (status IN ('pending','retry') AND next_attempt<=?) OR (status='processing' AND lease_until<=?) ORDER BY created,id LIMIT 1",(stamp,stamp)).fetchone()
+                if not row:break
+                if row['attempts']>=5:
+                    db.execute("UPDATE payment_alert_notifications SET status='manual_review',lease_token='',lease_until=0,last_error='retry_exhausted',next_attempt=0,updated=? WHERE id=?",(stamp,row['id']))
+                    ids.append(row['id']);continue
+                lease=str(uuid4());attempt=row['attempts']+1
+                db.execute("UPDATE payment_alert_notifications SET status='processing',attempts=?,lease_token=?,lease_until=?,next_attempt=0,last_error='',adapter_binding=?,updated=? WHERE id=?",(attempt,lease,stamp+30000,adapter[2],stamp,row['id']))
+                db.execute('INSERT INTO payment_alert_notification_attempts VALUES(?,?,?,?,?,?,?,?,?)',(str(uuid4()),row['id'],attempt,ctx['actor'],'claim','processing','',adapter[2],stamp))
+                row=dict(db.execute('SELECT * FROM payment_alert_notifications WHERE id=?',(row['id'],)).fetchone())
+            code=self.notify_http(adapter,row)
+            if code:last_error=code
+            with self.store.connect() as db:
+                db.execute('BEGIN IMMEDIATE');self.fence(db,ctx);stamp=now();current=notification_adapter()
+                if not current or current[2]!=adapter[2]:code='notification_adapter_changed'
+                if code:last_error=code
+                fresh=db.execute("SELECT * FROM payment_alert_notifications WHERE id=? AND status='processing' AND lease_token=? AND lease_until>? AND adapter_binding=?",(row['id'],lease,stamp,adapter[2])).fetchone()
+                if not fresh:raise ClaimLost('lease_lost')
+                status='fixture_confirmed' if not code else 'retry' if attempt<5 and code!='invalid_notification_payload' else 'manual_review'
+                if not code:db.execute('INSERT INTO payment_alert_notification_receipts VALUES(?,?,?,?,?,?,?,?)',(str(uuid4()),row['id'],row['event_id'],attempt,200,adapter[2],ctx['actor'],stamp))
+                db.execute("UPDATE payment_alert_notifications SET status=?,lease_token='',lease_until=0,next_attempt=?,last_error=?,updated=? WHERE id=? AND lease_token=?",(status,stamp+1000*2**(attempt-1) if status=='retry' else 0,code,stamp,row['id'],lease))
+                db.execute('INSERT INTO payment_alert_notification_attempts VALUES(?,?,?,?,?,?,?,?,?)',(str(uuid4()),row['id'],attempt,ctx['actor'],'complete',status,code,adapter[2],stamp))
+                ids.append(row['id'])
+        return {'processed':len(ids),'sourceIds':ids,'status':'failed' if last_error else 'succeeded','errorCode':last_error}
+
+    def alert_routes(self,db,method,path,query,actor):
+        base='/api/admin/payment-alerts'
+        if path==base and method=='GET':
+            if set(query)-{'status','before'} or 'status' in query and query['status'] not in ('open','acknowledged','resolved'):self.fail(400,'告警筛选无效。')
+            rows,next_id=self.page(db,'payment_alerts','status=?' if 'status' in query else '1',[query['status']] if 'status' in query else [],query.get('before',''),'first_seen')
+            scan=db.execute('SELECT coverage FROM payment_monitor_scans ORDER BY observed_at DESC,id DESC LIMIT 1').fetchone()
+            empty={'scanId':None,'observedAt':0,'partial':True,'sources':[],'uncovered':['not-scanned'],'unsupportedMetrics':{'realChannelPaymentFailure':None,'realRefundFailure':None,'chargeback':None,'bankArrival':None,'realChannelStatement':None}}
+            return {'items':[self.alert_view(row) for row in rows],'next':next_id,'coverage':strict_json(scan['coverage']) if scan else empty,'productionEnabled':False,'externalSent':False}
+        retry=re.fullmatch(re.escape(base)+r'/notifications/([^/]+)/retry',path)
+        if retry and method=='POST':
+            if self.body():self.fail(400,'通知重试不接受额外字段。')
+            self.ready(db);db.execute('BEGIN IMMEDIATE');row=db.execute('SELECT * FROM payment_alert_notifications WHERE id=?',(self.ident(retry[1]),)).fetchone()
+            if not row:self.fail(404,'通知不存在。')
+            if row['status'] not in ('retry','manual_review') or row['attempts']>=5 or row['lease_until']>now():self.fail(409,'通知不可重试或已达上限。')
+            stamp=now();db.execute("UPDATE payment_alert_notifications SET status='retry',next_attempt=0,last_error='',updated=? WHERE id=? AND status=? AND attempts=?",(stamp,row['id'],row['status'],row['attempts']))
+            db.execute('INSERT INTO payment_alert_notification_attempts VALUES(?,?,?,?,?,?,?,?,?)',(str(uuid4()),row['id'],row['attempts'],actor,'retry','retry','',row['adapter_binding'],stamp))
+            return {'item':self.notification_view(db.execute('SELECT * FROM payment_alert_notifications WHERE id=?',(row['id'],)).fetchone()),'productionEnabled':False,'externalSent':False}
+        match=re.fullmatch(re.escape(base)+r'/([^/]+)(/ack)?',path)
+        if not match:return None
+        row=db.execute('SELECT * FROM payment_alerts WHERE id=?',(self.ident(match[1]),)).fetchone()
+        if not row:self.fail(404,'告警不存在。')
+        if match[2] and method=='POST':
+            data=self.body();note=data.get('note');version=data.get('version');key=self.ident(data.get('requestId',''))
+            if set(data)!={'requestId','version','note'} or len(key)<8 or type(version) is not int or version<0 or not isinstance(note,str) or not 1<=len(note.strip())<=1000 or any(ord(c)<32 and c not in '\n\t' for c in note) or '\x7f' in note:self.fail(400,'告警确认字段无效。')
+            note=note.strip();fp=digest({'alertId':row['id'],'requestId':key,'version':version,'note':note})
+            db.execute('BEGIN IMMEDIATE');self.ready(db)
+            old=db.execute('SELECT * FROM payment_alert_actions WHERE actor=? AND request_id=?',(actor,key)).fetchone()
+            if old:
+                if old['fingerprint']!=fp:self.fail(409,'确认编号用于不同内容。')
+                return {'item':self.alert_view(db.execute('SELECT * FROM payment_alerts WHERE id=?',(row['id'],)).fetchone()),'replayed':True,'productionEnabled':False,'externalSent':False}
+            changed=db.execute("UPDATE payment_alerts SET status='acknowledged',ack_by=?,ack_at=?,version=version+1 WHERE id=? AND version=? AND status='open'",(actor,now(),row['id'],version)).rowcount
+            if not changed:self.fail(409,'告警已变化或已处理，请刷新。')
+            db.execute('INSERT INTO payment_alert_actions VALUES(?,?,?,?,?,?,?,?,?)',(str(uuid4()),row['id'],actor,key,fp,version,'ack',note,now()))
+            return {'item':self.alert_view(db.execute('SELECT * FROM payment_alerts WHERE id=?',(row['id'],)).fetchone()),'replayed':False,'productionEnabled':False,'externalSent':False}
+        if not match[2] and method=='GET':
+            if set(query)-{'actionsBefore','notificationsBefore','attemptsBefore','receiptsBefore'}:self.fail(400,'告警详情分页无效。')
+            result={'item':self.alert_view(row),'productionEnabled':False,'externalSent':False}
+            for category,table,where in [('actions','payment_alert_actions','alert_id=?'),('notifications','payment_alert_notifications','alert_id=?'),
+                ('attempts','payment_alert_notification_attempts','notification_id IN (SELECT id FROM payment_alert_notifications WHERE alert_id=?)'),
+                ('receipts','payment_alert_notification_receipts','notification_id IN (SELECT id FROM payment_alert_notifications WHERE alert_id=?)')]:
+                rows,next_id=self.page(db,table,where,[row['id']],query.get(category+'Before',''),'confirmed_at' if category=='receipts' else 'created')
+                if category=='notifications':items=[self.notification_view(item) for item in rows]
+                else:
+                    rename={'alert_id':'alertId','request_id':'requestId','expected_version':'version','notification_id':'notificationId','event_id':'eventId','error_code':'errorCode','http_status':'httpStatus','confirmed_at':'confirmedAt'}
+                    items=[{rename.get(k,k):value for k,value in dict(item).items() if k not in ('fingerprint','adapter_binding')} for item in rows]
+                    if category=='receipts':items=[dict(item,mode='loopback-fixture',externalSent=False) for item in items]
+                result[category]=items;result[category+'Next']=next_id
+            return result
+        return None
+
+    def route(self,method,path):
+        base='/api/admin/local-tasks';alerts='/api/admin/payment-alerts'
+        if not (path==base or path.startswith(base+'/') or path==alerts or path.startswith(alerts+'/')):return None
+        actor=self.h.require(['admin'])['id']
+        self.rate('local-tasks:'+('read:' if method=='GET' else 'write:')+actor,180 if method=='GET' else 30)
+        query={k:v[-1] for k,v in parse_qs(urlsplit(self.h.path).query,keep_blank_values=True).items()}
+        if path==base+'/tick' and method=='POST':return self.tick(self.body())
+        if path in (base+'/runtime',base+'/config') and method in ('GET','PATCH'):
+            with self.store.connect() as db:
+                if method=='PATCH':
+                    if path!=base+'/config':self.fail(405,'运行身份不可由接口修改。')
+                    value=self.validate_config(self.body());db.execute('BEGIN IMMEDIATE');self.ready(db);old=config(db)
+                    if value['revision']!=old['revision']:self.fail(409,'配置版本已变化。')
+                    value['revision']+=1
+                    changed=db.execute("UPDATE ops_task_config SET data=? WHERE id=1 AND json_extract(data,'$.revision')=?",(canonical(value),old['revision'])).rowcount
+                    if changed!=1:self.fail(409,'配置版本已变化。')
+                    self.store.audit(db,actor,'local_task.config','local-isolated','显式本地配置变更；生产未启用')
+                return {'config':config(db),'runtime':self.runtime(db),'productionEnabled':False}
+        with self.store.connect() as db:
+            if path==base+'/runs' and method=='GET':
+                if set(query)-{'before','kind','status','requestId','workerId'}:self.fail(400,'任务筛选无效。')
+                where=['1'];args=[]
+                for key,column in [('kind','kind'),('status','status'),('requestId','request_id'),('workerId','worker_id')]:
+                    if key in query:
+                        if key=='kind' and query[key] not in (*KINDS,'idle') or key=='status' and query[key] not in ('running','succeeded','skipped','failed','unknown','lease_lost'):self.fail(400,'任务状态或类别无效。')
+                        where.append(column+'=?');args.append(self.ident(query[key]))
+                rows,next_id=self.page(db,'ops_task_runs',' AND '.join(where),args,query.get('before',''),'started')
+                return {'items':[self.run_view(row) for row in rows],'next':next_id,'productionEnabled':False}
+            match=re.fullmatch(re.escape(base)+r'/runs/([^/]+)',path)
+            if match and method=='GET':
+                row=db.execute('SELECT * FROM ops_task_runs WHERE id=?',(self.ident(match[1]),)).fetchone()
+                if not row:self.fail(404,'任务运行不存在。')
+                return {'run':self.run_view(row),'items':strict_json(row['details']).get('items',[]),'productionEnabled':False}
+            if path==base+'/workers' and method=='GET':
+                if set(query)-{'before'}:self.fail(400,'worker筛选无效。')
+                rows,next_id=self.page(db,'ops_workers','1',[],query.get('before',''))
+                return {'items':[self.worker_view(db,row) for row in rows],'next':next_id,'productionEnabled':False}
+            value=self.alert_routes(db,method,path,query,actor)
+            if value is not None:return value
+        self.fail(404,'找不到此本地任务或告警功能。')
+
+
+def collect_monitor(db,cfg,stamp):
+    """Pure bounded snapshot checks. Never call lifecycle sync, refresh or grant."""
+    from reconciliation import capture_snapshot, build_report
+    data,metadata=capture_snapshot(db)
+    tables={r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    def load(name,table,columns,where='1'):
+        exists=table in tables
+        try:
+            count=db.execute('SELECT count(*) FROM '+table+' WHERE '+where).fetchone()[0] if exists else 0
+            rows=[dict(row) for row in db.execute('SELECT '+columns+' FROM '+table+' WHERE '+where+' ORDER BY 1 LIMIT 5000')] if exists else []
+            metadata[name]={'table':table,'exists':exists,'totalRows':count,'loadedRows':len(rows),'truncated':count>5000,'limit':5000}
+        except sqlite3.OperationalError:
+            rows=[];metadata[name]={'table':table,'exists':exists,'totalRows':None,'loadedRows':0,'truncated':False,'limit':5000,'errorCode':'invalid_schema'}
+        data[name]=rows
+    load('callbacks','payment_callback_inbox','id,transaction_id,order_id,status,attempts,lease_until,next_attempt,last_error,created,updated')
+    load('callbackTransactions','payment_callback_transactions','transaction_id,order_id,receipt_id')
+    load('recovery','payment_recovery_jobs','id,owner,order_id,status,attempts,last_error,lease_until,next_attempt,created,updated')
+    load('late','payment_late_cases','id,owner,order_id,status,created,updated')
+    load('objects','privacy_object_deletions','id,owner,status,attempts,last_error,lease_until,next_attempt,created,updated')
+    load('digitalSnapshots','digital_order_snapshots','item_id,owner,order_id,content_id,media_id,policy_snapshot,created')
+    load('digitalGrants','digital_entitlement_grants','id,owner,order_id,item_id,content_id,media_id,policy_snapshot,uses_per_unit,original_quantity,starts,expires')
+    load('quotaPeriods','membership_ai_periods','id,owner,subscription_id,item_id,cycle_start,cycle_end,credits,balance,reserved,status,policy_snapshot,benefits_snapshot,created')
+    load('quotaEvents','membership_ai_events','id,owner,period_id,job_id,action,credits,created')
+    load('quotaAllocations','membership_ai_allocations','job_id,owner,period_id,reserved_credits,charged_credits,state')
+    load('quotaJobs','ai_gateway_jobs','id,owner,quota_source,quota_period_id,reserve_credits,charged_credits,status,created,updated')
+    load('gatewayQuotaEvents','ai_gateway_quota_events','id,owner,job_id,action,credits')
+    for key,fields in {'payments':{'items':list},'memberSnapshots':{'data':dict},'snapshots':{'data':dict},'facts':{'data':dict},
+            'digitalSnapshots':{'policy_snapshot':dict},'digitalGrants':{'policy_snapshot':dict},'quotaPeriods':{'policy_snapshot':dict,'benefits_snapshot':dict}}.items():
+        for row in data[key]:
+            try:
+                if any(not isinstance(strict_json(row[field]),kind) for field,kind in fields.items()):raise ValueError()
+            except (ValueError,TypeError,KeyError):metadata[key]['errorCode']='invalid_source_json';break
+    findings=[];coverage={};covered=set();resolvable=set();present=set();uncertain=set()
+    def source(name,requirements):
+        available=all(metadata[key]['exists'] and not metadata[key]['truncated'] and not metadata[key].get('errorCode') for key in requirements)
+        coverage[name]={'source':name,'exists':all(metadata[key]['exists'] for key in requirements),'loadedRows':sum(metadata[key]['loadedRows'] for key in requirements),
+            'totalRows':sum(metadata[key]['totalRows'] or 0 for key in requirements),'truncated':any(metadata[key]['truncated'] for key in requirements),'covered':available,
+            'reason':'' if available else 'invalid_source_json' if any(metadata[key].get('errorCode') for key in requirements) else 'source_missing_or_truncated','limitPerTable':5000,'sourceTables':list(requirements)}
+        if available:covered.add(name)
+        return available
+    def not_covered(name,code):
+        covered.discard(name);coverage[name].update(covered=False,reason=code)
+    def valid_objects(key,*fields):
+        try:return all(isinstance(strict_json(row[field]),dict) for row in data[key] for field in fields)
+        except (ValueError,TypeError):return False
+    def aging(rule,base,key):
+        name='aging:'+rule;coverage[name]=dict(coverage[base],source=name)
+        if base in covered:covered.add(name)
+        coverage[name]['applicable']=cfg['thresholdSeconds'][key] is not None
+        if base not in covered or cfg['thresholdSeconds'][key] is None:not_covered(name,'aging_rule_not_configured' if cfg['thresholdSeconds'][key] is None else coverage[base]['reason'])
+        return name
+    def add(rule,kind,ident,owner,source_name,version='',severity='warning',**summary):
+        resolvable.add(rule)
+        findings.append({'ruleCode':rule,'sourceType':kind,'sourceId':ident,'owner':owner,'coverageSource':source_name,
+            'severity':severity,'sourceVersion':str(version),'summary':summary})
+    orders={r['id']:r for r in data['orders']};items={r['id']:r for r in data['items']}
+    owner_of=lambda order_id:orders.get(order_id,{}).get('owner')
+    pays={}
+    for pay in data['payments']:
+        if pay['kind']=='sandbox_pay' and pay['status']=='applied' and pay['environment']=='sandbox':pays.setdefault(pay['order_id'],[]).append(pay)
+    thresholds=cfg['thresholdSeconds']
+    if source('callbackInbox',['callbacks','callbackTransactions','orders']):
+        age_source=aging('callback_backlog','callbackInbox','callbackBacklog')
+        primaries={row['receipt_id'] for row in data['callbackTransactions']}
+        resolvable.add('callback_manual_review')
+        if thresholds['callbackBacklog'] is not None:resolvable.add('callback_backlog')
+        for row in data['callbacks']:
+            if row['id'] not in primaries:continue
+            present.add(('callback',row['id']));version=str(row['updated'])+':'+row['status']+':'+str(row['attempts'])
+            if row['status']=='manual_review':add('callback_manual_review','callback',row['id'],owner_of(row['order_id']),'callbackInbox',version,errorCode=row['last_error'],attempts=row['attempts'])
+            age=thresholds['callbackBacklog']
+            if age is not None and row['created']+age*1000<=stamp and (row['status'] in ('received','retry') or row['status']=='processing' and row['lease_until']<=stamp):
+                add('callback_backlog','callback',row['id'],owner_of(row['order_id']),age_source,version,thresholdSeconds=age,attempts=row['attempts'])
+    if source('paymentRecovery',['recovery']):
+        age_source=aging('recovery_backlog','paymentRecovery','recoveryBacklog')
+        resolvable.add('recovery_query_error')
+        if thresholds['recoveryBacklog'] is not None:resolvable.add('recovery_backlog')
+        for row in data['recovery']:
+            present.add(('recovery',row['id']));version=str(row['updated'])+':'+row['status']+':'+str(row['attempts'])
+            if row['status'] in ('retry','manual_review') and row['last_error']:add('recovery_query_error','recovery',row['id'],row['owner'],'paymentRecovery',version,errorCode=row['last_error'],attempts=row['attempts'])
+            age=thresholds['recoveryBacklog']
+            if age is not None and row['created']+age*1000<=stamp and (row['status'] in ('pending','retry') or row['status']=='processing' and row['lease_until']<=stamp):add('recovery_backlog','recovery',row['id'],row['owner'],age_source,version,thresholdSeconds=age)
+    if source('lateRefundWorkItems',['late']):
+        aging('late_refund_pending','lateRefundWorkItems','lateRefundPending');aging('late_refund_processing','lateRefundWorkItems','lateRefundProcessing')
+        for row in data['late']:
+            present.add(('late',row['id']))
+            key='lateRefundPending' if row['status']=='refund_pending' else 'lateRefundProcessing' if row['status']=='refund_processing' else None
+            for status,key_name in [('refund_pending','lateRefundPending'),('refund_processing','lateRefundProcessing')]:
+                if thresholds[key_name] is not None:resolvable.add('late_'+status)
+            if key and thresholds[key] is not None and row['created']+thresholds[key]*1000<=stamp:add('late_'+row['status'],'late',row['id'],row['owner'],'aging:late_'+row['status'],str(row['updated']),thresholdSeconds=thresholds[key],refundActuallyCompleted=False)
+    if source('privacyObjectQueue',['objects']):
+        age_source=aging('privacy_object_pending','privacyObjectQueue','privacyObjectPending')
+        resolvable.add('privacy_object_manual_review')
+        if thresholds['privacyObjectPending'] is not None:resolvable.add('privacy_object_pending')
+        for row in data['objects']:
+            present.add(('privacy_object',row['id']))
+            if row['status']=='manual_review':add('privacy_object_manual_review','privacy_object',row['id'],row['owner'],'privacyObjectQueue',str(row['updated']),errorCode=row['last_error'],attempts=row['attempts'])
+            age=thresholds['privacyObjectPending']
+            if age is not None and row['created']+age*1000<=stamp and (row['status'] in ('pending','retry') or row['status']=='processing' and row['lease_until']<=stamp):add('privacy_object_pending','privacy_object',row['id'],row['owner'],age_source,str(row['updated']),thresholdSeconds=age)
+    recon_keys=[key for key in metadata if key in ('orders','items','payments','entitlements','memberSnapshots','subscriptions','memberEvents','snapshots','facts','ledger','adjustments','statements','statementLines','payouts')]
+    source('reconciliation',recon_keys)
+    try:
+        present.add(('recon','scope'))
+        for key in recon_keys:
+            for row in data[key]:
+                if row.get('id') or row.get('item_id'):present.add(('recon',str(row.get('id') or row.get('item_id'))))
+        report=build_report(data,metadata,stamp,with_groups=True)
+        for check in report['checks']:source('recon:'+check['code'],check['sourceTables'])
+        for finding in report['findings']:
+            group='recon:'+finding.get('checkGroup','');ident=str(finding['sourceId'] or finding['itemId'] or finding['orderId'] or 'scope')
+            if finding['severity']=='not-covered':
+                anchor=('item',finding['itemId']) if finding['itemId'] else ('source',finding['sourceId']) if finding['sourceId'] else ('order',finding['orderId']) if finding['orderId'] else ('scope','scope')
+                uncertain.add((group,*anchor))
+                if group in coverage:coverage[group].update(covered=False,reason='target_not_covered',sourceTablesComplete=group in covered)
+                coverage['reconciliation'].update(covered=False,reason='target_not_covered')
+                continue
+            if finding['severity'] not in ('error','warning'):continue
+            add('recon:'+finding['code'],'recon',ident,owner_of(finding['orderId']),group,severity=finding['severity'],code=finding['code'],checkGroup=finding.get('checkGroup',''),orderId=finding['orderId'],itemId=finding['itemId'])
+    except (ValueError,TypeError,KeyError):not_covered('reconciliation','invalid_source_data')
+    name='digitalFiniteGrants';required=['orders','items','payments','entitlements','digitalSnapshots','digitalGrants']
+    if source(name,required):
+        if not valid_objects('digitalSnapshots','policy_snapshot') or not valid_objects('digitalGrants','policy_snapshot'):not_covered(name,'invalid_frozen_policy')
+        resolvable.update(('digital_grant_missing','digital_grant_binding_mismatch'))
+        grants={}
+        for grant in data['digitalGrants']:grants.setdefault(grant['item_id'],[]).append(grant)
+        snapshots={row['item_id']:row for row in data['digitalSnapshots']}
+        for snap in data['digitalSnapshots']:
+            ident=snap['item_id'];present.add((name,ident));item=items.get(ident);order=orders.get(snap['order_id']);events=pays.get(snap['order_id'],[])
+            try:
+                policy=strict_json(snap['policy_snapshot'])
+                if not isinstance(policy,dict) or type(policy.get('validityDays')) is not int or not 1<=policy['validityDays']<=3650 or type(policy.get('usesPerUnit')) is not int or not 1<=policy['usesPerUnit']<=1000:raise ValueError()
+            except (ValueError,TypeError):not_covered(name,'invalid_frozen_policy');continue
+            if len(events)>1:not_covered(name,'ambiguous_payment');continue
+            if not events:continue
+            entries=grants.get(ident,[])
+            if len(entries)!=1:add('digital_grant_missing',name,ident,snap['owner'],name,severity='error',grantCount=len(entries));continue
+            grant=entries[0];pay=events[0]
+            expected={'id':'digital:'+ident,'owner':snap['owner'],'order_id':snap['order_id'],'item_id':ident,'content_id':snap['content_id'],'media_id':snap['media_id'],
+                'policy_snapshot':snap['policy_snapshot'],'uses_per_unit':policy['usesPerUnit'],'original_quantity':item['quantity'] if item else None,'starts':pay['created'],'expires':pay['created']+policy['validityDays']*86400000}
+            if not item or not order or order['owner']!=snap['owner'] or pay['owner']!=snap['owner'] or item['order_id']!=snap['order_id'] or item['type']!='digital' or item['content_id']!=snap['content_id'] or any(grant[k]!=v for k,v in expected.items()):add('digital_grant_binding_mismatch',name,ident,snap['owner'],name,severity='error')
+        for grant in data['digitalGrants']:
+            if grant['item_id'] not in snapshots:
+                present.add((name,grant['item_id']));add('digital_grant_binding_mismatch',name,grant['item_id'],grant['owner'],name,severity='error')
+    name='membershipMaterializedQuota';required=['quotaPeriods','quotaEvents','memberSnapshots','subscriptions','orders','items','payments','entitlements']
+    if source(name,required):
+        from membership_ai_quota import bounds
+        if not valid_objects('memberSnapshots','data') or not valid_objects('quotaPeriods','policy_snapshot','benefits_snapshot'):not_covered(name,'invalid_frozen_policy')
+        resolvable.update(('membership_period_binding_mismatch','membership_grant_event_missing','membership_grant_event_orphan'))
+        periods={row['id']:row for row in data['quotaPeriods']};snaps={row['item_id']:row for row in data['memberSnapshots']};subs={row['id']:row for row in data['subscriptions']};events={row['id']:row for row in data['quotaEvents']};pay_by_id={row['id']:row for row in data['payments']}
+        for period in data['quotaPeriods']:
+            ident=period['id'];present.add((name,ident));snap=snaps.get(period['item_id']);bad=False
+            if not snap:
+                add('membership_period_binding_mismatch',name,ident,period['owner'],name,severity='error');continue
+            try:
+                policy=strict_json(period['policy_snapshot']);benefits=strict_json(period['benefits_snapshot']);terms=strict_json(snap['data']) if snap else None
+                if not isinstance(policy,dict) or policy.get('environment')!='sandbox' or not isinstance(policy.get('ruleVersion'),str) or not policy['ruleVersion'].strip() or not isinstance(benefits,dict) or not isinstance(terms,dict) or not isinstance(terms.get('benefits'),dict):raise ValueError()
+                original=terms['benefits'];credits=original.get('aiCredits');cycle=original.get('aiResetCycle')
+                if type(credits) is not int or not 0<=credits<=1000000 or cycle not in ('month','year','billing_period'):bad=True
+                else:
+                    start,end=bounds(snap['period_start'],snap['period_end'],cycle,period['created'])
+                    bad|=(period['cycle_start'],period['cycle_end'])!=(start,end) or not snap['period_start']<=period['created']<snap['period_end']
+                bad|=period['credits']!=credits or benefits!=original
+            except (ValueError,TypeError,KeyError,OverflowError):not_covered(name,'invalid_frozen_policy');continue
+            item=items.get(period['item_id']);order=orders.get(snap['order_id']);sub=subs.get(period['subscription_id']);pay=pay_by_id.get(snap['payment_event_id'])
+            bad|=period['id']!='mai:'+digest([period['owner'],period['item_id'],period['cycle_start']]) or snap['owner']!=period['owner'] or snap['subscription_id']!=period['subscription_id']
+            bad|=not item or not order or not sub or not pay
+            if not bad:bad|=item['order_id']!=order['id'] or item['type']!='membership' or item['quantity']!=1 or order['owner']!=period['owner'] or sub['owner']!=period['owner'] or sub['environment']!='sandbox' or pay['order_id']!=order['id'] or pay['owner']!=period['owner'] or pay['kind']!='sandbox_pay' or pay['status']!='applied' or pay['environment']!='sandbox'
+            if bad:add('membership_period_binding_mismatch',name,ident,period['owner'],name,severity='error')
+            event=events.get('grant:'+ident)
+            matching=[e for e in data['quotaEvents'] if e['period_id']==ident and e['action']=='grant']
+            if not event or len(matching)!=1 or event['owner']!=period['owner'] or event['period_id']!=ident or event['job_id']!='' or event['action']!='grant' or event['credits']!=period['credits'] or event['created']!=period['created']:add('membership_grant_event_missing',name,ident,period['owner'],name,severity='error')
+        for event in data['quotaEvents']:
+            if event['action']=='grant' and event['period_id'] not in periods:
+                present.add((name,event['period_id']));add('membership_grant_event_orphan',name,event['period_id'],event['owner'],name,severity='error')
+    name='membershipBoundJobs';required=['quotaJobs','quotaAllocations','quotaPeriods','quotaEvents','gatewayQuotaEvents']
+    if source(name,required):
+        if not valid_objects('quotaPeriods','policy_snapshot','benefits_snapshot'):not_covered(name,'invalid_frozen_policy')
+        resolvable.update(('membership_job_allocation_missing','membership_job_binding_mismatch','membership_job_settlement_mismatch'))
+        periods={row['id']:row for row in data['quotaPeriods']};allocations={row['job_id']:row for row in data['quotaAllocations']};jobs={row['id']:row for row in data['quotaJobs']};events={row['id']:row for row in data['quotaEvents']};gateway={row['id']:row for row in data['gatewayQuotaEvents']}
+        for job in data['quotaJobs']:
+            if job['quota_source']!='membership_period':continue
+            ident=job['id'];present.add((name,ident));allocation=allocations.get(ident);period=periods.get(job['quota_period_id'])
+            if not allocation:add('membership_job_allocation_missing',name,ident,job['owner'],name,severity='error');continue
+            bad=not period or allocation['owner']!=job['owner'] or allocation['period_id']!=job['quota_period_id'] or allocation['reserved_credits']!=job['reserve_credits'] or type(job['reserve_credits']) is not int or job['reserve_credits']<=0
+            if period:bad|=period['owner']!=job['owner'] or period['credits']<=0
+            if bad:add('membership_job_binding_mismatch',name,ident,job['owner'],name,severity='error');continue
+            terminal=job['status'] in ('succeeded','failed','partial','cancelled')
+            bad=(allocation['state']!='settled' or allocation['charged_credits']!=job['charged_credits'] or type(job['charged_credits']) is not int or not 0<=job['charged_credits']<=job['reserve_credits']) if terminal else (job['status'] not in ('queued','running') or allocation['state']!='reserved' or allocation['charged_credits'] is not None)
+            for action,credits in [('reserve',job['reserve_credits']),*([('settle',job['charged_credits'])] if terminal else [])]:
+                key=action+':'+ident;event=events.get(key);qevent=gateway.get(key)
+                bad|=not event or not qevent
+                if event:bad|=event['owner']!=job['owner'] or event['period_id']!=job['quota_period_id'] or event['job_id']!=ident or event['action']!=action or event['credits']!=credits
+                if qevent:bad|=qevent['owner']!=job['owner'] or qevent['job_id']!=ident or qevent['action']!=action or qevent['credits']!=credits
+            if bad:add('membership_job_settlement_mismatch',name,ident,job['owner'],name,severity='error')
+        for allocation in data['quotaAllocations']:
+            job=jobs.get(allocation['job_id'])
+            if not job or job['quota_source']!='membership_period':
+                present.add((name,allocation['job_id']));add('membership_job_binding_mismatch',name,allocation['job_id'],allocation['owner'],name,severity='error')
+    coverage_view={'scanId':str(uuid4()),'observedAt':stamp,'partial':any(not item['covered'] and item.get('applicable',True) for item in coverage.values()),'sources':list(coverage.values()),
+        'uncovered':[key for key,item in coverage.items() if not item['covered']],
+        'inapplicable':['python_sqlite_no_object_store'],
+        'unsupportedMetrics':{'realChannelPaymentFailure':None,'realRefundFailure':None,'chargeback':None,'bankArrival':None,'realChannelStatement':None}}
+    coverage_view['uncertainAnchors']=[{'source':scope,'anchorType':kind,'id':ident} for scope,kind,ident in sorted(uncertain)]
+    return {'findings':findings,'coverage':coverage_view,'covered':covered,'resolvable':resolvable,'present':present,'uncertain':uncertain}
+
+
+def privacy_registry():
+    group='commerceAndFulfilment'
+    return {
+        'ops_task_runs':(group,'r.actor=?'),'ops_workers':(group,'r.actor=?'),'ops_claim_fences':(group,'r.actor=?'),
+        'payment_monitor_scans':(group,'EXISTS(SELECT 1 FROM ops_task_runs x WHERE x.id=r.run_id AND x.actor=?)'),
+        'payment_alerts':(group,'r.owner=?'),
+        'payment_alert_actions':(group,'(r.actor=? OR EXISTS(SELECT 1 FROM payment_alerts a WHERE a.id=r.alert_id AND a.owner=?))'),
+        'payment_alert_notifications':(group,'(r.owner=? OR r.created_by=?)'),
+        'payment_alert_notification_attempts':(group,'(r.actor=? OR EXISTS(SELECT 1 FROM payment_alert_notifications n WHERE n.id=r.notification_id AND n.owner=?))'),
+        'payment_alert_notification_receipts':(group,'(r.actor=? OR EXISTS(SELECT 1 FROM payment_alert_notifications n WHERE n.id=r.notification_id AND n.owner=?))')}
+
+
+def export_metadata(db,owner):
+    if not db.execute("SELECT 1 FROM sqlite_master WHERE name='ops_task_runs'").fetchone():return {}
+    selections={
+        'localTaskRuns':('ops_task_runs','id,kind,status,started,finished,processed,last_error','actor=?'),
+        'localTaskWorkers':('ops_workers','id,status,last_heartbeat,last_error,created,updated','actor=?'),
+        'paymentMonitorScans':('payment_monitor_scans','id,run_id,observed_at,partial','EXISTS(SELECT 1 FROM ops_task_runs r WHERE r.id=payment_monitor_scans.run_id AND r.actor=?)'),
+        'paymentAlerts':('payment_alerts','id,rule_code,source_type,source_id,episode,severity,status,first_seen,last_seen,seen_scan_count,version,ack_at,resolved_at','owner=?'),
+        'paymentAlertActions':('payment_alert_actions','id,alert_id,action,created','actor=? OR EXISTS(SELECT 1 FROM payment_alerts a WHERE a.id=payment_alert_actions.alert_id AND a.owner=?)'),
+        'paymentAlertNotifications':('payment_alert_notifications','id,event_id,alert_id,episode,status,attempts,next_attempt,last_error,created,updated','owner=? OR created_by=?'),
+        'paymentAlertNotificationAttempts':('payment_alert_notification_attempts','id,notification_id,attempt,action,result,error_code,created','actor=? OR EXISTS(SELECT 1 FROM payment_alert_notifications n WHERE n.id=payment_alert_notification_attempts.notification_id AND n.owner=?)'),
+        'paymentAlertNotificationReceipts':('payment_alert_notification_receipts','id,notification_id,event_id,attempt,http_status,confirmed_at','actor=? OR EXISTS(SELECT 1 FROM payment_alert_notifications n WHERE n.id=payment_alert_notification_receipts.notification_id AND n.owner=?)')}
+    result={}
+    for key,(table,columns,where) in selections.items():
+        result[key]=[dict(row) for row in db.execute('SELECT '+columns+' FROM '+table+' WHERE '+where,[owner]*where.count('?'))]
+    return result

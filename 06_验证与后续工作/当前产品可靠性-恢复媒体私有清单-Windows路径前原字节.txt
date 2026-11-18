@@ -1,0 +1,194 @@
+"""Explicit completed-report selection only; default does not scan or write artifacts."""
+from pathlib import Path
+import argparse
+import datetime
+import hashlib
+import json
+import os
+import re
+import stat
+import uuid
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = Path(__file__).resolve().parent
+STATE = ROOT / '04_研发源码/app/cloud/.wrangler'
+PREFIX = '负责人优化建议-当前产品可靠性'
+RECOVERY = PREFIX + '恢复'
+MEDIA = PREFIX + '后端媒体'
+INPUT = OUT / '当前产品可靠性-恢复媒体报告选择.json'
+ROLES = ('recoveryPython', 'recoveryCloud', 'mediaPython', 'mediaCloud')
+PROOF = 'f0afaa945f1f099769c844eb8f99d97e65da4298e344c5186ae0ecb893324644'
+AUTH = '3cf5451a3ea838c9b062b53ba3abb9f3d894ec5cb932cad1940c2196d606b45e'
+HEX = re.compile(r'^[a-f0-9]{64}$')
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+read = lambda p: json.loads(p.read_text('utf-8'))
+relative = lambda p: p.relative_to(ROOT).as_posix()
+
+
+def local(name):
+    assert isinstance(name, str) and not Path(name).is_absolute() and '\\' not in name and '..' not in name.split('/')
+    p = ROOT / name
+    assert p.exists() and p.resolve().is_relative_to(ROOT)
+    for part in (p, *p.parents):
+        if part == ROOT.parent:
+            break
+        info = part.lstat()
+        assert not stat.S_ISLNK(info.st_mode) and not (getattr(info, 'st_file_attributes', 0) & 0x400)
+    return p.resolve()
+
+
+def checked(ref):
+    assert isinstance(ref, dict) and isinstance(ref.get('path'), str) and HEX.fullmatch(ref.get('sha256', ''))
+    p = local(ref['path'])
+    assert p.is_file() and sha(p) == ref['sha256']
+    return p
+
+
+def generate(selection_sha):
+    assert HEX.fullmatch(selection_sha or '') and sha(INPUT) == selection_sha
+    selected = read(INPUT)
+    assert selected.get('authorizedByRoot') is True and set(selected['roles']) == set(ROLES)
+    token = uuid.uuid4().hex
+    private, manifests, role_refs = {}, [], {}
+
+    def add_file(p, provenance):
+        p = local(relative(p))
+        assert p.parent == OUT and p.name.startswith(PREFIX) and p.is_file()
+        entry = {'path': relative(p), 'kind': 'file', 'sha256': sha(p),
+                 'provenance': provenance, 'includedInDefaultHandoff': False}
+        if relative(p) in private:
+            assert private[relative(p)] == entry
+        private[relative(p)] = entry
+
+    def add_directory(p, provenance):
+        p = local(relative(p))
+        assert p.parent == STATE and p.is_dir()
+        actual = {}
+        for directory, subdirs, files in os.walk(p, followlinks=False):
+            for child in subdirs + files:
+                item = Path(directory) / child
+                info = item.lstat()
+                assert not stat.S_ISLNK(info.st_mode) and not (getattr(info, 'st_file_attributes', 0) & 0x400)
+                assert item.name != '.dev.vars', 'Private environment must be removed before selection'
+            for child in files:
+                item = Path(directory) / child
+                actual[item.relative_to(p).as_posix()] = sha(item)
+        assert actual, 'A selected owned state must have actual files'
+        destination = OUT / (PREFIX + '-私有目录清单-' + token + '-' + str(len(manifests)) + '.json')
+        document = {'schemaVersion': 1, 'root': relative(p), 'files': dict(sorted(actual.items())),
+                    'provenance': provenance, 'containsPrivateState': True,
+                    'includedInDefaultHandoff': False}
+        with destination.open('xb') as handle:
+            handle.write((json.dumps(document, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
+        reference = {'path': relative(destination), 'sha256': sha(destination)}
+        manifests.append(reference)
+        private[relative(p)] = {'path': relative(p), 'kind': 'directory', 'manifest': reference,
+                                'provenance': provenance, 'includedInDefaultHandoff': False}
+
+    def sqlite_files(p, provenance):
+        add_file(p, provenance)
+        for suffix in ('-wal', '-shm', '-journal'):
+            sibling = Path(str(p) + suffix)
+            if sibling.is_file():
+                add_file(sibling, provenance)
+
+    for role in ROLES:
+        ref = selected['roles'][role]
+        assert ref.get('childExitCode') == 0, 'Root must provide observed natural child exit code'
+        report_file = checked(ref)
+        assert report_file.parent == OUT and report_file.name.startswith(PREFIX)
+        report = read(report_file)
+        run = report.get('runId')
+        assert re.fullmatch('[a-f0-9]{32}', str(run))
+        target = 'python' if role.endswith('Python') else 'cloud'
+        assert report['target'] == target and report.get('productionEnabled') is False
+        role_refs[role] = {'path': relative(report_file), 'sha256': ref['sha256'], 'childExitCode': 0}
+        provenance = {'path': relative(report_file), 'sha256': ref['sha256']}
+        if role.startswith('recovery'):
+            assert report['localDrillPassed'] is True and report['componentOnly'] is False
+            assert report['passed'] == 11 and report['failed'] == 0
+            assert report['cleanup']['allTrackedPidsExited'] and report['allEpochRemainingPids'] == []
+            assert report['privateVarsRemaining'] == 0
+            assert report['performanceRepair']['repairProofSha256'] == PROOF
+            assert report['performanceRepair']['authorizationSha256'] == AUTH
+            armed_file = checked(report['labManifest'])
+            assert armed_file.parent == OUT and armed_file.name == RECOVERY + '-manifest-' + run + '.json'
+            armed = read(armed_file)
+            core = armed['core']
+            encoded = json.dumps(core, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(',', ':')).encode('utf-8')
+            assert armed['manifestSha256'] == hashlib.sha256(encoded).hexdigest()
+            assert core['runId'] == run and core['backend'] == target
+            assert core['status'] == 'armed-local-only' and core['productionEnabled'] is False
+            anchor = {'path': relative(armed_file), 'sha256': report['labManifest']['sha256']}
+            if target == 'python':
+                for name in ('live', 'snapshot', 'restored', 'rollback'):
+                    sqlite_files(OUT / (RECOVERY + '-' + run + '-' + name + '.sqlite3'), anchor)
+            else:
+                assert core['cloudStateBasename'] == 'rl-' + run
+                for suffix in ('', '-restored', '-rollback'):
+                    add_directory(STATE / ('rl-' + run + suffix), anchor)
+                # Read only this run's explicit snapshot artifacts. No old-prefix glob.
+                found_sql = False
+                for item in report['artifacts']:
+                    artifact = checked(item)
+                    assert artifact.parent == OUT and artifact.name.startswith(RECOVERY + '-' + run + '-')
+                    if artifact.suffix != '.json':
+                        continue
+                    snapshot = read(artifact)
+                    if snapshot.get('operation') != 'd1-snapshot':
+                        continue
+                    dump = local(snapshot['sqlPath'])
+                    assert dump == OUT / (RECOVERY + '-' + run + '-snapshot.sql') and sha(dump) == snapshot['sqlSha256']
+                    add_file(dump, anchor)
+                    objects = snapshot['r2Snapshot']
+                    object_manifest = checked(objects)
+                    assert object_manifest.name == RECOVERY + '-' + run + '-r2-private-manifest.json'
+                    add_file(object_manifest, anchor)
+                    contents = read(object_manifest)
+                    assert contents['runId'] == run and contents['labManifestSha256'] == armed['manifestSha256']
+                    for obj in contents['entries']:
+                        binary = local(obj['file'])
+                        assert binary.parent == OUT and binary.name == RECOVERY + '-' + run + '-r2-' + obj['keySha256'] + '.bin'
+                        assert sha(binary) == obj['sha256'] and binary.stat().st_size == obj['bytes']
+                        add_file(binary, anchor)
+                    found_sql = True
+                assert found_sql, 'Actual current-run native snapshot report required'
+        else:
+            assert report['role'] == role and report['pass'] is True and report['componentPassed'] is True
+            assert len(report['samples']) == 5 and all(x['passed'] is True for x in report['samples'])
+            assert report['repairProof']['sha256'] == PROOF and report['repairAuthorization']['sha256'] == AUTH
+            assert report['cleanup']['remainingOwnedPids'] == [] and report['cleanup']['privateVarsRemaining'] == 0
+            if target == 'python':
+                p = local(report['ownedDatabase'].replace('\\', '/'))
+                assert p == OUT / (MEDIA + '隔离-python-' + run + '.sqlite3')
+                sqlite_files(p, provenance)
+            else:
+                p = local(report['ownedState'].replace('\\', '/'))
+                assert p == STATE / (MEDIA + '隔离-cloud-' + run)
+                add_directory(p, provenance)
+    paths = [ROOT / n for n in private]
+    assert all(not (a == b or a.is_relative_to(b) or b.is_relative_to(a)) for i, a in enumerate(paths) for b in paths[i+1:])
+    fragment = {'schemaVersion': 1, 'stage': 31, 'authorizedByRoot': True,
+                'roles': role_refs, 'localOnlyArtifacts': list(private.values()),
+                'directoryManifests': manifests,
+                'input': {'path': relative(INPUT), 'sha256': selection_sha},
+                'tool': {'path': relative(Path(__file__)), 'sha256': sha(Path(__file__))},
+                'createdAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                'businessScenariosChanged': False, 'privateArtifactsIncludedInDefaultHandoff': False}
+    output = OUT / (PREFIX + '-恢复媒体选择片段-' + token + '.json')
+    with output.open('xb') as handle:
+        handle.write((json.dumps(fragment, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
+    return {'path': relative(output), 'sha256': sha(output), 'roles': list(role_refs), 'localOnlyCount': len(private)}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--write-fragment', action='store_true')
+    parser.add_argument('--expected-sha256')
+    args = parser.parse_args()
+    if not args.write_fragment:
+        assert args.expected_sha256 is None
+        print(json.dumps({'status': 'prepared-not-run', 'startsService': False, 'scansPrivateArtifacts': False,
+                          'input': INPUT.name, 'roles': ROLES}))
+    else:
+        print(json.dumps(generate(args.expected_sha256), ensure_ascii=False))

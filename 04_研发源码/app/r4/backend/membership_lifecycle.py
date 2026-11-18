@@ -1,5 +1,6 @@
 """Finite sandbox subscription lifecycle; all money and entitlements remain in commerce."""
 import calendar,copy,hashlib,json,re,sqlite3,time
+import membership_ai_quota as member_quota
 from datetime import datetime,timezone
 from urllib.parse import parse_qs
 from uuid import uuid4
@@ -89,6 +90,10 @@ class Membership:
             if latest['item_id']!=r['current_item_id'] or status!=r['status']:
                 db.execute("UPDATE membership_subscriptions SET current_item_id=?,plan_id=?,plan_version=?,period_start=?,period_end=?,status=?,auto_renew=CASE WHEN ? IN ('expired','revoked') THEN 0 ELSE auto_renew END,next_charge_at=CASE WHEN ? IN ('expired','revoked') THEN NULL WHEN auto_renew=1 THEN ? ELSE NULL END,version=version+1,updated=? WHERE id=?",(latest['item_id'],latest['plan_id'],latest['plan_version'],latest['period_start'],latest['period_end'],status,status,status,latest['period_end'],t,r['id']))
         db.execute("DELETE FROM membership_purchase_locks WHERE owner=? AND (EXISTS(SELECT 1 FROM membership_subscriptions s WHERE s.id=membership_purchase_locks.subscription_id AND s.status IN ('expired','revoked')) OR (subscription_id IS NULL AND EXISTS(SELECT 1 FROM commerce_orders o WHERE o.id=membership_purchase_locks.order_id AND o.payment_status NOT IN ('paid','partially_refunded') AND (o.reserved_until<=? OR o.status='closed'))))",(self.owner,t))
+        self.sync_quota(db)
+    def sync_quota(self,db):
+        if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='membership_ai_periods'").fetchone():
+            member_quota.sync_owner(db,self.owner,self.clock(),grant=False)
     def snapshot_for_checkout(self,db,owner,items,environment,renewal_of=None):
         """Root calls inside commerce transaction before inserting membership order lines."""
         if owner!=self.owner:self.fail(403,'会员快照账号不符。')
@@ -151,7 +156,7 @@ class Membership:
             db.execute("INSERT INTO membership_subscriptions(id,owner,environment,group_id,original_item_id,current_item_id,plan_id,plan_version,status,auto_renew,period_start,period_end,next_charge_at,created,updated) VALUES(?,?,'sandbox',?,?,?,?,?,'active',?,?,?,?,?,?)",(sid,self.owner,r['group_id'],item_id,item_id,r['plan_id'],r['plan_version'],int(renew),start,end,end if renew else None,t,t))
         db.execute("UPDATE membership_order_snapshots SET subscription_id=?,payment_event_id=?,period_start=?,period_end=?,state='active' WHERE item_id=? AND subscription_id IS NULL",(sid,payment['id'],start,end,item_id))
         db.execute("UPDATE membership_purchase_locks SET subscription_id=?,expires=? WHERE owner=? AND environment='sandbox' AND group_id=?",(sid,end,self.owner,r['group_id']))
-        self.event(db,sid,'activation:'+item_id,'sandbox_activation',{'itemId':item_id,'orderId':r['order_id'],'paymentEventId':payment['id'],'source':'unified-commerce-sandbox'});return sid
+        self.event(db,sid,'activation:'+item_id,'sandbox_activation',{'itemId':item_id,'orderId':r['order_id'],'paymentEventId':payment['id'],'source':'unified-commerce-sandbox'});self.sync_quota(db);return sid
     def validate_commerce_payment(self,db,order_id):
         order=self.order(db,order_id);lines=db.execute("SELECT * FROM commerce_order_items WHERE order_id=? AND type='membership'",(order_id,)).fetchall()
         if not lines or order['payment_status'] in ('paid','partially_refunded','refunded'):return True
@@ -226,6 +231,7 @@ class Membership:
             db.execute('BEGIN IMMEDIATE');self.sync(db);r=self.own(db,sid);_,replay=self.event(db,sid,key,'cancel_renewal',{'source':'sandbox-self-service'})
             if not replay:
                 status=('cancelled_active' if r['period_end']>self.clock() else 'expired') if r['status'] in ('active','renewal_failed','grace','cancelled_active') else r['status'];db.execute('UPDATE membership_subscriptions SET auto_renew=0,next_charge_at=NULL,cancelled_at=?,status=?,version=version+1,updated=? WHERE id=?',(self.clock(),status,self.clock(),sid));self.store.audit(db,self.owner,'membership.sandbox.cancel',sid,'只关闭沙箱续费，保留已付期')
+            self.sync_quota(db)
             return self.subscription(db,self.own(db,sid))
     def refund_request(self,sid,d):
         if set(d)!={'requestId','reason'}:self.fail(400,'退款申请须包含编号和原因。')
@@ -281,6 +287,7 @@ class Membership:
                         if t<max(r['period_end'],grace or 0):self.fail(409,'权益尚未到期。')
                         status='expired'
                     db.execute("UPDATE membership_subscriptions SET status=?,grace_end=?,next_charge_at=CASE WHEN ? IN ('paused','past_due','expired') THEN NULL WHEN auto_renew=1 THEN period_end ELSE NULL END,version=version+1,updated=? WHERE id=?",(status,grace,status,t,sid));self.store.audit(db,original,'membership.sandbox.state',sid,'sandbox-simulator；'+event+'；不制造付款或加时')
+                self.sync_quota(db)
                 return self.subscription(db,self.own(db,sid))
             finally:self.owner=original
     def route(self,method,path):

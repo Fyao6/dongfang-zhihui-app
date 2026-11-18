@@ -1,0 +1,60 @@
+{
+  "at": "2026-11-16T21:47:11.894Z",
+  "scope": "actual native D1 + actual product HTTP component; not final build, formal QA, native device or production proof",
+  "productionEnabled": false,
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\routing-component-1794865631894-dcd2fbc5",
+  "sourceHashes": {
+    "lib/payment-routing.ts": "ee75fcc3c5013742ec55b466f3c13a3775ee1280a5f65fdd5e1a7e683158bcbc",
+    "lib/commerce-api.ts": "cf0feb38f827720626613f3569ef063e18e98efdc0a6fa54dc60f10e2fd02c11",
+    "lib/eastern-api.ts": "f7174a655f32c7201a52dab49898728606c65ec97eb41a0ae5b87a2ec863757d",
+    "lib/privacy-api.ts": "5bc1eb8d24dede1a5c94729d5214f729a4c5576138c36515299b2b75b0535f7a",
+    "lib/privacy-domains.ts": "d7c5aee53623421b1b71f0879344c5c6cadbfeb525132e6a4c0a99f3319884b5",
+    "generated/payment-routing-schema.sql": "58adc88f369df620692e1f967dc5bc21224ef3487fc15f8d0d1e92f1eb888a09"
+  },
+  "checks": [
+    {
+      "name": "native D1/health/login",
+      "passed": true,
+      "httpStatus": 200
+    },
+    {
+      "name": "legacy immutable route / real original sandbox payment",
+      "passed": true
+    },
+    {
+      "name": "enforced explicit server context confirmation / quote pure read",
+      "passed": true
+    },
+    {
+      "name": "quote/order atomic single consumption + request replay",
+      "passed": true
+    },
+    {
+      "name": "price-only update keeps existing order price / new quote uses new price",
+      "passed": true
+    },
+    {
+      "name": "policy changed / reconfirm preserves old price and reservation",
+      "passed": true
+    },
+    {
+      "name": "enforced actual membership capture and verified activation",
+      "passed": true
+    },
+    {
+      "name": "enforced finite digital original policy and unique grant",
+      "passed": true
+    },
+    {
+      "name": "paused rejects new actions / committed order replay preserved",
+      "passed": true
+    },
+    {
+      "name": "immutable guards and private safe export",
+      "passed": true
+    }
+  ],
+  "passed": 10,
+  "failed": 0,
+  "sourceUnchanged": true
+}

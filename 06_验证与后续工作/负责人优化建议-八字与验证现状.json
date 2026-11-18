@@ -1,0 +1,53 @@
+{
+  "module": "负责人优化建议 八字第一模块实施与测试准备",
+  "scope": "只读检查业务源码、AGENTS全部407行及既有测试体系；仅按主代理后续合同修改四个测试文件。未修改业务源码、构建、数据库、生产配置或任何旧验收收据，未执行测试。",
+  "project_root": "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒",
+  "existing_structure": [
+    {"file":"04_研发源码/app/r4/life-chart-bazi-layout.js","symbols":["lcbBoard","lcbTableTimeline","lcbArchivePanel","lcbAnnotationPanel","lcbReferenceResult","lcbOpenTools"],"finding":"原默认上表为六列、可加流月为七列；详细字段有真实tbody折叠。流运已独立为三级大运/流年/流月轨道；档案和神煞为惰性页签。工具弹层保留保存、导出、笔记、参数和完整七列对照，可原位调整呈现。"},
+    {"file":"04_研发源码/app/r4/life-chart-bazi.js","symbols":["lcBaziCalculate","lcbTimelineView","lcbComparisonPanel","lcbPillarTable","lcbRememberTimeline","lcbRestoreTimeline"],"finding":"已有四柱详细表、七列九字段完整对照、25术语入口、手选流运与焦点/横滚位置恢复。检查初始源码时boardExpanded为true、panel为flow；本轮应显式改四柱模式且默认false，不改选中和存档语义。"},
+    {"file":"04_研发源码/app/r4/bazi-time.js","symbols":["lcbTimeTerms","lcbMonthInterval","lcbCalendarAt","lcbCurrentSelection","lcbResolveSelection"],"finding":"真实节气月边界、当前/手动选择、出生前/起运前/超范围已有确定性逻辑，固定UTC+08:00；缓存为节气表缓存，不应与业务结果缓存混淆。选中日期区间可直接复用lcbMonthInterval。"},
+    {"file":"04_研发源码/app/r4/bazi-compare.js","symbols":["lcbDescribePillar","lcbBuildComparison"],"finding":"返回年/月/日/时及大运/流年/流月七列；十神及星运以本命日干统一比较；旬空按各列自身旬，不是自动判为命中本命空亡。只改显示列，不修改真实计算数组。"},
+    {"file":"04_研发源码/app/r4/bazi-glossary.js","symbols":["lcbGlossaryData","lcbTermButton","lcbTenGodButtons","lcbOpenGlossary"],"finding":"现成25项词典及相关十神解释弹层；More工具与词典往返可恢复原工具DOM、展开状态、草稿及焦点，应保留。"},
+    {"file":"04_研发源码/app/r4/life-chart-bazi-annotations.js","symbols":["lcbBuildAnnotations"],"finding":"十二类固定有来源查表，rulesVersion为eastern-bazi-annotations-2；本命锚点不会随流运变化。国印/金舆本命年干，天乙/文昌/羊刃/禄神本命日干，月德本命节令月支。自坐与本命日主星运不同。空表示未命中所录十二规则，不表示所有流派无神煞。"},
+    {"file":"04_研发源码/app/r4/life-chart-bazi.css","finding":"reference范围已具16px左右边距、主干支25px、流运17px、标题22px；长语言用局部横滑，不能通过缩成不可读小字满足首屏。部分历史密度覆盖存在，新增规则应限新presentation选择器，避免影响其他布局。"}
+  ],
+  "first_module_recommendation": [
+    "沿用data-lcb-layout=reference并新增data-lcb-presentation=four-pillars明确呈现合同，默认4列3行共12可见字段；详细4列7行共28格。",
+    "增加真实完整对照切换，默认七列，允许原流月开关在完整模式六/七列切换；返回基础盘四列，七列全字段仍可实际横向滚动到达。",
+    "出生资料默认details折叠且修改入口始终可见；三页签档案/流运/神煞保留；神煞按柱数量摘要折叠且内部每条依据可展开。",
+    "复用原术语词典与真实选择引擎，增加五行文字图例、流运实际节令月区间；切流年/月与回当前不改生辰、原排盘结果或存档。",
+    "本模块只完成呈现及现有结果映射验证；缺老师确认样本和规则时不宣称流运神煞算法已获专业验证，不新增地域/真太阳时字段或擅改规则。"
+  ],
+  "professional_rules_pending": [
+    "老师尚需确认真太阳时、换日与子时划分、年/月柱切换、节气来源精度、公农历与闰月输入口径、起运顺逆/算法/岁数/日期、虚岁或周岁及各神煞适用规则。",
+    "现有确定性引擎为lunar-javascript 1.7.7，daySect与yunSect可选1/2、默认2；年界立春、月界节令、固定UTC+08:00、不采用真太阳时、库虚岁口径。保留这些真实现状，不冒称老师已选定。",
+    "既有官方样例与固定边界/JSON测试不等于至少30个老师确认的标准命盘。需要收齐规则、标准样本、逐字段期望和确认版本后再做专业一致性验收。",
+    "主生辰仍生日/性别及选填称呼/时间四字段，时辰未知不造紫微或八字精确盘。Western独立城市授权是单独例外，不能自动延伸到八字。",
+    "藏文为既有待母语审校版本；浏览器四语可读与无缺译检查不代表藏文专业语言审校通过。"
+  ],
+  "test_changes": [
+    {"file":"06_验证与后续工作/八字体验逐模块验收.cjs","change":"保留历史compact/reference分支，stage3显式识别four-pillars并检验默认12格、四柱28格及完整七列49格；旧完整对照/术语/辅助/存档/边界用例保留；新module前缀分开保存报告截图。"},
+    {"file":"06_验证与后续工作/原创命盘交互核验.cjs","change":"新four-pillars分支验证默认/详细/完整/恢复基础及神煞按柱数量折叠；旧分支保留。负责人优化建议module强制隔离端口并生成独立报告截图。"},
+    {"file":"06_验证与后续工作/八字参考排版核验.cjs","change":"保留旧参考版/留白字号合同，新呈现独立断言四柱、折叠、专业六七列固定期望、真实流运年月、神煞组和旧More七列；新module分开报告截图。"},
+    {"file":"06_验证与后续工作/负责人优化建议-八字专项.cjs","change":"32组375/390/393/430×日夜×简繁英藏矩阵，加默认、神煞、日期与未知时辰共36组；校验12/28/49格、完整6/7切换、实际字段、最后列真实横滑、神煞计数依据、当前恢复不改生辰计算结果，合成资料不上传，保存6张代表性截图。可导出共用断言供老脚本使用。"}
+  ],
+  "validation_performed": {"node_syntax_check":"四个测试文件已通过bundled node --check，仅静态语法检查","acceptance_tests_executed":false,"service_started":false,"database_read_or_written":false,"production_data_accessed":false,"credentials_read_or_printed":false},
+  "safe_runtime": {
+    "node":"C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+    "python":"C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "playwright":"bundled dependencies/node/node_modules/playwright；既有全量优先可用Edge否则Chromium，新专项使用bundled Chromium",
+    "cloud_dependencies":"现有04_研发源码/app/cloud/node_modules/wrangler/bin/wrangler.js及dist/server/wrangler.json已存在；只用本地Wrangler --local，DB绑定DB、R2绑定BUCKET。",
+    "python_full":"在唯一项目根运行 bundled node 06_验证与后续工作/全量回归.cjs --admin --module=负责人优化建议-八字四柱 --bazi-stage=4。脚本自行Python --port 0 --db 06_验证与后续工作/本轮回归专用.sqlite3 --web-root 03_当前APP；只清理该隔离库及wal/shm，不使用原生产库。",
+    "cloud_full":"公网适配全量回归.cjs固定访问http://127.0.0.1:8877，不会自动启动Worker；需先创建全新隔离D1/R2 state并启动本地服务，再用bundled node运行 --module=负责人优化建议-八字四柱 --bazi-stage=4。它是本地Cloud完整回归，不是公网验收。",
+    "cloud_credentials_guard":"先确认cloud/.env.local-test存在；不得打印其内容，也不得因缺失而任由既有测试fallback使用.env.test公网凭据。种子初始化只读本地测试凭据，生成随机盐密码摘要，不输出凭据。",
+    "cloud_state":"建议新短名rq01（5字符符合初始化脚本约束），位于cloud/.wrangler/rq01；先Test-Path确认不存在，否则换新短名，不删除复用旧状态，不用默认.wrangler/state。",
+    "cloud_migrate_cwd":"04_研发源码/app/cloud",
+    "cloud_migrate_arguments":["--import","./scripts/sites-env.mjs","./node_modules/wrangler/bin/wrangler.js","d1","execute","DB","--local","--persist-to",".wrangler/rq01","--config","dist/server/wrangler.json","--file","drizzle/0000_lethal_lucky_pierre.sql"],
+    "cloud_seed":"bundled python 06_验证与后续工作/初始化云端创作者测试库.py rq01。脚本只允许cloud/.wrangler内短state且users必须为0，拒绝覆盖已有库。",
+    "cloud_start_arguments":["--import","./scripts/sites-env.mjs","./node_modules/wrangler/bin/wrangler.js","dev","--config","dist/server/wrangler.json","--local","--persist-to",".wrangler/rq01","--ip","127.0.0.1","--port","8877","--inspector-port","0"],
+    "cloud_start_environment":{"WRANGLER_SEND_METRICS":"false","CI":"1","NO_COLOR":"1"},
+    "port_guard":"启动前只读检查8877空闲；本次只读检查时8877/8879/8880均未监听，但实际启动前须再次检查。不要关闭或绑定用户8880/8879预览。若使用Start-Process后台启动应-WindowStyle Hidden。",
+    "new_specialist_commands":["bundled node 06_验证与后续工作/负责人优化建议-八字专项.cjs --base=http://127.0.0.1:8881 --target=python --module=负责人优化建议-八字四柱","bundled node 06_验证与后续工作/负责人优化建议-八字专项.cjs --base=http://127.0.0.1:8877 --target=cloud --module=负责人优化建议-八字四柱"],
+    "historical_test_boundary":"八字留白字号优化核验.cjs硬编码六列42格/旧计算hash，不适用于新四柱合同，保留历史。本轮必须绑定实际构建的新报告，不能重写旧冻结receipt或历史ZIP。全量脚本仍写通用滚动runs报告，主代理需将本轮module和buildHash提取到独立交付记录。"
+  }
+}

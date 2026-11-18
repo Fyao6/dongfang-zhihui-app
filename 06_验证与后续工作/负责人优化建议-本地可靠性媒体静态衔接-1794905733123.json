@@ -1,0 +1,56 @@
+{
+  "at": "2026-11-17T08:55:33.122Z",
+  "status": "media-component-static-ready-not-run",
+  "role": "mediaComponent",
+  "source": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性媒体计时.cjs",
+    "sha256": "d4f24116ab9947611544d814f330403a17b6db3744ff9638a7787b8b20894071",
+    "beforeSha256": "0964ca378cde7e80e6104402c0bdebefdeb29c6474e3d286781355b1eeeb0794",
+    "preservation": "06_验证与后续工作/负责人优化建议-本地可靠性媒体门禁前保全-1794905389430-2d1e6fdd.json",
+    "preservationSha256": "22923ef97a4d20f9b4a9c6da9b8bc72e2041a6c82f440100dc7d37ddfaa6326f"
+  },
+  "checks": {
+    "nodeSyntax": true,
+    "originalLimitsFixedHtmlRangeAndNativeActionsUnchanged": true,
+    "onlyServerDeltaViaSharedActualRepairProof": true,
+    "scriptAbsentFromLocked548": true,
+    "fixedMediaMatchedOriginalProof": true
+  },
+  "fixedMedia": {
+    "path": "04_研发源码/app/r4/images/community-preview.mp4",
+    "sha256": "6f2b7906ba417d740552849b06fc5879bdba41f436caca6e4dddf005a6838b05",
+    "bytes": 6618780
+  },
+  "gate": {
+    "sharedFunction": "verifyRepairProof(expectedRepairProofSHA,expectedAuthSHA)",
+    "requiredArgs": [
+      "probe-local-media",
+      "stage30-proof",
+      "proof-sha256",
+      "repair-proof-sha256",
+      "repair-authorization-sha256"
+    ],
+    "parentStage30Sha256": "752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07",
+    "candidateAuthorizationAloneAllowed": false
+  },
+  "measurementDefinitions": {
+    "loadeddata": "Event-only, navigation timestamp and relative native play timestamp; may preload before play; not a presented frame",
+    "firstPresentedFrame": "Actual requestVideoFrameCallback metadata, positive dimensions/mediaTime; no loadeddata fallback",
+    "seek": "Actual native button initiated currentTime seek plus seeked and post-seek frame/progress; not native scrubber dragging",
+    "waiting": "Observed waiting events paired to resume/pause/seek/end; durations and ratio to defined scripted window, startup/seek included",
+    "stalled": "Network stalled event counts are separate and do not prove playback stopped",
+    "percentiles": "One component sample; population P95 unavailable",
+    "httpBytes": "Stream bytes queued, not TCP/browser acknowledgements"
+  },
+  "commonModuleOrProductEdited": false,
+  "newQa548Edited": false,
+  "serviceStarted": false,
+  "browserStarted": false,
+  "productAppMediaApiCovered": false,
+  "pythonOrCloudBackendMediaApiCovered": false,
+  "cdnCovered": false,
+  "targetCountryCovered": false,
+  "physicalMobileCovered": false,
+  "formalAcceptance": false,
+  "productionEnabled": false
+}

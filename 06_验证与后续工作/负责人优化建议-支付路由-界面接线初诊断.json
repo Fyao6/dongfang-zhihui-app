@@ -1,0 +1,32 @@
+{
+  "module": "PAY05 UI/build initial component diagnostics",
+  "recordedAtBeijing": "2026-11-17T05:33:54.413288+08:00",
+  "formalAcceptance": false,
+  "events": [
+    {
+      "step": "build.py first UI assembly",
+      "exitCode": 1,
+      "failure": "SyntaxError: Identifier prText has already been declared",
+      "actualSite": "APP JavaScript stdin:14354",
+      "cause": "New route UI prText conflicted with existing privacy-center.js const prText",
+      "correction": "New UI globals renamed to payRouteUi and admin globals to payRouteAdmin; source hooks updated. Subsequent actual build.py exit0.",
+      "originalFailedSourceBytesCarried": false,
+      "evidenceLimit": "Raw tool diagnostic retained here; original failing intermediate UI bytes were not snapshotted before the correction."
+    },
+    {
+      "step": "first prepare command under Cloud workdir",
+      "exitCode": 2,
+      "failure": "python.exe cannot open cloud/04_研发源码/app/cloud/prepare.py: No such file or directory",
+      "cause": "Relative full project path was supplied while already in Cloud cwd",
+      "correction": "Ran python -B prepare.py in exact Cloud cwd; exit0, generated APP12775775bytes. Then actual run-framework.mjs build exit0 in separate invocation."
+    }
+  ],
+  "checkedCurrentFilesSHA256": {
+    "04_研发源码/app/r4/payment-routing-ui.js": "e7f6f4fcc4aa3ebfa96055e81a1ae9155599979e2271e240b098d78ac3fbf625",
+    "04_研发源码/app/r4/payment-routing-admin.js": "502b80d23398e8cee9be6da4cca03d940ad5a9a1a0f34327a03852a947de8f76",
+    "04_研发源码/app/r4/build.py": "a95bce0e227e2a32613dc9a8c2f89f77468152a25f718056acf8b1fd7a3fdbe9",
+    "04_研发源码/app/cloud/prepare.py": "38b6960e0023222840b8ff00740c97eb85334dc4f4e79832033d55844fd84446",
+    "06_验证与后续工作/负责人优化建议-支付路由-初次Cloud构建.log": "1737d2baf1ce5eec21f0237697f25ffd5b04761b91011f44b3a5424a8b3524f5",
+    "06_验证与后续工作/负责人优化建议-支付路由-接线Cloud构建.log": "0254d9f4dce170781500eb0ae2786d59aefd738b84422b61c8a18d05693b1a67"
+  }
+}

@@ -1,0 +1,87 @@
+负责人优化建议：抽卡 DR04–09 独立模块接口与接入说明
+
+边界与资料
+已阅读逐段原文 P506–559、P604–606、P614、P619、P621–622、P641 及 DR01–09 任务。当前只实现 DR04–09 工程能力；DR01 规则、DR02 正式全量原创文案/审核、DR03 正式素材/授权仍待负责人资料。36 张、三主题各12张、免费/会员每日一次均不冒充已最终确认。图片 2:3、1200×1800、80–120字及390px尺寸是建议，系统不谎称已核验艺术尺寸或外链版权。
+没有预置任何正式卡组。两套后端默认 enabled/sandboxEnabled/productionEnabled 均 false；sandboxRules/productionRules 的 expectedCount/dailyLimit/dayBoundary/randomMode/timezoneChangeCooldownHours/withdrawalPolicy 均 null，version空、confirmed false。正式规则和正式资料不齐时保持生产关闭。沙箱也必须管理员显式录入完整合成卡组、三语审核与确认规则后才可抽取。
+
+独占新源
+04_研发源码/app/r4/backend/card_service.py
+04_研发源码/app/cloud/lib/card-service.ts
+04_研发源码/app/r4/card-service-ui.js
+04_研发源码/app/r4/card-service-admin.js
+04_研发源码/app/r4/card-service.css
+未修改公共入口、原 daily.js/platform.js、privacy 模块或构建脚本；本说明是给根代理后续门禁集成，尚不代表真实HTTP/整站已通过。
+
+配置
+settings.card_service 是 {revision,enabled,sandboxEnabled,productionEnabled,activeSandboxDeck,activeProductionDeck,sandboxRules,productionRules}。
+两套 rules 字段完全相同：{version,confirmed,expectedCount,dailyLimit,dayBoundary,randomMode,timezoneChangeCooldownHours,withdrawalPolicy}。
+首期只支持明确确认的 dailyLimit=1、dayBoundary=user-timezone-natural-day、randomMode=uniform、withdrawalPolicy=notice-withhold-on-issue，expectedCount为1–500整数，时区冷却1–8760小时整数。其他规则不假装已实现，confirmed=true但不完整/不支持则409。dailyLimit=1不是默认正式规则。
+GET读传输防滥用180/min、写40/min分开；这不是当日抽取次数规则。全部本人接口须登录。管理接口仅admin；operator/reviewer/user不可写。
+
+卡组草稿与版本
+POST /api/admin/cards/decks {id?,deckId,version,revision?,environment:'sandbox'|'production',data}
+返回 {item}。item={id,deckId,version,revision,environment,status,data,withdrawal:{kind,reason},createdAt,updatedAt}。
+版本递增：新deck从1，后续须max+1。已published或withdrawn不可改写。draft/reviewed修改须当前revision，且改后回draft、review pending。三语言预览在后台真实展开。
+data可写字段仅{name,system:'daily-wisdom',expectedCount,cards,rightsReference,artReviewNote}。
+card可写字段仅{id,theme:'life'|'body'|'mind',text,frontUrl,backUrl,alt,author,licenseReference,licenseScope,practiceKey,courseId,actionSeconds,sandboxOnly}。
+text={zh:{name,prompt,meaning,question,action},'zh-Hant':同形,en:同形,bo?:同形}，每个已有locale必须五字段。alt同locale字符串。发布必须简体/繁体/英文全字段完整、统一卡背、实际卡数等于明确expectedCount、资料编号/作者/授权范围非空；生产不得含sandboxOnly=true卡。
+practiceKey只接受现有 breath/scan/ground/focus/sleep；仅打开已有练习入口，不编造时长或完成。actionSeconds可null，否则1–180整数；courseId非空须真实published课程。
+/api/media/UUID要求真实image MIME且新增绑定由当前admin上传；保留同草稿已绑定素材不强改原归属。外链只允许无凭据HTTPS，记录external-declaration-not-fetched，不下载、不标记图片类型/尺寸/版权已核验。
+返回data里的mediaChecks/verification/review/publishedAt是服务端计算字段，编辑时必须剔除；新后台csAdminEditable已剔除。
+POST /api/admin/cards/decks/:id/review {revision,reference,notes?} → 人工审核记录（reviewerId由服务端实际admin给出）。
+POST /.../publish {revision} → 要求已人工审核，完整三语、材料、明确规则张数相符。
+POST /.../withdraw {revision,reasonKind:'ordinary'|'content-error'|'license',reason}。
+普通下架：禁止新抽，但本人原历史仍可读。授权/内容错误：历史保留原归属、版本和处理提示，snapshot.card=null，分享/AI/练习409；绝不替换重抽。内部快照不改写。
+GET /api/admin/cards → {config,decks,productionMaterialsVerifiedBySystem:false}。
+PATCH /api/admin/cards/config 须完整配置与当前revision；启用环境必须有已发布且规则匹配的对应deck。
+
+本人接口
+GET /api/cards/capabilities?environment=sandbox|production（默认production）
+返回 environment/enabled/ready/sandboxOnly/productionEnabled/blockingReason/rules/timezone/deck/remaining/nextAvailableAt/today/serverNow/materialsVerifiedBySystem:false。
+timezone={timezone:null|string,pendingTimezone:null|string,effectiveAt:null|ms,revision}；deck仅最小id/deckId/version/name/cardCount/backUrl。
+PATCH /api/cards/timezone {environment,timezone:IANA,revision}。
+首次需本人明确选择，界面可建议系统时区但不自动提交。改时区须过已确认冷却；pendingAt>=旧时区下个午夜且>=所有保留quota.next_eligible_at。新时区延后生效；时区配置在清历史时不删除，不能重置冷却。DST按自然日，单日可以23/25小时。
+POST /api/cards/draws 仅 {requestId(8–128字符),environment?,theme?:'all'|'life'|'body'|'mind'}。
+拒绝客户端cardId/date/出生资料/权重/结果等未知字段。Python secrets.randbelow，Cloud crypto.getRandomValues拒绝采样；客户端动画只展示服务端结果。
+同owner+environment+requestId同负载重放原结果；改负载409。同owner+environment+businessDate只有一张；换requestId/主题/卡组版本不加次数。并发冲突始终回读持久化赢家，不能返回本请求未落库的随机候选。弱网pending只保存scope/env/theme/requestId，无卡义、笔记、出生或会话。
+抽取结果直接返回draw，无item包裹：{id,environment,sandboxOnly,authoritative:true,businessDate,timezone,deckVersionId,cardId,rulesVersion,requestId,createdAt,nextEligibleAt,snapshot,availability,favorite,note,actionRevision}。
+snapshot保留成交时deck版本、规则与审核卡片公开内容；不包含内部审核资料/授权编号。历史不会被当前contents.cards或新版覆盖。
+GET /api/cards/draws?environment=... → {items:本人最近100条,environment}；GET /api/cards/draws/:id → 本人draw，跨账号404。
+PATCH /api/cards/draws/:id/actions {revision,favorite?:boolean,note?:string<=4000} → 直接draw，旧revision409。
+POST /.../practice {requestId} → {practiceKey,event:'opened',completed:false,durationRecorded:false}。同请求重复不记两次，随后前台调用现有openPractice；真正完成由既有练习系统记录。
+POST /.../ai-context {language?} → {context:{category:'card',fields:{cardId,meaning}},languageUsed,requiresSeparateAIConsentAndQuota:true,automaticallySent:false}。不接受客户端卡义、感受、命盘或档案。缺bo稿明确退到已审en。此接口只准备资料，不调用模型、不自动确认隐私或扣AI额度。
+POST /.../share {language?,selectedText?:['name','prompt','meaning','question','action']} → {imageUrl,imageAlt,selectedText:{主动勾选字段:审核文字},languageUsed,personalDataIncluded:false}。默认selectedText={}，禁止note等个人字段。系统分享必须用户主动点开，专项不对外发送。
+
+前台安全与可见入口
+px.cardServiceReady来自服务端settings.card_service.enabled布尔，默认false。仅为“新模块已启用”开关，不代表生产卡组ready。true时dailyCard走服务端UI，production未ready清楚说明并允许本人明确切sandbox；false时保留旧离线示例原功能并加“本机示例，非正式/非服务端权威”标识，仍提供本人服务端历史可达按钮。
+UI文件必须排在privacy-center.js/privacy-ai-client.js/ai-gateway-ui.js之后、最终i18n-ui.js之前，避免被旧screens/pxAsk覆盖。CSS可放最后；后台必须在authBootstrap前插入独立admin代码并把cardService排除operator导航（API也只admin）。
+所有load按scope/epoch/seq防迟到写入；mutation按operation nonce防清记录后迟到draw/动作及旧finally；DOM根渲染scope/epoch，表单/按钮/input/change先核此DOM归属。后台表单也绑定渲染账号/epoch。
+页面375/390/393/430、day/night、zh/zh-Hant/en/bo；卡名22、正文16，不缩字体，长解读在卡面之外正常滚动。藏文正式卡稿没提供时明确显示审核英文；错误/关闭有四语解释，人工原因保留原始文字。
+AI准备后只导航serviceChat，由本人输入问题并主动发送，仍过现有legacy隐私或gateway独立供应商receipt/额度。独立wrapper给本卡线程加cardThreadId；privacyAIHistory先过原授权过滤，再排除旧chart/general/其他卡线程。不会因同时授权chart就把旧命盘历史混入卡片解读。原通用AI会话行为保留。源码不新增伪供应商或成功开关。
+
+隐私联动（必须与公共入口同时接入）
+Python init_schema(db)在Store初始DDL后调用；不得在业务已开启事务中executescript。
+Python privacy_export(db,owner)返回6域 cardDraws/cardActions/cardPracticeOpenings/cardQuota/cardTimezonePreferences/cardRecordErasureState，可result.update合并已有export。
+Python privacy_delete_records(db,owner)必须在Privacy.create_request原BEGIN IMMEDIATE中调用，deleted['...']合并其deletedCounts，不另开连接。清card_draw_actions/card_practice_events/card_draw_requests/card_draws；保留card_daily_quota与card_zone_preferences，card_record_epochs只原子递增最小删除代际。
+Cloud首次抽取启动读取card_record_epochs，最终批量INSERT须仍同代际；清记录抢先提交时旧draw409，不会在服务端复活历史。Python BEGIN IMMEDIATE将抽取/清除序列化。
+Cloud initCardService(a)应在API.init早于privacy导出/删除，避免表未建。CARD_PRIVACY_QUERIES可展开进既有导出白名单。
+Cloud CARD_PRIVACY_RECORD_TABLES与cardPrivacyDeletionStatements(a,owner)应并入原privacy delete-records同一个D1 batch；CARD_PRIVACY_DELETE_COUNTS_SQL在请求行INSERT里、删除前的同一原子batch计数，4个owner占位参数同uid。不要在事务外预读count假称删除数。
+计数合并推荐：detailSQL='json_patch('+原detailSQL+',json_object(\'local\',json_object(\'deletedCounts\','+CARD_PRIVACY_DELETE_COUNTS_SQL+')))'；detailArgs追加uid四次。json_patch递归合并保留原records/timer/measurement计数。
+privacy delete-records的transfer类别补card，保留既有chart/wellbeing及供应商/备份真实pending状态。
+请求详情retainedCategories须列minimal-daily-card-quota/card-timezone-preferences/card-record-erasure-epoch，cardQuotaRetentionDays:null与待确认期限提示。额度仅owner/environment/business_date/next_eligible_at/created；删除代际仅owner/revision/updated，不留卡片/卡义/主题/感受/聊天；不是“全部数据已彻底抹除”的假声明。
+删除后当日quota仍在，抽取与capabilities返回 {id:null,resultDeleted:true,snapshot:null,nextEligibleAt,notice}；没有任何内容回填或新随机。即使换deck/theme/timezone也不能多抽。明日按确认日界再可抽。
+本机privacyClearLocal('records', token)已被新UI包装，成功清records时csPrivacyRecordsCleared取消本账号旧请求写入、清本机临时笔记/结果/分享/AI准备与pending；不删除其他账号。服务端删除后还应调用现有本机清除流程，API不会谎报localBrowserCleared=true。
+
+媒体联动（不是全媒体公开）
+Python media_allowed(db,reference,owner?)；Cloud cardMediaAllowed(a,reference,owner?)。接既有媒体ACL OR分支，保留原课程会员门禁。仅启用环境的published卡组引用图公开；ordinary下架仅本人确有原抽历史时可读；draft/reviewed/授权下架不凭卡组使私图公开。上传者既有本人权利保留。新增本地绑定必须当前admin上传，不能猜别人私图id公开。
+
+真实门禁 runner（已备，尚未执行）
+06/负责人优化建议-抽卡专项.cjs 自启新SQLite或Cloud新随机dq* state，拒绝--base外部旧库，不碰8880/8879/8878及原.wrangler/state，不输出账号口令/环境密钥。仅创建完整3张明确合成沙箱卡，不seed正式36，不注入随机结果。测试图片是真实上传的小PNG，不伪称正式艺术尺寸。
+运行命令（根集成+构建后再执行）：
+node 06_验证与后续工作/负责人优化建议-抽卡专项.cjs --target=python
+node 06_验证与后续工作/负责人优化建议-抽卡专项.cjs --target=cloud
+可--http-only，但不能据此声称浏览器已验。两个wrapper分别为抽卡Python测试服务.py/抽卡Cloud测试服务.ts；均拦外部HTTP，不注入prod伪服务。
+专项涵盖默认关、管理角色、材料/发布/图片归属、真实随机/并发/幂等、快照、收藏/感受、练习opened、AI准备/分享最小化、隐私导出本人隔离及实际删除保quota、真实UI全过程、64视图、切账号迟到、真实弱网回复丢失复用key、已提交draw后删除迟到回复、实际后台JSON/审核/发布/下架表单及图片公开撤销。
+每次独立run追加保留失败记录、带模块/目标/runId截图，不覆盖旧证据。最终source/build hash与启动前一致才可通过。真实供应商未验、正式36卡/授权未验、生产正式抽卡未启用。
+
+后续根可运行06/负责人优化建议-抽卡接入.py（默认只读dry-run，8文件32处计划，先精确核anchor；--apply仅根在模块门禁时执行）。同时接root原隐私batch、媒体ACL、APP/admin打包和operator导航，不启动构建/不访问DB。后台CSS也注入两套admin的style。

@@ -1,0 +1,910 @@
+{
+  "latest": {
+    "at": "2026-11-12T15:49:30.644Z",
+    "pass": true,
+    "passed": 23,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "default production closed; anonymous and ordinary management denied",
+        "pass": true
+      },
+      {
+        "name": "explicit sandbox rule required and production/null enable rejected",
+        "pass": true
+      },
+      {
+        "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+        "pass": true
+      },
+      {
+        "name": "unpaid, unshipped and cross-account order rejected",
+        "pass": true
+      },
+      {
+        "name": "allocation and strict quantities/JSON/production",
+        "pass": true
+      },
+      {
+        "name": "accept/reject version and replay are independent of funds and stock",
+        "pass": true
+      },
+      {
+        "name": "receipt requires owner logistics and normal user cannot inspect",
+        "pass": true
+      },
+      {
+        "name": "partial receipt with zero approved restock leaves financial tables intact",
+        "pass": true
+      },
+      {
+        "name": "final receipt applies one event; idempotent replay never repeats stock",
+        "pass": true
+      },
+      {
+        "name": "digital refund review denies logistics/warehouse and does not refund",
+        "pass": true
+      },
+      {
+        "name": "rejection releases allocation for a distinct new request",
+        "pass": true
+      },
+      {
+        "name": "original pre-dispatch refund stock is deducted from new return capacity",
+        "pass": true
+      },
+      {
+        "name": "actual commerce post-dispatch refund does not double stock with receipt",
+        "pass": true
+      },
+      {
+        "name": "D1 concurrent different case requests cannot over-allocate",
+        "pass": true
+      },
+      {
+        "name": "D1 concurrent same request converges to one case even after initial stale read",
+        "pass": true
+      },
+      {
+        "name": "D1 same receipt request concurrently applies once",
+        "pass": true
+      },
+      {
+        "name": "disabled-between-validation-and-batch aborts all allocation writes",
+        "pass": true
+      },
+      {
+        "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+        "pass": true
+      },
+      {
+        "name": "eligibility reports claimed original units and is account isolated",
+        "pass": true
+      },
+      {
+        "name": "different request ID cannot reuse a physical receipt reference",
+        "pass": true
+      },
+      {
+        "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+        "pass": true
+      },
+      {
+        "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+        "pass": true
+      },
+      {
+        "name": "disabled module remains readable and does not mutate original money",
+        "pass": true
+      }
+    ],
+    "realProviderRequests": 0,
+    "productionEnabled": false,
+    "actualFundsMoved": false,
+    "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+  },
+  "runs": [
+    {
+      "at": "2026-11-12T14:18:43.771Z",
+      "pass": true,
+      "passed": 19,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T14:44:43.218Z",
+      "pass": true,
+      "passed": 22,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:22:53.845Z",
+      "pass": true,
+      "passed": 22,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:37:01.076Z",
+      "pass": true,
+      "passed": 22,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:47:32.812Z",
+      "pass": true,
+      "passed": 22,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:48:07.088Z",
+      "pass": false,
+      "passed": 22,
+      "failed": 1,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    200,\n+   200\n-   409\n  ]\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:154:11\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:45:51)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:148:2"
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:48:38.448Z",
+      "pass": false,
+      "passed": 22,
+      "failed": 1,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+          "pass": false,
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    200,\n+   200\n-   409\n  ]\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:154:11\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:45:51)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:148:2"
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    },
+    {
+      "at": "2026-11-12T15:49:30.644Z",
+      "pass": true,
+      "passed": 23,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "default production closed; anonymous and ordinary management denied",
+          "pass": true
+        },
+        {
+          "name": "explicit sandbox rule required and production/null enable rejected",
+          "pass": true
+        },
+        {
+          "name": "real unified paid order yields per-item immutable case; replay and mismatch",
+          "pass": true
+        },
+        {
+          "name": "unpaid, unshipped and cross-account order rejected",
+          "pass": true
+        },
+        {
+          "name": "allocation and strict quantities/JSON/production",
+          "pass": true
+        },
+        {
+          "name": "accept/reject version and replay are independent of funds and stock",
+          "pass": true
+        },
+        {
+          "name": "receipt requires owner logistics and normal user cannot inspect",
+          "pass": true
+        },
+        {
+          "name": "partial receipt with zero approved restock leaves financial tables intact",
+          "pass": true
+        },
+        {
+          "name": "final receipt applies one event; idempotent replay never repeats stock",
+          "pass": true
+        },
+        {
+          "name": "digital refund review denies logistics/warehouse and does not refund",
+          "pass": true
+        },
+        {
+          "name": "rejection releases allocation for a distinct new request",
+          "pass": true
+        },
+        {
+          "name": "original pre-dispatch refund stock is deducted from new return capacity",
+          "pass": true
+        },
+        {
+          "name": "actual commerce post-dispatch refund does not double stock with receipt",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent different case requests cannot over-allocate",
+          "pass": true
+        },
+        {
+          "name": "D1 concurrent same request converges to one case even after initial stale read",
+          "pass": true
+        },
+        {
+          "name": "D1 same receipt request concurrently applies once",
+          "pass": true
+        },
+        {
+          "name": "disabled-between-validation-and-batch aborts all allocation writes",
+          "pass": true
+        },
+        {
+          "name": "legacy pending request blocks ambiguous per-item import; guard hook is truthful",
+          "pass": true
+        },
+        {
+          "name": "eligibility reports claimed original units and is account isolated",
+          "pass": true
+        },
+        {
+          "name": "different request ID cannot reuse a physical receipt reference",
+          "pass": true
+        },
+        {
+          "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+          "pass": true
+        },
+        {
+          "name": "D1 batch rechecks role downgrade and rolls back before warehouse action",
+          "pass": true
+        },
+        {
+          "name": "disabled module remains readable and does not mutate original money",
+          "pass": true
+        }
+      ],
+      "realProviderRequests": 0,
+      "productionEnabled": false,
+      "actualFundsMoved": false,
+      "scope": "real Commerce TS methods and independent new after-sales; synthetic in-memory SQLite D1 atomic batches"
+    }
+  ]
+}

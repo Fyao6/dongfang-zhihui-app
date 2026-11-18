@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-17T13:50:13.700697+00:00",
+  "pass": true,
+  "kind": "only-cloud-full-raw-touch-entry-overlay-readiness",
+  "beforeSourceSha256": "b6a5d4f04badb416587c7552a5c50b02cb82b537b3e5efd65b2f5c3baa2cbc39",
+  "afterSourceSha256": "b162accd810e13fbe6f21a9ef0d1d2c81cf83f94caa938a8af20adabbc11b43e",
+  "launcherBeforeSha256": "04c048c68f4e048917871906eb6ac25e99a661cadccfb5595345d84c8635860c",
+  "launcherAfterSha256": "d1156e66f9078db6da5d1e07963771a172087d90c161059f0470097433c99978",
+  "singleAuxiliaryWait": "await tp.waitForFunction(()=>{const reminder=globalThis.DailyEntryReminderCandidate?.snapshot();return reminder?.installed&&(reminder.acknowledgedLevel>=0||(reminder.dialogOpen&&reminder.shown));});",
+  "inverseWholeSourceByteExact": true,
+  "allOriginal60BusinessAssertionsPreserved": true,
+  "productSourceOrBuildChanged": false,
+  "pythonFullSourceChanged": false,
+  "pythonFullRerunRequired": false,
+  "reason": "Native Cloud diagnostic showed the expected daily dialog visible before raw CDP touchStart. Wait for a real shown or already-acknowledged reminder, then the existing first native tap invokes the registered dialog-close handler before the unchanged gesture assertions.",
+  "seenPrewritten": false,
+  "timerTimeoutChanged": false,
+  "originalFailureArchive": {
+    "path": "06_验证与后续工作/每日提醒-Cloud触摸首轮保全.json",
+    "sha256": "fc4be282754e666ec6d2adddeed2fc84b954a564c9086f75d7b639f669aa5c4b"
+  },
+  "diagnostic": {
+    "path": "06_验证与后续工作/每日提醒-Cloud触摸诊断-c204ccf181d245a195b2f5c38d04eb01.json",
+    "sha256": "abb954c03af15c12a1fa41308923db20109baa739d4a1f314ae72eefbde5f866"
+  }
+}

@@ -304,7 +304,7 @@ class CardService:
         self.h.require(('admin',))
         if path == '/api/admin/cards' and method == 'GET':
             with self.store.connect() as db:
-                return {'config': configuration(self.store), 'decks': [self.deck_item(r) for r in db.execute('SELECT * FROM card_deck_versions ORDER BY updated DESC,id').fetchall()], 'productionMaterialsVerifiedBySystem': False}
+                return {'config': configuration(self.store), 'decks': [self.deck_item(r) for r in db.execute('SELECT * FROM card_deck_versions ORDER BY updated DESC,id').fetchall()], 'nextVersions':{r['environment']+':'+r['deck_id']:r['n'] for r in db.execute('SELECT environment,deck_id,max(version)+1 n FROM card_deck_versions GROUP BY environment,deck_id')}, 'productionMaterialsVerifiedBySystem': False}
         data = self.h.body()
         if path == '/api/admin/cards/config' and method == 'PATCH':
             if set(data) != set(DEFAULT) or any(type(data[k]) is not bool for k in ('enabled', 'sandboxEnabled', 'productionEnabled')):
@@ -321,6 +321,8 @@ class CardService:
                         check_cfg = {**clean, 'enabled': True}
                         self.available(db, check_cfg, environment)
                 clean['revision'] = old['revision'] + 1
+                from card_imports import configuration_admission
+                configuration_admission(db,self,old,clean)
                 db.execute("INSERT INTO settings VALUES('card_service',?) ON CONFLICT(key) DO UPDATE SET data=excluded.data", (dump(clean),))
                 self.store.audit(db, self.owner, 'cards.config', 'cards', '规则版本及启用条件已更新')
             return {'config': clean}
@@ -392,6 +394,7 @@ class CardService:
                     kind = data.get('reasonKind')
                     if kind not in ('ordinary', 'content-error', 'license'):
                         self.fail(400, '下架须明确普通、内容错误或授权原因。')
+                    if {'ordinary':0,'content-error':1,'license':2}[kind]<{'':0,'ordinary':0,'content-error':1,'license':2}[row['withdrawal_kind']]:self.fail(409,'card_withdrawal_downgrade')
                     db.execute("UPDATE card_deck_versions SET status='withdrawn',withdrawal_kind=?,withdrawal_reason=?,revision=revision+1,updated=? WHERE id=?", (kind, self.text(data.get('reason'), 2000, 1), self.clock(), identifier))
                 self.store.audit(db, self.owner, 'cards.deck.' + action, identifier, '保留原抽取快照，不替换结果')
                 return {'item': self.deck_item(self.deck(db, identifier))}
@@ -413,8 +416,9 @@ class CardService:
                 return self.draw(self.h.body())
             if method == 'GET':
                 with self.store.connect() as db:
-                    rows = db.execute('SELECT * FROM card_draws WHERE owner=? AND environment=? ORDER BY created DESC,id DESC LIMIT 100', (self.owner, environment)).fetchall()
-                    return {'items': [self.draw_item(db, r) for r in rows], 'environment': environment}
+                    from card_history_migration import draw_history_page
+                    page=draw_history_page(db,self.owner,environment,query.get('before',[''])[0],self.fail)
+                    return {'items': [self.draw_item(db, r) for r in page['rows']], 'environment': environment, 'next':page['next']}
         if path == '/api/cards/timezone' and method == 'PATCH':
             data = self.h.body()
             if set(data) != {'environment', 'timezone', 'revision'}:

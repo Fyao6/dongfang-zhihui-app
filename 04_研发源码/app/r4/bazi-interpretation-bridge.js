@@ -9,7 +9,8 @@
  const messageKey=message=>canonical({id:message.id,gatewayJobId:message.gatewayJobId||null,text:message.text,privacy:message.privacy});
  const release=()=>root.BaziVersionUI?.manifest||root.BAZI_RELEASE_MANIFEST;
  const label=(en,zh,hant,bo)=>lcText(en,zh,hant,bo);
- function actorCurrent(actor){return !!actor?.scope&&psCurrent(actor);}
+ function sampleMode(){return root.BaziSampleBridge?.isActive?.()===true;}
+ function actorCurrent(actor){return !sampleMode()&& !!actor?.scope&&psCurrent(actor);}
  function snapshot(s){return {normalized:copy(s.normalized),options:copy(s.options||{}),result:copy(s.result),selection:copy(s.selection||{})};}
  function key(s){return canonical(snapshot(s));}
  function current(plan){
@@ -19,6 +20,7 @@
  }
  function selected(plan){return current(plan)&&state.ssAiContext?.context===plan.context;}
  function frame(){
+  if(sampleMode())return null;
   const s=lcGet('bazi');if(!version||!release()||!s.result||!s.normalized||s.editing)return null;
   return {actor:psToken(),page:s,calculation:key(s),recordId:s.savedId||null,releaseKey:canonical(release())};
  }
@@ -96,6 +98,7 @@
    m.authorization.policyVersion===message.privacy.policyVersion&&m.authorization.providerId===message.privacy.providerId;
  }
  async function restore(message){
+  if(sampleMode())return false;
   const actor=psToken(),run=px.privacyRun;if(!validStored(message,actor)||!state.support.ai.includes(message)||bindings.has(message))return false;
   const stored=copy(message.baziInterpretation),identity=messageKey(message),page=lcGet('bazi'),nowRelease=copy(release()),source=stored.recordId?lcRecords().find(row=>row.kind==='bazi'&&row.id===stored.recordId):null;
   const alive=()=>actorCurrent(actor)&&px.privacyRun===run&&state.support.ai.includes(message)&&canonical(message.baziInterpretation)===canonical(stored)&&
@@ -127,6 +130,7 @@
  }
  const askBefore=pxAsk;
  pxAsk=async function(text,retry=false,context=state.ssAiContext?.context||null,source='user'){
+  if(sampleMode()){toast(label('Exit the sample view before using AI.','请先退出样本核对，再使用AI。','請先退出樣本核對，再使用AI。','AI བཀོལ་སྔོན་དཔེ་མཚོན་ལས་འཐོན།'));return;} 
   const chosen=retry?px.retry?.context:context,plan=chosen&&plans.get(chosen);
   if(!plan||px.busy)return askBefore(text,retry,context,source);
   if(!selected(plan))return;

@@ -1,0 +1,62 @@
+{
+  "module": "DR03/DR08 卡组文件导入、版本指针与本人旧例归档",
+  "stage": 30,
+  "revision": 2,
+  "status": "active-local-implementation",
+  "sourceCandidate": "负责人优化建议-卡组导入迁移-接口合同.json",
+  "candidateSHA256": "fd8e29f463bfd8214830de5ac9ea524e7d0db7c336a733be4f8a5e7c3beacdb2",
+  "authorization": "用户已要求完成需求表中除真实对接以外可本地交付的软件。正式卡组内容/版权/翻译/规则与生产验收仍待资料，不推送、发布或开真实服务。起始29阶段/70项部分证据。",
+  "exactImportFile": {
+    "schema": 1,
+    "deck": {
+      "deckId": "ASCII 1..100",
+      "version": "integer 1..1000000; fresh server MAX+1 at apply",
+      "environment": "sandbox|production",
+      "data": "旧clean_deck输入白名单"
+    },
+    "baseVersionId": "null|string",
+    "baseRevision": "null|integer",
+    "provenance": {
+      "sourceType": "project_original|author_submitted|licensed_excerpt|synthetic_sandbox",
+      "sourceReference": "string 1..2000",
+      "sourceDocumentSha256": "null|64 lowercase hex (declared, not verified)",
+      "fieldSources": "array max10000 of {cardId,language,field,sourceReference,classic:null|{title,edition,location,quotation,usage}}; strings max2000, quotation4000"
+    }
+  },
+  "strictFile": "POST preview直接使用文件原字节body，Content-Type application/json，X-EW-Request-ID必须ASCII1..120。无payload包装、无body requestId、无submittedFileSha256。262144字节上限，拒BOM/坏UTF8/重复解码键/__proto__/constructor/prototype/非有限数/深度>32；不接受数组顶层；所有对象严格白名单。原字节SHA与规范SHA服务器计算。规范JSON键按Unicode码点排序，无空格UTF8；只允许JSON安全整数或有限实数，业务整数另验。",
+  "sharedEngine": "root提供r4/card-import-engine.js UMD(CJS+global)的parseStrict(text)、canonical(value)、inspect(payload,baseData|null)。Cloud直接同文件打包，Python用固定card_import_worker.cjs调用，stdin最多6MiB/stdout8MiB/15s/并发2/shellFalse/minenv/隐藏窗口，不接任意路径/命令。rawUTF8由服务器严格解码。engine只做纯结构、诊断、diff，实际媒体/课程/角色/事务由服务端完成。",
+  "diagnostics": "issue精确{cardId,cardIndex,language,path,code,severity,error|warning字段实际用severity:'error'|'warning',blocksApply,blocksPublish,message,sourceReference}；issues/diff各完整50分页/总数/导出，无截断。diff={cardId,language,path,kind:'added'|'removed'|'changed',before,after}，包括顺序及全部可编辑字段/出处；父无效阻apply，缺语言/图/版权/张数仅阻publish，可保存draft。不能伪填翻译、36、教师/版权审批；synthetic仅sandbox且每卡sandboxOnly=true。",
+  "importRoutes": {
+    "POST /api/admin/cards/imports/preview": "raw exact file; returns {job,summary,issues,issuesNext,diff,diffNext,productionMaterialsVerifiedBySystem:false}; job {id,status,version,sourceSha256,canonicalSha256,baseVersionId,baseRevision,resultVersionId,created}; summary {cards,issues,errors,warnings,applyBlocked,publishBlocked,diff}",
+    "GET /api/admin/cards/imports": "{items,next}; own actor only 50/page",
+    "GET /api/admin/cards/imports/:id": "same preview result+receipt|null; ?issuesBefore=<opaque>&diffBefore=<opaque> page cursor bound job/kind",
+    "GET /api/admin/cards/imports/:id/export": "all own original payload + provenance + issues/diff + hashes; never others",
+    "POST /api/admin/cards/imports/:id/apply": "JSON {requestId,confirmed:true,version}; same owner epoch/session/admin and job CAS+base revision/hash+fresh media/course check in same final transaction; creates only independent draft and provenance+receipt atomic. Same request semantics replay; different bytes409; completed job never creates second draft even different request. blocked draft job cannot apply.",
+    "POST /api/admin/cards/activation/preview": "{environment,targetVersionId,revision} -> {from,to,eligible,blockedReasons,currentRevision}",
+    "POST /api/admin/cards/activation/apply": "{requestId,confirmed:true,environment,targetVersionId,revision,reason,kind:'activate'|'rollback'} -> {config,receipt}. same CAS/media/confirmedrules/publishedsameenv; no enable flags changed; empty target allowed only kind activate for explicit stopping."
+  },
+  "versionGuards": "DB triggers protect OLD published/withdrawn id/deck_id/version/environment/data/created; allow reviewed->published data with server publishedAt. No REPLACE; deletion prohibited for published/withdrawn or referenced draws/active/source/jobs. CAS allreview/publish/withdraw. severity ordinary<content-error<license monotonic (same severe kind reason may update); cannot turn withdrawn back published or rollbackwithdrawn. Existing config endpoint active-pointer changes use same eligibility guard and audit, keeps old API compatibility. Server returns nextVersions derived entireDB, never max currentpage.",
+  "migrationFile": {
+    "schema": 1,
+    "sourceReference": "string1..2000",
+    "records": "array1..1000, each EXACT {cardId:ASCII1..100,date:validYYYY-MM-DD,drawnAt:integer0..MAX_SAFE_INTEGER}; raw262144bytes. No owner, text, deck/rules/timezone inferred. Explicit chosen local JSON only."
+  },
+  "migrationRoutes": {
+    "POST /api/cards/legacy-migrations/preview": "raw exact migrationFile; same X-EW-Request-ID. uses same strict parser; freeze owner/current card_record_epochs/targets. {job,summary,targets,next}. logical source_id=sha256(canonical record); sourceHash same; repeated identical records duplicate/skipped; no currentcard lookup.",
+    "GET /api/cards/legacy-migrations": "own {items,next},50",
+    "GET /api/cards/legacy-migrations/:id": "own frozenjob+targets50/receipts50; cursors bound job",
+    "POST /api/cards/legacy-migrations/:id/apply|undo": "{requestId,confirmed:true,version}; each batch max100, sameTX currentactor/owner/closed/epoch+version/nonce CAS; freezeoperationrequest fingerprint and exact receipt; each target status persists; resume by GET not resetting. undo only own job-added unchanged originalhash/revision=0 and no later note/favorite/reference; skipped changed conflicts explicit, never wholeDBrestore. no quota/draw/request/timezone/epoch changes.",
+    "GET /api/cards/legacy-archives": "own {items,next},50; marked authoritative:false,contentReviewed:false,sourceType:'legacy_local_example', factsMissing:[deckVersion,rulesVersion,timezone,originalCardText]; returns original record, note/favorite,revision. Does not grant share/AI or serverdraw.",
+    "PATCH /api/cards/legacy-archives/:id": "{revision,note?,favorite?}; note<=2000,strictbool; owner/epoch+revision CAS; permits later user edits so undo protects them.",
+    "GET /api/cards/draws": "preserve existing items/environment; new next,before50 stable owner/env/(created,id) cursor with epoch and upper bound, never lose records beyond100; malformed/mismatchedcursor400. Existing initial client receives50; UI loadmore mustimplement."
+  },
+  "migrationModules": "next_work_audit owns new backend/card_history_migration.py + cloud/lib/card-history-migration.ts + backend/card_history_migration_schema.sql. Exports init_schema(db), privacy_export(db,owner), privacy_delete_records(db,owner), route integration via class/function matching oldcard dependencies; agree directly with Cloud agent for wrapper. New module imports oldcard only lazily to avoid cycles. Cloud owns wiring and originalcard files. No concurrent edits sharedfiles.",
+  "privacy": "Cloud agent owns all registry/clear/closure wiring. New private sources/previews/ops/archive/targets must be enumerated, exported safely, and body-erased in sameTX records-clear and closure; card_record_epochs invalidates pending work and final SQL fence. Minimal operational hashes/counts may remain with retentionDays:null/explicit unconfirmed purpose, no raw source/note. Applied companydraft deck data existing businessscope remains; private author provenance erased on owner request and source digest retained, not silently deleted entire businessdeck. Every JSON reference column registered in realmedia scanner before known; preserve balancedOR/tombstone/sharedkey/finalbatch gates. Existing expiry does not imply legacy removed; report actualscope.",
+  "quality": "Raw filename/text via textContent/escape; native filepicker+preview +allissues/diffpagination/export+explicitapply/recover; sourceownership admin. Accountswitch/403/clear/logout evict private UI caches and drafts; failedrequest keeps same session draft/request for retry. Import does not auto publish. Legacy chosenfileexplicit +batch apply/resume/undo +existinghistoryloadmore. Fourlangs and both themes/native narrow/desktop actualclick; Tibetan textlineheight not fontshrink. Full source P528 separate exact preserving SHA24960b...; provide source template, not approved.",
+  "gates": "14 actual fresh entries, BOTH Python and local Cloud each full60 + specialist40 + nativevisual4 + originalcard25 + privacy28 + closure27 + B11compat11 =195/backend. Additional strict actual4 preflight. Same final source/build identity; preserve every failure/native artifact, then frozen receipt/books2/7handoffs/finalproof. Then SVT01/SVT03/X03 local reliability exercises.",
+  "recordedAtBeijing": "2026-11-17T11:41:54.101829+08:00",
+  "amendedAtBeijing": "2026-11-17T12:32:50.151529+08:00",
+  "losslessDiagnosticBounds": "合法500卡/262144字节输入的完整诊断可超过D1单行及8MiB IPC展开JSON上限；inspect成功IPC采用card-import-dictionary-1无损字典（所有原值/问题/差异不减），worker及数据库chunk使用同pureengine.packWire/decodeWire和Python card_import_wire.py。原stdin6MiB/stdout8MiB/15s/2槽不提高。card_import_diagnostics全部条目分块持久化，每页最多50、按字节安全切分；job仅保summary/索引。新chunk字段注册真实mediaReferences/ownerexport/manualclear/closure，不把字典当匿名或跳过原字符串扫描。",
+  "completePrivateExport": "GET imports/:id/export以UTF8 LF无BOM application/x-ndjson流返回：header(schema1/job/summary/sourceSha256/canonicalSha256/rawByteCount/originalSourceBytesAvailable:true)，source(rawText,payload)，每块chunk(kind issues|diff,ordinal,count,sha256,hashFormat following-item-lines-utf8-lf)跟count行issue|diff(index,item完整原对象)，terminal complete(true/issues/diff/chunkManifestSha256)。块hash为紧随条目原行UTF8及LF；manifest为ordered [{kind,ordinal,count,sha256}]按共享canonical UTF8无尾换行hash。只解一个块，不整体展开长来源重复诊断；每块/结束实际重查当前session/role/owner/clear状态。权限/清理变化返回error complete:false；已发送字节无法撤回。APP后台验证原文件字节hash/每块及终态后才触发私有.ndjson下载，不能把截断流说成完整。",
+  "expiryBoundary": "旧cards自动到期清理不等于新legacy/import已自动到期清除；本期仅manual clear和closure覆盖新私有源/归档与作业正文，期限未确认为null。到期变更删除epoch后未完成apply仍须失效；读取保留目的与实际回执分开报告。"
+}

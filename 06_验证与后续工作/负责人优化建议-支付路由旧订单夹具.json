@@ -1,0 +1,118 @@
+{
+  "formalAcceptance": false,
+  "scope": "Fixed pre-routing historical closed/expired order. Five seeded rows, no users/sessions/actor/payment/entitlement rows. Actual acceptance must read it and preserve original order/item/fingerprint; this is never represented as API-created payment.",
+  "owner": "qa-legacy-owner",
+  "orderId": "qa-legacy-unrouted-order",
+  "seededRows": 5,
+  "schemaFromActualOwnedDatabase": "06_验证与后续工作/负责人优化建议-支付路由隔离-mwjsc51j-a3c4000e.sqlite3",
+  "schema": [
+    "CREATE TABLE IF NOT EXISTS commerce_products(id TEXT PRIMARY KEY,title TEXT NOT NULL,description TEXT NOT NULL,type TEXT NOT NULL CHECK(type IN ('digital','physical','membership')),environment TEXT NOT NULL CHECK(environment IN ('sandbox','production')),status TEXT NOT NULL CHECK(status IN ('draft','published','archived')),version INTEGER NOT NULL,content_id TEXT NOT NULL,shipping_countries TEXT NOT NULL,shipping_minor INTEGER NOT NULL CHECK(shipping_minor>=0),tax_minor INTEGER NOT NULL CHECK(tax_minor>=0),mutation_id TEXT NOT NULL,created INTEGER NOT NULL,updated INTEGER NOT NULL,data TEXT NOT NULL DEFAULT '{}')",
+    "CREATE TABLE IF NOT EXISTS commerce_skus(id TEXT PRIMARY KEY,product_id TEXT NOT NULL REFERENCES commerce_products(id),sku TEXT NOT NULL,environment TEXT NOT NULL,price_minor INTEGER NOT NULL CHECK(price_minor>=0),currency TEXT NOT NULL,stock INTEGER NOT NULL CHECK(stock>=0),reserved INTEGER NOT NULL DEFAULT 0 CHECK(reserved>=0 AND reserved<=stock),version INTEGER NOT NULL,UNIQUE(environment,sku))",
+    "CREATE TABLE IF NOT EXISTS commerce_orders(id TEXT PRIMARY KEY,owner TEXT NOT NULL,environment TEXT NOT NULL CHECK(environment='sandbox'),request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,status TEXT NOT NULL,payment_status TEXT NOT NULL,fulfillment_status TEXT NOT NULL,aftersale_status TEXT NOT NULL,currency TEXT NOT NULL,subtotal_minor INTEGER NOT NULL,shipping_minor INTEGER NOT NULL,tax_minor INTEGER NOT NULL,total_minor INTEGER NOT NULL,refunded_minor INTEGER NOT NULL DEFAULT 0,shipping_address TEXT NOT NULL,tracking TEXT NOT NULL DEFAULT '{}',reserved_until INTEGER NOT NULL,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(owner,environment,request_id))",
+    "CREATE TABLE IF NOT EXISTS commerce_order_items(id TEXT PRIMARY KEY,order_id TEXT NOT NULL REFERENCES commerce_orders(id),sku_id TEXT NOT NULL REFERENCES commerce_skus(id),product_id TEXT NOT NULL,title TEXT NOT NULL,type TEXT NOT NULL,quantity INTEGER NOT NULL CHECK(quantity>0),price_minor INTEGER NOT NULL,currency TEXT NOT NULL,unit_shipping_minor INTEGER NOT NULL,unit_tax_minor INTEGER NOT NULL,content_id TEXT NOT NULL,price_version INTEGER NOT NULL,refunded_quantity INTEGER NOT NULL DEFAULT 0 CHECK(refunded_quantity>=0 AND refunded_quantity<=quantity),snapshot_data TEXT NOT NULL DEFAULT '{}',UNIQUE(order_id,sku_id))",
+    "CREATE TABLE IF NOT EXISTS commerce_reservations(order_id TEXT NOT NULL REFERENCES commerce_orders(id),sku_id TEXT NOT NULL REFERENCES commerce_skus(id),quantity INTEGER NOT NULL CHECK(quantity>0),state TEXT NOT NULL CHECK(state IN ('held','consumed','released')),PRIMARY KEY(order_id,sku_id))"
+  ],
+  "primaryKeys": {
+    "commerce_products": [
+      "id"
+    ],
+    "commerce_skus": [
+      "id"
+    ],
+    "commerce_orders": [
+      "id"
+    ],
+    "commerce_order_items": [
+      "id"
+    ],
+    "commerce_reservations": [
+      "order_id",
+      "sku_id"
+    ]
+  },
+  "rows": {
+    "commerce_products": [
+      {
+        "id": "qa-legacy-route-product",
+        "title": "预置历史合成订单商品",
+        "description": "Preinit legacy fixture only; not an API-created sale.",
+        "type": "physical",
+        "environment": "sandbox",
+        "status": "published",
+        "version": 1,
+        "content_id": "",
+        "shipping_countries": "[\"CN\"]",
+        "shipping_minor": 0,
+        "tax_minor": 0,
+        "mutation_id": "qa-legacy-product",
+        "created": 1700000000000,
+        "updated": 1700000000000,
+        "data": "{}"
+      }
+    ],
+    "commerce_skus": [
+      {
+        "id": "qa-legacy-route-sku",
+        "product_id": "qa-legacy-route-product",
+        "sku": "qa-legacy-route",
+        "environment": "sandbox",
+        "price_minor": 300,
+        "currency": "CNY",
+        "stock": 5,
+        "reserved": 0,
+        "version": 1
+      }
+    ],
+    "commerce_orders": [
+      {
+        "id": "qa-legacy-unrouted-order",
+        "owner": "qa-legacy-owner",
+        "environment": "sandbox",
+        "request_id": "qa-legacy-order-request",
+        "fingerprint": "f079d19109ba7a2b3ccbec4c45fd340046bfad2f254eb705c99007ba3f274296",
+        "status": "closed",
+        "payment_status": "expired",
+        "fulfillment_status": "awaiting_payment",
+        "aftersale_status": "none",
+        "currency": "CNY",
+        "subtotal_minor": 300,
+        "shipping_minor": 0,
+        "tax_minor": 0,
+        "total_minor": 300,
+        "refunded_minor": 0,
+        "shipping_address": "{\"address\":\"历史合成地址\",\"country\":\"CN\",\"name\":\"历史合成收件人\"}",
+        "tracking": "{}",
+        "reserved_until": 1700000900000,
+        "created": 1700000000000,
+        "updated": 1700000900000
+      }
+    ],
+    "commerce_order_items": [
+      {
+        "id": "qa-legacy-route-item",
+        "order_id": "qa-legacy-unrouted-order",
+        "product_id": "qa-legacy-route-product",
+        "sku_id": "qa-legacy-route-sku",
+        "title": "预置历史合成订单商品",
+        "type": "physical",
+        "quantity": 1,
+        "price_minor": 300,
+        "currency": "CNY",
+        "unit_shipping_minor": 0,
+        "unit_tax_minor": 0,
+        "content_id": "",
+        "price_version": 1,
+        "refunded_quantity": 0,
+        "snapshot_data": "{\"options\":[],\"sku\":\"qa-legacy-route\"}"
+      }
+    ],
+    "commerce_reservations": [
+      {
+        "order_id": "qa-legacy-unrouted-order",
+        "sku_id": "qa-legacy-route-sku",
+        "quantity": 1,
+        "state": "released"
+      }
+    ]
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "revision": 7,
+  "status": "prepared-not-run",
+  "candidateOnly": true,
+  "actualNewLoadRuns": 0,
+  "stage30FinalProofReceived": true,
+  "requiresRootExecutionOrderAfterStage30FinalProof": true,
+  "taskScope": {
+    "SVT01": "准备双端本机登录态普通业务负载，不是目标国或正式容量验收。",
+    "SVT03": "本文件不执行故障、备份或恢复；由另一个独立的本地可靠性准备方案设计并实际验证。",
+    "X03": "仅准备可追溯的负载证据与运行边界，不发布、不修改正式交接、不打包凭据或隔离数据库。"
+  },
+  "originalSources": {
+    "SVT01": [
+      "P371",
+      "P372",
+      "P373",
+      "P374",
+      "P375",
+      "P376",
+      "P377",
+      "P385"
+    ],
+    "SVT03": [
+      "P380",
+      "P381",
+      "P382",
+      "P383",
+      "P384",
+      "P385",
+      "P637"
+    ],
+    "X03": [
+      "P579",
+      "P580",
+      "P621",
+      "P622",
+      "P643"
+    ],
+    "audit": "06_验证与后续工作/负责人优化建议-98项最终覆盖审计.json",
+    "previousScript": "06_验证与后续工作/负责人优化建议-SVT01本机探索.cjs",
+    "previousReport": "06_验证与后续工作/负责人优化建议-SVT01本机探索.json",
+    "previousExplanation": "06_验证与后续工作/负责人优化建议-SVT01本机探索说明.txt",
+    "previousBackupReport": "06_验证与后续工作/负责人优化建议-隔离备份恢复演练.json",
+    "historicalBoundary": "旧负载仅100匿名逻辑访客、20RPS、30秒、600条，峰值在途1，未创建登录会话；不能重标为本方案通过。旧SQLite恢复保留备份后1条确认写入未恢复的事实，不代表支付流水/PG/GPU/生产RPO和RTO。"
+  },
+  "files": {
+    "driver": "06_验证与后续工作/负责人优化建议-当前产品可靠性-登录负载.cjs",
+    "namespace": "负责人优化建议-当前产品可靠性",
+    "doesNotImportFrozenQaHelpers": true,
+    "stage30GraphUnchangedByPreparation": "旧516图与收据冻结字节保留；新模块实际源码/构建通过显式授权差异和精确保全衔接，不宣称原产品字节未变。",
+    "driverSha256": "4b376641d2357c9ab30c86a3d98b92233bd5aeaae628bceffef55bf56333e145",
+    "inheritedDriver": {
+      "path": "06_验证与后续工作/负责人优化建议-本地可靠性Cloud修复登录负载.cjs",
+      "sha256": "e67d9c65318dec276330dda2481b87ec18cf2f2b14891f889ffda3feabde0690"
+    }
+  },
+  "proposedExecution": {
+    "targets": [
+      "python",
+      "cloud"
+    ],
+    "runTargetsSequentially": false,
+    "usersPerTarget": 100,
+    "sessionsPerTarget": 100,
+    "rps": 20,
+    "measuredSeconds": 1800,
+    "plannedMeasuredRequestsPerTarget": 36000,
+    "authDispatchGapMs": 3100,
+    "authInitializationApproximateMinutes": "约5至6分钟/端，另加健康检查和真实API耗时；不计入30分钟测量窗。",
+    "requestDeadlineMs": 10000,
+    "responseBodyLimitBytes": 1048576,
+    "defaultInvocation": "仅描述prepared-not-run，不创建数据库、服务或会话。",
+    "executionGate": "固定Stage30原752e不变，历史原字节由共享当前产品基线逐项追溯；明确绑定已实际验收的成长树、官网、每日提醒和原Python连接/Cloud结构缓存修复。实际Cloud完整40须通过；候选或旧672不当新通过。",
+    "executionArgumentsOnlyAfterAuthorization": "node 06/负责人优化建议-当前产品可靠性-登录负载.cjs --execute-local-30m --target=python或cloud --stage30-proof=原实际Stage30proof --proof-sha256=752e... --repair-proof-sha256=实际当前接续证明SHA --repair-authorization-sha256=实际授权SHA",
+    "noShortDurationPassMode": true,
+    "noExternalBaseDbStateOrPortOverride": true,
+    "forbiddenPorts": [
+      8880,
+      8879,
+      8881,
+      8878,
+      8877
+    ],
+    "probeArgumentsOnlyAfterAuthorization": "node <现根目录>/06_验证与后续工作/负责人优化建议-本地可靠性Cloud修复登录负载.cjs --probe-local-interfaces --target=python或cloud --stage30-proof=<同一精确最终proof绝对路径> --proof-sha256=<实际64hex> --repair-proof-sha256=<root实际性能修复复验SHA> --repair-authorization-sha256=<root实际授权基线SHA>",
+    "runTargetsConcurrently": true,
+    "combinedHostPlannedRps": 40,
+    "combinedHostPlannedAuthenticatedUsers": 200,
+    "scope": "Two independent backend runs sharing one physical host; each retains100 actual logins,20RPS,1800s,36000 requests. No independent production-capacity inference."
+  },
+  "realAuthentication": {
+    "python": "新SQLite上先真实POST /api/auth/setup建立独立合成管理员，再真实register100普通用户；管理员不计入负载100人。",
+    "cloud": "原生D1由实际handleAPI初始化；DEMO_ADMIN_HASH仅进本次子进程内存绑定满足原bootstrap，未给该账号伪造会话。100普通用户全部真实register。",
+    "allUsers": "每个用户独立HTTP cookie jar，逐个真实GET auth/status核对user.id和role=user；仅内存Set确认100不同ew_session，不输出session或任何session派生hash。公开报告仅uniqueAuthenticatedSessions=100及合成accountId/索引归属证据，结束逐个再核对。",
+    "rateBoundary": "Python实际auth为20/IP/60s；Cloud实际key是cf-connecting-ip或既有visitor。驱动无论后端均在同一物理回环IP全局保持3100ms auth间距，不设置伪IP头、不利用visitor变化加速、不关限流。",
+    "auth429OrOtherFailure": "如实失败停止初始化，不自动登录重试，不改counter，不伪造session继续。",
+    "setupAndFinalChecksNotMeasuredTraffic": true
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/auth/status",
+      "count": 7200,
+      "ownership": "user.id等于该cookie实际账号"
+    },
+    {
+      "method": "GET",
+      "path": "/api/records",
+      "count": 7200,
+      "ownership": "accountId等于该cookie实际账号；不写生辰或个人记录"
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "count": 7200,
+      "ownership": "accountId核对且consents全部保持false"
+    },
+    {
+      "method": "GET",
+      "path": "/api/commerce/cart",
+      "count": 7200,
+      "ownership": "仅该已认证会话当前本人空购物车；不创建订单或付款"
+    },
+    {
+      "method": "GET",
+      "path": "/api/cards/draws?environment=sandbox",
+      "count": 6840,
+      "ownership": "本人沙箱空历史；不抽卡、不补次数、不修改时区"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "count": 360,
+      "body": "{revision:真实当前revision,consents:{},acknowledged:false}",
+      "meaning": "明确维持授权全部关闭，原生CAS更新revision并写审计；不打开AI/训练/营销同意，不外发数据"
+    }
+  ],
+  "safeWrites": {
+    "fraction": 0.01,
+    "userIndex": "(requestIndex + floor(requestIndex/100)) % 100，避免每100条的一次写永远落到同一个用户。",
+    "revisionReadHandling": "只接受服务端实际revision，GET返回的旧revision不得覆盖更大的已观测值。",
+    "afterLoad": "每人实际GET核对finalRevision=initialRevision+成功观察到的写次数，consents仍全false。网络不明/5xx写列unknownOutcome，不自动重放、不猜未提交；差异报告不伪装0。",
+    "noFinancialOrQuotaWrites": true
+  },
+  "openLoop": {
+    "schedule": "单调时钟每50ms一个请求，按绝对计划时点派发，不等待上条完成；积压时派发原已到期项，不悄悄降低目标RPS。",
+    "measuredWindow": "固定完整1800秒，另列尾部在途完成时间；窗口外派发单列，若发生不能称已完成精确本基线。",
+    "concurrency": "不强行宣称100同时TCP/在途；100是实际独立活动账号/会话，峰值在途为真正request生命周期计数。",
+    "driverBackpressure": "原始证据写入缓冲超过8MiB则失败停止，保留部分证据，不静默丢行或把驱动瓶颈算服务容量。"
+  },
+  "rawEvidence": {
+    "format": "新run UUID唯一文件 .requests.ndjson，完成顺序写，每行保index用于还原计划序；另存唯一JSON摘要，不覆盖旧文件。",
+    "eachRequest": [
+      "index",
+      "userIndex",
+      "route",
+      "method",
+      "scheduledMs",
+      "dispatchMs",
+      "scheduleErrorMs",
+      "status",
+      "bytes",
+      "ttfbMs",
+      "headersReceivedMs",
+      "firstBodyByteMs",
+      "latencyMs",
+      "reusedSocket",
+      "success",
+      "error",
+      "preferenceRevisionSent"
+    ],
+    "ttfbDefinition": "ttfbMs为该独占HTTP请求socket派发后首次data事件；headersReceivedMs为Node response回调；firstBodyByteMs为响应正文首块。三者明确分列，非浏览器首帧。",
+    "stats": "总体与按method+route分组、完整状态分布/错误/字节、实际调度每秒数、调度误差、所有完成请求nearest-rank P50/P95/P99及TTFB P95；错误和timeout不从总体时延分母删除。",
+    "integrity": "实际raw文件SHA/字节/行数与写入滚动SHA/预期完成数分别核对；截断/失败报告标partial，不冒36000完整。",
+    "hardwareRuntime": "实际CPU/逻辑核/内存/OS、Node及Python版本与可执行文件SHA，Windows已启动子进程后实际PID树/可见执行文件SHA；未知字段null，背景负载明确未控制。",
+    "sourceBuild": "启动前后实际产品source/build与本新helper/合同SHA；Cloud另存真实bundle/metafile、全部实际文件输入SHA及嵌入适配器SHA，实际esbuild API/package/platform package/native binary四文件和Miniflare真实入口/package的runtimeDependencyHashes；不把CIM可执行文件SHA冒充全部JS工具链。",
+    "neverRecord": [
+      "password",
+      "raw cookie",
+      "Authorization",
+      "request body",
+      "response body",
+      "business secret environment values",
+      "session-derived hashes"
+    ]
+  },
+  "nativeLocalCloud": {
+    "implementation": "独立受管Node子进程中实际Miniflare/workerd，port:0、真实D1/R2持久目录，实际eastern-api handleAPI；仅固定原始基础DDL初始化，不修改任何角色/session/业务结果。",
+    "generatedRuntimeOnly": "本轮Cloud/.wrangler/本地可靠性独立目录内临时编译固定原生入口；不是重建或覆盖产品dist。",
+    "bindings": "实际DB、实际BUCKET，仅内存生成本次DEMO_ADMIN_HASH；没有真实AI/支付凭据，不创建.dev.vars，不代理或模拟fetch。",
+    "notCovered": "不冒称生产Cloudflare/D1地域延迟、公网TLS/CDN或框架HTTP适配器压力；该入口是实际原生业务handleAPI的本地workerd基线。"
+  },
+  "cleanup": {
+    "ownedOnly": "只处理本次派生的06新库、Cloud独立state、受管子进程及其实际记录PID；不访问原8881/8880/8879/defaultstate或其他账号数据库。",
+    "normal": "清理前重取实际owned子进程树并与startup PID清单取union，再等待Cloud native.dispose/子进程自然退出或停止本次Python服务；核union剩余PID及实际.dev.vars为0，不因中途workerd变化漏核。",
+    "abnormal": "保留部分raw/报告与失败原因；若存在残余PID/变量文件则退出非0且不得称清理完成；仅允许operator依据确切本轮PID进一步清理。",
+    "testDatabaseInDelivery": false
+  },
+  "acceptanceBoundary": {
+    "formalAcceptance": false,
+    "productionEnabled": false,
+    "targetCountry": false,
+    "nativeDevice": false,
+    "mediaPerformance": false,
+    "aiAndPaymentLatency": false,
+    "productionCapacityOrCosts": false,
+    "failurePolicy": "任何状态/调度/写入对账/身份变化/清理失败如实保留；不为了P95改源码、关限流、换路由、丢慢请求或放宽条件。",
+    "800ms": "原文建议值尚待正式确认，只列observedUnderUnconfirmed800ms，不把它作为专业/正式性能验收通过。"
+  },
+  "pendingBeforeAnyExecution": [
+    "当前三项双端完整与相关专项验收通过；共享薄基线逐项核对历史保全和当前产品。",
+    "当前Cloud完整导入40专项重跑通过（旧V8OOM报告保留，不把独立case06当整套通过）。",
+    "root开启专用测量窗；恢复、媒体和重浏览器验收在测量期间停止。",
+    "先实际双端接口13组件，通过后保持原100/20/1800/36000负载，不改限流/认证/阈值。"
+  ],
+  "interfaceComponent": {
+    "status": "prepared-not-run",
+    "separateFlag": "--probe-local-interfaces",
+    "requiresSameHardFinalProof": true,
+    "usesSameActualNativeBackendAndIsolation": true,
+    "actualNormalUsers": 2,
+    "checks": "每人真实register/cookie/auth-status，5条读路由各一次；第一用户一次实际PATCH关闭授权并CAS revision+1，再读两用户核本人变化/另人revision不变且始终false授权；13条组件接口证据另列。",
+    "reportStatus": "interface-component-only",
+    "thirtyMinuteCompleted": false,
+    "formalAcceptance": false,
+    "successfulExitMeans": "仅真实接口组件及owner/source/cleanup核对成功，绝不计作SVT01压测或36000请求通过。",
+    "loadLimitsUnchanged": {
+      "users": 100,
+      "rps": 20,
+      "seconds": 1800,
+      "requests": 36000
+    },
+    "noLoadSizingArguments": true,
+    "failure": "组件失败保独立JSON与原始小请求元数据，不转为缩短负载、不覆盖旧运行。"
+  },
+  "appliesTo": "当前成长树、官网、每日提醒最终源码上的原登录负载逻辑；版本绑定与命名接续，仍100真实登录/20RPS/1800秒/36000请求各端。",
+  "completedThirtyMinuteLoads": 0,
+  "priorAbortedLoad": {
+    "runId": "77ae6ba7f11a449f8bddd78bbe32501c",
+    "helperSha256": "e283df70f17c8330744287738223d69f6491340eb8e6404c4be54bdbe1f8fa47",
+    "abortedPreservation": "06_验证与后续工作/负责人优化建议-本地可靠性-python-77ae6ba7f11a449f8bddd78bbe32501c-异常终止保全.json",
+    "sha256": "999bbbf249dd6cc1d18880571967e680ea3acbcb46306b162b4b7e38023e286c",
+    "errorTimelineClarificationSha256": "f47b6c560a5a506b9001036ea86103b463bc8284ccf1b735a741899530bab38b",
+    "completedRaw": 8029,
+    "http200": 598,
+    "requestTimeout": 1884,
+    "connectionRefused": 5547,
+    "notThirtyMinutes": true,
+    "originalServiceStderrDiscardedAndNotReconstructable": true
+  },
+  "windowsControlledStop": {
+    "path": "由每个run唯一生成在现有06的<run前缀>-stop.json；默认文件不存在，run-created stdout和report.control.path明确公布。",
+    "requiredPayload": {
+      "action": "stop",
+      "runId": "当前实际32hex runId"
+    },
+    "validation": "仅普通文件/非符号链接/最多1024字节，严格仅action和runId两键且匹配当前run；不扫描其他作业或任意外部path。",
+    "pollIntervalMs": 250,
+    "effect": "调用原stop，停止新派发、销毁本run在途client requests，等待真实completion callbacks写partial raw，然后走原finally停止owned service/收尾证据。",
+    "result": "status aborted-load-diagnostic、partialCompleted/elapsed/stop时点和前缀统计、OPERATOR_INTERRUPTED单列，exit非0；绝不称30min或36000通过。",
+    "scope": "没有新增HTTP控制后门/产品env，不依赖共享Windows console或必须先kill；失去OS调度时仍可由root对确切own PID作独立强停并另保全。"
+  },
+  "serviceObservation": {
+    "file": "每run唯一-service-observation.ndjson，默认最大4MiB常规记录+64KiB关键生命周期保留。",
+    "streams": "stdout/stderr全部收到的字节滚动SHA/bytecount，不把SHA说成可复原原文。行跨chunk使用UTF8 StringDecoder；超过8192字符的行抑制，不截取未知正文。",
+    "privacy": "实际生成的admin/普通用户password、DEMO_ADMIN_HASH与收到cookie值仅加入内存redaction集合；再按typed allowlist只存HTTP已知route/method/status、SQL/exception固定类别和项目traceback文件/行号。未知文本、body/header/会话原值不落盘，无session派生hash。",
+    "bounded": "超过日志上限明示droppedBoundedRecords，分类计数/流字节hash继续；原始请求raw不因此截断。",
+    "process": "子进程error及exit状态/预期与否落证据；每1s核源PID活性，死亡即停止继续派发。PID活着不等于HTTP正常，不将连接拒绝误报健康；请求错误计数持续输出。",
+    "timeCorrelation": "measurement-start写UTC与monotonic成对，controlled-stop写当前elapsed/scheduled/completed/inflight，前缀与stop诱导取消可重算。",
+    "cleanup": "等待child close/stream end、核观测文件实际SHA/bytes与滚动SHA一致；缺失/写失败/流未结束明确不通过。"
+  },
+  "repairExecutionProofReceived": false,
+  "repairProofBinding": {
+    "commonValidator": "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验修复基线.cjs",
+    "function": "verifyRepairProof(expectedRepairProofSHA,expectedAuthSHA)",
+    "record": "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验-修复复验.json",
+    "authorization": "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验授权基线-rev3.json",
+    "authorizedCandidateSha256": "3f2d92040442fed4047ab1115ebe9301f449997507b4b89fe1d28f58384cbef7",
+    "parentStage30ProofSha256": "752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07",
+    "candidateIsPassingRepairProof": false,
+    "originalStage30ProductUnchanged": false,
+    "currentExecutionAllowedBeforeRootFinalRepairProof": false,
+    "historicalAnchors": 516,
+    "currentSurvivingInheritedAnchors": 505,
+    "currentExecutionBaseAnchors": 585
+  },
+  "executionPlanSavedAtBeijing": "2026-11-17T18:11:25.869958+08:00",
+  "executionPlanIsImmutablePreRunSnapshot": true,
+  "cohostWindow": {
+    "authorizedByRoot": true,
+    "perTargetLimitsUnchanged": true,
+    "noRecoveryOrMediaDuringMeasurement": true,
+    "actualStartAndOverlapFromReports": true,
+    "formalIndependentCapacityAcceptance": false,
+    "backgroundLoadOtherwiseControlled": false,
+    "priorSequentialPlan": {
+      "path": "06_验证与后续工作/负责人优化建议-本地可靠性-并行窗口前合同-rev4.json",
+      "sha256": "8c5c9f2c2a4d49580963f3ab935e7b85c581080f7acf8ee6103a72d3889ddbca"
+    },
+    "previousAcceptedPythonRepairProof": {
+      "path": "06_验证与后续工作/负责人优化建议-本地可靠性-性能修复复验.json",
+      "sha256": "06e3519db0e08a94c10795e9b59b620b4a4289737c87ea09bb2157d0f1a00b5b"
+    },
+    "requiredNewRepairProof": {
+      "path": "06_验证与后续工作/负责人优化建议-本地可靠性Cloud复验-修复复验.json",
+      "sha256": null,
+      "status": "pending-actual-new390-proof-not-run"
+    }
+  },
+  "derivedFrom": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性-候选执行合同.json",
+    "sha256": "98a6144f3d5ac229d8155f4d71d6606dc8aaf4c63f68d4991b49576b2b7af706",
+    "exactCopy": "06_验证与后续工作/本地可靠性Cloud修复负载-旧合同rev5原字节.json"
+  },
+  "priorCohostAbortedLoads": {
+    "manifest": "06_验证与后续工作/负责人优化建议-本地可靠性并行负载-受控中止保全-1794912423526561200.json",
+    "sha256": "b54761ab0442b04bf2100e28280526ed3f7beba831ce4c11a717d2f6b5db170e",
+    "pythonRunId": "f981be63c7ea4947908213e17bd10aee",
+    "cloudRunId": "9a37c9208c7d4a1ca5afac8e76a109d3",
+    "thirtyMinuteCompleted": false
+  }
+}

@@ -1,0 +1,128 @@
+负责人优化建议：独立沙箱售后模块接口与接入说明（准备态）
+适用任务：SH03/SH04/SH05及PAY19中本机可交付的软件状态流。
+正式售后政策、费用承担/运费、承运商核验、退换货期限、正式仓库与真实支付退款仍待负责人资料和真实渠道。本文不会把测试状态或管理员登记当作真实到账/承运核验。
+
+当前交付边界
+5个新业务源：r4/backend/after_sales.py、cloud/lib/after-sales.ts、r4/after-sales-ui.js/css、r4/after-sales-admin.js。
+这里只新增源、独立检查、默认dry-run接入helper和future实际QA。尚未应用公共入口、构建、旧commerce或已冻结privacy源码。最终实际HTTP/UI门禁须根应用helper并重新构建后，在独立fresh服务运行。现有22/23/11通过不能冒称该最终门禁通过。
+功能仅sandbox；数据库CHECK及服务端均不接受生产案件，settings.productionEnabled固定false。新库沙箱默认false，启用还要求明确测试ruleVersion，且commerce沙箱同样开启。
+
+订单、资金和仓库分开
+不新建订单、不修改原订单项目/付款/退款/权益事实。申请只引用本人的commerce_orders及真实commerce_order_items和applied sandbox_pay。
+新申请type为refund-only或return。只有已shipped/delivered实物订单可申请return；数字/会员仅refund-only审查，拒绝物流和验收。
+受理、物流登记和验收不调用refund，也不声称申请已退款。case.money明确caseRefundLinked=false、caseRefundConfirmed=false、actualFundsMoved=false；所示为原订单累计沙箱付款退款事实，尚未逐笔绑定到某申请。
+资金继续走原统一admin/commerce/orders/:id/refund事实。已发货/送达实物的原退款库存事件为0；该行为保留。后续售后验收只把明确restockQuantity加库存，默认0，不因退款或登记退货自动回库。
+同一原订单下的收货验收单号不得跨申请复用；数据库在同事务/batch内检查，两个case同号并发只一份可成功，不能靠换requestId重复记同批。
+每次实收即使入库0也留下单一commerce_inventory_events事件（reason=after_sales_received_no_restock，delta0）；正入库reason=after_sales_return_restock。
+本模块不会自动撤销或改生产媒体权限、会员角色或真实续费。
+
+状态
+submitted -> accepted 或 rejected（理由必填）
+accepted -> returning（本人登记物流）
+returning -> partially_received 或 received（管理员明确逐项验收）
+partially_received -> partially_received/received；允许补物流信息。
+完整实收后不再收货；每项receivedQuantity累计不能超过申请量。restockQuantity是本次明确可重新出售数量，0 <= restock <= received；累计正库存事件不能超过原购数量。
+“received”只表示本申请数量已实收验收完毕，不表示退款到账，不自动关闭原资金事项。
+rejected释放该申请的数量占用，原记录和理由保留。已受理/已收货申请继续占用数量，不猜测后续重开、转换为另一申请类型或自动释放规则。refund-only受理后也不自动退款/完结。
+物流是用户自行登记carrier/trackingNumber，carrierVerified=false；没有外部承运核验。
+
+后端导出
+Python：init_schema(db)；AfterSales(store,h,Error,limiter).route(method,path)；service_ready(store)；legacy_request_allowed(db,owner,order_id)。
+Cloud：initAfterSales(a)；AfterSalesService；afterSalesRoute(a,path,method,fail)；afterSalesReady(a)；legacyAfterSalesAllowed(a,owner,orderId)；legacyAfterSalesInsertGuard(a,owner,orderId)。
+a沿用原API的one/all/stmt/env.DB.batch/body/require/rate/audit/url/user/owner方法。无独立凭据或支付客户端。
+首次初始化应在原commerce表创建后。DDL共18条（表/索引/触发器，含settings默认行），仅新增after_sales_*表/触发器，不ALTER/DROP原账表。现货更新只有新验收trigger在明确sandbox订单中使用原SKU/库存事件。
+Python写入BEGIN IMMEDIATE；Cloud原子D1 batch，数据库触发器核当前flags、role、state/version、总量、原订单归属与真实付款事件。不能把事务外预查询当作并发安全。
+读180/min与写30/min分桶，均按实际账号；不是测试白名单。匿名401，管理只admin（operator/reviewer同样403）。
+
+路径与请求（均/api前缀）
+GET /after-sales/config?environment=production|sandbox
+ -> {settings:{sandboxEnabled,productionEnabled:false,ruleVersion},environment,productionEnabled:false,carrierVerificationEnabled:false,refundsFunds:false}
+GET /after-sales/cases?environment=... -> {items,settings,environment,limit:100,productionEnabled:false}；只本人、关闭后可读。
+GET /after-sales/cases/:id -> 本人完整case；跨账号404。
+GET /after-sales/orders/:orderId -> 本人沙箱原单申请资格、当前item数量/已退款/已占用/旧自动回库/可申请余量、paymentConfirmed、legacyPending、canApply、settings。只引用原单，不造订单。
+POST /after-sales/cases
+ {requestId,environment:'sandbox',orderId,type:'refund-only'|'return',items:[{itemId,quantity}],reason}
+ quantity须严格整数1..99（bool/小数/数字字符串拒绝），1..30项，itemId不重复；reason1..2000字符。项目按id排序参与指纹。
+ -> {item:case,replayed:boolean}；同账号/env/requestId同载荷重放同一单；异载荷409。未付/未发货/已占满/旧待处理冲突409；关闭503；production403。
+POST /after-sales/cases/:id/return-shipping
+ {requestId,version,carrier,trackingNumber}
+ -> {item,replayed}。仅本人return且已受理/在途/部分实收，版本匹配；新物流独立记录，未核验。
+GET /admin/after-sales?environment=sandbox -> {items,settings,environment,limit:100}
+GET /admin/after-sales/cases/:id -> admin完整case。
+PATCH /admin/after-sales/settings
+ {sandboxEnabled:boolean,productionEnabled:false,ruleVersion:string|null}
+ 启用时非空ruleVersion（<=120）；不提供正式政策默认值。
+POST /admin/after-sales/cases/:id/decision
+ {requestId,version,decision:'accept'|'reject',reason}
+ -> {item,replayed}。当前submitted才可新决定；旧幂等先返回，不凭重复点击追加状态。
+POST /admin/after-sales/cases/:id/inspect
+ {requestId,version,receiptReference,items:[{caseItemId,receivedQuantity,restockQuantity,condition}],note}
+ -> {item,replayed}。
+ caseItemId是申请项id，不是原itemId。receiptReference必填<=100、同原订单唯一（跨case也不重复），防换requestId重复登记同一物理批次。received1..99、restock0..99，condition<=200和note<=2000必填。至少一项。
+ 无本人已登记物流、非实物return、超数量、重复批次、过时版本、role降级或关闭竞态409/403；整个batch/transaction回滚，不留下半张验收单或半条库存。
+
+case摘要字段
+id,ownerId,environment:'sandbox',sandboxOnly:true,productionEnabled:false,orderId,type,reason,ruleVersion,status,version,
+items[{id,itemId,skuId,type,quantity,receivedQuantity,restockedQuantity,snapshot,originalQuantity,orderItemRefundedQuantity}],
+shipments[{id,carrier,trackingNumber,created,carrierVerified:false}],
+inspections[{id,receiptReference,note,created,items[{id,caseItemId,receivedQuantity,restockQuantity,condition,inventoryEventId}]}],
+history[{id,actorId,kind,data,created}],created,updated,money。
+created/updated为Unix毫秒，界面通过现有本地化日期函数展示。
+快照包含原订单当时title/type/价格/退款说明等，目录改价改名不回写它。ruleVersion为申请受理流程的成交/提交时测试规则版本，不假称正式政策已审核。
+
+旧入口双向并发护栏（本轮准备helper中必要的唯一commerce改动）
+旧路径POST /commerce/orders/:id/aftersale原有无itemId的pending/processing申请不能猜成新逐项申请。新case trigger原子检查该旧pending/processing，遇到则409。
+反方向必须接helper：Python在原aftersale()的原BEGIN IMMEDIATE内部、原编号重放return之后，再查新非rejected case，有则409。不能只在路由入口提前查询。
+Cloud legacyAfterSalesInsertGuard只返回条件SQL和绑定数组；接在旧INSERT SELECT原条件内，同一个D1 batch判断新非rejected case，失败原INSERT changes=0走原409。不能以legacyAfterSalesAllowed的事务外bool预检查替代。
+新旧两个事务/batch由数据库串行化：旧先提交则新trigger409；新先提交则旧INSERT条件409。历史同编号成功申请仍先重放，不因新模块启用抹去原账。
+该护栏只限制新建旧申请，不变更旧退款事实/旧付款/旧库存trigger。无after_sales_cases表时保留原独立commerce兼容。
+future实际HTTP专项明确有旧→新、新→旧、旧编号重放、两入口同时竞争，只允许一个成功。
+
+前端接入
+AfterSalesUI.install()须在原账号/commerce定义之后显式调用。文件仅加载无联网/安装副作用。
+安装后注册afterSalesCenter/Request/Detail；原订单列表增加“我的售后申请”入口。原coOpenAftersale仅在真实public.afterSalesServiceReady=true且原订单environment=sandbox时转按项申请；未开启保留旧入口。后端仍独立核状态，不能凭前台flag授权。
+AfterSalesUI.openOrder(id)/openCase(id)/refresh()可由原订单或导航调用；已有测试case在关模块后仍可本人查询，写请求503。
+platform真实bootstrap读afterSalesServiceReady为px.afterSalesReady；Python/Cloud public仅输出模块沙箱开关布尔，不输出任何凭据。
+新UI保留表单草稿，读请求seq、mutation nonce、actor psToken/epoch、page/signature共同栅栏。读晚到不能盖过提交；离页不拉回；切账号不显示前人申请。
+重试保存原path/body/requestId/version/receiptReference，不换编号假重试。新一轮明确申请另有新requestId。
+AfterSalesAdmin.install()显式注册原labels/load导航；allowedNavs仅admin，后台API再核role（SQL批内也核降级）。api/pxApi常量不重赋。
+管理页只有真实设置、决定/理由、物流记录、实收/明确入库表单；入库默认0，不提供假退款或模拟真实到账按钮。
+
+隐私导出/清除边界
+新6类白名单只WHERE owner=?或JOIN本人case：afterSalesCases,afterSalesItems,afterSalesActions,afterSalesShipments,afterSalesInspections,afterSalesReceiptItems。
+配置、全站申请、凭据、请求指纹和他人私信不导出。actions导出仅自身case的理由/说明，不导出内部actor或幂等指纹。
+after_sales_inspections本表actor是执行管理员而非申请人；导出必须JOIN after_sales_cases.owner，不能误按管理员过滤或暴露全站。
+售后/仓库审计与原财务事实不随“清命盘记录/清会话”删除；回执retainedCategories加after-sales-ledger。保留期限待正式政策，不能声称永久合法保留或全链路已清除。
+
+精确接入helper
+06/负责人优化建议-售后接入准备.py 默认dry-run；读取所有精确锚点，先校验23锚点/10文件、Python AST/JS&TS解析，写06/负责人优化建议-售后接入计划.json，绝不启动服务/构建/迁移原库。
+--apply仅在根选定模块窗口使用；先完整预检，在现有06内平铺原始字节备份及映射JSON（不新建任何子目录或版本目录），备份逐一核原始bytes SHA256；再核所有及逐个替换前源码bytes仍与预检相同，替换必要源码。重复运行已接锚点可识别，不重复追加。未知源码变化/锚点不唯一明确中止，不能模糊搜索猜位置。
+10文件：server.py,eastern-api.ts,commerce.py,commerce-api.ts,platform.js,build.py,cloud/prepare.py,time-bank-admin.html,privacy.py,privacy-api.ts。
+必要改动只有新模块import/init/route/publicReady、旧新互斥SQL、本人导出/真实保留说明、前台flag、源码列表与显式安装、后台placeholder/安装。没有改计算源、真实支付/AI供应商、旧账DDL或生产开关。
+当前仅dry-run，未apply。public入口冻结由根控制。
+
+专项与最终门禁
+已实执行：
+- 售后Python隔离专项.py：22/22，实际Commerce+新AfterSales，fresh自有SQLite，真实订单/付款/发货/原退款，不直接改原金融表。
+- 售后Cloud内存专项.cjs：23/23，实际TS Commerce/newAfterSales，native SQLite实现D1 batch并发/触发器，不代表实际Cloud worker HTTP。
+- 售后前端隔离专项.cjs：11/11+64组合，真实Chromium/实际藏文asset，明确合成API/账号，只验证新组件，不能冒充APP整体验收。
+静态：JS语法、Python AST、Cloud TS、两端DDL及接口结构。
+
+准备好的实际fresh门禁（集成/重build后才运行）：
+node 06/负责人优化建议-售后实际专项.cjs --target=python
+node 06/负责人优化建议-售后实际专项.cjs --target=cloud
+拒绝--base；每次随机自有SQLite或Wrangler D1/R2状态/端口，actualAPI/原schema/实际APP与admin构建，ASSETS真实字体字节/hash核对。不读原库，不采购资源，不发公网，不调用承运/真实支付/AI。
+HTTP专项验证完整按项流、跨账号/权限/版本/重放、原退款后库存、退回批次、旧新原子竞争、数字不可物流、本人导出、关闭仍可查。
+浏览器专项从原订单真实“售后”入口→选项/提交→后台受理→本人物流→后台明确0入库，另验真实环境晚到/读写竞态/离页/真实cookie切账号/角色降级及四语375/430日夜64视图。
+报告latest+runs保留所有首次失败；运行期间源码/构建/测试hash身份变动即失败，不能拿旧构建报告冒充最终通过。根还须跑现有双full60及交易兼容门禁。真正正式渠道/政策与仓库外部链路仍未验证。
+
+
+收货唯一性修复专项：旧版case范围可复用原订单同收货号的窗口已用真实统一沙箱原单复现，两端首次失败均保留于runs。现BEFORE INSERT inspection按新case关联原订单与已有inspection/case查同receiptReference，要求同原订单唯一；并发[200,409]、串行新编号409、仅+1库存/单条正事件、原付款/退款及履约完全不变。旧新入口实际竞态专项也补完整money/fulfilment/stock前后比较，不只比较申请数。
+
+最终准备态：Python22/22、Cloud23/23、组件11/11+64视图；future实际每端为20HTTP+9浏览器=29，runner强制完整29项。尚未应用/构建/执行该实际门禁；接入顺序与完整回归由根控制。
+
+接入helper按AGENTS第9行修正：beforeSha256/afterSha256均针对实际bytes，不经read_text换行规范化。未改区域保留原字节/换行，插入与替换块沿用文件主换行；混合换行如实列入plan。--apply只在现有06平铺备份、映射JSON和临时写入文件（替换后消失），不创建版本目录。当前仅dry-run，业务源未改，不需重复模块测试。
+
+最终归档脚本：负责人优化建议-售后验收冻结.py默认validate-only，不写文件、不启动服务、不导入应用或打开数据库。--write须先通过双60（主界面/后台与完整Cloud构建）和两端actual29全部源码/后端依赖/Cloud lib/worker/dist/BUILD_ID/实际APP及后台HTTP返回/字体bytes身份，64视图、16次真实藏文字体记录及每端7张写入时截图hash。之后仅在已有06平铺写4份不可覆盖快照和负责人优化建议-售后-实施记录.json，verification均有path/sha256。实际29包装器补明示/admin路由与该hash，原业务源不变。当前仅准备与静态校验，尚未运行实际29或写最终证明。
+
+最终原统一交易兼容追加：独立新售后交易兼容启动.cjs/工具.cjs/专项.cjs保留原31合同，仅自有随机SQLite/Cloud D1R2凭据与fresh服务，拒绝复用root8878，原31源码/旧报告未改；双端31已通过。冻结脚本追加两份不可变交易兼容快照，最终6快照+实施记录共7文件，均path/SHA；须最终Python7图与独立Cloud7图全部人工核对后形成售后最终视觉核验.json。当前实际29因QA字段snapshot.terms与.af-page加载状态作用域修正而全新重跑，未修改业务源。

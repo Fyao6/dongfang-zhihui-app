@@ -1,0 +1,66 @@
+售后资金关联 v1（SH03/04/PAY19）——独立软件实现，未接入当前构建
+
+边界
+只记录管理员明确的逐项批准目标、与原已应用沙箱退款事件的金额关联、追加撤销关联。不会发起退款、扣款、改库存、撤权益、同步会员/佣金或关闭售后物流。生产始终false；真实渠道、真实到账、正式应退运费/扣费/自动完结政策未验且未知。原累计退款不自动猜配售后case。
+前置实际依赖：原统一交易、售后、账号关闭account_lifecycle；集成顺序retention→closure→finance。无lifecycle行视active；最终SQL批内必须真实users.admin且未关闭。买家关闭保留订单归属，可由仍active管理员继续明确关联。
+
+新增6源
+r4/backend/after_sales_finance.py
+cloud/lib/after-sales-finance.ts
+r4/after-sales-finance-money.js
+r4/after-sales-finance-ui.js
+r4/after-sales-finance-admin.js
+r4/after-sales-finance.css
+当前未修改冻结afterSales五源、原commerce/member/commission源或共享入口/build。接入helper另精确修改原after_sales.py/after-sales.ts的只读money摘要；既有owner/admin路由权限、原订单累计字段和原事件保持。
+
+5张追加表（清理/关闭保留，不删除/改写原金融事实）
+after_sales_finance_heads：case唯一头、版本、最新approval；唯一可更新投影。
+after_sales_finance_actions：actor+environment+requestId唯一，批准/关联/撤销完整payload与hash，期望版本。
+after_sales_finance_targets：每次批准的全量case项目标，approved_minor允许null/0/正整数。
+after_sales_finance_links：原refund事件、原order item与case item的明确金额。
+after_sales_finance_reversals：引用原link、正金额、理由的追加纠错；不撤退款。
+四张历史表禁止UPDATE/DELETE；头禁止DELETE与非对应action版本更新。金融期限尚未确认null。
+
+真实原退款结构与容量
+commerce_payment_events.kind='refund',status='applied',environment='sandbox'，同owner/order/currency，且原sandbox_pay确实匹配原总额；不是另造sandbox_refund事件。
+原event.items必须可靠数组（1..30）、不重复itemId、原订单项、严格正整数quantity≤原成交quantity。按原不可变commerce_order_items.price_minor+unit_shipping_minor+unit_tax_minor乘该事件明确quantity求逐项容量，合计必须完全等于原event.amount_minor。当前目录价格无影响。不完整/坏JSON/无数量/总额不符→sourceReliable=false、availableMinor=null，不可分配。
+每个link最终SQL内同时核：当前批准approvalId/版本、case项净关联≤明确目标、原event逐项净关联≤原逐项容量、同原event跨case净关联总和≤原event额。反向追加释放净容量，不能超过该link尚未撤销额。并发同key重放同action；不同payload409，乱序旧版本409；两个case抢同原退款或双撤销由同批触发器守卫。
+不会因为有原累计退款就显示本case已退。received验收不等于退款完成。
+
+HTTP（均登录；admin接口仅active admin）
+GET /api/after-sales-finance/cases/:caseId 本人；他人404。
+GET /api/admin/after-sales-finance 最近100沙箱case财务投影，limit=100明确截断。
+GET /api/admin/after-sales-finance/cases/:caseId
+GET /api/admin/after-sales-finance/cases/:caseId/events
+POST 同case /approve | /link | /reverse
+公共字段 {requestId,environment:'sandbox',currency:原大写币种,expectedVersion:当前financialVersion,reason:明确理由,items:[...]}
+approve另含ruleLabel；items必须覆盖该case全部项目 [{caseItemId,approvedMinor:null|0|正整数}]。
+link另含approvalId:最新批准actionId、refundEventId:真实原事件；items[{caseItemId,amountMinor:正整数}]。
+reverse items[{linkId:真实该case原link,amountMinor:正整数}]。
+后台金额值严格JSON安全整数，不收bool/string/fraction/负数，单值0..1e9；link/reverse必须>0。重复项目、额外字段、缺理由/版本拒绝。批准不得超过case原申领项数量×原含运税金额，不得低于已净关联额，已有净关联不得回null。
+返回 {actionId,appliedVersion,replayed,item:当前财务投影}。重放返回原action/appliedVersion和当前投影，不伪装旧投影。
+403权限/生产；400格式；404他人/无case；409版本/容量/原事实/重复key异载荷；503原交易或售后沙箱关闭。独立read180/min、write30/min，保留原其它模块限制。
+
+财务投影
+status unknown：有任一目标null；approvedMinor/remainingMinor整体null、knownApprovedMinor另列已知额。
+no_refund_due：全部已明确且全0，financialDecisionComplete=true，但caseRefundConfirmed=false，绝不称已退款。
+awaiting_allocation / partially_matched：明确正目标尚未对应净关联足额。
+sandbox_matched：所有正目标真实关联足额，零目标项明确无需金额事实；仅本地沙箱匹配，不是真实到账。
+caseRefundLinked仅净关联>0；caseRefundMatched仅status=sandbox_matched；caseRefundConfirmed=false始终不把沙箱匹配称真实到账。
+actualFundsMoved=false、productionEnabled=false、policyConfirmed=false始终明确。
+logisticsStatus独立原售后状态；本模块任何操作不改变原物流。
+owner接口只返回本人批准/关联/纠错，不返回管理员actorId；admin投影保留actorId审计。
+
+界面/金额
+AfterSalesFinanceUI.install()在AfterSalesUI.install()后调用。现售后中心与真实data-af-detail当前case加“退款关联进度”入口，独立screens.afterSalesFinance。前台全只读，四语状态/未知/0/沙箱边界，原物流可达。账号scope+epoch绑定DOM及迟到读取。
+AfterSalesFinanceAdmin.install()新nav=afterSalesFinance，仅admin；查看原退款容量、逐项批准/选原事件关联/撤销关联及完整历史。未自动填目标、未自动选择事件。所有表单绑定actor/authEpoch/case/version；重试保留同key同载荷。
+AfterSalesFinanceMoney使用明确原币种主单位十进制字符串→BigInt精确minor。币种列表与原commerce相同，Intl指数核对；JPY/KRW/IDR/VND为0，BHD/KWD/OMR/JOD/TND为3，其余2。1 CNY输入→100 minor，不以binary float转换。空白批准=null，0明确无需退；关联/撤销空白不猜，必须正额。
+
+已执行仅独立本地契约/组件，无服务/原库：Python真实原Commerce+AfterSales新SQLite，Cloud原模块+SQLite D1原子batch适配，Chromium .invalid截获静态组件。报告保留runs与首失败。组件不是已集成UI/真实字体验收。当前结果见同名前缀专项JSON，不将fixture称真实渠道。
+待root按精确默认dry helper审查/接入/build后：fresh Python/Cloud HTTP+browser专项、最终字体/4宽×2主题×4语、双full60和冻结证据。未到实际门禁不得标“已交付上线”。
+
+原售后详情一致性补充（本轮明确修复）
+case_finance_summary / caseFinanceSummary 是无init/sync/Commerce.order调用的纯只读函数，约束caseId+owner+orderId+environment，并使用新endpoint同一个纯project_case_finance/projectAfterSalesFinanceCase投影算法。
+旧 GET /api/[admin/]after-sales/cases/:id 的money合并caseRefundLinked、caseRefundMatched、caseRefundConfirmed=false、caseRefundStatus、caseLinkedMinor、caseApprovedMinor、caseRemainingMinor、caseFinancialVersion、caseFinancialDecisionComplete。
+orderRefundedMinor、orderPaymentStatus、原events等原累计交易事实保持原值；source仍标原交易事实，新notice分清本case净沙箱匹配。既有本人/管理员权限由原route承接，不返回他case状态或管理员私有审计。schema尚未初始化时仅摘要unknown/金额null，读不会创建schema。
+独立专项含unknown/0目标/正目标足额/部分及全撤销、错误owner/order隔离、缺schema SELECT-only；actual原16 HTTP总case内再读真正旧owner与admin接口，对照新endpoint、他人404和原订单hash。

@@ -1,0 +1,112 @@
+负责人v1.0引用S01—S26官方资料复核
+2026-11-12T15:25:27.693619+00:00
+本轮web工具逐个打开全部原链接，按相关章节find/open复读；Stripe幂等补官方.md，Cloud SQL补官方hl=en。记录的是相关实施条件复核，不宣称全部链接全文/交互已读。
+
+S01  DeepSeek 4.1版本发布及开源入口（P661）
+https://api-docs.deepseek.com/news/news261017/
+已读相关原文：官方2026-10-17发布页确认DeepSeek-V4.1-Flash-1017名称，并链接官方开源仓库；没有下载权重或执行部署。
+
+S02  DeepSeek官方模型仓库（P662）
+https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017
+已读相关原文：deepseek-ai官方模型卡标明仓库和权重MIT许可，并列最小推理入口；许可证可用不代表当前机器能运行。
+
+S03  DeepSeek官方本地推理说明（P663）
+https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/blob/main/inference/README.md
+已读相关原文：推理README明确是可读参考实现，并非生产服务引擎；不能据此宣称流式服务、并发和成本已验收。
+
+S04  Anthropic数据处理协议及第三方平台边界（P664）
+https://privacy.claude.com/en/articles/7996862-how-do-i-view-and-sign-your-data-processing-addendum-dpa
+已读相关原文：商业条款纳入DPA；经第三方平台访问时受第三方条款约束。实际API运营方/转发关系仍待核。
+
+S05  Anthropic商业API数据保留说明（P665）
+https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data
+已读相关原文：商业API通常30日内清除输入输出，但Files、另行协议、政策和法律等有例外；产品聊天及违规保留另有期限，不能统一写成零留存。
+
+S06  Apple App Review Guidelines（P666）
+https://developer.apple.com/app-store/review/guidelines/
+已读相关原文：3.1要求数字解锁走适用内购；3.1.3(d)区分实时两人和一对多，(e)实物/线下服务；外链规则随商店地区和资格不同，未据此打开外部收银。
+
+S07  Google Play支付政策（P667）
+https://support.google.com/googleplay/android-developer/answer/9858738?hl=en
+已读相关原文：Play数字功能/订阅使用适用结算系统；实物和线下服务另列，区域例外附条件。需先确认实际发行端和国家。
+
+S08  Google Play支付政策常见问题（P668）
+https://support.google.com/googleplay/android-developer/answer/10281818?hl=en
+已读相关原文：一对一付费在线服务例外要求双方个人且不可在Play应用内回放；混合SKU仍需按数字/实物实际构成审核。
+
+S09  Apple取消订阅说明（P669）
+https://support.apple.com/en-us/118428
+已读相关原文：Apple官方取消入口适用于经Apple/App Store购买的订阅；本APP不能凭本地取消按钮伪称Apple续费已停。
+
+S10  Google Play订阅管理说明（P670）
+https://support.google.com/googleplay/answer/7018481?hl=en
+已读相关原文：Google说明卸载不取消订阅；应从购买所用Google账号管理。取消后权益期限和退款是不同流程。
+
+S11  Stripe支持的商户地区（P671）
+https://stripe.com/global
+已读相关原文：Stripe全球可用性页面列商户地区；页面自动重定向en-nl，不能把用户所在地等同商户可签约地区。
+
+S12  Stripe限制与禁止业务（P672）
+https://stripe.com/legal/restricted-businesses
+已读相关原文：Stripe限制业务按国家/业务分类，页面含部分国家对psychic/fortune类服务限制；自动重定向en-pl，仍须实际主体地区和业务书面审核，不能全地区一概推定。
+
+S13  Stripe Webhooks官方说明（P673）
+https://docs.stripe.com/webhooks
+已读相关原文：Stripe回调须用原始请求体和官方验签机制；事件可能重复和乱序，按事件/业务对象去重并异步处理。当前代码无正式回调验收。
+
+S14  Stripe幂等请求（P676）
+https://docs.stripe.com/api/idempotent_requests
+已读相关原文：官方.md说明API v1同键保存首次执行结果（含500），至少24小时后可清理；参数冲突需拒绝。API v2重试语义不同，不能混称。
+
+S15  Google Play订阅生命周期（P677）
+https://developer.android.com/google/play/billing/lifecycle/subscriptions
+已读相关原文：Play订阅后端以purchases.subscriptionsv2.get为最新状态来源；RTDN是查询触发。须服务端验单及确认购买，不能仅凭通知/客户端发权益。
+
+S16  AWS区域说明（P678）
+https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-regions.html
+已读相关原文：AWS区域选择应满足服务和用户位置；账号决定可用区域，中国/GovCloud与普通账号存在隔离。尚未查询用户云账号。
+
+S17  Google Cloud区域与可用区（P679）
+https://docs.cloud.google.com/compute/docs/regions-zones
+已读相关原文：Google区域与可用区是不同故障范围；跨区/跨域冗余和配额需实际配置，选了区域不等于已获得GPU或容灾。
+
+S18  Amazon RDS Multi-AZ部署（P680）
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html
+已读相关原文：RDS单备用Multi-AZ实例负责故障接管而不服务读；双备用集群能力不同。现有SQLite/D1没有因此变成RDS HA。
+
+S19  Cloud SQL PostgreSQL高可用（P681）
+https://docs.cloud.google.com/sql/docs/postgres/high-availability
+已读相关原文：Cloud SQL HA为同区域主备跨区同步；故障切换会断开连接，备份/PITR仍单列。首次抓取后两次超时，经hl=en官方地址复读相关原文。
+
+S20  Amazon CloudFront工作方式（P682）
+https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html
+已读相关原文：CloudFront从边缘缓存或源站分发；没有证据说明会员私有媒体已配置正确的鉴权和缓存策略。
+
+S21  Google Cloud CDN概述（P683）
+https://docs.cloud.google.com/cdn/docs/overview
+已读相关原文：Cloud CDN与支持的外部应用负载均衡器配合；不是给私有视频添一个公开URL即可。未创建真实CDN配置。
+
+S22  AWS官方价格计算器（P684）
+https://calculator.aws/
+已打开但不可读：AWS计算器入口可达但抓取0行；未创建估算，不能声称已读交互项、取得报价或获批预算，须实际规格/账号价格复核。
+
+S23  Google Cloud官方价格计算器（P685）
+https://cloud.google.com/products/calculator
+已读入口：Google计算器入口要求添加配置产品生成估算；账单账号价格需登录。未配置采购清单，月费仍未知。
+
+S24  AWS各区域实例类型（P686）
+https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html
+已读相关原文：AWS各区域实例类型表仅证明文档列出可用类型；实例实际配额、区内库存和租用价尚未核验。
+
+S25  Google Cloud GPU区域与可用区（P687）
+https://docs.cloud.google.com/compute/docs/regions-zones/gpu-regions-zones
+已读相关原文：Google GPU型号随区域/区变化；AI zones须可见且有预留容量，列表不保证当前项目能租到GPU。
+
+S26  PayPal可接受使用政策（P688）
+https://www.paypal.com/us/legalhub/paypal/acceptableuse-full
+已读相关原文：PayPal美国AUP标注2026-11-04更新；直播、市场平台和分销等列审批条件。原文是美国页，实际商户所在地条款及业务批准仍未确定。
+
+仍未完成：
+AWS交互计算器不可读；两家云实际配置估算尚无。
+尚未收到另行更新的规则/分佣文档，未做不存在材料的差异比对。
+实际发行地区、商户主体、签约/审核、接口版本和厂商服务合同仍须在上线前复核，不能把资料阅读等同于上线许可。

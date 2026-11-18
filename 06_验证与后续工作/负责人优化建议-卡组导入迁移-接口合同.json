@@ -1,0 +1,114 @@
+{
+  "module": "DR03/DR08 卡组导入、版本与历史归档候选合同",
+  "revision": 1,
+  "status": "prepared-not-implemented",
+  "preparedAtBeijing": "2026-11-17T03:00:39+08:00",
+  "scope": "仅候选文档，Stage27身份不变；不代表DR03/DR08已完成。",
+  "productionMaterialsConfirmed": false,
+  "sources": {
+    "paragraphFile": "02_需求与设计参考/负责人优化建议-逐段原文.json",
+    "paragraphFileSha256": "8d8327f89fa3130d7ee0fef99824273980af929d73f3ad2c21d1145ea812a382",
+    "mapping": {
+      "P522": "逐卡字段而非仅卡组名称",
+      "P523": "稳定卡ID/主题/图文/统一卡背/alt/简繁英/版本",
+      "P524": "提示/约80至120字解读/自问/1至3分钟可选行动/真实关联入口",
+      "P525": "作者/授权范围/审核人/发布与启停/经典准确出处",
+      "P526": "观察启发，不作诊断、处方、治疗保证",
+      "P527": "来源样卡单独保留",
+      "P528": "方向原文及哈希保留，不用本机示例替代",
+      "P554": "分类/排序/语言/图文/授权/版本/启停与发布前三语预览",
+      "P559": "原抽取/翻卡/收藏历史/分享AI/幂等弱网恢复不回退；36及正式卡面文案仍待确认"
+    },
+    "originalDirection": {
+      "paragraph": "P528",
+      "text": "卡名：方向。提示：从你正在意的事，选出今天的一小步。解读：不必一次回答所有问题。把当前最想处理的一件事写下来，再找一个今天能够完成的动作。它可以很小，但需要具体。提问：今天哪件事值得我投入十分钟？行动：写下这件事和一个下一步，完成后留下记录。",
+      "sha256Utf8NoNewline": "24960b38b268ac7948fc1ad4fcecae02e5c6245667415e27558132ef538a2f58",
+      "approval": "项目原文待审核样卡；没有提供繁体/英文审核稿、卡面或素材授权。不得因导入而自动approved。",
+      "preservation": "原段全文不可改写；拆为name/prompt/meaning/question/action时另存逐字段来源映射，结构化值不能覆盖全文。长度建议仅提示，不为凑字数改写。daily.js的c-02方向是另一份本机示例。"
+    }
+  },
+  "existingContract": {
+    "python": "04_研发源码/app/r4/backend/card_service.py: clean_deck、admin、draw、draw_item、privacy_delete_records",
+    "cloud": "04_研发源码/app/cloud/lib/card-service.ts: cleanDeck、cardServiceRoute、draw/drawItem、cardPrivacyDeletionStatements",
+    "ui": "card-service-admin.js整组JSON/版本/三语审核；card-service-ui.js本人历史/原request恢复/显式分享AI。",
+    "deckInput": ["id?", "deckId", "version", "revision?", "environment", "data"],
+    "dataFields": ["name", "system", "expectedCount", "cards", "rightsReference", "artReviewNote"],
+    "cardFields": ["id", "theme", "text", "frontUrl", "backUrl", "alt", "author", "licenseReference", "licenseScope", "practiceKey", "courseId", "actionSeconds", "sandboxOnly"],
+    "textFields": ["name", "prompt", "meaning", "question", "action"],
+    "enums": {"system": ["daily-wisdom"], "theme": ["life", "body", "mind"], "environment": ["sandbox", "production"], "requiredLanguages": ["zh", "zh-Hant", "en"], "optionalLanguage": "bo", "practiceKey": ["breath", "scan", "ground", "focus", "sleep"]},
+    "bounds": "现卡ID为1..100字符[A-Za-z0-9_-]；最多500卡；meaning≤2000字符，其余text≤800；alt≤500，author≤200，licenseReference/licenseScope≤1000，actionSeconds为null或1..180。发布必有三语全部五字段、三语alt、作者授权、全部卡面与统一背图及与已确认规则相等的张数。",
+    "routes": ["GET /api/admin/cards", "PATCH /api/admin/cards/config", "POST /api/admin/cards/decks", "POST /api/admin/cards/decks/:id/review", "POST /api/admin/cards/decks/:id/publish", "POST /api/admin/cards/decks/:id/withdraw", "GET /api/cards/capabilities", "GET|POST /api/cards/draws", "GET /api/cards/draws/:id", "PATCH /api/cards/timezone", "PATCH /api/cards/draws/:id/actions", "POST /api/cards/draws/:id/practice|ai-context|share"],
+    "invariants": "复用clean_deck/cleanDeck；客户端mediaChecks/review/publishedAt/verification不是权限。保留原限流、账号/闭户、素材与隐私门禁。"
+  },
+  "softwareGap": "已有整组JSON批量保存但首错即停；缺文件预览、全部诊断、三语diff、导入回执、指针回滚及本人旧例归档。版本不可改主要由API实现，需补DB守卫。",
+  "importFormat": {
+    "topLevel": "{schema:1,requestId,deck:{deckId,version,environment,data},baseVersionId:null|string,baseRevision:null|int,provenance:{sourceType,sourceReference,submittedFileSha256,fieldSources}}",
+    "sourceType": ["project_original", "author_submitted", "licensed_excerpt", "synthetic_sandbox"],
+    "file": "第一版仅UTF-8纯JSON；沿用262144请求上限，不提高全局body限制。超限413不截断，完整500卡只是逻辑最大值，不保证任意500卡文件都在体积限制内。CSV/XLSX/ZIP/远程图片抓取不在最小交付。",
+    "validation": "拒重复键、坏UTF-8、未知/特权字段、超限及非法数值；无eval/公式。服务器另算原字节hash与规范hash，自报hash仅声明。",
+    "draft": "可保留缺语言/图/授权/expectedCount=null的草稿，但预览如实列发布阻塞。不生成翻译、卡名、正式卡义、伪引文或作者/审批人，不默认36。synthetic必须每卡sandboxOnly=true且不得导入production。",
+    "provenance": "独立保存逐卡/语言/字段来源，不扩旧白名单。经典须书名/版本/篇章页码或定位段/原引文/引用方式，缺则pending。复选框不证明版权。"
+  },
+  "diagnosticsAndDiff": {
+    "issue": "{cardId:null|string,cardIndex:null|int,language:null|string,path,code,severity:'error'|'warning',blocksApply:boolean,blocksPublish:boolean,message,sourceReference:null|string}",
+    "allIssues": "逐卡全部诊断并查跨卡ID/背图/张数/课程/顺序。父节点无效不制造子节点通过。errors/warnings有真实总数、完整分页与导出，不截断冒充全查。",
+    "error": "坏格式/越界/未知字段/重复ID/非法主题/跨环境/越权图片/不存在关联课程/已删或隔离媒体等阻apply；缺正式语言、文案、授权/审核资料阻publish，是否可draft需明示。",
+    "warning": "长度建议、未核外链尺寸/版权真实性、缺可选入口/藏文、与原样卡差异等保留。约80–120字及1–3分钟不是擅自改文命令；现actionSeconds可小于60，最小方案先提示与审核决定，不静默收紧旧版本。",
+    "threeLanguageDiff": "按cardId+language+field列三语五字段、alt/图/作者授权/出处/时长/入口、增删排序；缺翻译/空值/删除区分，英文fallback不算已审该语言。",
+    "base": "冻结base hash/revision，可比较published但只新增draft；base变化或媒体撤回须重预览。"
+  },
+  "importWorkflow": {
+    "preview": "真实admin；冻结字节/规范对象、base/source/媒体和诊断，不发布或改用户记录。同actor/requestId+hash重放原job，异内容409。",
+    "apply": "{requestId,confirmed:true,version}明确确认；最终同事务重核actor/role/session/closed、job归属/版本、next deck version、base版本、素材引用/授权范围及所有apply blockers，再调用旧校验、写独立draft+来源+receipt。任何失败整批回滚。",
+    "idempotency": "同job/requestId同语义回原draft/receipt，异内容409；丢响应查原job，成功job不得换requestId再生draft。",
+    "review": "草稿pending，复用review→publish且改文清审核。来源不是审核；真实admin/资料编号不冒充版权方批准。",
+    "receipt": "{id,jobId,actor,requestId,status,sourceSha256,canonicalSha256,baseVersionId,createdDeckVersionId,createdRevision,counts,created}；安全摘要不公开完整授权合同或内部notes。"
+  },
+  "versionsAndRollback": {
+    "dbInvariant": "card_deck_versions已published/withdrawn不可改id/deck_id/version/environment/data/created；被draw/active/source/job引用不可删。status/withdrawal须CAS审计，禁REPLACE；不重建旧表。",
+    "reviewPublish": "revision CAS；发布最终核三语/资料/图片/规则/张数。审批字段不得导入，publishedAt及审核归属取服务器事实。",
+    "activation": "复用config.revision CAS切activeSandboxDeck/activeProductionDeck；receipt记actor/requestId/from/to/configRevision/reason。目标同环境/published、规则张数匹配且审核媒体有效。",
+    "rollback": "回滚是把active指针指向合格旧published版本，不改旧版内容/用户snapshot、不回退配置revision、不自动重抽。withdrawn特别是license/content-error不能通过回滚重新启用；需另建后续版本重新审，不伪清下架原因。",
+    "production": "不自动开生产，不复制sandboxOnly到正式；保关闭和审核门禁，操作记录不是版权/全套内容确认。"
+  },
+  "historyMigration": {
+    "authoritativeFacts": "card_draws已有owner/environment/business_date/zone/deck_version_id/card_id/rules_version/snapshot/request_id/next_eligible_at；card_draw_requests幂等、card_daily_quota最小防重、card_record_epochs删除代际、actions个人收藏感受、practice events均保留。不得按当前deck重算或替换旧snapshot。",
+    "legacyFacts": "daily.js旧本机仅{cardId,date,drawnAt}，来自Math.random示例，没有可信deck/rules/timezone/原正文版本；同卡ID不能映射成今天正式卡。来源缺失标unknown，不能用当前c-02补造当时原文。",
+    "minimumActualScope": "本人旧例→独立legacy归档实现dry-run/apply/续批/回滚。权威历史仅核对及技术元数据迁移；无实际旧schema则not_applicable，不制造生产历史。",
+    "consent": "本人有效会话选文件确认，owner取服务器，不收任意owner；不自动上传localStorage/生辰/聊天/他人历史。admin导卡不授权导他人感受。",
+    "legacyArchive": "独立表记录owner/source_id/source_hash/original_data/source_type='legacy_local_example'/import_job_id/revision/created；authoritative=false、contentReviewed=false。不插card_draws/requests/quota，不授卡权益/AI授权；缺原文仅显示事实缺口。",
+    "dryRun": "冻结候选ID/hash/数量/owner/删除epoch/版本/来源缺口/重复冲突及目标hash；无业务写入。超限truncated，未冻结部分不得apply。",
+    "batches": "明确确认后持久job/targets/receipts，建议每批≤100，version/nonce CAS；每批同TX重核当前actor/owner/closed、删除epoch及每目标源/目标revision，只处理未完成目标。提交后记实际added/skippedChanged/duplicate/protected/missing及remaining，不重复累计。",
+    "resume": "断网/停机查job续办，不重置进度。epoch变更/闭户禁止恢复个人内容，admin不可代确认。",
+    "inverse": "undo只删本job新增且job_id/hash/revision未变、无后写/引用的legacy行，冲突skip。保后续收藏感受及其他job；不复活删除、不恢复整库，审计/回执仍保留。",
+    "unchangedQuota": "任何迁移/undo/切卡组都不改card_daily_quota、timezone偏好、server draw request或record_epochs，不因删除历史再给次数。原ordinary下架历史可读，license/content-error仍遮蔽分享/AI，迁移不解禁。"
+  },
+  "persistenceCandidate": {
+    "importJobs": "card_import_jobs：id/actor/request_id/fingerprint/source_bytes_hash/canonical_hash/source_data/base_version_id/base_revision/status/version/preview_data/result_version_id/created/updated；actor+request_id唯一，来源输入不可改。",
+    "sources": "card_deck_sources：deck_version_id/card_id/language/field/source_data/digest/created，不改变旧clean_deck白名单；review引用和经典出处可追溯。",
+    "receipts": "card_import_receipts及card_deck_activation_events：明确操作/actor/request/冻结源目标/计数/时间；幂等唯一键，不存会话或媒体object_key。",
+    "migration": "card_history_migration_jobs/targets/receipts及card_legacy_archives：冻结本人确认与epoch、逐目标CAS与逆向事实；精确DDL/root审定后双端锁定。",
+    "privacy": "纳入逐域owner盘点/安全导出/清理保护，来源版权正文仅授权admin，本人legacy仅本人。删除与闭户均不能因新迁移表复活旧资料；审计最小保留目的与期限未确认不编造。"
+  },
+  "apiCandidate": {
+    "POST /api/admin/cards/imports/preview": "{requestId,payload,baseVersionId?,baseRevision?,provenance}→{job,summary,errors,warnings,issuesNext,diff,productionMaterialsVerifiedBySystem:false}",
+    "GET /api/admin/cards/imports/:id": "同权限查job、全部分页issues/diff/receipts，游标绑定job；不泄其他admin私有来源。",
+    "POST /api/admin/cards/imports/:id/apply": "{requestId,confirmed:true,version}→{job,item:原DeckItem,receipt}；只创建draft。",
+    "POST /api/admin/cards/activation/preview": "{environment,targetVersionId,revision}→{from,to,eligible,blockedReasons,currentRevision}；只读。",
+    "POST /api/admin/cards/activation/apply": "{requestId,confirmed:true,environment,targetVersionId,revision,reason,kind:'activate'|'rollback'}→{config,receipt}",
+    "POST /api/cards/legacy-migrations/preview": "{requestId,records,sourceReference}→{job,summary,targets,next}，仅本人明确文件。",
+    "POST /api/cards/legacy-migrations/:id/apply|undo": "{requestId,confirmed:true,version}→{job,receipt}，分批实际计数；不接owner。",
+    "GET /api/cards/legacy-migrations/:id": "本人作业/进度/回执分页；GET /api/cards/legacy-archives?before=独立标示例。",
+    "existingHistory": "GET /api/cards/draws补before分页（建议每页50），保既有items/environment；旧不带游标的兼容方式须root定，不以只最近100掩盖全量缺失。"
+  },
+  "mediaAndAccess": "新增图片核当前admin上传与image MIME；精确保留已批准引用，不放宽retained。保Stage25 digital隔离及Stage26墓碑/历史/共享key/全引用DBguard，禁止复用已删ID/key。外链仅HTTPS无凭据、不抓取、不称尺寸版权已核；2:3与1200×1800仍为建议。",
+  "uiAndLocalAcceptance": "中文后台完整issues/三语diff/来源/回执；APP四语legacy独立标非权威。后续须双端实际HTTP/原生浏览器及最终构建全回归，覆盖发布、幂等/CAS/owner/闭户/墓碑、故障回滚/续批/后写/删除/quota。合成证明不等于36卡、版权、母语或实机验收。",
+  "rootDecisionsBeforeImplementation": [
+    {"id": "D1", "point": "262144单文件/500逻辑卡上限；超限分块是否留后续。"},
+    {"id": "D2", "point": "来源/经典字段与长度、时长的提示或阻塞口径；旧版不暗改。"},
+    {"id": "D3", "point": "导入reviewed草稿是否另建版本、来源权限及回执保留。"},
+    {"id": "D4", "point": "迁移限定本人legacy、批次100及undo规则；不重写权威内容。"},
+    {"id": "D5", "point": "历史分页兼容、activation/rollback动作；不恢复withdrawn。"},
+    {"id": "D6", "point": "最终张数/36、三语/作者/引用/版权/审核人须真实输入，不代批准。"}
+  ]
+}

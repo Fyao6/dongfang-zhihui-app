@@ -1,0 +1,36 @@
+{
+  "kind": "owned-http-component-not-formal",
+  "runId": "1a5a3a5855f745459f1d87acbf435962",
+  "at": 1794875385.2281797,
+  "base": "http://127.0.0.1:64878",
+  "database": "06_验证与后续工作\\bazi-http-component-1a5a3a5855f745459f1d87acbf435962.sqlite3",
+  "results": [
+    {
+      "name": "anonymous denied",
+      "pass": true,
+      "evidence": {
+        "error": "请先登录账号。"
+      }
+    },
+    {
+      "name": "unexpected component failure",
+      "pass": false,
+      "error": "{'path': '/api/admin/bazi-samples/import', 'expected': 200, 'actual': 500, 'error': '服务暂时无法处理此请求。'}"
+    }
+  ],
+  "professionalValidation": false,
+  "teacherConfirmed": false,
+  "priorFailure": {
+    "code": "schema_path_used_parent_with_name",
+    "fixed": true,
+    "originalFailedOwnedDatabase": "bazi-component-schema-owned.sqlite3"
+  },
+  "passed": 1,
+  "failed": 1,
+  "ownedServerStopped": true,
+  "actualFullReadyRun": false,
+  "sourceHashes": {
+    "04_研发源码\\app\\r4\\backend\\bazi_samples.py": "e6158227406ac3a99b4c4894575885636760d3882b04b3f93c661f1547f75375",
+    "04_研发源码\\app\\r4\\backend\\bazi_samples_schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1"
+  }
+}

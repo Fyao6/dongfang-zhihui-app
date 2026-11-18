@@ -18,8 +18,9 @@
     r.busy = true; r.error = ''; r.pending = null;
     return context;
   }
+  function sampleMode() { return root.BaziSampleBridge?.isActive?.() === true; }
   function active(context) {
-    return !!context && psCurrent(context.token) && runtime === context.runtime &&
+    return !sampleMode() && !!context && psCurrent(context.token) && runtime === context.runtime &&
       context.sequence === runtime.sequence && state.page === context.page;
   }
   function mustBeCurrent(context) { if (!active(context)) throw problem('VERSION_CONTEXT', 'Account or page changed.'); }
@@ -95,6 +96,7 @@
     } catch (e) { finish(context, e); }
   }
   async function saveFresh(exportOnly = false) {
+    if (sampleMode() || root.BAZI_SAMPLE_SOURCE_MANIFEST?.implementationReady === false) { toast('Sample view or unavailable implementation: personal archive writes are disabled.'); return; }
     const s = lcGet('bazi');
     if (!s.result || !s.normalized) return;
     if (s.b11Readonly) {
@@ -159,6 +161,7 @@
     } catch (e) { finish(context, e); }
   }
   function requestRecalculation() {
+    if (sampleMode() || root.BAZI_SAMPLE_SOURCE_MANIFEST?.implementationReady === false) return;
     const s = lcGet('bazi'), r = tokenState();
     if (r.busy || !s.b11Readonly || !s.b11Record) return;
     if (!lockAvailable()) { r.error = lockError().message; toast(r.error); render(false); return; }
@@ -178,6 +181,7 @@
       '</button><button class="btn secondary full" data-b11-action="recalculate-cancel">' + label('Cancel', '取消', '取消', 'ཕྱིར་འཐེན།') + '</button>');
   }
   async function confirmedRecalculation() {
+    if (sampleMode() || root.BAZI_SAMPLE_SOURCE_MANIFEST?.implementationReady === false) return;
     const r = tokenState(), pending = r.pending;
     if (!pending || r.busy || !active(pending.context)) return;
     r.busy = true;
@@ -260,6 +264,7 @@
     release = Object.freeze({...m, engine: Object.freeze({...m.engine})}); installed = true;
     const beforeAction = lcHandleAction, beforeActions = lcResultActions, beforeArchive = lcChartArchive;
     lcHandleAction = function(action, kind, button) {
+      if (kind === 'bazi' && sampleMode()) { toast('Exit the temporary sample view first.'); return; }
       if (kind !== 'bazi') return beforeAction(action, kind, button);
       if (action === 'open') return openArchive(button);
       if (action === 'save') return saveFresh(false);

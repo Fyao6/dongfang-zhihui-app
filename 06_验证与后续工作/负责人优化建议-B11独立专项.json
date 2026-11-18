@@ -1,0 +1,94 @@
+{
+  "module": "B11 standalone provenance preparation",
+  "ranAt": "2026-11-12T13:38:48.993Z",
+  "integration": "not integrated; no core/build/server changes",
+  "result": {
+    "passed": 16,
+    "failed": 0
+  },
+  "identityUnchanged": true,
+  "sourceAndTestHashes": {
+    "04_研发源码/app/r4/bazi-result-version.js": "e31c6787e85dc60c2bd4646d33535ed8347f51664feaa60192ca79e782985989",
+    "04_研发源码/app/r4/bazi-result-version-ui.js": "467c26b62282529941cd789c3acc53702f8350872bb136a5dd14ea941875cf69",
+    "04_研发源码/app/r4/bazi-result-version-release.js": "24575cfb39f912d400c31e9c6083b00563e438975be68e2a934c0a5799c2d1a4",
+    "04_研发源码/app/r4/bazi-result-version.css": "41e23c5e2ac21d13045e55bd9227b2663878099bbd0b34dcd00ff58e3b11e1f7",
+    "04_研发源码/app/r4/life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+    "04_研发源码/app/r4/life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+    "04_研发源码/app/r4/bazi-time.js": "3ae3d968e83deddb3f39d274c42a7ebdfd5db3b7ff6873464b09e539184cd23c",
+    "04_研发源码/app/r4/life-birth-entry.js": "5aacca949848d665408d41f2f6496202642822012ade3070475039cc0cddf97a",
+    "04_研发源码/app/r4/vendor/lunar-1.7.7.js": "9750324bfe1aa63c146f8c72b1143df924466c11c8a5277d7d9225c541a18aaa",
+    "06_验证与后续工作/负责人优化建议-B11独立专项.cjs": "f3c991c57e9a2a36508ed746cc882787e6c720d0283e544d73164e544b2fc910"
+  },
+  "tests": [
+    {
+      "name": "actual adapter output remains unchanged; fresh snapshot records explicit versions and SHA256",
+      "passed": true
+    },
+    {
+      "name": "canonical object key order stable; array order and value types remain significant",
+      "passed": true
+    },
+    {
+      "name": "actual day/yun options and normalized input have distinct cache identities",
+      "passed": true
+    },
+    {
+      "name": "rule/adapter/engine revisions invalidate reuse without recalculating or changing old bytes",
+      "passed": true
+    },
+    {
+      "name": "stored result/input/options/rules fingerprints detect accidental alteration",
+      "passed": true
+    },
+    {
+      "name": "legacy snapshot stays unverified and original saved time is never invented",
+      "passed": true
+    },
+    {
+      "name": "no explicit consent means no calculation; old ID overwrite is rejected before adapter call",
+      "passed": true
+    },
+    {
+      "name": "explicit recalculation calls actual adapter using unchanged archived input and creates a new child",
+      "passed": true
+    },
+    {
+      "name": "legacy explicit recalculation preserves its old unknown timestamp and links new version",
+      "passed": true
+    },
+    {
+      "name": "account/action context is checked before adapter and after late asynchronous completion",
+      "passed": true
+    },
+    {
+      "name": "wrong engine output and absent release declarations fail closed",
+      "passed": true
+    },
+    {
+      "name": "append is immutable and requires existing parent in same supplied account archive",
+      "passed": true
+    },
+    {
+      "name": "full archive fails without silently pruning any old record",
+      "passed": true
+    },
+    {
+      "name": "AI interpretation binds exact current record/key/output; unrelated and historical versions are not reused",
+      "passed": true
+    },
+    {
+      "name": "invalid JSON, recursive values and accessors fail before hashing",
+      "passed": true
+    },
+    {
+      "name": "browser module has no event/storage/network side effects and crypto absence fails closed",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Synthetic actual lunar-javascript adapter only; no teacher-approved cases or professional validation.",
+    "Release versions in tests are explicitly fixture labels, not production policy approvals.",
+    "No existing user archives or original databases were read.",
+    "Browser/UI/real AI binding and module full regression remain for integration."
+  ]
+}

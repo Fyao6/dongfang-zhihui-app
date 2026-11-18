@@ -19,7 +19,7 @@ function serviceAllowed(sql:string,kind:string){
 type Scope={kind:'gateway'|'order'|'session',id:string,owner:string};
 async function validateFact(db:any,s:Scope){
  let sql:string,args:any[];
- if(s.kind==='gateway'){sql='SELECT 1 FROM ai_gateway_jobs WHERE id=? AND owner=?';args=[s.id,s.owner];}
+ if(s.kind==='gateway'){sql="SELECT 1 FROM ai_gateway_jobs j WHERE j.id=? AND j.owner=? AND (j.quota_source='test_wallet' OR (j.quota_source='membership_period' AND EXISTS(SELECT 1 FROM membership_ai_allocations x JOIN membership_ai_periods p ON p.id=x.period_id AND p.owner=x.owner WHERE x.job_id=j.id AND x.owner=j.owner AND x.period_id=j.quota_period_id)))";args=[s.id,s.owner];}
  else if(s.kind==='order'){sql="SELECT 1 FROM commerce_orders o WHERE o.id=? AND o.owner=? AND EXISTS(SELECT 1 FROM commerce_payment_events p WHERE p.order_id=o.id AND p.status='applied' AND p.kind IN ('sandbox_pay','refund'))";args=[s.id,s.owner];}
  else{sql="SELECT 1 FROM users u WHERE id=? AND NOT EXISTS(SELECT 1 FROM account_lifecycle WHERE owner=u.id AND status='closed')";args=[s.owner];}
  if(!await db.prepare(sql).bind(...args).first())throw Error('account_settlement_denied');

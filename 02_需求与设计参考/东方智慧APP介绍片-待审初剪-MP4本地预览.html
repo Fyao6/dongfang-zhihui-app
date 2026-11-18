@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>东方智慧｜40 秒介绍片待审版</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1920;--ink:#f7f0e1;--gold:#e8c58b;--line:#3c4b50}
+*{box-sizing:border-box}
+body{margin:0;padding:clamp(18px,4vw,48px);background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,sans-serif}
+main{max-width:1000px;margin:auto} h1{font-size:clamp(24px,4vw,38px);margin:0}
+video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#070f13;border:1px solid var(--line);border-radius:10px}
+video::cue{color:white;background:#000c}
+a{color:var(--gold)} select{font:inherit;min-height:44px;margin-inline:10px;padding:0 8px}
+.downloads{display:flex;gap:10px 22px;flex-wrap:wrap}
+</style>
+</head>
+<body><main>
+<h1>东方智慧介绍片</h1>
+<p>40 秒待审初剪 · 静音 · 1080p</p>
+<video controls playsinline preload="metadata" poster="东方智慧APP介绍片-待审初剪-真实首页封面.png" src="东方智慧APP介绍片-待审初剪-1080p-无字幕.mp4"></video>
+<p><label>字幕<select id="captions"><option value="zh-Hans">简体中文</option><option value="zh-Hant">繁體中文</option><option value="en">English</option><option value="">关闭</option></select></label></p>
+<div class="downloads"><a href="东方智慧APP介绍片-待审初剪-1080p-无字幕.mp4" download>下载 MP4</a><a href="东方智慧APP介绍片-待审初剪-无旁白无音乐-无字幕母版.webm" download>WebM 母版</a><a href="东方智慧APP介绍片-待审初剪-真实首页封面.png" download>封面候选</a><a href="东方智慧APP介绍片-待审初剪-zh.vtt" download>简体字幕</a><a href="东方智慧APP介绍片-待审初剪-hant.vtt" download>繁体字幕</a><a href="东方智慧APP介绍片-待审初剪-en.vtt" download>英文字幕</a></div>
+</main>
+<script type="application/json" id="caption-data">[{"code":"zh-Hans","label":"简体中文","cues":[[0,5000,"东方智慧 与自己重新连接\n认识自己 · 修复自己 · 提升自己"],[5000,12000,"生命地图\n紫微 · 星盘 · 国学智慧"],[12000,19000,"身体地图\n茶道生活 · 中医养护 · 藏医养护"],[19000,26000,"心智地图\n疗愈空间 · 禅修修习"],[26000,34000,"智慧馆与时间银行\n学习、练习，记录投入自己的时间"],[34000,40000,"从今天开始 认识东方智慧\n待审初剪 · 无旁白无音乐"]]},{"code":"zh-Hant","label":"繁體中文","cues":[[0,5000,"東方智慧 與自己重新連結\n認識自己 · 修復自己 · 提升自己"],[5000,12000,"生命地圖\n紫微 · 星盤 · 國學智慧"],[12000,19000,"身體地圖\n茶道生活 · 中醫養護 · 藏醫養護"],[19000,26000,"心智地圖\n療癒空間 · 禪修修習"],[26000,34000,"智慧館與時間銀行\n學習、練習，記錄投入自己的時間"],[34000,40000,"從今天開始 認識東方智慧\n待審初剪 · 無旁白無音樂"]]},{"code":"en","label":"English","cues":[[0,5000,"Eastern Wisdom\nKnow yourself · Restore yourself · Grow yourself"],[5000,12000,"Explore the Life Map\nZi Wei · Astrology · Chinese classics"],[12000,19000,"Care through the Body Map\nTea life · Chinese and Tibetan wellbeing"],[19000,26000,"Make room in the Mind Map\nHealing space · Meditation practice"],[26000,34000,"Wisdom Hall and Time Bank\nLearn, practise and keep time for yourself"],[34000,40000,"Begin with Eastern Wisdom today\nReview draft · No narration or music"]]}]</script>
+<script>
+const video = document.querySelector('video');
+const select = document.getElementById('captions');
+const captions = JSON.parse(document.getElementById('caption-data').textContent);
+for (const { code, label, cues } of captions) {
+  const track = video.addTextTrack('subtitles', label, code);
+  for (const [start, end, text] of cues) {
+    const cue = new VTTCue(start / 1000, end / 1000, text);
+    cue.line = -4;
+    track.addCue(cue);
+  }
+}
+function displaySelectedCaption() {
+  for (const track of video.textTracks) {
+    track.mode = select.value === track.language ? 'showing' : 'disabled';
+  }
+}
+select.addEventListener('change', displaySelectedCaption);
+displaySelectedCaption();
+</script>
+</body></html>

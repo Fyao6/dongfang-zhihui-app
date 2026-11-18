@@ -1,0 +1,59 @@
+PR03/PR04 补充：本人已保存请求快照查看与单条删除（独立源，尚未集成）
+
+原文边界
+已核 P208–210、P219–226：会话保存与长期记忆分设；记忆默认关闭；撤回阻止后续调用；提供单条删除、清空对话、删除记忆、导出、注销；数据库/索引/缓存/受托商分别跟踪，不能虚称全链路零保留。
+现存 privacy_conversations 不是多线程会话表。legacy每次保存“最近历史+本次回复”数组；gateway保存 {jobId,providerId,input:[本次请求带入的历史],output}。同一段历史可能在多条独立请求快照里重复。因此UI明确“已保存请求快照”，实际行数是 storedSnapshotCount，不假造会话数、线程名或长期记忆条目。
+本补充仅增加实际保存记录查看/单条删除工程能力。长期记忆仍 unavailable/默认关闭，没有创建向量索引或记忆编辑服务。供应商删除能力、备份清理、最终注销仍不能标完成。
+
+独立新源（不改当前privacy/公共入口/build）
+04_研发源码/app/r4/backend/privacy_saved.py
+04_研发源码/app/cloud/lib/privacy-saved.ts
+04_研发源码/app/r4/privacy-saved.js
+04_研发源码/app/r4/privacy-saved.css
+卡片5新源继续freeze不动。
+
+API
+GET /api/privacy/saved-conversations
+登录后只读本人最近100条，返回 {items,storedSnapshotCount,returnedCount,hasMore,threadsRepresented:false,memoryAvailable:false,automaticAIRead:false}。
+item仅 id/createdAt/kind:'saved-request-snapshot'/format/messageCount/bodyAvailable/providerIds。不返回任何消息正文、私信、出生资料、订单、供应商密钥或全局导出；管理员在此也只看自己。
+GET /api/privacy/saved-conversations/:id
+主动查看且WHERE user_id=当前本人；其他账号404。返回 {item:{上列元数据,messages:[{role,content}]},automaticAIRead:false}。只解码实际已知保存格式，未知JSON不原样dump敏感字段，messageCount=null、bodyAvailable=false。查看不恢复到AI history/context、不自动再次发送。
+POST /api/privacy/saved-conversations/:id/delete {requestId:8–100字符,confirmed:true}
+本人确认当前快照后执行。幂等请求重放原回执；同requestId换snapshot409；同一快照再删返回原回执，不重复增revision。跨账号404。
+同一事务：写无正文删除回执 → 本人 privacy_preferences.revision+1（保留当前consents/ack数据）→ 解除本人相关 ai_gateway_jobs.saved_conversation_id 并清 output_text → 删除该 privacy_conversations 行。
+保留钱包、reserve/settle额度事件、已结算额度、使用量和实际费用未知元数据。删除聊天不变成免费或抹账。冻结网关job读取通过关联快照动态回读，删后实际GET job.text=null/outputStored=false，旧请求幂等重试不恢复正文。
+新表 privacy_saved_deletions(id,owner,snapshot_id,request_id,details,created)，不存prompt/reply、内容hash或消息摘要；owner/request_id与owner/snapshot_id唯一。只记录具体操作/供应商ID/pending状态/时间。触发器阻止被删除相同snapshot ID重插。
+GET /api/privacy/saved-conversations/deletions 只读本人处理回执，details说明本地数据库completed；受托商pending-confirmation；备份pending-confirmation/期限仍可null；无实际记忆/向量服务，不冒充已删除这类服务；localBrowserCleared=false；其他保存快照未删除。
+
+重要：legacy保存漏洞与独立修复hook
+当前冻结 privacy.py save_conversation / privacy-api.ts savePrivacyConversation 仅核当前保存开关/绑定，不核起始消息epoch；Cloud还存在读后INSERT窗口。仅增加单条DELETE而继续调用该旧hook，不能保证晚到保存不复活。
+新独立Python guarded_legacy_save(store,user_id,messages)：BEGIN IMMEDIATE下核 actual_binding、当前policy/providerBinding、saveConversations、关闭账号申请、所有消息account/provider/binding/policy/consentEpoch/category/source，然后写新快照；旧epoch/未标记历史/跨账号/未授权类别不写。复用冻结隐私的真实绑定规则，不允许registry聚合冒充legacy实际供应商。
+新Cloud guardedLegacySnapshotSave(a,userId,messages)：先捕获真实privacy配置文本及legacy五个非密钥绑定字段，再读取实际 privacy/preferences 响应；必须是有效legacy activeAI而非registry聚合，逐消息核当前receipt。最后单条条件INSERT再次核prefs.revision/保存开关/policy/providerBinding、原配置文本、legacy绑定字段和无注销申请。删除/撤回/改配置抢在最终INSERT前提交时changes=0，不保存。
+网关现有 finally 原子guard已经核本人prefs revision/receipt nonce/配置快照，无需修改冻结网关；本模块单条删除递增revision即可使旧stream/晚到save失效。仍须后续实际集成门禁验证。
+
+前台范围
+新screens.privacySaved，隐私中心增加“已保存的AI请求快照”入口。列表默认仅元数据，点击才加载正文；正文escape，未知格式不dump；没有“恢复为会话/再发AI/记忆已提取”等虚假行为。
+单条删除二次确认文字明确：仅删这一条服务端快照，其他独立快照可能含同文历史，不能按substring连带删除；供应商及备份待确认；本机副本另行管理。当前页面详情缓存立即清除，旧UI读取seq失效；递增px.privacyRun并停止当前账号本机AI显示、清retry/pending/live/上下文，后续必须按新epoch授权。已有独立本机聊天副本不谎称全删，仍可用原隐私中心本机清除功能。
+所有DOM action/form绑定渲染scope/epoch，所有load/detail异步按actor+seq，删除按operation；旧账号迟到响应不能触碰新账号AI、上下文或busy。进入页面/窗口focus重读；现有整类服务端清对话成功与本机清对话都会使旧详情缓存失效。
+四语说明明确保存快照与长期记忆不同。没有新默认保存开关；保留原保存默认关闭。
+
+未来根接入契约（等分佣/卡片门禁后；本文件未执行）
+Python server：导入 SavedConversations/init_schema/guarded_legacy_save；Store在init_privacy_schema之后调用新init；/api/privacy/saved-conversations必须在冻结Privacy.route之前dispatch，否则旧route会404；仅把server实际legacy save调用改用新guarded_legacy_save，不更改privacy.py。网关源无需修改。
+Cloud eastern-api：导入 initPrivacySaved/privacySavedRoute/guardedLegacySnapshotSave；API.init在initPrivacy后初始化；route在privacyRoute前调新route；实际legacy ai()保存改用 guardedLegacySnapshotSave，不修改privacy-api.ts。保留原authorizeAI和实际供应商调用。
+APP打包：privacy-saved.js在privacy-ai-client、ai-gateway-ui和card-service-ui之后、i18n-ui之前；privacy-saved.css并入APP CSS。页面原隐私导航保留。
+本人导出若需补处理回执，由根在分佣owner export稳定后自行合并白名单：SELECT id,snapshot_id,request_id,details,created FROM privacy_saved_deletions WHERE owner=?。不在这个独立阶段改公共privacy owner exports，也不增加默认全量正文下载。
+不创建任何生产库/正式供应商/付费状态，不修改原.wrangler/state或8880/8879/8878服务。
+
+已做独立验证
+负责人优化建议-保存快照内存专项.py：5组通过；真实冻结gateway.job删后text=null；实际结算3测试额度后钱包97与2条quota事件原样保留；幂等/owner/旧epoch/未知格式/optout检查。
+负责人优化建议-保存快照Cloud内存专项.cjs：8组通过；实际冻结gateway GET job；并发删只一回执/一次revision；精确final INSERT前删除/改模型条件写入拒绝；同文其它独立快照仍在。
+负责人优化建议-保存快照前端专项.cjs：8组通过；metadata不含正文、主动查看不发AI、escape、旧DOM、跨账号迟到、弱网delete同key、整类清除缓存迟到屏障。
+新TS strict及JS syntax通过。上述是隔离SQLite/D1/VM，不等于实际HTTP/双端全量已过；当前未集成、未构建、未跑实际APP。
+
+已准备根后续使用的接入与实际专项（尚未执行apply/构建/HTTP）
+06/负责人优化建议-保存快照接入.py：默认dry-run；计划3个公共文件10处anchor，兼容卡片稍后加入的init/route（均按旧privacy唯一anchor插入）。不锁整个入口SHA；先全部文件预计算、唯一anchor、Python AST、Cloud TS parse、计划合并APP syntax，再可--apply。Cloud prepare原本读取03现有APP产物，结构已确认，无需无意义改prepare，也不改冻结privacy.py/ts或分佣owner exports。
+根在该模块门禁时再执行：python 06_验证与后续工作/负责人优化建议-保存快照接入.py；审计默认dry-run后再--apply，随后按原流程build/Cloud prepare/build。
+06/负责人优化建议-保存快照专项.cjs、保存快照测试工具.cjs、保存快照Python测试服务.py、保存快照Cloud测试服务.ts均已创建，只做语法检查，未启动服务。命令：node 06_验证与后续工作/负责人优化建议-保存快照专项.cjs --target=python（或cloud）。--http-only可只跑HTTP，但不能据此声称UI已验。
+专项完全自启新06 SQLite或新随机sq* Cloud state/配置与随机可用端口，拒绝外部--base，不碰原库、原.wrangler/state及8880/8879/8878。实际APP生成页必须与当前构建hash一致；源码/构建运行前后hash相等；失败runs追加保留、模块前缀截图。
+进程内仅对保留.invalid端点返回明示legacy Responses/网关SSE夹具；不在生产源插假供应商，且不记录prompt正文。涵盖真实生成保存快照、默认保存关、metadata无正文、主动详情、跨账号/未登录、单删确认/幂等/重叠快照、旧epoch拒绝、legacy在途删除、撤回再确认、网关真实SSE保存→单删→job.text=null/钱包与quota事件不动、并发删除、真实UI入口/表单、64视图、切账号迟到、旧DOM与真实丢失删除回复同key重试。上游真实供应商仍未验。
+Cloud QA额外绑定现有public/assets，并核本机藏文字体文件hash，避免把缺字回退误认四语已验；这仅改测试wrapper/工具，不改任何业务源。卡片Cloud测试wrapper同样补本地字体资产服务，5个冻结卡片业务源未改。

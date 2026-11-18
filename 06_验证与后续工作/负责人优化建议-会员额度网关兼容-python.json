@@ -1,0 +1,2226 @@
+{
+  "latest": {
+    "at": "2026-11-16T11:01:13.614Z",
+    "module": "负责人优化建议-会员额度网关兼容",
+    "runId": "mwj5kv0t_437f51",
+    "target": "python",
+    "base": "http://127.0.0.1:54134",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+    "results": [
+      {
+        "name": "默认网关关闭、未登录和非管理员管理操作拒绝",
+        "pass": true,
+        "ms": 186
+      },
+      {
+        "name": "纯registry配置与全局聚合确认真实生效，未借用legacy通道",
+        "pass": true,
+        "ms": 553
+      },
+      {
+        "name": "公共能力脱敏且先有全局确认再有逐供应商receipt，额度不会自动发放",
+        "pass": true,
+        "ms": 694
+      },
+      {
+        "name": "无额度402，管理员明确授予同负载幂等、异负载冲突且不改变会员角色",
+        "pass": true,
+        "ms": 311
+      },
+      {
+        "name": "创建幂等与预占真实查询，同编号异问题冲突、生产环境及未知字段拒绝",
+        "pass": true,
+        "ms": 486
+      },
+      {
+        "name": "真实HTTP SSE输出与usage，终态结算仅一次且默认不保存正文",
+        "pass": true,
+        "ms": 906
+      },
+      {
+        "name": "请求历史只含本人元数据且无prompt或输出，工具仅本人只读白名单",
+        "pass": true,
+        "ms": 225
+      },
+      {
+        "name": "部分输出不切备用且按部分规则结算，缺usage保持未知",
+        "pass": true,
+        "ms": 1687
+      },
+      {
+        "name": "跨账号查询/启动/取消404，备用接收方没有receipt绝不发送",
+        "pass": true,
+        "ms": 1409
+      },
+      {
+        "name": "备用单独确认后按实际SSE协议执行且不伪造未知总费用",
+        "pass": true,
+        "ms": 1432
+      },
+      {
+        "name": "queued停止及重复停止仅结算一次，running停止真实完成并释放预占",
+        "pass": true,
+        "ms": 1155
+      },
+      {
+        "name": "流中供应商撤回使旧nonce停止，重新确认不能复活旧请求",
+        "pass": true,
+        "ms": 1300
+      },
+      {
+        "name": "默认关与明确开保存分离，隐私删除后job回读正文真实为空",
+        "pass": true,
+        "ms": 1609
+      },
+      {
+        "name": "在途期间清空聊天阻止旧流保存与恢复",
+        "pass": true,
+        "ms": 1091
+      },
+      {
+        "name": "并发预占不能超额，operator及普通用户不能后台配网关或授予额度",
+        "pass": true,
+        "ms": 1433
+      },
+      {
+        "name": "统一本人导出含新网关六域元数据白名单，排除他人任务和prompt配置",
+        "pass": true,
+        "ms": 214
+      },
+      {
+        "name": "真实UI逐provider授权、额度与流式回答，默认保存关闭不写本机新聊天",
+        "pass": true,
+        "ms": 5876
+      },
+      {
+        "name": "UI网络失去结果后重试只回读原终态，不再次开单调用或扣次",
+        "pass": true,
+        "ms": 1167
+      },
+      {
+        "name": "接收方页面四宽深浅四语可读且无页面横溢",
+        "pass": true,
+        "ms": 484,
+        "observed": {
+          "matrix": 32,
+          "nativeLanguageReviewPending": true
+        }
+      },
+      {
+        "name": "UI停止请求真实取消当前job并回读结算，不表示免费",
+        "pass": true,
+        "ms": 1397
+      },
+      {
+        "name": "从历史取消其他queued单不误停当前流",
+        "pass": true,
+        "ms": 1680
+      },
+      {
+        "name": "网关流中切账号丢弃迟到回复，不写新账号的状态或存储",
+        "pass": true,
+        "ms": 1043
+      },
+      {
+        "name": "另一页面关闭保存并重确认provider后，本页实际提问不按旧缓存保存新文本",
+        "pass": true,
+        "ms": 5045
+      },
+      {
+        "name": "真实后台配置与grants表单写入可回读，operator菜单隐藏且API仍拒绝",
+        "pass": true,
+        "ms": 1046
+      },
+      {
+        "name": "供应商尝试仅保留脱敏元数据，没有旧历史或本机资料外发",
+        "pass": true,
+        "ms": 2,
+        "observed": {
+          "attempts": 16,
+          "recordedPrompt": false,
+          "externalProviderTested": false
+        }
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-真实流式回答.png",
+      "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-接收方与额度.png",
+      "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-停止与结算.png",
+      "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-跨页撤回保存.png",
+      "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-后台配置与测试额度.png"
+    ],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/api/health",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/setup",
+        "status": 200,
+        "ms": 238
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 16
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 248
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 242
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 401,
+        "ms": 2
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 104
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/ai-gateway",
+        "status": 403,
+        "ms": 35
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 403,
+        "ms": 45
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/ai-gateway",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/ai-gateway/config",
+        "status": 200,
+        "ms": 62
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 45
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 56
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/settings",
+        "status": 200,
+        "ms": 22
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 68
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 128
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 126
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 123
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 403,
+        "ms": 117
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 147
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 175
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 131
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 402,
+        "ms": 134
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 60
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 48
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 409,
+        "ms": 53
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 16
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 149
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 56
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 112
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 409,
+        "ms": 58
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 403,
+        "ms": 55
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 400,
+        "ms": 55
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078",
+        "status": 200,
+        "ms": 34
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 116
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/tools/my_time_summary",
+        "status": 200,
+        "ms": 53
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/tools/my_record_summary",
+        "status": 200,
+        "ms": 54
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/tools/commerce.refund",
+        "status": 403,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/tools/my_time_summary",
+        "status": 400,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 136
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/0a1bd6ea-73e7-4e8f-99e5-66e19891f5d3",
+        "status": 200,
+        "ms": 42
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 149
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 80
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 120
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 110
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 165
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078",
+        "status": 404,
+        "ms": 34
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078/cancel",
+        "status": 404,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 139
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 108
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/beta/consent",
+        "status": 200,
+        "ms": 188
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 121
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 251
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 259
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 242
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 244
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 234
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 67
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 98
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 56
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 61
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 100
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 56
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 62
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 100
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 63
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 101
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 64
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 121
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 176
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 72
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 108
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 105
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 174
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 129
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs/2b26001a-598c-4797-a50d-473098005124/cancel",
+        "status": 200,
+        "ms": 48
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs/2b26001a-598c-4797-a50d-473098005124/cancel",
+        "status": 200,
+        "ms": 43
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 126
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs/3fc5adfe-ac1c-4937-a362-bce71ee30715/cancel",
+        "status": 200,
+        "ms": 94
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 110
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 130
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 75
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 177
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 252
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/9dc8ee91-a040-48a9-8d25-8eae52d54861",
+        "status": 200,
+        "ms": 49
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 403,
+        "ms": 146
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 160
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/52f6f16d-452b-4143-baee-1f6f190608f2",
+        "status": 200,
+        "ms": 37
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 47
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/52f6f16d-452b-4143-baee-1f6f190608f2",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 68
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 116
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 130
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 213
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 128
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 64
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/63707b50-772f-4326-b33e-ae5cce9d2728",
+        "status": 200,
+        "ms": 50
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 96
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 153
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 136
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 184
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 200,
+        "ms": 59
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 180
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 402,
+        "ms": 241
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 127
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs/d1c7d249-687e-44f2-b399-2e1f2a4c51f0/cancel",
+        "status": 200,
+        "ms": 55
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 110
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/users/5f9e63cc-2609-4190-80bc-4a02aec40ae0",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/ai-gateway",
+        "status": 403,
+        "ms": 37
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/ai-gateway/config",
+        "status": 403,
+        "ms": 40
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 403,
+        "ms": 42
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/ai-gateway",
+        "status": 403,
+        "ms": 32
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/ai-gateway/config",
+        "status": 403,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/ai-gateway/grants",
+        "status": 403,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 99
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 115
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/aaae0a1d-1aed-4ed2-a5af-2b987e0bbab5",
+        "status": 200,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 28
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 30
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 89
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 136
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/5f27bf9c-f5c4-4c62-a292-30ab73699fc8",
+        "status": 200,
+        "ms": 68
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/5f27bf9c-f5c4-4c62-a292-30ab73699fc8",
+        "status": 200,
+        "ms": 30
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 94
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/jobs",
+        "status": 200,
+        "ms": 99
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/d237bb23-38bf-4589-a271-2d8bbf55affb",
+        "status": 200,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/jobs/50a336c2-c947-49f5-bfac-ec6a27ef5981",
+        "status": 200,
+        "ms": 29
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 527
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 153
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 50
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 84
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 92
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai-gateway/providers/alpha/consent",
+        "status": 200,
+        "ms": 136
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/ai-gateway",
+        "status": 200,
+        "ms": 35
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 86
+      },
+      {
+        "method": "GET",
+        "path": "/api/ai-gateway/capabilities",
+        "status": 200,
+        "ms": 168
+      }
+    ],
+    "coverage": {
+      "http": true,
+      "ui": true,
+      "realPayments": false,
+      "production": false,
+      "actualServerHttp": true,
+      "upstream": "independent loopback HTTP/SSE fixture via exact reserved .invalid endpoint mapping",
+      "realSupplier": false,
+      "syntheticClock": true
+    },
+    "harnessSha256": {
+      "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+      "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5"
+    },
+    "compatibilitySource": {
+      "file": "负责人优化建议-AI网关专项.cjs",
+      "sha256": "8a7beb8ad6d5d72b7316d796873830511d7a7253b7458bdf17605c49c8edfcdc",
+      "businessAssertions": "retained unchanged",
+      "adaptation": "new owned-state harness, independent real HTTP/SSE fixture, module-specific report"
+    },
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/commerce.py": "f9a35a74d6a2a13cbd8b046989effedf7377de127cdc8acfca4c1877192974c6",
+        "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "2ff289988b8bc3a84d6d42a5e2acff8d0608860887e3b05eee05cfe79c0e2a70",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+        "04_研发源码/app/r4/commerce-admin.js": "b180da875f086e49a615eaf8c379e1f9bab6aaa105633c8a645a48a3cf038d80"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+        "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+        "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+        "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+        "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f"
+      }
+    },
+    "servedBuildSha256": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+    "quotaSources": {
+      "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+      "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+      "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+      "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+      "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+      "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+      "04_研发源码/app/r4/membership-ai-quota-ui.js": "2105f1716c7cfa2462ced579ccb6eb8cf591dd12439f70eb1e5fe02660a82e81",
+      "04_研发源码/app/r4/membership-ai-quota-admin.js": "8f7dd98bb59af463057512efb333c2a9529b3ad7e0390c5629d60008ef3041eb",
+      "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+      "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+      "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+      "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+      "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+      "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+      "04_研发源码/app/r4/ai-gateway-ui.js": "5b997fa8e80ea2bce75cf4459363edad558433ac6a90fbc557b88970f0d13ab1",
+      "04_研发源码/app/r4/ai-gateway-admin.js": "fb46521b51252ba05555e8c8829fe42a211230d179672d277e6e2f0191bed3fa",
+      "04_研发源码/app/r4/backend/privacy.py": "dc70288129e8b2e3a66ba9aacc884e30bfe6f26162cf0cfee7161c585110fb33",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "85038094daf4d6ca6ac57ebfcd7f98866d7b99e5fbc0a80dc4e9ec0b449f6599",
+      "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+      "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+      "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+      "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+      "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+      "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+      "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+      "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+      "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+      "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+      "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+      "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+      "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+      "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+      "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+    },
+    "quotaSourcesUnchanged": true,
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 25,
+    "failed": 0,
+    "membershipQuotaLauncher": {
+      "runId": "mwj5ktsb-8420631f",
+      "suite": "gateway-compat",
+      "syntheticDataOnly": true,
+      "realSupplier": false,
+      "realHttpSseFixture": true,
+      "sourceAndBuildHashes": {
+        "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+        "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+        "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+        "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+        "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+        "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+        "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+        "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f",
+        "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+        "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+        "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+        "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+        "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+        "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+        "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+        "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+        "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+        "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+        "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+        "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+        "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+      },
+      "identityUnchanged": true
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-11-16T11:01:13.614Z",
+      "module": "负责人优化建议-会员额度网关兼容",
+      "runId": "mwj5kv0t_437f51",
+      "target": "python",
+      "base": "http://127.0.0.1:54134",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "results": [
+        {
+          "name": "默认网关关闭、未登录和非管理员管理操作拒绝",
+          "pass": true,
+          "ms": 186
+        },
+        {
+          "name": "纯registry配置与全局聚合确认真实生效，未借用legacy通道",
+          "pass": true,
+          "ms": 553
+        },
+        {
+          "name": "公共能力脱敏且先有全局确认再有逐供应商receipt，额度不会自动发放",
+          "pass": true,
+          "ms": 694
+        },
+        {
+          "name": "无额度402，管理员明确授予同负载幂等、异负载冲突且不改变会员角色",
+          "pass": true,
+          "ms": 311
+        },
+        {
+          "name": "创建幂等与预占真实查询，同编号异问题冲突、生产环境及未知字段拒绝",
+          "pass": true,
+          "ms": 486
+        },
+        {
+          "name": "真实HTTP SSE输出与usage，终态结算仅一次且默认不保存正文",
+          "pass": true,
+          "ms": 906
+        },
+        {
+          "name": "请求历史只含本人元数据且无prompt或输出，工具仅本人只读白名单",
+          "pass": true,
+          "ms": 225
+        },
+        {
+          "name": "部分输出不切备用且按部分规则结算，缺usage保持未知",
+          "pass": true,
+          "ms": 1687
+        },
+        {
+          "name": "跨账号查询/启动/取消404，备用接收方没有receipt绝不发送",
+          "pass": true,
+          "ms": 1409
+        },
+        {
+          "name": "备用单独确认后按实际SSE协议执行且不伪造未知总费用",
+          "pass": true,
+          "ms": 1432
+        },
+        {
+          "name": "queued停止及重复停止仅结算一次，running停止真实完成并释放预占",
+          "pass": true,
+          "ms": 1155
+        },
+        {
+          "name": "流中供应商撤回使旧nonce停止，重新确认不能复活旧请求",
+          "pass": true,
+          "ms": 1300
+        },
+        {
+          "name": "默认关与明确开保存分离，隐私删除后job回读正文真实为空",
+          "pass": true,
+          "ms": 1609
+        },
+        {
+          "name": "在途期间清空聊天阻止旧流保存与恢复",
+          "pass": true,
+          "ms": 1091
+        },
+        {
+          "name": "并发预占不能超额，operator及普通用户不能后台配网关或授予额度",
+          "pass": true,
+          "ms": 1433
+        },
+        {
+          "name": "统一本人导出含新网关六域元数据白名单，排除他人任务和prompt配置",
+          "pass": true,
+          "ms": 214
+        },
+        {
+          "name": "真实UI逐provider授权、额度与流式回答，默认保存关闭不写本机新聊天",
+          "pass": true,
+          "ms": 5876
+        },
+        {
+          "name": "UI网络失去结果后重试只回读原终态，不再次开单调用或扣次",
+          "pass": true,
+          "ms": 1167
+        },
+        {
+          "name": "接收方页面四宽深浅四语可读且无页面横溢",
+          "pass": true,
+          "ms": 484,
+          "observed": {
+            "matrix": 32,
+            "nativeLanguageReviewPending": true
+          }
+        },
+        {
+          "name": "UI停止请求真实取消当前job并回读结算，不表示免费",
+          "pass": true,
+          "ms": 1397
+        },
+        {
+          "name": "从历史取消其他queued单不误停当前流",
+          "pass": true,
+          "ms": 1680
+        },
+        {
+          "name": "网关流中切账号丢弃迟到回复，不写新账号的状态或存储",
+          "pass": true,
+          "ms": 1043
+        },
+        {
+          "name": "另一页面关闭保存并重确认provider后，本页实际提问不按旧缓存保存新文本",
+          "pass": true,
+          "ms": 5045
+        },
+        {
+          "name": "真实后台配置与grants表单写入可回读，operator菜单隐藏且API仍拒绝",
+          "pass": true,
+          "ms": 1046
+        },
+        {
+          "name": "供应商尝试仅保留脱敏元数据，没有旧历史或本机资料外发",
+          "pass": true,
+          "ms": 2,
+          "observed": {
+            "attempts": 16,
+            "recordedPrompt": false,
+            "externalProviderTested": false
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-真实流式回答.png",
+        "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-接收方与额度.png",
+        "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-停止与结算.png",
+        "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-跨页撤回保存.png",
+        "负责人优化建议-会员额度网关兼容-python-mwj5kv0t_437f51-后台配置与测试额度.png"
+      ],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/api/health",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 238
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 248
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 242
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 104
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/ai-gateway",
+          "status": 403,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 403,
+          "ms": 45
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/ai-gateway",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/ai-gateway/config",
+          "status": 200,
+          "ms": 62
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 45
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 22
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 68
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 128
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 126
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 123
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 403,
+          "ms": 117
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 147
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 175
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 402,
+          "ms": 134
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 60
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 48
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 409,
+          "ms": 53
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 149
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 112
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 409,
+          "ms": 58
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 403,
+          "ms": 55
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 400,
+          "ms": 55
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078",
+          "status": 200,
+          "ms": 34
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 116
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/tools/my_time_summary",
+          "status": 200,
+          "ms": 53
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/tools/my_record_summary",
+          "status": 200,
+          "ms": 54
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/tools/commerce.refund",
+          "status": 403,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/tools/my_time_summary",
+          "status": 400,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 136
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/0a1bd6ea-73e7-4e8f-99e5-66e19891f5d3",
+          "status": 200,
+          "ms": 42
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 149
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 80
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 120
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 110
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 165
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078",
+          "status": 404,
+          "ms": 34
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs/32821540-d394-4a05-b8fb-aa4e33575078/cancel",
+          "status": 404,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 139
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 108
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/beta/consent",
+          "status": 200,
+          "ms": 188
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 121
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 251
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 259
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 242
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 244
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 234
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 67
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 98
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 61
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 100
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 56
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 62
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 100
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 63
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 101
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 64
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 121
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 176
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 72
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 108
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 105
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 174
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 129
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs/2b26001a-598c-4797-a50d-473098005124/cancel",
+          "status": 200,
+          "ms": 48
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs/2b26001a-598c-4797-a50d-473098005124/cancel",
+          "status": 200,
+          "ms": 43
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 126
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs/3fc5adfe-ac1c-4937-a362-bce71ee30715/cancel",
+          "status": 200,
+          "ms": 94
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 110
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 130
+        },
+        {
+          "method": "DELETE",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 75
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 177
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 252
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/9dc8ee91-a040-48a9-8d25-8eae52d54861",
+          "status": 200,
+          "ms": 49
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 403,
+          "ms": 146
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 160
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/52f6f16d-452b-4143-baee-1f6f190608f2",
+          "status": 200,
+          "ms": 37
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 47
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/52f6f16d-452b-4143-baee-1f6f190608f2",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 68
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 116
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 130
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 213
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 128
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 64
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/63707b50-772f-4326-b33e-ae5cce9d2728",
+          "status": 200,
+          "ms": 50
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 96
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 153
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 136
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 184
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 200,
+          "ms": 59
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 180
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 402,
+          "ms": 241
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 127
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs/d1c7d249-687e-44f2-b399-2e1f2a4c51f0/cancel",
+          "status": 200,
+          "ms": 55
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 110
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/users/5f9e63cc-2609-4190-80bc-4a02aec40ae0",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/ai-gateway",
+          "status": 403,
+          "ms": 37
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/ai-gateway/config",
+          "status": 403,
+          "ms": 40
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 403,
+          "ms": 42
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/ai-gateway",
+          "status": 403,
+          "ms": 32
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/ai-gateway/config",
+          "status": 403,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/admin/ai-gateway/grants",
+          "status": 403,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 99
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 115
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/aaae0a1d-1aed-4ed2-a5af-2b987e0bbab5",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 28
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 89
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 136
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/5f27bf9c-f5c4-4c62-a292-30ab73699fc8",
+          "status": 200,
+          "ms": 68
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/5f27bf9c-f5c4-4c62-a292-30ab73699fc8",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 94
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/jobs",
+          "status": 200,
+          "ms": 99
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/d237bb23-38bf-4589-a271-2d8bbf55affb",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/jobs/50a336c2-c947-49f5-bfac-ec6a27ef5981",
+          "status": 200,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 527
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 153
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 50
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 84
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 92
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-gateway/providers/alpha/consent",
+          "status": 200,
+          "ms": 136
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/ai-gateway",
+          "status": 200,
+          "ms": 35
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 86
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-gateway/capabilities",
+          "status": 200,
+          "ms": 168
+        }
+      ],
+      "coverage": {
+        "http": true,
+        "ui": true,
+        "realPayments": false,
+        "production": false,
+        "actualServerHttp": true,
+        "upstream": "independent loopback HTTP/SSE fixture via exact reserved .invalid endpoint mapping",
+        "realSupplier": false,
+        "syntheticClock": true
+      },
+      "harnessSha256": {
+        "06_验证与后续工作/负责人优化建议-交易测试工具.cjs": "ebf85945b1127b4072bbf7902a363f61b3e1610dbdae526388f59c5fc9364ba6",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5"
+      },
+      "compatibilitySource": {
+        "file": "负责人优化建议-AI网关专项.cjs",
+        "sha256": "8a7beb8ad6d5d72b7316d796873830511d7a7253b7458bdf17605c49c8edfcdc",
+        "businessAssertions": "retained unchanged",
+        "adaptation": "new owned-state harness, independent real HTTP/SSE fixture, module-specific report"
+      },
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/commerce.py": "f9a35a74d6a2a13cbd8b046989effedf7377de127cdc8acfca4c1877192974c6",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/commerce-api.ts": "2ff289988b8bc3a84d6d42a5e2acff8d0608860887e3b05eee05cfe79c0e2a70",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+          "04_研发源码/app/r4/commerce-ui.css": "a6542b908ca32c0feda57219f350d63ca811a573ca4f4d2cd94c8f82ca6aa6f7",
+          "04_研发源码/app/r4/commerce-admin.js": "b180da875f086e49a615eaf8c379e1f9bab6aaa105633c8a645a48a3cf038d80"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f"
+        }
+      },
+      "servedBuildSha256": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+      "quotaSources": {
+        "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/r4/membership-ai-quota-ui.js": "2105f1716c7cfa2462ced579ccb6eb8cf591dd12439f70eb1e5fe02660a82e81",
+        "04_研发源码/app/r4/membership-ai-quota-admin.js": "8f7dd98bb59af463057512efb333c2a9529b3ad7e0390c5629d60008ef3041eb",
+        "04_研发源码/app/r4/membership-lifecycle-ui.js": "3ee8f78754ad46b19c0888add4a72b55e9fabdbac4977d05b6d242ce479f2f58",
+        "04_研发源码/app/r4/membership-lifecycle-admin.js": "4a963ad99230ce55edb7a6a358b508ac1c3b4bd82ed2afdf323b21f73478c58c",
+        "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+        "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+        "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+        "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+        "04_研发源码/app/r4/ai-gateway-ui.js": "5b997fa8e80ea2bce75cf4459363edad558433ac6a90fbc557b88970f0d13ab1",
+        "04_研发源码/app/r4/ai-gateway-admin.js": "fb46521b51252ba05555e8c8829fe42a211230d179672d277e6e2f0191bed3fa",
+        "04_研发源码/app/r4/backend/privacy.py": "dc70288129e8b2e3a66ba9aacc884e30bfe6f26162cf0cfee7161c585110fb33",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "85038094daf4d6ca6ac57ebfcd7f98866d7b99e5fbc0a80dc4e9ec0b449f6599",
+        "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+        "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+        "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+        "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+        "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+        "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+        "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+        "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+        "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+        "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+        "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+        "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+        "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+        "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+        "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+      },
+      "quotaSourcesUnchanged": true,
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 25,
+      "failed": 0,
+      "membershipQuotaLauncher": {
+        "runId": "mwj5ktsb-8420631f",
+        "suite": "gateway-compat",
+        "syntheticDataOnly": true,
+        "realSupplier": false,
+        "realHttpSseFixture": true,
+        "sourceAndBuildHashes": {
+          "04_研发源码/app/r4/backend/membership_ai_quota.py": "cc7bde8dbffe13426db6882a2c223720fae2dc0c6c2786c9532802a3edc5872d",
+          "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+          "04_研发源码/app/r4/backend/ai_gateway.py": "e00d67a568be3612426ba0c805db6be2608062b573f585bbe84ee7a7533a47ac",
+          "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+          "04_研发源码/app/r4/backend/membership_lifecycle.py": "e521dd6478c57332bec2fff8478423602057cf7dc5232cea9567f0594f058a49",
+          "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+          "04_研发源码/app/r4/backend/server.py": "f7f427bd397ed0548204d435a84417de407a435c12f6e732dd8f4878601f27fd",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "b49a75bc5a657dd8f62d448ed0302e32fe2f15e9cbf757dc2438fa665f033a07",
+          "04_研发源码/app/r4/membership-lifecycle-ui.css": "de6e49ae3006366db0b56957c6d75ac827f08d26d638de234a8749dc133bd2e9",
+          "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+          "04_研发源码/app/r4/commerce-ui.js": "958938dee9aef35076be7f4483bcf5f52c2548c7b4cb11d1dcd7242288559b14",
+          "04_研发源码/app/r4/account-closure.js": "b88bd21f8274c8572ccaa1760eaab52bf92e64e6c2b59aa994c1447b4ac5bcc2",
+          "03_当前APP/东方智慧-首页体验R4.html": "90ba6a753b6fa56e11d18ed6171c5ad1dc28b5ca47c489c3644ab42fa5f61deb",
+          "03_当前APP/计时后台-开发联调.html": "864f959b4ef1b81428ce2052b0041570631324be203d2bfbe05a9190a501dd16",
+          "04_研发源码/app/cloud/generated/experience.html": "c56716523b78aa560391ee4ecbb4f85fa9cc21139ade1a850bbf55787a1d985a",
+          "04_研发源码/app/cloud/generated/admin.html": "e53020f120e1b0be1889878d327b70407f8dc8acb431b33d73bfe870ee4e3418",
+          "04_研发源码/app/cloud/dist/server/index.js": "17edb19c9810a7a435277e9d9415c31c4b34b24ca4f746b0532e923bba31d65f",
+          "06_验证与后续工作/负责人优化建议-会员额度-进度表校验.py": "5b618420e6731a35698023904cd9b12ed0adbc8dc2fbc8e3055a16c8777c19b2",
+          "06_验证与后续工作/负责人优化建议-会员额度Cloud测试服务.ts": "36a7630f65bc6d9f9dd2d57eeb5aabc2eed5b628614c4f61f7440a2299bd9a23",
+          "06_验证与后续工作/负责人优化建议-会员额度HTTP流式夹具.py": "9c5ec85c9c7e0bd113cd6a54c8b10a48b1c2313aa2bb6db44565ec1af6a223e4",
+          "06_验证与后续工作/负责人优化建议-会员额度Python测试服务.py": "7331ed3448dbcb6ea9e71f7a4ec3eb9dcd9241dca19731445bfd9ba4b74cd82c",
+          "06_验证与后续工作/负责人优化建议-会员额度专项.cjs": "9f4443b2da9dba3f36ab05f24269b24178ad0896139c7e9aaf2c9d26dd3ce4cb",
+          "06_验证与后续工作/负责人优化建议-会员额度会员兼容.cjs": "451fd122a6a1e130febb5fe71d8e923b95904de8511e634338914c154fa1daca",
+          "06_验证与后续工作/负责人优化建议-会员额度会员浏览器兼容.cjs": "33ca4a10cdd5679516e8f0c5894333e08d5ae673dd3d6522c418258a708c2788",
+          "06_验证与后续工作/负责人优化建议-会员额度旧库夹具.sql": "2d907b7096f3527d9c55e5d2fa6ef8946c14fba4fc76b97ed8074076f1520287",
+          "06_验证与后续工作/负责人优化建议-会员额度测试工具.cjs": "720efc7e516ddd2e1cec665620a5f513a04fd285f4a3a275034f8b4782f154ce",
+          "06_验证与后续工作/负责人优化建议-会员额度用例工具.cjs": "9155692faeb22c49c7f63ef9c71b7697696b4d393282575221d0f5aca409fe3d",
+          "06_验证与后续工作/负责人优化建议-会员额度网关兼容.cjs": "37aaed74b37de822ee61cda78945d8149798bc0c859a99a821ec3f264dbed4f5",
+          "06_验证与后续工作/负责人优化建议-会员额度补充视觉.cjs": "6db881691d0e190620323577f229b94fa7e73d5021d681c769e267473bf4f3d3",
+          "06_验证与后续工作/负责人优化建议-会员额度进度回填.py": "aa4de9f6970e9375f9dd0faca24c4c8d2364def6982b1fff68668918faec631b",
+          "06_验证与后续工作/负责人优化建议-会员额度验收冻结.py": "2e1cdcd0bd4ba1307f21d22b354121e0116b190b5fc54e2a2435fb3a11fe6153",
+          "06_验证与后续工作/负责人优化建议-会员额度验收启动.cjs": "ed55d6471f434c6dfc6e7d15b0453c5ce9684af76f4ba01a5479430e7696b74b"
+        },
+        "identityUnchanged": true
+      }
+    }
+  ]
+}

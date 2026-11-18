@@ -1,0 +1,272 @@
+{
+  "latest": {
+    "at": "2026-11-17T13:00:06.168Z",
+    "runId": "bf6e5f5f5ddc41349853552c0a54ece2",
+    "target": "cloud",
+    "base": "http://127.0.0.1:57070",
+    "module": "负责人优化建议-官网接入",
+    "results": [
+      {
+        "name": "01 实际后端官网双斜线路由与构建字节，原APP通道仍可达",
+        "pass": false,
+        "ms": 15,
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 200\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:35:99\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:33:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+      },
+      {
+        "name": "02 真实HTTP原生CTA及隐私链接进入现有APP页面",
+        "pass": false,
+        "ms": 30095,
+        "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1') to be visible\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:41:63\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:40:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+      },
+      {
+        "name": "03 320/390/768/1440实际官网布局与示意说明可读",
+        "pass": false,
+        "ms": 30065,
+        "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1') to be visible\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:47:64\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:46:136\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:45:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+      },
+      {
+        "name": "04 手机菜单真实Enter与Tab、Escape回焦点、点击后收起",
+        "pass": false,
+        "ms": 98,
+        "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(await toggle.isVisible())\n\n    at inPage.width (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:53:112)\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:52:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+      },
+      {
+        "name": "05 本地03官网原生链接保相邻APP与隐私页，不依赖HTTP重写",
+        "pass": true,
+        "ms": 5085,
+        "actual03File": true,
+        "appTarget": "file:///C:/Users/Administrator/Desktop/%E4%B8%9C%E6%96%B9%E6%99%BA%E6%85%A7APP_20261116_120935/03_%E5%BD%93%E5%89%8DAPP/%E4%B8%9C%E6%96%B9%E6%99%BA%E6%85%A7-%E9%A6%96%E9%A1%B5%E4%BD%93%E9%AA%8CR4.html",
+        "privacyTarget": "privacyCenter",
+        "localFileIsNotCloudRouteEvidence": true
+      },
+      {
+        "name": "06 跳到正文的真实键盘入口与无伪完成声明",
+        "pass": false,
+        "ms": 30081,
+        "error": "locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.skip')\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:60:106\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:59:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+      }
+    ],
+    "captures": [
+      {
+        "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-http-links.png",
+        "sha256": "16ee29f1b93dfc69c648ac2b0b79ca6078834775f733680fe618f94209d40048"
+      },
+      {
+        "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-layout-320.png",
+        "sha256": "c3c82d17bed8a34a0ef155c077d8eba7994774a11e690d637a24d03132326e1e"
+      },
+      {
+        "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-menu.png",
+        "sha256": "c3c82d17bed8a34a0ef155c077d8eba7994774a11e690d637a24d03132326e1e"
+      },
+      {
+        "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-skip.png",
+        "sha256": "16ee29f1b93dfc69c648ac2b0b79ca6078834775f733680fe618f94209d40048"
+      }
+    ],
+    "errors": [],
+    "traffic": [
+      {
+        "method": "GET",
+        "path": "/official",
+        "status": 500
+      },
+      {
+        "method": "GET",
+        "path": "/official",
+        "status": 500
+      },
+      {
+        "method": "GET",
+        "path": "/official",
+        "status": 500
+      },
+      {
+        "method": "GET",
+        "path": "/official",
+        "status": 500
+      }
+    ],
+    "sourceAndBuildHashes": {
+      "06_验证与后续工作/官网接入-专项.cjs": "bfcd8300310d7f1ce1263ddab7cb1d699d16bcdbe6c9aa011a98bbd79ee4b985",
+      "04_研发源码/app/r4/official-website.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+      "03_当前APP/东方智慧-官网.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+      "04_研发源码/app/cloud/generated/official.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+      "04_研发源码/app/r4/build.py": "a72bea1fca97c9be3ab4eda8485d6c13e374cfc9fc98e821878fcd617a3382c9",
+      "04_研发源码/app/cloud/prepare.py": "0f10e4fa66d9292c92b6d0ef848116624d39ab830599f136717e3b369af3a51e",
+      "04_研发源码/app/r4/backend/server.py": "b9268354f963bf8206ded389b937607739816f5e8919c8f87de5b407fa1c0d33",
+      "04_研发源码/app/cloud/worker/index.ts": "f5fed60afe5ae86c1ccf6a96b6aa4735547fd958611968c5d6e6581c47e67bb7",
+      "03_当前APP/东方智慧-首页体验R4.html": "8a7e518c4d1d57a21b964420d0b6a73d11cfec37d05b3c7984462b5194c1a36d",
+      "04_研发源码/app/cloud/generated/experience.html": "d993ddd618de661a6ccddeec83a882e302827183fdac49e5d35eca43d2decaff",
+      "官网.html": "ba6fdd1dfa2ebe463b4795b4fd017b9d57bc0b1fb7b2f4308f8fa660aa43e6e8"
+    },
+    "browserRuntime": {
+      "product": "Playwright Chromium headless shell",
+      "executablePath": "C:\\Users\\Administrator\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1234\\chrome-headless-shell-win64\\chrome-headless-shell.exe",
+      "sha256": "ce4635cd0e5dc0e21494542a701f347e91c1f1d821970578d97ed8df4ced50ef",
+      "registry": {
+        "path": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright-core\\browsers.json",
+        "sha256": "f306eed529599b1eaf2f8a85db9de2b23e1a3fe36c2b66434b7c9434fb627a99",
+        "revision": "1234"
+      }
+    },
+    "scope": {
+      "actualNativeBrowser": true,
+      "localFileAndLoopback": true,
+      "actualServerStartupClaimed": false,
+      "serverManagedByExternalOwnedLauncher": true,
+      "cloudActualWorkerEntryBindingRequired": true,
+      "oldCardWrapperNotAWebsiteRouteProof": true,
+      "productionPublished": false,
+      "realDevice": false,
+      "targetCountryOrCdn": false
+    },
+    "pass": false,
+    "browserVersion": "151.0.7922.34",
+    "cleanup": {
+      "browserCloseCompleted": true,
+      "requestContextDisposed": true,
+      "serverOwnedByThisScript": false
+    },
+    "finishedAt": "2026-11-17T13:01:41.710Z",
+    "sourcesUnchanged": true,
+    "passed": 1,
+    "failed": 5
+  },
+  "runs": [
+    {
+      "at": "2026-11-17T13:00:06.168Z",
+      "runId": "bf6e5f5f5ddc41349853552c0a54ece2",
+      "target": "cloud",
+      "base": "http://127.0.0.1:57070",
+      "module": "负责人优化建议-官网接入",
+      "results": [
+        {
+          "name": "01 实际后端官网双斜线路由与构建字节，原APP通道仍可达",
+          "pass": false,
+          "ms": 15,
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 200\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:35:99\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:33:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+        },
+        {
+          "name": "02 真实HTTP原生CTA及隐私链接进入现有APP页面",
+          "pass": false,
+          "ms": 30095,
+          "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1') to be visible\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:41:63\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:40:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+        },
+        {
+          "name": "03 320/390/768/1440实际官网布局与示意说明可读",
+          "pass": false,
+          "ms": 30065,
+          "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1') to be visible\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:47:64\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:46:136\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:45:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+        },
+        {
+          "name": "04 手机菜单真实Enter与Tab、Escape回焦点、点击后收起",
+          "pass": false,
+          "ms": 98,
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(await toggle.isVisible())\n\n    at inPage.width (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:53:112)\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:52:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+        },
+        {
+          "name": "05 本地03官网原生链接保相邻APP与隐私页，不依赖HTTP重写",
+          "pass": true,
+          "ms": 5085,
+          "actual03File": true,
+          "appTarget": "file:///C:/Users/Administrator/Desktop/%E4%B8%9C%E6%96%B9%E6%99%BA%E6%85%A7APP_20261116_120935/03_%E5%BD%93%E5%89%8DAPP/%E4%B8%9C%E6%96%B9%E6%99%BA%E6%85%A7-%E9%A6%96%E9%A1%B5%E4%BD%93%E9%AA%8CR4.html",
+          "privacyTarget": "privacyCenter",
+          "localFileIsNotCloudRouteEvidence": true
+        },
+        {
+          "name": "06 跳到正文的真实键盘入口与无伪完成声明",
+          "pass": false,
+          "ms": 30081,
+          "error": "locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.skip')\u001b[22m\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:60:106\n    at async inPage (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:30:91)\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:29:108)\n    at async Object.run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-专项.cjs:59:3)\n    at async run (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\官网接入-真实路由验收启动.cjs:17:10)"
+        }
+      ],
+      "captures": [
+        {
+          "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-http-links.png",
+          "sha256": "16ee29f1b93dfc69c648ac2b0b79ca6078834775f733680fe618f94209d40048"
+        },
+        {
+          "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-layout-320.png",
+          "sha256": "c3c82d17bed8a34a0ef155c077d8eba7994774a11e690d637a24d03132326e1e"
+        },
+        {
+          "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-menu.png",
+          "sha256": "c3c82d17bed8a34a0ef155c077d8eba7994774a11e690d637a24d03132326e1e"
+        },
+        {
+          "path": "06_验证与后续工作/官网接入-专项-cloud-bf6e5f5f5ddc41349853552c0a54ece2-失败-skip.png",
+          "sha256": "16ee29f1b93dfc69c648ac2b0b79ca6078834775f733680fe618f94209d40048"
+        }
+      ],
+      "errors": [],
+      "traffic": [
+        {
+          "method": "GET",
+          "path": "/official",
+          "status": 500
+        },
+        {
+          "method": "GET",
+          "path": "/official",
+          "status": 500
+        },
+        {
+          "method": "GET",
+          "path": "/official",
+          "status": 500
+        },
+        {
+          "method": "GET",
+          "path": "/official",
+          "status": 500
+        }
+      ],
+      "sourceAndBuildHashes": {
+        "06_验证与后续工作/官网接入-专项.cjs": "bfcd8300310d7f1ce1263ddab7cb1d699d16bcdbe6c9aa011a98bbd79ee4b985",
+        "04_研发源码/app/r4/official-website.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+        "03_当前APP/东方智慧-官网.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+        "04_研发源码/app/cloud/generated/official.html": "ef3292159a27e1936b03a7c85d82a71b8fa9b9842076a48e5135f58abed35ac5",
+        "04_研发源码/app/r4/build.py": "a72bea1fca97c9be3ab4eda8485d6c13e374cfc9fc98e821878fcd617a3382c9",
+        "04_研发源码/app/cloud/prepare.py": "0f10e4fa66d9292c92b6d0ef848116624d39ab830599f136717e3b369af3a51e",
+        "04_研发源码/app/r4/backend/server.py": "b9268354f963bf8206ded389b937607739816f5e8919c8f87de5b407fa1c0d33",
+        "04_研发源码/app/cloud/worker/index.ts": "f5fed60afe5ae86c1ccf6a96b6aa4735547fd958611968c5d6e6581c47e67bb7",
+        "03_当前APP/东方智慧-首页体验R4.html": "8a7e518c4d1d57a21b964420d0b6a73d11cfec37d05b3c7984462b5194c1a36d",
+        "04_研发源码/app/cloud/generated/experience.html": "d993ddd618de661a6ccddeec83a882e302827183fdac49e5d35eca43d2decaff",
+        "官网.html": "ba6fdd1dfa2ebe463b4795b4fd017b9d57bc0b1fb7b2f4308f8fa660aa43e6e8"
+      },
+      "browserRuntime": {
+        "product": "Playwright Chromium headless shell",
+        "executablePath": "C:\\Users\\Administrator\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1234\\chrome-headless-shell-win64\\chrome-headless-shell.exe",
+        "sha256": "ce4635cd0e5dc0e21494542a701f347e91c1f1d821970578d97ed8df4ced50ef",
+        "registry": {
+          "path": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright-core\\browsers.json",
+          "sha256": "f306eed529599b1eaf2f8a85db9de2b23e1a3fe36c2b66434b7c9434fb627a99",
+          "revision": "1234"
+        }
+      },
+      "scope": {
+        "actualNativeBrowser": true,
+        "localFileAndLoopback": true,
+        "actualServerStartupClaimed": false,
+        "serverManagedByExternalOwnedLauncher": true,
+        "cloudActualWorkerEntryBindingRequired": true,
+        "oldCardWrapperNotAWebsiteRouteProof": true,
+        "productionPublished": false,
+        "realDevice": false,
+        "targetCountryOrCdn": false
+      },
+      "pass": false,
+      "browserVersion": "151.0.7922.34",
+      "cleanup": {
+        "browserCloseCompleted": true,
+        "requestContextDisposed": true,
+        "serverOwnedByThisScript": false
+      },
+      "finishedAt": "2026-11-17T13:01:41.710Z",
+      "sourcesUnchanged": true,
+      "passed": 1,
+      "failed": 5
+    }
+  ]
+}

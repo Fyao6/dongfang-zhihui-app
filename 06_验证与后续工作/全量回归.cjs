@@ -9,7 +9,7 @@ const {chromium,request}=require(path.join(require('os').homedir(),'.cache/codex
 const root=path.resolve(__dirname,'..'),source=path.join(root,'04_研发源码/app/r4'),web=path.join(root,'03_当前APP');
 const python=process.env.EW_PYTHON||path.join(require('os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe');
 const qaRequested=process.argv.find(x=>x.startsWith('--module='))?.slice(9)||'';const qaEvidenceName=name=>qaRequested.startsWith('负责人优化建议')?qaRequested+'-'+(/\.(png|webm)$/.test(name)?(path.basename(__filename).startsWith('公网')?'cloud-':'python-'):'')+name:name;
-const db=path.join(__dirname,/^负责人优化建议-(长期记忆|支付客服)/.test(qaRequested)?'isolated-full-'+crypto.randomUUID()+'.sqlite3':'本轮回归专用.sqlite3'),reportFile=path.join(__dirname,qaEvidenceName('本轮全量回归结果.json'));
+const db=path.join(__dirname,/^负责人优化建议-(长期记忆|支付客服|支付回调|支付恢复|迟到补偿|会员额度|数字权益|隐私逐域|任务告警|支付路由|八字样本|卡组迁移)/.test(qaRequested)?'isolated-full-'+crypto.randomUUID()+'.sqlite3':'本轮回归专用.sqlite3'),reportFile=path.join(__dirname,qaEvidenceName('本轮全量回归结果.json'));
 const moduleName=process.argv.find(x=>x.startsWith('--module='))?.slice(9)||'当前全部已实现模块';
 const baziStage=Number(process.argv.find(x=>x.startsWith('--bazi-stage='))?.slice('--bazi-stage='.length)||0);
 const includeAdmin=process.argv.includes('--admin');

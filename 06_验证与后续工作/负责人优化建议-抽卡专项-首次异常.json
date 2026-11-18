@@ -1,0 +1,44 @@
+{
+  "scope": "First actual isolated card Python/Cloud runs terminated by asynchronous Playwright route handling error before finish; partial in-memory case results were not written and are not claimed passing.",
+  "applicationSourceModified": false,
+  "failureType": "test-route-lifecycle",
+  "error": "route.fulfill: Route is already handled! at card runner case23 (line39); release was immediately followed by unroute before fulfill completed.",
+  "runs": [
+    {
+      "target": "python",
+      "runId": "mwdldm93_436c4a",
+      "exitCode": 1
+    },
+    {
+      "target": "cloud",
+      "runId": "mwdldm8u_d4f8fb",
+      "exitCode": 1
+    }
+  ],
+  "partialFailureScreenshotCases": [
+    18,
+    21,
+    22
+  ],
+  "preservedCaptures": [
+    "负责人优化建议-抽卡-cloud-mwdldm8u_d4f8fb-四宽双主题四语最后视图.png",
+    "负责人优化建议-抽卡-cloud-mwdldm8u_d4f8fb-失败18.png",
+    "负责人优化建议-抽卡-cloud-mwdldm8u_d4f8fb-失败21.png",
+    "负责人优化建议-抽卡-cloud-mwdldm8u_d4f8fb-失败22.png",
+    "负责人优化建议-抽卡-cloud-mwdldm8u_d4f8fb-真实抽取结果.png",
+    "负责人优化建议-抽卡-python-mwdldm93_436c4a-四宽双主题四语最后视图.png",
+    "负责人优化建议-抽卡-python-mwdldm93_436c4a-失败18.png",
+    "负责人优化建议-抽卡-python-mwdldm93_436c4a-失败21.png",
+    "负责人优化建议-抽卡-python-mwdldm93_436c4a-失败22.png",
+    "负责人优化建议-抽卡-python-mwdldm93_436c4a-真实抽取结果.png"
+  ],
+  "notes": "Case18 share checkboxes returned unselected during pending async reload; evaluating as a possible real UI input-loss issue. Cases21/22 awaiting rerun with durable checkpoints to capture exact errors.",
+  "ownedOldServicesCleanupVerified": true,
+  "cleanupEvidence": "Win32_Process query found no node/python with own dq1a88c config or card Python wrapper after both crashed sessions exited; no root cv01 service touched.",
+  "resolvedTestIssues": [
+    "Use actual pxBootstrap(true), not nonexistent pxLoad",
+    "Wait held route handler completion before unroute; capture route errors without uncaught rejection",
+    "Durable per-case checkpoint now records future partial failures"
+  ],
+  "realSourceIssue": "Share checkbox selection could be lost to pending csLoad render; authorized single UI source fix now applied and VM18 passes."
+}

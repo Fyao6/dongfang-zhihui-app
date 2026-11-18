@@ -1,0 +1,189 @@
+{
+  "pass": true,
+  "scope": "Real product Store.init after fixed preinit legacy schema/rows; query_only actual readonly collector; static preparation, not formal HTTP gate",
+  "fixtureSHA256": "7ad61ebfb470e3f0201ad4c0f91e652e0294d4cdcbf6c7467d0f6293acdf587d",
+  "scenarios": [
+    {
+      "scenario": "empty",
+      "productInit": true,
+      "seededRows": 0,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "finite-missing",
+      "productInit": true,
+      "seededRows": 7,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "digital_grant_missing"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "finite-binding",
+      "productInit": true,
+      "seededRows": 8,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "digital_grant_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "finite-bad-json",
+      "productInit": true,
+      "seededRows": 8,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": false,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "finite-refunded-history",
+      "productInit": true,
+      "seededRows": 9,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-missing-grant",
+      "productInit": true,
+      "seededRows": 9,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "membership_grant_event_missing"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-orphan-grant",
+      "productInit": true,
+      "seededRows": 9,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "membership_grant_event_orphan"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-job-binding",
+      "productInit": true,
+      "seededRows": 16,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "membership_job_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-job-settlement",
+      "productInit": true,
+      "seededRows": 16,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "membership_job_settlement_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-orphan-allocation",
+      "productInit": true,
+      "seededRows": 15,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [
+        "membership_job_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "member-lazy-zero-history",
+      "productInit": true,
+      "seededRows": 60,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    },
+    {
+      "scenario": "finite-truncated",
+      "productInit": true,
+      "seededRows": 5002,
+      "queryOnlyEnforced": true,
+      "totalChangesDelta": 0,
+      "sourceDigestUnchanged": true,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": false,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      }
+    }
+  ]
+}

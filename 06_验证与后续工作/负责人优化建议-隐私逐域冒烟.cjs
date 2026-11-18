@@ -1,0 +1,29 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{spawn}=require('node:child_process');
+const ROOT=path.resolve(__dirname,'..'),runtime=path.join(require('node:os').homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies');
+const {request,chromium}=require(path.join(runtime,'node/node_modules/playwright'));
+const runId=Date.now().toString(36)+'-'+crypto.randomBytes(3).toString('hex'),prefix='负责人优化建议-隐私逐域冒烟';
+const db=path.join(__dirname,'负责人优化建议-隐私逐域隔离-smoke-'+runId+'.sqlite3');assert(!fs.existsSync(db));
+const password=crypto.randomBytes(24).toString('hex'),results=[],contexts=[];let child,browser,base;
+function clean(error){return String(error?.message||error).replaceAll(password,'[REDACTED]').replace(/ew_session=[^;\s]+/g,'ew_session=[REDACTED]');}
+(async()=>{try{
+ child=spawn(path.join(runtime,'python/python.exe'),['-B',path.join(ROOT,'04_研发源码/app/r4/backend/server.py'),'--port','0','--db',db],{cwd:ROOT,windowsHide:true,stdio:['ignore','pipe','pipe']});
+ base=await new Promise((resolve,reject)=>{let buffer='';const timer=setTimeout(()=>reject(Error('Owned smoke startup timeout')),30000);child.stdout.on('data',chunk=>{buffer+=chunk;const match=/APP: (http:\/\/127\.0\.0\.1:\d+)/.exec(buffer);if(match){clearTimeout(timer);resolve(match[1]);}});child.once('exit',code=>{clearTimeout(timer);reject(Error('Owned smoke server exited '+code));});child.once('error',reject);child.stderr.on('data',()=>{});});
+ const client=await request.newContext(),anonymous=await request.newContext();contexts.push(client,anonymous);
+ const api=async(c,route,data,expected=200)=>{const r=await c.fetch(base+'/api/'+route,{method:data===undefined?'GET':'POST',...(data===undefined?{}:{data})});const body=await r.json();assert.equal(r.status(),expected,route+' '+(body.error||''));return body;};
+ await api(anonymous,'privacy/domains',undefined,401);await api(client,'auth/setup',{username:'pdsm_'+runId.replace(/-/g,'').slice(0,20),password,name:'逐域自有冒烟'});
+ const inventory=await api(client,'privacy/domains');assert.equal(inventory.domains.length,11);assert.equal(inventory.config.enabled,false);assert.deepEqual(inventory.unclassifiedOwnerTables,[]);results.push({name:'actual default inventory and anonymous gate',pass:true});
+ const bytes=Buffer.alloc(32044);bytes.write('RIFF');bytes.writeUInt32LE(bytes.length-8,4);bytes.write('WAVEfmt ',8);bytes.writeUInt32LE(16,16);bytes.writeUInt16LE(1,20);bytes.writeUInt16LE(1,22);bytes.writeUInt32LE(16000,24);bytes.writeUInt32LE(32000,28);bytes.writeUInt16LE(2,32);bytes.writeUInt16LE(16,34);bytes.write('data',36);bytes.writeUInt32LE(bytes.length-44,40);
+ const uploaded=await client.post(base+'/api/media',{data:bytes,headers:{'Content-Type':'audio/wav','X-Filename':'privacy-smoke.wav','Content-Length':String(bytes.length)}});assert.equal(uploaded.status(),200);const media=await uploaded.json();
+ const fresh=await api(client,'privacy/domains'),domain=fresh.domains.find(x=>x.id==='privateMedia');assert.equal(domain.total,1);assert.equal(domain.eligible,1,JSON.stringify(domain.blockedReasons));
+ const input={requestId:'smoke_preview_'+runId,domains:['privateMedia'],mode:'manual'},preview=await api(client,'privacy/domains/preview',input);assert.equal(preview.job.pending,1);assert.equal((await api(client,'privacy/domains/preview',input)).job.id,preview.job.id);
+ results.push({name:'real orphan upload and immutable idempotent preview',pass:true});
+ browser=await chromium.launch({headless:true});const context=await browser.newContext({storageState:await client.storageState(),viewport:{width:360,height:850}}),page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(clean(error)));
+ console.log('SMOKE browser-load');await page.goto(base+'/experience?page=privacyDomains&lang=zh&mode=day');await page.waitForFunction(()=>typeof pdState==='function'&&pdState().loaded&&!pdState().loading);assert.equal(await page.locator('#pd-inventory [data-pd-domain]').count(),11);
+ console.log('SMOKE job-detail');await page.locator('[data-pd-action=job][data-id="'+preview.job.id+'"]').click();await page.waitForFunction(id=>pdState().detail?.job.id===id&&!pdState().busy,preview.job.id);console.log('SMOKE native-apply');await page.locator('[data-pd-form=apply] [name=confirmed]').check();await page.locator('[data-pd-form=apply] [type=submit], [data-pd-form=apply] button').first().click();await page.waitForFunction(()=>!pdState().busy&&pdState().detail?.job.pending===0);assert.equal(errors.length,0,errors.join('; '));
+ const gone=await client.get(base+media.url);assert([403,404,410].includes(gone.status()));const after=await api(client,'privacy/domains');assert.equal(after.domains.find(x=>x.id==='privateMedia').total,0);results.push({name:'native confirmed batch and actual removed media bytes',pass:true});
+ await page.screenshot({path:path.join(__dirname,prefix+'-'+runId+'.png')});
+ }catch(error){results.push({name:'smoke failure',pass:false,error:clean(error)});process.exitCode=1;}
+ finally{await browser?.close().catch(()=>{});for(const c of contexts)await c.dispose().catch(()=>{});if(child&&child.exitCode===null){if(process.platform==='win32')await new Promise(resolve=>{const killer=spawn(path.join(process.env.SystemRoot||'C:\\Windows','System32/taskkill.exe'),['/PID',String(child.pid),'/T','/F'],{windowsHide:true,stdio:'ignore'});killer.once('exit',resolve);killer.once('error',resolve);});else child.kill();}
+ const report={at:new Date().toISOString(),runId,pass:results.length===3&&results.every(x=>x.pass),results,ownedDatabase:path.relative(ROOT,db),productServer:true,fixtureControls:false,formalAcceptance:false,originalPreviewDatabaseUsed:false};fs.writeFileSync(path.join(__dirname,prefix+'-'+runId+'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
+})();

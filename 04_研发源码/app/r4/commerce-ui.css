@@ -31,3 +31,10 @@ html[lang=bo] .co-page{font-family:var(--sans);line-height:1.9}html[lang=bo] .co
 .pay-help-tickets { margin-block: 12px; }
 .pay-help-tickets p { white-space: pre-wrap; }
 .pay-help-tickets summary { cursor: pointer; }
+
+/* Immutable quote review retains every item, amount and purchase term. */
+.pr-route,.pr-quote{min-width:0;overflow-wrap:anywhere;line-height:1.7}.pr-route{border:1px solid var(--line);border-radius:12px;padding:12px;margin-block:12px}.pr-quote article{border-bottom:1px solid var(--line);padding-block:12px}.pr-quote pre,.pr-route pre{font:inherit;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}.pr-quote .btn{margin-block:6px}.pr-quote details,.pr-route details{margin-block:10px}.pr-quote summary,.pr-route summary{cursor:pointer}.pr-quote .co-facts>div{min-width:0}.pr-quote time{white-space:normal;overflow-wrap:anywhere}
+/* Measured EW Tibetan ink is 40px at 14px text, and 45px at 16px.
+   Give the new quote/route text full line boxes without changing font sizes. */
+html:lang(bo) :is(.pr-quote,.pr-route),html:lang(bo) :is(.pr-quote,.pr-route) :is(h1,h2,h3,h4,p,summary,pre,dt,dd,button,small,label){line-height:3}
+html:lang(bo) :is(.pr-quote,.pr-route) p,html:lang(bo) .pr-quote :is(h3,h4){margin-block:6px}

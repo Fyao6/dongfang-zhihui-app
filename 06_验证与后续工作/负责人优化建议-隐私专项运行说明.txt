@@ -1,0 +1,28 @@
+负责人优化建议 隐私专项（当前27项版本双端通过）
+
+由根代理完成隐私公共入口、AI门禁及实际构建集成后再运行。源码、构建或测试文件变化均需新run；旧失败和通过runs均保留，不能用旧结果代表新身份。
+
+在唯一项目根目录运行：
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' '06_验证与后续工作/负责人优化建议-隐私专项.cjs' --target=python
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' '06_验证与后续工作/负责人优化建议-隐私专项.cjs' --target=cloud
+
+可选 --http-only 仅执行HTTP部分；它不能替代完整浏览器验收。不要传 --base：此专项只自起新的隔离服务，避免误接已有数据。
+
+隔离方式：
+Python使用06下新SQLite，导入当前真实server.py，仅在新测试进程替换urlopen。
+Cloud使用06独立测试Worker导入当前真实handleAPI，加载当前generated/experience.html及原始D1 schema；.wrangler/pq随机短名新state与配置从未复用。它验证同一实际API源码和实际APP，不验证框架打包路由适配，完整Cloud构建路由仍须原60项全量门禁另验。
+新Worker管理员使用随机生成的测试密码和PBKDF2摘要，代码仅保存在内存或被忽略的本轮测试配置中；不读取原环境或生产凭据、不向报告打印。
+双方只接收privacy-fixture.invalid保留域为本机进程模拟调用，其他供应商网络调用全部阻断，不在生产源码加入成功开关。
+浏览器部分进一步截获实际/api/ai/chat观察前端负载；报告明确browser-request-capture，与local-process-mock和真实供应商区别。真实供应商始终未验收。
+
+当前覆盖27项（含32组合的4宽×深浅×四语布局检查）：
+六项默认关闭、无记忆服务、配置披露与实际供应商绑定、版本/revision、分项与总体撤回、旧历史及跨账号标签拒绝、当前必要字段、真实可选会话保存、本人导出隔离、已保存会话及记录实际删除、供应商/备份待核实、注销身份验证与续费提示、UI保存开关/导出/本机清除/离线重试、持有真实AI与偏好响应后切账号防迟到写入。
+本人导出与清除始终只用随机合成账号和合成资料；不访问原数据库。新状态保留便于失败诊断，不删除旧证据。
+
+输出：负责人优化建议-隐私专项-python.json / -cloud.json，追加runs；截图前缀负责人优化建议-隐私-目标-runId。
+静态检查：JavaScript node --check、Python AST、QA Worker TypeScript语法转换检查。
+实际已执行旧25项版：Python run mwdfbcgm_1eaac6 为25/25；Cloud run mwdfc6j0_437e00 为23/25，UI8/8，失败两项为Cloud缺少deletedCounts数值，失败报告保留。只读本轮pq2f90确认A records/timeRecords/conversations均0，B记录仍保留，删除实际生效。根代理决定补Cloud真实计数及删除后epoch栅栏；测试仍保留原严格计数断言，不放松放行。
+最终新增同政策同供应商条件下删除会话/记录后的旧epoch403与新epoch正常使用、UI本机清除后迟到回复不恢复聊天，以及实际后台隐私表单原值提交/revision递增/null期限保留/处理元数据回读；共27项。
+最终执行：Python run mwdflprt_53b630 为27/27，Cloud run mwdflps0_f037a3 为27/27，两者identityUnchanged=true，浏览器无运行错误，测试进程退出0。Python新SQLite位于06/负责人优化建议-隐私隔离-mwdflprt_53b630.sqlite3；Cloud为全新04_研发源码/app/cloud/.wrangler/pq550d。它们只含本次合成测试资料。
+实际APP SHA-256：Python 609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf；Cloud 79784355237280e017d6d32edbf1bb7ce0d9b345244d3de5fca29aeb089cd96c。完整源码、测试与构建摘要见各自报告。
+旧25项通过及Cloud23/25失败均原样保留在各自runs，不能冒充当前版本。完整双端60项由根代理另行执行。本专项没有真实供应商、原生端、真实备份清理、真实注销或公网发布验收。

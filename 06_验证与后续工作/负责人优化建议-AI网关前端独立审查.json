@@ -1,0 +1,59 @@
+{
+  "scope": "新网关前端/后台只读审查与实际HTTP/UI专项，业务修复由root完成。",
+  "sources": {
+    "04_研发源码/app/r4/ai-gateway-ui.js": "44b1ba4a330863ce453a6367ca33c8878427604080a5d5fa92b326bbd9f699bb",
+    "04_研发源码/app/r4/ai-gateway-ui.css": "f564d11582ee2c3684468b715d0835ca147fb876e5e0b5e4a00ad194e55747bc",
+    "04_研发源码/app/r4/ai-gateway-admin.js": "7f4363f10342333f1f604d922bcb61497f5d7f48cb9bf182cc6b6e2becdb7435",
+    "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+    "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+    "04_研发源码/app/r4/platform.js": "476f4b6a34a85cfbdbe8401a13d03f63becde8584c13dd0c21722870d0696eaf"
+  },
+  "resolved": [
+    {
+      "issue": "网络丢结果后重试终态可能创建新requestId并重复调用扣次",
+      "resolution": "终态仅回读原job结算/已明确保存的结果，保留原请求标识；gatewayJobId防重复显示，恢复消息无隐私标签不自动再发送。",
+      "evidence": "双端真实网络丢响应→重试，供应商调用数/任务条数不增加。"
+    },
+    {
+      "issue": "取消历史旧job误abort当前流，以及旧流finally清新controller",
+      "resolution": "捕获jobId/liveJobId/run/controller，只有同活跃请求才abort，finally也核run与controller身份。",
+      "evidence": "双端UI在当前流运行时取消另一queued历史单，当前流仍成功；旧finally身份条件已静态复核。"
+    },
+    {
+      "issue": "另一页面关闭保存并重确认新provider nonce后，本页仍可能按旧save=true缓存保存新聊天",
+      "resolution": "请求前和终态前并行读取caps/prefs，核policyAcknowledged、globalRevision/globalBinding/policyVersion和起始nonce，更新本人privacyState后才persist。",
+      "evidence": "第25项真实API在另一端关闭保存+重确认，本页不agLoad直接发问：回复可显示，本机数组严格保留旧聊天，未存新问题/回复，缓存变false。"
+    },
+    {
+      "issue": "动态新后台label未被operator菜单过滤",
+      "resolution": "公共allowedNavs新增aiGateway为admin专属；后台API仍admin-only。",
+      "evidence": "普通用户/operator配置及grants403，实际operator后台无网关菜单。"
+    }
+  ],
+  "finalEvidence": {
+    "python": {
+      "runId": "mwdh8a56_ef760a",
+      "passed": 25,
+      "failed": 0,
+      "identityUnchanged": true,
+      "exitCode": 0,
+      "report": "06_验证与后续工作/负责人优化建议-AI网关专项-python.json"
+    },
+    "cloud": {
+      "runId": "mwdh8a59_84e5c3",
+      "state": "gq8576",
+      "passed": 25,
+      "failed": 0,
+      "identityUnchanged": true,
+      "exitCode": 0,
+      "report": "06_验证与后续工作/负责人优化建议-AI网关专项-cloud.json"
+    }
+  },
+  "historicalRunsPreserved": true,
+  "bounds": [
+    "纯registry-only、实际API与当前HTML构建、进程内显式transport与.invalid协议模拟；不是真实供应商或SDK联调。",
+    "四宽深浅四语32组合验证页面不横溢与控件可达，藏文仍需母语审校，视觉效果由负责人另验。",
+    "Python首轮stop读到running属于测试未等待异步结算，失败保留；后续有限等终态仍严格核取消扣次和释放预占。",
+    "Cloud框架打包入口由root独立双端60门禁验证，本专项不替代。"
+  ]
+}

@@ -1,6 +1,10 @@
 // Final local closure; third-party renewals/providers/backups remain unverified.
 import {closureCleanupStatements} from './privacy-retention';
 import {initAccountWriteGuard} from './account-write-guard';
+import {PrivacyDomains,closureDomainProgress} from './privacy-domains';
+import {cardImportErasureStatement,cardPrivateErasureCounts} from './card-imports';
+import {cardHistoryErasureStatements} from './card-history-migration';
+import {sampleEraseStatement} from './bazi-samples';
 export const ACCOUNT_CLOSURE_DDL:string[]=["CREATE TABLE IF NOT EXISTS account_revoked_sessions(token_hash TEXT PRIMARY KEY,owner TEXT NOT NULL,revoked_at INTEGER NOT NULL)","CREATE TABLE IF NOT EXISTS account_lifecycle(owner TEXT PRIMARY KEY REFERENCES users(id),status TEXT NOT NULL CHECK(status IN ('active','closed')),epoch INTEGER NOT NULL CHECK(epoch>=1),closed_at INTEGER,receipt_id TEXT)","CREATE TABLE IF NOT EXISTS account_closure_challenges(id TEXT PRIMARY KEY,owner TEXT NOT NULL REFERENCES users(id),request_id TEXT NOT NULL,nonce_hash TEXT NOT NULL,session_hash TEXT NOT NULL,created INTEGER NOT NULL,expires INTEGER NOT NULL,consumed INTEGER NOT NULL DEFAULT 0,UNIQUE(owner,request_id))","CREATE TABLE IF NOT EXISTS account_closure_receipts(id TEXT PRIMARY KEY,owner TEXT NOT NULL REFERENCES users(id),challenge_id TEXT NOT NULL UNIQUE,request_id TEXT NOT NULL,nonce_hash TEXT NOT NULL,operation_nonce TEXT NOT NULL,created INTEGER NOT NULL,details TEXT NOT NULL,UNIQUE(owner,request_id))","CREATE TRIGGER IF NOT EXISTS account_closure_claim BEFORE INSERT ON account_closure_receipts BEGIN\n SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM account_closure_challenges c JOIN sessions s ON s.token=c.session_hash AND s.user_id=c.owner JOIN users u ON u.id=c.owner WHERE c.id=NEW.challenge_id AND c.owner=NEW.owner AND c.request_id=NEW.request_id AND c.nonce_hash=NEW.nonce_hash AND c.consumed=0 AND c.expires>NEW.created AND s.expires>NEW.created) THEN RAISE(ABORT,'account_closure_challenge_invalid') END;\n SELECT CASE WHEN EXISTS(SELECT 1 FROM account_lifecycle WHERE owner=NEW.owner AND status='closed') THEN RAISE(ABORT,'account_closed') END;\n SELECT CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=NEW.owner AND role='admin') AND (SELECT count(*) FROM users u WHERE u.role='admin' AND NOT EXISTS(SELECT 1 FROM account_lifecycle l WHERE l.owner=u.id AND l.status='closed'))<=1 THEN RAISE(ABORT,'account_closure_last_admin') END;\n END","CREATE TRIGGER IF NOT EXISTS account_lifecycle_no_reopen BEFORE UPDATE ON account_lifecycle WHEN OLD.status='closed' BEGIN SELECT RAISE(ABORT,'account_closed'); END"];
 const GUARDS:Record<string,[string,string]>={"users":["NEW.id","both"],"sessions":["NEW.user_id","both"],"records":["NEW.owner","both"],"timer_runs":["NEW.owner","both"],"activity_daily":["NEW.user_id","both"],"devices":["NEW.owner","both"],"measurements":["(SELECT owner FROM devices WHERE id=NEW.connection_id)","both"],"privacy_preferences":["NEW.user_id","both"],"privacy_conversations":["NEW.user_id","both"],"ai_gateway_provider_consents":["NEW.owner","both"],"card_draws":["NEW.owner","both"],"card_draw_actions":["NEW.owner","both"],"card_practice_events":["NEW.owner","both"],"card_draw_requests":["NEW.owner","both"],"posts":["NEW.author_id","insert"],"messages":["NEW.sender","insert"],"service_requests":["NEW.user_id","insert"],"media":["NEW.owner","insert"],"creator_works":["NEW.owner_id","insert"]};
 export const CHALLENGE_TTL_MS=300000;
@@ -54,8 +58,9 @@ function validate(d:any,keys:string[],fail:(n:number,s:string)=>never){
  if(typeof d.requestId!=='string'||! /^[A-Za-z0-9_.:-]{8,100}$/.test(d.requestId))fail(400,'需要8至100位幂等编号。');
  if(typeof d.nonce!=='string'||! /^[a-f0-9]{64}$/.test(d.nonce))fail(400,'需要本次确认凭证。');
 }
-function receipt(r:any){
+async function receipt(a:any,r:any){
  return {receipt:{id:r.id,status:'closed',accountClosed:true,sessionsRevoked:true,credentialVerifierInvalidated:true,closedAt:r.created,local:JSON.parse(r.details),
+ domainCleanup:await closureDomainProgress(a,r.owner,r.id),
  providersStatus:'pending-confirmation',backupsStatus:'pending-confirmation',thirdPartyRenewalCancelled:false,localBrowserCleared:false},reauthenticate:true};
 }
 type Options={verifyPassword:(plain:string,stored:string)=>Promise<boolean>,clock?:()=>number,cleanup?:typeof closureCleanupStatements};
@@ -92,16 +97,24 @@ export async function accountClosureRoute(a:any,p:string,m:string,fail:(n:number
  const nh=await hash(d.nonce),cid=d.challengeId;
  await a.rate('closure-confirm:'+(await hash(cid)).slice(0,24),10);
  let old=await a.one('SELECT * FROM account_closure_receipts WHERE challenge_id=?',cid);
- if(old){if((a.user&&a.user.id!==old.owner)||old.request_id!==d.requestId||old.nonce_hash!==nh)fail(404,'确认凭证无效。');return receipt(old);}
+ if(old){if((a.user&&a.user.id!==old.owner)||old.request_id!==d.requestId||old.nonce_hash!==nh)fail(404,'确认凭证无效。');return receipt(a,old);}
  const u=a.require(),owner=u.id;await requireAccountActive(a,owner,fail);
  const challenge=await a.one('SELECT * FROM account_closure_challenges WHERE id=? AND owner=?',cid,owner);
  if(!challenge||challenge.request_id!==d.requestId||challenge.nonce_hash!==nh||challenge.session_hash!==await hash(a.token||''))fail(404,'确认凭证无效。');
  const rid=uuid(),operationNonce=uuid();
  const cleanup=await (options.cleanup||closureCleanupStatements)(a,owner,rid,stamp,{sql:'EXISTS(SELECT 1 FROM account_closure_receipts WHERE id=? AND owner=? AND challenge_id=? AND operation_nonce=?)',bindings:[rid,owner,cid,operationNonce]});
+ const domainCleanup=await new PrivacyDomains(a,fail).closurePlan(owner,rid,stamp,{sql:'EXISTS(SELECT 1 FROM account_closure_receipts WHERE id=? AND owner=? AND challenge_id=? AND operation_nonce=?)',bindings:[rid,owner,cid,operationNonce]});
+ const privateImportCounts=cardPrivateErasureCounts(owner),legacyCounts=cardPrivateErasureCounts(owner,true);
  const statements=[
   a.stmt('INSERT INTO account_closure_receipts VALUES (?,?,?,?,?,?,?,?)',rid,owner,cid,d.requestId,nh,operationNonce,stamp,'{}'),
   ...cleanup.statements,
+  ...domainCleanup.statements,
   a.stmt('UPDATE account_closure_receipts SET details='+cleanup.receiptJSONSql.sql+' WHERE id=?',...cleanup.receiptJSONSql.bindings,rid),
+  a.stmt("UPDATE account_closure_receipts SET details=json_set(details,'$.cardImports',json("+privateImportCounts.sql+"),'$.cardLegacy',json("+legacyCounts.sql+")) WHERE id=?",...privateImportCounts.bindings,...legacyCounts.bindings,rid),
+  cardImportErasureStatement(a,owner,'closure',rid,stamp),
+  ...cardHistoryErasureStatements(a,owner,'EXISTS(SELECT 1 FROM account_closure_receipts WHERE id=? AND owner=? AND operation_nonce=?)',[rid,owner,operationNonce]),
+  sampleEraseStatement(a,owner,'closure',rid,stamp),
+  a.stmt("UPDATE account_closure_receipts SET details=json_set(details,'$.baziSamples',json((SELECT response_data FROM bazi_sample_operations WHERE owner=? AND kind='erase' AND request_id=?))) WHERE id=?",owner,rid,rid),
   a.stmt('UPDATE users SET password=? WHERE id=?',randomHex(16)+':'+randomHex(32),owner),
   a.stmt('UPDATE account_closure_challenges SET consumed=1 WHERE owner=?',owner),
   a.stmt('INSERT OR IGNORE INTO account_revoked_sessions SELECT token,user_id,? FROM sessions WHERE user_id=?',stamp,owner),
@@ -114,7 +127,7 @@ export async function accountClosureRoute(a:any,p:string,m:string,fail:(n:number
  }
  const row=await a.one('SELECT * FROM account_closure_receipts WHERE challenge_id=?',cid);
  if(!row)fail(409,'账号状态已变化，请重新确认。');
- return receipt(row);
+ return receipt(a,row);
 }
 
 export function accountFailure(error:any):{status:number,message:string}|null{

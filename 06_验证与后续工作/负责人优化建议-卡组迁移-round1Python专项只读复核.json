@@ -1,0 +1,92 @@
+{
+  "report": "负责人优化建议-卡组迁移专项-python.json",
+  "reportSHA256": "f02481c111b298570a042d5c8a4b92b1937bf12395c4e663a9fc961af10ae0ca",
+  "at": "2026-11-17T05:13:37.989Z",
+  "runId": "mwk8lpdx_7eebae",
+  "passed": 39,
+  "failed": 1,
+  "failedCases": [
+    {
+      "name": "07 三语言五字段与缺失空删除及顺序逐叶diff，英文fallback不冒译文审核",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(rows.items.some(x=>x.path==='/deck/data/cards/order'))\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移导入专项.cjs:44:84\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移测试工具.cjs:45:63\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-隐私逐域测试工具.cjs:50:55\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-交易测试工具.cjs:31:74)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移导入专项.cjs:42:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移专项.cjs:7:2"
+    }
+  ],
+  "sourceCount": 516,
+  "current516MatchesSnapshot": true,
+  "sourceUnchanged": true,
+  "captures": [
+    {
+      "path": "负责人优化建议-卡组迁移专项-python-mwk8lpdx_7eebae-37-真实文件与全部问题差异.png",
+      "sha256": "3e8a467f002e50e2c499dc3c18c1aef4f6c6780b308d4e3dc4ca71df0002211e"
+    },
+    {
+      "path": "负责人优化建议-卡组迁移专项-python-mwk8lpdx_7eebae-38-断响应同号恢复及失败保草稿.png",
+      "sha256": "b412a1eb2c81867950e826b594675f24092b94fae6f56df42df2e54e22e03222"
+    },
+    {
+      "path": "负责人优化建议-卡组迁移专项-python-mwk8lpdx_7eebae-39-原生续批与换号旧详情隔离.png",
+      "sha256": "d2abf4d6ce9d9a7ef98beabda00884c001d7672c7c475f8c54d60804c81e6869"
+    },
+    {
+      "path": "负责人优化建议-卡组迁移专项-python-mwk8lpdx_7eebae-40-未选择不上传及真实计时返回.png",
+      "sha256": "279c36996b418a1d5a44e9bf1aaf96d097c3f36af2f59eba9c3a93d46500e894"
+    }
+  ],
+  "actualWorkerLaunches": 443,
+  "expectedNegativeWorkers": [
+    {
+      "pid": 11512,
+      "operation": "parse",
+      "exitCode": 1,
+      "elapsedMs": 15016,
+      "expectedFailure": {
+        "caseName": "17 draft及来源和receipt真实SQL故障全回滚，原intent恢复且实际worker有界",
+        "kind": "compute_timeout",
+        "expectedStatus": 504
+      }
+    }
+  ],
+  "actualRestarts": [
+    {
+      "isolated": true,
+      "restarted": true,
+      "beforePid": 38492,
+      "afterPid": 71112,
+      "base": "http://127.0.0.1:59091",
+      "sameOwnedState": true
+    }
+  ],
+  "case06": {
+    "actualRawBytes": 223808,
+    "logicalCards": 500,
+    "sourceReferenceCodepoints": 2000,
+    "actualIssues": 23002,
+    "actualIssuePages": 461,
+    "actualDiffs": 15009,
+    "actualDiffPages": 301,
+    "allLargePagesEnumerated": true,
+    "exportComplete": true,
+    "boundedExport": {
+      "receivedBytes": 147519736,
+      "chunkCount": 762,
+      "chunkManifestSha256": "6a41b42c521b9105da11b7127b2ebdb84f110853df3fc50740c27e172f78df97",
+      "complete": true,
+      "sourceSha256": "972e6a825b8244dbedc1ef664f3c9a4041855cfa59cd45a08eff011dd5ab0396",
+      "allChunkHashesVerified": true,
+      "boundedConsumer": true,
+      "maxBufferedBytes": 485712,
+      "retainedAllItems": false
+    }
+  },
+  "case36": {
+    "actualJobs": 51,
+    "actualArchives": 105,
+    "actualTargets": 105,
+    "actualReceipts": 51,
+    "pageLimit": 50,
+    "fixtureSeededRows": 0,
+    "zeroRemainingOperationsRecorded": 49
+  },
+  "sourceOrQaModified": false,
+  "formalAccepted": false
+}

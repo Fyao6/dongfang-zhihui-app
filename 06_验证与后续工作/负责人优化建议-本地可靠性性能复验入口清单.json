@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "stage": 31,
+  "formalReady": true,
+  "status": "native-four-groups-passed-ready-for-managed-business-regression",
+  "soleLauncher": "06_验证与后续工作/负责人优化建议-本地可靠性性能复验验收启动.cjs",
+  "reportNamespace": "负责人优化建议-本地可靠性性能复验",
+  "suites": {
+    "full": 60,
+    "special": 40,
+    "visual": 4,
+    "b11-compat": 11,
+    "card-compat": 25,
+    "privacy-compat": 28,
+    "closure-compat": 27
+  },
+  "targets": [
+    "python",
+    "cloud"
+  ],
+  "perBackend": 195,
+  "totalGates": 14,
+  "totalChecks": 390,
+  "safetyPreflight": {
+    "entry": "06_验证与后续工作/负责人优化建议-本地可靠性性能复验安全专项.cjs",
+    "expectedGroups": 4,
+    "componentOnly": true,
+    "requiredBeforeFormalGates": true
+  },
+  "scope": "Repair regression; no load, media or recovery acceptance is claimed by this catalog.",
+  "fullNamespaceAlias": "负责人优化建议-卡组迁移-本地可靠性性能复验",
+  "closureNamespaceAlias": "负责人优化建议-卡组迁移注销兼容-本地可靠性性能复验",
+  "ownership": "Frozen Stage30 QA is read-only. Its exported runOwned probe branch supplies fresh resources only; the new soleouter independently executes and binds the actual new invocation.",
+  "safetyGroups": [
+    "logical-transaction-and-clean-state",
+    "nested-independent-snapshots",
+    "request-thread-isolation-and-finally",
+    "dynamic-schema-refresh"
+  ],
+  "nativeSafetyComponent": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性性能复验原生连接组件-8358e47ef43e47c28b4f768e35287f02.json",
+    "sha256": "57823bf91e5262635d5d3b8ff6d342cc5205eeac9f4a2a1d66c63819aecbada7",
+    "passed": 4,
+    "componentOnly": true,
+    "nativeSQLiteOnly": true
+  },
+  "entries": [
+    {
+      "target": "python",
+      "suite": "full",
+      "module": "负责人优化建议-卡组迁移-本地可靠性性能复验",
+      "entry": "06_验证与后续工作/全量回归.cjs",
+      "report": "负责人优化建议-卡组迁移-本地可靠性性能复验-本轮全量回归结果.json",
+      "argv": [
+        "--module=负责人优化建议-卡组迁移-本地可靠性性能复验",
+        "--bazi-stage=4",
+        "--admin"
+      ],
+      "expectedCount": 60,
+      "resourceSuite": "full",
+      "family": "product-full"
+    },
+    {
+      "target": "python",
+      "suite": "special",
+      "module": "负责人优化建议-本地可靠性性能复验专项",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移专项.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-special-python.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验专项",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-special-python.json"
+      ],
+      "expectedCount": 40,
+      "resourceSuite": "special",
+      "family": "main"
+    },
+    {
+      "target": "python",
+      "suite": "visual",
+      "module": "负责人优化建议-本地可靠性性能复验补充视觉",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移补充视觉.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-visual-python.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验补充视觉",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-visual-python.json"
+      ],
+      "expectedCount": 4,
+      "resourceSuite": "visual",
+      "family": "main"
+    },
+    {
+      "target": "python",
+      "suite": "b11-compat",
+      "module": "负责人优化建议-本地可靠性性能复验B11兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移B11兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-b11-compat-python.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验B11兼容",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-b11-compat-python.json"
+      ],
+      "expectedCount": 11,
+      "resourceSuite": "b11-compat",
+      "family": "main"
+    },
+    {
+      "target": "python",
+      "suite": "card-compat",
+      "module": "负责人优化建议-本地可靠性性能复验抽卡兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移抽卡兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-card-compat-python.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验抽卡兼容",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-card-compat-python.json"
+      ],
+      "expectedCount": 25,
+      "resourceSuite": "card-compat",
+      "family": "main"
+    },
+    {
+      "target": "python",
+      "suite": "privacy-compat",
+      "module": "负责人优化建议-本地可靠性性能复验逐域兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-隐私逐域专项.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-privacy-compat-python.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验逐域兼容",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-privacy-compat-python.json"
+      ],
+      "expectedCount": 28,
+      "resourceSuite": "privacy-compat",
+      "family": "main"
+    },
+    {
+      "target": "python",
+      "suite": "closure-compat",
+      "module": "负责人优化建议-卡组迁移注销兼容-本地可靠性性能复验",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移注销兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-closure-compat-python.json",
+      "argv": [
+        "--module=负责人优化建议-卡组迁移注销兼容-本地可靠性性能复验",
+        "--target=python",
+        "--report=负责人优化建议-本地可靠性性能复验-closure-compat-python.json"
+      ],
+      "expectedCount": 27,
+      "resourceSuite": "closure-compat",
+      "family": "closure"
+    },
+    {
+      "target": "cloud",
+      "suite": "full",
+      "module": "负责人优化建议-卡组迁移-本地可靠性性能复验",
+      "entry": "06_验证与后续工作/公网适配全量回归.cjs",
+      "report": "负责人优化建议-卡组迁移-本地可靠性性能复验-公网适配全量回归结果.json",
+      "argv": [
+        "--module=负责人优化建议-卡组迁移-本地可靠性性能复验",
+        "--bazi-stage=4"
+      ],
+      "expectedCount": 60,
+      "resourceSuite": "full",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "special",
+      "module": "负责人优化建议-本地可靠性性能复验专项",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移专项.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-special-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验专项",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-special-cloud.json"
+      ],
+      "expectedCount": 40,
+      "resourceSuite": "special",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "visual",
+      "module": "负责人优化建议-本地可靠性性能复验补充视觉",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移补充视觉.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-visual-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验补充视觉",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-visual-cloud.json"
+      ],
+      "expectedCount": 4,
+      "resourceSuite": "visual",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "b11-compat",
+      "module": "负责人优化建议-本地可靠性性能复验B11兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移B11兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-b11-compat-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验B11兼容",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-b11-compat-cloud.json"
+      ],
+      "expectedCount": 11,
+      "resourceSuite": "b11-compat",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "card-compat",
+      "module": "负责人优化建议-本地可靠性性能复验抽卡兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移抽卡兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-card-compat-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验抽卡兼容",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-card-compat-cloud.json"
+      ],
+      "expectedCount": 25,
+      "resourceSuite": "card-compat",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "privacy-compat",
+      "module": "负责人优化建议-本地可靠性性能复验逐域兼容",
+      "entry": "06_验证与后续工作/负责人优化建议-隐私逐域专项.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-privacy-compat-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-本地可靠性性能复验逐域兼容",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-privacy-compat-cloud.json"
+      ],
+      "expectedCount": 28,
+      "resourceSuite": "privacy-compat",
+      "family": "main"
+    },
+    {
+      "target": "cloud",
+      "suite": "closure-compat",
+      "module": "负责人优化建议-卡组迁移注销兼容-本地可靠性性能复验",
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移注销兼容.cjs",
+      "report": "负责人优化建议-本地可靠性性能复验-closure-compat-cloud.json",
+      "argv": [
+        "--module=负责人优化建议-卡组迁移注销兼容-本地可靠性性能复验",
+        "--target=cloud",
+        "--report=负责人优化建议-本地可靠性性能复验-closure-compat-cloud.json"
+      ],
+      "expectedCount": 27,
+      "resourceSuite": "closure-compat",
+      "family": "closure"
+    }
+  ]
+}

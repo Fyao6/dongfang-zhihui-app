@@ -1,0 +1,46 @@
+{
+  "status": "prepared-not-run",
+  "stage": 31,
+  "source": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性后端媒体计时.cjs",
+    "sha256": "61093f5d08e6b8d2520e78cf9f12de21b5a606f9aaf41a8d8c4a12330c7241d5"
+  },
+  "checks": {
+    "nodeSyntaxExitCode": 0,
+    "importStartsNoService": true,
+    "nearestRankPureFunctionAssertions": true,
+    "nativeFactoryExactSourceCopy": true,
+    "browserInstrumentationExactSourceCopy": true,
+    "timingSummaryExactSourceCopy": true,
+    "outsideLocked548": true
+  },
+  "copiedFragments": {
+    "nativeFactorySha256": "35346ee0795200afa6ac489a11c423544234f4f737f5ce9d1b2ad889dfaae544",
+    "htmlSourceSha256": "99c1fec9b71ed3d25e768a764a49cb601aa4abdf20eb743719071d915be5bfe3",
+    "timingSummarySha256": "0c3a3079fce0ec33dceebaf743a80a108d8703119c5af03ef22b6ddf4cf02081",
+    "driverSha256": "de8af7755af83e629105f0ad00084baaea82dfbcef519831d14cef7e4011d88d",
+    "componentSha256": "d4f24116ab9947611544d814f330403a17b6db3744ff9638a7787b8b20894071"
+  },
+  "roles": [
+    "mediaPython",
+    "mediaCloud"
+  ],
+  "samplesPerBackend": 5,
+  "gate": {
+    "sharedFunction": "verifyRepairProof",
+    "actualRepairProofRequired": true,
+    "candidateAuthorizationAloneAllowed": false,
+    "parentSha256": "752e36ad70d6812727849f0fa49262c426ef161a911b59f66831cd0617e12f07",
+    "onlyAuthorizedProductChange": "04_研发源码/app/r4/backend/server.py"
+  },
+  "actualServices": 0,
+  "actualBrowsers": 0,
+  "actualMediaRequests": 0,
+  "formalAcceptance": false,
+  "productionEnabled": false,
+  "limitations": [
+    "Syntax/import/pure-function inspection only; no authenticated media or timing pass is claimed.",
+    "Future measurements use actual backend endpoints through a local API-only native adapter, not the production framework or APP player.",
+    "n=5 nearest-rank P95/P99 will equal the maximum; not a target-country or real-device baseline."
+  ]
+}

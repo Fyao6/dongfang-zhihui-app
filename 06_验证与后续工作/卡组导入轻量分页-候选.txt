@@ -1,0 +1,34 @@
+只读候选；尚未实施或验证，不属于当前672执行图。
+
+已确认的重复取数（不据此认定OOM唯一原因）
+1. card-imports.ts owned() 对每个detail页 SELECT *，包含raw_data、payload_data、base_data。view()再解析整份payload，仅取得目标三字段和来源四字段。
+2. exportResponse的authorized()每个50项chunk再次SELECT j.*，但首行以后的调用只用其真假做授权检查。源文件和canonical payload不需要每chunk重读。
+3. decodeWire的dictionary/result/计数器均在单次调用内，无模块级结果缓存；全局engine只保存函数。现有分页循环retainItems=false不保留所有item，但仍保留小cursor数组与增量SHA。
+
+建议最小改法
+A. 保留owned()完整行给apply、首次export和其他真实需要原文/冻结base的路径。新增仅用于GET detail的ownedDetail()，WHERE id=? AND owner=?与原404/410检查完全一致。
+B. ownedDetail明确投影item所需九个数据库字段：id,status,version,source_sha256,canonical_sha256,base_version_id,base_revision,result_version_id,created，以及erased_at和很小的preview_data。不要取raw_data/payload_data/base_data。
+C. 由同一SELECT在SQLite内部提取冻结payload的显示元数据；不在JS再JSON.parse整份payload。json_type必须精确保留JS类型语义：
+   - deck是否对象：json_type(payload_data,'$.deck')='object'。不是对象时target整体null（数组/字符串/number/boolean都不能冒对象）。
+   - deckId/environment及provenance三个文本字段：只有父是object且json_type(path)='text'才json_extract，否则null。
+   - deck.version：只有父是object且json_type(path) IN ('integer','real')才json_extract。不要把JSON true/false变为number 1/0，不要把数字字符串转number。
+   - provenance非法父仍返回四字段全null对象，不改为整体null。
+   - fieldSources：只有父是object且json_type(path)='array'才json_array_length(payload_data,path)，空数组0，其他类型null。
+   - summary仍取原preview_data.summary，不重算或删问题。issues/diff仍各取原指定ordinal的50项dictionary chunk，decodeWire和cursor的job/kind/canonicalSha/offset校验一字不变。
+D. imports列表GET当前也SELECT *后map(item)，可只投影item字段（不改where/order/51→50分页），但与本轮详情OOM是否相关要分开记录。
+E. export初次authorizedFull()保留完整JOIN/owner/session hash/DBNOW到期/role/admin/closed/erased谓词和完整行，继续校原raw SHA并输出原文、payload、全部NDJSON与manifest。后续每chunk和末尾authorized()使用原同一谓词，仅SELECT 1 AS allowed；不得缓存授权结果或移除任何实时检查。
+
+固定语义核对矩阵（源窗授权后才能执行）
+- 合法元数据：原fullrow view与新lightrow view JSON逐键deepEqual，含item全部九字段、summary、target、provenanceSummary、50项issues/diff和两个next。
+- 坏父：deck/provenance分别[1]、'x'、1、true；字段值覆盖text/number/boolean/null/缺失、fieldSources []/object/非空array；只比较原JS规则，不放宽apply。
+- 外号404、erased410、未知/错kind/错job/错SHA cursor400、实时降权/闭户final拒绝，保持原状态码。
+- NDJSON完整原raw字节SHA、所有issue/diff项SHA/总数/chunk manifest与源导出完全一致；中途清理/撤权仍必须停止，不能因为轻量SQL取消重核。
+- 原500卡/2000中文sourceReference的762页和完整大流仍全走，不降低页数/阈值/heap规则。
+
+最窄下一步实际trace
+1. 先单独原case06，不改其断言；分别采样客户端Node、Wrangler Node与workerd的PID/WS/private/CPU，确认实际OOM进程。
+2. 同时记录原DB binding不同身份数与CREATE/INSERT/PRAGMA等计数增量。raw binding=1且分页阶段CREATE不增，才能排除反复冷schema init；单看wrapper活着不能证明workerd健康。
+3. 若OOM位于客户端，核Playwright APIRequestContext的响应body保留（原交易harness.api返回response且未逐response dispose），不要误把客户端缓存认作服务端泄漏。此项只先查实际SDK实现/采样，不改冻结旧helper。
+4. 若OOM位于workerd，比较每页响应/数据库结果字节、完成后内存趋势，轻量投影前后同fixture同页数再互证。不要先增加heap、减页或把schema fingerprint换成未经验证的data_version。
+
+边界：这是一份实施提案；当前未改产品、未起服务，未证明过取是OOM的唯一原因。

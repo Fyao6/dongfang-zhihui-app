@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-11-16T12:40:53.050311+00:00",
+  "scope": "SH06 数字权益隔离测试诊断材料的保存与外发边界",
+  "containsSecretValues": false,
+  "source": {
+    "path": "06_验证与后续工作/负责人优化建议-数字权益专项-python.json",
+    "sha256AtRecording": "2722f5c0467ed1f8bb3b23bdd70a97924f30abcd42dbe931fdb368aabcd8b870",
+    "shaMeaning": "此时报告整份字节的观察值；后续追加 runs 会改变整份文件 SHA，实际生成派生时必须重新捕获并核对来源 SHA。",
+    "historicalRunIndex": 0,
+    "historicalRunId": "mwj82653_4c1322",
+    "historicalPassed": 22,
+    "historicalFailed": 2
+  },
+  "finding": "Python 首轮 HEAD 客户端 ParseError 的原始历史错误可能含本轮合成 ew_session。后续运行已在新 QA 中脱敏；这不表示旧原始 run 或原 raw 已脱敏。",
+  "retention": {
+    "originalBytesRetained": true,
+    "originalRawSanitized": false,
+    "localDiagnosticOnly": true,
+    "allowPublicRepository": false,
+    "allowPublicPreview": false,
+    "allowDeliveryArchive": false,
+    "allowExternalSharing": false
+  },
+  "futureDerivative": {
+    "trigger": "仅在用户另行要求打包、公开或外发时处理，不在本次执行。",
+    "requirements": [
+      "读取当时原 raw 并记录、核对实际 SHA-256；保留原 raw 原字节。",
+      "另存明确标识的无秘密派生文件；扫描并移除会话凭据、Cookie/Authorization 及本轮环境密钥原值。",
+      "说明派生来源 SHA、所处理的 run/字段范围、脱敏方式与派生 SHA；不能把派生标为原 raw。",
+      "原 raw、测试数据库、会话和 .wrangler/.dev.vars 不进入公网或交付包；当前通过报告中的旧 runs 也需按此规则检查。",
+      "脱敏不得改变通过/失败计数、业务观察结果或掩盖原失败原因。"
+    ]
+  },
+  "actionsThisRecord": "仅新增本说明；没有改写报告或 QA 源码，没有执行 ZIP、push、发布或外发。"
+}

@@ -1,0 +1,216 @@
+负责人优化建议 AI 网关独立模块接口说明
+版本：2026-11-12；本模块准备态，未修改公共入口、构建配置、原数据库或公网。
+任务范围：AI03 统一网关及协议适配、AI04 流式停止超时及授权备用、AI05 额度费用记录、AI06 只读工具。
+AI01 Claude官方资料与接入配置、AI02 指定DeepSeek模型/GPU自托管及真实运行验证仍需外部资料。现有官方依据已另存《负责人优化建议-模型依据核实.json》，本模块不替换指定模型、不声称完成外部联调。
+
+一、文件和接入点
+Python：04_研发源码/app/r4/backend/ai_gateway.py
+  init_schema(db) 初始化冻结 privacy schema 和新域；此处只有受控新增表/列。
+  AIGateway(store,handler,Error,limiter,*,privacy_response=None,test_transport=None,test_secret_resolver=None)
+  .route(method,path) 对不属于本网关的路由返回 None；本网关返回 JSON 对象或 StreamReply。
+  外层 Handler.route 必须判断 isinstance(result, StreamReply) 并 result.send(self)；不能交给 JSON 序列化，也不能第二次调用 route/run。
+  StreamReply.send 写入 SSE 响应头后才 run，真正上游只会在 queued→running 原子占用成功后启动。
+Cloud：04_研发源码/app/cloud/lib/ai-gateway.ts
+  initAIGateway(a)
+  aiGatewayRoute(a,path,method,fail) 对无关路由返回 undefined；本网关返回 JSON 或标准 Response。
+  外层 dispatch 必须原样返回 Response，不能 JSON 包装 Response。
+  a 需既有 one/all/run/stmt/db.batch、setting/body/require/rate/audit、env、user 接口。
+  建议 a.executionContext.waitUntil(work)，使客户端断流后的合作取消和结算有运行时间；平台终止工作进程时由租约恢复，不宣称持久任务队列已部署。
+
+全局隐私响应桥：
+  Python privacy_response=callable()；Cloud a.aiGatewayPrivacyResponse=async()=>完整本人隐私响应。
+  缺省调用冻结 Privacy.response()/privacyRoute(GET preferences)。
+  可接 coverage 的 privacy_gateway_bridge.bridge_privacy_response / privacy-gateway-bridge.bridgePrivacyResponse。
+  完整响应必须含本人 accountId、consents、revision、policyVersion、providerBinding、policyAcknowledged、authorizedCategories、disclosure。
+  网关强校验 accountId==当前已登录owner。
+  registry-only 尚未完成全局确认接入时保持 fail-closed；纯 overlay 不会代用户确认全局或单供应商授权。
+
+二、默认配置和密钥边界
+setting key=ai_gateway；默认 revision=0、enabled=false、allowExternalCalls=false、environment=local-test、providers=[]。
+routes 必须精确四场景 chat/chart/course/card；每项 {primary:"",fallback:[]}。
+requestTimeoutSeconds 默认60，允许1..120。
+charging={confirmed:false,ruleVersion:"",successCredits:null,failureCredits:null,partialCredits:null,cancelCredits:null}。
+未明确四类规则、未启用、无有效服务端secret、无有效全局及实际供应商授权时不会开始调用。productionEnabled 始终false；environment仅local-test，不修改真正会员权益。
+
+每个 provider 必须显式注册：
+  id,name,protocol,endpoint,model,secretRef,processingRegions,privacyPolicyVersion,enabled,streaming,
+  authMode,apiVersion,timeoutSeconds,maxOutputTokens,prompt。
+  protocol=responses / anthropic_messages / chat_completions。
+  endpoint 为无账号密码、查询参数、fragment的HTTPS，路径对应 /responses、/messages、/chat/completions。
+  secretRef 仅 EW_AI_[A-Z0-9_]{1,80}，服务端 Python os.environ 或 Cloud env 解析，不接受请求中的明文key。
+  authMode=bearer；仅 anthropic_messages 可显式使用 x-api-key；该协议还必须填写实际日期 apiVersion。
+  processingRegions 必填实际地区，privacyPolicyVersion 必须与当前披露一致。
+  maxOutputTokens=16..8192，provider timeoutSeconds=1..120，prompt最多8000字。
+  不预置供应商账号、生产额度、真实密钥或“已接通”状态。
+  公共 capabilities 不含 endpoint、secretRef、prompt 或密钥值；connectionStatus 固定not-tested，credentialsConfigured仅表示服务端引用非空，不能表示真实连接通过。
+  管理员配置页可读端点和secret引用（不是secret值）；不是普通用户接口。
+  test_transport/test_secret_resolver 只可在服务端构造器传入；Cloud测试必须服务端 a.aiGatewayTesting===true 且显式注入 a.aiGatewayTestTransport。请求JSON/管理配置不能选择mock；生产普通路径只走真实HTTP。
+
+三、HTTP契约（登录用户；一般成功200）
+GET /api/ai-gateway/capabilities
+  {enabled,allowExternalCalls,productionEnabled:false,environment:"local-test",requestTimeoutSeconds,
+   chargingConfigured,charging:{confirmed,ruleVersion|null,successCredits|null,failureCredits|null,partialCredits|null,cancelCredits|null},
+   providers, routes,wallet:{balance,reserved},tools,automaticToolExecution:false,streamMethod:"POST",payloadStoredByDefault:false}
+  未完整确认的四类扣次均返回null表示未知。
+  providers每项安全显示id/name/model/protocol/enabled/streaming/processingRegions/policyVersion/purpose/policyUrl、
+  authorization|null、blockingReason、connectionStatus、credentialsConfigured。
+  authorization 字段：
+    accountId,providerId,providerBinding,policyVersion,consentEpoch,authorizedCategories,receiptValid,
+    globalRevision,globalBinding,providerConsentRevision,conversationSavingAllowed。
+  globalBinding 是冻结偏好的全局legacy或registry聚合摘要；providerBinding是本次单供应商摘要，两者不同且不能互相代用。
+
+POST /api/ai-gateway/providers/:id/consent
+  {acknowledged:true,policyVersion,providerBinding,categories:["general","card",...]}
+  接受的类别不得超过当前全局授权；chart/ wellbeing各自还需全局开启。返回 {authorization}。
+  每次确认生成新随机nonce；不是按时间戳重复计算。DELETE同路径撤回，仅本人，返回{revoked:true,providerId}。
+  全局确认不能代替逐供应商确认；备用必须独立receipt。供应商端点/模型/地区/政策/全局revision或nonce变化使旧授权失效。
+  注销申请处理中阻止出站。
+
+POST /api/ai-gateway/jobs
+  {requestId,scene,environment:"local-test",messages,context?:null|{category,fields},tool?:{name,args}}
+  requestId为1..128字，messages为1..12条，每条content 1..6000字。
+  message={role:"user"|"assistant",content,privacy:{
+    accountId,providerId,providerBinding,policyVersion,consentEpoch,
+    source:"user"|"assistant"|"report",category:"general"|"card"|"chart"|"wellbeing"}}
+  每条都要使用当前实际主供应商authorization标签；旧的无隐私标签历史、其他账号、旧授权epoch和未授权报告被拒绝。
+  该接口只校验、建立请求和预占明确测试额度，不启动上游；返回job对象。
+  同owner+requestId且原始JSON语义一致重放同job；异载荷409。语义哈希不含可复原内容，数据库不保留提示词。
+  不可把相同requestId用到不同消息或隐私nonce。
+  context只允许冻结隐私模块同类白名单简短字段，不接受完整数据库或任意结构；工具详见下文。
+  金额概念此处是明确本地测试credits；不代表真实供应商费用、正式会员次卡或订阅。
+
+POST /api/ai-gateway/jobs/:id/stream
+  必须再次提交与创建时完全相同的JSON payload（含requestId和隐私标签），不能只发jobId。
+  原因：默认不保存prompt，不能跨HTTP请求从数据库取回它。
+  原子queued→running保证并发流重放只启动一个上游。已开始/终态/异载荷/过期/配置revision已变化均409；调用者可取消旧queued请求后以新requestId重建。
+  这是POST fetch SSE，不使用只能GET的EventSource。
+GET /api/ai-gateway/jobs
+  {items:[本人最近20个job元数据，createdAt降序]}
+  不含text、attempts、messages、context、tool、provider_snapshot、endpoint、secretRef。
+GET /api/ai-gateway/jobs/:id
+  完整本人job元数据及attempts；text仅当明确允许保存且该privacy_conversations仍存在时返回，否则null。
+  跨号与不存在统一404。
+POST /api/ai-gateway/jobs/:id/cancel
+  {}；仅本人。queued立即cancelled并按明确cancelCredits结算，running设置cancelRequested由流合作停止。
+  重放取消不会二次结算。客户端应先POST cancel，再停止读取/AbortController；纯断流也会尽力取消。
+  取消不是自动免费；不能保证已经发送的外部请求未产生费用，未收到usage时仍未知。
+
+job字段：
+  id,requestId,scene,environment,productionEnabled,status,cancelRequested,
+  reservedCredits,chargedCredits,outputStored,text,outputChars,usage,upstreamCostKnown:false,
+  errorCode,createdAt,updatedAt,attempts。
+  status=queued/running/succeeded/failed/partial/cancelled，不能用单一布尔覆盖。
+  attempts使用插入序列顺序（避免同毫秒随机UUID倒序）；
+  provider_id/model/protocol/status/upstream_request_id/usage/cost_minor/currency/output_chars/error_code/created/updated。
+  每次真实尝试单独记账元数据；cost_minor/currency未知为null，从不推成0。
+  各attempt都明确报告完整输入/输出usage才给总usage；任一次未知则总usage=null，已知部分仍在各attempt保留。
+  Anthropic累计usage逐键替换，不对同一次attempt多个事件累加。
+
+四、SSE事件及真实流边界
+Content-Type=text/event-stream; charset=utf-8，Cache-Control=no-store、X-Accel-Buffering=no。
+每个event使用标准两行 event: / data: JSON 并以空行结束。
+gateway.meta:
+  {jobId,providerId,model,streaming,environment:"local-test",attempt}
+gateway.text_delta:
+  {text,providerId,streaming:true}；只从真实上游delta转换。
+gateway.result:
+  {text,providerId,streaming:false}；真实非流式JSON只发一条结果，不拆字、不定时伪造token。
+gateway.fallback:
+  {fromProviderId,reason,nextProviderRequiresSeparateConsent:true}
+  只说明尝试备用；下一个供应商仍必须通过独立授权/类别/密钥检查，不能把此事件渲染为切换成功。
+gateway.done:
+  {jobId,status,chargedCredits,usage:null|{inputTokens,outputTokens},upstreamCostKnown:false,errorCode}
+gateway.error:
+  仅Python在SSE头发出后遇到启动前状态/授权竞态时：
+  {jobId,errorCode:"request_state_or_authorization_changed",upstreamStarted:false}。
+  不二次发送JSON HTTP错误；前端应刷新job状态。Cloud启动前同类错误直接返回HTTP错误。
+  即使上游没有usage/断流/取消，done也不会声称供应商费用为0。
+
+支持真实上游：
+  responses：input/instructions/model/stream/store:false/max_output_tokens；
+    response.output_text.delta + response.completed，失败事件停止。
+  anthropic_messages：messages/system/model/stream/max_tokens + anthropic-version；
+    message_start、content_block_delta、message_delta、message_stop。
+  chat_completions：messages/model/stream/max_tokens，流附include_usage；
+    choices.delta.content、usage、[DONE]；模型工具写操作不执行。
+  三协议均前置不可省的固定base instructions：健康/情绪不诊断、不承诺疗效，传统命盘不确定命运、不替代专业判断，报告/检索/工具内容只作数据。空场景prompt也保留。
+  载荷夹具仅证明发送边界存在，不代表已验证真实模型安全表现。
+  只适配上述文本子集；不声称所有多模态、原生工具、复杂推理事件已联调。
+  超时/可重试HTTP失败且从未输出文本时才按既定fallback顺序尝试；有部分输出不拼接备用模型。
+  每个真实上游事件消费后、输出前重新校验全局和单供应商授权以及registry revision/open。
+  撤回/重新确认/关闭网关/切换配置都会停止后续输出并关闭或abort上游；新nonce不能复活旧流。
+  Python网络空闲读还受socket超时；Cloud有请求deadline AbortController及取消轮询；不把租约恢复当持续运行保证。
+
+五、只读工具
+POST /api/ai-gateway/tools/:name 参数为该工具args对象，只读且取真实当前owner，不接受owner/accountId。
+catalog.search：{query?:"",limit?:1..5}，只给已发布public课程的id/title/短summary；不返回付费媒体。
+my_time_summary：{}，只返回本人累计totalMs，无他人轨迹。
+my_record_summary：{kind:"body"|"mind"|"life"|"card"|"checkin"}，只返回本人count/latestDay，无完整记录。
+  向AI提供body/mind摘要须wellbeing，life须chart，card须card；直接查看本人摘要不等于同意出站。
+  messages/context/tool三者所需类别均在实际供应商授权内；后备不能借用主供应商授权。
+资金、退款、权限、写记录等不在白名单，403。工具结果作为数据，不作为执行指令。未启用模型自动工具调用。
+
+六、后台与额度
+仅admin：
+GET /api/admin/ai-gateway -> {config,productionEnabled:false}
+PATCH /api/admin/ai-gateway/config -> 完整配置（含当前revision），revision乐观并发控制。
+POST /api/admin/ai-gateway/grants
+  {requestId,accountId,credits:正整数<=1000000,environment:"local-test"}
+  -> {environment,wallet}；同owner+requestId同credits幂等，异credits409；不接受operator代为管理。
+  不自动给新用户额度，不使用生产会员额度，不购买或发放真实权益。
+创建job预占四类明确扣次最大值；终态只结算一次并释放剩余预占。
+SQLite BEGIN IMMEDIATE +唯一约束+触发器；Cloud D1 batch+条件DML+同DDL触发器，避免并发超领。
+租约queued10分钟；running为请求deadline+30秒。下次网关访问会回收过期任务：
+  cancel_requested优先cancelCredits，已有输出partialCredits，否则failureCredits。
+  errorCode=lease_expired_usage_unknown；不会把工作进程丢失算成0成本。
+常用错误：400格式，401未登录，402测试额度不足，403权限/授权/生产环境拒绝，404本人资源不存在，409幂等或版本冲突，503配置/服务端secret/未开放。
+
+七、schema v2与保存原子栅栏
+新增6表：ai_gateway_wallets、ai_gateway_grants、ai_gateway_provider_consents、
+ai_gateway_jobs、ai_gateway_quota_events、ai_gateway_attempts；账号列全部owner。
+12条DDL与两端一致，grant/reserve/settle以触发器维持钱包与唯一事件。
+provider_consents.revision为随机UUID nonce；旧v1表升级时ADD revision TEXT NOT NULL DEFAULT ''。
+空nonce旧receipt不可继续使用，必须明确重新确认。
+jobs新增saved_conversation_id TEXT；Cloud marker=ai_gateway_schema_v2，Python按列检查；重复初始化幂等。
+未触原库，仅内存v1夹具验证升级。上线前应在数据库备份副本先执行迁移/回滚演练。
+旧output_text兼容列仍在，本网关永远写NULL且从不读取；本模块从未激活，不声称已清除未知历史部署中的旧数据。
+
+默认不存消息或回复；显式saveConversations=true且启动时允许、终止时同一授权仍有效，才可写既有privacy_conversations。
+仅jobs.saved_conversation_id关联；隐私中心清除聊天后job详情text=null/outputStored=false，关闭保存开关不删除旧聊天。
+保存前与原子事务/条件batch中同时约束：
+  启动全局revision/policyVersion/globalBinding、单provider nonce、
+  privacy完整配置文本、legacy仅providerId/endpoint/model/processingRegions/privacyPolicyVersion安全字段、
+  gateway revision/enabled/allowExternalCalls、job本人running且未cancel。
+  legacy明文key不被guard选择、输出或保存。guard仅短期内存，不写日志。
+  撤回后重新确认会改变nonce；不能用新授权保存此前流。
+  最终授权校验后、事务前改policy或legacy绑定也不能保存。
+  registry-only聚合全局同意与单provider独立receipt成功保存已通过独立真实helper夹具验证。
+保存输入和输出合计JSON最多100000（按各运行时字符串长度计）；超过则不保存，不拆分绕过。
+
+隐私新域接入提示：
+  冻结隐私导出当前不自动枚举新6表。集成须另做明确本人白名单，不可直接SELECT *导出jobs/provider_snapshot。
+  推荐本人导出：wallet balance/reserved；grants request_id/credits/created；
+  receipt provider_id/provider_binding/policy_version/global_revision/categories/revision/created/updated；
+  jobs本节公开元数据；quota_events job_id/action/credits/rule_version/created；attempts公开元数据。
+  不导出secretRef、endpoint、provider_snapshot、route_snapshot、fingerprint或服务端凭据。
+  账号注销/备份/供应商侧删除不可伪称即时完成；保留状态需随根隐私集成一并如实声明。
+
+八、验证与外部依据
+Python 内存专项47项通过，Cloud Node SQLite+D1 batch夹具44项通过；realModelRequests=0，productionDatabaseAccess=false。
+范围含：默认禁用/权限/幂等/并发限额、账号隔离、三协议解析、缺usage未知、累计usage替换、
+取消收费/失联租约、仅独立授权备用、流中撤回/撤回重确认/关闭配置、共享聊天存储清除、
+最终保存配置竞态、registry-only桥接保存、v1→v2迁移、最近20请求脱敏。
+测试源和结果均在06；保留了失败证据，最近20测试最初只有18条夹具引起断言失败，已补足夹具；
+同毫秒attempt排序失败已修；早先Cloud清除聊天后未重确认的夹具失败已补正确授权步骤。
+真实供应商密钥、账户可用性、网络地区、生产额度、模型效果、移动/公网稳定性都未验证。
+最终还需由根接入公共入口、前端逐供应商确认与停止交互、隐私导出新域、双后端HTTP/浏览器与既有全回归；本说明不把独立模块测试当集成验收。
+
+核对来源（2026-11-12官方页面，只核协议，不发生模型请求）：
+  OpenAI Docs Streaming API responses：
+    https://developers.openai.com/api/docs/guides/streaming-responses
+    官方列出typed SSE及response.output_text.delta / response.completed / error。
+  OpenAI API Reference Create a model response：
+    https://developers.openai.com/api/reference/resources/responses/methods/create
+    官方示例明确POST /v1/responses、Bearer、instructions/input/stream和usage；
+    store:false只是请求选项，不等于供应商所有系统即时零保留。
+  DeepSeek/Claude此前官方核查详见《负责人优化建议-模型依据核实.json》；仍需实际开通信息与负责人确认处理地区/政策。

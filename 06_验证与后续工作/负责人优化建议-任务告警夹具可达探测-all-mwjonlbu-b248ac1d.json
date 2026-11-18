@@ -1,0 +1,625 @@
+{
+  "at": "2026-11-16T19:55:13.759Z",
+  "formalAcceptance": false,
+  "scope": "Actual isolated main/quota/closure wrappers on both backends. Control dispatch, distinct token mapping, fixed owner seed, exact namespace guards. This preflight does not replace any of the eighteen formal gates.",
+  "syntheticOnly": true,
+  "productionEnabled": false,
+  "credentialsLogged": false,
+  "results": [
+    {
+      "name": "python/main actual wrapper controls and namespace",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: python/main actual auth/setup\n\n400 !== 200\n\n    at api (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:41:163)\n    at async wrapper (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:42:24)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:203\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:18:52)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:113"
+    },
+    {
+      "name": "python/quota actual wrapper controls and namespace",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: python/quota actual auth/setup\n\n400 !== 200\n\n    at api (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:41:163)\n    at async wrapper (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:42:24)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:203\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:18:52)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:113"
+    },
+    {
+      "name": "python/closure actual wrapper controls and namespace",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: python/closure actual auth/setup\n\n400 !== 200\n\n    at api (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:41:163)\n    at async wrapper (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:42:24)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:203\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:18:52)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警夹具可达探测.cjs:78:113"
+    },
+    {
+      "name": "cloud/main /__task-alert-test/control ops-snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "ops-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__task-alert-test/control ops-snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "ops-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__privacy-domains-test/control domain-seed-service",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "domain-seed-service",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__privacy-domains-test/control domain-snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "domain-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__privacy-domains-test/control domain-snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "domain-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__privacy-domains-test/control domain-clock",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "domain-clock",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "digital-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "digital-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control clock",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "clock",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-fail-grant-on",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "digital-fail-grant-on",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-fail-grant-off",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "digital-fail-grant-off",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-fail-lease-on",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "digital-fail-lease-on",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__digital-test/control digital-fail-lease-off",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "digital-fail-lease-off",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control fail-receive-on",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-receive-on",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control fail-receive-off",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-receive-off",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control fail-apply-on",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-apply-on",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__callback-test/control fail-apply-off",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-apply-off",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__recovery-test/control snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__recovery-test/control snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__recovery-test/control query-config",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "query-config",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__recovery-test/control query-config",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "query-config",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__late-test/control snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__late-test/control snapshot",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__late-test/control fail-late-on",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-late-on",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__late-test/control fail-late-off",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-late-off",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main /__other-namespace-test/control ops-snapshot",
+      "pass": true,
+      "status": 404,
+      "expected": 404,
+      "action": "ops-snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/main actual wrapper controls and namespace",
+      "pass": true,
+      "observed": {
+        "backend": "cloud",
+        "family": "main",
+        "base": "http://127.0.0.1:57585",
+        "pid": 79752,
+        "ownedDatabase": null,
+        "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-main-mwjonlbu-b248ac1d",
+        "actualOwnerAuthenticated": true,
+        "actualBootstrapCli": true,
+        "controlSemanticsRetained": true,
+        "wrongTokenRejected": true,
+        "unknownControlRouteRejected": true,
+        "filesystemNamespaceGuardApplicable": false,
+        "processStopped": true,
+        "privateVarsRemoved": true
+      }
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control migration",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "migration",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control migration",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": "migration",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control read",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control snapshot",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "snapshot",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control fail-allocation",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-allocation",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__member-quota-test/control fail-allocation",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": "fail-allocation",
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota /__other-namespace-test/control read",
+      "pass": true,
+      "status": 404,
+      "expected": 404,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/quota actual wrapper controls and namespace",
+      "pass": true,
+      "observed": {
+        "backend": "cloud",
+        "family": "quota",
+        "base": "http://127.0.0.1:57628",
+        "pid": 90932,
+        "ownedDatabase": null,
+        "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-quota-mwjonlbu-b248ac1d",
+        "actualOwnerAuthenticated": true,
+        "actualBootstrapCli": false,
+        "controlSemanticsRetained": true,
+        "wrongTokenRejected": true,
+        "unknownControlRouteRejected": true,
+        "filesystemNamespaceGuardApplicable": false,
+        "processStopped": true,
+        "privateVarsRemoved": true
+      }
+    },
+    {
+      "name": "cloud/closure /__closure-test/mock read",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/closure /__closure-test/mock read",
+      "pass": true,
+      "status": 403,
+      "expected": 403,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/closure /__closure-test/mock read",
+      "pass": true,
+      "status": 200,
+      "expected": 200,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/closure /__other-namespace-test/control read",
+      "pass": true,
+      "status": 404,
+      "expected": 404,
+      "action": null,
+      "credentialsLogged": false
+    },
+    {
+      "name": "cloud/closure actual wrapper controls and namespace",
+      "pass": true,
+      "observed": {
+        "backend": "cloud",
+        "family": "closure",
+        "base": "http://127.0.0.1:57665",
+        "pid": 88772,
+        "ownedDatabase": null,
+        "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-closure-mwjonlbu-b248ac1d",
+        "actualOwnerAuthenticated": true,
+        "actualBootstrapCli": false,
+        "controlSemanticsRetained": true,
+        "wrongTokenRejected": true,
+        "unknownControlRouteRejected": true,
+        "filesystemNamespaceGuardApplicable": false,
+        "processStopped": true,
+        "privateVarsRemoved": true
+      }
+    }
+  ],
+  "families": [
+    {
+      "backend": "cloud",
+      "family": "main",
+      "base": "http://127.0.0.1:57585",
+      "pid": 79752,
+      "ownedDatabase": null,
+      "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-main-mwjonlbu-b248ac1d",
+      "actualOwnerAuthenticated": true,
+      "actualBootstrapCli": true,
+      "controlSemanticsRetained": true,
+      "wrongTokenRejected": true,
+      "unknownControlRouteRejected": true,
+      "filesystemNamespaceGuardApplicable": false,
+      "processStopped": true,
+      "privateVarsRemoved": true
+    },
+    {
+      "backend": "cloud",
+      "family": "quota",
+      "base": "http://127.0.0.1:57628",
+      "pid": 90932,
+      "ownedDatabase": null,
+      "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-quota-mwjonlbu-b248ac1d",
+      "actualOwnerAuthenticated": true,
+      "actualBootstrapCli": false,
+      "controlSemanticsRetained": true,
+      "wrongTokenRejected": true,
+      "unknownControlRouteRejected": true,
+      "filesystemNamespaceGuardApplicable": false,
+      "processStopped": true,
+      "privateVarsRemoved": true
+    },
+    {
+      "backend": "cloud",
+      "family": "closure",
+      "base": "http://127.0.0.1:57665",
+      "pid": 88772,
+      "ownedDatabase": null,
+      "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\task-alerts-fixture-smoke-closure-mwjonlbu-b248ac1d",
+      "actualOwnerAuthenticated": true,
+      "actualBootstrapCli": false,
+      "controlSemanticsRetained": true,
+      "wrongTokenRejected": true,
+      "unknownControlRouteRejected": true,
+      "filesystemNamespaceGuardApplicable": false,
+      "processStopped": true,
+      "privateVarsRemoved": true
+    }
+  ],
+  "runtimeArtifacts": [
+    {
+      "entry": "06_验证与后续工作/负责人优化建议-任务告警Cloud测试服务.ts",
+      "bundle": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-main-mwjonlbu-b248ac1d/fixture-entry.mjs",
+      "bundleSha256": "5f1cb1ebd23f697df28df12712c6426ca255b700893e648022bfdcd5ee6a2b45",
+      "metafile": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-main-mwjonlbu-b248ac1d/fixture-entry.mjs.metafile.json",
+      "metafileSha256": "0cc068929f7fedf78bda1132c1c29cfec138c88b1ee7c9264f4abcbdf692e791",
+      "inputHashes": {
+        "04_研发源码/app/cloud/generated/experience.html": "43ed2fa5bb361b0817a5ee631b9a8ac07869ab903af9b4365001b3ca93173f3e",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/cloud/lib/payment-recovery.ts": "cef424fda97cc6125f45f9c51937431ec29010776091efac855a50597c1264db",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "1a8df8ef56c13c56619f2d9e00f2abe8be4bc8d725d769a43d15195a3e130d32",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/cloud/lib/memory-service.ts": "6df507b12632849e22c5ab34a7ae72121058413fdd17a6f3eeaec72367e5761e",
+        "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "56969f4eb17e42dece5583c27ddafb3b9a5a10fed3d648414bb715249fc1c7dd",
+        "04_研发源码/app/cloud/lib/privacy-domains.ts": "6f5c7fa5b838f5e7ec6a55afb55dc4d2d7565df5df4968c0c0312dc63c90a241",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "fb842c1ff85ffbb63604950ee2c36471078c7209eafc71fe230e14b2801c9f34",
+        "04_研发源码/app/cloud/lib/local-tasks.ts": "891c00982b238230a3158e9cd2d67fdf9fd36615638049652713a126267cd6fc",
+        "04_研发源码/app/cloud/lib/digital-entitlements.ts": "5d1da0e0a348aa00f1f46c265efe91a169324788b22b7e10beb36ab9a2781b1b",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/cloud/lib/after-sales-finance.ts": "8d8f549c7e5eeed0e10e0936bab0345405a8fb4059cf7ad6a579e8798d717059",
+        "04_研发源码/app/cloud/lib/after-sales.ts": "5471f08625b24f1ed8a0863ab30a850e53d3c335a3f707e36569a62c3b5919af",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+        "04_研发源码/app/cloud/lib/privacy-saved.ts": "f24b54a1c272edc0df7841d928867c659ecd8afba7408cac6c99c55cb66b5334",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "a0d25bc4147409238ff9ea0189ccef643c48fc2361b4e9186f487c551e87aecd",
+        "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+        "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+        "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b",
+        "04_研发源码/app/cloud/lib/account-closure.ts": "36007e7856e9c59ee8e863620f69dd271c8c8f98b6187b60c10376732ba4de73",
+        "04_研发源码/app/cloud/generated/seed.json": "9d92c330847d0f8aafe1c8fe647b42d514dff5039d036f5325845e2b21bdd05e",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "bff53dc88d6a98c0305e2ffc5255abd4868674479d74c2c58a978a553e4745a5",
+        "06_验证与后续工作/负责人优化建议-任务告警夹具控制.ts": "0b50f74efde090b1ffe37408e65fd946b6019a0797bf6d7f93b7ea095c3c14fe",
+        "06_验证与后续工作/负责人优化建议-隐私逐域场景夹具.json": "15e53270f04169e13539151177a8140b8b3863f6d608648474f73cc184fced8a",
+        "06_验证与后续工作/负责人优化建议-任务告警隐私夹具控制.ts": "a586b99aead039c05494ad2eacb7a75762745f31936ab18f242e8ec17b8f5f3e",
+        "04_研发源码/app/cloud/generated/admin.html": "0e39b833b50e4ede151d1d8a646153eac8198d82083c9f140d0d5333d0c68c20",
+        "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+        "06_验证与后续工作/负责人优化建议-任务告警场景夹具.json": "7ad61ebfb470e3f0201ad4c0f91e652e0294d4cdcbf6c7467d0f6293acdf587d",
+        "06_验证与后续工作/负责人优化建议-任务告警Cloud测试服务.ts": "41ac5928d572aef818681eb0d23611ead928fd014325544a6bbc7a669aaf590a"
+      },
+      "runtimeDependencyHashes": {
+        "04_研发源码/app/cloud/node_modules/esbuild/lib/main.js": "41abefec8704d24e069532fb38a418905d16f8fee4da88e54ecd65adc71f5507",
+        "04_研发源码/app/cloud/node_modules/esbuild/package.json": "4316bc9a54bbf659d5760f299910d1824045178557e0aea6a1e3c64148fe8a50",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/package.json": "c93a604e2f0009a29f93dd8671885586241a155fc5f0264a4d3c89172f83869d",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/esbuild.exe": "2ccfd6d5292493a810d21c0b40f9de3ff5252a0a24eb5dea3df07f33dcea0c0e"
+      },
+      "compilerVersion": "0.28.0",
+      "toolchainIncludedInHandoff": false,
+      "rawReadsActualSourceBytes": true,
+      "originalBusinessOptionsPreserved": true
+    },
+    {
+      "entry": "06_验证与后续工作/负责人优化建议-任务告警额度兼容Cloud测试服务.ts",
+      "bundle": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-quota-mwjonlbu-b248ac1d/fixture-entry.mjs",
+      "bundleSha256": "3c326e1a8c043870fabeca26edffe7ee8732f143069a0696789d7bc1335acb5a",
+      "metafile": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-quota-mwjonlbu-b248ac1d/fixture-entry.mjs.metafile.json",
+      "metafileSha256": "7e6f7896af548eae7a01180a42302013b707397b520e5aaf593270d943e32577",
+      "inputHashes": {
+        "04_研发源码/app/cloud/generated/experience.html": "43ed2fa5bb361b0817a5ee631b9a8ac07869ab903af9b4365001b3ca93173f3e",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/cloud/lib/payment-recovery.ts": "cef424fda97cc6125f45f9c51937431ec29010776091efac855a50597c1264db",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "1a8df8ef56c13c56619f2d9e00f2abe8be4bc8d725d769a43d15195a3e130d32",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/cloud/lib/memory-service.ts": "6df507b12632849e22c5ab34a7ae72121058413fdd17a6f3eeaec72367e5761e",
+        "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "56969f4eb17e42dece5583c27ddafb3b9a5a10fed3d648414bb715249fc1c7dd",
+        "04_研发源码/app/cloud/lib/privacy-domains.ts": "6f5c7fa5b838f5e7ec6a55afb55dc4d2d7565df5df4968c0c0312dc63c90a241",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "fb842c1ff85ffbb63604950ee2c36471078c7209eafc71fe230e14b2801c9f34",
+        "04_研发源码/app/cloud/lib/local-tasks.ts": "891c00982b238230a3158e9cd2d67fdf9fd36615638049652713a126267cd6fc",
+        "04_研发源码/app/cloud/lib/digital-entitlements.ts": "5d1da0e0a348aa00f1f46c265efe91a169324788b22b7e10beb36ab9a2781b1b",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/cloud/lib/after-sales-finance.ts": "8d8f549c7e5eeed0e10e0936bab0345405a8fb4059cf7ad6a579e8798d717059",
+        "04_研发源码/app/cloud/lib/after-sales.ts": "5471f08625b24f1ed8a0863ab30a850e53d3c335a3f707e36569a62c3b5919af",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+        "04_研发源码/app/cloud/lib/privacy-saved.ts": "f24b54a1c272edc0df7841d928867c659ecd8afba7408cac6c99c55cb66b5334",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "a0d25bc4147409238ff9ea0189ccef643c48fc2361b4e9186f487c551e87aecd",
+        "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+        "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+        "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b",
+        "04_研发源码/app/cloud/lib/account-closure.ts": "36007e7856e9c59ee8e863620f69dd271c8c8f98b6187b60c10376732ba4de73",
+        "04_研发源码/app/cloud/generated/seed.json": "9d92c330847d0f8aafe1c8fe647b42d514dff5039d036f5325845e2b21bdd05e",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "bff53dc88d6a98c0305e2ffc5255abd4868674479d74c2c58a978a553e4745a5",
+        "04_研发源码/app/cloud/generated/admin.html": "0e39b833b50e4ede151d1d8a646153eac8198d82083c9f140d0d5333d0c68c20",
+        "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+        "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+        "06_验证与后续工作/负责人优化建议-任务告警额度兼容旧库夹具.sql": "1e8deb0a3ea31a182dff4d00c4288329ab61996219dce0620f241c7c7744b2f9",
+        "06_验证与后续工作/负责人优化建议-任务告警额度兼容Cloud测试服务.ts": "03f13303ed167fe841cabf4adf0e718bd2dfc2ecb1a274e86c5ae2f8451edcfc"
+      },
+      "runtimeDependencyHashes": {
+        "04_研发源码/app/cloud/node_modules/esbuild/lib/main.js": "41abefec8704d24e069532fb38a418905d16f8fee4da88e54ecd65adc71f5507",
+        "04_研发源码/app/cloud/node_modules/esbuild/package.json": "4316bc9a54bbf659d5760f299910d1824045178557e0aea6a1e3c64148fe8a50",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/package.json": "c93a604e2f0009a29f93dd8671885586241a155fc5f0264a4d3c89172f83869d",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/esbuild.exe": "2ccfd6d5292493a810d21c0b40f9de3ff5252a0a24eb5dea3df07f33dcea0c0e"
+      },
+      "compilerVersion": "0.28.0",
+      "toolchainIncludedInHandoff": false,
+      "rawReadsActualSourceBytes": true,
+      "originalBusinessOptionsPreserved": true
+    },
+    {
+      "entry": "06_验证与后续工作/负责人优化建议-任务告警注销兼容Cloud测试服务.ts",
+      "bundle": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-closure-mwjonlbu-b248ac1d/fixture-entry.mjs",
+      "bundleSha256": "d5d38c8d1a8a147fb510ee1092b46a2a5a9738c8f047cf6eca5e47a1f920eaff",
+      "metafile": "04_研发源码/app/cloud/.wrangler/task-alerts-fixture-smoke-closure-mwjonlbu-b248ac1d/fixture-entry.mjs.metafile.json",
+      "metafileSha256": "8f5e178049a1cb8e91ea2bc6d3ddf2322f43e3752b0d3a2677037a2393cd48ad",
+      "inputHashes": {
+        "04_研发源码/app/cloud/generated/experience.html": "43ed2fa5bb361b0817a5ee631b9a8ac07869ab903af9b4365001b3ca93173f3e",
+        "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+        "04_研发源码/app/cloud/lib/payment-recovery.ts": "cef424fda97cc6125f45f9c51937431ec29010776091efac855a50597c1264db",
+        "04_研发源码/app/cloud/lib/payment-callbacks.ts": "1a8df8ef56c13c56619f2d9e00f2abe8be4bc8d725d769a43d15195a3e130d32",
+        "04_研发源码/app/cloud/lib/membership-lifecycle.ts": "876e5b024b4ef990ed91d1e98542ec54ebae781b8996d200c444a2f59636c1ed",
+        "04_研发源码/app/cloud/lib/membership-ai-quota.ts": "2155a45f0ee6f5a5e21263dc3cc589e866c9226cbdef356ea4f3f9057e20ba71",
+        "04_研发源码/app/cloud/lib/account-write-guard.ts": "854d7cd82758b75b437c648aa86ffca8987fb18cc3bb495cdda4933aabc96706",
+        "04_研发源码/app/cloud/lib/ai-gateway.ts": "94a4630557048d1f44c89e77932ff4259f25d7daff966956b859a12a88be955d",
+        "04_研发源码/app/cloud/lib/memory-service.ts": "6df507b12632849e22c5ab34a7ae72121058413fdd17a6f3eeaec72367e5761e",
+        "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "56969f4eb17e42dece5583c27ddafb3b9a5a10fed3d648414bb715249fc1c7dd",
+        "04_研发源码/app/cloud/lib/privacy-domains.ts": "6f5c7fa5b838f5e7ec6a55afb55dc4d2d7565df5df4968c0c0312dc63c90a241",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+        "04_研发源码/app/cloud/lib/reconciliation-api.ts": "fb842c1ff85ffbb63604950ee2c36471078c7209eafc71fe230e14b2801c9f34",
+        "04_研发源码/app/cloud/lib/local-tasks.ts": "891c00982b238230a3158e9cd2d67fdf9fd36615638049652713a126267cd6fc",
+        "04_研发源码/app/cloud/lib/digital-entitlements.ts": "5d1da0e0a348aa00f1f46c265efe91a169324788b22b7e10beb36ab9a2781b1b",
+        "04_研发源码/app/cloud/lib/creator-api.ts": "1c51cd348a8ffdf1853c784025e04e583b90ee33329c69ee4e975d13763d1933",
+        "04_研发源码/app/cloud/lib/analytics-api.ts": "24b0870ee6738f180742b1d599df4ab74c70b366ae00a9c021473f083242db0c",
+        "04_研发源码/app/cloud/lib/after-sales-finance.ts": "8d8f549c7e5eeed0e10e0936bab0345405a8fb4059cf7ad6a579e8798d717059",
+        "04_研发源码/app/cloud/lib/after-sales.ts": "5471f08625b24f1ed8a0863ab30a850e53d3c335a3f707e36569a62c3b5919af",
+        "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+        "04_研发源码/app/cloud/lib/privacy-saved.ts": "f24b54a1c272edc0df7841d928867c659ecd8afba7408cac6c99c55cb66b5334",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "a0d25bc4147409238ff9ea0189ccef643c48fc2361b4e9186f487c551e87aecd",
+        "04_研发源码/app/cloud/lib/video-api.ts": "81c8859893ccfb0e5f994d65950a874e16a5bac631a7a32d039b3c8af72b4541",
+        "04_研发源码/app/cloud/lib/payment-support.ts": "994b736af6c147b353e4b0b0c1ed14d2594b7daff3597c264879c79563ab7f00",
+        "04_研发源码/app/cloud/lib/secret-references.ts": "d1b7d043664e187206e22c04d7edc371fe4d7d2368fc504b58b3d8b34ac4bb2b",
+        "04_研发源码/app/cloud/lib/account-closure.ts": "36007e7856e9c59ee8e863620f69dd271c8c8f98b6187b60c10376732ba4de73",
+        "04_研发源码/app/cloud/generated/seed.json": "9d92c330847d0f8aafe1c8fe647b42d514dff5039d036f5325845e2b21bdd05e",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "bff53dc88d6a98c0305e2ffc5255abd4868674479d74c2c58a978a553e4745a5",
+        "04_研发源码/app/cloud/generated/admin.html": "0e39b833b50e4ede151d1d8a646153eac8198d82083c9f140d0d5333d0c68c20",
+        "04_研发源码/app/cloud/drizzle/0000_lethal_lucky_pierre.sql": "ecbd2e8044587efc154cbe185ac286f13172f8fed0f789e41a93610616d8c03d",
+        "06_验证与后续工作/负责人优化建议-任务告警注销兼容Cloud测试服务.ts": "478323ac04ea6e24bd4c9054bf5ca8771b3dfb3cb7f368baad2dc6e7c6f12a12"
+      },
+      "runtimeDependencyHashes": {
+        "04_研发源码/app/cloud/node_modules/esbuild/lib/main.js": "41abefec8704d24e069532fb38a418905d16f8fee4da88e54ecd65adc71f5507",
+        "04_研发源码/app/cloud/node_modules/esbuild/package.json": "4316bc9a54bbf659d5760f299910d1824045178557e0aea6a1e3c64148fe8a50",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/package.json": "c93a604e2f0009a29f93dd8671885586241a155fc5f0264a4d3c89172f83869d",
+        "04_研发源码/app/cloud/node_modules/@esbuild/win32-x64/esbuild.exe": "2ccfd6d5292493a810d21c0b40f9de3ff5252a0a24eb5dea3df07f33dcea0c0e"
+      },
+      "compilerVersion": "0.28.0",
+      "toolchainIncludedInHandoff": false,
+      "rawReadsActualSourceBytes": true,
+      "originalBusinessOptionsPreserved": true
+    }
+  ],
+  "sourceIdentityUnchanged": true,
+  "projectInputCount": 329,
+  "projectInputCanonicalSha256": "591e0100b0b76def9010149d6281bf266737e81b5942accf3bc43be597253336",
+  "pass": false,
+  "allOwnedProcessesStopped": true
+}

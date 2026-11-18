@@ -1,0 +1,93 @@
+{
+  "runId": "8358e47ef43e47c28b4f768e35287f02",
+  "componentOnly": true,
+  "nativeSQLiteOnly": true,
+  "actualHttpCovered": false,
+  "cloudNativeReuseCovered": false,
+  "roleClosureRaceCoveredByThisComponent": false,
+  "requiredSeparateHttpSuites": [
+    "special40",
+    "privacy28",
+    "closure27"
+  ],
+  "productionEnabled": false,
+  "syntheticOnly": true,
+  "results": [
+    {
+      "name": "logical-transaction-and-clean-state",
+      "pass": true,
+      "observed": {
+        "sameRequestIdleReuseObserved": true,
+        "commitPreserved": true,
+        "exceptionRolledBack": true,
+        "dirtyQueryOnlyConnectionDiscarded": true,
+        "escapedCursorAndMethodsRejected": true,
+        "requestFinallyClosedNative": true,
+        "businessActorFabricated": false
+      },
+      "ms": 61.703700048383325
+    },
+    {
+      "name": "nested-leases-and-current-authorization",
+      "pass": true,
+      "observed": {
+        "activeNativeNeverReborrowed": true,
+        "nestedCommitIndependent": true,
+        "outerReadSnapshotPreserved": true,
+        "nestedWaitOrMergedTransactionUsed": false
+      },
+      "ms": 29.33290001237765
+    },
+    {
+      "name": "cross-request-owner-isolation-and-finally",
+      "pass": true,
+      "observed": {
+        "actualThreads": [
+          {
+            "threadId": 34836,
+            "nativeId": 1953077799776,
+            "closedInOwningThread": true
+          },
+          {
+            "threadId": 50332,
+            "nativeId": 1953077801216,
+            "closedInOwningThread": true
+          }
+        ],
+        "differentRequestsDidNotShareNative": true,
+        "newRequestDoesNotReusePreviousNative": true,
+        "nonHttpOriginalClosePreserved": true
+      },
+      "ms": 55.69619999732822
+    },
+    {
+      "name": "dynamic-schema-and-final-erasure-guards",
+      "pass": true,
+      "observed": {
+        "sameRequestSchemaRefreshObserved": true,
+        "unknownTableReferenceGuards": 6,
+        "afterAddedTextColumnReferenceGuards": 8,
+        "actualPrivateMediaDeletionClaimed": false,
+        "actualReferenceRejectionRequiredSeparatelyInHttpPrivacySuite": true
+      },
+      "ms": 52.2120000096038
+    }
+  ],
+  "authorizationSha256": "1f8b83fa08f0d74dee7d1a1644e023f57b64263410b08fecc2ab202ef7f72edb",
+  "source": {
+    "path": "04_研发源码/app/r4/backend/server.py",
+    "sha256": "11fe8c416d4af0ce12195db08a364664f1b1739074c8cfd48cb3c2c8c399618a"
+  },
+  "helper": {
+    "path": "06_验证与后续工作/负责人优化建议-本地可靠性性能复验原生连接组件.py",
+    "sha256": "0f453c3b37754b251ce030214b901ed7a2485d5b77b359fa63492a918cc595f5"
+  },
+  "localOnlyDatabase": "06_验证与后续工作/负责人优化建议-本地可靠性性能复验原生连接隔离-8358e47ef43e47c28b4f768e35287f02.sqlite3",
+  "databaseIncludedInHandoffByDefault": false,
+  "sourceUnchangedDuringComponent": true,
+  "passed": 4,
+  "failed": 0,
+  "pass": true,
+  "processOrServiceStarted": false,
+  "finishedAtNs": 1794904145798969900
+}

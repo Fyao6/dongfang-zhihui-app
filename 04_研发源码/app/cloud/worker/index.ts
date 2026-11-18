@@ -6,12 +6,13 @@ import experience from '../generated/experience.html?raw';
 import review from '../generated/review.html?raw';
 import admin from '../generated/admin.html?raw';
 import creator from '../generated/creator.html?raw';
+import official from '../generated/official.html?raw';
 
 const worker = {
   fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
     const path = new URL(request.url).pathname.replace(/\/+$/, '') || '/';
     if (path.startsWith('/api/')) return handleAPI(request, env, ctx);
-    const pages: Record<string,string> = {'/':experience,'/app':review,'/experience':experience,'/admin':admin,'/creator':creator};
+    const pages: Record<string,string> = {'/':experience,'/app':review,'/experience':experience,'/admin':admin,'/creator':creator,'/official':official};
     if (pages[path] && ['GET','HEAD'].includes(request.method)) return new Response(request.method==='HEAD'?null:pages[path], {headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Robots-Tag':'noindex, nofollow'}});
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and

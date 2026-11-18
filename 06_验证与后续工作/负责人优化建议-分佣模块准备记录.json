@@ -1,0 +1,76 @@
+{
+  "status": "integrated_waiting_root_final_gate_record",
+  "recordedAt": "2026-11-12T12:27:53.8752176Z",
+  "productionEnabled": false,
+  "actualPaymentsEnabled": false,
+  "originalDatabaseOpened": false,
+  "sharedEntrypointsModifiedByThisModule": false,
+  "publicDeployed": false,
+  "sourceSha256": {
+    "04_研发源码/app/r4/backend/commission.py": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39",
+    "04_研发源码/app/cloud/lib/commission-api.ts": "a7cabff4bce4bfe960a2e3fa64caec341ee2a24daffd8fa2b30687d1978fbb16",
+    "04_研发源码/app/r4/commission-admin.js": "82c29bca9561912aa7343df553b9f214cb3f1dcdf9243244f4154d0fb5305776",
+    "04_研发源码/app/r4/commission-center.js": "c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b",
+    "04_研发源码/app/r4/commission-center.css": "5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135"
+  },
+  "checks": {
+    "pythonMemoryContracts": 57,
+    "cloudMemoryD1Contracts": 57,
+    "isolatedUIComponents": 20,
+    "sharedSQLStatementsIdentical": 24,
+    "typescriptStrict": true,
+    "javascriptSyntax": true,
+    "fourLanguageScreenshotsVisuallyReviewed": true
+  },
+  "guide": "06_验证与后续工作/负责人优化建议-分佣模块接入说明.txt",
+  "integrationPending": [
+    "schema and routes",
+    "same commerce order transaction snapshot hook combined with membership hook",
+    "payment/refund/fulfillment idempotent sync hook",
+    "public personal/admin entries and role nav",
+    "build/prepare",
+    "actual fresh dual-backend HTTP/UI and full regression"
+  ],
+  "gaps": [
+    "正式分佣文档、比例与生产规则尚缺",
+    "单层沙箱、无跨币种换汇、无真实支付渠道",
+    "拒付尚无统一交易已验事件来源，当前不伪造拒付入口",
+    "统一交易尚无优惠功能；渠道费未知为null，扣费规则等待",
+    "金融原账保留期及正式收款资料保护/凭证核验未确认",
+    "藏文待母语审校，真实设备未验收"
+  ],
+  "testFixtureCorrections": [
+    "初始测试未开启独立统一交易沙箱，补前置后通过",
+    "组件测试须展开details，异步load mock不能在resolve前等待其返回Promise；修正测试后通过",
+    "会员正在并行集成，基准商品改为真实digital作品与实际contents绑定，避免把未配置会员计划冒充普通订单"
+  ],
+  "roleHardening": {
+    "downgradeContractBothBackendsPassed": true,
+    "teacherFinanceImplicitlyDenied": true,
+    "baseStaffRequired": true,
+    "previousFreezeSHA": "{\"04_研发源码/app/r4/backend/commission.py\":\"d06501c06fafe09fdd951ca2d4df46babd924b826a2f6df7b102056e2793a6dd\",\"04_研发源码/app/cloud/lib/commission-api.ts\":\"52e4025bec9185b28826c1236fc9d472e759937692a417504c6c3872535f1260\",\"04_研发源码/app/r4/commission-admin.js\":\"29f28e800d49e8eeccbc43db1994d9c43556140afb52a1fd206183be136e70dd\",\"04_研发源码/app/r4/commission-center.js\":\"c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b\",\"04_研发源码/app/r4/commission-center.css\":\"5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135\"}"
+  },
+  "sourceHistory": [
+    {
+      "reason": "D1 outer ORDER BY c.data resolution failure; pre-fix freeze retained",
+      "hashes": {
+        "04_研发源码/app/r4/backend/commission.py": "4e1b851a8db29391311e963ca279de988f8ed7805438e2409517e9eb10246e8a",
+        "04_研发源码/app/cloud/lib/commission-api.ts": "b41fc69c87e06a21589038ebf3c8517cddddbf81093c75eac8734cfe1afb7e9c",
+        "04_研发源码/app/r4/commission-admin.js": "82c29bca9561912aa7343df553b9f214cb3f1dcdf9243244f4154d0fb5305776",
+        "04_研发源码/app/r4/commission-center.js": "c757c2e3e5e60799ed9029cb322b2c3de4f40e1d49f81d6fd0c8512366e61f9b",
+        "04_研发源码/app/r4/commission-center.css": "5fc5fda3e2e4140e5939bb48047f61e8fba11c9f374fdfa940e9d75d7e277135"
+      }
+    }
+  ],
+  "sqlCompatibilityFix": {
+    "status": "actual_D1_empty_first_last_touch_passed",
+    "method": "local ac config JOIN within attribution subquery; no outer c in ORDER BY"
+  },
+  "actualSpecialistReports": {
+    "finalGateOwner": "root",
+    "finalFreezeProofWrittenByThisAgent": false,
+    "python": "06_验证与后续工作/负责人优化建议-分佣实际专项-python.json",
+    "eachPassed": 31,
+    "cloud": "06_验证与后续工作/负责人优化建议-分佣实际专项-cloud.json"
+  }
+}

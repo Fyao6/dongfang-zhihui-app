@@ -6,6 +6,9 @@ import time
 from datetime import datetime, timezone
 from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
+from payment_late import order_summary as late_order_summary
+from digital_entitlements import capture_order as capture_digital_order, order_item_data as digital_order_item_data, catalog_ready as digital_catalog_ready
+from payment_routing import PaymentRouting, decorate_catalog as routing_catalog, route_summary as payment_route_summary, order_usability as payment_route_usability, routing_summary
 
 try:
     from membership_lifecycle import Membership
@@ -195,7 +198,11 @@ class Commerce:
         for product in products.values():
             primary = next((sku for sku in product['variants'] if sku['active']), product['variants'][0])
             product.update(primary, purchasable=any(sku['purchasable'] for sku in product['variants']))
-        return list(products.values())
+            if digital_catalog_ready(db,product) is False:
+                product['purchasable']=False
+                for sku in product['variants']:
+                    sku['purchasable']=False
+        return routing_catalog(db,list(products.values()))
 
     def commission_processing(self, db, row):
         opened=False
@@ -229,7 +236,7 @@ class Commerce:
             complete=len(snapshots)==len(membership_lines);linked=complete and all(v['subscription_id'] for v in snapshots)
             paid=row['payment_status'] in ('paid','partially_refunded','refunded')
             membership_processing={'environment':'sandbox','status':'linked' if linked else 'unavailable' if not complete else 'pending' if paid else 'awaiting_payment','retryAvailable':bool(complete and paid and not linked and row['payment_status']!='refunded'),'subscriptionIds':sorted({v['subscription_id'] for v in snapshots if v['subscription_id']}),'grantsProductionAccess':False}
-        return {'commissionProcessing':self.commission_processing(db,row),'membershipProcessing':membership_processing,'id': row['id'], 'ownerId': row['owner'], 'environment': row['environment'], 'sandboxOnly': True, 'grantsProductionAccess': False, 'requestId': row['request_id'], 'status': row['status'], 'paymentStatus': row['payment_status'], 'fulfillmentStatus': row['fulfillment_status'], 'aftersaleStatus': row['aftersale_status'], 'currency': row['currency'], 'subtotalMinor': row['subtotal_minor'], 'shippingMinor': row['shipping_minor'], 'taxMinor': row['tax_minor'], 'totalMinor': row['total_minor'], 'refundedMinor': row['refunded_minor'], 'shippingAddress': json.loads(row['shipping_address']), 'inventoryEvents':[{'id':v['id'],'skuId':v['sku_id'],'itemId':v['item_id'],'quantityDelta':v['quantity_delta'],'reason':v['reason'],'environment':'sandbox','createdAt':iso(v['created'])} for v in db.execute('SELECT * FROM commerce_inventory_events WHERE order_id=? ORDER BY created,id',(row['id'],)).fetchall()], 'tracking': json.loads(row['tracking']), 'reservedUntil': iso(row['reserved_until']), 'createdAt': iso(row['created']), 'updatedAt': iso(row['updated']), 'items': [{**json.loads(i['snapshot_data']), 'id': i['id'], 'itemId': i['id'], 'skuId': i['sku_id'], 'productId': i['product_id'], 'title': i['title'], 'type': i['type'], 'quantity': i['quantity'], 'priceMinor': i['price_minor'], 'currency': i['currency'], 'unitShippingMinor': i['unit_shipping_minor'], 'unitTaxMinor': i['unit_tax_minor'], 'totalMinor': i['quantity']*(i['price_minor']+i['unit_shipping_minor']+i['unit_tax_minor']), 'contentId': i['content_id'], 'priceVersion': i['price_version'], 'refundedQuantity': i['refunded_quantity']} for i in lines], 'events': [{'id': e['id'], 'kind': e['kind'], 'requestId': e['request_id'], 'amountMinor': e['amount_minor'], 'currency': e['currency'], 'status': e['status'], 'environment': 'sandbox', 'createdAt': iso(e['created'])} for e in events], 'aftersaleRequests':[{'id':r['id'],'requestId':r['request_id'],'reason':r['reason'],'quantity':r['quantity'],'status':r['status'],'environment':'sandbox','createdAt':iso(r['created']),'updatedAt':iso(r['updated'])} for r in requests]}
+        return {'paymentRoute':payment_route_summary(db,row),'paymentRouteUsability':payment_route_usability(db,row),'latePayment':late_order_summary(db,row['id']),'commissionProcessing':self.commission_processing(db,row),'membershipProcessing':membership_processing,'id': row['id'], 'ownerId': row['owner'], 'environment': row['environment'], 'sandboxOnly': True, 'grantsProductionAccess': False, 'requestId': row['request_id'], 'status': row['status'], 'paymentStatus': row['payment_status'], 'fulfillmentStatus': row['fulfillment_status'], 'aftersaleStatus': row['aftersale_status'], 'currency': row['currency'], 'subtotalMinor': row['subtotal_minor'], 'shippingMinor': row['shipping_minor'], 'taxMinor': row['tax_minor'], 'totalMinor': row['total_minor'], 'refundedMinor': row['refunded_minor'], 'shippingAddress': json.loads(row['shipping_address']), 'inventoryEvents':[{'id':v['id'],'skuId':v['sku_id'],'itemId':v['item_id'],'quantityDelta':v['quantity_delta'],'reason':v['reason'],'environment':'sandbox','createdAt':iso(v['created'])} for v in db.execute('SELECT * FROM commerce_inventory_events WHERE order_id=? ORDER BY created,id',(row['id'],)).fetchall()], 'tracking': json.loads(row['tracking']), 'reservedUntil': iso(row['reserved_until']), 'createdAt': iso(row['created']), 'updatedAt': iso(row['updated']), 'items': [{**digital_order_item_data(db,i), 'id': i['id'], 'itemId': i['id'], 'skuId': i['sku_id'], 'productId': i['product_id'], 'title': i['title'], 'type': i['type'], 'quantity': i['quantity'], 'priceMinor': i['price_minor'], 'currency': i['currency'], 'unitShippingMinor': i['unit_shipping_minor'], 'unitTaxMinor': i['unit_tax_minor'], 'totalMinor': i['quantity']*(i['price_minor']+i['unit_shipping_minor']+i['unit_tax_minor']), 'contentId': i['content_id'], 'priceVersion': i['price_version'], 'refundedQuantity': i['refunded_quantity']} for i in lines], 'events': [{'id': e['id'], 'kind': e['kind'], 'requestId': e['request_id'], 'amountMinor': e['amount_minor'], 'currency': e['currency'], 'status': e['status'], 'environment': 'sandbox', 'createdAt': iso(e['created'])} for e in events], 'aftersaleRequests':[{'id':r['id'],'requestId':r['request_id'],'reason':r['reason'],'quantity':r['quantity'],'status':r['status'],'environment':'sandbox','createdAt':iso(r['created']),'updatedAt':iso(r['updated'])} for r in requests]}
 
     def own_order(self, db, order_id, admin=False):
         if admin:
@@ -296,7 +303,9 @@ class Commerce:
         renewal_of=self.text(data['membershipRenewalOf'],100,1) if data.get('membershipRenewalOf') is not None else None
         semantic={'environment':environment,'items':requested,'shippingAddress':address}
         if renewal_of is not None:semantic['membershipRenewalOf']=renewal_of
-        token=fingerprint(semantic)
+        order_semantic={**semantic}
+        if 'quoteId' in data:order_semantic['quoteId']=data['quoteId']
+        token=fingerprint(order_semantic)
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE'); self.expire(db); self.enabled(db,environment)
             old=db.execute('SELECT * FROM commerce_orders WHERE owner=? AND environment=? AND request_id=?',(self.uid,environment,request_id)).fetchone()
@@ -304,18 +313,24 @@ class Commerce:
                 if old['fingerprint']!=token: self.fail(409,'幂等编号已用于不同的订单内容。')
                 return self.order(db,old)
             lines,currency,subtotal,shipping,tax=self.quote(db,requested,address)
+            routing=PaymentRouting(self.store,self.h,self.Error,self.rate)
+            if 'quoteId' in data and data['quoteId'] is None:self.fail(400,'invalid_request')
+            admission=routing.admit_order(db,semantic,data.get('quoteId'),lines,(currency,subtotal,shipping,tax))
             has_membership=any(r['type']=='membership' for r,q in lines)
             if renewal_of and not has_membership:self.fail(400,'续期关联只能用于会员订单。')
             lifecycle=Membership(self.store,self.h,self.Error,self.rate) if has_membership else None
             snapshots=lifecycle.snapshot_for_checkout(db,self.uid,requested,environment,renewal_of) if lifecycle else {}
             oid=str(uuid4()); timestamp=now(); is_physical=lines[0][0]['type']=='physical'
+            routing.begin_order(db,oid,admission)
             db.execute('INSERT INTO commerce_orders(id,owner,environment,request_id,fingerprint,status,payment_status,fulfillment_status,aftersale_status,currency,subtotal_minor,shipping_minor,tax_minor,total_minor,refunded_minor,shipping_address,tracking,reserved_until,created,updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(oid,self.uid,'sandbox',request_id,token,'awaiting_payment','unpaid','awaiting_payment','none',currency,subtotal,shipping,tax,subtotal+shipping+tax,0,dump(address if is_physical else {}),'{}',timestamp+HOLD_MS,timestamp,timestamp))
             for r,q in lines:
                 snapshot = {**json.loads(r['data']), 'sku': r['sku'], 'options': json.loads(r['sku_options'])}
                 db.execute('INSERT INTO commerce_order_items VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(str(uuid4()),oid,r['sku_id'],r['id'],r['title'],r['type'],q,r['price_minor'],currency,r['shipping_minor'] if r['type']=='physical' else 0,r['tax_minor'],r['content_id'],r['price_version'],0,dump(snapshot)))
                 db.execute("INSERT INTO commerce_reservations VALUES(?,?,?,'held')",(oid,r['sku_id'],q))
             if lifecycle:lifecycle.capture_order_snapshots(db,self.uid,oid,snapshots)
+            capture_digital_order(db,self.uid,oid,timestamp,self.Error)
             commission_snapshot_order(db,oid)
+            routing.capture_route(db,self.own_order(db,oid),admission)
             self.store.audit(db,self.uid,'commerce.order.create',oid,'sandbox；无真实扣款')
             return self.order(db,self.own_order(db,oid))
 
@@ -331,12 +346,15 @@ class Commerce:
                 return self.order(db,row)
             if row['payment_status'] in ('paid','partially_refunded','refunded'):
                 return self.order(db,row)
+            routing=PaymentRouting(self.store,self.h,self.Error,self.rate)
+            routing_proof=routing.authorize_manual_pay(db,row)
             if row['payment_status']!='unpaid' or row['status']!='awaiting_payment':
                 self.fail(409,'订单已关闭或不能付款。')
             if db.execute("SELECT 1 FROM commerce_order_items i JOIN commerce_products p ON p.id=i.product_id WHERE i.order_id=? AND p.status!='published'",(oid,)).fetchone():
                 self.fail(409,'订单商品已下架，不能付款。')
             lifecycle=Membership(self.store,self.h,self.Error,self.rate) if db.execute("SELECT 1 FROM commerce_order_items WHERE order_id=? AND type='membership'",(oid,)).fetchone() else None
             if lifecycle:lifecycle.validate_commerce_payment(db,oid)
+            routing.manual_guard(db,row,routing_proof)
             timestamp=now()
             db.execute('INSERT INTO commerce_payment_events VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(str(uuid4()),self.uid,'sandbox',oid,request_id,'sandbox_pay',token,row['total_minor'],row['currency'],'[]','applied',timestamp))
             physical=db.execute("SELECT 1 FROM commerce_order_items WHERE order_id=? AND type='physical'",(oid,)).fetchone()
@@ -549,7 +567,7 @@ class Commerce:
                 db.execute('BEGIN IMMEDIATE'); self.expire(db); settings=self.settings(db)
                 items=self.products(db,environment,True) if environment=='production' or settings['sandboxEnabled'] else []
                 for item in items: item['purchasable']=item['purchasable'] and settings['sandboxEnabled']
-                return {'items':items,'settings':settings,'environment':environment,'sandboxOnly':environment=='sandbox','productionEnabled':False}
+                return {'items':items,'settings':settings,'paymentRouting':routing_summary(db),'environment':environment,'sandboxOnly':environment=='sandbox','productionEnabled':False}
         self.h.require()
         if method in ('POST','PATCH'): self.rate('commerce:'+self.uid,30)
         if path=='/api/commerce/cart' and method in ('GET','PATCH'):

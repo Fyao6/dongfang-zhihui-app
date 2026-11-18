@@ -1,0 +1,186 @@
+{
+  "kind": "owned-native-D1-HTTP-component-not-formal",
+  "runId": "fab522e7769d4446863448f6a5eefeea",
+  "at": "2026-11-17T00:37:28.180Z",
+  "results": [
+    {
+      "name": "actual D1 import and original UTF8 hash",
+      "pass": true,
+      "evidence": {
+        "sourceByteLength": 1518,
+        "sourceSHA256": "61a0fe2bc7dd332d203b90c6e3e294e5da5bd0984c3a08b716ab9cff2f842330"
+      }
+    },
+    {
+      "name": "canonical same version retains original bytes",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "sameSHA": true
+      }
+    },
+    {
+      "name": "BOM strictly rejected",
+      "pass": true,
+      "evidence": {
+        "error": "invalid_json"
+      }
+    },
+    {
+      "name": "duplicate decoded keys rejected",
+      "pass": true,
+      "evidence": {
+        "error": "duplicate_key"
+      }
+    },
+    {
+      "name": "create ready run from actual served source binding",
+      "pass": true,
+      "evidence": {
+        "manifestHash": "1d086a5c096fc11281a36e5bceb6f3cc740e3388e11517805806e07784e273b4",
+        "sourceManifestSha256": "25898e476bfa0c390860c3425372a9ebee4d4bb8571873b225d21712a4fff125"
+      }
+    },
+    {
+      "name": "native shared computation and same-D1-batch results",
+      "pass": true,
+      "evidence": {
+        "state": "succeeded",
+        "processed": 1,
+        "counts": {
+          "blocked": 0,
+          "different": 0,
+          "equal": 1,
+          "notApplicable": 0,
+          "notCovered": 8650,
+          "provided": 1,
+          "teacherAgreementRate": null,
+          "total": 8651
+        }
+      }
+    },
+    {
+      "name": "same process key returns original result only",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "processed": 1
+      }
+    },
+    {
+      "name": "all raw periods restore exact frozen canonical SHA",
+      "pass": true,
+      "evidence": {
+        "sha256": "20dd4ad250da402da8bd7c4795c86dc4dfbbe93ecdf8507cdf8d60366a3d3fb2",
+        "byteLength": 135762,
+        "periodCount": 10
+      }
+    },
+    {
+      "name": "lazy fields are 50 with same-result cursor",
+      "pass": true,
+      "evidence": {
+        "first": 50,
+        "second": 50
+      }
+    },
+    {
+      "name": "default known-name redaction, explicit frozen full report",
+      "pass": true,
+      "evidence": {
+        "defaultRedacted": true,
+        "explicitFull": true
+      }
+    },
+    {
+      "name": "append-only proposed review is idempotent and rereadable",
+      "pass": true,
+      "evidence": {
+        "reviewCount": 1,
+        "classificationState": "proposed"
+      }
+    },
+    {
+      "name": "real final SQL rejects wrong/expired lease before any result mutation",
+      "pass": true,
+      "evidence": {
+        "denied": true,
+        "processedStill": 1
+      }
+    },
+    {
+      "name": "actual storage exception rolls back result/field/chunks and counts together",
+      "pass": true,
+      "evidence": {
+        "processed": 0,
+        "results": 0
+      }
+    },
+    {
+      "name": "same original process intent safely resumes after expired lease",
+      "pass": true,
+      "evidence": {
+        "processed": 1,
+        "attempts": 2
+      }
+    },
+    {
+      "name": "actual owner clear erases complete private graph",
+      "pass": true,
+      "evidence": {
+        "cases": 1,
+        "results": 2,
+        "rawChunks": 22,
+        "reviews": 1,
+        "retentionDays": null,
+        "secureWipe": false
+      }
+    },
+    {
+      "name": "old version no longer readable",
+      "pass": true,
+      "evidence": {
+        "error": "sample_erased"
+      }
+    },
+    {
+      "name": "D1 retained minimal epoch, no transient guards or private rows",
+      "pass": true,
+      "evidence": {
+        "cases": 0,
+        "results": 0,
+        "raw_chunks": 0,
+        "field_results": 0,
+        "reviews": 0,
+        "erase_guards": 0
+      }
+    },
+    {
+      "name": "old epoch cannot reinsert private data after real clear",
+      "pass": true,
+      "evidence": {
+        "denied": true
+      }
+    }
+  ],
+  "teacherConfirmed": false,
+  "professionalValidation": false,
+  "base": "http://127.0.0.1:65439",
+  "state": "04_研发源码\\app\\cloud\\.wrangler\\bazi-native-component-fab522e7769d4446863448f6a5eefeea",
+  "bundle": {
+    "path": "06_验证与后续工作\\bazi-native-component-fab522e7769d4446863448f6a5eefeea.mjs",
+    "sha256": "48cfa09d8a5253898651dddcf8ad535b092f5f8075af61be3b3fbb1224f00df4"
+  },
+  "rawProof": {
+    "sha256": "20dd4ad250da402da8bd7c4795c86dc4dfbbe93ecdf8507cdf8d60366a3d3fb2",
+    "byteLength": 135762,
+    "periodCount": 10
+  },
+  "ownedRuntimeStopped": true,
+  "passed": 18,
+  "failed": 0,
+  "sourceHashes": {
+    "04_研发源码/app/cloud/lib/bazi-samples.ts": "1c3c42a2dc51b55623da07e2fcf23c38a30e7a73b00e3389c13c498b757dd400",
+    "04_研发源码/app/cloud/generated/bazi-samples-schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1"
+  }
+}

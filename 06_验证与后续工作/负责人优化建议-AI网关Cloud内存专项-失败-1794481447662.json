@@ -1,0 +1,139 @@
+{
+  "kind": "isolated-cloud-sqlite-and-explicit-transport-fixtures",
+  "realModelRequests": 0,
+  "fatal": true,
+  "type": "AssertionError",
+  "message": "receipt not valid for fixture saved-reconfirm-stream",
+  "checks": [
+    {
+      "name": "default scene is blocked and no transport runs",
+      "pass": true
+    },
+    {
+      "name": "provider receipt required",
+      "pass": true
+    },
+    {
+      "name": "non-admin cannot grant test credits",
+      "pass": true
+    },
+    {
+      "name": "grant is idempotent",
+      "pass": true
+    },
+    {
+      "name": "grant conflict rejected",
+      "pass": true
+    },
+    {
+      "name": "public capabilities redact endpoints and secret refs",
+      "pass": true
+    },
+    {
+      "name": "write tool never permitted",
+      "pass": true
+    },
+    {
+      "name": "summary cannot target another owner",
+      "pass": true
+    },
+    {
+      "name": "AI body summary requires separate authorization",
+      "pass": true
+    },
+    {
+      "name": "job replay reserves once",
+      "pass": true
+    },
+    {
+      "name": "job changed payload conflicts",
+      "pass": true
+    },
+    {
+      "name": "cross-account read and cancel are 404",
+      "pass": true
+    },
+    {
+      "name": "real SSE parser handles split UTF8 fixture and settles once",
+      "pass": true
+    },
+    {
+      "name": "no-save default stores no prompt or output",
+      "pass": true
+    },
+    {
+      "name": "stream replay never calls upstream again",
+      "pass": true
+    },
+    {
+      "name": "queued cancellation is charged by explicit nonzero rule",
+      "pass": true
+    },
+    {
+      "name": "partial output uses partial rule and unknown usage",
+      "pass": true
+    },
+    {
+      "name": "running cancellation does not become free",
+      "pass": true
+    },
+    {
+      "name": "unconsented fallback gets no request",
+      "pass": true
+    },
+    {
+      "name": "consented fallback is sequential with one job settlement",
+      "pass": true
+    },
+    {
+      "name": "missing usage and cost remain null/unknown",
+      "pass": true
+    },
+    {
+      "name": "Anthropic cumulative output usage is not summed",
+      "pass": true
+    },
+    {
+      "name": "non-streaming response is never fake token streaming",
+      "pass": true
+    },
+    {
+      "name": "lease recovery preserves cancellation charge",
+      "pass": true
+    },
+    {
+      "name": "provider withdrawal blocks later jobs",
+      "pass": true
+    },
+    {
+      "name": "global revision invalidates provider receipt",
+      "pass": true
+    },
+    {
+      "name": "mid-stream receipt withdrawal stops before completion",
+      "pass": true
+    },
+    {
+      "name": "withdraw-and-reconfirm nonce cannot revive old stream",
+      "pass": true
+    },
+    {
+      "name": "registry disable stops further stream consumption",
+      "pass": true
+    },
+    {
+      "name": "explicit saved output uses privacy conversation storage",
+      "pass": true
+    },
+    {
+      "name": "privacy deletion removes job text readback",
+      "pass": true
+    }
+  ],
+  "stack": [
+    "AssertionError [ERR_ASSERTION]: receipt not valid for fixture saved-reconfirm-stream",
+    "    at payload (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-AI网关Cloud内存专项.cjs:46:168)",
+    "    at async changeDuringStream (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-AI网关Cloud内存专项.cjs:88:104)",
+    "    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-AI网关Cloud内存专项.cjs:99:25"
+  ]
+}

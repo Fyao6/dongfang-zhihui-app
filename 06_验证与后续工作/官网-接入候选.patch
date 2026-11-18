@@ -1,0 +1,70 @@
+--- a/04_研发源码/app/r4/build.py
++++ b/04_研发源码/app/r4/build.py
+@@ -6,6 +6,7 @@
+ OUT=ROOT.parents[2]/'03_当前APP'
+ if not OUT.is_dir():
+  raise RuntimeError('现有 03_当前APP 目录不存在，停止构建以避免另建项目目录。')
++official_source=(ROOT/'official-website.html').read_text(encoding='utf-8')
+ art=json.loads((ROOT/'assets.json').read_text(encoding='utf-8'))
+ art_vars={'quiet-hour':'--art-day','still-water':'--art-night','living-light':'--art-nature','quote-landscape':'--art-quote','map-life':'--art-life','map-body':'--art-body','map-mind':'--art-mind'}
+ for name in ['quote-landscape','map-life','map-body','map-mind']:
+@@ -34,7 +35,7 @@
+ creator_source=(ROOT/'creator-center.html').read_text(encoding='utf-8')
+ admin_source=admin_source.replace('url(/assets/NotoSerifTibetan.woff2)','url(data:font/woff2;base64,'+base64.b64encode((ROOT/'vendor/NotoSerifTibetan.woff2').read_bytes()).decode()+')')
+ if node:
+- scripts=[('APP',js)]+[('CREATOR',part) for part in re.findall(r'<script>([\s\S]*?)</script>',creator_source)]+[('ADMIN',part) for part in re.findall(r'<script>([\s\S]*?)</script>',admin_source)]
++ scripts=[('APP',js)]+[('OFFICIAL',part) for part in re.findall(r'<script>([\s\S]*?)</script>',official_source)]+[('CREATOR',part) for part in re.findall(r'<script>([\s\S]*?)</script>',creator_source)]+[('ADMIN',part) for part in re.findall(r'<script>([\s\S]*?)</script>',admin_source)]
+  for label,script in scripts:
+   check=subprocess.run([node,'--check'],input=script,encoding='utf-8',capture_output=True)
+   if check.returncode:
+@@ -54,3 +55,6 @@
+ review=(ROOT/'review.html').read_text(encoding='utf-8').replace('__CSS__',(ROOT/'review.css').read_text(encoding='utf-8')).replace('__DATA__',data).replace('__JS__',(ROOT/'review.js').read_text(encoding='utf-8'))
+ (OUT/'发给负责人-东方智慧首页R4.html').write_text(review,encoding='utf-8')
+ print('Updated current APP, review and unified admin in existing 03_当前APP.')
++
++# Explicit standalone official page; existing APP/review/admin entry files remain.
++(OUT/'东方智慧-官网.html').write_bytes(official_source.encode('utf-8'))
+--- a/04_研发源码/app/cloud/prepare.py
++++ b/04_研发源码/app/cloud/prepare.py
+@@ -8,6 +8,7 @@
+ if json.loads((source/'bazi-sample-source-manifest.json').read_text(encoding='utf-8'))!=sample_manifest:
+  raise RuntimeError('Bazi sample source identity changed; rebuild APP before Cloud prepare.')
+ shutil.copyfile(source/'bazi-sample-source-manifest.json',generated/'bazi-sample-source-manifest.json')
++shutil.copyfile(source/'official-website.html',generated/'official.html')
+ shutil.copyfile(source/'backend/bazi_samples_schema.sql',generated/'bazi-samples-schema.sql')
+ shutil.copyfile(source/'backend/card_import_schema.sql',generated/'card-import-schema.sql')
+ shutil.copyfile(source/'backend/card_history_migration_schema.sql',generated/'card-history-migration-schema.sql')
+--- a/04_研发源码/app/cloud/worker/index.ts
++++ b/04_研发源码/app/cloud/worker/index.ts
+@@ -5,13 +5,14 @@
+ import experience from '../generated/experience.html?raw';
+ import review from '../generated/review.html?raw';
+ import admin from '../generated/admin.html?raw';
+-import creator from '../generated/creator.html?raw';
++import creator from '../generated/creator.html?raw';
++import official from '../generated/official.html?raw';
+ 
+ const worker = {
+   fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
+     const path = new URL(request.url).pathname.replace(/\/+$/, '') || '/';
+     if (path.startsWith('/api/')) return handleAPI(request, env, ctx);
+-    const pages: Record<string,string> = {'/':experience,'/app':review,'/experience':experience,'/admin':admin,'/creator':creator};
++    const pages: Record<string,string> = {'/':experience,'/app':review,'/experience':experience,'/admin':admin,'/creator':creator,'/official':official};
+     if (pages[path] && ['GET','HEAD'].includes(request.method)) return new Response(request.method==='HEAD'?null:pages[path], {headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Robots-Tag':'noindex, nofollow'}});
+     let binding = ctx.props?.CONNECTORS;
+     // Local preview emulates the same request-scoped capability. This branch and
+--- a/04_研发源码/app/r4/backend/server.py
++++ b/04_研发源码/app/r4/backend/server.py
+@@ -705,7 +705,7 @@
+                 if result is not None:
+                     return self.send(200, result)
+                 files = {'/': '发给负责人-东方智慧首页R4.html', '/app': '发给负责人-东方智慧首页R4.html',
+-                         '/experience': '东方智慧-首页体验R4.html', '/admin': '计时后台-开发联调.html', '/creator': '创作者中心.html'}
++                         '/experience': '东方智慧-首页体验R4.html', '/admin': '计时后台-开发联调.html', '/creator': '创作者中心.html', '/official': '东方智慧-官网.html'}
+                 if method == 'GET' and path in files:
+                     file = web_root / files[path]
+                     if file.is_file():
+--- /dev/null
++++ b/官网.html
+@@ -0,0 +1 @@
++<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>东方智慧 · 官网入口</title><meta http-equiv="refresh" content="0;url=03_当前APP/东方智慧-官网.html"></head><body><p><a href="03_当前APP/东方智慧-官网.html">打开东方智慧官网</a></p><p><a href="打开这里.html">保留的项目入口与资料</a></p></body></html>

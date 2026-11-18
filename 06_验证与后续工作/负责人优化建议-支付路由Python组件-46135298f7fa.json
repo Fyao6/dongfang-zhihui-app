@@ -1,0 +1,79 @@
+{
+  "formalAcceptance": false,
+  "scope": "owned fresh actual HTTP backend component; no current UI/build acceptance",
+  "runId": "46135298f7fa",
+  "database": "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-支付路由Python组件-46135298f7fa.sqlite3",
+  "base": "http://127.0.0.1:61538",
+  "passed": 14,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "legacy immutable minimum route",
+      "pass": true
+    },
+    {
+      "name": "legacy actual paid ledger",
+      "pass": true
+    },
+    {
+      "name": "enforced actual quote ready with true money/terms",
+      "pass": true
+    },
+    {
+      "name": "quote consumed and route atomic",
+      "pass": true
+    },
+    {
+      "name": "quote single consumption",
+      "pass": true
+    },
+    {
+      "name": "paused permits original order intent replay",
+      "pass": true
+    },
+    {
+      "name": "paused rejects new manual initiation",
+      "pass": true
+    },
+    {
+      "name": "paused does not reject trusted signed callback",
+      "pass": true
+    },
+    {
+      "name": "changed policy requires explicit reconfirmation",
+      "pass": true
+    },
+    {
+      "name": "confirmation immutable append",
+      "pass": true
+    },
+    {
+      "name": "reconfirmed manual payment uses original price",
+      "pass": true
+    },
+    {
+      "name": "本人safe export includes route facts without address duplicate",
+      "pass": true
+    },
+    {
+      "name": "atomic proofs leave zero rows",
+      "pass": true
+    },
+    {
+      "name": "frozen route mutation rejected",
+      "pass": true
+    }
+  ],
+  "sourceHashes": {
+    "payment_routing.py": "496d427ea9fd4243866f0ebc4a2b4ad0aa30c5bbaf6f0e0df37bfe18e4c9e39c",
+    "commerce.py": "aedc7d9fca06e634eec7570c122e7ef14bcaad9b725a1bd9f6d5379248ecaecf",
+    "server.py": "63321693e67e3d16d2978d68199ba683c05eaece2b6c0553d82fdeaf875faab7",
+    "privacy.py": "98475f3f946e6a370895e22c56b6b724e0810e5f0b81446df0932edffc668af7",
+    "privacy_domains.py": "07ec2312ea135fbae975d0f1742116abaaee6afed4655bb1fd522c0de1edf078",
+    "payment_routing_schema.sql": "5bf77df4b20de6e0e1003865771bb796afe2fa492872d792413b0b7d8d39387b"
+  },
+  "syntheticDataOnly": true,
+  "productionEnabled": false,
+  "ownServerStopped": true,
+  "backendError": "ApiError: (409, 'route_reconfirmation_required')"
+}

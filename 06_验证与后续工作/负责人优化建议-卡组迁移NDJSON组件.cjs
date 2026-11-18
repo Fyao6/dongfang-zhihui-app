@@ -1,0 +1,13 @@
+'use strict';
+// Nonformal same-outer HTTP pressure check for the independent bounded test consumer.
+const fs=require('node:fs'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const {runOwned}=require('./负责人优化建议-卡组迁移验收启动.cjs');
+const target=process.argv.includes('--target=cloud')?'cloud':'python',report={at:new Date().toISOString(),formalAcceptance:false,actualServerHttp:true,pass:false};
+(async()=>{try{await runOwned({target,suite:'special',preparation:true,probe:async p=>{
+ const c=await p.context(),credential=target==='cloud'?JSON.parse(p.env.EW_CLOUD_QA_CREDENTIALS):{username:('cm_flow_'+p.runId.slice(0,12)).replace(/[^A-Za-z0-9_]/g,'_'),password:crypto.randomBytes(24).toString('hex'),name:'合成流组件'};
+ let r=await c.post(p.base+'/api/auth/'+(target==='cloud'?'login':'setup'),{data:credential});assert.equal(r.status(),200,'Actual independent component authentication');
+ const h={base:p.base,key:label=>'flow_'+label+'_'+p.runId,report:{traffic:[]},prepareCardTraffic:async()=>{}},f=require('./负责人优化建议-卡组迁移用例工具.cjs')(h,{}),cards=Array.from({length:500},(_,i)=>f.card('c'+i,{text:Object.fromEntries(['zh','zh-Hant','en'].map(l=>[l,Object.fromEntries(['name','prompt','meaning','question','action'].map(k=>[k,0]))])),frontUrl:null,backUrl:null,alt:{zh:null,'zh-Hant':null,en:null},author:null,licenseReference:null,licenseScope:null})),value=f.payload(cards);
+ value.deck.data.expectedCount=500;value.provenance.sourceReference='源'.repeat(2000);const raw=Buffer.from(JSON.stringify(value));assert(raw.length<=262144);
+ r=await c.post(p.base+'/api/admin/cards/imports/preview',{headers:{'Content-Type':'application/json','X-EW-Request-ID':'flow_'+p.runId},data:raw,timeout:75000});assert.equal(r.status(),200,'Actual maximum-logical-card preview');const d=await r.json(),started=Date.now(),exported=await f.importExport(c,d.job,{retainItems:false});
+ assert.equal(exported.issueCount,d.summary.issues);assert.equal(exported.diffCount,d.summary.diff);assert(exported.exportProof.receivedBytes>100*1024*1024);assert(exported.exportProof.maxBufferedBytes<3*1024*1024);report.observed={preview:d.summary,rawBytes:raw.length,originalSourceSha256:d.job.sourceSha256,export:exported.exportProof,issueDigest:exported.issueItemsSha256,diffDigest:exported.diffItemsSha256,elapsedMs:Date.now()-started};report.runtimeArtifacts=p.runtimeArtifacts;
+ }});report.pass=true;}catch(error){report.error=String(error.stack||error);process.exitCode=1;}finally{const filename=__dirname+'/负责人优化建议-卡组迁移NDJSON组件-'+target+'-'+Date.now()+'.json';fs.writeFileSync(filename,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({pass:report.pass,formalAcceptance:false,file:filename,observed:report.observed}));}})();

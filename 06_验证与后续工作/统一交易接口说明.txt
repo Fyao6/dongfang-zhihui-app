@@ -1,0 +1,98 @@
+统一交易沙箱模块 接口与集成说明
+
+范围
+本模块只提供沙箱商品、购物车、订单、库存、模拟支付事件、独立沙箱权益、发货登记、售后申请和按项退款。productionEnabled始终为false，订单、事件和权益表也以CHECK约束禁止production环境。没有调用支付渠道、不会真实扣款，不向现有会员媒体判定提供沙箱权益。
+正式价格、会员权益、税费、运费、退款政策、渠道准入和真实支付仍须项目方确认。本模块沙箱运费和税费均按每单位商品计入订单快照，按退款数量同比退回，仅为当前可测试基线，不构成正式规则。
+
+新增文件
+04_研发源码/app/r4/backend/commerce.py
+04_研发源码/app/cloud/lib/commerce-api.ts
+
+集成钩子
+Python：导入Commerce和init_schema；Store初始化已有db时调用init_schema(db)。Handler.api在旧admin通配前调用Commerce(store,self,ApiError,rate_limit).route(method,path)，非None则返回。新模块不自行打开或选择数据库。
+Cloud：导入initCommerce和commerceRoute；已有API初始化获得D1连接后调用initCommerce(this)。route开始处调用await commerceRoute(this,p,m,fail)，非undefined则返回。
+新上传商品封面另需接入现有媒体可见性：Python导入public_media作为commerce_public_media，在get_media的公开条件加commerce_public_media(db,reference)；Cloud导入commerceMediaPublic，在media的published条件加await commerceMediaPublic(this,ref)。该钩子仅匹配经管理员保存并发布的imageUrl；沙箱封面还要求sandboxEnabled。不读取订单，不授予付费主媒体权限。
+所有初始化、业务和媒体钩子须同时集成；仅接入route不足以保证图片和数据库可用。
+
+数据结构
+commerce_config：沙箱开关，productionEnabled不可启用。
+commerce_products：商品类型、环境、状态、乐观锁版本、内容绑定、配送国家、税运、公共多语及封面data。
+commerce_skus：独立skuId、商家sku、整数最小单位金额、币种、stock/reserved、价格版本。
+commerce_sku_variants：按skuId保存规格名称与取值及在售状态。未有规格记录的旧SKU沿用原状态。升级会解除每商品唯一SKU的限制，保留原SKU、价格历史、订单项和库存预占。
+commerce_prices：不可变价格版本。
+commerce_carts：owner、sandbox环境及SKU数量列表。
+commerce_orders：owner、环境、请求幂等指纹、独立订单/付款/履约/售后状态、金额快照、地址、物流和预占到期。
+commerce_order_items：独立itemId、SKU、商品/标题/类型/内容ID、数量、整数单价、单位税运、价格版本、已退数量、额外商品资料快照。
+commerce_reservations：held/consumed/released库存预占。
+commerce_payment_events：sandbox_pay/refund已应用事件、幂等请求号、金额、币种、订单项和指纹，保留原账。
+commerce_entitlements：owner、sandbox、订单项、内容ID、数量/剩余量、active/revoked；grantsProductionAccess始终false。
+commerce_aftersale_requests：owner、sandbox、订单、请求号、原因、数量及pending/processing/resolved状态。
+commerce_inventory_events：owner、订单项、SKU、数量变化、原因；发货后退款明确记录0回库。
+
+金额和库存
+priceMinor、shippingMinor、taxMinor、stock为整数，单字段及订单总额上限1000000000。金额不接受字符串、布尔值或非整数；不得在客户端自行核价。
+支持币种：CNY USD EUR GBP HKD TWD JPY KRW CAD AUD NZD SGD CHF THB MYR IDR VND PHP INR AED SAR BRL MXN ZAR BHD KWD OMR JOD TND。JPY/KRW/VND最小单位指数为0，BHD/KWD/OMR/JOD/TND为3，其余此表币种为2。前端显示须遵循币种最小单位，不能对所有币种一律除100。
+每单1至30种不同SKU，每种数量1至99。库存为有限数量，不把0解释为无限。
+未付款预占默认15分钟，访问交易接口时惰性关闭过期订单并释放；无独立定时任务。生产部署需另行设计任务调度。
+数字/会员可同单，实物与数字/会员必须拆单，不同币种必须拆单；混单返回409与拆单提示。
+库存和退款以两端同构SQLite触发器保证原子约束。Python使用BEGIN IMMEDIATE；Cloud以D1 batch配合唯一约束、触发器和条件DML，避免并发超卖和重复发权。
+
+公共目录
+GET /api/commerce/catalog?environment=production|sandbox
+返回{items,settings:{sandboxEnabled,productionEnabled:false},environment,sandboxOnly,productionEnabled:false}。
+缺省environment为production；未开启sandbox时沙箱目录为空。production目录即使有已发布商品也purchasable=false。
+产品返回id/productId和独立skuId，购物车下单必须使用skuId。包括sku/title/description/type/status/environment/version/priceVersion/priceMinor/currency/stock/reserved/availableStock/contentId/shippingCountries/shippingMinor/taxMinor。
+目录每商品返回一行。variants列出在售SKU、规格、价格、库存及购买状态，后台同时返回已下架SKU。商品顶层SKU字段供原单规格调用方使用，多规格选择须读取variants。价格区间取同商品在售SKU。
+可附imageUrl、refundPolicy、titleZh/titleEn/titleHant/titleBo、descriptionZh/descriptionEn/descriptionHant/descriptionBo；字段仅包含后台校验后保存的公共内容。
+
+账号接口
+除公共目录外均需登录，操作按账号隔离；跨账号订单404。写接口限制每账号每分钟30次。
+GET /api/commerce/cart?environment=sandbox
+PATCH /api/commerce/cart?environment=sandbox
+载荷{environment:'sandbox',items:[{skuId,quantity}]}；空items允许清空。返回{items,environment,settings}。
+同商品的不同SKU分别保留在购物车中。加购和增加数量须检查在售及可用库存，已下架的旧购物车项仍可减量或移除。下单时服务端重新核验。
+POST /api/commerce/orders
+载荷{requestId,environment:'sandbox',items:[{skuId,quantity}],shippingAddress?}。相同账号同请求号同载荷返回原订单，异载荷409。前端传入金额被忽略，所有价格由服务端读取。
+实物地址字段{name,country,address,phone?,region?,city?,postalCode?}；name/country/address必填，country两位国家代码且在商品配送范围内。数字订单不强制地址且不保存无关地址。
+GET /api/commerce/orders?environment=sandbox 返回{items,environment}。
+GET /api/commerce/orders/:id 返回完整订单。
+新订单项保存成交时的sku与options。商品后续改名、改价或下架单个规格后，订单、预占和退款仍按原SKU ID及成交快照处理。整件商品的下架付款规则仍沿用原交易流程。
+
+后台商品规格
+在「商城与统一订单 → 编辑商品」内维护规格。POST /api/admin/commerce/products 可传 variants 数组。每项包括 sku、priceMinor、stock、active、options 和已有记录的 skuId。options 每项为 {name,value}，每个SKU最多四组。已有记录可传 expectedStock，后台界面会带上读取时库存，避免覆盖同时发生的扣库或回库。
+每商品最多20个SKU，使用商品级币种和配送规则。会员继续使用单SKU且无需规格。已有SKU可下架，保留其ID。原单规格API仍支持顶层sku、priceMinor及stock。正式支付、真实仓配与退费仍须单独验收。
+POST /api/commerce/orders/:id/sandbox-pay 载荷{requestId}。只在沙箱开启、订单未过期、商品仍上架时模拟付款；不存在渠道验单成功的伪造声明。
+GET /api/commerce/entitlements?environment=sandbox 返回{items,environment,grantsProductionAccess:false}。
+POST /api/commerce/orders/:id/aftersale 载荷{requestId,reason,quantity?}。仅已付款且仍有可退数量时建立pending请求，更新aftersaleStatus=requested，返回完整订单。不会自动退款或发起资金操作；重复同载荷不重复申请。
+
+完整订单返回
+id、ownerId、environment、sandboxOnly:true、grantsProductionAccess:false、requestId。
+status、paymentStatus、fulfillmentStatus、aftersaleStatus分别返回，不用单一成功布尔值代表全部状态。
+currency、subtotalMinor、shippingMinor、taxMinor、totalMinor、refundedMinor、shippingAddress、tracking、reservedUntil、createdAt、updatedAt。
+items内含id/itemId、skuId、productId、title、type、quantity、priceMinor、unitShippingMinor、unitTaxMinor、totalMinor、contentId、priceVersion、refundedQuantity以及成交时公共多语/封面/退款说明。
+events仅显示沙箱付款/退款事件摘要。aftersaleRequests显示本人售后申请和处理状态。
+inventoryEvents含{id,skuId,itemId,quantityDelta,reason,environment,createdAt}，可追溯退款是否回库。
+
+后台接口 仅admin
+GET /api/admin/commerce 返回{settings,products,orders,environment:'sandbox',productionEnabled:false}，订单最近200条。
+GET /api/admin/commerce/orders/:id 返回完整订单。
+PATCH /api/admin/commerce/settings 载荷{sandboxEnabled:boolean,productionEnabled:false}；启用production请求400。
+POST /api/admin/commerce/products 载荷{id?,title,description,type:'digital'|'physical'|'membership',sku,priceMinor,currency,stock,contentId?,shippingCountries:[],shippingMinor,taxMinor,environment:'sandbox'|'production',status:'draft'|'published'|'archived',version?,imageUrl?,refundPolicy?,titleZh?,titleEn?,titleHant?,titleBo?,descriptionZh?,descriptionEn?,descriptionHant?,descriptionBo?}。
+返回{item,environment,productionEnabled:false}。创建缺省draft，修改须id和当前version；已有商品不能换类型/环境。数字作品发布须绑定已发布智慧馆course；实物发布须配送国家。imageUrl仅允许HTTPS或本项目已上传image MIME素材；新绑定本地图片必须由当前管理员上传，原先已验证且未更改的图片可保留，拒绝猜测其他账号私有图片ID、凭据嵌入、非HTTPS和错误媒体类型。
+POST /api/admin/commerce/orders/:id/fulfill 载荷{trackingNumber,carrier?,status:'shipped'|'delivered'}，缺省shipped。仅已付且仍有未退实物可操作；已送达不能倒退。
+POST /api/admin/commerce/orders/:id/refund 载荷{requestId,items:[{itemId,quantity}]}，返回完整订单。按原订单项快照计价，重复同载荷不重复退，异载荷409，超额/跨订单项409。部分退款调整对应权益remaining，全退撤销对应权益，原付款与退款账均保留。
+已shipped/delivered实物退款不回可售库存，库存事件reason=refund_after_dispatch_no_restock、quantityDelta=0。未发货实物或数字退款回库reason=refund_restock；不把退款等同收到退货。退货验收入库尚未提供，后续独立实现。
+普通user/teacher/operator/reviewer不能调用后台商品/资金接口。
+
+主要状态
+新建：status=awaiting_payment、paymentStatus=unpaid、fulfillmentStatus=awaiting_payment、aftersaleStatus=none。
+过期：status=closed、paymentStatus=expired，释放held库存。
+数字/会员沙箱付款：status=completed、paymentStatus=paid、fulfillmentStatus=fulfilled，产生独立sandbox权益。
+实物沙箱付款：status=paid、paymentStatus=paid、fulfillmentStatus=awaiting_fulfillment。
+登记发货：status=fulfilling、fulfillmentStatus=shipped；送达status=completed、fulfillmentStatus=delivered。
+按项部分退款：paymentStatus/aftersaleStatus=partially_refunded；全退两者refunded，独立保留履约状态。全退依据数量判断，0金额商品也正确处理。
+售后申请：pending；退款部分处理后processing，全退后resolved。未做自动批准、预约、第三方入驻、生产退款或自动打款。
+
+本模块静态自检
+Python AST和常量SQL参数数量检查通过；12表、24条DDL在内存SQLite可解析，两端DDL逐条一致；Cloud文件TypeScript strict检查0诊断。
+这些检查不代表运行联调、完整回归或资金能力验收。根任务集成后须在隔离SQLite和本地D1/R2运行交易专项、浏览器闭环及两后端本轮完整回归；原数据库、真实支付和公网未由本模块触及。

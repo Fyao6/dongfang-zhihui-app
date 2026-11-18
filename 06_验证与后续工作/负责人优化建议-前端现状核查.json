@@ -1,0 +1,490 @@
+{
+  "title": "负责人优化建议 首页视频 社群商城 每日抽卡与四语言现状核查",
+  "audit_type": "只读静态代码与素材核查",
+  "project_root": "C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒",
+  "instructions_read": {
+    "file": "AGENTS.md",
+    "lines": 407,
+    "complete": true
+  },
+  "scope": {
+    "business_source_modified": false,
+    "build_run": false,
+    "runtime_tests_run": false,
+    "public_requests_or_deployments": false,
+    "original_database_opened_or_modified": false,
+    "credentials_read": false
+  },
+  "assessment_limits": [
+    "本记录证明检查时的源码、构建入口结构和种子素材能力，不替代实际浏览器、双后端完整回归或实机验收。",
+    "未打开原SQLite、云端D1或运行中服务，种子内容数量不代表生产后台当前发布数量。",
+    "未因原文提出视频制作、采购或正式收费而执行外部服务调用、资源采购、发布或真实交易。",
+    "未把已有示例卡、社群短片、流程预览和历史测试结果视作本轮正式素材或功能验收。"
+  ],
+  "runtime_composition": {
+    "builder": "04_研发源码/app/r4/build.py:22",
+    "home_owner": "04_研发源码/app/r4/frame-home-profile.js:1,10 flHome，复用homepage.js:8 dailyBanner",
+    "community_owner": "04_研发源码/app/r4/community-feed.js:128 screens.community=communityFeedPage",
+    "card_owner": "04_研发源码/app/r4/journey.js:33,37 journeyCard包装platform.js:26 pxCardPage",
+    "language_owner": "04_研发源码/app/r4/i18n-ui.js在全部screen模块之后加载",
+    "current_build_destinations": [
+      "03_当前APP/东方智慧-首页体验R4.html",
+      "03_当前APP/发给负责人-东方智慧首页R4.html",
+      "03_当前APP/计时后台-开发联调.html",
+      "04_研发源码/app/cloud由prepare.py准备的生成页"
+    ],
+    "note": "修改较早base/app中的同名页面不一定影响最终页面，实施应沿实际覆盖链定位。"
+  },
+  "modules": [
+    {
+      "name": "首页轮播视频",
+      "task_ids": [
+        "V01",
+        "V02",
+        "V03",
+        "V04"
+      ],
+      "overall": "文字图片运营轮播和内容管理已具备，介绍视频及字幕链路缺失",
+      "existing": [
+        {
+          "capability": "轮播标题、标签、说明、按钮文字、内部页面或HTTPS跳转和封面图片",
+          "evidence": [
+            "04_研发源码/app/r4/homepage.js:6-8",
+            "04_研发源码/app/r4/platform.js:94,115",
+            "04_研发源码/app/r4/time-bank-admin.html:14"
+          ]
+        },
+        {
+          "capability": "7秒轮播、暂停、手势、圆点、左右键；鼠标悬停、焦点、隐藏页面与弹层暂停前进，减少动态效果时不自动前进",
+          "evidence": [
+            "04_研发源码/app/r4/journey.js:44-50"
+          ]
+        },
+        {
+          "capability": "复用quotes的排序、草稿、发布、归档和内容修订生命周期；后台相应四语言字段已扩展",
+          "evidence": [
+            "04_研发源码/app/r4/time-bank-admin.html:68-71",
+            "04_研发源码/app/r4/backend/server.py:785-793,837-845",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:145,151"
+          ]
+        },
+        {
+          "capability": "已有视频播放/离页暂停模式可借鉴；上传支持mp4/webm/quicktime及图片音频",
+          "evidence": [
+            "04_研发源码/app/r4/community-feed.js:30-45,53-123",
+            "04_研发源码/app/r4/backend/server.py:1022-1026"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "gap": "dailyBanner只生成文字和按钮，未生成video或独立介绍片播放器；没有主动播放暂停轮播、关闭恢复等视频生命周期",
+          "evidence": [
+            "04_研发源码/app/r4/homepage.js:8",
+            "04_研发源码/app/r4/journey.js:45-50"
+          ]
+        },
+        {
+          "gap": "quotes后台schema无介绍视频、字幕轨道、字幕语言、无字幕母版或视频专用封面定义；后端虽泛型JSON允许额外字段，但无对应验证或UI消费，不能算已实现",
+          "evidence": [
+            "04_研发源码/app/r4/time-bank-admin.html:14",
+            "04_研发源码/app/r4/backend/server.py:785-793,832-834",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:145,151"
+          ]
+        },
+        {
+          "gap": "字幕文件不在现上传MIME白名单；新增字幕引用还需同步素材读取鉴权和后台管理，不能只加前端track标签",
+          "evidence": [
+            "04_研发源码/app/r4/backend/server.py:1022-1026,1044-1057",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:176"
+          ]
+        },
+        {
+          "gap": "images目录仅有用户社群短片community-preview.mp4及其封面，没有可确认的认识东方智慧40秒成片、配音或简繁英字幕；原短片不是APP介绍片",
+          "evidence": [
+            "04_研发源码/app/r4/images/community-preview.mp4",
+            "04_研发源码/app/r4/images/community-preview-poster.jpg",
+            "04_研发源码/app/r4/build.py:38-39"
+          ]
+        }
+      ],
+      "can_start": [
+        "审核并保存脚本/分镜候选与待确认项；现有真实页面可为未来录屏素材，但不把未审候选写为正式成片。",
+        "扩展quotes的媒体字段、URL/MIME/语言校验及三端空状态；实现封面、视频弹层、原生播放控制、字幕选择、错误重试和生命周期。",
+        "在隔离测试中用明确测试媒体验证仅当前可见视频播放、切页停声、播放时轮播暂停和减少动态效果；不能用测试片替代正式成片验收。"
+      ],
+      "external_dependencies": [
+        "品牌名/脚本/旁白和屏幕字审核",
+        "可商用视频、声音、音乐及授权证明",
+        "正式成片、封面、简繁英字幕和无字幕母版",
+        "目标iOS/Android/H5端及实际设备",
+        "若调用AI视频服务，需实际工具、账户额度和该项调用授权"
+      ]
+    },
+    {
+      "name": "社群商城",
+      "task_ids": [
+        "SH01",
+        "SH02",
+        "SH03",
+        "SH04",
+        "SH05",
+        "SH06",
+        "SH07",
+        "SH08"
+      ],
+      "overall": "现有社群四标签和真实内容/好友能力可复用，商城业务未接入",
+      "existing": [
+        {
+          "capability": "我的好友、我的对话、老师推荐、推荐视频4个标签及实际页面",
+          "evidence": [
+            "04_研发源码/app/r4/community-feed.js:5-8,128"
+          ]
+        },
+        {
+          "capability": "内容发布审核、真实认证老师、好友/对话、账号鉴权和账户范围请求令牌可复用",
+          "evidence": [
+            "04_研发源码/app/r4/community-feed.js:19-28,47-50",
+            "04_研发源码/app/r4/platform.js:5,101-110",
+            "04_研发源码/app/r4/backend/server.py:391-443"
+          ]
+        },
+        {
+          "capability": "已有智慧馆课程ID、老师关联、媒体和会员展示配置可作为未来数字商品内容关联，现有会员购买仅保存流程预览",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:86-89,96",
+            "04_研发源码/app/r4/membership.js:33-40"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "gap": "现社群header无商城第5标签；CSS按4个flex:1等宽按钮、两行截断组织，新增必须验证横滑及藏文/英文可达，避免压缩成不可辨标签",
+          "evidence": [
+            "04_研发源码/app/r4/community-feed.js:5-8",
+            "04_研发源码/app/r4/community-feed.css:2-5"
+          ]
+        },
+        {
+          "gap": "核查的最终screens及Python/Cloud API中无商城、商品SKU、购物车、统一商品订单和售后管理功能；不得直接把会员草稿或咨询需求当商城订单",
+          "evidence": [
+            "04_研发源码/app/r4/community-feed.js:128",
+            "04_研发源码/app/r4/platform.js:114",
+            "04_研发源码/app/r4/backend/server.py:49,133-163",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:4,180-190"
+          ]
+        },
+        {
+          "gap": "旧orders操作只有尚无真实订单或预约的空提示；会员确认仅本地草稿，未做实际扣费开通",
+          "evidence": [
+            "04_研发源码/app/r4/base.js:287",
+            "04_研发源码/app/r4/membership.js:33-40"
+          ]
+        },
+        {
+          "gap": "缺正式首批商品、商户准入、税运费、国家/币种、库存/授权、售后联系人；实体履约与数字权益不能用统一静态按钮冒充完成",
+          "evidence": [
+            "需求SH02-SH08及统一PAY模块依赖"
+          ]
+        }
+      ],
+      "can_start": [
+        "先与统一交易模块约定商品、订单项、价格快照、支付/履约/权益/佣金各自状态及API契约，商城复用同一套，避免SH与PAY各建账。",
+        "在现有communityHeader加入横滑商城入口，建设真实数据驱动的分类/搜索/列表/详情/购物车/订单/售后UI与加载、空数据、错误和登录状态。无商品时明确空状态。",
+        "在隔离数据库和沙箱实现商品分类/SKU/库存/上下架、服务端核价、库存预占、订单追踪及后台权限/审计，测试商品明确标注并禁止进入生产。",
+        "数字商品关联既有课程内容ID及独立权益；实体商品按配送国家校验，混合订单按支付渠道拆分。"
+      ],
+      "external_dependencies": [
+        "首批商品名称、类型、图片版权、介绍、SKU、币种价格、库存或授权、销售国、履约与售后",
+        "支付签约主体/银行/发行端/国家及准入",
+        "运费税费退款和配送规则",
+        "是否包含服务预约、是否第三方入驻两项范围确认",
+        "真实收费与结算启用前对应商业规则确认"
+      ]
+    },
+    {
+      "name": "每日抽卡",
+      "task_ids": [
+        "DR01",
+        "DR02",
+        "DR03",
+        "DR04",
+        "DR05",
+        "DR06",
+        "DR07",
+        "DR08",
+        "DR09"
+      ],
+      "overall": "已具备8张现有卡与本机每日点停体验；距服务端可追溯36卡方案仍有关键数据与规则缺口",
+      "existing": [
+        {
+          "capability": "原内置及initial-content种子均为8张：留白、方向、接纳、微光、扎根、倾听、安歇、专注；含名称、寄语、解读、行动与练习/路由",
+          "evidence": [
+            "04_研发源码/app/r4/daily.js:22-31",
+            "04_研发源码/app/r4/backend/initial-content.json cards"
+          ]
+        },
+        {
+          "capability": "实际页面为滚动卡片中心点停，保存快照和selection=centre-tap；本机按日防重复，失败保存撤销本次结果",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:25-30"
+          ]
+        },
+        {
+          "capability": "卡结果、收藏、成长记录回看、卡片小行动自愿加入今日安排/完成；行动完成不伪计练习时长",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:26",
+            "04_研发源码/app/r4/daily.js:49-57,60-61,70,74",
+            "04_研发源码/app/r4/journey.js:32-38"
+          ]
+        },
+        {
+          "capability": "本机状态按账号范围切换；后台POST records对card/checkin按owner,kind,day只插首条；卡池后台已有四语编辑、排序/草稿/发布/归档、修订恢复",
+          "evidence": [
+            "04_研发源码/app/r4/base.js:87-99",
+            "04_研发源码/app/r4/backend/server.py:156-157,431-443,794-795",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:146,186",
+            "04_研发源码/app/r4/time-bank-admin.html:16,68-71"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "gap": "实际点停结果由客户端滚轮位置决定，旧card-draw分支也用客户端Math.random；后端只接受客户端任意card数据，不验证有效池、不生成随机结果、不回传首条权威结果。现防重复数据库记录不等于跨设备防多抽",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:29-30",
+            "04_研发源码/app/r4/daily.js:68",
+            "04_研发源码/app/r4/backend/server.py:431-443",
+            "04_研发源码/app/cloud/lib/eastern-api.ts:186"
+          ]
+        },
+        {
+          "gap": "today()取设备本地日期；未见抽卡独立时区选择、服务端自然日和切换频率约束；时间银行自己的时区不等于抽卡日界已受控",
+          "evidence": [
+            "04_研发源码/app/r4/app.js:2,17",
+            "04_研发源码/app/r4/time-bank.js:3,7,26",
+            "04_研发源码/app/r4/platform.js:30"
+          ]
+        },
+        {
+          "gap": "没有整套/三主题卡池选择、正式次数配置、下次可抽时间、requestId、卡组版本和随机规则版本；36张仅文档建议，不能擅自替换原8张并宣称正式定稿",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:25-30",
+            "04_研发源码/app/r4/time-bank-admin.html:16"
+          ]
+        },
+        {
+          "gap": "快照有利历史稳定，但当前无服务端抽取历史回读接口、独立历史页、感受记录/分享完整链；下架/授权错误提示规则未实现",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:26,30,101-110",
+            "04_研发源码/app/r4/daily.js:56,60,70,74",
+            "04_研发源码/app/r4/backend/server.py:431-443"
+          ]
+        },
+        {
+          "gap": "后台缺卡主题、自我提问、替代文本、统一卡背、作者/授权/审核/发布日期、版本发布预览及完整36卡素材；现结果图片alt为空",
+          "evidence": [
+            "04_研发源码/app/r4/time-bank-admin.html:16",
+            "04_研发源码/app/r4/platform.js:26,29"
+          ]
+        },
+        {
+          "gap": "实际滚轮requestAnimationFrame持续运行，未在pxWheelLoop内检查减少动态偏好/文档隐藏；旧翻转分支有reduce检查但不能证明最终滚轮满足新抽卡动效要求",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:29,115",
+            "04_研发源码/app/r4/daily.js:68"
+          ]
+        },
+        {
+          "gap": "与AI聊聊目前拼卡名/寄语直接pxAsk，尚无卡片级独立同意、额度检查和仅cardId+审核卡义的专用数据契约",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:128"
+          ]
+        },
+        {
+          "gap": "卡片名称使用ewI18n.content但寄语/解读/行动通过t(en,zh)，CMS明确填入的lineBo/readingBo/actionBo和Hant版本会被绕过，可能回落到词典或英文；不能说四语动态卡文案已完整消费",
+          "evidence": [
+            "04_研发源码/app/r4/platform.js:26",
+            "04_研发源码/app/r4/i18n.js:30-34",
+            "04_研发源码/app/r4/time-bank-admin.html:68-69"
+          ]
+        }
+      ],
+      "can_start": [
+        "复用现CMS卡池和账号隔离，新增服务端权威抽取/当日结果/历史读取；Python与Cloud使用同一契约和唯一约束，返回既有首条结果解决并发和跨设备冲突。",
+        "保留旧draw.snapshot和旧8张历史记录，新版卡组/文案按版本发布；不得静默重抽或覆盖已有结果。",
+        "实现主题/次数/日界为显式配置，规则未确认先沙箱；已有正式卡池不自动灌入未经审核的36卡建议。",
+        "完成抽前/中/后、已用、弱网恢复、历史/收藏/小行动/分享和替代文本；修正动态四语取值并增加减少动效和隐藏页生命周期。",
+        "AI入口接统一隐私授权和额度机制，暂未真实配置时保持真实未接入状态，不上传命盘。"
+      ],
+      "external_dependencies": [
+        "卡种和36张方案定稿",
+        "免费/会员次数、日界时区与时区切换限制",
+        "原创36卡全套文案、简繁英与藏文内容维护、卡面/卡背、授权和审核",
+        "下架/授权错误的历史访问处理规则",
+        "正式AI网关与额度规则"
+      ]
+    },
+    {
+      "name": "四语言与新增页面兼容",
+      "overall": "简中、繁中、英文、藏文基础引擎和字体完整存在；新功能需延续四语，藏文母语审校仍是外部依赖",
+      "existing": [
+        {
+          "capability": "支持zh/zh-Hant/en/bo，语言URL、首页入口、设置切换与偏好保存；离线OpenCC繁转，英文显式文案、藏文字典与缺译记录",
+          "evidence": [
+            "04_研发源码/app/r4/i18n.js:3-45",
+            "04_研发源码/app/r4/i18n-ui.js:2-28",
+            "04_研发源码/app/r4/profile.js:13"
+          ]
+        },
+        {
+          "capability": "EW Tibetan完整字体在构建中嵌入，藏文行高、字叠、按钮、导航和表单等有专门布局",
+          "evidence": [
+            "04_研发源码/app/r4/i18n.css:1-48",
+            "04_研发源码/app/r4/build.py:13-14"
+          ]
+        },
+        {
+          "capability": "CMS翻译字段与原内容共同版本/发布；ewI18n.content和field支持动态四语覆盖；现有字典构建从06四语文案清单、i18n-bo-draft、i18n-bo和i18n-extra合并",
+          "evidence": [
+            "04_研发源码/app/r4/time-bank-admin.html:67-70",
+            "04_研发源码/app/r4/i18n.js:30-38",
+            "04_研发源码/app/r4/build_i18n.py:1-14"
+          ]
+        },
+        {
+          "capability": "现有四语专项、页面扫描和字体字典校验脚本可扩展复用，但历史结果不能当本轮通过",
+          "evidence": [
+            "06_验证与后续工作/四语专项联调.cjs",
+            "06_验证与后续工作/四语页面扫描.cjs",
+            "06_验证与后续工作/四语字典与字体校验.py"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "gap": "新增商城、视频和抽卡状态需新增真实字典条目及CMS字段；文档只列简繁英不能作为移除既有藏文的依据"
+        },
+        {
+          "gap": "动态内容未提供藏文时会回落英文/中文并记录缺译，不能将可显示原文等同完成藏文翻译；藏文仍待母语审核",
+          "evidence": [
+            "04_研发源码/app/r4/i18n.js:13-21",
+            "AGENTS.md 四语言版本及后续规则"
+          ]
+        },
+        {
+          "gap": "现国际化是文字与内容字段；APP介绍视频声音/字幕需独立素材与语言审核，旧四语UI测试不证明字幕已制作"
+        },
+        {
+          "gap": "卡正文绕过CMS语言覆盖是本轮应修的可定位问题；新社群第5标签需横滑及键盘可达四语专项，不能沿当前2行截断粗略增加"
+        }
+      ],
+      "can_start": [
+        "所有新UI沿既有t/ewI18n.content/field/ewLocaleOptions，并补i18n-extra/bo可审词条；不自动翻译用户输入或生辰聊天。",
+        "动态四语字段在结果、历史、收藏、后台预览中统一消费；加入修改Bo/Hant覆盖后真实可见的验证。",
+        "每业务模块完成后跑本轮双后端完整回归及对应专项；四语在390px/窄屏、长文本、矮屏/藏文行叠和实际入口可达性检查，保留合理滚动。"
+      ],
+      "external_dependencies": [
+        "新增业务文案和卡内容四语审校",
+        "藏文母语审校",
+        "视频旁白/字幕与品牌译名审核",
+        "实际目标设备验收"
+      ]
+    }
+  ],
+  "recommended_dependency_order": [
+    "G01现状检查和统一接口确认：交易模块先定统一商品/订单/权益契约，视频和抽卡分别复用quotes/cards内容体系。",
+    "可先独立修正动态四语取值、减少动效和素材字段/验证，再建设视频播放器及商城空/加载/失败状态；不以空壳完成代表整模块完成。",
+    "抽卡服务端权威结果、时区配置与历史快照同一模块做成闭环，再接收藏、感受、练习、分享和AI授权。",
+    "真实视频、首批商品、36卡正式内容、商户支付和目标设备齐备后逐项正式验收；缺资料项目如实待补，其他可独立工作持续推进。"
+  ],
+  "deliverable": "本JSON为实施前端现状与依赖记录，不包含新的业务完成结论。",
+  "checked_at_beijing": "2026-11-12T17:10:25+08:00",
+  "inspected_file_hashes": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "f46bb5dae847e102111cb7a7de2aa9996c1bf58b6158ce22be1625fefeae5a21",
+      "bytes": 79004
+    },
+    {
+      "path": "04_研发源码/app/r4/homepage.js",
+      "sha256": "8cdcb667f6e0af7d0056757ecdb90e0f7113175e5488b5a93bd2e37a3f71c30a",
+      "bytes": 10238
+    },
+    {
+      "path": "04_研发源码/app/r4/journey.js",
+      "sha256": "4b3affe0d87a3c963be6f71323014f9072a8f3a8223f7382985b3abaf9e8595f",
+      "bytes": 29271
+    },
+    {
+      "path": "04_研发源码/app/r4/platform.js",
+      "sha256": "e06d2b972a6d240cdb9a48b7057b08eb51265cf1ea07f86ef019cf4d43c7f5b8",
+      "bytes": 68251
+    },
+    {
+      "path": "04_研发源码/app/r4/daily.js",
+      "sha256": "f7cbe02b5f826f42a86bff1b03c71a7331c636cc76c9e63486d9277766efc838",
+      "bytes": 33882
+    },
+    {
+      "path": "04_研发源码/app/r4/community-feed.js",
+      "sha256": "63644f686b478106f53799bb52de4056ac56f1661514743ecf19a0b44c16f84f",
+      "bytes": 16465
+    },
+    {
+      "path": "04_研发源码/app/r4/community-feed.css",
+      "sha256": "0f78fd26322986a2337eaf82bdeaf0042698de4c014191589859e940132f0f80",
+      "bytes": 11678
+    },
+    {
+      "path": "04_研发源码/app/r4/frame-home-profile.js",
+      "sha256": "f7dd0229db7fd63483dea3ba78c1e2d5062f442b35366fa194ccc7d41ed31ea3",
+      "bytes": 4647
+    },
+    {
+      "path": "04_研发源码/app/r4/i18n.js",
+      "sha256": "fd28aa4a49cb21be7777de215314e77c33c8fa2225feac4122001dbc2aca5ae3",
+      "bytes": 4375
+    },
+    {
+      "path": "04_研发源码/app/r4/i18n-ui.js",
+      "sha256": "1d4a40be942b8a2c2f402fec19d2424b0256f3b2e67c305854a6cddd2f82cebb",
+      "bytes": 2337
+    },
+    {
+      "path": "04_研发源码/app/r4/i18n.css",
+      "sha256": "e8589d604d52ca9e83918dac799049674689117b4de64f3a4d25bf08a77680cc",
+      "bytes": 5159
+    },
+    {
+      "path": "04_研发源码/app/r4/build_i18n.py",
+      "sha256": "118af3e19aaee14caf8675df137e234bafde8cdc858c5f02f19c7095830f2889",
+      "bytes": 982
+    },
+    {
+      "path": "04_研发源码/app/r4/build.py",
+      "sha256": "8f12b3861daa674f6328fef7e300976aa66cbdbdd501d360f08146fe1f6c0d29",
+      "bytes": 6956
+    },
+    {
+      "path": "04_研发源码/app/r4/time-bank-admin.html",
+      "sha256": "dd75a53db5c6e820a32a017371f39ec8a81c47f4441bf47d65dcb227afcf2cf9",
+      "bytes": 48910
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/server.py",
+      "sha256": "b17177c21a3e8dd06f817e2f01a7faff6432a20609471efb105a559ad41e2bee",
+      "bytes": 76585
+    },
+    {
+      "path": "04_研发源码/app/r4/backend/initial-content.json",
+      "sha256": "9d92c330847d0f8aafe1c8fe647b42d514dff5039d036f5325845e2b21bdd05e",
+      "bytes": 46576
+    },
+    {
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "sha256": "6c609214c983b141f66d9ee60ee44b219a89aa509580827a60d93be530c4c525",
+      "bytes": 46221
+    }
+  ]
+}

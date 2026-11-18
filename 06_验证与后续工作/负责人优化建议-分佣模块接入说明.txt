@@ -1,0 +1,82 @@
+CM01–CM06：独立准备与接入契约
+
+状态：按P287–P315实现沙箱框架；正式分佣文档未提供，productionEnabled与actualPaymentsEnabled固定false。本说明不代表模块已接入或全量验收。不得将测试记账、审批或凭证样例称为真实转账。
+
+本轮最新状态（更新此前准备阶段描述）
+root已在会员9b98ae9基线执行13文件接入并重建APP/Cloud。实际D1首次因相关ORDER BY引用外层c.data报500，已将归因子查询自身JOIN commission_config ac并只在该子查询排序读取ac.data；两端同构SQL同步，未绕过成交快照。旧失败保留在实际专项报告runs和root兼容报告。
+最终待根合并的实际专项：Python mwdkt19q_3c28ee 31/31、Cloud mwdkwxqq_304486 31/31，均全新隔离状态，身份未漂移。包含disabled/启用空规则、first/last_touch真实SQL、支付及冲正派生故障后的事实保留与幂等补接、专项staff导航与降权、本人隐私导出和金融保留、四语页面/字体/取消旧响应。Cloud QA服务现正确映射当前public/assets，真实藏文字体200且SHA一致，截图等待页面有限动画和字体完成。
+这不是模块最终冻结证明；双后端完整回归、兼容回归和最终提交以root的合并记录为准。生产、真实渠道、实际打款、财务保留期限和正式分佣规则仍待资料/接入，不将本机沙箱通过等同其已完成。
+
+源码所有权
+新增04_研发源码/app/r4/backend/commission.py、cloud/lib/commission-api.ts、r4/commission-admin.js、r4/commission-center.js、r4/commission-center.css。本模块不修改server、eastern-api、commerce或build等公共文件，不创建新目录。
+
+数据库与入口
+Python init_schema(db)应在统一交易表初始化之后调用；Commission(store,handler,ApiError,limiter).route(method,path)在通配路由前接入，非None表示已处理。Cloud initCommission(a)在initCommerce之后，commissionRoute(a,p,m,fail)非undefined表示已处理。
+全部新增佣金表只引用既有commerce_orders、commerce_order_items、commerce_payment_events，不创建第二套商品订单或付款事件。
+
+成交快照（必需，不能等到支付时补）
+Python订单创建事务在插入订单项后调用snapshot_order(db,order_id)，不另行commit。
+Cloud订单创建batch在订单项/预占之后追加...commissionSnapshotStatements(a,orderId)，这些语句仅由INSERT SELECT读取同一事务中的有效规则/邀请码归属及启用配置，无预先异步读取后再猜测的快照。
+即使分佣沙箱当时关闭，也保存明确的关闭快照；后来开启不能反向给旧订单计佣。没有成交快照的历史订单不自动重建受益人或套用当前比例。
+规则只追加版本，生效不能倒签；旧订单保持快照版本。推广受益人只能由服务端有效邀请码记录解析，归因写入不接受受益人/优先级等客户端覆盖。作者受益人来自经权限审核保存的规则。
+
+付款/履约/退款同步（必需，可幂等重试）
+Python在交易原事务完成后调用sync_commission_order(db,order_id)（在当前连接/事务内同步或在独立新事务重试均可）。Cloud调用syncCommissionOrder(a,orderId)。幂等读统一交易实际付款事件和当前按项退款数量，不接受客户端“已经支付”状态或金额。
+订单支付、退款与履约后均需同步；分佣同步失败不能重做支付，保留重试入口。未同步时不能把统一交易已成功描述为佣金已生成。客户端不能通过同步参数变更归因。
+
+货币与费用
+只存整数最小币种单位，比例使用整数万分比。Python整型与TS BigInt完成中间乘除，安全整数输出；明确floor或half_up取舍。固定金额按每单位订单项计算，不冒充正式规则。
+统一交易当前没有优惠功能，discountMinor=0只能在明确当前统一交易事实下记录，后续优惠接入须更新事实适配；渠道费未给出时必须null。需要扣渠道费的规则在waiting_facts等待，不能把未知当0。事实补录须财务权限和来源记录。
+总佣金不可超过该订单项实付；并行作者/推广必须显式允许，否则按显式优先项选择。无跨币种换汇，混币结算拒绝。
+退款按成交佣金和原数量进行比例冲正，累计部分退款按原总额计算目标余额，避免逐次舍入误差。原台账和结算单不删除；已结算账产生待抵扣/追偿调整，未收到原系统拒付事件时不假造拒付或直接更改订单。
+
+权限与状态
+admin负责沙箱开关及细分授权；专项授权仅给现有admin/operator/reviewer，user与teacher不预授。每次同时检查原基础staff角色，operator/reviewer降为user后旧grant立即无效；business维护规则/邀请码，finance补事实、确认冻结、审批与结算，support只读处理状态。未获明确授权的operator/reviewer不自动具备财务权限。本人入口只读当前受益人的台账/调整/结算摘要，不返回他人私信、买家地址或完整收款资料。
+waiting_facts（缺费用）与pending_confirmation、frozen、payable、statement_pending、settled_bookkeeping、revoked分别表示实际状态。满足履约和冻结时间后才可结算；结算单申请人与审批人分开，不把单个管理员点击等同双人审批。
+实际付款资料与结算记账独立。目前仅允许isTestData=true的沙箱收款引用/凭证登记，actualPaid始终false，真实打款接口固定关闭。没有合法真实凭证核验不能显示“已打款”。
+
+前端接入
+commission-center.js注册screens.commissionCenter，root在现有个人页/创作者入口挂真实跳转。四语通过显式内容；未登录、加载、空、失败重试、账号切换迟到响应需保留。
+commission-admin.js在后台bootstrap前加载，新增commission导航；业务/财务/客服操作以服务端权限为准，前端不通过隐藏按钮授予权限。
+
+正式资料缺口
+参与人/层级、作者与推广共存、归因冲突、税/运/优惠/渠道费扣项、费率/上限/舍入、冻结期/周期/最低额、续费/换汇/退款拒付/终止政策，正式收款资料处理方案、税务与真实渠道凭证核验均待项目方确认。生产开关保持关闭，沙箱默认也关闭。
+
+精确HTTP接口（默认JSON，所有写入需登录并受限频）
+GET /api/commissions：仅本人beneficiary台账、调整、结算单及其行；客户端beneficiary筛选不能扩大本人的权限。所有结果sandboxOnly=true、actualPaid=false。
+POST /api/commissions/attributions：{code,requestId}。只由服务端有效邀请码读取受益人/有效期/优先级，禁止额外客户端归属字段。同请求同码幂等，异码409；本人给自己归因拒绝。仅影响后续订单，旧成交快照不变。
+GET /api/admin/commissions：专项business/finance/support或admin；返回permission及settings、items、adjustments、statements。business/admin附rules/invites，admin附grants；finance/admin附单独payments测试凭证资料，其他角色不返回。support不返回金额、详细规则、收款资料。
+GET /api/admin/commissions/export：相同权限，增加csv字段；金额用最小币种单位，不含收款引用或凭证正文，对可能形成表格公式的单元格加前缀。筛选beneficiary/productId/contentId/kind/currency/from/to（原佣金成交周期）；结算单保持whole_statement总额，不能当筛选作品小计，from/to为毫秒。
+PATCH /api/admin/commissions/settings（admin）：{sandboxEnabled,productionEnabled:false,actualPaymentsEnabled:false,stackingPolicy:'allow_both'|'exclusive_author'|'exclusive_promotion',attributionStrategy:'first_touch'|'last_touch'}。关闭影响后续成交快照；旧订单原快照保留供退款/记账追溯。
+POST /api/admin/commissions/grants（admin）：{userId,permission:'business'|'finance'|'support'|'none'}。
+POST /api/admin/commissions/rules（business/admin）：{ruleId?,expectedVersion:0或当前version,productId,kind:'author'|'promotion',beneficiary:作者现有teacher/admin账号ID或推广空串,currency,mode:'rate'|'fixed_per_unit',rateBps,fixedMinor,rounding:'floor'|'half_up',basis:{deductTax:boolean,deductShipping:boolean,deductDiscount:boolean,deductChannelFee:boolean},capMinor:null或整数,freezeDays,minimumSettlementMinor,status:'active'|'inactive',note,effectiveAt?:当前之后毫秒}。新规则省略effectiveAt即服务端立即生效；不得倒签。每个商品每类沿同一ruleId追加，不允许同类多身份叠佣。作者/推广两类是否并行取成交时配置。
+POST /api/admin/commissions/invites（business/admin）：新建{code,beneficiary,priority:0..1000,validUntil:毫秒}；撤销{code,status:'revoked'}。旧码不能换人或续期，变更新建代码。
+POST /api/admin/commissions/facts（finance/admin）：{itemId,channelFeeMinor:null或整数,discountMinor:0,source,isTestData:true}。金额未确认前可补事实；已定金额不静默覆盖，需后续正式调整方案。
+POST /api/admin/commissions/orders/:id/sync（finance/admin）：{}。只读既有交易事件并幂等派生佣金；没有创建时快照返回{synced:false,reason:'missing_creation_snapshot'}，不能用当前规则补旧单。
+POST /api/admin/commissions/confirm（finance/admin）：{ledgerId}，pending_confirmation→frozen。
+POST /api/admin/commissions/advance（finance/admin）：{}，重新同步退款后，仅履约fulfilled/delivered且冻结已到期、净额大于0的frozen→payable。
+POST /api/admin/commissions/statements（finance/admin）：{beneficiary,currency,from,to}，周期毫秒；同币种本周期可结算项自动纳入，历史pending_recovery调整自动抵扣；净额须达本单所用规则最高最低额且大于0。创建awaiting_approval并原子预占台账与调整。
+POST /api/admin/commissions/statements/:id/approve|book|cancel（finance/admin）：{expectedVersion}；approve必须另一个有财务权限的账号，book仅结算记账。退款如发现未入账单，会将该单取消并释放原预占，后续操作返回取消状态/invalidatedByRefund，不能使用旧金额继续入账。
+POST /api/admin/commissions/statements/:id/payment（finance/admin）：{requestId,isTestData:true,recipient:{name,country:两位大写码,currency,channel,accountReference},proofReference}。仅booked结算单可登记测试凭证；状态固定sandbox_registered、proofVerified=false、actualPaid=false，不接受真实付款成功声明。不要录入真实银行卡或证件。
+
+隐私与保留期
+本模块不修改已冻结隐私文件。本人导出可按beneficiary筛ledger/adjustments/statements，statement_lines/payments经本人的statement关联；attributions按owner。平台rules/config/grants不混入本人资料；snapshots含其他受益人/规则，不整包导出。财务原账的删除/保留期限未获政策确认，不由delete-records无依据抹除；真实生产资料在正式规则明确前保持禁止。
+
+本轮验证边界
+Python与Cloud适配器的真实统一交易+内存SQLite/D1契约各57项，涵盖大数非整除跨端一致、固定额、旧规则与归因快照、未知费用、重复付款/退款、累计部分退款、已结算追偿、未结算单退款取消、双人审批、本人/细分角色、生产开关与测试凭证。
+Cloud此处使用node:sqlite的内存D1契约，不是实际Cloudflare HTTP专项；仍须root接入后在全新SQLite/本地D1隔离状态做实际HTTP/UI和双端完整回归。前端20项隔离组件检查通过，含四语、币种指数、未知费用、本人导出、离线重试、旧表单及迟到响应隔离、客服只读筛选、财务表单边界和失败保留输入；四语截图已目视核对。静态检查记录另见同前缀准备文件。未修改公共入口或构建，未操作原数据库、发公网或真实资金。
+
+真实专项wrapper（已创建，尚未执行）
+06_验证与后续工作/负责人优化建议-分佣实际双端专项.cjs
+06_验证与后续工作/负责人优化建议-分佣Cloud专项服务.ts
+root接入并完成build/prepare后，使用本机Node执行前者--target=python或--target=cloud。脚本强制自起服务，拒绝--base；新SQLite保存在06，新D1/R2只用cloud/.wrangler/cm短随机状态，拒绝8880/8879/8878/8877端口，无真实AI或支付渠道外调。服务启动前检查五个freeze源hash以及两端路由/实际生成页已接入，未接入不会启动服务。
+包含真实角色/开关、旧规则成交快照、付款幂等、未知费用null→来源确认0、BigInt结果、本人/客服隔离、冻结/履约、双人审批/记账、独立测试凭证、部分退款追偿、原单与CSV筛选、四语APP报表、真实旧账号响应延迟丢弃、后台入口和失败保留输入、基础角色降权后旧grant失效，以及构建身份核验。无实际执行结果前不得称双端HTTP/UI已通过。
+命令只检查过Node语法及Worker TS语法诊断，不执行公共接入或原业务。集成helper另待根给出会员完成后的最新commit，再基于该基线只创建、不执行。
+
+会员9b98ae9后的接入助手（已创建，未执行）
+06/负责人优化建议-分佣接入助手.py读取分佣接入计划.json。默认仅校验；root确认门禁后用--apply写入，--rollback仅在全部after SHA与反向anchor仍匹配时回退本次集成。共13共享文件、34个唯一anchor，先校验全部before SHA及五个冻结新源，再产生全部候选；校验完成前不写任何源。不会自动构建、启动服务或打开数据库。
+待审差异在分佣接入待审.patch；静态记录在分佣接入准备自检.json。计划生成器只在06写计划和patch，不执行助手或修改共享源。
+创建快照与会员capture同事务/同D1 batch串联。派生同步放在已授权的统一订单返回路径，覆盖付款/退款/履约完成、幂等重放及GET刷新。Python用savepoint仅撤销派生失败部分，Cloud在原交易batch提交后best-effort；返回commissionProcessing.status=sync_pending和刷新重试提示，付款/退款事实不重做。sync_pending只表示待同步，不伪装佣金已生成或已结算。
+两端auth/status增加本人commissionPermission；后台bootstrap消费它，operator默认不包含commission，只有原staff且明确business/finance/support授权才加入导航。登录成功重新bootstrap，身份失效清该权限；服务器每次仍核基础角色与专项grant。成员以普通user/teacher身份不能因旧grant获得后台入口或数据。
+个人页新增真实commissionCenter入口，创作者工作台链接同源/experience?page=commissionCenter；出生数据和旧服务入口不改。隐私新增7条白名单均按owner/beneficiary或本人结算单关联，不导出平台配置、其他受益人快照或收款凭据，不删除金融台账。
+真实专项wrapper已补“原staff无grant无导航”以及business/finance/support实际从旧后台进入并分权的浏览器检查；还未运行，等待root执行接入和构建。

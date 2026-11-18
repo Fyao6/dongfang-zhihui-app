@@ -1,0 +1,1099 @@
+{
+  "latest": {
+    "mode": "apply",
+    "applied": true,
+    "publicIntegrationExecutedByThisDryRun": true,
+    "files": [
+      {
+        "path": "04_研发源码\\app\\r4\\backend\\server.py",
+        "beforeSha256": null,
+        "plannedSha256": "2e1e67dd0d85b64d0cf94b472ea594698f73b356d7be03d0de969916941a551b"
+      },
+      {
+        "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+        "beforeSha256": null,
+        "plannedSha256": "2dab706f9057772d63a2c26069806b28202638087c62dab64545659200d3383b"
+      },
+      {
+        "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+        "beforeSha256": null,
+        "plannedSha256": "c476abcb7b214024aebb8807a7d2b2a351d8a60cf9f141743007349a00ddade3"
+      },
+      {
+        "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+        "beforeSha256": null,
+        "plannedSha256": "72dbec79ea3a3a0cb2221228ebb91e3ecdf6f0db821828fc29899af996e8d90b"
+      },
+      {
+        "path": "04_研发源码\\app\\r4\\platform.js",
+        "beforeSha256": null,
+        "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+      },
+      {
+        "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+        "beforeSha256": null,
+        "plannedSha256": "932df70aedb3d8341e8254435ef3d5beb169055ed866ba5eee706d8acb6898fe"
+      },
+      {
+        "path": "04_研发源码\\app\\r4\\build.py",
+        "beforeSha256": null,
+        "plannedSha256": "16441f7cf19b161f4252dc00bd013c339ff1acbc8b89ae3b9a99a113ccb26127"
+      },
+      {
+        "path": "04_研发源码\\app\\cloud\\prepare.py",
+        "beforeSha256": null,
+        "plannedSha256": "952bdf73211f9314b32f270b5c5a77ffb0b886587e8c2ed2de23ef3bdc923a09"
+      }
+    ],
+    "changes": [
+      {
+        "file": "04_研发源码/app/r4/backend/server.py",
+        "marker": "# card-service-integration:v1"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/server.py",
+        "marker": "            init_card_service_schema(db)"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/server.py",
+        "marker": "            card_result = CardService"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/server.py",
+        "marker": "cardServiceReady="
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/server.py",
+        "marker": "public = public or card_media_allowed"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "# card-service-privacy:v1"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "result.update(card_privacy_export"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "deleted.update(card_privacy_delete_records"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "'minimal-daily-card-quota'"
+      },
+      {
+        "file": "04_研发源码/app/r4/backend/privacy.py",
+        "marker": "'cardQuotaRetentionDays'"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+        "marker": "from './card-service'"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+        "marker": "await initCardService(this);"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+        "marker": "const cards=await cardServiceRoute"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+        "marker": "cardServiceReady:"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+        "marker": "const published=!!await cardMediaAllowed"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "card-service privacy import"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "...CARD_PRIVACY_QUERIES,"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "'delete-records':['chart','wellbeing','card']"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "'minimal-daily-card-quota'"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "cardQuotaRetentionDays:"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "actions.push(...cardPrivacyDeletionStatements"
+      },
+      {
+        "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+        "marker": "// card-service-delete-counts:v1"
+      },
+      {
+        "file": "04_研发源码/app/r4/platform.js",
+        "marker": "cardServiceReady:!!d.cardServiceReady"
+      },
+      {
+        "file": "04_研发源码/app/r4/time-bank-admin.html",
+        "marker": "'cardService'"
+      },
+      {
+        "file": "04_研发源码/app/r4/time-bank-admin.html",
+        "marker": "/*__CARD_SERVICE_ADMIN__*/"
+      },
+      {
+        "file": "04_研发源码/app/r4/build.py",
+        "marker": "'card-service.css'"
+      },
+      {
+        "file": "04_研发源码/app/r4/build.py",
+        "marker": "'card-service-ui.js'"
+      },
+      {
+        "file": "04_研发源码/app/r4/build.py",
+        "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+      },
+      {
+        "file": "04_研发源码/app/cloud/prepare.py",
+        "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+      },
+      {
+        "file": "04_研发源码/app/r4/build.py",
+        "marker": "# card-service-admin-css:v1"
+      },
+      {
+        "file": "04_研发源码/app/cloud/prepare.py",
+        "marker": "# card-service-admin-css:v1"
+      }
+    ],
+    "buildExecuted": false,
+    "databaseAccessed": false
+  },
+  "runs": [
+    {
+      "mode": "dry-run",
+      "applied": false,
+      "publicIntegrationExecutedByThisDryRun": false,
+      "files": [
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\server.py",
+          "beforeSha256": "a15882288086cd09d27552fd7464d2f3272af2ce90052d9a04e575c4dab06b51",
+          "plannedSha256": "4dec9868bfd461fc23707d01c806bb2f1d713352590aeff95c67ace158dcb955"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+          "beforeSha256": "28a6dacaf65aea1d424a4a19a02754672b280b4c28cb34d1c5b362e7db7f1f4a",
+          "plannedSha256": "d93cd84a78ad8d66ce594f6f049cb0dcf7813959b5dfb16fa3617ca06f49d84f"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+          "beforeSha256": "0ac8d0b433ad2514ae6ec6df13c1387a28953bb598fd71a9a1a879497a565790",
+          "plannedSha256": "d652524c079d678651bbf0bd393aaa47e3b1aa76d110997a2ba618e5837924fd"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+          "beforeSha256": "b7cb59492a1b192d0a0fb297f89fd5db96eebbe77bf9aaf08ae5a02a00db70fc",
+          "plannedSha256": "5e08a6c030182481670890fe110ff9b82413f9283b96cfcbe599a493e55aaef9"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\platform.js",
+          "beforeSha256": "6e4916bcd33944cca9017c715a01c1d412ce313df93276c30f06f0eabfe2927e",
+          "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+          "beforeSha256": "1984ceb9bf41cb2ca5504e876ef92522ef67c05e9a8624345e370941ad29366e",
+          "plannedSha256": "f00ed1a8cdbb1736540ffe6ea9c31a6a98278c7d97a8317871c0209681e26b4d"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\build.py",
+          "beforeSha256": "b910aa9f3b8d34bb6553dd1994467bcd861d0c8103af1a7ca60cee52b23aa70d",
+          "plannedSha256": "83a93fc3bb815a2f42f801c334fe1417d2ce054ecb23eaffa64a9607663a8970"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\prepare.py",
+          "beforeSha256": "4271bbdf1b512b9adcfe4d7f5be04aefd9096a4aaa1215bd4835e354df8ff739",
+          "plannedSha256": "81bc1f367cd94e2cba2ea4239b54000730ff87583a56a9efd2e4f662459d5f34"
+        }
+      ],
+      "changes": [
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "# card-service-integration:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            init_card_service_schema(db)"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            card_result = CardService"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "cardServiceReady="
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "public = public or card_media_allowed"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "# card-service-privacy:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "result.update(card_privacy_export"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "deleted.update(card_privacy_delete_records"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'cardQuotaRetentionDays'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "from './card-service'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "await initCardService(this);"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const cards=await cardServiceRoute"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "cardServiceReady:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const published=!!await cardMediaAllowed"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "card-service privacy import"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "...CARD_PRIVACY_QUERIES,"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'delete-records':['chart','wellbeing','card']"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "cardQuotaRetentionDays:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "actions.push(...cardPrivacyDeletionStatements"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "// card-service-delete-counts:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/platform.js",
+          "marker": "cardServiceReady:!!d.cardServiceReady"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "'cardService'"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "/*__CARD_SERVICE_ADMIN__*/"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service.css'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service-ui.js'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "# card-service-admin-css:v1"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": "# card-service-admin-css:v1"
+        }
+      ],
+      "buildExecuted": false,
+      "databaseAccessed": false
+    },
+    {
+      "mode": "dry-run",
+      "applied": false,
+      "publicIntegrationExecutedByThisDryRun": false,
+      "files": [
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\server.py",
+          "beforeSha256": "a15882288086cd09d27552fd7464d2f3272af2ce90052d9a04e575c4dab06b51",
+          "plannedSha256": "4dec9868bfd461fc23707d01c806bb2f1d713352590aeff95c67ace158dcb955"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+          "beforeSha256": "28a6dacaf65aea1d424a4a19a02754672b280b4c28cb34d1c5b362e7db7f1f4a",
+          "plannedSha256": "84bbbdc9c58c21557ffe8ce42809cd58025ae56264ffce8673331d4a8e0b1844"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+          "beforeSha256": "0ac8d0b433ad2514ae6ec6df13c1387a28953bb598fd71a9a1a879497a565790",
+          "plannedSha256": "d652524c079d678651bbf0bd393aaa47e3b1aa76d110997a2ba618e5837924fd"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+          "beforeSha256": "b7cb59492a1b192d0a0fb297f89fd5db96eebbe77bf9aaf08ae5a02a00db70fc",
+          "plannedSha256": "532aa1c2634abe0d7582d145872a1da108f6588a35f8ed5988afc9473b3d3054"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\platform.js",
+          "beforeSha256": "6e4916bcd33944cca9017c715a01c1d412ce313df93276c30f06f0eabfe2927e",
+          "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+          "beforeSha256": "1984ceb9bf41cb2ca5504e876ef92522ef67c05e9a8624345e370941ad29366e",
+          "plannedSha256": "f00ed1a8cdbb1736540ffe6ea9c31a6a98278c7d97a8317871c0209681e26b4d"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\build.py",
+          "beforeSha256": "b910aa9f3b8d34bb6553dd1994467bcd861d0c8103af1a7ca60cee52b23aa70d",
+          "plannedSha256": "83a93fc3bb815a2f42f801c334fe1417d2ce054ecb23eaffa64a9607663a8970"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\prepare.py",
+          "beforeSha256": "4271bbdf1b512b9adcfe4d7f5be04aefd9096a4aaa1215bd4835e354df8ff739",
+          "plannedSha256": "81bc1f367cd94e2cba2ea4239b54000730ff87583a56a9efd2e4f662459d5f34"
+        }
+      ],
+      "changes": [
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "# card-service-integration:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            init_card_service_schema(db)"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            card_result = CardService"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "cardServiceReady="
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "public = public or card_media_allowed"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "# card-service-privacy:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "result.update(card_privacy_export"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "deleted.update(card_privacy_delete_records"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'cardQuotaRetentionDays'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "from './card-service'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "await initCardService(this);"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const cards=await cardServiceRoute"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "cardServiceReady:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const published=!!await cardMediaAllowed"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "card-service privacy import"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "...CARD_PRIVACY_QUERIES,"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'delete-records':['chart','wellbeing','card']"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "cardQuotaRetentionDays:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "actions.push(...cardPrivacyDeletionStatements"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "// card-service-delete-counts:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/platform.js",
+          "marker": "cardServiceReady:!!d.cardServiceReady"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "'cardService'"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "/*__CARD_SERVICE_ADMIN__*/"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service.css'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service-ui.js'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "# card-service-admin-css:v1"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": "# card-service-admin-css:v1"
+        }
+      ],
+      "buildExecuted": false,
+      "databaseAccessed": false
+    },
+    {
+      "mode": "dry-run",
+      "applied": false,
+      "publicIntegrationExecutedByThisDryRun": false,
+      "files": [
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\server.py",
+          "beforeSha256": "a15882288086cd09d27552fd7464d2f3272af2ce90052d9a04e575c4dab06b51",
+          "plannedSha256": "4dec9868bfd461fc23707d01c806bb2f1d713352590aeff95c67ace158dcb955"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+          "beforeSha256": "28a6dacaf65aea1d424a4a19a02754672b280b4c28cb34d1c5b362e7db7f1f4a",
+          "plannedSha256": "84bbbdc9c58c21557ffe8ce42809cd58025ae56264ffce8673331d4a8e0b1844"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+          "beforeSha256": "0ac8d0b433ad2514ae6ec6df13c1387a28953bb598fd71a9a1a879497a565790",
+          "plannedSha256": "d652524c079d678651bbf0bd393aaa47e3b1aa76d110997a2ba618e5837924fd"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+          "beforeSha256": "b7cb59492a1b192d0a0fb297f89fd5db96eebbe77bf9aaf08ae5a02a00db70fc",
+          "plannedSha256": "532aa1c2634abe0d7582d145872a1da108f6588a35f8ed5988afc9473b3d3054"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\platform.js",
+          "beforeSha256": "6e4916bcd33944cca9017c715a01c1d412ce313df93276c30f06f0eabfe2927e",
+          "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+          "beforeSha256": "1984ceb9bf41cb2ca5504e876ef92522ef67c05e9a8624345e370941ad29366e",
+          "plannedSha256": "f00ed1a8cdbb1736540ffe6ea9c31a6a98278c7d97a8317871c0209681e26b4d"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\build.py",
+          "beforeSha256": "b910aa9f3b8d34bb6553dd1994467bcd861d0c8103af1a7ca60cee52b23aa70d",
+          "plannedSha256": "83a93fc3bb815a2f42f801c334fe1417d2ce054ecb23eaffa64a9607663a8970"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\prepare.py",
+          "beforeSha256": "4271bbdf1b512b9adcfe4d7f5be04aefd9096a4aaa1215bd4835e354df8ff739",
+          "plannedSha256": "81bc1f367cd94e2cba2ea4239b54000730ff87583a56a9efd2e4f662459d5f34"
+        }
+      ],
+      "changes": [
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "# card-service-integration:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            init_card_service_schema(db)"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            card_result = CardService"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "cardServiceReady="
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "public = public or card_media_allowed"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "# card-service-privacy:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "result.update(card_privacy_export"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "deleted.update(card_privacy_delete_records"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'cardQuotaRetentionDays'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "from './card-service'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "await initCardService(this);"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const cards=await cardServiceRoute"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "cardServiceReady:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const published=!!await cardMediaAllowed"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "card-service privacy import"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "...CARD_PRIVACY_QUERIES,"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'delete-records':['chart','wellbeing','card']"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "cardQuotaRetentionDays:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "actions.push(...cardPrivacyDeletionStatements"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "// card-service-delete-counts:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/platform.js",
+          "marker": "cardServiceReady:!!d.cardServiceReady"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "'cardService'"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "/*__CARD_SERVICE_ADMIN__*/"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service.css'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service-ui.js'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "# card-service-admin-css:v1"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": "# card-service-admin-css:v1"
+        }
+      ],
+      "buildExecuted": false,
+      "databaseAccessed": false
+    },
+    {
+      "mode": "dry-run",
+      "applied": false,
+      "publicIntegrationExecutedByThisDryRun": false,
+      "files": [
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\server.py",
+          "beforeSha256": "7a4fe292c47938ee8d697620063f1898f9c25f4ccaa7d1f9bf339eb8a531b865",
+          "plannedSha256": "2e1e67dd0d85b64d0cf94b472ea594698f73b356d7be03d0de969916941a551b"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+          "beforeSha256": "9f4c52da05a3ebd70304988ecde22ccc316706a12da30820c1bfb8ef0175cb33",
+          "plannedSha256": "2dab706f9057772d63a2c26069806b28202638087c62dab64545659200d3383b"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+          "beforeSha256": "4b201976d682a9bcace1a2f35bd61072cdbab701d205265622d037f8fb18f9fe",
+          "plannedSha256": "c476abcb7b214024aebb8807a7d2b2a351d8a60cf9f141743007349a00ddade3"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+          "beforeSha256": "83e899624c10e4fd7452ddcedfc7e2e1de80b667f31969ab814087ce7bb17ff5",
+          "plannedSha256": "72dbec79ea3a3a0cb2221228ebb91e3ecdf6f0db821828fc29899af996e8d90b"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\platform.js",
+          "beforeSha256": "6e4916bcd33944cca9017c715a01c1d412ce313df93276c30f06f0eabfe2927e",
+          "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+          "beforeSha256": "8be1db51de0432c2b462520a749458a477a327ca592ac5dc318f089d2e07391c",
+          "plannedSha256": "932df70aedb3d8341e8254435ef3d5beb169055ed866ba5eee706d8acb6898fe"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\build.py",
+          "beforeSha256": "504a04effe4968ac28daa6b8886295bf11c8a3b1a77fa9316c2519557ca02926",
+          "plannedSha256": "16441f7cf19b161f4252dc00bd013c339ff1acbc8b89ae3b9a99a113ccb26127"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\prepare.py",
+          "beforeSha256": "cba2a9f29901c0b470d27df7f2c846923f2e9e6086a057f3882a890ea7209db5",
+          "plannedSha256": "952bdf73211f9314b32f270b5c5a77ffb0b886587e8c2ed2de23ef3bdc923a09"
+        }
+      ],
+      "changes": [
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "# card-service-integration:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            init_card_service_schema(db)"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            card_result = CardService"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "cardServiceReady="
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "public = public or card_media_allowed"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "# card-service-privacy:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "result.update(card_privacy_export"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "deleted.update(card_privacy_delete_records"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'cardQuotaRetentionDays'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "from './card-service'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "await initCardService(this);"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const cards=await cardServiceRoute"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "cardServiceReady:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const published=!!await cardMediaAllowed"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "card-service privacy import"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "...CARD_PRIVACY_QUERIES,"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'delete-records':['chart','wellbeing','card']"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "cardQuotaRetentionDays:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "actions.push(...cardPrivacyDeletionStatements"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "// card-service-delete-counts:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/platform.js",
+          "marker": "cardServiceReady:!!d.cardServiceReady"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "'cardService'"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "/*__CARD_SERVICE_ADMIN__*/"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service.css'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service-ui.js'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "# card-service-admin-css:v1"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": "# card-service-admin-css:v1"
+        }
+      ],
+      "buildExecuted": false,
+      "databaseAccessed": false
+    },
+    {
+      "mode": "apply",
+      "applied": true,
+      "publicIntegrationExecutedByThisDryRun": true,
+      "files": [
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\server.py",
+          "beforeSha256": null,
+          "plannedSha256": "2e1e67dd0d85b64d0cf94b472ea594698f73b356d7be03d0de969916941a551b"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\backend\\privacy.py",
+          "beforeSha256": null,
+          "plannedSha256": "2dab706f9057772d63a2c26069806b28202638087c62dab64545659200d3383b"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\eastern-api.ts",
+          "beforeSha256": null,
+          "plannedSha256": "c476abcb7b214024aebb8807a7d2b2a351d8a60cf9f141743007349a00ddade3"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\lib\\privacy-api.ts",
+          "beforeSha256": null,
+          "plannedSha256": "72dbec79ea3a3a0cb2221228ebb91e3ecdf6f0db821828fc29899af996e8d90b"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\platform.js",
+          "beforeSha256": null,
+          "plannedSha256": "c0e73f15bc219618cd63dfd94aca45edda6fe396f1f351032ddcc714dd2f5c46"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\time-bank-admin.html",
+          "beforeSha256": null,
+          "plannedSha256": "932df70aedb3d8341e8254435ef3d5beb169055ed866ba5eee706d8acb6898fe"
+        },
+        {
+          "path": "04_研发源码\\app\\r4\\build.py",
+          "beforeSha256": null,
+          "plannedSha256": "16441f7cf19b161f4252dc00bd013c339ff1acbc8b89ae3b9a99a113ccb26127"
+        },
+        {
+          "path": "04_研发源码\\app\\cloud\\prepare.py",
+          "beforeSha256": null,
+          "plannedSha256": "952bdf73211f9314b32f270b5c5a77ffb0b886587e8c2ed2de23ef3bdc923a09"
+        }
+      ],
+      "changes": [
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "# card-service-integration:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            init_card_service_schema(db)"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "            card_result = CardService"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "cardServiceReady="
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/server.py",
+          "marker": "public = public or card_media_allowed"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "# card-service-privacy:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "result.update(card_privacy_export"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "deleted.update(card_privacy_delete_records"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'delete-records': ('chart', 'wellbeing', 'card')"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/r4/backend/privacy.py",
+          "marker": "'cardQuotaRetentionDays'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "from './card-service'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "await initCardService(this);"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const cards=await cardServiceRoute"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "cardServiceReady:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/eastern-api.ts",
+          "marker": "const published=!!await cardMediaAllowed"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "card-service privacy import"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "...CARD_PRIVACY_QUERIES,"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'delete-records':['chart','wellbeing','card']"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "'minimal-daily-card-quota'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "cardQuotaRetentionDays:"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "actions.push(...cardPrivacyDeletionStatements"
+        },
+        {
+          "file": "04_研发源码/app/cloud/lib/privacy-api.ts",
+          "marker": "// card-service-delete-counts:v1"
+        },
+        {
+          "file": "04_研发源码/app/r4/platform.js",
+          "marker": "cardServiceReady:!!d.cardServiceReady"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "'cardService'"
+        },
+        {
+          "file": "04_研发源码/app/r4/time-bank-admin.html",
+          "marker": "/*__CARD_SERVICE_ADMIN__*/"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service.css'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "'card-service-ui.js'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": ".replace('/*__CARD_SERVICE_ADMIN__*/'"
+        },
+        {
+          "file": "04_研发源码/app/r4/build.py",
+          "marker": "# card-service-admin-css:v1"
+        },
+        {
+          "file": "04_研发源码/app/cloud/prepare.py",
+          "marker": "# card-service-admin-css:v1"
+        }
+      ],
+      "buildExecuted": false,
+      "databaseAccessed": false
+    }
+  ],
+  "postIntegrationSourceFixes": [
+    {
+      "at": "2026-11-12T13:44:29.102986+00:00",
+      "authorizedByRoot": true,
+      "changedSourceFiles": [
+        "04_研发源码/app/r4/card-service-ui.js"
+      ],
+      "change": "Share fields saved on actual change; disable checkbox/submit until actual draw ready; rendered owner+epoch and form draw-id guards retained; async rerender preserves selection.",
+      "frontendVmGrouped": 18,
+      "combinedAppSyntax": true,
+      "buildRequired": true,
+      "realSpecialRerunPending": true,
+      "sourceHashes": {
+        "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+        "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+        "04_研发源码/app/r4/card-service-ui.js": "e944a9532446cf8d75e37f840e9ee521dff2c9cb1b3f44e15c9e6ec00fb64fc6",
+        "04_研发源码/app/r4/card-service-admin.js": "4f89649c23979cba539d94f29346b7097e3df7b1366ba35575c711160401b372",
+        "04_研发源码/app/r4/card-service.css": "202fa37870e2b13f0ea820c4b5a1f4650d8abf26e8edd41aea3f99d467be93eb"
+      }
+    }
+  ]
+}

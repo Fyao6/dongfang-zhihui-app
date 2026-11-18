@@ -1,0 +1,63 @@
+沙箱内部只读对账模块：接入契约与范围
+
+状态：3个独立新源准备完成，未修改公共入口、commerce/会员/分佣原源、build或prepare，未集成。当前专项是隔离内存/组件测试，未声称真实HTTP双端或生产验收。等待root按卡片→B11→保存快照之后单模块接入与门禁。
+
+源码
+04_研发源码/app/r4/backend/reconciliation.py
+04_研发源码/app/cloud/lib/reconciliation-api.ts
+04_研发源码/app/r4/reconciliation-admin.js
+Python只导入commission.calculate/rounded、Cloud只导入commissionCalculate/commissionRound纯数学函数。报告禁止调用Commerce.order/serializer、Membership.sync/serialize/expire、commission sync或业务route；这些现有读取路径可能补记，不适用这里。
+
+后端接入
+Python：from reconciliation import Reconciliation；在generic管理路由前调用Reconciliation(store,self,ApiError,limiter).route(method,path)，返回非None时使用既有JSON响应。init_schema(db)为no-op，无迁移/新表/定时任务。
+Cloud：import {reconciliationRoute} from './reconciliation-api'；在generic路由前 await reconciliationRoute(this,path,method,fail)，非undefined返回既有JSON。initReconciliation为no-op，无需写库。
+GET /api/admin/reconciliation
+GET /api/admin/reconciliation/export
+只接受可空orderId（最长120）和currency（三位大写）查询。其他参数400，非GET405，匿名401，无当前权限403。export返回同一结构+csv字符串，不是另一次暗中补账。
+
+权限
+每次在读取快照内重新从users读当前基础角色：admin允许；operator/reviewer必须commission_grants.permission=finance。teacher/user/business/support均不允许；旧grant不能越过基础角色降级。
+Cloud每条财务count/SELECT同时加当前角色/finance EXISTS门禁，决定性actor查询与所有金融表count和数据读取在一个D1 batch；先前只有sqlite_master模式探测，不先加载金融数据。Python在同一个BEGIN读事务内检查权限/读取表并启用PRAGMA query_only，finally回滚读事务并还原标志。报告无INSERT/UPDATE/DELETE，亦不记录资金或既有台账。
+
+后台接入
+在现有通用admin定义labels/state/allowedNavs/load/api/esc/heading/table/authCurrent之后，并在commission-admin之后拼接reconciliation-admin.js。现有登录/授权元数据应维护state.commissionPermission；admin或staff+finance才显示reconciliation导航。默认operator/reviewer不能因labels新增自动获得入口；其余权限每次仍由后端核验。
+面板只手动读取、按订单/币种筛选、导出异常CSV；无修复、付款、发权益或发送外部告警动作。组件绑定authEpoch/userId/seq及渲染DOM的epoch/user，切账号、离页、旧表单与晚到导出均不能展示/下载旧账号响应。失败清空旧报告并提供重试。金额UI以BigInt拆分整数/小数，不把安全整数上界显示成四舍五入的新金额。
+主入口/build/prepare需root后续同步03/Cloud实际产物；本准备任务没有执行。
+
+来源与一致性
+14组来源：沙箱orders/items/applied payment/refund/entitlements；memberSnapshots/subscriptions/memberEvents；commission snapshots/facts/ledger/adjustments/statements/statementLines/payouts。明确列白名单不读地址/私信/密钥或完整收款凭据；payout仅提取actualPaid/proofVerified真假与JSON有效性。
+当前原commerce主订单受CHECK(environment='sandbox')约束；items及佣金表没有单独environment，其关联都依此唯一沙箱订单原账。若未来新增生产表或放开此约束，须先改环境闭包/隔离契约，不能直接沿用当前sourceScope。
+每表最多5000行，先记录总行数；缺表或超过上限明确partial/truncated，并跳过依赖该来源的计算，不能把缺行当孤立/缺账。订单/币种仅筛选可见结果/汇总，不解除全表截断。相关结算单按整单历史原行核对，不伪装某一作品分摊小计。当前算法未作大账容量验收。
+SQL读取的是同一当前快照，observedAt是读取观察时刻，不是历史as-of重建。并发真实业务写入时两次观察可不同；专项只在冻结外部写入的合成库证明报告自身不写账。
+
+计算与缺口
+按成交订单项原价/税/运/数量及币种核订单；只把applied支付事件当付款事实，合法sandbox_pay.items=[]不报错；退款逐项累计，核数量、金额、总额和状态标签。数字/会员权益核owner、item/content/type/remaining与撤销状态；physical缺权益不误报。
+会员只核成交条款、付款及订阅结构链接/周期；到期未同步给需复核，不调用生命周期修正。取消保留已付周期、退款回退历史周期不当作新付款。
+佣金复算用创建快照规则/归因及锁定费用，累计退款按原额×剩余数量/原数量统一舍入，不按每次退款重复舍入；无适用规则/归属/启用允许没有佣金。未知费用保持null，waiting_facts金额未知，历史无快照not-covered，不拿当前规则回补。
+已booked原结算行核历史金额，不拿退款后的净佣金改历史单；pending_recovery不冒充已追回。sandbox_registered且actualPaid/proofVerified=false绝不称真实转账。非法JSON/金额非整数/越界明确不可核对；汇总超安全整数返回null及Exact整数文本。各币种独立，无跨币种总额。
+始终关闭：productionEnabled、realChannelReconciliationEnabled、externalAlertsEnabled、alertSent、actualPaid、fundsMutated。channelFeeMinor/actualArrivalMinor/actualTransferredMinor未知为null。
+始终未覆盖：真实渠道每日账单/手续费与银行到账/支付失败源/回调队列积压/真实退款失败/拒付/外部告警投递/历史as-of。没有外部流水导入、定时对账、持久化查询审计或自动处置。这是PAY16/PAY18和P574沙箱要求的内部软件部分，不能宣布正式每日渠道对账或告警完成。
+
+隔离证据
+负责人优化建议-只读对账Python专项.py/json：41/41，真实源+内存原始统一交易/会员/佣金合成夹具。
+负责人优化建议-只读对账Cloud专项.cjs/json：45/45，实际TS转译+node:sqlite模拟D1，同一金融SELECT batch并开启query_only；不代表实际Wrangler/D1 HTTP门禁。
+负责人优化建议-只读对账后台专项.cjs/json：14/14，实际新JS在无网络Chromium运行，合成响应；不代表共享入口已接。
+同一合成数据纯结果跨端逐字段一致；100次读取所有commerce_/membership_/commission_原表全列原JSON逻辑hash不变；覆盖权限立即降级/人工账损坏/未知费用/历史快照缺失/非法JSON/跨币种/越界/5001截断及晚到账号响应。源AST、JS syntax、TS strict ES2020均通过。
+负责人优化建议-只读对账隔离后台.png已视觉核验。截图顶部明确合成原账隔离组件，未接正式入口。
+首次Cloud夹具恢复外键顺序失败证据保留“Cloud专项-失败-夹具恢复外键.json”；恢复时暂关FK导入完整合成表后开启FK，再进行只读测试。未改业务源绕过任何账本检查。
+
+后续root单模块门禁
+实际Python与Cloud新隔离服务HTTP+browser，各自新DB；构建身份与3源hash绑定；finance/admin允许及降级拒绝、原金融表多次读取hash不变、CSV白名单/旧账号迟到、异常真实展示；再运行既有双全量回归。正式生产对账和外部告警仍等真实渠道资料与处置授权。
+
+独立复查补充：使用显式外层related_statements集合保留orderId关联整单异常（当前bundled Python修前实测也保留，静态兼容改进不称当前复现）。会员current快照须与订阅ID/owner/group/plan/version/period一致，退款或存储状态待业务同步只警告，不自动改账。新增同构断言全部通过。
+
+实际HTTP/UI专项已准备，尚未执行或启动服务
+06/负责人优化建议-只读对账实际双端专项.cjs
+06/负责人优化建议-只读对账Python专项服务.py
+06/负责人优化建议-只读对账Cloud专项服务.ts
+默认不启动，必须后续root接入/build/freeze之后显式加 --run --target=python 或 --run --target=cloud；拒绝--base，不连接现有8880/8878等服务。每次随机全新SQLite文件或独立.wrangler状态，闭环自启/自停，只监听127.0.0.1；随机token仅用于该新库合成原账恢复、枚举损坏case、hash、5001行截断及缺表夹具，不在生产入口。
+种子是已保存的合成夹具，owner/beneficiary/授权等引用映射到真实新注册测试账号；恢复触发器并按真实auth/grant/原后台导航测。该QA恢复并非真实付款或业务新增账。缺表夹具将原表保留于qa_held_名称并以同名view占位，避免Cloud全局init自动重建原表将缺来源掩盖；模块只白名单table来源，仍应明确not-covered。该损坏为最后用例，不接后续真实业务。
+计划覆盖31组同构HTTP原账case、finance/admin导航及即时降级、未知费用/币种/CSV、真实响应延迟切账号不外泄、truncated/incomplete实际面板与截图、原源/构建SHA恒定。100刷新用4个独立真实admin身份各25次，保留30/分钟生产限流，未改/清限流表；不是单账号100次或压力验收。所有原金融表hash在报告读前后核对；只有QA损坏/恢复期间会改变全新夹具。
+准备阶段只做AST/JS syntax/TS语法转译检查，未执行此runner、未启动服务、未创建实际DB/D1状态。未来首次实际Wrangler/HTTP运行若有兼容性问题必须保留失败证据再修，不能沿用内存专项当实际通过。
+
+最终aggregateCoverage修复补充：root已接入并build后，首轮实际双端各42/42通过，但视觉核验发现依赖截断/缺表时初始化小计显示0。修复将cash/ledger/bookedStatements依赖完整性分别输出aggregateCoverage，整类未覆盖汇总字段一律null，UI未知条数为“未覆盖”；不冒充0。独立Python42/Cloud46/Chromium15通过。此前实际42/42及6截图留作修前事实，不能称修后门禁；root需重新build与双60，实际专项再fresh重跑。

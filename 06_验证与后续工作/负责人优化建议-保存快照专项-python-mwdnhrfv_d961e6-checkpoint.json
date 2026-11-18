@@ -1,0 +1,882 @@
+{
+  "at": "2026-11-12T14:36:05.035Z",
+  "module": "负责人优化建议-保存快照",
+  "target": "python",
+  "runId": "mwdnhrfv_d961e6",
+  "syntheticDataOnly": true,
+  "productionWrites": false,
+  "providerMode": "local-process-mock",
+  "externalProviderTested": false,
+  "promptLogging": false,
+  "fixtureProtocols": [
+    "legacy-responses",
+    "responses"
+  ],
+  "backendEntry": "Actual server.py with QA-only constructor transport and secret resolver",
+  "coverage": {
+    "realHttp": true,
+    "realBrowser": true,
+    "realSupplier": false,
+    "frameworkAdapterCoveredByThisWrapper": false
+  },
+  "results": [
+    {
+      "name": "默认保存关闭、实际列表为空且不编造线程或长期记忆",
+      "pass": true,
+      "ms": 179
+    },
+    {
+      "name": "实际保存两次请求快照，列表只列元数据与真实数目",
+      "pass": true,
+      "ms": 274
+    },
+    {
+      "name": "主动查看只回读本人已知消息字段，另一快照确实含独立历史副本",
+      "pass": true,
+      "ms": 22
+    },
+    {
+      "name": "未登录/跨账号读取删除均拒绝，管理员只看到本人列表",
+      "pass": true,
+      "ms": 228
+    },
+    {
+      "name": "单条删除须确认、同key重放且异快照冲突，只增一次revision",
+      "pass": true,
+      "ms": 102
+    },
+    {
+      "name": "删除旧引用后旧epoch调用403且无外发，不按substring抹去重叠快照",
+      "pass": true,
+      "ms": 45
+    },
+    {
+      "name": "删除回执无正文，供应商/备份待确认且不伪造记忆或向量删除",
+      "pass": true,
+      "ms": 17
+    },
+    {
+      "name": "实际legacy最终保存边界暂停后删除，旧SQL/旧epoch不能重新保存",
+      "pass": true,
+      "ms": 132,
+      "observed": {
+        "actualFinalSaveBoundaryReached": true,
+        "lateSavedSnapshots": 0,
+        "pythonBoundary": "actual guard entry before atomic BEGIN",
+        "cloudBoundary": "actual conditional INSERT after validation",
+        "providerMode": "local-process-mock"
+      }
+    },
+    {
+      "name": "撤回保存后再确认不能用旧epoch重传，当前明确请求仍可选择保存",
+      "pass": true,
+      "ms": 316
+    },
+    {
+      "name": "实际网关独立receipt与本地测试额度，保存一条真实SSE请求快照",
+      "pass": true,
+      "ms": 495
+    },
+    {
+      "name": "删关联快照后实际gateway job.text为空，余额/已结算额度/元数据账本保留",
+      "pass": true,
+      "ms": 201
+    },
+    {
+      "name": "并发删除一个快照只一回执/一次epoch，其他账号仍可查看自己的记录",
+      "pass": true,
+      "ms": 199
+    },
+    {
+      "name": "真实隐私中心入口可达，列表显示实际快照数且不默认加载正文",
+      "pass": true,
+      "ms": 3361
+    },
+    {
+      "name": "真实主动查看只展示已保存正文，不加入AI/context、不自动发送",
+      "pass": true,
+      "ms": 118
+    },
+    {
+      "name": "真实删除表单须确认，成功清当前详情并列实际pending处理回执",
+      "pass": true,
+      "ms": 669
+    },
+    {
+      "name": "真实页面四宽双主题四语言可读，未保存记录不编造线程/会话数",
+      "pass": true,
+      "ms": 525,
+      "observed": {
+        "actualViews": 32,
+        "actualStoredSnapshots": 0
+      }
+    },
+    {
+      "name": "真实跨账号切换时迟到详情不写新账号页面或AI状态",
+      "pass": true,
+      "ms": 620
+    },
+    {
+      "name": "旧渲染DOM删除表单不跨账号发起操作",
+      "pass": true,
+      "ms": 19
+    },
+    {
+      "name": "真实删除提交后丢失回复，UI复用同requestId重试且epoch只增加一次",
+      "pass": true,
+      "ms": 387,
+      "observed": {
+        "originalRequestReused": true,
+        "actualRevisionIncrements": 1
+      }
+    },
+    {
+      "name": "本轮外部真实供应商未验，进程fixture不记录prompt且不出现privacy授权标签外发",
+      "pass": true,
+      "ms": 3,
+      "observed": {
+        "providerMode": "local-process-mock",
+        "externalProviderTested": false,
+        "promptLogging": false
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    "负责人优化建议-保存快照-python-mwdnhrfv_d961e6-实际保存快照主动查看.png",
+    "负责人优化建议-保存快照-python-mwdnhrfv_d961e6-实际单条删除回执.png"
+  ],
+  "traffic": [
+    {
+      "method": "POST",
+      "path": "/api/auth/setup",
+      "status": 200,
+      "ms": 229
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 233
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 232
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/settings",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/privacy/config",
+      "status": 200,
+      "ms": 19
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/privacy/config",
+      "status": 200,
+      "ms": 22
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 26
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 24
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 23
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 41
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 25
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 59
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/ebd0c1d0-2346-4efc-a8d4-6ab47b8b3740",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 401,
+      "ms": 2
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6",
+      "status": 404,
+      "ms": 9
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6/delete",
+      "status": 404,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 24
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6/delete",
+      "status": 400,
+      "ms": 6
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6/delete",
+      "status": 200,
+      "ms": 17
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6/delete",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/ebd0c1d0-2346-4efc-a8d4-6ab47b8b3740/delete",
+      "status": 409,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 22
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/ebd0c1d0-2346-4efc-a8d4-6ab47b8b3740",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 403,
+      "ms": 17
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/ebd0c1d0-2346-4efc-a8d4-6ab47b8b3740",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/5dc47b46-ca87-47fa-87f1-48805e1217b6",
+      "status": 404,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/4b51dd52-f157-4f5e-8f68-35fa973febc5",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/deletions",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/deletions",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 21
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/ebd0c1d0-2346-4efc-a8d4-6ab47b8b3740/delete",
+      "status": 200,
+      "ms": 18
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 99
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 25
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 32
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 46
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 36
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 52
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 403,
+      "ms": 18
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 24
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 223
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 22
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 42
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/ai-gateway",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/ai-gateway/config",
+      "status": 200,
+      "ms": 18
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/ai-gateway/grants",
+      "status": 200,
+      "ms": 18
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 34
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/providers/alpha/consent",
+      "status": 200,
+      "ms": 64
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai-gateway/jobs",
+      "status": 200,
+      "ms": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs/4a9a397f-79bc-4555-aac1-3310761b477b",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200,
+      "ms": 38
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/0142c182-e739-47a9-a057-3108fd787b19/delete",
+      "status": 200,
+      "ms": 19
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/jobs/4a9a397f-79bc-4555-aac1-3310761b477b",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/ai-gateway/capabilities",
+      "status": 200,
+      "ms": 40
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/export",
+      "status": 200,
+      "ms": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 25
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 60
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 26
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/b07ca312-769c-4d2e-b24c-4abfb54c03da/delete",
+      "status": 200,
+      "ms": 17
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/saved-conversations/b07ca312-769c-4d2e-b24c-4abfb54c03da/delete",
+      "status": 200,
+      "ms": 32
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 28
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/4b51dd52-f157-4f5e-8f68-35fa973febc5",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "ms": 234
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 22
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 24
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/64232ad8-b4d4-45fc-b376-a06f37666cb1",
+      "status": 404,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 31
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations/6f5a2805-9517-4a85-b9c6-ac1512967ad1",
+      "status": 404,
+      "ms": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 37
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "POST",
+      "path": "/api/ai/chat",
+      "status": 200,
+      "ms": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 12
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "status": 200,
+      "ms": 17
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "ms": 241
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/saved-conversations",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 30
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/preferences",
+      "status": 200,
+      "ms": 42
+    }
+  ],
+  "identity": {
+    "sources": {
+      "04_研发源码/app/r4/backend/privacy_saved.py": "b69f05a201fc6baab9962a2ea462d8699a47b6ce63890c54b94392e831db9ce7",
+      "04_研发源码/app/cloud/lib/privacy-saved.ts": "7b55419968de863aa9eab39abe3eca34da3f10e87709ff99e9794d3b6337e839",
+      "04_研发源码/app/r4/privacy-saved.js": "943bb04ee8f5a49ab3d123a37053b17a34ec07d7ff9bca5f8ac219b559b12f3c",
+      "04_研发源码/app/r4/privacy-saved.css": "3e5b2ee7eddada977e76156de6c5dd083721f9bb0171c8787fa809864d981375",
+      "04_研发源码/app/r4/backend/privacy.py": "e97bacca00d6ab0df0b04686bcf12812d340cef2f4118447e962f06f5424e77c",
+      "04_研发源码/app/cloud/lib/privacy-api.ts": "286347f1c5b9c4550405da0be2e1943c01998c493b6341a7f211d15e65f6783b",
+      "04_研发源码/app/r4/backend/ai_gateway.py": "16dd8db038a89bdd2b8c2742a607aec9e333ff90b338b508354f4710b35c460e",
+      "04_研发源码/app/cloud/lib/ai-gateway.ts": "cdcb4858435370226694a9515352422f50a14e133d22725a97c43836fa7f8938",
+      "04_研发源码/app/r4/ai-gateway-ui.js": "44b1ba4a330863ce453a6367ca33c8878427604080a5d5fa92b326bbd9f699bb",
+      "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+      "04_研发源码/app/r4/privacy-center.js": "72402a0cf85977a8825c7502e07f8ac25bb7a814e9a4a27d69f91493f6deab1e",
+      "04_研发源码/app/r4/backend/server.py": "e946c95872f0f865c31a2154c8b90e5aa9bf2caf51e09a7775ec712fee52b05f",
+      "04_研发源码/app/cloud/lib/eastern-api.ts": "fed894c118cb0e123b5ad477ee8daa36b214162155e458170a2169737d5b8c3d",
+      "04_研发源码/app/r4/build.py": "a72f96d4c2abc4d509816029019bbd67dbec5ea78d89e83b1562e34617aa2d61",
+      "04_研发源码/app/cloud/prepare.py": "a923fc62c8afc456ae71c77c1805700a12c283a035018886728c29ac2bbc6d16"
+    },
+    "builds": {
+      "03_当前APP/东方智慧-首页体验R4.html": "25cd75feb2e4ddd152dd0024a16e2c0858d91bc12ba9dc2f846c635ee991fe2f",
+      "03_当前APP/计时后台-开发联调.html": "c1e44f230a6f420a3127577ea21e7dcc31df6dd1214c27c83b1ac8274a3cbadd",
+      "04_研发源码/app/cloud/generated/experience.html": "5a78c469e7f3582ee638bd15504ae45182d7075e798cb99d4385da77016519c2",
+      "04_研发源码/app/cloud/generated/admin.html": "8929565a5fbd6b6e2b86abf55488e8d78d6067dc7205036be97c8204d3dc3d65",
+      "04_研发源码/app/cloud/dist/server/index.js": "8ad82df5d2e9833cfc81155bff7ec4b34d6bf8bf60f23c9892ca4ae9390f500c"
+    }
+  },
+  "testHashes": {
+    "负责人优化建议-保存快照测试工具.cjs": "8166804a5316d5cb730771fc2c09256ca2c5aa80906f23471a81bfa907d80b1f",
+    "负责人优化建议-保存快照专项.cjs": "7ad31e329d8918d4734441db61f48a4ef00caadda896d5ee1669a437fd0cfc52",
+    "负责人优化建议-保存快照Python测试服务.py": "3814ed6caf150ec2571290c95beae475a0d08f3e12cea6d7c3ebb8f44d52be44",
+    "负责人优化建议-保存快照Cloud测试服务.ts": "455a7631d091b92deecb30d9c2b97134149f1b549b51b172dc443e5034f6613e"
+  },
+  "ownedDatabase": "06_验证与后续工作\\负责人优化建议-保存快照隔离-mwdnhrfv_d961e6.sqlite3",
+  "ownedProcessId": 19820,
+  "base": "http://127.0.0.1:61908",
+  "servedBuildSha256": "25cd75feb2e4ddd152dd0024a16e2c0858d91bc12ba9dc2f846c635ee991fe2f",
+  "identityUnchanged": true,
+  "pass": true,
+  "passed": 20,
+  "failed": 0,
+  "completed": true
+}

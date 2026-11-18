@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 from collections import defaultdict, deque
 from contextlib import contextmanager
+from contextvars import ContextVar
 from datetime import datetime, timedelta, timezone
 import hashlib
 import hmac
@@ -35,6 +36,16 @@ _backend_dir = str(Path(__file__).resolve().parent)
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 from payment_support import PaymentSupport, init_schema as init_payment_support_schema
+from payment_callbacks import PaymentCallbacks, CallbackReply, init_schema as init_payment_callbacks_schema
+from payment_recovery import PaymentRecovery, init_schema as init_payment_recovery_schema
+from payment_late import PaymentLate, init_schema as init_payment_late_schema
+from digital_entitlements import DigitalEntitlements, DigitalMediaReply, init_schema as init_digital_schema, is_private_media as digital_private_media
+from privacy_domains import PrivacyDomains, init_schema as init_privacy_domains_schema, media_deleted as privacy_media_deleted, available_schema as privacy_available_schema, reference_guard_sql as privacy_reference_guard_sql
+from local_tasks import LocalTasks, init_schema as init_local_tasks_schema
+from payment_routing import PaymentRouting, init_schema as init_payment_routing_schema, decorate_membership_catalog
+from bazi_samples import BaziSamples, init_schema as init_bazi_samples_schema
+from card_imports import CardImports, CardImportExportReply, init_schema as init_card_imports_schema
+from card_history_migration import CardHistoryMigration, init_schema as init_card_history_schema
 from memory_service import MemoryService, init_schema as init_memory_schema, prepare_ai_memory, check_ai_memory, memory_request_semantic, privacy_view as memory_privacy_view, dump as memory_dump
 
 try:
@@ -226,12 +237,13 @@ except ModuleNotFoundError:
 
 # account-closure:v1 (retention must be integrated first)
 try:
-    from account_write_guard import guard_connection, begin_actor, end_actor, require_roles, settlement_scope
+    from account_write_guard import GuardedConnection, guard_connection, begin_actor, end_actor, require_roles, settlement_scope
 except ModuleNotFoundError:
     import importlib.util as _ac_guard_import, sys as _ac_sys
     _ac_guard_spec=_ac_guard_import.spec_from_file_location('account_write_guard',Path(__file__).with_name('account_write_guard.py'))
     _ac_guard_module=_ac_guard_import.module_from_spec(_ac_guard_spec);_ac_sys.modules['account_write_guard']=_ac_guard_module;_ac_guard_spec.loader.exec_module(_ac_guard_module)
     guard_connection,begin_actor,end_actor,require_roles,settlement_scope=(_ac_guard_module.guard_connection,_ac_guard_module.begin_actor,_ac_guard_module.end_actor,_ac_guard_module.require_roles,_ac_guard_module.settlement_scope)
+    GuardedConnection=_ac_guard_module.GuardedConnection
 try:
     from account_closure import AccountClosure, init_schema as init_account_closure_schema, account_active, require_active, can_book_teacher, integrity_response as account_integrity_response
 except ModuleNotFoundError:
@@ -257,6 +269,98 @@ except ModuleNotFoundError:
     _secret_ref_spec=_secret_ref_import.spec_from_file_location('eastern_secret_references',Path(__file__).with_name('secret_references.py'))
     _secret_ref_module=_secret_ref_import.module_from_spec(_secret_ref_spec);_secret_ref_spec.loader.exec_module(_secret_ref_module)
     SecretReferences,init_secret_reference_schema,resolve_credential,open_legacy_ai,legacy_ai_ready=_secret_ref_module.SecretReferences,_secret_ref_module.init_schema,_secret_ref_module.resolve_credential,_secret_ref_module.open_legacy_ai,_secret_ref_module.ai_ready
+
+_REQUEST_DATABASES = ContextVar('request_sqlite_connections', default=None)
+
+
+class _RequestGuardedConnection(GuardedConnection):
+    """A fresh original write fence per lease; cursors never outlive that lease."""
+    _CUSTOM_STATE_METHODS = frozenset(('create_function', 'create_aggregate', 'create_collation',
+        'create_window_function', 'set_authorizer', 'set_progress_handler', 'set_trace_callback',
+        'enable_load_extension', 'load_extension', 'setconfig'))
+
+    def __init__(self, db):
+        super().__init__(db)
+        self._lease_cursors = []
+        self._lease_dirty = False
+        self._lease_closed = False
+
+    def _check_lease(self):
+        if self._lease_closed:
+            raise sqlite3.ProgrammingError('Cannot operate on a closed database lease.')
+
+    def _track(self, value):
+        if isinstance(value, sqlite3.Cursor):
+            self._lease_cursors.append(value)
+        return value
+
+    def execute(self, sql, args=()):
+        self._check_lease()
+        if re.match(r'\s*(?:ATTACH\b|DETACH\b|CREATE\s+TEMP(?:ORARY)?\b)', sql, re.I):
+            self._lease_dirty = True
+        return self._track(super().execute(sql, args))
+
+    def executescript(self, script):
+        self._check_lease()
+        return self._track(super().executescript(script))
+
+    def executemany(self, sql, args):
+        self._check_lease()
+        return super().executemany(sql, args)
+
+    def cursor(self, *args, **kwargs):
+        self._check_lease()
+        return self._track(self._db.cursor(*args, **kwargs))
+
+    def __getattr__(self, key):
+        self._check_lease()
+        value = super().__getattr__(key)
+        if callable(value):
+            def change(*args, **kwargs):
+                self._check_lease()
+                if key in self._CUSTOM_STATE_METHODS:
+                    self._lease_dirty = True
+                return value(*args, **kwargs)
+            return change
+        return value
+
+    def close_cursors(self):
+        for cursor in self._lease_cursors:
+            try:
+                cursor.close()
+            except sqlite3.Error:
+                pass  # Explicitly closed cursors/connections already meet this boundary.
+        self._lease_cursors.clear()
+        self._lease_closed = True
+        self._db = None  # An escaped logical wrapper cannot reach an idle native lease.
+
+
+def _native_connection_clean(db, signature):
+    """Match a fresh connection, without resetting away an unexpected state."""
+    try:
+        if db.in_transaction or (db.row_factory, db.text_factory, db.isolation_level) != signature:
+            return False
+        for pragma, expected in (('foreign_keys', 1), ('query_only', 0), ('defer_foreign_keys', 0)):
+            cursor = db.execute('PRAGMA ' + pragma)
+            try:
+                if cursor.fetchone()[0] != expected:
+                    return False
+            finally:
+                cursor.close()
+        cursor = db.execute('PRAGMA database_list')
+        try:
+            if any(row[1] not in ('main', 'temp') for row in cursor.fetchall()):
+                return False
+        finally:
+            cursor.close()
+        cursor = db.execute('SELECT count(*) FROM sqlite_temp_master')
+        try:
+            return cursor.fetchone()[0] == 0
+        finally:
+            cursor.close()
+    except sqlite3.Error:
+        return False
+
 
 class Store:
     def __init__(self, path):
@@ -330,6 +434,9 @@ class Store:
             init_commerce_schema(db)
             init_after_sales_schema(db)
             init_payment_support_schema(db)
+            init_payment_callbacks_schema(db)
+            init_payment_recovery_schema(db)
+            init_payment_late_schema(db)
             init_membership_schema(db)
             init_commission_schema(db)
             init_privacy_schema(db)
@@ -341,17 +448,69 @@ class Store:
             init_secret_reference_schema(db)
             init_memory_schema(db)
             init_privacy_retention_schema(db)
+            init_digital_schema(db)
+            init_payment_routing_schema(db)
+            init_local_tasks_schema(db)
+            init_bazi_samples_schema(db)
+            init_card_imports_schema(db)
+            init_card_history_schema(db)
+            init_privacy_domains_schema(db)
 
     @contextmanager
     def connect(self):
-        db = sqlite3.connect(self.path, timeout=15)
-        db.row_factory = sqlite3.Row
-        db.execute('PRAGMA foreign_keys=ON')
+        scope = _REQUEST_DATABASES.get()
+        cached = scope is not None and scope['store'] is self and scope['thread'] == threading.get_ident()
+        if cached and scope['idle']:
+            db = scope['idle'].pop()
+        else:
+            db = sqlite3.connect(self.path, timeout=15)
+            db.row_factory = sqlite3.Row
+            if cached:
+                scope['connections'][db] = (db.row_factory, db.text_factory, db.isolation_level)
+        lease = None
+        completed = False
         try:
+            db.execute('PRAGMA foreign_keys=ON')
             with db:
-                yield guard_connection(db)
+                schema_version=db.execute('PRAGMA schema_version').fetchone()[0]
+                if getattr(self,'_privacy_reference_schema_version',None)!=schema_version and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='privacy_media_tombstones'").fetchone():
+                    for statement in privacy_reference_guard_sql(privacy_available_schema(db)):
+                        db.execute(statement)
+                    self._privacy_reference_schema_version=db.execute('PRAGMA schema_version').fetchone()[0]
+                lease = _RequestGuardedConnection(db) if cached else guard_connection(db)
+                yield lease
+            completed = True
         finally:
-            db.close()
+            if isinstance(lease, _RequestGuardedConnection):
+                lease.close_cursors()
+            if cached and completed and not lease._lease_dirty and _native_connection_clean(db, scope['connections'][db]):
+                scope['idle'].append(db)
+            else:
+                if cached:
+                    scope['connections'].pop(db, None)
+                db.close()
+
+    def begin_request_scope(self):
+        return _REQUEST_DATABASES.set({'store': self, 'thread': threading.get_ident(),
+                                       'connections': {}, 'idle': []})
+
+    def end_request_scope(self, token):
+        scope = _REQUEST_DATABASES.get()
+        failure = None
+        try:
+            if scope is not None and scope['store'] is self and scope['thread'] == threading.get_ident():
+                for db in tuple(scope['connections']):
+                    try:
+                        db.close()
+                    except sqlite3.Error as error:
+                        failure = failure or error
+                    finally:
+                        scope['connections'].pop(db, None)
+                scope['idle'].clear()
+        finally:
+            _REQUEST_DATABASES.reset(token)
+        if failure is not None:
+            raise failure
 
     def audit(self, db, actor, action, target, detail=''):
         db.execute('INSERT INTO audits VALUES (?,?,?,?,?,?)', (str(uuid4()), actor, action, target, detail, now_ms()))
@@ -438,17 +597,21 @@ def make_handler(store, web_root):
             self.send_response(status)
             self.send_header('Content-Type', mime)
             self.send_header('Content-Length', str(len(body)))
-            self.send_header('Cache-Control', 'no-store')
+            supplied = {key.lower() for key in (headers or {})}
+            if 'cache-control' not in supplied:
+                self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')
-            self.send_header('Referrer-Policy', 'same-origin')
+            if 'referrer-policy' not in supplied:
+                self.send_header('Referrer-Policy', 'same-origin')
             for cookie in getattr(self, 'cookies_out', []):
                 self.send_header('Set-Cookie', cookie)
             for key, value in (headers or {}).items():
                 self.send_header(key, value)
             self.end_headers()
             try:
-                self.wfile.write(body)
-            except (BrokenPipeError, ConnectionResetError):
+                if self.command != 'HEAD':
+                    self.wfile.write(body)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 pass
 
         def begin(self):
@@ -522,6 +685,7 @@ def make_handler(store, web_root):
                 raise ApiError(403, '成为好友后才可对话。')
 
         def route(self, method):
+            request_scope_token = store.begin_request_scope()
             try:
                 self.begin()
                 path = urlsplit(self.path).path.rstrip('/') or '/'
@@ -532,10 +696,16 @@ def make_handler(store, web_root):
                 result = self.api(method, path)
                 if isinstance(result, StreamReply):
                     return result.send(self)
+                if isinstance(result, CardImportExportReply):
+                    return result.send(self)
+                if isinstance(result, CallbackReply):
+                    return result.send(self)
+                if isinstance(result, DigitalMediaReply):
+                    return result.send(self)
                 if result is not None:
                     return self.send(200, result)
                 files = {'/': '发给负责人-东方智慧首页R4.html', '/app': '发给负责人-东方智慧首页R4.html',
-                         '/experience': '东方智慧-首页体验R4.html', '/admin': '计时后台-开发联调.html', '/creator': '创作者中心.html'}
+                         '/experience': '东方智慧-首页体验R4.html', '/admin': '计时后台-开发联调.html', '/creator': '创作者中心.html', '/official': '东方智慧-官网.html'}
                 if method == 'GET' and path in files:
                     file = web_root / files[path]
                     if file.is_file():
@@ -546,16 +716,51 @@ def make_handler(store, web_root):
             except (ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
                 self.send(400, {'error': str(exc)[:240]})
             except sqlite3.IntegrityError as exc:
+                if 'payment_routing_' in str(exc):
+                    code=next((value for value in ('payment_routing_frozen_mismatch','payment_routing_terms_changed','payment_routing_immutable','payment_routing_config_immutable','payment_routing_changed') if value in str(exc)),'payment_routing_changed')
+                    self.send(409,{'error':code})
+                    return
                 account_error=account_integrity_response(exc)
                 self.send(account_error[0] if account_error else 409, {'error':account_error[1] if account_error else ('会员方案或订阅状态已变化，请重新确认。' if 'membership_' in str(exc) else '账号或记录已存在，请刷新后重试。')})
             except Exception:
                 self.send(500, {'error': '服务暂时无法处理此请求。'})
             finally:
-                if hasattr(self,'account_actor_token'):
-                    end_actor(self.account_actor_token)
-                    del self.account_actor_token
+                try:
+                    if hasattr(self,'account_actor_token'):
+                        end_actor(self.account_actor_token)
+                        del self.account_actor_token
+                finally:
+                    store.end_request_scope(request_scope_token)
 
         def api(self, method, path):
+            card_import_result=CardImports(store,self,ApiError,rate_limit).route(method,path)
+            if card_import_result is not None:return card_import_result
+            card_history_result=CardHistoryMigration(store,self,ApiError,rate_limit).route(method,path)
+            if card_history_result is not None:return card_history_result
+            sample_result=BaziSamples(store,self,ApiError,rate_limit,Path(web_root)/'东方智慧-首页体验R4.html').route(method,path)
+            if sample_result is not None:
+                return sample_result
+            routing_result=PaymentRouting(store,self,ApiError,rate_limit).route(method,path)
+            if routing_result is not None:
+                return routing_result
+            local_result=LocalTasks(store,self,ApiError,rate_limit,Path(web_root)/'东方智慧-首页体验R4.html').route(method,path)
+            if local_result is not None:
+                return local_result
+            domain_result=PrivacyDomains(store,self,ApiError,rate_limit).route(method,path)
+            if domain_result is not None:
+                return domain_result
+            digital_result=DigitalEntitlements(store,self,ApiError,rate_limit).route(method,path)
+            if digital_result is not None:
+                return digital_result
+            late_result=PaymentLate(store,self,ApiError,rate_limit).route(method,path)
+            if late_result is not None:
+                return late_result
+            recovery_result=PaymentRecovery(store,self,ApiError,rate_limit).route(method,path)
+            if recovery_result is not None:
+                return recovery_result
+            callback_result=PaymentCallbacks(store,self,ApiError,rate_limit).route(method,path)
+            if callback_result is not None:
+                return callback_result
             closure_result=AccountClosure(store,self,ApiError,rate_limit,check_password).route(method,path)
             if closure_result is not None:
                 return closure_result
@@ -565,6 +770,10 @@ def make_handler(store, web_root):
             card_result = CardService(store, self, ApiError, rate_limit).route(method, path)
             if card_result is not None:
                 return card_result
+            from membership_ai_quota import MembershipAIQuota
+            quota_result = MembershipAIQuota(store, self, ApiError, rate_limit).route(method, path)
+            if quota_result is not None:
+                return quota_result
             gateway_result = AIGateway(store, self, ApiError, rate_limit).route(method, path)
             if gateway_result is not None:
                 return gateway_result
@@ -579,6 +788,9 @@ def make_handler(store, web_root):
                 return privacy_result
             membership_result = Membership(store, self, ApiError, rate_limit).route(method, path)
             if membership_result is not None:
+                if method=='GET' and path=='/api/membership/catalog':
+                    with store.connect() as db:
+                        decorate_membership_catalog(db,membership_result)
                 return membership_result
             commission_result = Commission(store, self, ApiError, rate_limit).route(method, path)
             if commission_result is not None:
@@ -614,6 +826,7 @@ def make_handler(store, web_root):
             if method == 'GET' and path == '/api/public':
                 ai = store.setting('ai')
                 content = store.public_content()
+                content['courses']=[course for course in content['courses'] if course.get('sandboxOnly') is not True]
                 if not self.user or self.user['role'] not in MANAGERS:
                     for course in content['courses']:
                         if course.get('access') == 'member':
@@ -1022,6 +1235,8 @@ def make_handler(store, web_root):
                         text(item.get('heroText', ''), 60)
                     if kind == 'courses':
                         item.setdefault('categoryIds', prior_item.get('categoryIds', []))
+                        if 'sandboxOnly' in item and type(item['sandboxOnly']) is not bool:
+                            raise ValueError('sandboxOnly须为明确的布尔值。')
                         category_ids = item['categoryIds']
                         if not isinstance(category_ids, list) or len(category_ids) > 30 or any(not isinstance(value, str) for value in category_ids) or len(set(category_ids)) != len(category_ids):
                             raise ValueError('课程筛选分类须为不重复的编号列表。')
@@ -1227,6 +1442,15 @@ def make_handler(store, web_root):
 
         def get_media(self, mid):
             with store.connect() as db:
+                # Capture current authorization and response bytes under the local lock.
+                # Sending happens after unlock; authorized/transmitted bytes cannot be recalled.
+                db.execute('BEGIN IMMEDIATE')
+                if privacy_media_deleted(db,mid):
+                    raise ApiError(404, '素材已删除。')
+                if self.user:
+                    self.user=db.execute("SELECT u.* FROM users u JOIN sessions s ON u.id=s.user_id WHERE s.token=? AND s.expires>? AND NOT EXISTS(SELECT 1 FROM account_lifecycle l WHERE l.owner=u.id AND l.status='closed')",(hashlib.sha256(self.session_token.encode()).hexdigest(),now_ms())).fetchone()
+                if digital_private_media(db,mid):
+                    raise ApiError(403, '隔离数字测试素材只允许通过本人有效访问记录读取。')
                 row = db.execute('SELECT * FROM media WHERE id=?', (mid,)).fetchone()
                 if not row:
                     raise ApiError(404, '素材不存在。')
@@ -1251,24 +1475,33 @@ def make_handler(store, web_root):
                     staff_review = db.execute("SELECT 1 FROM creator_works WHERE status IN ('ai_review','manual_review','rejected','published') AND (json_extract(data,'$.mediaUrl')=? OR json_extract(data,'$.coverUrl')=?)", (reference, reference)).fetchone() or db.execute("SELECT 1 FROM posts p LEFT JOIN creator_works w ON w.id=p.id WHERE p.media_url=? AND p.status IN ('pending','rejected','published') AND (w.id IS NULL OR w.status!='draft')", (reference,)).fetchone() or db.execute("SELECT 1 FROM contents c WHERE json_extract(c.data,'$.creatorId') IS NULL AND NOT EXISTS (SELECT 1 FROM creator_works w WHERE w.id=c.id) AND (json_extract(c.data,'$.mediaUrl')=? OR json_extract(c.data,'$.audioUrl')=? OR json_extract(c.data,'$.coverUrl')=?)", (reference, reference, reference)).fetchone()
                 if not public and not (self.user and self.user['id'] == row['owner']) and not staff_review:
                     raise ApiError(403, '此素材仅上传者本人或已提交内容的授权审核人员可查看。')
-            contents = row['data']
-            length = len(contents)
-            headers = {'Accept-Ranges': 'bytes'}
-            requested = self.headers.get('Range')
-            if requested:
-                match = re.fullmatch(r'bytes=(\d*)-(\d*)', requested)
-                if not match or not any(match.groups()):
-                    raise ApiError(416, '无效媒体范围。')
-                start = int(match[1]) if match[1] else max(0, length - int(match[2]))
-                end = min(length - 1, int(match[2])) if match[1] and match[2] else length - 1
-                if start >= length or end < start:
-                    raise ApiError(416, '媒体范围超出文件。')
-                headers['Content-Range'] = f'bytes {start}-{end}/{length}'
-                return self.send(206, contents[start:end+1], row['mime'], headers)
-            return self.send(200, contents, row['mime'], headers)
+                contents = row['data']
+                length = len(contents)
+                headers = {'Accept-Ranges': 'bytes','Cache-Control':'private, no-store','Referrer-Policy':'no-referrer'}
+                status=200
+                requested = self.headers.get('Range')
+                if requested:
+                    match = re.fullmatch(r'bytes=(\d*)-(\d*)', requested)
+                    if not match or not any(match.groups()):
+                        raise ApiError(416, '无效媒体范围。')
+                    start = int(match[1]) if match[1] else max(0, length - int(match[2]))
+                    end = min(length - 1, int(match[2])) if match[1] and match[2] else length - 1
+                    if start >= length or end < start:
+                        raise ApiError(416, '媒体范围超出文件。')
+                    headers['Content-Range'] = f'bytes {start}-{end}/{length}'
+                    contents=contents[start:end+1]
+                    status=206
+                mime=row['mime']
+            return self.send(status, contents, mime, headers)
 
         def do_GET(self):
             self.route('GET')
+
+        def do_HEAD(self):
+            if urlsplit(self.path).path.startswith('/api/digital-entitlements/'):
+                self.route('HEAD')
+            else:
+                self.send_error(501,'Unsupported method')
 
         def do_POST(self):
             self.route('POST')

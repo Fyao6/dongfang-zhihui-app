@@ -1,0 +1,82 @@
+{
+  "scopePreserved": true,
+  "changedCells": [
+    {
+      "sheet": "优化任务表",
+      "cell": "I71",
+      "valueBefore": "可演练环境、备份方案、确认RPO/RTO。\n本轮：隔离SQLite在线备份/恢复10项通过，实际恢复服务可读相同公开目录；显式记录备份后1条已确认写入未恢复。未演练PostgreSQL主备/GPU中断/支付流水核对或生产RPO/RTO。",
+      "valueAfter": "可演练环境、备份方案、确认RPO/RTO。\n本轮：隔离沙箱真实非空支付、会员周期额度、佣金与抽卡事实，经首次付款提交后丢响应重放、自有进程故障、SQLite/本地D1快照恢复及API/原生关联回查。快照后已确认写未恢复的差异如实保留。 收据：负责人优化建议-当前产品可靠性-实施记录.json。\n剩余：仍需生产基础设施、PostgreSQL/GPU/跨区/PITR故障恢复与确认RPO/RTO；本地逻辑恢复不证明生产零丢失、供应商或备份删除。\n证据：06_验证与后续工作/负责人优化建议-当前产品可靠性-实施记录.json",
+      "styleChanged": false,
+      "formulaChanged": false
+    },
+    {
+      "sheet": "优化任务表",
+      "cell": "A4",
+      "valueBefore": "原文已拆为98项并逐项保留出处；30个本地实施阶段已通过测试，9项待验收。各项已实现范围、剩余软件和外部资料见I列；正式收费、真实AI及生产部署尚未完成。",
+      "valueAfter": "原文已拆为98项并逐项保留出处；31个本地实施阶段已通过测试，9项待验收。各项已实现范围、剩余软件和外部资料见I列；正式收费、真实AI及生产部署尚未完成。",
+      "styleChanged": false,
+      "formulaChanged": false
+    },
+    {
+      "sheet": "优化任务表",
+      "cell": "I107",
+      "valueBefore": "正式验收、上线计划与回滚演练。\n本轮：本轮已列APP/源码SHA、模块冻结证据、接口说明、环境变量名和无密钥交接/恢复步骤；原库与8880/8879未动，未重打完整ZIP。正式发布、数据库迁移/付款事实补偿及生产回滚演练尚未完成。",
+      "valueAfter": "正式验收、上线计划与回滚演练。\n本轮：当前本地方有只读迁移预检、全新受管目标恢复、独立回滚目标、原始失败与源码/工具身份、清理和交付边界证据；未上线、发布或改生产库。 收据：负责人优化建议-当前产品可靠性-实施记录.json。\n剩余：仍需目标生产环境的部署、流量切换、回滚与接管实演，以及真实服务凭据、授权、运维责任和正式验收；当前未公开发布。\n证据：06_验证与后续工作/负责人优化建议-当前产品可靠性-实施记录.json",
+      "styleChanged": false,
+      "formulaChanged": false
+    },
+    {
+      "sheet": "优化任务表",
+      "cell": "I69",
+      "valueBefore": "目标国测试点、网络、正式确认指标。\n本轮：已在新隔离库进行100匿名逻辑访客、20RPS30秒本机探索：600/600成功、P95 15.57ms；非100登录并发、非目标国家、非30分钟，不能当正式容量达标。见SVT01本机探索报告。",
+      "valueAfter": "目标国测试点、网络、正式确认指标。\n本轮：本轮每请求新TCP连接、每账号保留实际session且无重试，未据此认定旧keepalive通过；普通业务双端各100个真实登录账号、20次/秒、1800秒、36000请求与CAS写入/归属回查，同机重叠窗口合计200会话/40RPS；另有双端真实后端鉴权MP4各5次禁浏览器缓存播放、RVFC首帧、seek及本人/匿名/他人和Range验证。800ms仍非已确认验收阈值。 收据：负责人优化建议-当前产品可靠性-实施记录.json。\n剩余：仍需生产目标地区网络/CDN、真实手机、正式鉴权媒体全链路与明确性能指标验收；同机双端合成负载及浏览器测试页不能替代生产容量或APP播放器整合验收。\n证据：06_验证与后续工作/负责人优化建议-当前产品可靠性-实施记录.json",
+      "styleChanged": false,
+      "formulaChanged": false
+    }
+  ],
+  "violations": [],
+  "preservedOtherRequirements": 95,
+  "worksheetOrder": [
+    "优化任务表",
+    "原文逐段对照"
+  ],
+  "scope": "SVT01/SVT03/X03; original 98 requirement denominator and all other 95 rows preserved. Three user-added requests are isolated on the appended 追加需求 sheet.",
+  "rowsWithEvidence": 72,
+  "otherRows": 26,
+  "statusCounts": {
+    "进行中": 70,
+    "待资料": 16,
+    "待验收": 9,
+    "待实施": 3
+  },
+  "additionalRequirements": {
+    "sheet": "追加需求",
+    "rows": 3,
+    "pass": true
+  },
+  "visualPreviews": [
+    {
+      "path": "06_验证与后续工作/当前产品可靠性-进度表-20261118-010759-1-优化任务表-A69_N71.png",
+      "sha256": "8b78f853a6a74500cb7840781d9f083ff72e72c83f26ec3045e793ad160c06a2",
+      "sheet": "优化任务表",
+      "range": "A69:N71"
+    },
+    {
+      "path": "06_验证与后续工作/当前产品可靠性-进度表-20261118-010759-1-优化任务表-A107_N107.png",
+      "sha256": "c3528db27f43a544f45d2af9e0dd2344baf7652186a72f0515dcb0ec11a5ecd4",
+      "sheet": "优化任务表",
+      "range": "A107:N107"
+    },
+    {
+      "path": "06_验证与后续工作/当前产品可靠性-进度表-20261118-010759-1-追加需求-A1_F4.png",
+      "sha256": "4b88cbecfcd1b48793e7b1457e507214602137aa97ba774b2dcd38f63a1a588b",
+      "sheet": "追加需求",
+      "range": "A1:F4"
+    }
+  ],
+  "originalPath": "06_验证与后续工作/当前产品可靠性-原98项任务表回填前-20261118-010759.xlsx",
+  "originalSha256": "75f383b023ebb2605e43323a5cc0824d983ab57a4ac1e70b7a43de05ba03f58c",
+  "candidateSha256": "4e95a797fcb59f291d6aede49e92efe58c4c9eb166c7c8bd1cbb5d4451e8245c",
+  "detailCandidateSha256": "925945f9cd2e1a0419cde9087021e80ef851babd31e41c3451810c9894a93a5f",
+  "pass": true
+}

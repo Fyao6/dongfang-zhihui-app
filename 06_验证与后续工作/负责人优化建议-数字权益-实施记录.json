@@ -1,0 +1,541 @@
+{
+  "at_beijing": "2026-11-16T20:45:23.824224+08:00",
+  "module": "负责人优化建议-数字权益",
+  "taskIds": [
+    "SH06"
+  ],
+  "stage": 25,
+  "pass": true,
+  "status": "local-finite-digital-access-verified-production-pending",
+  "requirement": {
+    "sourceIds": [
+      "P249",
+      "P251",
+      "P255"
+    ],
+    "title": "关联数字作品与独立购买权益"
+  },
+  "scope": "有限天数/次数的独立沙箱音视频购买、下单规则不可变快照、普通与回调/查单/迟到付款同事务唯一grant；按签发访问计次、会话绑定幂等租约、逐GET/Range最终门禁、部分退款不回补used及overused、永久资产隔离、本人导出/恢复/分页、四语APP和中文后台。",
+  "production": {
+    "productionEnabled": false,
+    "realPaymentProviderTested": false,
+    "realCopyrightConfirmed": false,
+    "actualThirdPartyAssetUsed": false,
+    "originalDatabaseUsed": false
+  },
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益-本轮全量回归结果.json",
+      "sha256": "cd7ebf5697950459396542543c5804d44dec9a24009c9b0a9036c64d1ba33abc",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T12:36:52.179Z",
+      "runId": null
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益-公网适配全量回归结果.json",
+      "sha256": "f7671730927345fa0d024bbb1acb04c11f68dfdd3a65ff58613831d70b8322e7",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T12:35:04.146Z",
+      "runId": null
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益专项-python.json",
+      "sha256": "2722f5c0467ed1f8bb3b23bdd70a97924f30abcd42dbe931fdb368aabcd8b870",
+      "passed": 24,
+      "failed": 0,
+      "at": "2026-11-16T12:34:03.421Z",
+      "runId": "mwj8w8pp_0fb43f"
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益专项-cloud.json",
+      "sha256": "63e742cfa1d49bccb12dadd2282305fdc2d9e6f4cb219e62e6404d42956b75b3",
+      "passed": 24,
+      "failed": 0,
+      "at": "2026-11-16T12:32:41.174Z",
+      "runId": "mwj8uh92_cc1fb3"
+    },
+    "Python交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益交易兼容-python.json",
+      "sha256": "0f8552439550e479fea851208c9fb95d32398bbb71d28b0d949384fc803b815e",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T12:40:50.853Z",
+      "runId": "mwj94z39_dc39df"
+    },
+    "Cloud交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益交易兼容-cloud.json",
+      "sha256": "e18dd1b7736cf21ab59a4741efa2b5c2c3abb0034863bf09d7ec14e486fcc11a",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T12:39:20.191Z",
+      "runId": "mwj9314v_cb7053"
+    },
+    "Python回调兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益回调兼容-python.json",
+      "sha256": "bee12d722488f5f1f8dbbdc94c974a429d6daa56828c6f8daf1b78fe4ab1e435",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T12:41:13.294Z",
+      "runId": "mwj95gel_20cbd3"
+    },
+    "Cloud回调兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益回调兼容-cloud.json",
+      "sha256": "db00b85acdd31cdf79336a73502982649aaf9a1bd0210842061790b4b7c445d5",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T12:41:10.550Z",
+      "runId": "mwj95eae_553050"
+    },
+    "Python恢复兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益恢复兼容-python.json",
+      "sha256": "f7f606e76d44afdf9350e5b2592fad030628feae9a40e03a901add3804a11619",
+      "passed": 19,
+      "failed": 0,
+      "at": "2026-11-16T12:41:22.102Z",
+      "runId": "mwj95n79_34944d"
+    },
+    "Cloud恢复兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益恢复兼容-cloud.json",
+      "sha256": "60db7fa245111e7204ddc410f13f202475da948e9c1bd8529e75fb670b5607d2",
+      "passed": 19,
+      "failed": 0,
+      "at": "2026-11-16T12:42:36.022Z",
+      "runId": "mwj9788m_5e0397"
+    },
+    "Python迟到兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益迟到兼容-python.json",
+      "sha256": "6ac3fe6af7608c3b59c9d65ddf17c853973b86b0231aa339da186efb1d2a8b58",
+      "passed": 20,
+      "failed": 0,
+      "at": "2026-11-16T12:42:06.815Z",
+      "runId": "mwj96lpb_57af86"
+    },
+    "Cloud迟到兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益迟到兼容-cloud.json",
+      "sha256": "11f395a67515d781d510a98d21feffaa50534a06431bba4cf1c3ed503d78d797",
+      "passed": 20,
+      "failed": 0,
+      "at": "2026-11-16T12:44:19.080Z",
+      "runId": "mwj99frb_f41562"
+    },
+    "Python补充视觉": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python.json",
+      "sha256": "660288f585a41e0711e1e22620de9e419b4a7e104255e806ad5acdbf3b774536",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T12:31:58.871Z",
+      "runId": "mwj8tklz_9d8321"
+    },
+    "Cloud补充视觉": {
+      "path": "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud.json",
+      "sha256": "fc8b53761cb8214dd7067b760fe09d8f8dcf0a4941f518799fd7b9f130b8765b",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T12:30:56.433Z",
+      "runId": "mwj8s8fl_0e3dec"
+    }
+  },
+  "actualFullBuildIdentityChecks": [
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/东方智慧-首页体验R4.html",
+      "expected": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+      "actual": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba"
+    },
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/发给负责人-东方智慧首页R4.html",
+      "expected": "b80e902ce2256128fd66956666ddb0ec11c415ed571642632b6d002b6c7a68be",
+      "actual": "b80e902ce2256128fd66956666ddb0ec11c415ed571642632b6d002b6c7a68be"
+    },
+    {
+      "gate": "Python全量",
+      "path": "03_当前APP/计时后台-开发联调.html",
+      "expected": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+      "actual": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/东方智慧-首页体验R4.html",
+      "expected": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+      "actual": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/发给负责人-东方智慧首页R4.html",
+      "expected": "b80e902ce2256128fd66956666ddb0ec11c415ed571642632b6d002b6c7a68be",
+      "actual": "b80e902ce2256128fd66956666ddb0ec11c415ed571642632b6d002b6c7a68be"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "03_当前APP/计时后台-开发联调.html",
+      "expected": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+      "actual": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/experience.html",
+      "expected": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+      "actual": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/admin.html",
+      "expected": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+      "actual": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/generated/review.html",
+      "expected": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+      "actual": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/lib/eastern-api.ts",
+      "expected": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+      "actual": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/worker/index.ts",
+      "expected": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+      "actual": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979"
+    },
+    {
+      "gate": "Cloud全量",
+      "path": "04_研发源码/app/cloud/dist/server/index.js",
+      "expected": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474",
+      "actual": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474"
+    }
+  ],
+  "source_hashes": {
+    "04_研发源码/app/r4/digital-entitlements-ui.js": "b5d6d10b4c9c25435dfa80915c39276bbeb41dbfadede48372f08cb27ad6468b",
+    "04_研发源码/app/r4/digital-entitlements-ui.css": "01dfa345d206ea93ce5f153d63ad61ebcd1617cb10166c1f0f5255f3fc3ab84a",
+    "04_研发源码/app/r4/digital-entitlements-admin.js": "efca583d57cc13c9a1ed07fccf0473a479c2fe22ee085bcab8bec080248a1f69",
+    "04_研发源码/app/r4/commerce-ui.js": "862b19597dc39e92a9f59ed3ec98ecbc7374f89843b3c1c39b46dd7aa5c13744",
+    "04_研发源码/app/r4/commerce-admin.js": "2d4ec03626c58a36c87c0e2fb74e3184536320a8036db8ed2e85d2e924232225",
+    "04_研发源码/app/r4/time-bank-admin.html": "6252a5676cbc5f0b9b30dc9c9722f580b9fcb52df82126c6ff2ad40b93eab1b2",
+    "04_研发源码/app/r4/build.py": "4337e776eacc698df4529ef4a5693f88f5c31e45ab0868680ba618fcc154b2d4",
+    "04_研发源码/app/r4/backend/digital_entitlements.py": "af07994d17ea6c806e28492744e1eb067685d3ba660980c3b2536cb932ad4937",
+    "04_研发源码/app/r4/backend/commerce.py": "dbb7c25d46ed39941c561fbba28bfebf326859379d3858e5d692a07c90163392",
+    "04_研发源码/app/r4/backend/server.py": "ce9b834c500f9c73e2d6d4b9f95ed56acc3b0b54b463f4ee48ed9f40419ae17c",
+    "04_研发源码/app/r4/backend/privacy.py": "b4e7fdd50a5b37ceecbc148a8706bed3e32649e71c7511d7d26a13aee7a1b509",
+    "04_研发源码/app/r4/backend/payment_callbacks.py": "1a37d801c19b1c49a62a03f83030bde013f2c30f9108b4bc5ee2bcaf8f8a3934",
+    "04_研发源码/app/r4/backend/payment_late.py": "2428630a9fab1bc77ecb29a5d19a5b8fe0fc3c0bcb3a40693ae249031203dcfd",
+    "04_研发源码/app/r4/backend/payment_recovery.py": "ddfefe6a0e53cf223b19072268a0deb8d08b586c86a7751f53fda5252697487a",
+    "04_研发源码/app/cloud/lib/digital-entitlements.ts": "c5d79cb772c0c6cfe4cbbc7fd426115beff199bba1ff4aac51877842ee557f99",
+    "04_研发源码/app/cloud/lib/commerce-api.ts": "94c0dcd5ce98034ef021fe54e057cba3a089e47cb78b13c28bf4524e4565b021",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "f102a5dde10ffbdbf82624c840b9d01b219964eb1d543a20c87093bee91ca324",
+    "04_研发源码/app/cloud/lib/privacy-api.ts": "cfdd647e3410d956540d24bb9d03f0dcb56052c28279c882e66558701e3946f4",
+    "04_研发源码/app/cloud/lib/payment-callbacks.ts": "cb696a9b142a71dbec656195f0ecf82e3e430c2786e0607a8f070329b2ae30b7",
+    "04_研发源码/app/cloud/lib/payment-late.ts": "9704f1bdf86574875f7954f3977e3289b09a565c3e2c8442efce73c467cddee0",
+    "04_研发源码/app/cloud/lib/payment-recovery.ts": "09c358b3e54ea9b3440bce7dcf5b22775a1948db4c9321dd605aba7076cf7e47",
+    "04_研发源码/app/cloud/prepare.py": "47bf59782d280aea0ad0eee705feda9d2432ad459dafe493d791ff1a1cc99418",
+    "06_验证与后续工作/全量回归.cjs": "ab6ce3b5fc85570d3218fc32f60f758695df59fd30e8510ffe8244ca4d09c284",
+    "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879",
+    "06_验证与后续工作/负责人优化建议-支付恢复HTTP查询夹具.py": "d4ab3fc284c0fc091637c348a2ce2d2488f8f0264c5044fe34e54566f794c504",
+    "05_后台与研发说明/数字作品次数期限与访问说明.txt": "749338bc21acdbeaea1fee9bfb7964d92c1e00f952805dc14f9f72af90e59e72",
+    "06_验证与后续工作/负责人优化建议-数字权益-进度表回填.mjs": "00977a9260df8bac824d76ec855a3a3b21d7b4054f82bc2a3e43da4d84b5cf15",
+    "06_验证与后续工作/负责人优化建议-数字权益-进度表校验.py": "dc292e6592bbe12d5127a3b2eef5c0956c556b611f8bbbc14e6eea3309718fd9",
+    "06_验证与后续工作/负责人优化建议-数字权益Cloud测试服务.ts": "2049167e19b248c0a6453466cca7d14067c79322adfa740f90d41391caa6a71d",
+    "06_验证与后续工作/负责人优化建议-数字权益Python测试服务.py": "9e017f4486d91e8700e48a9895c1afd780ae13413305f9f27c7613d8e5cad97c",
+    "06_验证与后续工作/负责人优化建议-数字权益专项.cjs": "ef6313716931a87bcdf2412ebeb1b9875a3924dbc4a2f96e0c00566e9d92721c",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容.cjs": "a1619495e2b5e25470629e651f5c79878722088f247a567cffcc734994a755da",
+    "06_验证与后续工作/负责人优化建议-数字权益恢复兼容.cjs": "652d80c5ad292d5e53d62e241aa3a632bd146d284b360a3525d75700636b538b",
+    "06_验证与后续工作/负责人优化建议-数字权益最终核验.py": "4954f37e059d369baa7cbeef79301382d2336f90e9fbe0e6eb0870a6ab1ac0e8",
+    "06_验证与后续工作/负责人优化建议-数字权益测试工具.cjs": "97bc12f778c68173efbf7f731e8d9e78490c092367402b62c8ddf7d0c343358e",
+    "06_验证与后续工作/负责人优化建议-数字权益用例工具.cjs": "43b3de5a8daa89a712a07867bed44c41d6dffa6548b926fb6e20202c69764deb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉.cjs": "a1e74580b9c7e13d6a85b7a69d80a89e368ba6f36bda0fc02ea92f27a348c30c",
+    "06_验证与后续工作/负责人优化建议-数字权益进度回填.py": "968ed5fbd580d9187d957fad996ff272d6171d0f0a1ccf4872664a956f3b7ecb",
+    "06_验证与后续工作/负责人优化建议-数字权益迟到兼容.cjs": "f3ff41aad3754b5d78a5d06c6883622a5b90ad58370fde9b8e90e80da93906d9",
+    "06_验证与后续工作/负责人优化建议-数字权益验收冻结.py": "24be26a57f62a4927d4cceb5bb0a48c43202fbe7fce52d3269ef67ff62493cee",
+    "06_验证与后续工作/负责人优化建议-数字权益验收启动.cjs": "94ce5bb37370ec40fa1181c476f695d0d5242cfccfa9960b4a5a0d6ba3005b1d"
+  },
+  "build_hashes": {
+    "03_当前APP/东方智慧-首页体验R4.html": "0f55a84502c7fd3bb899f8a0c0b09d62cd6c7fa70f3909616c727c0980a9a1ba",
+    "03_当前APP/计时后台-开发联调.html": "8183ed1f348469c0c8d9fb308db4e5db5f95c75e723142a109e5c323bfe548a2",
+    "03_当前APP/发给负责人-东方智慧首页R4.html": "b80e902ce2256128fd66956666ddb0ec11c415ed571642632b6d002b6c7a68be",
+    "03_当前APP/创作者中心.html": "59efed1a18b2f3a1b05a2964e85189de356535975052d1254dd5295926cd3a7c",
+    "04_研发源码/app/cloud/generated/experience.html": "20dffea1d6a9f71396480166924e6d551a762dcf59a6a16796d2b5c4e7a23a92",
+    "04_研发源码/app/cloud/generated/admin.html": "c6d53cbd56c0e818fdf030313f4da95ab5506442ee01c8484735c60a0a61b319",
+    "04_研发源码/app/cloud/generated/review.html": "af423b4aad2a94e198702ce945a36a2e3630797dfbd018a14d68534fca76b0c5",
+    "04_研发源码/app/cloud/dist/server/index.js": "e4917cf67ac6bfb85e910c43d415924b4a471cfc38176c979abe9218467e3474"
+  },
+  "visualEvidenceSHA256": {
+    "06_验证与后续工作/负责人优化建议-数字权益专项-python-mwj8w8pp_0fb43f-原生播放与计时拖动.png": "0c1af9ac11c272ed2e3bdfc6fc3e472236b6cd19535a2d313ab831f3a1d4ff7f",
+    "06_验证与后续工作/负责人优化建议-数字权益专项-cloud-mwj8uh92_cc1fb3-原生播放与计时拖动.png": "f2ac1ad2aa9ad97cc4d58e1a63421c3ead663822d85bec427a7cd9abdce3bd7b",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-python-mwj94z39_dc39df-数字购物车.png": "f6edc9640301bab38b1b8ea4e130966defefe31802a300d0b7c7075a586a8560",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-python-mwj94z39_dc39df-已支付订单.png": "72bc3d514f82fc7db03cb046667bad7ec29f5e1b24c8c4529c73825778041652",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-python-mwj94z39_dc39df-售后申请进度.png": "d0f1cb3729e6598a23297876cb2e0814923fdd1d95dfba4f59b0559c04931739",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-cloud-mwj9314v_cb7053-数字购物车.png": "d7629560c3d1421b16b644b4416b718d1401d77ef56f3190d606118138720663",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-cloud-mwj9314v_cb7053-已支付订单.png": "fd9bd2ce13a7517972114c33ebe227bc2029c5ce27b79577a96eb66ee6bf83bc",
+    "06_验证与后续工作/负责人优化建议-数字权益交易兼容-cloud-mwj9314v_cb7053-售后申请进度.png": "9007c15e6fb99fd88a29e32bcc700bd57c69532c0f5d53d69c35ebf4f548bcbe",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-python-mwj95gel_20cbd3-后台-1280-长编号详情.png": "c7e32eca6451284593f5f7617bd54ce4060c07b9a0ee719b44fba8f9de6ed874",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-python-mwj95gel_20cbd3-后台-360-长编号详情.png": "69cb5fe89831929a770ec8be1c2e844466758fa91165ec604c600bad6410d188",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-python-mwj95gel_20cbd3-后台重试.png": "e7057ba609a45f45283e9ac1eea93a4170e866f4219cf2e5f9a9259b38fd56bf",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-1280-长编号详情.png": "6b6214aa7580989f2139196f8a08c0e0939021bce96f615a3e3e5b340fd00f24",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台-360-长编号详情.png": "591787405cb552312a1d4c9e2e4ce5100e0aa0cacf0c1559e3d12b29e0ed99c9",
+    "06_验证与后续工作/负责人优化建议-数字权益回调兼容-cloud-mwj95eae_553050-后台重试.png": "87af2def6ab89d331752011eec434f4bb6a6bbd2144ebe8a8b2f0fc1af1947eb",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj95n79_34944d-过期租约本人恢复.png": "af84ebb1d312246249ef6af99acf94baaf64660540e0b0bb7275c6bfeee6c0d3",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj95n79_34944d-zh-APP视口.png": "e2e0ab8511ecaa19861b37e0cec87b9a51cc3e7b141b1512f2669e51833662c8",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj95n79_34944d-zh-Hant-APP视口.png": "501cd8ef7c2051a9cc54b67eb23ee02d609e66668095c52f320194994258d1c7",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj95n79_34944d-en-APP视口.png": "c3a4c3d842aa91f085aa91a19cabf68c62f189c999663fbd2f1eca0b283ec08b",
+    "06_验证与后续工作/负责人优化建议-支付恢复-python-mwj95n79_34944d-bo-APP视口.png": "98401e572b56a50eeae155775d6abae0d8d881b7dd7487c37112c5238e8be828",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj9788m_5e0397-过期租约本人恢复.png": "927c9cbbcc225cb4e08f05987bb745bcf4990406498081ec6901394e5a91a025",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj9788m_5e0397-zh-APP视口.png": "19046a51cdf43f9188c207dad320fb62b98f8e1c816b564923b48d7efe95b913",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj9788m_5e0397-zh-Hant-APP视口.png": "9a6bd2beb9c49f5d8e453fb2ee7f51a399746f46111e52c706eb1648fa8168a5",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj9788m_5e0397-en-APP视口.png": "13ff6f6393c7d6484c90172815436bf41700fd4c71d7760b7ea90e3d1be2a2af",
+    "06_验证与后续工作/负责人优化建议-支付恢复-cloud-mwj9788m_5e0397-bo-APP视口.png": "9e47d8215a4963b4759d71ed21939125a5966ac2056d99c3fe24af4479d4a0dc",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-python-mwj96lpb_57af86-zh-APP视口.png": "5ab020715dc1d931ceb2eb3a258f1f9d1f81b665e1f1df2f473ef2c4312f7686",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-python-mwj96lpb_57af86-zh-Hant-APP视口.png": "ce3b73f549881c86e593d6516b49f2682a054cd094336a4d6328c139d2ea69ac",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-python-mwj96lpb_57af86-en-APP视口.png": "e788b8e7918e078df6bcad6286df7b1d6e1e9e12efee9e98dc60cf561b933573",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-python-mwj96lpb_57af86-bo-APP视口.png": "2fd3147e5be94e0a6d0d166a2b694aa5ef931d4c36b320310b4f59bfdb7e50d2",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-cloud-mwj99frb_f41562-zh-APP视口.png": "0e941cbba366331fd47f856c4b0fba7aef14a9a7b7fc447a9d2adcae26e12467",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-cloud-mwj99frb_f41562-zh-Hant-APP视口.png": "9453eb067fc3c538bd626dfdeb55979750be715aba40e3816cbb372534a5013e",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-cloud-mwj99frb_f41562-en-APP视口.png": "6e5800f78cac6b6a459d048c083647a2b4b2db35375960beae1dcf056bc49f08",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-cloud-mwj99frb_f41562-bo-APP视口.png": "66b8e74da963b60498065f3b83fa124c5eaf03ac28f0bca58a200124ef536f03",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-付款前冻结规则.png": "82dcb485c053fd30a7d6a6a2410ba6f1a1848f9bf3ca569aa8e7bdd6c79908cc",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-1280-付款前冻结规则.png": "699d953e176aa25f83c6021cebf556a8edb570aa5ab8d0384f71753b8ca3ff1c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-付款前冻结规则.png": "0a79f924c789c1e593ea916e4ccec2e612933233e23119370238677db02e48bb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-1280-付款前冻结规则.png": "962307df63c2acc4de568ac8a69c1a8387e0499612e07dd365c6eef79c227f2d",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-付款前冻结规则.png": "671aa3b00420434ea0468b5eafca57ce52516bfdfb87fc5333b165540c33763f",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-1280-付款前冻结规则.png": "a8acefb931457f99f94086fb86e9b7f3baf855723bdd32828da05afc4a974eab",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-付款前冻结规则.png": "d997a2ae60fd279c3adb338cf2fa48be3cf122a3570d06fdf344d667dcd90320",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-1280-付款前冻结规则.png": "aadc8454182a40e2b2c5b77a544be687efa7be897ded53631b0c517be99ee2ed",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-360-真实租约媒体与截止.png": "10810c116df76a9d83fba9ed64015e2067226cae6f9c8373ca7f9d45f516d44c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-day-available.png": "30aa896e1e07acfb4904f4b8c3df517df6fb55bbe4d46b21a0b3b1da64700558",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-完整成交规则-available.png": "b117251edb9064fdf9a0a91d1da24b3a3188943b7952e62a10fa6a7d7e54668c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-night-available.png": "0588f9eceda5e22c74fa5d67acf7611dac798f596ccc0caa6b378ee7915449ec",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-1280-day-available.png": "ac5d7ab161c0c9813c1f38eea349a4f83756f580280a34669ca8366db0709221",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-1280-night-available.png": "aefcfa4ffc9f3af629a030e76e40864b614cf04b899cd364ecd9e62f3867818a",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-day-available.png": "80c9e143e6d4dfadaf4350f6d507648b2e513b623088972a5b7dcf093a1b7ad6",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-完整成交规则-available.png": "256d612419c0eab3e2908bc0419df453c4a9c0bcf6723034952fcf02363bdd8e",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-night-available.png": "8bd424b88214e511b4117854c98928786a398c6c4bed65d02ca247dc849def8c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-1280-day-available.png": "95074b4ad8cb55c2c3240aaddccc0512f36b923b9e3f4bbc3540c6786c089d87",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-1280-night-available.png": "b06611beefc9002b76675a442bc4faaf938f7a87dbb43b3c28d007bed4b5a487",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-day-available.png": "81a3be0182586a159496c93cac906d38810b8f456e6f5f04e4aa48a273a773e8",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-完整成交规则-available.png": "4c769bef5cbd64a67f3487cd486f87712daf80dd5df23e683b264135b8cbe3da",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-night-available.png": "a79f9b41d5c743659602e6b7322ca64bbf42dc193887dd9073c713e214cab7ad",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-1280-day-available.png": "2589279ddbe3e05c3b32e407566f424a638bd1b74f138783d530ee63898b47f1",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-1280-night-available.png": "a453faab46fd66df97a6527cc1775bb430880d84be261280e44a3b989eb286f4",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-day-available.png": "2977730c45e64e22ab4dde086bd7f4be56e5a3c24b2c5fe6d68136ff92a2263b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-完整成交规则-available.png": "c477ff2297187cf41df19ad5d6d0873ed328a77e9c6c9b096891f00cbcb71c9b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-night-available.png": "5ce3ea061255ec21e2665f67b769d80d519801e0816c60bb13f6c02eb6ea670c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-1280-day-available.png": "a3776ebe078d10840aa8f016ff79c2adf2c86ff914373360b9d38c5d30d978ca",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-1280-night-available.png": "7a624f1f1bf5f2a230efff9ae13b95be61d5530cab32af2c05025e31042577e7",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-day-exhausted.png": "fb085c24af5169905d9f48b50c2562613668db36bd2c8fd033ba47c1fb80e28b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-完整成交规则-exhausted.png": "e964c4a2b5a2ea62b8a0c8d8cd896976e56de71dc9c775c663b5798670979ee1",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-360-night-exhausted.png": "07754e5dcd055926bdc9123a4686b108ec8d85999e2d489792accf0fae71ebbb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-1280-day-exhausted.png": "80bbeeb00b2f10f25f31e968f85e61ffd3ec3b3b88a05de534cbbd42307dd371",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-1280-night-exhausted.png": "52ea7db540cee1ead37bb67d15b1d549502ffbad7c0a57d2f746fede65694656",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-day-exhausted.png": "714bbbd15607e3cc63188b46beca5ad80672119dc848a1a506122d39c0f89c30",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-完整成交规则-exhausted.png": "1f91ec5854c2cd156e6ddd6a8433371d8d5ee84a37ceb164dc5fd2df64efa5de",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-360-night-exhausted.png": "ff4cac904a6cba1568220f542fdb70187c82df72fc640f41c7e929d2d43e95b8",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-1280-day-exhausted.png": "c0a08578e4c6a8838db7cb2aeb29c5cc8d6de8a1cdb499691dd3ad7d4ffa2aa1",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-zh-Hant-1280-night-exhausted.png": "9a16b877c8e24498df3b5a9bfac098a190a8a3abca8f0af08f8102ce98d897ac",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-day-exhausted.png": "325858adb137bd005557acf87dfaf8bf29554113a16bd019aa4d567a27d09128",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-完整成交规则-exhausted.png": "fe8be77ccdccdb8ef07869aac7e0df1ccb3dd5c137ac0c9a5ec9c1b4ea57a721",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-360-night-exhausted.png": "60f5d7fd15d212f73f307802f6823fd54068298490afe45c48d88ad83f89c40d",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-1280-day-exhausted.png": "11ce21c99ccaf9cf870aabb9b5ec0ef64b96f7f5fdb7e5b04981aea36341ed0d",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-en-1280-night-exhausted.png": "065f045a71e2de8153b2db4e65c6dbc9802289ba5e9e5d62108a565e7e40fefb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-day-exhausted.png": "3bd2a512920c725ccb5658dd2914c63cbec7800d54f645022d3ea5cbcdb4ec46",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-完整成交规则-exhausted.png": "be6faed0bbdbf1a981fedf80c47c3ec60fca278b440309ef74c13d5d574ae8bc",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-360-night-exhausted.png": "c7c6f68b579e51b5addcb48d817b34bd445dc48c3c19d6a99510f83d08120e0e",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-1280-day-exhausted.png": "90410e293045653a312c99c227ae24afbc2bb5dd4bf33be7fef7896e6cb522fb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-bo-1280-night-exhausted.png": "7736a972a90a709caebf0bc10730126ebb91bdd640d606f63bddf9990c083c94",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-360-真实音频与计时拖动.png": "ee38c7f50bcdd380185dcd5fc9d1c2ab3ef744c4ee3a6993b45f3e3ea12d5c8a",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-360-后台规则控件.png": "37268cf84524f95bc13f17e9ca7fbbfe1cac3af24fe6657b81b236b0dcc1b122",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-360-后台真实使用明细.png": "82257f346e7145f216e4d9825e2dc29a36e82e2f1f86a445ee1978bf6a481214",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-1280-后台规则控件.png": "b0a3f85913a58296f922a1899583d3fdf235cc98269fb2047ff4a0b83d9e3cbb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-python-mwj8tklz_9d8321-1280-后台真实使用明细.png": "e29c6e18991308a4deabb7910556b6b1fa3812f6f026937e75b9ae640d506123",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-付款前冻结规则.png": "ced7bd53c94d3cd129f5d467a10a9bb657b64a02d9b3bfac82c242955db43387",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-1280-付款前冻结规则.png": "46857ce105af205ad213b0293bf0eeb70cfcf27d617f56c2d3f89ea4b87c5267",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-付款前冻结规则.png": "049e0da9e1814e0ac06e510361be0448d7cf068dba4873d8afe3ca52c5ec5794",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-1280-付款前冻结规则.png": "e668c467de7b11207932a38bdac323dfabea466e413df9b4aa22817c6e5023d5",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-付款前冻结规则.png": "1edb24f652b88506a78aa6ca949917c2175d3ba8d02a8cf2f5c2f46ffeb51e3b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-1280-付款前冻结规则.png": "71647408c7546e6bb08b903183ddba2f2f3ac683d373622ee17ab788da591ada",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-付款前冻结规则.png": "b2cc952c0e2257c173c30ce18b8c71dc042bfb09d54b723048883a33038a8fd0",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-1280-付款前冻结规则.png": "f3ce2e40b5d7ce0d0f59a231ce454e5f2a0a4a834951bfba6aa7c4e527a47b49",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-360-真实租约媒体与截止.png": "a1bd30d5b1f0e551eb43faff158774c1124a3485fce97272e0b57d780dba86f3",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-day-available.png": "6b089cd5b951d15ccb61d3f8f7ae44fc4e8274cc48d1e075708dc92a64b66579",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-完整成交规则-available.png": "299f82775541558ee39f19002c53ac6a83b3976aef29faf6efdc695a86e7dc04",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-night-available.png": "74692b272c46f56add1b06a84ea57fb84ab4ba5121d6c6b58e8df3f891e295c3",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-1280-day-available.png": "722d5f279a7e3284003a90870cc10f6467cd0f3fb13ee6c5114f58480ee91f2a",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-1280-night-available.png": "5e040519b5bbbfc8a2f191fdf83bdfe4cd06f371f09b04843655c952f0e75f40",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-day-available.png": "0deccf316c5e6872a1c34275bb84833e886f82b2e13b387358bdee9f701de583",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-完整成交规则-available.png": "3d8b2554ffcef1eaff03d0a667ad2d37470e9e88322e809f3ee8baf1e63f22ee",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-night-available.png": "2fa843aa20c476a2d5df10607f985a6e5b532c61030948d7e25ed3ea3e901944",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-1280-day-available.png": "9c9ffc6ccce6de172ceacc9bad01c14d1feedc7c0a5a1b58e043b94014b3d3ea",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-1280-night-available.png": "a4421d411df3f8301a93b665140c0b5dd83d30da0f416110ac106ed5fa9e2973",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-day-available.png": "bc8f73a0cd68e28f9e138fceadad49ff4a826e6a14c63958db001b222020e844",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-完整成交规则-available.png": "90b53b41c9e4cc7f2d0c76622bf262e4d0a47e01cb003ca03410bb04337b320b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-night-available.png": "1d6b34048ab366134083c4a70016db9feb6ad12869cd67cf6f598308428ca1be",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-1280-day-available.png": "956355572db9e86e887195293c10461594ac4febdd6758cb5e5857deab11061d",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-1280-night-available.png": "6ea8aaa51391da1690cf3baab69d3229a830db5f35724bd50b94b896b2543bb6",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-day-available.png": "0f1f4814c779013b9714660034e608df5647c891cda3dd1a7b5151c6564a3e2b",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-完整成交规则-available.png": "5f0ee0097a3eb76a4f96ad6a5dcc3e35051c945043c4b063ea8a189dbc233c28",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-night-available.png": "efd581523f3ecb35dc700871c3bfd76a4a57c360e89b9caca9944a892c047d28",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-1280-day-available.png": "c6b2cc23c67ec8cba65178de6faf1deeb563900b8dfbe2608ae1e6c9aef41ae0",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-1280-night-available.png": "9bc797fb9085cecf51c72b091aa539b25946d0dc97f744592600b8263e220200",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-day-exhausted.png": "4ae4c3f2d6b7f6f21dc82b59266fc37242314519b729d04e3c53bd654c20e05c",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-完整成交规则-exhausted.png": "11d31d2884469991285e61f9883aff1f02c080fd27b072bc0c37ff4137caf8ef",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-360-night-exhausted.png": "73b157aa028183ac6d65a8b25c294ac80286ae8424e6c093afda7690eaac6923",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-1280-day-exhausted.png": "4535d4ffeadbc74612c6f30393dbf76acd784e103f627b0a3e7c1d42eac7c1af",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-1280-night-exhausted.png": "df3ef7d5aae1422b578e75b5d9029b7818a29796dac1923a202c7fa3d0d3b03e",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-day-exhausted.png": "95a4bae755e6667b427c6f2c19dba1febcb2b96191ee68b365c9a76fde1b1dab",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-完整成交规则-exhausted.png": "f116b816266309a0132767ea7b0c95f1a28d642c2cddecc2ee2c34f4425ed056",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-360-night-exhausted.png": "d01597a17488c42b124fb7d4327e6c24c23b5c214331e2e783fb8e016a3578a7",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-1280-day-exhausted.png": "c6b1b35d8017305367d9d94bcc2b977a5dd9fe96a9a95971f236ebd06fbb5da0",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-zh-Hant-1280-night-exhausted.png": "67d71de868da2bd41b1e57978a51f8525342b244723d73545b4928373cae1f03",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-day-exhausted.png": "a37e4908c0e76ba7eba0bfad57bf00cd2b302940220f7647b8c119f5a9c10ffb",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-完整成交规则-exhausted.png": "17094d22e5f1dea771835b5a6f864c66456bd2f9b3618615cd8fbf1279ac491e",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-360-night-exhausted.png": "e9efc09134b50c8a9b7b692a8881a6e6ef71eeaade4ffd20efc78517f5453b08",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-1280-day-exhausted.png": "b6b6455bf0b12a2a6bc213ceb66b2fe54b3f60dfd454fed71518d1e8c1a1ae4d",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-en-1280-night-exhausted.png": "2a6911a1d7f75ce2c9f74369b92b3d695be81af1ce9a2f2f6a2db98fce1ad65f",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-day-exhausted.png": "6c3f3c3f0354536187c93afa07b65a32cf762c81cb82dfb02363a39091b5291e",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-完整成交规则-exhausted.png": "0bf537e38aa2524fd6df923c42cc818e37e8a622d4692530b04483bb7f9bdd29",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-360-night-exhausted.png": "c20510bcdb08f7c1d883ee5784ac9b1a1a68b77faf7df625120c033dba494fe3",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-1280-day-exhausted.png": "14868510992b55c446b6ab8ce7d2c7810117cd30ff2e54956bda1834a9d12a76",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-bo-1280-night-exhausted.png": "9421dcca4ecefd42a63a7cdef37850e9f5b269f39feef4ee534a63a0f2e2750f",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-360-真实音频与计时拖动.png": "09e23b31b7c5042eed53c008807f799042a4ce1d617c218c3df9d930ed6f1d48",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-360-后台规则控件.png": "17bb14ec81c29144021da6d5fc323c28f6033a7ca5313ed2761e1925fb1baf47",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-360-后台真实使用明细.png": "d0d536cc125a8590c32791777b4b0d005f11a734d0675aa22de07ce356b548d7",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-1280-后台规则控件.png": "b737bf9e88c2a2e2251a6bf610c4c444623dbd8b62eaf6175ebc3cee691111ab",
+    "06_验证与后续工作/负责人优化建议-数字权益补充视觉-cloud-mwj8s8fl_0e3dec-1280-后台真实使用明细.png": "216a864b19f12272d09b4c24e81f7ebb153e5a1e02db10e42a734f37bc74cffa"
+  },
+  "preservedHistoricalSHA256": {
+    "06_验证与后续工作/负责人优化建议-隔离预览.sqlite3": "a19650e3079625ebf44be7b274acfb7932a506df29586a78726241915f0811c6",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-实施记录.json": "3f79d4a2e4c6f8143779acab9d66e34589415db79c006237673045f4837c8779",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-本轮全量回归结果.json": "42a1dc2cf25a8b6b5e9ebbb15700dae045467f60ed517209c52da7684be0b6da",
+    "06_验证与后续工作/负责人优化建议-迟到补偿-公网适配全量回归结果.json": "e06053bbd5dd32602c3fe2dd6ad3162551dcd91f819815412cd93e0c23283669",
+    "06_验证与后续工作/负责人优化建议-迟到补偿专项-python.json": "7758cc7b2594abb21d82c1bafbcaa26ef08fa461decf2f2f69f2c6aadf47d9be",
+    "06_验证与后续工作/负责人优化建议-迟到补偿专项-cloud.json": "6c064275fb666ad94cbff156c68f1ea1a1295e0aa460b9abf8ff030e98b3092d",
+    "06_验证与后续工作/负责人优化建议-迟到补偿交易兼容-python.json": "b713793a6cfc8b371e5885bd556101e9fb98b77d7c74c41dc4e24ee321fe0ecb",
+    "06_验证与后续工作/负责人优化建议-迟到补偿交易兼容-cloud.json": "6e3f598d263b83db6a02e31c526ef1fa7fd94bbc2316962f45e62857e912dfd3",
+    "06_验证与后续工作/负责人优化建议-迟到补偿回调兼容-python.json": "016bcd0ec2a9f831f96dfcdc2382324e338af8bfcc21e8b9b314b77f2c41d231",
+    "06_验证与后续工作/负责人优化建议-迟到补偿回调兼容-cloud.json": "52249652c86ba1dfca9d17708f4442bc50249b55db9313a9ee54dd17e3a246e8",
+    "06_验证与后续工作/负责人优化建议-迟到补偿恢复兼容-python.json": "289e719de112c51a8258f623a46c4319070630c5cbf82871f49670c225b0f02d",
+    "06_验证与后续工作/负责人优化建议-迟到补偿恢复兼容-cloud.json": "81ab90f1e4087440242ca52786d0d34b8bc26c1f73820b293f04e545b9b9a8a8",
+    "06_验证与后续工作/负责人优化建议-迟到补偿补充视觉-python.json": "076bce222ef4d3f0520330f5d4b205aa969a1ecf529fac50f1b66de14bd052dd",
+    "06_验证与后续工作/负责人优化建议-迟到补偿补充视觉-cloud.json": "eae0a7b3bf708d7ee9872d244f9c231cbb3c556ca28d8bc6650a1ab90392c0c8",
+    "06_验证与后续工作/负责人优化建议-会员额度-实施记录.json": "8b1b5d05e9852d0f78d3730208d45b7fedd2869119460264912d603babd41540",
+    "06_验证与后续工作/负责人优化建议-会员额度-本轮全量回归结果.json": "de758187a9d49b407ec3bec80d9e41308e52230431466ee561a50879ec15968e",
+    "06_验证与后续工作/负责人优化建议-会员额度-公网适配全量回归结果.json": "5b56c286870dc86e03c6930fd9b51ad57c08fc33951ed837a3d72333784dee30",
+    "06_验证与后续工作/负责人优化建议-会员额度专项-python.json": "e6bbbb87042be9519c2a3d52eef1611cf04409d18e8b22c62c0a25334ecca215",
+    "06_验证与后续工作/负责人优化建议-会员额度专项-cloud.json": "a73b415cca9c569624055a6a81a03cdb86675fd062d794552b57696e22128727",
+    "06_验证与后续工作/负责人优化建议-会员额度交易兼容-python.json": "1cdbabde293ec844afa374e4a941e2a2972bf3c83a5b88a926000c20cb85bd37",
+    "06_验证与后续工作/负责人优化建议-会员额度交易兼容-cloud.json": "b3245453cb6168ad586b87d27960acb35bd6773d61a59350cffb0a7aecd9a856",
+    "06_验证与后续工作/负责人优化建议-会员额度会员兼容-python.json": "02a27b763ae8123b42288f3a4ab9e28738f50ba54663b8a23359857af4e02421",
+    "06_验证与后续工作/负责人优化建议-会员额度会员兼容-cloud.json": "600f064d91182e206dc19d665dd7a254c759b0f75808062172ea5d31aa76141f",
+    "06_验证与后续工作/负责人优化建议-会员额度网关兼容-python.json": "d4211403cef3b4f5178f44dc1105df9f276b61dcc67325d0417791ba0255ad20",
+    "06_验证与后续工作/负责人优化建议-会员额度网关兼容-cloud.json": "410efd3c912e6ae1c18d90f8f7c34aef7969000e8901d2e9fdbe38a36cae0878",
+    "06_验证与后续工作/负责人优化建议-会员额度补充视觉-python.json": "08b8bbbb4d5ac7fd5d2815fa824c7e40c76415fcb9abe8a65d85e57041955b11",
+    "06_验证与后续工作/负责人优化建议-会员额度补充视觉-cloud.json": "a73ecfbb4b9f65de5062aa70d8f438e145244a5804193dffc329df7a8615c9c7",
+    "06_验证与后续工作/负责人优化建议-支付恢复-实施记录.json": "a95eb4ad88b400fa6f5efff75e0d7864c2269d39e3defd26c5f185b0268bf087",
+    "06_验证与后续工作/负责人优化建议-支付恢复-本轮全量回归结果.json": "56e4b8b9cf259633711a190d58b2fdb904b6ab00a586f1cd239e63851d719e0e",
+    "06_验证与后续工作/负责人优化建议-支付恢复-公网适配全量回归结果.json": "d77ac8db12d42befded74d48fb6da8ef1411480b9cb9ca1e59e48ded2df38757",
+    "06_验证与后续工作/负责人优化建议-支付恢复专项-python.json": "f64dd2b64c88c90d08a1fe15341db2c44f256102e0a07a1202a32c35ab36eef1",
+    "06_验证与后续工作/负责人优化建议-支付恢复专项-cloud.json": "fd7d786e34db69779bf926858d6ec87257575e28cab4aeb9273932483d54e420",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-python.json": "0c07156368f667f3eb9e0ab29b22770f8f68b1fe01652325cd959fd6dc594e93",
+    "06_验证与后续工作/负责人优化建议-支付恢复交易兼容-cloud.json": "1de2583d3da745f4ecf7330e6d37d344c303401b92b778b4a7ac0189aec5c46e",
+    "06_验证与后续工作/负责人优化建议-支付恢复-PAY08兼容-python.json": "f9b5f54192dacc1a3e16914ae37c64b335550939aac990c42cfe34ed36b606e0",
+    "06_验证与后续工作/负责人优化建议-支付恢复-PAY08兼容-cloud.json": "9cdc880db83ecc6be8910164ebb8ceb3f2481b2a0e5caec8b139e90845d5ccd1",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-python.json": "4a4b487898759f6e544338b98ab9a7e2463cca0e55a7d9a1aa161a76adb8d9cf",
+    "06_验证与后续工作/负责人优化建议-支付恢复补充视觉-cloud.json": "15da49c1b655e29df6c1100a9575d9e956dd7a2f0b972151dab50be617d5edf5",
+    "06_验证与后续工作/负责人优化建议-支付回调-实施记录.json": "746cbf10c30b911e58af8f774a54bbbe82ea666c5dffc98763605cc057ebf931",
+    "06_验证与后续工作/负责人优化建议-支付回调-本轮全量回归结果.json": "c505b6cd4936d9f1637c8e08bdffb1fd6f2d07688c17005a3fa9a814d6d1bbf5",
+    "06_验证与后续工作/负责人优化建议-支付回调-公网适配全量回归结果.json": "94a1d48d020ef1282be2924d0f1104e9f76e9b85cbaaca0c0af2913e9ac22ab6",
+    "06_验证与后续工作/负责人优化建议-支付回调专项-python.json": "3ea8fcc751c691755506b1bcb4f4f002a465f2ca470011f57d83a21a62ecc4c3",
+    "06_验证与后续工作/负责人优化建议-支付回调专项-cloud.json": "b200891a37bccab6a311ccdda32017a5228111e31c51baa07de613b0016d11c8",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-python.json": "2bbad3fdf3ebf31f8560e194e521e56b635b1fccd24398e4b6ab6cbbbf20e524",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-cloud.json": "ac5b2560e91ef419ee87d91fccd856f6db68a5247e5f4592f276356c4f99e79e",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python.json": "2304ed3fba1649bd615f3afd093e790e90260e51ea4400518c968f3f2d2fa472",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud.json": "95b3b7fbfa2106fb1520c4223c7e124e86c64a4f6e4035184b8a2edabe90b07e"
+  },
+  "failureHistory": [
+    {
+      "report": "负责人优化建议-数字权益专项-python.json",
+      "at": "2026-11-16T12:10:40.407Z",
+      "passed": 22,
+      "failed": 2,
+      "failedNames": [
+        "无效Range与HEAD不额外扣次，权限拒绝先于Range和缓存条件解析",
+        "APP旧详情乱序不退回已用次数，原生继续及丢响应重试断网重开和真媒体计时持续"
+      ]
+    },
+    {
+      "report": "负责人优化建议-数字权益专项-cloud.json",
+      "at": "2026-11-16T12:10:55.460Z",
+      "passed": 23,
+      "failed": 1,
+      "failedNames": [
+        "APP旧详情乱序不退回已用次数，原生继续及丢响应重试断网重开和真媒体计时持续"
+      ]
+    },
+    {
+      "report": "负责人优化建议-数字权益补充视觉-python.json",
+      "at": "2026-11-16T12:20:14.640Z",
+      "passed": 1,
+      "failed": 3,
+      "failedNames": [
+        "付款前规则透明可见，原生签发及重开继续只消耗一次并读取真实媒体",
+        "可用与耗尽四语日夜360和1280，全部八项事实及规则历史可达不裁切缩字",
+        "真实音频随计时收展拖动持续播放，离页暂停且返回继续不新增扣次"
+      ]
+    },
+    {
+      "report": "负责人优化建议-数字权益补充视觉-python.json",
+      "at": "2026-11-16T12:26:46.131Z",
+      "passed": 3,
+      "failed": 1,
+      "failedNames": [
+        "可用与耗尽四语日夜360和1280，全部八项事实及规则历史可达不裁切缩字"
+      ]
+    },
+    {
+      "report": "负责人优化建议-数字权益补充视觉-cloud.json",
+      "at": "2026-11-16T12:19:57.576Z",
+      "passed": 1,
+      "failed": 3,
+      "failedNames": [
+        "付款前规则透明可见，原生签发及重开继续只消耗一次并读取真实媒体",
+        "可用与耗尽四语日夜360和1280，全部八项事实及规则历史可达不裁切缩字",
+        "真实音频随计时收展拖动持续播放，离页暂停且返回继续不新增扣次"
+      ]
+    },
+    {
+      "report": "负责人优化建议-数字权益补充视觉-cloud.json",
+      "at": "2026-11-16T12:26:53.517Z",
+      "passed": 2,
+      "failed": 2,
+      "failedNames": [
+        "可用与耗尽四语日夜360和1280，全部八项事实及规则历史可达不裁切缩字",
+        "后台原生确认保存上传登记停用，360横滑真实可达且使用明细不丢"
+      ]
+    }
+  ],
+  "limitations": [
+    "当前仅明确隔离的自有沙箱音视频资产，未打开真实production会员媒体；正式支付/版权课程/商业期限与次数仍待确认和验收。",
+    "计次在取得访问权限时发生，不代表媒体已播放完成；同一有效lease的Range和重试不重复扣。",
+    "资源ID不是匿名bearer凭据，每次媒体请求仍需原有效本人session及全部授权事实。",
+    "服务端门禁只能约束后续请求，不能收回已传输或已下载缓冲的字节，不宣称DRM或第三方删除完成。",
+    "旧无成交快照订单不追溯补造有限权益；库存退款余量remaining与实际used使用账分开。",
+    "本机四语/日夜/窄宽与实际音频检查不等于实机/真实CDN或藏语母语审校。"
+  ],
+  "staticBoundary": "本轮实际构建通过；不声明全项目TS零诊断，原privacy-api TS2367及环境类型缺项仍按既有边界。",
+  "privateDiagnosticBoundary": {
+    "documentsSHA256": {
+      "06_验证与后续工作/负责人优化建议-数字权益-诊断资料边界.json": "9cd86bb7c22be093f27846ea7b7c2e9759780ca2e5be0ba7570d6511312fc8a3",
+      "06_验证与后续工作/负责人优化建议-数字权益-首轮隔离会话清理.json": "55ee8903416d665467456a1051d40d57104ad219f6c309fac885d27524047827"
+    },
+    "privateRawReports": [
+      "06_验证与后续工作/负责人优化建议-数字权益专项-python.json"
+    ],
+    "rule": "原Python首轮失败包含已失效的合成会话，原字节仅本机保留，不进入公网或交付包；实际交付时须另生成脱敏派生并说明来源，不假称原raw已脱敏。"
+  },
+  "compatibilityChanges": "新数字权益报告复验原交易及已接受的回调/恢复/迟到通用逻辑，原历史脚本/报告保留，临时控制仅在本轮自有隔离服务。",
+  "frozenBytes": "UTF-8 LF write_bytes; previous receipts/reports and preview DB verified unchanged"
+}

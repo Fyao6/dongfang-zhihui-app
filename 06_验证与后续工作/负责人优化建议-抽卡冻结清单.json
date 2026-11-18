@@ -1,0 +1,78 @@
+{
+  "phase": "refrozen-after-share-input-race-fix-awaiting-root-rebuild",
+  "implementedTasks": [
+    "DR04",
+    "DR05",
+    "DR06",
+    "DR07",
+    "DR08",
+    "DR09"
+  ],
+  "formalDependenciesStillOpen": [
+    "DR01-confirmed-rules",
+    "DR02-reviewed-complete-original-copy",
+    "DR03-artwork-and-rights"
+  ],
+  "productionEnabledByDefault": false,
+  "formalDeckSeeded": false,
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/card_service.py": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692",
+    "04_研发源码/app/cloud/lib/card-service.ts": "75b3c4f41a2ab5f987d5b647db0f1d231c11f97df8bab15b6e15d6e59a79eaa9",
+    "04_研发源码/app/r4/card-service-ui.js": "e944a9532446cf8d75e37f840e9ee521dff2c9cb1b3f44e15c9e6ec00fb64fc6",
+    "04_研发源码/app/r4/card-service-admin.js": "4f89649c23979cba539d94f29346b7097e3df7b1366ba35575c711160401b372",
+    "04_研发源码/app/r4/card-service.css": "202fa37870e2b13f0ea820c4b5a1f4650d8abf26e8edd41aea3f99d467be93eb"
+  },
+  "checks": {
+    "pythonMemoryGrouped": {
+      "pass": true,
+      "passed": 7
+    },
+    "cloudMemoryGrouped": {
+      "pass": true,
+      "passed": 14
+    },
+    "frontendVmGrouped": {
+      "pass": true,
+      "passed": 18
+    },
+    "schemaParity": true,
+    "typescriptStrict": true,
+    "javascriptSyntax": true,
+    "integrationDryRun": {
+      "applicationFilesWritten": 0,
+      "plannedFiles": 8,
+      "plannedChanges": 32
+    },
+    "plannedAppAdminCombinedSyntax": true
+  },
+  "notExecuted": [
+    "shared-entry-integration",
+    "application-build",
+    "real-HTTP-UI-new-card-special",
+    "dual-full60",
+    "real-provider",
+    "formal-artwork-rights-verification",
+    "production-draw"
+  ],
+  "quotaErasureBoundary": "Deletes card history/notes/practice/request aliases; retains only minimal quota/timezone/erasure epoch. No reroll after erasure/theme/deck/timezone changes. Old first-draw batch cannot resurrect history after a deletion epoch change.",
+  "evidencePolicy": "All test runs including earlier failures retained in report runs; actual HTTP/UI reports will append only after root integration/build gate.",
+  "preparedActualCases": 25,
+  "review": {
+    "backend": "Independent read-only review_first_half: daily quota/zone/delete guard review identified initial Cloud draw-delete race; added minimal erasure epoch and exact hook regression, now passes.",
+    "frontend": "Independent read-only review_second_half: rendered DOM actor binding/localized failure explanation fixed; no other substantive frontend finding on final static review."
+  },
+  "sourceRefreezes": [
+    {
+      "at": "2026-11-12T13:44:29.102986+00:00",
+      "authorizedByRoot": true,
+      "changedSourceFiles": [
+        "04_研发源码/app/r4/card-service-ui.js"
+      ],
+      "change": "Share fields saved on actual change; disable checkbox/submit until actual draw ready; rendered owner+epoch and form draw-id guards retained; async rerender preserves selection.",
+      "frontendVmGrouped": 18,
+      "combinedAppSyntax": true,
+      "buildRequired": true,
+      "realSpecialRerunPending": true
+    }
+  ]
+}

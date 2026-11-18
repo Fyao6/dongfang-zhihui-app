@@ -1,0 +1,708 @@
+{
+  "contractVersion": "local-personal-domains-v1",
+  "status": "implementation-contract-not-acceptance",
+  "taskIds": [
+    "PR04",
+    "PR05"
+  ],
+  "authorizedScope": "本方个人资料逐域清点和导出删除回执；本文件不是实施、验收或生产清理证据。",
+  "stageBoundary": "Stage25已冻结，Stage26按本合同开始源码实施；本合同不是测试或生产删除证据。",
+  "ownership": {
+    "python": [
+      "新backend/privacy_domains.py",
+      "privacy.py必要导出及清空对话接线",
+      "privacy_retention.py必要tracking/闭户插件",
+      "account_closure.py必要回执接线",
+      "server.py必要路由/媒体tombstone保护",
+      "creator.py仅需要时的已有写入防陈旧保存接线"
+    ],
+    "cloud": [
+      "新cloud/lib/privacy-domains.ts",
+      "privacy-api.ts",
+      "privacy-retention.ts",
+      "account-closure.ts",
+      "eastern-api.ts必要路由/媒体tombstone保护",
+      "creator-api.ts仅需要时接线"
+    ],
+    "root": "沿用隐私中心/到期清理/后台入口增加逐域清点、预览、确认、分页和真实回执；保留原7scope入口。",
+    "qa": "仅新隔离SQLite/D1/R2、真实HTTP/媒体字节、SQL故障、对象删除/核验失败、并发和原模块兼容。"
+  },
+  "globalRules": {
+    "time": "服务端UTC毫秒整数；不收客户端asOf/cutoff/未来时间；测试clock仅constructor或隔离夹具。",
+    "ids": "requestId为[A-Za-z0-9_-]{8,100}；服务端资源ID为UUID；URL捕获的单一ID段解码后校验，不对整个path全局解码。",
+    "data": "inventory和receipt不含正文、正文hash、密码、会话hash、object_key或供应商secret；本人正文导出仍用显式列白名单。",
+    "unknownAge": "既有未跟踪记录ageUnknown；manual明确确认可删除当前本人合格目标；expiry只处理observed-write或明确adopt-history后的protection-start，不把created或项目日期伪称最后写入时间。",
+    "noExternalClaim": "本地数据库逻辑清理、当前R2对象缺失核验、供应商、备份/WAL、向量、缓存及浏览器分别表述。",
+    "noForce": "无force/SQL/对象key/跳过引用/重置attempts参数；未知域/未知字段拒绝400。",
+    "inFlightBytes": "Cloud普通media及专用媒体均在HEAD/GET完成、返回Response前重核当前owner授权和tombstone；已实际传输的bytes无法追回，不承诺撤回。",
+    "futureReferences": "所有新引用/发布/恢复/素材复用必须由同一数据库事务的guard或固定trigger再次拦截tombstone；前置JS查询不能代替最终守卫。",
+    "manualDisclosure": "确认前明确展示历史年龄未知仍可手动选删、私有profile删除即取消未完成入驻申请、serviceRequestContent只擦正文和日期且不取消服务。"
+  },
+  "existingScopes": {
+    "ids": [
+      "records",
+      "conversations",
+      "timer",
+      "activity",
+      "measurements",
+      "cards",
+      "memory"
+    ],
+    "entryPoints": [
+      "/api/privacy/requests",
+      "/api/privacy/saved-conversations",
+      "/api/memory",
+      "/api/privacy/retention",
+      "/api/account-closure"
+    ],
+    "rule": "既有7scope、分项授权、记录代际、记忆墓碑、nonce/版本与原接口保持；不将新增域塞进旧表固定INSERT列。",
+    "requiredCorrection": "delete-conversations须同时仅擦除本人ai_gateway_jobs.output_text和saved_conversation_id；保留job状态、quota source、reserved/charged、费用、attempt和所有资金/使用账。清理前后返回实际行数；现有隐私授权revision失效机制保持。",
+    "exportCorrection": "本人legacyGatewayOutputs可导出非空output_text及id/created/updated；不包含其他owner、provider secret或提示词重建。",
+    "uiCorrection": "删除旧‘长期记忆服务尚未实现’和‘六类’固定文案，按实际7scope及receipt.memoryStatus展示；不能因此宣称供应商/备份已清。"
+  },
+  "newDomains": [
+    {
+      "id": "creatorDrafts",
+      "source": "creator_works.owner_id=current owner",
+      "deleteMode": "delete",
+      "eligibility": "status='draft'且从未公开：不存在同id posts或contents拷贝，不存在creator_reviews，且无任何商品/成交项/权益等业务引用；其他作品全部protected。",
+      "guard": "执行时再查owner/status/version和tracking nonce/write_at；审核、发布、编辑或引用变化则skip，不能按preview旧状态强删。",
+      "exportKey": "creatorWorks"
+    },
+    {
+      "id": "creatorPrivateProfiles",
+      "source": "creator_profiles.user_id=current owner",
+      "deleteMode": "delete",
+      "eligibility": "status IN ('pending','rejected')且teacher_id=''、无公开老师/作品/课程关联；操作明确表示取消尚未完成的入驻申请。approved/suspended、已有teacher关联或公开关联全部protected。",
+      "guard": "执行时再查owner/status/teacher_id/引用和tracking nonce；已审核或新写入则skip。",
+      "exportKey": "creatorProfile"
+    },
+    {
+      "id": "serviceRequestContent",
+      "source": "service_requests.user_id=current owner",
+      "deleteMode": "scrub",
+      "eligibility": "body或preferred_date非空的本人咨询/服务申请；仅置空这两字段。",
+      "retained": [
+        "id",
+        "user_id",
+        "teacher_id",
+        "teacher_name",
+        "status",
+        "created"
+      ],
+      "guard": "不取消服务、不修改履约状态或双方归属；tracking nonce变化则skip；受托方/老师设备副本仍单独pending。",
+      "exportKey": "serviceRequests"
+    },
+    {
+      "id": "privateMedia",
+      "source": "media.owner=current owner",
+      "deleteMode": "delete-with-object-queue",
+      "eligibility": "无任何现存公开、草稿、历史revision、settings、creator、card、商品/订单snapshot、权益、数字永久marker/snapshot/grant等引用。即使只被同job选中但尚未删除的草稿/profile引用，普通preview也先protected，先清正文再重新preview。",
+      "python": "SQLite media行/BLOB逻辑删除与tombstone同事务；不把逻辑删除说成SQLite空闲页/WAL/备份安全擦除。",
+      "cloud": "同D1事务写永久tombstone、删除media元数据并生成唯一media_id对象outbox；真实R2 delete在事务外，随后HEAD缺失核验。",
+      "cloudAdditionalPredicates": [
+        "其他media行共用同object_key则shared_object_key protected",
+        "仅处理本应用受管media/<media-id>不可复用key；未知前缀或对象身份不符protected/manual_review",
+        "dispatch再次核对同owner/tombstone/receipt/expected key/无引用；不接受客户端key"
+      ],
+      "exportKey": "uploadedMediaMetadata",
+      "binaryExport": "JSON导出不内嵌BLOB；本人文件manifest给出已授权、非永久隔离素材的下载地址。下载继续走当前有效本人session，不是匿名bearer授权。"
+    }
+  ],
+  "inventoryCoverage": {
+    "rule": "逐域列出所有本方个人数据；未知或未分类表默认protected/unclassified，禁止推测owner后扫删。实现须用显式owner谓词注册表并报告unclassifiedOwnerTables。",
+    "retainedGroups": [
+      {
+        "id": "identityAndSecurity",
+        "sources": [
+          "users身份骨架",
+          "sessions/revoked sessions/closure challenges与receipts",
+          "隐私授权和接收方同意元数据"
+        ],
+        "purpose": "身份归属与账号安全；正式保留期限未确认",
+        "retentionDays": null
+      },
+      {
+        "id": "deviceConnections",
+        "sources": [
+          "devices连接元数据；measurements另由旧scope操作"
+        ],
+        "purpose": "连接/授权归属；正式断连及保留政策未确认",
+        "retentionDays": null
+      },
+      {
+        "id": "publishedCreatorAndReviews",
+        "sources": [
+          "公开/曾公开creator作品/profile/teacher/course拷贝",
+          "creator_reviews和相关审核/申诉理由"
+        ],
+        "purpose": "公开内容、授权和审核追溯；不假称审计例外已获正式政策确认",
+        "retentionDays": null
+      },
+      {
+        "id": "communityAndShared",
+        "sources": [
+          "posts",
+          "messages sender/recipient",
+          "friendships sender/recipient",
+          "creator_events/actions/follows等本人足迹"
+        ],
+        "purpose": "公开或共有互动及对方权益，需明确删除/匿名化政策；不删除他人正文",
+        "retentionDays": null
+      },
+      {
+        "id": "commerceAndFulfilment",
+        "sources": [
+          "commerce订单/成交项/支付/退款/库存/履约/地址快照",
+          "payment callback/recovery/late/support及case-finance"
+        ],
+        "purpose": "成交、履约、资金核对和售后；正式保留天数待确认，消息正文已清与账元数据保留分开",
+        "retentionDays": null
+      },
+      {
+        "id": "membershipQuotaCommissionAndAftersale",
+        "sources": [
+          "membership快照/订阅/事件",
+          "AI wallet/period/allocation/events/jobs/attempt/cost元数据",
+          "commission/aftersale全部归属账",
+          "digital永久marker/快照/grant/lease/uses"
+        ],
+        "purpose": "已确认权益、使用及资金归属；不抹掉已用次数或改变余额",
+        "retentionDays": null
+      },
+      {
+        "id": "privacyAndSourceAudits",
+        "sources": [
+          "privacy requests/transfers/deletion/retention/domain receipts与targets",
+          "memory tombstones/cleanup metadata",
+          "audits/revisions及防重/删除代际"
+        ],
+        "purpose": "最小安全与处理证明；正文、凭据和内部对象key不进入新回执",
+        "retentionDays": null
+      }
+    ],
+    "externalDomains": {
+      "providers": "pending-confirmation",
+      "backupsAndWAL": "pending-confirmation",
+      "vectorIndex": "not-implemented-unless-actual-source-found",
+      "externalCache": "not-implemented-unless-actual-source-found",
+      "browserLocalData": "not-automatically-cleared"
+    }
+  },
+  "config": {
+    "table": "privacy_domain_config(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL)",
+    "default": {
+      "revision": 0,
+      "enabled": false,
+      "confirmed": false,
+      "policyVersion": "",
+      "retentionDays": {
+        "creatorDrafts": null,
+        "creatorPrivateProfiles": null,
+        "serviceRequestContent": null,
+        "privateMedia": null
+      }
+    },
+    "rules": [
+      "enabled仅授权新域expiry执行，不禁止本人明确请求的manual清理",
+      "PATCH全字段+revision CAS，bool严格，days为null或0..36500整数非bool",
+      "启用expiry须confirmed=true且policyVersion与当前全局隐私政策一致",
+      "不得为测试预填正式保留天数；schedulerDeployed始终false，直到真实调度另验"
+    ]
+  },
+  "publicRoutes": [
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains",
+      "response": {
+        "accountId": "current owner",
+        "asOf": "server ms",
+        "domains": "DomainInventory[]",
+        "retained": "RetainedInventory[]",
+        "external": "separate external statuses",
+        "unclassifiedOwnerTables": [],
+        "schedulerDeployed": false,
+        "config": "安全公开配置：revision/enabled/confirmed/policyVersion/retentionDays；无user PATCH，无secret"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains/:domain/records?before=<resourceId>",
+      "response": {
+        "items": "本人metadata，仅id/status/created/updated/eligibility/blockedReasons；不含正文",
+        "next": "cursor or null",
+        "accountId": "current owner"
+      },
+      "pageSize": 50
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/domains/adopt",
+      "body": {
+        "requestId": "[A-Za-z0-9_-]{8,100}",
+        "domains": "unique nonempty subset of four new domain IDs",
+        "confirmed": true
+      },
+      "response": {
+        "item": "AdoptionReceipt",
+        "replayed": false
+      },
+      "rules": [
+        "仅当前有效本人session和真实本人无tracking行",
+        "只写privacy_retention_tracking随机nonce/version1/basis=protection-start及服务端时间；不删正文",
+        "已有observed-write/protection-start不改、不重置保护起点",
+        "同actor+requestId fingerprint按action/adopt/owner/排序domains幂等，异内容409；closed owner拒绝401",
+        "不接owner/asOf/时间/SQL/任意target参数"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/domains/preview",
+      "body": {
+        "requestId": "8..100 id",
+        "domains": "nonempty unique subset of four new IDs",
+        "mode": "manual or expiry"
+      },
+      "response": {
+        "job": "DomainJob"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains/jobs?before=<jobId>",
+      "response": {
+        "items": "仅当前owner的DomainJob[]，包括preview及所有partial/pending状态",
+        "next": "cursor or null"
+      },
+      "pageSize": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains/jobs/:id?objectsBefore=<same-job-objectId>&receiptsBefore=<same-job-receiptId>",
+      "response": {
+        "job": "DomainJob",
+        "receipts": "最多50条同job安全回执",
+        "receiptsNext": "receipt cursor or null",
+        "objects": "最多50条同job ObjectJobMetadata[]",
+        "objectsNext": "object cursor or null"
+      },
+      "rules": "游标必须属于同job；public当前owner，admin仅owner已确认/合法closure作业；不返回object_key、lease_token或正文。"
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/domains/jobs/:id/apply",
+      "body": {
+        "requestId": "8..100 id",
+        "confirmed": true,
+        "version": "job integer CAS"
+      },
+      "response": {
+        "job": "DomainJob",
+        "receipt": "DomainReceipt",
+        "replayed": false
+      },
+      "batchLimit": 100
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains/receipts?before=<receiptId>",
+      "response": {
+        "items": "DomainReceipt[]",
+        "next": "cursor or null"
+      },
+      "pageSize": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/privacy/domains/export",
+      "response": {
+        "accountId": "current owner",
+        "asOf": "server ms",
+        "inventory": "same inventory",
+        "serverData": "原privacy/export显式本人列白名单及新增domain回执/安全对象任务元数据",
+        "files": "本人文件manifest，无object_key",
+        "binaryIncluded": false,
+        "credentialsIncluded": false
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/privacy/domains/objects/process",
+      "body": {
+        "limit": "integer 1..10"
+      },
+      "response": {
+        "items": "仅当前owner已确认任务的ObjectJobMetadata[]",
+        "processed": "actual count"
+      }
+    }
+  ],
+  "adminRoutes": [
+    {
+      "method": "GET or PATCH",
+      "path": "/api/admin/privacy/domains/config",
+      "body": "PATCH full config with revision CAS",
+      "response": {
+        "config": "domain config",
+        "schedulerDeployed": false
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/privacy/domains/jobs?before=<jobId>",
+      "response": {
+        "items": "仅owner已确认或真实closure关联的DomainJob元数据",
+        "next": "cursor or null"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/privacy/domains/jobs/:id?objectsBefore=<same-job-objectId>&receiptsBefore=<same-job-receiptId>",
+      "response": {
+        "job": "DomainJob",
+        "receipts": "最多50条同job安全回执",
+        "receiptsNext": "receipt cursor or null",
+        "objects": "最多50条同job ObjectJobMetadata[]",
+        "objectsNext": "object cursor or null"
+      },
+      "rules": "游标必须属于同job；public当前owner，admin仅owner已确认/合法closure作业；不返回object_key、lease_token或正文。"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/privacy/domains/jobs/:id/apply",
+      "body": {
+        "requestId": "8..100 id",
+        "version": "job CAS"
+      },
+      "response": {
+        "job": "DomainJob",
+        "receipt": "DomainReceipt",
+        "replayed": false
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/privacy/domains/objects/process",
+      "body": {
+        "limit": "integer 1..10"
+      },
+      "response": {
+        "items": "existing authorized ObjectJobMetadata[]",
+        "processed": "actual count"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/privacy/domains/objects/:id/retry",
+      "body": {},
+      "response": {
+        "item": "existing authorized ObjectJobMetadata"
+      }
+    }
+  ],
+  "adminBoundary": [
+    "没有admin跨owner preview/create/confirm/force接口；admin不能代填confirmed_by。",
+    "每次apply/process在最终事务核对当前实际admin session/role和目标已确认事实。",
+    "新域作业须confirmed_by=job.owner且confirmed_at>0，或closure_receipt_id真实对应同owner原闭户确认；目标/scopes/policy/owner冻结不可改。",
+    "闭户产生队列独立于旧retention.actor()拒closed-owner逻辑；实际admin可继续合法原队列，不重开目标账号、不伪造handler.user、不扩gateway/order service_allowed。"
+  ],
+  "shapes": {
+    "DomainInventory": {
+      "id": "domain ID",
+      "label": "reader label",
+      "total": "actual rows",
+      "eligible": "currently eligible",
+      "protected": "actual blocked rows",
+      "ageUnknown": "untracked rows",
+      "retentionDays": null,
+      "deleteMode": "existing-entry/delete/scrub/delete-with-object-queue/protected",
+      "exportKey": "safe owner export key or null",
+      "binaryIncluded": false,
+      "blockedReasons": [
+        {
+          "code": "fixed code",
+          "count": "actual count"
+        }
+      ],
+      "entryPoint": "actual existing or new route",
+      "protectionStarted": "basis=protection-start的实际行数",
+      "adoptableUnknown": "无tracking且可由本人建立保护起点的实际行数"
+    },
+    "RetainedInventory": {
+      "id": "retained group",
+      "recordCount": "actual owner-relevant rows",
+      "reasonCode": "fixed code",
+      "purpose": "actual use, policy unconfirmed if applicable",
+      "retentionDays": null,
+      "policyConfirmed": false
+    },
+    "DomainJob": {
+      "id": "UUID",
+      "accountId": "owner",
+      "mode": "manual/expiry/closure",
+      "domains": [],
+      "asOf": "server ms",
+      "configRevision": "frozen revision",
+      "version": "CAS integer",
+      "status": "preview/ready/objects_pending/completed/manual_review",
+      "planned": "target count",
+      "pending": "unprocessed targets",
+      "truncated": false,
+      "confirmedAt": 0,
+      "confirmationSource": "none/owner/account-closure",
+      "created": "server ms",
+      "updated": "server ms",
+      "summary": "counts and fixed skip reasons only",
+      "phase": "non_media/media/completed",
+      "pendingNonMedia": "未处理非媒体targets",
+      "pendingMedia": "未处理媒体候选targets",
+      "pendingObjects": "尚未实际核验完成的对象任务",
+      "policyVersion": "frozen config policyVersion"
+    },
+    "DomainReceipt": {
+      "id": "UUID",
+      "jobId": "UUID or null for adoption receipt",
+      "accountId": "owner",
+      "mode": "manual/expiry/closure/adopt",
+      "status": "local_completed/objects_pending/manual_review",
+      "asOf": "server ms",
+      "created": "server ms",
+      "updated": "server ms",
+      "localDatabase": {
+        "status": "batch-completed/completed/pending",
+        "counts": {},
+        "skippedChanged": 0,
+        "skippedReferenced": 0,
+        "missing": 0,
+        "pending": 0
+      },
+      "objects": {
+        "applicable": "true for actual R2 queue, false for SQLite",
+        "pending": 0,
+        "retry": 0,
+        "verified": 0,
+        "manualReview": 0
+      },
+      "retained": "RetainedInventory[]",
+      "providersStatus": "pending-confirmation",
+      "backupsStatus": "pending-confirmation",
+      "vectorIndexStatus": "not-implemented",
+      "externalCacheStatus": "not-implemented",
+      "localBrowserCleared": false,
+      "allFirstPartyDataErased": false,
+      "receiptContainsBody": false
+    },
+    "ObjectJobMetadata": {
+      "id": "UUID",
+      "receiptId": "UUID",
+      "mediaId": "opaque id",
+      "status": "pending/processing/retry/completed/manual_review",
+      "attempts": 0,
+      "leaseUntil": 0,
+      "nextAttempt": 0,
+      "lastError": "fixed code or empty",
+      "created": "ms",
+      "updated": "ms"
+    },
+    "AdoptionReceipt": {
+      "id": "UUID",
+      "accountId": "current owner",
+      "requestId": "original id",
+      "domains": [],
+      "adoptedCounts": {},
+      "alreadyKnownSkipped": {},
+      "protectionStart": "server ms",
+      "historicalLastWriteKnown": false,
+      "deleted": 0,
+      "created": "server ms",
+      "mode": "adopt",
+      "jobId": null,
+      "status": "local_completed"
+    },
+    "RecordMetadata": {
+      "id": "opaque owner resource id",
+      "status": "actual state",
+      "created": "server ms",
+      "updated": "actual server ms",
+      "eligibility": true,
+      "reason": "fixed code or empty",
+      "blockedReasons": [
+        "fixed code"
+      ]
+    }
+  },
+  "persistence": {
+    "privacy_domain_jobs": [
+      "id TEXT PRIMARY KEY",
+      "owner TEXT NOT NULL",
+      "actor TEXT NOT NULL",
+      "request_id TEXT NOT NULL",
+      "mode TEXT NOT NULL CHECK manual/expiry/closure",
+      "domains TEXT NOT NULL",
+      "as_of INTEGER NOT NULL",
+      "config_data TEXT NOT NULL",
+      "pref_revision INTEGER NOT NULL",
+      "version INTEGER NOT NULL DEFAULT 0",
+      "status TEXT NOT NULL",
+      "confirmed_by TEXT NOT NULL DEFAULT ''",
+      "confirmed_at INTEGER NOT NULL DEFAULT 0",
+      "closure_receipt_id TEXT NOT NULL DEFAULT ''",
+      "created INTEGER NOT NULL",
+      "updated INTEGER NOT NULL",
+      "UNIQUE(owner,request_id)"
+    ],
+    "privacy_domain_targets": [
+      "job_id TEXT NOT NULL",
+      "owner TEXT NOT NULL",
+      "domain TEXT NOT NULL",
+      "resource_id TEXT NOT NULL",
+      "write_at INTEGER",
+      "version INTEGER",
+      "nonce TEXT NOT NULL",
+      "processed INTEGER NOT NULL DEFAULT 0",
+      "PRIMARY KEY(job_id,domain,resource_id)"
+    ],
+    "privacy_domain_receipts": [
+      "id TEXT PRIMARY KEY",
+      "owner TEXT NOT NULL",
+      "job_id TEXT",
+      "actor TEXT NOT NULL",
+      "request_id TEXT NOT NULL",
+      "fingerprint TEXT NOT NULL",
+      "status TEXT NOT NULL",
+      "details TEXT NOT NULL",
+      "created INTEGER NOT NULL",
+      "updated INTEGER NOT NULL",
+      "UNIQUE(actor,request_id)"
+    ],
+    "privacy_media_tombstones": [
+      "media_id TEXT PRIMARY KEY",
+      "owner TEXT NOT NULL",
+      "receipt_id TEXT NOT NULL",
+      "created INTEGER NOT NULL"
+    ],
+    "privacy_object_deletions": [
+      "id TEXT PRIMARY KEY",
+      "owner TEXT NOT NULL",
+      "receipt_id TEXT NOT NULL",
+      "media_id TEXT NOT NULL UNIQUE",
+      "object_key TEXT NOT NULL",
+      "status TEXT NOT NULL CHECK pending/processing/retry/completed/manual_review",
+      "attempts INTEGER NOT NULL DEFAULT 0",
+      "lease_token TEXT NOT NULL DEFAULT ''",
+      "lease_until INTEGER NOT NULL DEFAULT 0",
+      "next_attempt INTEGER NOT NULL DEFAULT 0",
+      "last_error TEXT NOT NULL DEFAULT ''",
+      "created INTEGER NOT NULL",
+      "updated INTEGER NOT NULL"
+    ],
+    "privacy_domain_guards": [
+      "id TEXT PRIMARY KEY",
+      "ok INTEGER NOT NULL CHECK(ok=1)"
+    ],
+    "immutability": "job的owner/mode/domains/as_of/config/目标，targets的owner/resource/version/nonce，tombstone全部字段，object job的owner/receipt/media/key均不可替换或删除；状态及有限计数仅固定处理SQL改变。"
+  },
+  "idempotencyAndCAS": [
+    "preview同owner+requestId且相同mode/排序domains返回原job；不同语义409。",
+    "apply首次仅owner本人confirmed=true写confirmed_by=owner/confirmed_at；后续目标不得扩展。receipt同actor+requestId按server fingerprint(job/owner/version/action)重放，不同语义409。",
+    "每批最多100，BEGIN IMMEDIATE或D1 atomic batch+CHECK guard，复核job version/目标owner/nonce/当前状态和引用；批次版本CAS与receipt同事务。",
+    "旧目标修改、发布、审批、被引用则skip并给固定原因；不盲删，不以旧preview计数写completed。",
+    "manual预览最多1000并明确truncated，后续重新preview才选更多；closure内部在同闭户TX冻结全部合格非媒体目标和本人media候选ID，首100/后续100按non_media→media顺序，admin只续办冻结目标。"
+  ],
+  "trackingAndExpiry": [
+    "复用privacy_retention_tracking字段语义和随机nonce，新4域注册真实INSERT/UPDATE/DELETE tracking trigger；service_request状态改变也换nonce。",
+    "新增域配置独立，不覆盖旧7scope retentionDays，不猜旧行年龄。",
+    "manual未跟踪老行target可冻结write_at/version=null、nonce=''；apply须该资源仍无tracking且当前owner/状态/引用仍合格。安装后的任何INSERT/UPDATE都会生成随机nonce，故preview后的新写入会skip；不存正文或正文hash，也不把protection-start称历史写入日。",
+    "expiry需要enabled/confirmed/当前政策匹配、独立非null天数与observed/protection-start跟踪；asOf由服务端冻结，配置/nonce变更须拒绝或skip。",
+    "没有自动线程/cron；调度部署仍由后续真实运行模块单独验收。",
+    "POST /api/privacy/domains/adopt是新增4域实际纳管入口；旧retention/adopt-history仍只处理其原7scope，不冒称新域可用。ageUnknown不得把protection-start说成真实历史写入日；expiry按保护起点起算，已有observed不改。"
+  ],
+  "closureIntegration": [
+    "保持原密码/强nonce/同session二次确认/最后有效admin门禁；旧7scope仍原有完整清理，不改成100上限。",
+    "同原闭户事务在真实account_closure_receipts插入后建立不可变mode=closure作业：confirmed_by=owner、同owner closure_receipt_id、冻结全部非媒体目标和本人media候选ID；不接受客户端closure mode。",
+    "原闭户事务只执行新域首批最多100个目标。先非媒体，只有全部非媒体targets处理后才开始media；pendingNonMedia/pendingMedia/pendingObjects按真实剩余填写，不能称新域已全部清完。",
+    "media阶段对已冻结候选ID复核当前所有引用；原被已删私稿/profile引用且此时无引用的media可删。公开、历史、交易、永久digital marker和共用object_key等仍保护。不能忽略尚存私有引用，不能临时增加候选ID。",
+    "每个实际批次自己的SQLite逻辑删除或D1 tombstone/outbox与对应receipt原子；R2 IO在提交后执行。原闭户完成可真实accountClosed=true，但新域/对象pending必须继续显示。",
+    "闭户后目标session失效；实际admin仅凭owner已确认/真实closure receipt继续冻结作业，每批100、CAS版本，不重开账号/伪造user/扩scope。新作业GET分页可重开续办。",
+    "原强nonce闭户重放可只读关联domain receipt最新进度，不获得写权限。allFirstPartyDataErased固定false；不能把逻辑行删除说成WAL/备份安全擦除。"
+  ],
+  "objectConsumer": {
+    "leaseMs": 30000,
+    "maxAttempts": 5,
+    "backoffSeconds": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "steps": [
+      "领取时CAS并attempts+1；过期lease可恢复",
+      "复核不可变owner/media/key、tombstone和合法receipt/job确认来源；无共用key或活跃引用",
+      "提交后真实R2 delete；响应成功仅代表请求完成，仍需HEAD确认当前key缺失",
+      "delete或核验失败固定code→retry，达到5次manual_review，绝不completed",
+      "只有实际缺失核验成功才状态completed并更新receipt.objects计数；备份/版本/供应商状态不随之改成完成"
+    ],
+    "retry": "仅已有retry/manual_review且attempts<5允许重排，不清零attempts，不另建同media任务绕上限。",
+    "newWrites": "永久tombstone在raw媒体读取和所有公开/私有引用授权前拒绝；禁止复用media id/key。新上传使用新UUID，不恢复已删对象身份；所有引用/发布/历史恢复的最终DB事务含guard或trigger。Cloud普通media()在HEAD/GET后、返回Response前再重核当前owner授权和tombstone。"
+  },
+  "httpStatusCodes": {
+    "anonymous": 401,
+    "wrongRole": 403,
+    "foreignOwnerOrUnauthorizedJob": 404,
+    "unknownDomainOrMalformedBody": 400,
+    "idempotencyOrCASOrPolicyConflict": 409,
+    "sourceChangedOrNewReferenceInApply": "200 receipt with fixed skipped counts; no deletion",
+    "storageFailure": "500/503 before commit, or existing object task retry/manual_review in a successful process response; never fabricated completed"
+  },
+  "fixedReasonCodes": [
+    "source_changed",
+    "referenced",
+    "published_or_reviewed",
+    "transaction_linked",
+    "registered_digital_asset",
+    "shared_object_key",
+    "unmanaged_object_key",
+    "age_unknown",
+    "retention_unconfirmed",
+    "policy_changed",
+    "object_identity_changed",
+    "storage_delete_failed",
+    "storage_verification_failed",
+    "retry_exhausted",
+    "policy_unconfirmed"
+  ],
+  "acceptanceRequired": [
+    "所有本方个人域登记与unknown/protected不假清",
+    "旧7scope和长期记忆真实能力文案",
+    "4新域实际delete/scrub及本人导出",
+    "跨owner/角色/closed actor/管理员不能代确认",
+    "preview后编辑/审核/发表/新增引用的CAS保护",
+    "手动旧龄未知可选删而expiry跳过",
+    "partial批次幂等/重试/中断续跑",
+    "SQLite逻辑删除与Cloud真实R2删除+HEAD核验",
+    "对象删除/核验失败保留原报告与有限重试",
+    "共享key及永久digital marker不得误删",
+    "闭户后真实admin处理原队列而无新跨owner清除入口",
+    "旧privacy/retention/closure/memory/会员额度/数字权益与双端完整回归同构建通过"
+  ],
+  "limits": [
+    "正式各域保留天数/用途政策仍未确认，null保留；新用途及训练默认不启用。",
+    "当前SQLite行删除不等于WAL/空闲页/备份安全擦除，当前R2对象缺失不等于旧版本/备份/受托商全删。",
+    "公开/共有/财务/审计等protected域未实施删除或匿名化时必须如实列出，不将剩余软件一概归为等资料。"
+  ],
+  "contractRevision": 4,
+  "receiptListUnion": "GET /receipts返回DomainReceipt或mode=adopt的AdoptionReceipt；纳管回执没有删除localDatabase计数，deleted固定0。",
+  "closureResponse": {
+    "path": "POST /api/account-closure/confirm",
+    "receipt.domainCleanup": {
+      "job": "DomainJob",
+      "receipt": "latest DomainReceipt or null"
+    },
+    "historicalReceiptWithoutJob": null,
+    "replay": "原强nonce合法重放只读返回同owner关联作业最新进度，不删原字段、不增授权。"
+  },
+  "internalFrozenMetadata": {
+    "privacy_domain_jobs.config_data._truncated": "只读内部布尔值；与当前公开config比较时剔除下划线内部字段，不对外冒充配置。"
+  },
+  "unknownReferenceProtection": "未知表不猜owner、不删除；检测到媒体URL或媒体id引用仍保护，并为当前未知表相关字段安装同事务永久tombstone引用守卫。schema版本变化后刷新守卫；无关未知表不一概挡所有媒体。"
+}

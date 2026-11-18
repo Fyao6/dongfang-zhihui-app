@@ -1,0 +1,6 @@
+{
+  "scope": "isolated test harness bootstrap only",
+  "reason": "Node24 globalThis.crypto is a getter; unconditionally assigning it threw before any fixture DB/provider request",
+  "fix": "reuse existing crypto, inject only if absent",
+  "sourceBusinessChanged": false
+}

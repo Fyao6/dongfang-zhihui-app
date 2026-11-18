@@ -1,0 +1,171 @@
+{
+  "kind": "isolated-cloud-sqlite-and-explicit-transport-fixtures",
+  "realModelRequests": 0,
+  "productionDatabaseAccess": false,
+  "passed": 38,
+  "failed": 1,
+  "checks": [
+    {
+      "name": "default scene is blocked and no transport runs",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed public charge rules stay unknown",
+      "pass": true
+    },
+    {
+      "name": "public charge rules and deadline reflect explicit test config",
+      "pass": true
+    },
+    {
+      "name": "provider receipt required",
+      "pass": true
+    },
+    {
+      "name": "non-admin cannot grant test credits",
+      "pass": true
+    },
+    {
+      "name": "grant is idempotent",
+      "pass": true
+    },
+    {
+      "name": "grant conflict rejected",
+      "pass": true
+    },
+    {
+      "name": "public capabilities redact endpoints and secret refs",
+      "pass": true
+    },
+    {
+      "name": "write tool never permitted",
+      "pass": true
+    },
+    {
+      "name": "summary cannot target another owner",
+      "pass": true
+    },
+    {
+      "name": "AI body summary requires separate authorization",
+      "pass": true
+    },
+    {
+      "name": "job replay reserves once",
+      "pass": true
+    },
+    {
+      "name": "job changed payload conflicts",
+      "pass": true
+    },
+    {
+      "name": "cross-account read and cancel are 404",
+      "pass": true
+    },
+    {
+      "name": "real SSE parser handles split UTF8 fixture and settles once",
+      "pass": true
+    },
+    {
+      "name": "no-save default stores no prompt or output",
+      "pass": true
+    },
+    {
+      "name": "stream replay never calls upstream again",
+      "pass": true
+    },
+    {
+      "name": "queued cancellation is charged by explicit nonzero rule",
+      "pass": true
+    },
+    {
+      "name": "partial output uses partial rule and unknown usage",
+      "pass": true
+    },
+    {
+      "name": "running cancellation does not become free",
+      "pass": true
+    },
+    {
+      "name": "unconsented fallback gets no request",
+      "pass": true
+    },
+    {
+      "name": "consented fallback is sequential with one job settlement",
+      "pass": true
+    },
+    {
+      "name": "missing usage and cost remain null/unknown",
+      "pass": true
+    },
+    {
+      "name": "Anthropic cumulative output usage is not summed",
+      "pass": true
+    },
+    {
+      "name": "non-streaming response is never fake token streaming",
+      "pass": true
+    },
+    {
+      "name": "lease recovery preserves cancellation charge",
+      "pass": true
+    },
+    {
+      "name": "provider withdrawal blocks later jobs",
+      "pass": true
+    },
+    {
+      "name": "global revision invalidates provider receipt",
+      "pass": true
+    },
+    {
+      "name": "mid-stream receipt withdrawal stops before completion",
+      "pass": true
+    },
+    {
+      "name": "withdraw-and-reconfirm nonce cannot revive old stream",
+      "pass": true
+    },
+    {
+      "name": "registry disable stops further stream consumption",
+      "pass": true
+    },
+    {
+      "name": "explicit saved output uses privacy conversation storage",
+      "pass": true
+    },
+    {
+      "name": "privacy deletion removes job text readback",
+      "pass": true
+    },
+    {
+      "name": "new consent cannot save an earlier stream",
+      "pass": true
+    },
+    {
+      "name": "unknown failed attempt prevents misleading final-only usage total",
+      "pass": true
+    },
+    {
+      "name": "queued snapshot cannot start after registry revision changes",
+      "pass": true
+    },
+    {
+      "name": "concurrent replay reserves once and distinct requests cannot overspend",
+      "pass": true
+    },
+    {
+      "name": "recent list contains only own last20 redacted metadata",
+      "pass": false,
+      "errorType": "AssertionError",
+      "error": "Expected values to be strictly equal:\n\n18 !== 20\n"
+    },
+    {
+      "name": "schema v1 upgrade adds nonce and shared conversation link idempotently",
+      "pass": true
+    }
+  ],
+  "sourceSha256": {
+    "lib/ai-gateway.ts": "7c1f62ea3eda94f3df633973fc02e10cf312ff57f0d6f3d17c862e2a78d7cf2a",
+    "lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "recordedAtBeijing": "2026-11-17T06:01:38.540013+08:00",
+  "formalAcceptance": false,
+  "firstIndependentInventory": {
+    "exitCode": 1,
+    "missingFromHarness": [],
+    "harnessAdditionalCount": 19,
+    "reason": "Inherited Stage27 independent reader followed QA imports only. The Stage28 harness also follows actual product and emitted entry imports/raw sources, so 19 real dependencies were omitted by the independent reader."
+  },
+  "correction": "Stage28 independent reader now follows relative imports from all already declared product, emitted and QA entries, including literal raw imports. No previous frozen reader or product was changed by this correction.",
+  "actualSecondIndependentInventory": {
+    "exitCode": 0,
+    "inputCount": 393,
+    "missingFromHarness": [],
+    "harnessAdditional": [],
+    "canonicalSHA256": "a8b9c1b67faeba2facd8f07e75b2e381a5ee02739110ac4fa9895db38c752621"
+  },
+  "boundary": "Read-only mid-development diagnosis, not the final pre-run snapshot; R4/product/build/QA may differ afterwards. No service/regression/receipt/books/progress was started."
+}

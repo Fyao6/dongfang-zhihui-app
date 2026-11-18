@@ -1,0 +1,221 @@
+{
+  "checks": [
+    {
+      "name": "normal historical settled refund and physical fulfillment cause no mismatch",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "finance has read access",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "buyer cannot view finance snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "author cannot view finance snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "business cannot view finance snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "support cannot view finance snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "anonymous denied",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "cached staff identity downgraded in DB loses access",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "order total damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "refund state label cannot override actual refund facts",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "payment original amount damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "refund event amount damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "cumulative refund quantity damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "paid entitlement deletion located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "wrong entitlement remaining located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "current subscription plan cannot drift from its paid snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "current subscription period cannot silently grow beyond paid snapshot",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "subscription owner damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "historical membership missing snapshot is not-covered",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "expiry is observed without lifecycle mutation",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "commission original amount damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "commission refund balance damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "original statement total damage located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "order filter retains associated whole-statement mismatch",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "unlinked recovery reservation located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "sandbox real-payment claim located",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "missing historical commission snapshot remains not-covered",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "invalid snapshot JSON is explicit",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "malformed snapshot JSON located without repair",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "unknown fees and unknown ledger amounts are not zero",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "currencies stay separate and have no grand total",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "100 refreshes leave all financial original tables identical",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "missing table is partial not a false clean pass",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "truncated source disables dependent math rather than asserting missing rows",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "CSV and report exclude payout recipient and proof contents",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "invalid payout JSON cannot crash snapshot SQL or claim a transfer",
+      "passed": true,
+      "financialHashUnchanged": true
+    },
+    {
+      "name": "malformed membership terms stay not-covered",
+      "passed": true,
+      "pureComputationOnly": true
+    },
+    {
+      "name": "malformed creation rules are explicitly invalid",
+      "passed": true,
+      "pureComputationOnly": true
+    },
+    {
+      "name": "malformed ledger locked facts remain not-covered",
+      "passed": true,
+      "pureComputationOnly": true
+    },
+    {
+      "name": "fractional item quantity is not rounded into a fact",
+      "passed": true,
+      "pureComputationOnly": true
+    },
+    {
+      "name": "unsafe aggregate is null with exact integer text, never rounded",
+      "passed": true,
+      "pureComputationOnly": true
+    },
+    {
+      "name": "missing cash source cannot turn known statement currency into zero paid total",
+      "passed": true,
+      "pureComputationOnly": true
+    }
+  ],
+  "originalDatabaseOpened": false,
+  "database": ":memory:",
+  "servicesStarted": false,
+  "financialMutationsByReports": false,
+  "passed": 42,
+  "failed": 0,
+  "sourceSha256": "8dc5978fdd2784a515bfe2c637a4505b0b8da802750773cb966939c4c6b9ba58"
+}

@@ -1,0 +1,44 @@
+{
+  "status": "prepared-not-run",
+  "at": "2026-11-17T06:47:24.750Z",
+  "actualDrills": 0,
+  "actualNewServicesStarted": 0,
+  "actualBackupOrRestoreOperations": 0,
+  "formalAcceptance": false,
+  "productionEnabled": false,
+  "staticChecks": {
+    "pythonAst": true,
+    "jsonParse": true,
+    "nodeSyntaxFiles": 2
+  },
+  "staticPass": true,
+  "stage30": {
+    "inputCount": 516,
+    "canonicalSHA256": "9ff165bfa3a45b817130892a5db163f5b769f4c119664242761adebdcd24102e",
+    "preparationOutsideFormalGraph": true,
+    "currentBytesUnchanged": true
+  },
+  "files": {
+    "06_验证与后续工作/负责人优化建议-本地可靠性恢复-候选合同.json": {
+      "sha256": "67778ea50a59c4078ff50e95a05b9d1f95982a1806c00cb87e0ab0ecaaec0002",
+      "bytes": 16498
+    },
+    "06_验证与后续工作/负责人优化建议-本地可靠性恢复工具.py": {
+      "sha256": "599605c3c65ee8bb0fe540a4587fcaf32f38929ec0ea0ee8e2607fbeefeaa36b",
+      "bytes": 18458
+    },
+    "06_验证与后续工作/负责人优化建议-本地可靠性D1快照.cjs": {
+      "sha256": "cc45f7a09039343739e8c9852826084f559d5c1adf8209166e3263efc1e6d582",
+      "bytes": 10861
+    },
+    "06_验证与后续工作/负责人优化建议-本地可靠性沙箱场景.cjs": {
+      "sha256": "c2a1801d58c4bc457ba18081cd49dd1ed6240adb0e8dcde0ddc67ee788a0a131",
+      "bytes": 11357
+    }
+  },
+  "limitations": [
+    "Static preparation only; no DB or state opened by the new recovery tools.",
+    "A future authorized coordinator and actual native D1 restore component remain pending.",
+    "No production/PG/GPU/PITR/R2-binary or zero-loss claim."
+  ]
+}

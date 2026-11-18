@@ -1,0 +1,48 @@
+{
+  "module": "Stage27 Cloud额度兼容实际nested启动失败补充",
+  "recordedAtBeijing": "2026-11-17T04:07:59+08:00",
+  "status": "preserved-failed-startup-observation",
+  "runId": "mwjp01w4-3691de63",
+  "target": "cloud",
+  "suite": "quota-compat",
+  "sourceIdentityMapCount": 329,
+  "sourceIdentityCanonicalSha256": "ee4030c3da0f8d1b0e475963761566551c9af3c5a95696a9dd6b05feff96bd50",
+  "outerDiagnostic": {
+    "path": "06_验证与后续工作/负责人优化建议-任务告警启动诊断-cloud-quota-compat-mwjp01w4-3691de63.json",
+    "sha256": "f017ef8c204130e35d0a91d0eacabc67f1b07162cddec4ad30491c99a2ab9e6b",
+    "originalBytesUnchanged": true,
+    "error": "No fresh report; old report remains unbound",
+    "reportFreshForInvocation": false,
+    "originalReportPreserved": true
+  },
+  "actualTerminalObservation": {
+    "command": "node 06_验证与后续工作/负责人优化建议-任务告警验收启动.cjs --target=cloud --suite=quota-compat",
+    "outerExitCode": 1,
+    "innerError": "TypeError: Cannot read properties of null (reading 'resume')",
+    "stack": [
+      "TypeError: Cannot read properties of null (reading 'resume')",
+      "    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-任务告警额度兼容验收启动.cjs:42:18",
+      "    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+    ],
+    "observationSource": "本run真实exec输出的nested stderr；本JSON是事后补充记录，不伪称当时已落独立raw日志。",
+    "freshMainReportCreated": false,
+    "quotaBusinessSuiteEntered": false,
+    "quotaBusinessPassed": null,
+    "quotaBusinessFailed": null,
+    "closureSuiteStartedByThisChain": false
+  },
+  "sourceFacts": {
+    "file": "06_验证与后续工作/负责人优化建议-任务告警额度兼容验收启动.cjs",
+    "sha256AtReadOnlyReview": "62b42209dec0603d9823dea946b5f66f1656bdff2e52c5da93aa8ed2a40b9082",
+    "line41": "Cloud spawn使用stdio:['ignore','ignore','ignore']，Node返回的server.stdout和server.stderr均为null。",
+    "line42": "随后无条件server.stdout.resume();server.stderr.resume();，第一处即TypeError。",
+    "failureBoundary": "发生在实际Cloud health请求与测试child创建前；不是21项产品业务断言失败。",
+    "runtimeCompilation": "bundleCloud已先完成，但nested尚未写正式报告；outer.runtimeArtifacts空不能当作该编译证据已归档。"
+  },
+  "cleanupBoundary": {
+    "sourcePath": "nested catch设exitCode=1；finally关闭http(若已创建)、kill(server)、kill(upstream)、删除本次privateVars。",
+    "claim": "这里记录已读代码路径，不以代码推演冒称所有操作均另有原生进程核验证据；无新服务被本补充操作启动。"
+  },
+  "scope": "仅保存本次启动失败事实和原诊断关联；不修改原报告/诊断/源码/QA/构建。未输出私有环境值。",
+  "nextValidationBoundary": "修复后必须通过真实outer→nested→fresh服务→完整quota/closure suites；直起wrapper的86项局部证明不覆盖nested调度链。"
+}

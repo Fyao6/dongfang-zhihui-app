@@ -1,0 +1,165 @@
+{
+  "pass": true,
+  "scope": "Fixed scenario compile and real Python Store.init + read-only collector, no business HTTP or formal gate",
+  "fixtureSHA256": "2c113cb16faaad7ac5ea021b02fe999adaf4b0073ebb8d611a6e3fcabdbdaa73",
+  "scenarios": [
+    {
+      "scenario": "empty",
+      "productInit": true,
+      "seededRows": 0,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "finite-missing",
+      "productInit": true,
+      "seededRows": 7,
+      "ruleCodes": [
+        "digital_grant_missing"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "finite-binding",
+      "productInit": true,
+      "seededRows": 8,
+      "ruleCodes": [
+        "digital_grant_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "finite-bad-json",
+      "productInit": true,
+      "seededRows": 7,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": false,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "finite-refunded-history",
+      "productInit": true,
+      "seededRows": 9,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-missing-grant",
+      "productInit": true,
+      "seededRows": 9,
+      "ruleCodes": [
+        "membership_grant_event_missing"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-orphan-grant",
+      "productInit": true,
+      "seededRows": 9,
+      "ruleCodes": [
+        "membership_grant_event_orphan"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-job-binding",
+      "productInit": true,
+      "seededRows": 16,
+      "ruleCodes": [
+        "membership_job_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-job-settlement",
+      "productInit": true,
+      "seededRows": 16,
+      "ruleCodes": [
+        "membership_job_settlement_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-orphan-allocation",
+      "productInit": true,
+      "seededRows": 15,
+      "ruleCodes": [
+        "membership_job_binding_mismatch"
+      ],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "member-lazy-zero-history",
+      "productInit": true,
+      "seededRows": 60,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": true,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    },
+    {
+      "scenario": "finite-truncated",
+      "productInit": true,
+      "seededRows": 5001,
+      "ruleCodes": [],
+      "coveredNewSources": {
+        "digitalFiniteGrants": false,
+        "membershipMaterializedQuota": true,
+        "membershipBoundJobs": true
+      },
+      "readOnlyCapture": true
+    }
+  ]
+}

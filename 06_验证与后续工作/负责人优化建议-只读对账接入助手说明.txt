@@ -1,0 +1,13 @@
+只读对账接入助手：准备完成但未执行
+
+文件：06_验证与后续工作/负责人优化建议-只读对账接入助手.py
+默认 dry-run；--show-diff 输出当前候选差异；--apply 才写入；--rollback 只逆转本助手拥有的7处插入。没有运行本助手、build/prepare、服务或数据库。
+
+只涉及5个共享源：server.py、eastern-api.ts、time-bank-admin.html、build.py、cloud/prepare.py。
+后端只加import+route，在commerce及generic admin吞路由前。没有schema或无用迁移。后台marker及两种构建注入均紧跟commission-admin。复用现有state.commissionPermission登录metadata，细分finance仍每次由服务端原表重新授权。没有改commerce、会员、分佣、隐私导出或APP模块列表。
+
+以运行时LIVE文件中唯一稳定anchor预计算全文件，不锁定build整个SHA；因此稍后B11构建列表插入可以保留。新对账3源仍校验冻结SHA。每个anchor/target均要求唯一，反向还原必须与原字节完全一致；Saved guarded legacy/card/finance metadata计数另做保护。检查所有候选Python AST、从两种build AST提取并核对admin marker映射、完整拼接admin JS语法；TypeScript虚拟host覆写完整eastern API候选，不落盘不emit，严格对比基线与候选诊断（保留数量，禁止新增）。已有基线诊断会在结果中披露，不能称全项目零错误。
+
+所有候选和检查完成后，apply前再核对实际字节没变化，才逐文件原子替换。失败回滚只恢复仍与本次写入一致的文件，遇并发写拒绝覆盖。--rollback同样基于唯一插入逆转与全文件检查，不把未来B11修改覆盖为旧整文件。
+
+执行顺序仍由root掌握：Saved门禁→B11→对账接入/构建/实际专项→沙箱售后。当前仅用ast.parse检查了助手自身语法，没有执行其dry-run，未声称当前7anchor预计算或JS/TS候选门禁已实跑。root接入前先默认dry-run并审核输出；成功后才--apply及既有APP/Cloud构建和双端门禁。实际专项runner已另备，必须 --run --target=python|cloud，仍未启动。

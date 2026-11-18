@@ -1,0 +1,53 @@
+{
+  "module": "负责人优化建议-八字四柱",
+  "review_type": "只读代码与差异审查",
+  "reviewed_files": [
+    "04_研发源码/app/r4/life-chart-core.js",
+    "04_研发源码/app/r4/life-chart-bazi.js",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js",
+    "04_研发源码/app/r4/life-chart-bazi.css"
+  ],
+  "findings": [],
+  "conclusion": "未发现需要修复的实质代码问题。此结论只覆盖本次四源差异的静态审查；实际运行验收以主代理正在执行且绑定相同构建的回归及专项为准。",
+  "reviewed_behaviors": [
+    {
+      "topic": "出生信息默认折叠",
+      "evidence": "life-chart-core.js的lcWorkspace仅为bazi返回details[data-lcb-profile-summary]且不带open；出生日期、时间、性别在其内容中，修改/档案按钮在details之外。姓名与组合资料均经esc。",
+      "assessment": "默认折叠与始终可见的修改入口成立；未新增资料上传或存储路径。"
+    },
+    {
+      "topic": "账号切换与异步恢复",
+      "evidence": "lcGet继续按personalStorage.scope切换重建lcRuntime.pages。lcbTimelineViews为WeakMap，以具体state对象作键并在result对象变化时初始化新的视图。lcbRestoreTimeline的微任务和动画帧恢复均校验renderSequence、当前页、lcGet('bazi')对象身份及result对象身份。",
+      "assessment": "旧账号或旧排盘的延迟恢复回调不能把旧展开/横滚/焦点状态恢复到新账号；新增完整盘面状态没有写入用户出生档案或跨账号共享。"
+    },
+    {
+      "topic": "焦点及完整对照切换",
+      "evidence": "新board-mode动作先复用lcbRememberTimeline记录原按钮，切换fullBoard并在进入完整模式时showFlowMonth=true、boardScroll=0，再由既有受身份保护的恢复函数定位仍存在的board-mode按钮。返回四柱保留真实选择，不写生辰或排盘结果。",
+      "assessment": "切换目标和恢复按钮保持连通；保存、导出、词典与工具往返沿用既有工具节点和账号保护，未引入新的异步提交。"
+    },
+    {
+      "topic": "神煞嵌套details",
+      "evidence": "lcbStarGroup外层summary只含计数和查看文字；内部每个条目的details位于summary外的div内，条目依据和来源保留。外层分组以柱key登记展开状态。没有把details或交互按钮放入另一个summary。",
+      "assessment": "嵌套结构合法，默认计数分组收起、条目依据可进一步展开；无命中仍使用原横线及原范围说明，未改变计算规则。"
+    },
+    {
+      "topic": "流运日期区间",
+      "evidence": "lcbTableTimeline从result.periods[periodIndex].years[yearIndex]及monthIndex取得range=lcbMonthInterval(year.year,monthIndex)，新data-lcb-selected-range显示该range的真实节气名与起止时间。lcbReferenceResult先调用lcbResolveSelection，再传入同一选择索引。",
+      "assessment": "手选流年流月使用实际选中区间，跨年节令月保留完整起止年份；当前与手动选择、回当前逻辑及固定UTC+08:00计算引擎未修改。"
+    },
+    {
+      "topic": "四语与尺寸相关代码",
+      "evidence": "新图例、资料折叠入口、完整对照、分组查看均调用既有四语函数。新增CSS限four-pillars呈现，基础四柱英文/藏文最小宽度为56+4×70=336px，375px视口扣左右16px后343px可容纳；完整盘保持80px列宽并由局部横滚承载。主干支原25px、流运17px保留。",
+      "assessment": "未以缩小干支或裁切隐藏列解决窄屏。静态审查没有发现新增全页固定宽度或错误语言分支；实际文字几何与字体渲染由本轮专项和截图验证。"
+    }
+  ],
+  "changes_made_during_review": "仅写本审查JSON，未修改源码、构建或测试，未运行浏览器、服务或测试，未读写数据库或凭据。",
+  "professional_validation_boundary": "老师规则及至少30个老师确认标准样本仍待提供。未因UI或现有确定性测试通过而宣称专业规则已确认。",
+  "source_sha256": {
+    "04_研发源码/app/r4/life-chart-core.js": "479c167019485948e57149b8ecad5d10a055366869a7c652694ac3d8416f763c",
+    "04_研发源码/app/r4/life-chart-bazi.js": "81903f5a470c20b43e183e71072de4cb73d77868a907fc39b288c61a3bb6b9b5",
+    "04_研发源码/app/r4/life-chart-bazi-layout.js": "135df0d96735c446a8de0ef3b0624a8fdc3d398c526f3933e5001b034cf5cc9d",
+    "04_研发源码/app/r4/life-chart-bazi.css": "bae442f1686c8face5804855a4c87ef42115fa4e46d3c7b090c1b45a54d4204e"
+  },
+  "reviewed_at_utc": "2026-11-12T09:22:21.1945540Z"
+}

@@ -1,0 +1,231 @@
+{
+  "stage": 30,
+  "revision": 2,
+  "status": "ready-for-strict-entry-preflight",
+  "formalAcceptance": false,
+  "activeContract": {
+    "path": "06_验证与后续工作/负责人优化建议-卡组迁移-执行合同.json",
+    "sha256": "22ceb9672919e0bbf785b3ba99c42d06f76adab31d7e79ead76b6cd668ac1d54",
+    "boundary": "Root may revise active DTOs before source lock; this plan does not override the active contract.",
+    "revision": 2
+  },
+  "counts": {
+    "full": 60,
+    "special": 40,
+    "visual": 4,
+    "card-compat": 25,
+    "privacy-compat": 28,
+    "closure-compat": 27,
+    "b11-compat": 11
+  },
+  "perBackend": 195,
+  "totalChecks": 390,
+  "mainCases": [
+    {
+      "id": 1,
+      "name": "当前管理员/本人/匿名与production默认关闭，不自动seed正式卡组"
+    },
+    {
+      "id": 2,
+      "name": "原UTF8来源SHA及canonical、同request精确回执与异内容冲突"
+    },
+    {
+      "id": 3,
+      "name": "坏UTF8/BOM/decoded duplicate/proto/非有限/depth与非JSON格式拒绝且无job"
+    },
+    {
+      "id": 4,
+      "name": "262144边界与500逻辑卡数、数值边界及建议长度不暗改"
+    },
+    {
+      "id": 5,
+      "name": "业务未知/非法主题/重复ID/无效父节点全聚合issues且blocksApply"
+    },
+    {
+      "id": 6,
+      "name": "500卡及2000中文来源，全部issues/diff分页、bounded NDJSON逐行chunk和manifest完整校验"
+    },
+    {
+      "id": 7,
+      "name": "三语逐字段diff区分缺失/空/删除/英回退，保留顺序与出处变化"
+    },
+    {
+      "id": 8,
+      "name": "超过50diff完整总数分页导出及base原始hash/revision冻结"
+    },
+    {
+      "id": 9,
+      "name": "缺语言/图/授权/expectedCount仅阻publish，draft不伪填不伪审核"
+    },
+    {
+      "id": 10,
+      "name": "项目方向P528全文原字节SHA与字段映射保留，非本机c-02替代"
+    },
+    {
+      "id": 11,
+      "name": "来源/经典引文/声明hash与真正审核分离，跨admin私有来源隔离"
+    },
+    {
+      "id": 12,
+      "name": "apply显式确认/版本/幂等和成功job不再创建第二draft"
+    },
+    {
+      "id": 13,
+      "name": "并发apply/nextVersion竞争只一个事务成功、job/source/receipt原子"
+    },
+    {
+      "id": 14,
+      "name": "当前素材归属、批准base保留引用、墓碑/数字永标/课程资格重核"
+    },
+    {
+      "id": 15,
+      "name": "preview后base/media/course/config更改需重预览或明确拒绝"
+    },
+    {
+      "id": 16,
+      "name": "最终actor/session/admin撤回及闭户在途拒绝，无旧授权半写"
+    },
+    {
+      "id": 17,
+      "name": "真实SQL三点故障原子恢复及Py实际缺Node/15秒timeout/2PID占槽第三503，Cloud子进程N/A"
+    },
+    {
+      "id": 18,
+      "name": "review/publish仍完整三语/规则/资料/图片，不自动approved"
+    },
+    {
+      "id": 19,
+      "name": "published/withdrawn与引用版本实际DB UPDATE/DELETE/REPLACE守卫"
+    },
+    {
+      "id": 20,
+      "name": "下架ordinary<content-error<license不能降级恢复展示/AI/分享"
+    },
+    {
+      "id": 21,
+      "name": "activation preview只读、失效target/env/rules/media与CAS拒绝"
+    },
+    {
+      "id": 22,
+      "name": "activation精确幂等及旧config入口同资格与审计，不自动启用"
+    },
+    {
+      "id": 23,
+      "name": "rollback仅合格旧published指针，不改历史快照/quota/时区/revision"
+    },
+    {
+      "id": 24,
+      "name": "权威history超过100完整分页、owner/env/epoch/upperBound游标"
+    },
+    {
+      "id": 25,
+      "name": "legacy明确选raw文件，严格三字段与unknown事实，不按当前卡重建"
+    },
+    {
+      "id": 26,
+      "name": "preview不写归档/quota，重复记录/跨job重复/owner隔离真实统计"
+    },
+    {
+      "id": 27,
+      "name": "101目标原生100+1续批、计数/版本/receipt精确幂等与并发CAS"
+    },
+    {
+      "id": 28,
+      "name": "持久job列表回查/服务重开续办，真正进程重启仅有PID证据才声明"
+    },
+    {
+      "id": 29,
+      "name": "preview后合法archive note/favorite后写保护，不覆盖新revision"
+    },
+    {
+      "id": 30,
+      "name": "undo仅本job新增且原hash/revision未变，不删别job或权威draw"
+    },
+    {
+      "id": 31,
+      "name": "undo多批与改写冲突跳过、版本/请求幂等，不整库恢复"
+    },
+    {
+      "id": 32,
+      "name": "全部迁移/undo/切版本前后quota/request/timezone/epoch事实不变"
+    },
+    {
+      "id": 33,
+      "name": "清理epoch后旧preview/apply和held-final不得复活私有body"
+    },
+    {
+      "id": 34,
+      "name": "真实闭户在途final401，旧session/admin代确认拒绝及别人原样"
+    },
+    {
+      "id": 35,
+      "name": "新表盘点/安全本人导出/body擦除/retention null与业务draft保留"
+    },
+    {
+      "id": 36,
+      "name": "jobs/targets/receipts/archive>50完整游标与不重复页边界"
+    },
+    {
+      "id": 37,
+      "name": "原生选文件/全部issues与三语diff/文字和文件名XSS文本转义"
+    },
+    {
+      "id": 38,
+      "name": "原生导入apply丢响应同key回查恢复、400/CAS失败保草稿"
+    },
+    {
+      "id": 39,
+      "name": "原生legacy apply/续批/后写undo与账号切换旧响应失效"
+    },
+    {
+      "id": 40,
+      "name": "原生返回与真实计时收展拖动连续，未经选择不上传本机历史"
+    }
+  ],
+  "visualCases": [
+    "中文后台真实File→全部issue/diff分页/三语preview/下载/显式draft；所有数目来自HTTP与DOM",
+    "APP四语×day/night×360/1280共16，legacy与权威分离，BO实际glyph/祖先裁切/字号与全部字段可达",
+    "原生失败保file/草稿与同key恢复、activation/rollback确认/CAS、可见交集hit native横滑",
+    "原生101归档100+1/后写undo、held旧响应换号/清理失效、逐级返回和真实计时拖动"
+  ],
+  "testOnlyFixtures": {
+    "allowed": [
+      "Only token-protected loopback controller for this run exact resolved fresh DB/state namespace",
+      "Record native BEFORE-BEGIN/batch timing barriers, never mutate product decisions/options/actor",
+      "Fixed SQL-failure trigger only in owned DB, no dropping product immutability/security guards",
+      "Business clock only existing card draw test seam for >100 actual daily draw HTTP calls; auth/DBNOW stay real",
+      "Actual Node child metadata PID/exeSHA/workerSHA/stdin/stdout/stderr/exit/deadline/env key names only",
+      "Explicit legacy synthetic historical fixture only if unreachable state needs it; seededRows and non-API creation declared"
+    ],
+    "forbidden": [
+      "No default Wrangler state/production/user preview DB",
+      "No real source/teacher/license approvals or invented 36-card set",
+      "No arbitrary SQL/raw env endpoint or fake current actor/result",
+      "No options overrides/limiter resets/global Date.now",
+      "No implicit localStorage/birth/chat uploads"
+    ]
+  },
+  "executionInputPlan": {
+    "strictMapFinalized": false,
+    "baseReader": "Readonly Stage29 AST identity model; frozen inputs never edited",
+    "fixedInputs": [
+      "All new actual QA entries/fixtures/controller scripts and literal require/import/template imports",
+      "All actual product sources, generated SQL/seed/HTML/emitted/dist imports and public static assets",
+      "Actual pure engine + fixed Node worker script + build/prepare metadata FS inputs",
+      "Actual nested closure entry, namespace, stdio/cleanup/fresh report and native compile artifacts",
+      "Two AST parser files and four esbuild dependencies separate runtime hashes; actual Node executable SHA/version/PIDs separate evidence"
+    ],
+    "preflight": [
+      "14 exact target/suite entry/report argv rows",
+      "4 real startup/control families main+closure on each backend",
+      "Actual legacy/gateway/provider mapping needed by imported compatibility suites before long gates",
+      "Raw inspector preview→apply draft, valid/blocked input, wrong tokens/namespaces and actual media protection",
+      "Python full actual AST fresh UUID database-selection proof before starting any full gate"
+    ]
+  },
+  "compatibilityLineage": {
+    "card25": "Read original entire25; new owned entry/harness only because old tool forbids --base and hardcodes report/DB",
+    "oldFrozenBytes": "Stage29 and older scripts/reports/screen captures remain byte-identical",
+    "claims": "Synthetic/local/browser != actual materials/license/mother-tongue/device/production approval"
+  }
+}

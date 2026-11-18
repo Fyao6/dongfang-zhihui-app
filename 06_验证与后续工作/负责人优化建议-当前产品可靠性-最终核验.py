@@ -1,0 +1,108 @@
+"""Verify the Stage31 receipt, preserved history, books and handoff; never overwrite."""
+from pathlib import Path
+from datetime import datetime,timezone,timedelta
+import hashlib,importlib.util,json
+
+ROOT=Path(__file__).resolve().parents[1];OUT=Path(__file__).resolve().parent
+PREFIX='负责人优化建议-当前产品可靠性';IDS=['SVT01','SVT03','X03']
+HANDOFF_BASELINE_SHA='4bf7e42352033577e629d80adb3215ca037915c49f84d3a1df9df0d83131ae80'
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+read=lambda p:json.loads(p.read_text('utf-8'))
+
+def local(name):
+    assert not Path(name).is_absolute()
+    p=(ROOT/name).resolve();assert p.is_relative_to(ROOT) and p.is_file();return p
+
+def verify():
+    target=OUT/(PREFIX+'-最终交付核验.json');assert not target.exists(),'Do not overwrite final proof'
+    receipt_path=OUT/(PREFIX+'-实施记录.json');receipt=read(receipt_path)
+    assert receipt['pass'] is True and receipt['stage']==31 and receipt['taskIds']==IDS
+    assert receipt['productSourceBuildUnchanged'] is True and receipt['productionEnabled'] is False
+    if receipt.get('sourceChangedSinceStage30'):
+        assert receipt.get('originalStage30ProductUnchanged') is False and receipt.get('performanceRepair')
+    helper=OUT/(PREFIX+'-验收冻结.py');assert sha(helper)==receipt['freezeHelperSHA256']
+    spec=importlib.util.spec_from_file_location('stage31_final_freezer',helper)
+    verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
+    current=verifier.collect()
+    for key,value in receipt.items():
+        if key!='at_beijing':assert current[key]==value,('Frozen evidence changed',key)
+    verified={}
+    for field in ('protectedHistoricalSHA256','sourceAndBuildSHA256','verifiedEvidenceSHA256','deliveryHelperSHA256'):
+        for name,digest in receipt[field].items():
+            assert sha(local(name))==digest,('Changed file',name)
+            assert name not in verified or verified[name]==digest
+            verified[name]=digest
+    assert len(receipt['sourceAndBuildSHA256'])>=516 and len(receipt['protectedHistoricalSHA256'])==3418
+    for field in ('previousFinalProof','preflight','selection','guide'):
+        item=receipt[field];assert sha(local(item['path']))==item['sha256'];verified[item['path']]=item['sha256']
+    sheets={}
+    for label,book in [('负责人进度表','东方智慧APP需求进度表-20261116.xlsx'),('原98项任务表','东方智慧APP优化任务表_依据v1.0_20261112.xlsx')]:
+        path=OUT/('当前产品可靠性-'+label+'回填校验.json');result=read(path)
+        assert result['pass'] and result['scopePreserved'] and not result['violations']
+        assert result['preservedOtherRequirements']==95 and all(i in result['scope'] for i in IDS)
+        assert result['additionalRequirements']=={'sheet':'追加需求','rows':3,'pass':True}
+        assert result['rowsWithEvidence']==72 and result['otherRows']==26
+        assert result['statusCounts']=={'进行中':70,'待资料':16,'待验收':9,'待实施':3}
+        assert result['visualPreviews'] and any(i['sheet']=='追加需求' for i in result['visualPreviews'])
+        for image in result['visualPreviews']:
+            assert sha(local(image['path']))==image['sha256'];verified[image['path']]=image['sha256']
+        assert result['candidateSha256']==sha(OUT/book)
+        assert result['originalSha256']==receipt['authorizedWorkbookBaselineSHA256']['06_验证与后续工作/'+book]
+        verified[path.relative_to(ROOT).as_posix()]=sha(path)
+        verified[(OUT/book).relative_to(ROOT).as_posix()]=result['candidateSha256']
+        sheets[book]=result['candidateSha256']
+    handoff_path=OUT/(PREFIX+'-任务及交接回填核验.json');handoff=read(handoff_path)
+    assert handoff['pass'] and handoff['stage']==31 and handoff['updatedTaskIds']==IDS
+    assert handoff['receiptSHA256']==sha(receipt_path) and handoff['other95TaskAndAuditRowsPreserved'] is True
+    assert handoff['counts']=={'进行中':70,'待资料':16,'待验收':9,'待实施':3}
+    assert handoff['rowsWithEvidenceIncludingPartial']==72 and handoff['otherRows']==26
+    assert len(handoff['backups'])==7 and len(handoff['workbookBackups'])==2
+    baseline=read(local(receipt['preflight']['path']))
+    before_path=OUT/'当前产品可靠性-交接回填前基线.json';assert sha(before_path)==HANDOFF_BASELINE_SHA
+    current_before=read(before_path)
+    assert set(current_before['currentMutableSHA256'])==set(handoff['backups']) and len(current_before['currentMutableSHA256'])==7
+    verified[before_path.relative_to(ROOT).as_posix()]=HANDOFF_BASELINE_SHA
+    for name,item in handoff['backups'].items():
+        assert item['sha256']==current_before['currentMutableSHA256'][name]
+        assert sha(local(item['path']))==item['sha256'];verified[item['path']]=item['sha256']
+    for name,item in handoff['workbookBackups'].items():
+        assert item['sha256']==receipt['authorizedWorkbookBaselineSHA256']['06_验证与后续工作/'+name]
+        assert sha(local(item['path']))==item['sha256'];verified[item['path']]=item['sha256']
+    for name,digest in handoff['hashes'].items():
+        assert sha(local(name))==digest;verified[name]=digest
+    memory=read(OUT/'公司同步-进度与记忆.json');queue=read(OUT/'负责人优化建议-交付收尾推进.json')
+    assert memory['development']['verifiedLocalStages']==31
+    assert memory['progress']['rowsWithLocalOrSandboxEvidenceIncludingPartial']==72
+    assert all(r['status']=='本地已验证' for r in queue['groups'])
+    assert queue['finalLocalChecks']['status']=='本地已验证' and queue['current']=='待真实资料与正式验收'
+    assert queue['finalLocalChecks']['receipt']==receipt_path.relative_to(ROOT).as_posix()
+    assert len(handoff['additionalRequirements'])==3
+    assert memory['additionalRequirements']==queue['additionalRequirements']==handoff['additionalRequirements']
+    assert {r['id'] for r in handoff['additionalRequirements']}=={'ADD-WEB','ADD-GROWTH','ADD-DAILY'}
+    for item in handoff['additionalRequirements']:
+        assert item['status']=='本地已验证' and item['original98Scope'] is False and item['productionPublished'] is False
+        assert sha(local(item['receipt']))==item['receiptSHA256'];verified[item['receipt']]=item['receiptSHA256']
+    for original,copy in [('AGENTS.md','新增三项授权前-AGENTS原字节.txt'),('公司同步-先读我.txt','强制成长树接入前-公司同步先读我原字节.txt')]:
+        path=OUT/copy;assert sha(path)==baseline['mutableHandoffAtStartSHA256'][original];verified[path.relative_to(ROOT).as_posix()]=sha(path)
+    for p in (receipt_path,handoff_path):verified[p.relative_to(ROOT).as_posix()]=sha(p)
+    assert target.relative_to(ROOT).as_posix() not in verified
+    result={'pass':True,'stage':31,'at':datetime.now(timezone(timedelta(hours=8))).isoformat(),
+            'taskIds':IDS,'receiptSHA256':sha(receipt_path),'verifiedFiles':len(verified),'verifiedSHA256':verified,
+            'sheets':sheets,'verification':receipt['verification'],'productSourceBuildUnchanged':True,
+            'previousBusinessEvidence':'Original Stage30 proof and reports retained; current authorized source delta and actual business re-verification are recorded separately in this receipt.',
+            'sourceChangedSinceStage30':receipt.get('sourceChangedSinceStage30',False),
+            'originalStage30ProductUnchanged':receipt.get('originalStage30ProductUnchanged',not receipt.get('sourceChangedSinceStage30',False)),
+            'performanceRepair':receipt.get('performanceRepair'),
+            'productUnchangedMeaning':'No drift from the accepted repaired execution baseline; the original Stage30 source delta is recorded separately.',
+            'sourceAndBuildInputCount':len(receipt['sourceAndBuildSHA256']),'protectedHistoricalCount':3418,
+            'other95TaskAndAuditRowsPreserved':True,'rowsWithEvidenceIncludingPartial':72,
+            'statusCounts':handoff['counts'],'productionEnabled':False,'formalAcceptance':False,
+            'toolchainIncludedInHandoff':False,'privateLabDatabasesIncludedInHandoff':False,
+            'zipRepacked':False,'pushed':False,'published':False,'additionalRequirements':handoff['additionalRequirements'],'originalRequirementCount':98,'additionalRequirementCount':3}
+    target.write_bytes((json.dumps(result,ensure_ascii=False,indent=2)+'\n').encode('utf-8'))
+    print(json.dumps({'pass':True,'stage':31,'verifiedFiles':len(verified),'sha256':sha(target),'path':str(target)},ensure_ascii=True))
+
+if __name__=='__main__':
+    import sys
+    if sys.argv[1:]==['--verify-and-freeze']:verify()
+    else:print(json.dumps({'preparedOnly':True,'startsService':False,'editsFiles':False,'requires':'--verify-and-freeze after actual Stage31/two books/seven handoff files'}))

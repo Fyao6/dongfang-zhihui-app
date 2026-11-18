@@ -1,0 +1,230 @@
+负责人优化建议——会员/订阅独立后端接口说明
+2026-11-12；MB01–05；仅本机独立实现，未接公共入口/构建、原库或公网。
+
+实施依据
+逐段原文 P258–P284、MB01–MB05任务条目及现有membership.js已阅读。
+原membership.js仍是历史参考图的本机预览，含98/298参考价及预览草稿，不能当本轮正式定价。
+本模块提供真实服务器配置、成交版本、统一订单驱动的沙箱订阅状态；不声明正式价格、跨渠道验单或生产订阅已完成。
+MB02的正式价格/商品ID及多端渠道验收、MB04/05的真实平台同步仍待资料与真实接入。
+
+一、源文件与初始化
+Python：04_研发源码/app/r4/backend/membership_lifecycle.py
+  init_schema(db)
+  Membership(store,handler,Error,limiter,*,test_clock=None).route(method,path)
+Cloud：04_研发源码/app/cloud/lib/membership-lifecycle.ts
+  initMembership(a)
+  membershipRoute(a,path,method,fail)
+  class MembershipLifecycle(a,fail,owner?)
+  membershipPeriodEnd(stamp,term)
+不属于会员路由时Python返回None、Cloud返回undefined；正常返回JSON对象，不涉及流式Response。
+
+必须先初始化commerce schema，再初始化membership；包含一条依赖commerce_payment_events的完整性触发器。
+Cloud schema marker=membership_schema_v1；本模块首次准备态，无原库迁移操作。
+独立新增7张会员领域表、15条DDL，两端同构；不另建商品订单、支付订单或媒体权益表。
+真实金融与持有来源仅commerce_products/skus/orders/order_items/payment_events/entitlements。
+membership_plan_versions与order_snapshots保存不可变业务/成交版本；subscriptions只管理相应统一权益的有效期与状态。
+
+二、全局开关与正式渠道
+setting key=membership_lifecycle，默认：
+  {sandboxEnabled:false,productionEnabled:false,revision:0}
+生产永远关闭；PATCH productionEnabled=true被拒，不能由管理员开通真实渠道。
+沙箱建立快照/支付/激活需会员和commerce沙箱同时开启。
+取消、本人状态、恢复与退款申请针对既有沙箱记录仍可办理，不把关闭测试入口等同撤销已付记录。
+正式Apple/Google/Stripe/PayPal无密钥、通知、验单、退款或取消adapter；渠道映射只能draft。
+所有订阅结果均 environment=sandbox、sandboxOnly=true、grantsProductionAccess=false、actualBillingEnabled=false。
+autoRenew/nextChargeAt只是沙箱生命周期安排，无自动扣费调度器，不应在UI写成已从真实渠道停止扣费。
+不修改users.member；不会解锁正式member媒体，不向真实AI网关钱包发额度。
+
+三、后台API（仅admin）
+GET /api/admin/membership
+  {settings,plans,channelMappings,productionEnabled:false,externalIntegrationsEnabled:false}
+PATCH /api/admin/membership/settings
+  {sandboxEnabled:boolean,productionEnabled:false,revision:当前整数}
+  ->{settings}；revision乐观并发控制，冲突409。
+POST /api/admin/membership/plans
+  {id?,version?,environment:"sandbox"|"production",status:"draft"|"published"|"archived",
+   skuId,groupId?,title,description,billingMode:"recurring"|"one_time",
+   term:{unit:"day"|"month"|"year",count},
+   renewalPriceMinor:整数|null,
+   benefits:{catalogScope:"none"|"selected"|"member_catalog",courseIds:[],
+     aiCredits:整数|null,aiResetCycle:"none"|"month"|"year"|"billing_period",other:[]},
+   ruleVersion,termsVersion,serviceTerms,refundPolicy,graceDays?,trialDays:0,promotionsEnabled:false}
+  ->{item,productionEnabled:false}
+  必须绑定同环境type=membership的真实统一SKU；币种/首价/priceVersion从SKU读取，不能前端自报。
+  修改带当前version；同一SKU一个方案，既有方案不能换环境/SKU/权益组。
+  发布要求标题、描述、规则版本、条款版本、服务条款和退款条款均非空。
+  同一groupId代表同权益组，默认membership；同账号同环境同组不能重复订阅。
+  每项订单quantity必须严格为整数1；数字单购仍走原commerce，不被当作会员。
+  周期有限：day 1..366、month 1..12、year 1..5；不设永久付费会员。
+  recurring须明确非负整数续费价；one_time续费价必须null。
+  若实际续费价不同于当前可用统一SKU价，续费下单关闭，不能按首期价代扣。
+  aiCredits=null表示未配置，不能解读为0额度或无限；本模块不自动把配置转换为真实AI授予。
+  trialDays必须严格0，优惠关闭；试用状态名保留，但没有启用试用的动作。
+  term按UTC日历月/年加算并夹到当月最后一天，不用“30天等于每月”代替。
+
+POST /api/admin/membership/channel-mappings
+  {environment,channel:"sandbox"|"apple"|"google"|"stripe"|"paypal",
+   externalProductId,planId,planVersion,status:"draft"|"published"}
+  同环境、当前方案版本；同环境同渠道商品不能映射多个方案。
+  sandbox只能映射sandbox；任何真实channel只能draft。
+  ->{item:{...,integrationEnabled:false},productionEnabled:false}
+  保存商品映射不等于平台商品存在、验单通过或真实通知接通。
+
+POST /api/admin/membership/sandbox-events
+  {requestId,subscriptionId,environment:"sandbox",
+   event:"renewal_failed"|"grace_started"|"paused"|"account_hold"|"resumed"|"expired"}
+  仅对已由真实统一沙箱付款激活的订阅；源记录明确source=sandbox-simulator、actorRole=admin。
+  不接受payment_succeeded/trial/refund/任意expiry，不能凭事件制造付款、退款或加时。
+  续费失败需仍在安排续费；宽限需失败后且成交graceDays>0。
+  暂停/欠费无沙箱访问权；resumed只能恢复未过已付周期的状态，不能延长时间。
+  到期前不能expired，终态不能凭事件恢复。
+  同账号同requestId同语义幂等，异语义409；服务器audit保留实际管理员actor，用户事件不暴露他人账号ID。
+
+四、本人只读API
+所有会员路径需登录，跨账号订单或订阅统一404。
+GET /api/membership/catalog?environment=production|sandbox
+  默认production；{items,environment,settings,productionEnabled:false,freeAccessPolicy:"existing-rules",productionPricingConfirmed:false}
+  只列published方案；沙箱关闭时其目录空。
+  purchasable仅在会员及commerce沙箱均开启、商品published、SKU当前version与方案priceVersion一致时true。
+  production方案即便保存/发布也不可购买；不自动发布正式价格。
+  免费内容与基础工具按既有规则，未预填免费AI试用额度。
+
+GET /api/membership/status
+  {accountId,items:[本人订阅],independentPurchases:[本人digital统一权益摘要],
+   productionEnabled:false,externalChannels,accountClosureReminder}
+  externalChannels始终verificationEnabled=false、cancelConfirmed=false；
+  Apple/Google提供原文官方管理帮助页，Stripe/PayPal未编造管理URL。
+  accountClosureReminder只列本机沙箱续费安排且actualBillingEnabled=false。
+  thirdPartyRenewalStatus=not-connected，明确卸载/注销本方账号不代表取消第三方订阅；
+  不能把本模块未查到记录写成“所有第三方订阅已取消”。
+
+订阅对象：
+  id,accountId,environment,sandboxOnly,productionEnabled,grantsProductionAccess,actualBillingEnabled,
+  plan（当前已成交周期的完整安全方案快照）,status,autoRenew,
+  periodStart/periodEnd/graceEnd/trialEnd/nextChargeAt/cancelledAt（UTC毫秒，未知为null）,
+  nextChargeIsSandboxOnly:true,hasSandboxAccess,version,periods,events,management。
+  status=trialing/active/renewal_failed/grace/paused/past_due/cancelled_active/expired/revoked。
+  periods逐项保存原统一orderId/itemId/planVersion/ruleVersion/起止/state；
+  events是当时动作事实，不应拿提交时pending字段替代当前统一订单售后状态。
+  plan即使后来改价、改条款/退款说明，已经成交的快照仍保持。
+  hasSandboxAccess同时检查生命周期状态、当前时间、相关周期，以及当前commerce_entitlements/订单项退款数量。
+  不单看commerce_entitlements.active判断订阅有效：该表还承担已付数量与退款账；到期不改财务持有事实。
+  独立digital单购不参与会员到期、取消、暂停、退款的状态改写。
+
+GET /api/membership/orders/:orderId/snapshots
+  本人统一订单 -> {orderId,environment:"sandbox",items,productionEnabled:false,grantsProductionAccess:false}
+  items为各membership项的itemId/skuId/planId/planVersion/ruleVersion/termsVersion/term/
+  firstPriceMinor/renewalPriceMinor/currency/priceVersion/benefits/serviceTerms/refundPolicy/plan。
+  有membership项但没有预付款成交快照则409，禁止按当前目录补猜旧条款；纯数字单购可返回空items。
+  前端应在付款确认前显示本接口实际快照，不用当前catalog替换已建订单条款。
+
+五、三个独立管理动作
+POST /api/membership/subscriptions/:id/cancel-renewal
+  {requestId}
+  仅停止沙箱续费安排，nextChargeAt=null，保留已付起止。
+  原active/renewal_failed取消后为cancelled_active；已paused/past_due不会借取消重新获得访问权。
+  同幂等编号重复不再增加version或重复改状态；取消不等于退款，不删除单购。
+
+POST /api/membership/subscriptions/:id/refund-request
+  {requestId,reason}
+  ->{request:{id,orderId,itemId,reason,status:"pending",environment:"sandbox",...},subscription,fundsRefunded:false}
+  复用commerce_aftersale_requests登记待处理，订单aftersale_status=requested，不写refund支付事件。
+  相同编号同原因返回同售后单；不同原因409。
+  实际按项退款仍由原admin commerce refund实施；其触发器冲正数量/款项。
+  当前周期退款时该周期撤销；若其他已付周期尚有效，回到仍有效的周期；
+  全部会员周期退款后revoked，数字单购仍按独立条款存在。
+  fundsRefunded=false表示“本申请动作没有退款”，不是否认订单后来已发生的实际退款事实。
+
+POST /api/membership/restore
+  {requestId,environment:"sandbox",orderId?}
+  ->{items,environment:"sandbox",productionEnabled:false,providerVerified:false}
+  只查询本人统一已付订单及预付款快照；同一item不能重复分配，不跨账号转移。
+  换设备重新读取同一服务器记录即可恢复；已有cancelled/expired/revoked不会重置时间、复开续费或再发权。
+  正式receipt/purchaseToken等未接入，不接受客户端声明验证通过；production恢复明确403。
+  恢复是重读/补接统一沙箱记录，不代表Apple/Google等真实恢复验单成功。
+
+POST /api/membership/orders/:orderId/activate
+  {} 或 {environment:"sandbox"}
+  ->{items,environment:"sandbox",productionEnabled:false}
+  必须有本人实际commerce sandbox_pay applied事件、对应active未退款membership权益与预付款快照。
+  不接受客户端声明已付款/期限。幂等，不产生付款，不重置周期。
+  正常接入应由支付callback完成；该路由是本人受控补接，不是创建虚假订阅的接口。
+
+六、根集成hook与原子边界
+Python（传当前订单账号的Membership实例）：
+  snapshot_for_checkout(db,owner,items,environment,renewal_of=None)
+    在同一commerce BEGIN IMMEDIATE内、写订单项之前，按规范化items取得SKU->不可变plan快照。
+    raw client body的membershipRenewalOf由root取出，单独传renewal_of，不传入旧commerce body。
+  capture_order_snapshots(db,owner,orderId,snapshots)
+    在同一订单事务写完order/items后、付款前调用；仅未付款订单可写，绝不对paid旧单补猜。
+    重复同快照无副作用；禁止覆盖旧成交data。
+  validate_commerce_payment(db,orderId)
+    在付款事务中提供友好前置错误；检查快照、购买占位、续期原订阅仍可续。
+    已付款幂等重放不重新套当前方案价。
+  on_commerce_payment(db,orderId)
+    在已验证统一付款/权益写入后，同事务幂等激活；不创造付款。
+  on_commerce_refund(db,orderId)
+    退款后同步；从真实commerce_orders.owner取买家，临时切换本人上下文并恢复管理员actor。
+    不按管理员self.owner误同步；返回ownerId和subscriptionIds供刷新。
+  sync(db)
+    查询/回调时回收过期、按实际退款同步，不需要冒充已部署后台定时任务。
+
+Cloud（new MembershipLifecycle(a,fail)）：
+  snapshotForCheckout(owner,items,environment,renewalOf?)
+  captureStatements(owner,orderId,lines,snapshots) -> stmt[]
+    lines支持itemId/id、skuId/sku_id、type、quantity。
+    必须追加到同一D1 batch：commerce order/items/reservations -> membership snapshot statements。
+    新快照触发器检查本人/环境/unpaid/quantity1/原成交价版本，并原子维护权益组购买占位；
+    不同设备/请求并发也不能重复占同组。
+    仅实际新建订单追加这些INSERT；统一requestId已命中旧订单时直接读旧快照，不重新生成snapshotAt再INSERT。
+    root扩展membershipRenewalOf后须纳入订单幂等语义核对，异上下文不能将旧单重绑定新订阅。
+  captureOrderSnapshots(owner,orderId,snapshots)
+    受控内部helper/内存夹具使用。不要把两步建单后补写当作正式事务集成。
+  validateCommercePayment(orderId)
+    前置友好校验；单独async读不构成原子承诺，下述支付触发器保证最终竞态防护。
+  onCommercePayment(orderId)
+    统一D1付款batch提交后幂等补接；不从未提交batch读“已付”。
+    中断可由同一owner activate/restore再次补接；不能在未激活时宣称会员生效。
+  onCommerceRefund(orderId)
+    从订单实际owner创建同步上下文，保留管理员审计身份。
+  根必须把membership_*完整性触发器异常映射为明确409状态已变更，不返回含SQL的500。
+
+共享SQL最终防线：
+  membership_payment_check仅约束含membership项的sandbox_pay BEFORE INSERT。
+  即使前置校验后模块被关闭、订单缺快照/占位或原续期已被取消，整个付款事务/D1 batch回滚。
+  不写真实支付渠道状态，不改变无membership的数字/实物统一付款。
+  不因当前plan版本或SKU价格变化重算/拒绝合法旧快照；仍遵守原commerce商品下架/模块开关。
+  membership_activation_check在写实际订阅绑定时再检查付款事件/订单/未退款权益，防退款与激活竞态。
+  membership_action_check锁定取消/状态操作读到的version，不能让并发暂停被旧取消动作复活。
+  可重试冲突不自动无限循环，不暗中改用新价格。
+
+七、schema与隐私接入
+7表：
+  membership_plans/config字段无owner，方案与SKU同环境一对一；
+  membership_plan_versions不可变版本；
+  membership_channel_mappings唯一environment+channel+external_product_id；
+  membership_order_snapshots：owner，唯一item_id，关联原order/payment_event/subscription；
+  membership_subscriptions：owner，同environment+group仅一个非expired/revoked状态；
+  membership_events：owner，同environment+request_id幂等；
+  membership_purchase_locks：owner，同environment+group排他购买占位。
+新模块未改冻结privacy源码；根后续白名单导出宜含本人订阅公开字段、成交条款版本、事件及购买占位元数据。
+不得导出全站draft方案/他人事件/管理员个人ID；本模块用户事件仅actorRole，实际actor在server audit。
+账号注销后第三方续费/备份/法律财务保留状态不可伪称已自动完成，需要根隐私流程接提醒并如实保留处理状态。
+
+八、独立验证与未完成的外部条件
+Python内存专项48项通过，Cloud Node SQLite+D1 batch夹具52项通过；realProviderRequests=0，productionDatabaseAccess=false。
+测试调用冻结commerce真实建单/付款/按项退款代码，记录均为sandbox；没有手工伪造paid状态冒充验单。
+覆盖原价快照、plan/SKU改价后的合法旧报价、当前方案不可下单、初次与续期并发只发一次、
+取消/暂停竞态、取消发生在支付前置校验后的原子回滚、缺快照付款拒绝、
+退款申请幂等、管理员退款owner、退款与激活竞态、到期/退款不动单购、恢复不重置与日历周期。
+保留失败证据：Python最初测试把PATCH写成POST的夹具失败已修；Cloud并发初次激活冲突缺陷已修且原失败报告保留。
+两端DDL/常量SQL/TypeScript strict静态核验另存同目录。
+这些不等于公共入口集成、真实HTTP/浏览器门禁、双后端既有全回归或正式多端渠道验收。
+正式方案/价格/权益文档、渠道商品ID、Apple/Google账号与服务器验单/通知配置、Stripe/PayPal商户及适用退款规则未齐。
+原文S09/S10/S15官方页面已打开阅读：
+  https://support.apple.com/en-us/118428
+  https://support.google.com/googleplay/answer/7018481?hl=en
+  https://developer.android.com/google/play/billing/lifecycle/subscriptions
+Google官方将通知后的服务端订阅查询作为当前状态依据；取消与退款独立，卸载不会取消订阅。
+本模块据此保持真实adapter关闭；没有把管理员sandbox事件冒充这些平台的正式取消、退款或恢复。
+

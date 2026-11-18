@@ -42,7 +42,15 @@ def validate_fact(db,scope):
     kind,ident,owner=scope
     if kind=='session':
         return db.execute("SELECT 1 FROM users u WHERE id=? AND NOT EXISTS(SELECT 1 FROM account_lifecycle WHERE owner=u.id AND status='closed')",(owner,)).fetchone()
-    if kind=='gateway':return db.execute('SELECT 1 FROM ai_gateway_jobs WHERE id=? AND owner=?',(ident,owner)).fetchone()
+    if kind=='gateway':
+        return db.execute("""SELECT 1 FROM ai_gateway_jobs j WHERE j.id=? AND j.owner=? AND (
+        (j.quota_source='test_wallet' AND j.quota_period_id='') OR
+        (j.quota_source='membership_period' AND EXISTS(SELECT 1 FROM membership_ai_allocations a
+         JOIN membership_ai_periods p ON p.id=a.period_id AND p.owner=a.owner
+         WHERE a.job_id=j.id AND a.owner=j.owner AND a.period_id=j.quota_period_id
+         AND a.reserved_credits=j.reserve_credits AND
+         ((a.state='reserved' AND a.charged_credits IS NULL) OR
+          (a.state='settled' AND a.charged_credits=j.charged_credits)))))""",(ident,owner)).fetchone()
     if kind=='order':return db.execute("SELECT 1 FROM commerce_orders o WHERE o.id=? AND o.owner=? AND EXISTS(SELECT 1 FROM commerce_payment_events p WHERE p.order_id=o.id AND p.status='applied' AND p.kind IN ('sandbox_pay','refund'))",(ident,owner)).fetchone()
     return False
 @contextmanager

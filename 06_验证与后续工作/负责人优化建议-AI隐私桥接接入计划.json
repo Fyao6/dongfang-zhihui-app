@@ -1,0 +1,243 @@
+{
+  "latest": {
+    "at": "2026-11-12T11:31:11.151736+00:00",
+    "applied": true,
+    "scope": "Only two privacy files; global disclosure binding and preferences. No gateway receipts or legacy outbound gate changes.",
+    "legacyOutboundUnchanged": true,
+    "helperHashes": {
+      "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+      "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5"
+    },
+    "files": {
+      "04_研发源码/app/r4/backend/privacy.py": {
+        "beforeSha256": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+        "afterSha256": "e921c627f89c094ae01adf8404a1d0de8b36c3a29f75a606b74c40c24406c520",
+        "alreadyApplied": false,
+        "locations": [
+          {
+            "lineBefore": 192,
+            "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+            "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+          },
+          {
+            "lineBefore": 200,
+            "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+            "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+          },
+          {
+            "lineBefore": 272,
+            "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+            "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+          }
+        ]
+      },
+      "04_研发源码/app/cloud/lib/privacy-api.ts": {
+        "beforeSha256": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+        "afterSha256": "eef548241f5c351333f184d8296640a43dd97671884e46446ddb9b198004a532",
+        "alreadyApplied": false,
+        "locations": [
+          {
+            "lineBefore": 78,
+            "before": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await actualBinding(c,await a.setting('ai')),ack=",
+            "after": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding),ack="
+          },
+          {
+            "lineBefore": 82,
+            "before": "return {config:disclosure(c,await actualBinding(c,await a.setting('ai')))};",
+            "after": "return {config:disclosure(c,await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+          },
+          {
+            "lineBefore": 109,
+            "before": "return {config:disclosure(clean,await actualBinding(clean,await a.setting('ai')))};",
+            "after": "return {config:disclosure(clean,await privacyGlobalBinding(clean,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+          },
+          {
+            "lineBefore": 117,
+            "before": "p=await prefs(a,uid),binding=await actualBinding(c,await a.setting('ai'));let changes=",
+            "after": "p=await prefs(a,uid),binding=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding);let changes="
+          }
+        ]
+      }
+    }
+  },
+  "runs": [
+    {
+      "applied": false,
+      "scope": "Only two privacy files; global disclosure binding and preferences. No gateway receipts or legacy outbound gate changes.",
+      "legacyOutboundUnchanged": true,
+      "files": {
+        "04_研发源码/app/r4/backend/privacy.py": {
+          "beforeSha256": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+          "afterSha256": "e921c627f89c094ae01adf8404a1d0de8b36c3a29f75a606b74c40c24406c520",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 192,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 200,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 272,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            }
+          ]
+        },
+        "04_研发源码/app/cloud/lib/privacy-api.ts": {
+          "beforeSha256": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+          "afterSha256": "eef548241f5c351333f184d8296640a43dd97671884e46446ddb9b198004a532",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 78,
+              "before": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await actualBinding(c,await a.setting('ai')),ack=",
+              "after": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding),ack="
+            },
+            {
+              "lineBefore": 82,
+              "before": "return {config:disclosure(c,await actualBinding(c,await a.setting('ai')))};",
+              "after": "return {config:disclosure(c,await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 109,
+              "before": "return {config:disclosure(clean,await actualBinding(clean,await a.setting('ai')))};",
+              "after": "return {config:disclosure(clean,await privacyGlobalBinding(clean,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 117,
+              "before": "p=await prefs(a,uid),binding=await actualBinding(c,await a.setting('ai'));let changes=",
+              "after": "p=await prefs(a,uid),binding=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding);let changes="
+            }
+          ]
+        }
+      }
+    },
+    {
+      "at": "2026-11-12T11:19:08.172231+00:00",
+      "applied": false,
+      "scope": "Only two privacy files; global disclosure binding and preferences. No gateway receipts or legacy outbound gate changes.",
+      "legacyOutboundUnchanged": true,
+      "helperHashes": {
+        "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5"
+      },
+      "files": {
+        "04_研发源码/app/r4/backend/privacy.py": {
+          "beforeSha256": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+          "afterSha256": "e921c627f89c094ae01adf8404a1d0de8b36c3a29f75a606b74c40c24406c520",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 192,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 200,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 272,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            }
+          ]
+        },
+        "04_研发源码/app/cloud/lib/privacy-api.ts": {
+          "beforeSha256": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+          "afterSha256": "eef548241f5c351333f184d8296640a43dd97671884e46446ddb9b198004a532",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 78,
+              "before": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await actualBinding(c,await a.setting('ai')),ack=",
+              "after": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding),ack="
+            },
+            {
+              "lineBefore": 82,
+              "before": "return {config:disclosure(c,await actualBinding(c,await a.setting('ai')))};",
+              "after": "return {config:disclosure(c,await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 109,
+              "before": "return {config:disclosure(clean,await actualBinding(clean,await a.setting('ai')))};",
+              "after": "return {config:disclosure(clean,await privacyGlobalBinding(clean,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 117,
+              "before": "p=await prefs(a,uid),binding=await actualBinding(c,await a.setting('ai'));let changes=",
+              "after": "p=await prefs(a,uid),binding=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding);let changes="
+            }
+          ]
+        }
+      }
+    },
+    {
+      "at": "2026-11-12T11:31:11.151736+00:00",
+      "applied": true,
+      "scope": "Only two privacy files; global disclosure binding and preferences. No gateway receipts or legacy outbound gate changes.",
+      "legacyOutboundUnchanged": true,
+      "helperHashes": {
+        "04_研发源码/app/r4/backend/privacy_gateway_bridge.py": "038d64ffa868addb85ee5ac83a5a096c3d16db71065e190807b94c4fe1cad232",
+        "04_研发源码/app/cloud/lib/privacy-gateway-bridge.ts": "874b18040a364e775554ffc6058f86ae965a137f320e9588b4b7e081870665b5"
+      },
+      "files": {
+        "04_研发源码/app/r4/backend/privacy.py": {
+          "beforeSha256": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+          "afterSha256": "e921c627f89c094ae01adf8404a1d0de8b36c3a29f75a606b74c40c24406c520",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 192,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 200,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            },
+            {
+              "lineBefore": 272,
+              "before": "binding = actual_binding(cfg, self.store.setting('ai'))",
+              "after": "binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)"
+            }
+          ]
+        },
+        "04_研发源码/app/cloud/lib/privacy-api.ts": {
+          "beforeSha256": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+          "afterSha256": "eef548241f5c351333f184d8296640a43dd97671884e46446ddb9b198004a532",
+          "alreadyApplied": false,
+          "locations": [
+            {
+              "lineBefore": 78,
+              "before": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await actualBinding(c,await a.setting('ai')),ack=",
+              "after": "const response=async()=>{const p=await prefs(a,uid),c=await configuration(a),b=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding),ack="
+            },
+            {
+              "lineBefore": 82,
+              "before": "return {config:disclosure(c,await actualBinding(c,await a.setting('ai')))};",
+              "after": "return {config:disclosure(c,await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 109,
+              "before": "return {config:disclosure(clean,await actualBinding(clean,await a.setting('ai')))};",
+              "after": "return {config:disclosure(clean,await privacyGlobalBinding(clean,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding))};"
+            },
+            {
+              "lineBefore": 117,
+              "before": "p=await prefs(a,uid),binding=await actualBinding(c,await a.setting('ai'));let changes=",
+              "after": "p=await prefs(a,uid),binding=await privacyGlobalBinding(c,await a.setting('ai'),await a.setting('ai_gateway'),actualBinding);let changes="
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

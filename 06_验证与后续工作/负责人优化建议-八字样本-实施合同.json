@@ -1,0 +1,320 @@
+{
+  "revision": 2,
+  "status": "authorized-local-implementation-not-verified",
+  "taskIds": [
+    "B10",
+    "B12"
+  ],
+  "purpose": "标准样本导入、服务端实际重算、原始输入至真实DOM逐字段差异与可追溯修复记录。须root审读定稿及后续独立授权才实施；不改当前阶段源码、构建、QA、表格或冻结证据。",
+  "sourceReading": {
+    "document": "02_需求与设计参考/东方智慧APP修改需求文档_v1.0.docx",
+    "paragraphNumbering": "document.xml全部w:p顺序，含表格内段落；不是仅body直属段落。",
+    "fullyReadParagraphs": [
+      126,
+      143,
+      144,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      629
+    ],
+    "requirements": {
+      "P126/P147": "分开排查数据输入、历法、规则、页面映射；老师指定规则与标准结果，AI只解释确定性结果。逐项归输入问题、规则差异、算法错误或显示错误，有证据再归因。",
+      "P148–P160": "男女/地点普通样本；节气、子时、跨年、闰月；海外跨日、历史DST与歧义；改资料、切流运与回当前；神煞存在/不命中/多项/规则不适用。",
+      "P162/P163/P629": "建议至少30个老师确认样本，目标为约定规则字段一致率100%，不保证预测效果。交付规则、样本、错误清单、修复记录、回归与新版页面；未确认不能标算法已验证。"
+    },
+    "existingEvidence": [
+      "06_验证与后续工作/负责人优化建议-八字版本追溯-实施记录.json",
+      "06_验证与后续工作/负责人优化建议-八字解读关联-实施记录.json",
+      "06_验证与后续工作/负责人优化建议-B11实际双端验收摘要.json",
+      "06_验证与后续工作/负责人优化建议-B11紧凑布局实际双端验收摘要.json"
+    ],
+    "readingBoundary": "已完整读所列段落、七份指定JS及共享出生入口/release与四份上述收据；未重新运行旧验收或逐图复验历史截图。规则网页仅记录源码已有出处，不声称本次联网复核原书。"
+  },
+  "currentFacts": {
+    "engine": "lunar-javascript 1.7.7；lcBaziCalculate返回确定性适配JSON，当前没有样本导入/后台独立重算/统一差异作业API。",
+    "pipeline": [
+      "lcNormalizeInput / lbValidate",
+      "lcBaziCalculate",
+      "lcbResolveSelection",
+      "lcbBuildComparison",
+      "lcbBuildAnnotations",
+      "lcbReferenceResult / lcbBoard / lcbPillarTable"
+    ],
+    "rules": "固定UTC+8；立春年界、节令月、daySect1/2与yunSect1/2明确配置；不真太阳时。annotations仅固定十二规则，空数组不表示所有流派均无神煞。",
+    "domSelectors": [
+      "[data-pillar][data-field]",
+      "[data-lcb-board-column][data-field]",
+      "[data-lcb-column][data-field]",
+      "[data-lcb-self-stage]",
+      "[data-lcb-stars]",
+      "[data-lcb-marker]",
+      "[data-lcb-star-anchor]",
+      "[data-lcb-aux][data-field]"
+    ],
+    "provenance": "B11已有输入/UTC/选项/引擎/规则/实现/output指纹和确认另存；旧记录只读、不补造出处。release文件首注仍写未接入，实际build.py已列入构建，不能据旧注释倒退为准备态。",
+    "teacherConfirmed": false,
+    "teacherConfirmedCaseCount": 0
+  },
+  "minimalDelivery": {
+    "include": [
+      "严格JSON样本集版本导入及预览",
+      "固定服务端适配实际重算与逐字段报告",
+      "真实浏览器列绑定/流运/注释观察与单独证据",
+      "人工差异分类与修复/复验链接",
+      "中文后台与原四语APP兼容"
+    ],
+    "exclude": [
+      "补造30个老师确认样本",
+      "AI生成或自动修正排盘数值",
+      "修改未确认流派默认规则",
+      "农历出生输入或新地域控件",
+      "覆盖旧档案/解读/收据",
+      "把同一库双跑当独立专业算法验证"
+    ],
+    "authorization": "当前真实admin及原账号最终写门禁；导入、查看、导出限本人样本集/作业，普通账号无样本管理权限；无公开样本或默认外发。实际生辰须有适当来源授权，尽量去名化。"
+  },
+  "importContract": {
+    "format": "按R4原UTF8 raw dataset接收，来源字节SHA真实，requestId在受限X-EW-Request-ID；本rev2覆盖旧{requestId,dataset}wrapper。",
+    "limitsProposed": {
+      "maxImportBytes": 2097152,
+      "maxCases": 100,
+      "maxCaseCanonicalBytes": 262144,
+      "maxDepth": 32,
+      "maxExpectedFieldsPerCase": 2000,
+      "maxExpectedValueBytes": 8192,
+      "maxCaseWorkerOutputBytes": 4194304,
+      "rawStorageChunkTargetBytes": 65536,
+      "listPageSize": 50,
+      "processLimit": 1,
+      "workerTimeoutSeconds": 15,
+      "pythonMaxConcurrentWorkers": 2,
+      "note": "均为本轮技术上限；数量与UTF8字节独立检查，超限明确失败，不截断/伪成功。具体实际raw字节由owned组件测量，不改完整计算为懒算来缩小对象。"
+    },
+    "set": {
+      "schema": 1,
+      "setId": "bounded-id",
+      "version": "bounded version string",
+      "title": "string1..120",
+      "source": {
+        "kind": "synthetic|teacher-provided|legacy-reference",
+        "reference": "bounded text",
+        "documentSha256": "64hex|null",
+        "permissionReference": "bounded text|null"
+      },
+      "cases": "Case[]"
+    },
+    "case": {
+      "caseId": "[A-Za-z0-9:_-]{1,100}，本版本唯一",
+      "label": "string1..120",
+      "tags": "固定场景枚举数组，标签不是覆盖证明",
+      "input": {
+        "date": "YYYY-MM-DD Gregorian",
+        "time": "HH:mm|null",
+        "sex": "male|female",
+        "name": "optional label only"
+      },
+      "context": {
+        "mode": "shared-current|legacy-reference|isolated-fixture",
+        "legacyTimezone": "IANA|null",
+        "archivedUtc": "ISO|null",
+        "sourceRecordSha256": "64hex|null",
+        "ambiguity": "reject|earlier|later",
+        "asOfUtc": "explicit ISO for reproducible period selection"
+      },
+      "options": {
+        "daySect": "integer1|2",
+        "yunSect": "integer1|2",
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current|manual",
+        "period": "integer|null",
+        "year": "integer|null",
+        "month": "integer0..11|null"
+      },
+      "expected": "Exact allowlisted stage pointers -> {state:value|not_applicable,value:JSON when state=value,reasonCode:bounded enum when not_applicable}; omitted pointer=not_covered. Explicit null is a supplied JSON value, not an omitted assertion.",
+      "expectedRuleIdentity": "engine/version + ruleVersion + annotationRulesVersion + options, each explicit or unknown/null",
+      "teacherApproval": {
+        "claimedReviewer": "string|null",
+        "evidenceReference": "string|null",
+        "evidenceSha256": "64hex|null",
+        "verification": "unverified-external-claim only on import"
+      }
+    },
+    "immutability": "同owner/setId/version同canonical bytes幂等；同号异内容409。新版本另存，原始导入bytesSHA、canonicalSHA、来源和case顺序冻结；禁止覆盖、更换出处或追认旧expected为老师批准。",
+    "teacherAuthority": "客户端teacherConfirmed/approved=true不接受。当前无已定老师资格/签认流程，服务端teacherConfirmed恒false；管理员导入/分类不是老师确认。未来须另定可信批准记录后才可计数，不以30条合成数据替代。"
+  },
+  "serverComputation": {
+    "required": "服务端只接setVersionId/caseIds/requestId，加载原始input自行执行；不接actual/rawOutput/normalized作为计算依据。上传DOM观察绝不能当后台独立计算。",
+    "sharedAdapterProposal": "将现lcBaziCalculate及必要纯规范化/比较/注释函数提取到既有r4目录内可导出的纯JS适配模块，保留原算法函数体与前端调用；当前life-chart-bazi.js有无条件DOM监听，不能直接在Node假造screens/document来冒充后端接通。",
+    "python": "固定服务端Node子进程/worker加载受管脚本与固定vendor；stdin严格JSON，stdout仅有界JSON，超时/崩溃/缺runtime明确adapter_unavailable/failed，不回退客户端actual。Node可执行路径只服务端受管配置，不接受请求路径、shell文本或eval。是否部署Node由定稿时明确。",
+    "cloud": "Worker直接import同一纯JS计算模块及冻结vendor适配；实际bundler/worker需验证兼容、输入图和版本。不能让Cloud接受客户端算好的盘，也不把Node VM准备测试说成D1/HTTP已接通。",
+    "honestMeaning": "server-shared-js证明独立于客户端输入的重算与映射一致性；仍使用同一历法库，不能称第二独立算法或专业标准确认。未真正接入任一后端时该后端能力标not_covered，禁止成功占位。"
+  },
+  "runAndReport": {
+    "stages": [
+      "originalInput",
+      "normalizedInput",
+      "rawOutput",
+      "selection",
+      "comparison",
+      "annotations",
+      "domObserved"
+    ],
+    "rawMeaning": "rawOutput是lcBaziCalculate实际返回的未改写JSON，不声称包含库私有对象/未暴露中间值；comparison和annotations单独派生，不能倒填raw。",
+    "run": {
+      "id": "server UUID",
+      "setVersionId": "immutable version id",
+      "requestId": "same-owner idempotency key",
+      "inputSha256": "server canonical hash",
+      "manifest": "actual server engine/adapter/rule/source/build/runtime identity",
+      "serverReport": "immutable computed stages/field comparisons",
+      "domStatus": "not_run for the server-produced run; a separate actual-browser artifact may carry browser_dom_verified",
+      "teacherConfirmed": false
+    },
+    "field": {
+      "caseId": "id",
+      "stage": "allowlisted stage",
+      "path": "allowlisted JSON Pointer",
+      "column": "year|month|day|time|period|flowYear|flowMonth|null",
+      "expectedState": "provided|not_covered|not_applicable",
+      "expected": "JSON|null",
+      "actualState": "value|unavailable|not_applicable",
+      "actual": "JSON|null",
+      "comparison": "equal|different|not_covered|not_applicable|blocked",
+      "reasonCode": "fixed code",
+      "category": "input|rule|algorithm|display|undetermined",
+      "classificationState": "unclassified|proposed|reviewed",
+      "evidence": "stage fingerprints and pointer references only"
+    },
+    "counts": "分列equal/different/notCovered/notApplicable/blocked及有期望分母；老师一致率当前null。规则身份未知不作规则正确性结论。notApplicable须服务端适用条件证明，否则仍是差异；缺字段/null/空数组/未命中不混算。DOM未跑不报整case全通过。",
+    "identity": "engine vendor bytes + adapter/normalizer/selection/compare/annotations版本与各源SHA + frozen rule/options + exactUTC/归一化指纹 + rawOutput指纹 + selection/asOfUtc + server/runtime版本 + APP实际served build SHA；缺ICU/tzdb版本为null，不猜。",
+    "failure": "同原始request intent重放原run，不覆盖或混实现；新process需本run冻结identity仍当前。参数/缺时/歧义/缺runtime/timeout/异常分别固定code，失败不替换上一结果。"
+  },
+  "domAudit": {
+    "method": "在fresh隔离账号/浏览器通过实际出生入口或明确旧档案操作计算，使用同最终真实served APP，原生打开详细字段、完整对照、流月和神煞，再逐元素读取text/数据属性；不只对render函数生成HTML做字符串断言。",
+    "binding": "每次观察绑定当前账号/页面render上下文、server run/setVersion/case、normalized/raw/selection指纹、asOfUtc、language、viewport和served SHA；切账号/改输入/改规则/连续切运年/月的迟到结果必须失效。",
+    "displaySemantics": "核四柱固定key顺序和dayMaster；本命日干星运与各柱自坐分开。日主显示元男/元女、十神简写、藏干/十神有序配对属于明确展示转换，比较语义值及转换版本，不把标签简写当算法差异。",
+    "unavailable": "起运前period列—与无命中十二神煞规则的—分别记录；四柱/六列/七列和隐藏详情必须实际操作后可达，未打开不算已观察。",
+    "trust": "DOM观察保存在本地实际浏览器专项报告，绑定服务端run与冻结证据；本候选不新增DOM上传/批准接口，不把上传actual当后端重算。server run仍domStatus=not_run，最终交付以独立真实browser证据补足，禁止回写为服务器自行观察或老师批准。"
+  },
+  "classificationAndRepair": {
+    "principle": "自动生成的是差异与证据，不从不一致直接猜四类原因；证据不足category=undetermined。",
+    "input": "需原始记录/规范化值/UTC的具体不符证据；错误位置明确到字段。",
+    "rule": "需两个明确冻结规则/配置及其条件差异；不同流派显示为设置差异，不擅选一方正确。",
+    "algorithm": "需已确认同输入同规则的可信标准及后端原始输出差异，排除输入/规则；未取得老师批准不能自动确认为专业算法错误。",
+    "display": "需同raw/comparison/annotation/selection指纹下实际DOM列/字段错绑或遗漏证据。截图或文字不同本身不足。",
+    "repairRecord": "append-only，保存findingId、分类状态、actor、证据指针、修前/后源SHA、说明和新retestRunId；不改旧报告。人工受理不表示修复或老师确认，未复验不标resolved。"
+  },
+  "boundaries": {
+    "sharedCurrent": "只生日/性别必填，称呼/时间选填；新共享资料固定Etc/GMT-8，不恢复地域/IANA/经纬度输入，不套Asia/Shanghai历史DST。未知时刻只日期参考，四柱/起运/完整运表blocked，不猜时柱。",
+    "legacy": "旧档案按原UTC/规则独立复算，原始timezone与UTC/source指纹保留，不以新GMT+8静默覆盖；无旧出处仍legacy-unverified。历史海外IANA/DST只属明确legacy/reference工程样本，不扩大新共享入口。",
+    "dst": "独立规范化测试覆盖缺失时刻拒绝、重复时刻reject/earlier/later；无城市/无时刻不猜。Intl环境差异记录为未覆盖或待定位，不偷换输入。",
+    "calendar": "适配公历1900–2099；共享用户表单仍1900至今天，不为测试放宽。闰月以公历输入得到的历法结果覆盖，不新增农历输入。原时间导航1800–2399不等于出生范围扩大。",
+    "seconds": "普通导入出生时间只HH:mm；HH:mm:ss不截断或当合法用户输入。秒级节气/边界只通过明确独立fixture的内部构造验证，不新增公网QA后门；报告标isolated-fixture，不能算老师已确认案例。",
+    "selection": "固定asOfUtc重现回当前、出生前/范围外/未起运；手选period/year/month索引越界拒绝，不以相邻行替代期望。两种daySect/yunSect均显式；不改传统参数含义。"
+  },
+  "proposedApiAndStorage": {
+    "routes": [
+      "POST /api/admin/bazi-samples/import (raw dataset; X-EW-Request-ID)",
+      "GET /api/admin/bazi-samples?before=",
+      "GET /api/admin/bazi-samples/:versionId",
+      "POST /api/admin/bazi-samples/runs {requestId,setVersionId,caseIds}",
+      "GET /api/admin/bazi-samples/runs/:id",
+      "POST /api/admin/bazi-samples/runs/:id/process {requestId,version,limit:1}",
+      "GET /api/admin/bazi-samples/runs/:id/cases?before=",
+      "GET /api/admin/bazi-samples/runs/:id/cases/:caseId",
+      "GET /api/admin/bazi-samples/runs/:id/cases/:caseId/fields?before=",
+      "GET /api/admin/bazi-samples/runs/:id/cases/:caseId/raw (header/index)",
+      "GET /api/admin/bazi-samples/runs/:id/cases/:caseId/raw/periods/:index",
+      "GET /api/admin/bazi-samples/runs/:id/cases/:caseId/export",
+      "GET /api/admin/bazi-samples/runs/:id/export (bounded summary, not100fullraw)",
+      "POST /api/admin/bazi-samples/findings/:id/reviews {requestId,category,evidence,note,retestRunId?}"
+    ],
+    "tablesProposed": "单源backend/bazi_samples_schema.sql供SQLite/D1同字节使用；建议sets/versions/cases/runs/run_cases/case_results/raw_chunks/field_results/reviews/operations，另按现隐私机制需要owner_state/erase guard。backend owner唯一维护精确DDL并先报root，Cloud generated只copy同字节；禁止双端独立DDL或零行WHERE后仍提交完成。",
+    "responses": "列表items/next；版本item含来源/声明批准状态；run含serverReport、counts、domStatus、teacherConfirmed:false、professionalValidation:false；游标归属和actor最终SQL守卫沿现项目规则。",
+    "privacy": "真实样本不写公共初始seed/console/模型请求/公开构建；报告导出只本人当前授权，名字非必要默认省略。当前账号停用后拒新作业/导出；保留最小处理审计的期限另按现隐私规则明确。"
+  },
+  "futureAcceptance": {
+    "software": "实际双端HTTP导入/幂等/所有权/服务端重算；真实APP DOM逐字段、连续切流运、回当前/改资料/账号切换；两端当轮完整60和相关B11兼容及专项同最终源构建验收。现在不运行这些测试。",
+    "reference": "合成/当前库回归可证明工具和映射，老师标准样本数量与专业一致率独立报告。30条和100%目标未经确认不改为已达成；teacherConfirmed保持false。",
+    "delivery": "候选文书不算阶段开始或完成；后续原位实现、失败保留、冻结收据后才回填B10/B12。本文件之外未改任何当前执行源/QA/helpers/书表。"
+  },
+  "stage": 29,
+  "authorizedAtBeijing": "2026-11-17T07:49:32.759906+08:00",
+  "authority": "用户已授权8组软件逐模块继续；PAY05 Stage28已完整闭环，本阶段实施B10/B12，不授权真实外发或专业算法定稿。",
+  "previousCandidate": {
+    "path": "06_验证与后续工作/负责人优化建议-八字样本-候选合同.json",
+    "sha256": "008fa7449ddf03506a59cbef44890b9e7ac9b58fbffc6d8ab4060e2d3005011f"
+  },
+  "prerequisite": {
+    "stage": 28,
+    "receipt": "06_验证与后续工作/负责人优化建议-支付路由-实施记录.json",
+    "receiptSHA256": "876beea0dcd59e2ab0c70df47f3561b61e9ba156080ad33f60189fceb105acc6",
+    "proof": "06_验证与后续工作/负责人优化建议-支付路由-最终交付核验.json",
+    "proofSHA256": "96ea609a28c18be0c89f18a7a6c41e5b47687cffb2d5c77a7d8b2dc899bb5177",
+    "verifiedFiles": 1719
+  },
+  "decisions": {
+    "R1_pure_shared_engine": "在既有r4目录抽一份CommonJS/浏览器可用纯JS工厂，注入原字节不变的lunar1.7.7；前端调用原同名薄包装、Python固定Node worker、Cloud直接import同一实现。lcParts/lcChinaParts/normalizer/calculate/selection/compare/annotations与源身份完整绑定，纯模块不得依赖document/screens/window/state/localStorage；不假DOM、不接受客户端actual作为后台计算。原算法/参数/未知时刻/旧UTC语义不变。",
+    "R2_reproducibility": "样本必须显式asOfUtc。普通APP继续真实当前时间；仅本人admin明确选样本时启用账号/epoch绑定的临时核对视图，完整选择、timing panel、虚岁等均用同asOf。个人生日、档案、缓存和旧记录不覆盖；样本模式禁止保存个人B11档案/AI解释外发，退出或换号立即丢弃上下文。当前选择保留outside/yearUnavailable/beforeStart等真实状态；manual索引越界拒绝，不静默回退。",
+    "R3_limits": {
+      "maxImportBytes": 2097152,
+      "maxCases": 100,
+      "maxCaseCanonicalBytes": 262144,
+      "maxDepth": 32,
+      "maxExpectedFieldsPerCase": 2000,
+      "maxExpectedValueBytes": 8192,
+      "maxCaseWorkerOutputBytes": 4194304,
+      "rawStorageChunkTargetBytes": 65536,
+      "listPageSize": 50,
+      "processLimit": 1,
+      "workerTimeoutSeconds": 15,
+      "pythonMaxConcurrentWorkers": 2,
+      "note": "均为本轮技术上限；数量与UTF8字节独立检查，超限明确失败，不截断/伪成功。具体实际raw字节由owned组件测量，不改完整计算为懒算来缩小对象。"
+    },
+    "R4_raw_import": "POST import body即原UTF8 dataset bytes，Content-Type application/json，requestId在X-EW-Request-ID（1..100 ASCII id）。两端都fatal UTF8/重复decoded key/危险原型key/NaN/未知字段/原字节限制；先完整校验再原子写版本+逐case。保存实际接收sourceBytesSha256/length、canonicalSHA、冻结case顺序与来源声明。canonical同owner/setId/version幂等回原版本，空白/键序重放不覆盖首次sourceBytesSHA；异canonical409。只存规范必要case数据，不承诺存原文件bytes；导出标canonical export，不能冒称原文件逐字节副本。",
+    "R5_raw_volume": "保留lcBaziCalculate完整raw：period0起运前+9完整十年，所有年/月/小运，不更改库调用或按selection懒算。原完整raw canonicalSHA/byteLength冻结；结果header+periods逐段chunk持久，按50分页摘要/字段/索引，按period读完整对象并可本人单例完整导出。仅已提供expectation物化比较行；未覆盖字段从冻结完整图确定性派生，不把10万个月对象塞列表或全部重写为重复记录。空数组/null/缺值/不适用分开。",
+    "R6_runs_replay": "create run同owner/requestId+原setVersionId/有序caseIds回原run和原manifest，即使当前实现已变；异原始intent409，不用当前server manifest改变原请求指纹。unfinished run遇实现/源/实际served APP身份改变则process明确implementation_changed，另建新run，不混新旧结果。已完成结果不可覆盖。",
+    "R7_process_atomicity": "POST runs/:id/process {requestId,version,limit:1}；每次仅领取并计算一例。领取与最终提交均核真实当前admin/owner/账号状态/删除epoch、run CAS、lease/token、源manifest；计算不持DB写锁。DBNOW最终deadline，过期/撤权/清理/故障不得半结果。持久操作幂等回执（同request同intent不换下一case），结果/field/chunks/operation commit/队列与run计数同TX或单D1 batch。成功结果与失败结果追加不可改；已失败终态需要新run复验。processing lease可有限重领，不能双提交。无后台自动cron声明，不增加Stage27五白名单任务。",
+    "R8_node_boundary": "Python固定服务端Node绝对可执行文件及受管worker、shell=False/隐藏窗口，有界stdin/stdout/stderr、15秒timeout和并发2；不继承模型密钥等无关env，不接受请求路径/eval。Node缺失/崩溃/超限明确adapter_unavailable/failed，无客户端actual回退。Cloud实际Worker import同纯模块及真实vendor字节，实际compiler读图与4依赖绑定。",
+    "R9_teacher_and_classification": "teacherConfirmed恒false/count0、professional一致率null；所有teacherApproval均unverified claim，管理员/导入SHA不是老师批准。默认差异undetermined；人工review/修复链接追加，不改原报告；算法类别无可信标准只能proposed，显示类别需同指纹真实DOM证据。server domStatus永not_run，不新增DOM上传变服务器观察接口；最终本地浏览器独立报告补足。已复验软件结果与专业批准分列。",
+    "R10_privacy": "新sets/versions/cases/runs/workitems/results/rawchunks/fields/reviews/operation及epoch或erase guard全部明确owner/system/audit registry+安全导出。私有出生/expected/raw/注释/审查正文不能借不可变性永久保留：接现本人清理与closed续办，授权清理同事务删除或不可恢复擦正文，递增epoch挡在途/旧run复活；仅最小处理审计/hash保留时标真实政策和未知期限null，不声称备份/供应商已删。普通API不可改冻结数据；精确隐私erase guard由backend owner先核现机制后给root审，不能DROP trigger或泛开后门。",
+    "R11_front_bridge": "engine owner提供owner-bound临时样本bridge API open/close/snapshot，按原input自己算，不把server实际值喂给renderer。APP正常共享生辰仍生日/性别必填、称呼/时间选填、Etc/GMT-8，无地域控件；unknown时刻blocked完整四柱/起运/运表。旧UTC/IANA仅明确legacy-reference核对；isolated-fixture只synthetic工程样本，普通HH:mm不加秒。原生观察用现列/字段selector，打开详细字段/完整六七列/月/神煞后读text，不把隐藏HTML当观察。",
+    "R12_source_identity": "共享工厂和源manifest覆盖vendor/normalizer/calculation/selection/compare/annotations/display/bridge各真实SHA及rule/options；actual served APP SHA放外部server manifest避免自哈希循环。Python记录真实Node/ICU/tz版本可见值，Cloud未暴露的ICU/tzdb/runtime版本null不猜。旧B11字节/收据不补造；新保存走新实现身份与明确确认，普通APP本地计算不自动上传。"
+  },
+  "qaPlan": {
+    "suites": {
+      "full": 60,
+      "special": 40,
+      "visual": 4,
+      "b11-compat": 11,
+      "interpretation-compat": 16,
+      "privacy-compat": 28,
+      "closure-compat": 27
+    },
+    "perBackend": 186,
+    "actualOnly": "fresh Python/本地Cloud HTTP与真实APP/后台native浏览器，同最终source/build/worker/vendored inputs；独立pure组件不冒正式HTTP。旧冻结QA不改，必要派生新prefix完整保assert，失败先保全。"
+  },
+  "ownership": {
+    "engine": "next_work_audit: pure shared factory/types, existing normalizer/calc/time/compare/annotations/display clock source and frontend isolated bridge, fixed Node worker; no backend API/DDL/root build edits",
+    "backends": "cloud_callbacks: Python+Cloud sample API, portable DDL single owner, registry/export/clear integration; generatedSQL copy only; no pure/front source/build edits",
+    "qa": "callback_qa: all new sample-prefix fixtures/harness/actual suites/lineage; no old frozen QA/product edits",
+    "root": "new sample admin and frontend loader UI, build.py/prepare.py source manifest wiring, guide/evidence/books/handoff; coordinate exact DTO before UI"
+  }
+}

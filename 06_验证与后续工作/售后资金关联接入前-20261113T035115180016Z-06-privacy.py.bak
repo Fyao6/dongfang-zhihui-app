@@ -1,0 +1,482 @@
+"""Account-scoped privacy controls. No provider deletion is claimed by local deletion."""
+import copy
+import hashlib
+import hmac
+import json
+import time
+from urllib.parse import urlsplit
+from uuid import uuid4
+# card-service-privacy:v1
+try:
+    from card_service import privacy_export as card_privacy_export, privacy_delete_records as card_privacy_delete_records
+except ModuleNotFoundError:
+    import importlib.util as _card_privacy_import
+    from pathlib import Path as _CardPrivacyPath
+    _card_privacy_spec=_card_privacy_import.spec_from_file_location('eastern_card_privacy',_CardPrivacyPath(__file__).with_name('card_service.py'))
+    _card_privacy_module=_card_privacy_import.module_from_spec(_card_privacy_spec);_card_privacy_spec.loader.exec_module(_card_privacy_module)
+    card_privacy_export,card_privacy_delete_records=_card_privacy_module.privacy_export,_card_privacy_module.privacy_delete_records
+# privacy-gateway-bridge:v1: global disclosure only; legacy authorize/save stay actual_binding.
+try:
+    from privacy_gateway_bridge import global_binding as _privacy_global_binding
+except ModuleNotFoundError:
+    import importlib.util as _privacy_bridge_import
+    from pathlib import Path as _PrivacyBridgePath
+    _privacy_bridge_spec = _privacy_bridge_import.spec_from_file_location('eastern_privacy_gateway_bridge', _PrivacyBridgePath(__file__).with_name('privacy_gateway_bridge.py'))
+    _privacy_bridge_module = _privacy_bridge_import.module_from_spec(_privacy_bridge_spec)
+    _privacy_bridge_spec.loader.exec_module(_privacy_bridge_module)
+    _privacy_global_binding = _privacy_bridge_module.global_binding
+
+CONSENTS = ('chart', 'wellbeing', 'saveConversations', 'longTermMemory', 'trainingImprovement', 'marketing')
+KINDS = ('delete-memory', 'delete-conversations', 'delete-records', 'close-account')
+DEFAULT_CONFIG = {
+    'policyVersion': '', 'controllerName': '', 'contact': '', 'recipients': [],
+    'retention': {'recordsDays': None, 'conversationsDays': None, 'backupDays': None, 'financeDays': None},
+    'purposeDetails': {'trainingImprovement': '', 'marketing': ''},
+    'revision': 0,
+}
+DDL = '''
+CREATE TABLE IF NOT EXISTS privacy_preferences(user_id TEXT PRIMARY KEY,data TEXT NOT NULL,policy_version TEXT NOT NULL,revision INTEGER NOT NULL,updated INTEGER NOT NULL,provider_binding TEXT NOT NULL DEFAULT '');
+CREATE TABLE IF NOT EXISTS privacy_events(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,event TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS privacy_requests(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,request_key TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL,updated INTEGER NOT NULL,UNIQUE(user_id,request_key));
+CREATE TABLE IF NOT EXISTS privacy_transfers(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,provider_id TEXT NOT NULL,category TEXT NOT NULL,policy_version TEXT NOT NULL,created INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS privacy_conversations(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,data TEXT NOT NULL,created INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS privacy_requests_owner ON privacy_requests(user_id,created);
+CREATE INDEX IF NOT EXISTS privacy_transfers_owner ON privacy_transfers(user_id,category);
+'''
+
+
+def stamp():
+    return time.time_ns() // 1_000_000
+
+
+def dump(value):
+    return json.dumps(value, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+
+
+def init_schema(db):
+    db.executescript(DDL)
+    if 'provider_binding' not in {r[1] for r in db.execute('PRAGMA table_info(privacy_preferences)')}:
+        db.execute("ALTER TABLE privacy_preferences ADD COLUMN provider_binding TEXT NOT NULL DEFAULT ''")
+
+
+def config(store):
+    raw = store.setting('privacy')
+    result = copy.deepcopy(DEFAULT_CONFIG)
+    result.update({k: v for k, v in raw.items() if k in DEFAULT_CONFIG})
+    result['retention'] = {**DEFAULT_CONFIG['retention'], **(raw.get('retention') or {})}
+    result['purposeDetails'] = {**DEFAULT_CONFIG['purposeDetails'], **(raw.get('purposeDetails') or {})}
+    return result
+
+
+def disclosure_ready(cfg):
+    return bool(cfg.get('policyVersion') and cfg.get('controllerName') and cfg.get('contact') and cfg.get('recipients') and
+                all(r.get('id') and r.get('name') and r.get('regions') and r.get('purpose') and r.get('policyUrl') and r.get('endpoint') and r.get('models') for r in cfg['recipients']))
+
+
+def canonical_endpoint(value):
+    try:
+        if not isinstance(value, str) or any(c.isspace() for c in value):
+            return ''
+        u = urlsplit(value)
+        if u.scheme != 'https' or not u.hostname or u.username or u.password or u.query or u.fragment:
+            return ''
+        host = u.hostname.lower()
+        if ':' in host:
+            host = '[' + host + ']'
+        port = '' if u.port in (None, 443) else ':' + str(u.port)
+        return 'https://' + host + port + (u.path or '/')
+    except ValueError:
+        return ''
+
+
+def actual_binding(cfg, ai):
+    """Bind consent to the server's actual receiver, full endpoint, model and regions."""
+    provider = ai.get('providerId')
+    endpoint = canonical_endpoint(ai.get('endpoint'))
+    regions = ai.get('processingRegions')
+    if not isinstance(regions, list) or not regions or any(not isinstance(x, str) or not x.strip() for x in regions):
+        return None
+    regions = sorted(set(x.strip() for x in regions))
+    receiver = next((r for r in cfg['recipients'] if r['id'] == provider), None)
+    if not provider or not endpoint or not ai.get('model') or not receiver or not disclosure_ready(cfg):
+        return None
+    if endpoint != canonical_endpoint(receiver.get('endpoint')) or ai['model'] not in receiver.get('models', []) or regions != sorted(set(receiver['regions'])) or ai.get('privacyPolicyVersion') != cfg['policyVersion']:
+        return None
+    fields = {'providerId': provider, 'endpoint': endpoint, 'model': ai['model'], 'processingRegions': regions,
+              'privacyPolicyVersion': ai['privacyPolicyVersion'], 'policyVersion': cfg['policyVersion'], 'receiverId': receiver['id']}
+    return {'digest': hashlib.sha256(dump(fields).encode()).hexdigest(), 'details': fields}
+
+
+def preferences(db, uid):
+    row = db.execute('SELECT * FROM privacy_preferences WHERE user_id=?', (uid,)).fetchone()
+    return {'consents': {**dict.fromkeys(CONSENTS, False), **(json.loads(row['data']) if row else {})},
+            'policyVersion': row['policy_version'] if row else '', 'revision': row['revision'] if row else 0,
+            'updatedAt': row['updated'] if row else None, 'providerBinding': row['provider_binding'] if row else ''}
+
+
+def authorize_ai(store, user, data, Error, provider_id=None, ai_config=None):
+    """Call immediately before outbound AI; return only approved context fields.
+
+    Plain user messages need no chart/wellbeing consent, but need a current provider
+    disclosure acknowledgment. A transfer record is an attempt, not a delivery claim.
+    """
+    if not user:
+        raise Error(401, '请先登录账号。')
+    if not isinstance(provider_id, str) or not provider_id:
+        raise Error(503, '必须明确本次实际AI接收方，不按接收方数量自动推断。')
+    if not isinstance(ai_config, dict):
+        raise Error(503, '出站前必须传入本次实际服务端AI配置快照。')
+    cfg = config(store)
+    if not disclosure_ready(cfg):
+        raise Error(503, 'AI接收方、处理地区和隐私说明尚未配置完整，暂不发送资料。')
+    current_ai = store.setting('ai')
+    binding = actual_binding(cfg, current_ai)
+    if not binding or provider_id != current_ai.get('providerId'):
+        raise Error(503, '实际AI供应商、端点、模型、地区与政策配置不匹配，已阻止发送。')
+    snapshot = actual_binding(cfg, ai_config)
+    if not snapshot or snapshot['digest'] != binding['digest']:
+        raise Error(409, 'AI配置已变更，请重新读取并确认实际接收方。')
+    recipients = [r for r in cfg['recipients'] if r['id'] == provider_id]
+    with store.connect() as db:
+        if db.execute("SELECT 1 FROM privacy_requests WHERE user_id=? AND kind='close-account' AND status!='cancelled' LIMIT 1", (user['id'],)).fetchone():
+            raise Error(403, '账号注销申请处理中，已停止新的AI资料发送。')
+        p = preferences(db, user['id'])
+        if p['policyVersion'] != cfg['policyVersion'] or p['providerBinding'] != binding['digest']:
+            raise Error(403, '请先在隐私与AI设置确认当前版本的数据处理说明。')
+        context = data.get('context')
+        category = 'general'
+        clean = None
+        if context:
+            if not isinstance(context, dict) or context.get('category') not in ('chart', 'wellbeing', 'card', 'general'):
+                raise Error(400, '记录类别不明确，请重新选择并授权需要解释的资料。')
+            category = context['category']
+            if category in ('chart', 'wellbeing') and not p['consents'][category]:
+                raise Error(403, '尚未授权AI使用这类资料，请在隐私与AI设置中单独选择。')
+            fields = context.get('fields', {})
+            allowed = {
+                'chart': ('chartType', 'date', 'time', 'gender', 'pillars', 'palaces', 'bodies', 'aspects', 'summary'),
+                'wellbeing': ('sleep', 'energy', 'stress', 'comfort', 'mood', 'note'),
+                'card': ('cardId', 'meaning'), 'general': ('question',),
+            }[category]
+            if not isinstance(fields, dict) or set(fields) - set(allowed) or set(context) - {'category', 'fields'}:
+                raise Error(400, '资料中含不需要或不允许发送的字段。')
+            scalar = lambda v: isinstance(v, (str, int, float, bool)) or v is None
+            if any(not scalar(v) and not (isinstance(v, list) and len(v) <= 100 and all(scalar(x) for x in v)) for v in fields.values()):
+                raise Error(400, '资料须使用必要字段的文字或数值摘要，不接受嵌套个人档案。')
+            if len(dump(fields)) > 6000:
+                raise Error(400, '选择的资料过长，请缩减为本次问题所需内容。')
+            clean = {'category': category, 'fields': fields}
+        if data.get('memory') or data.get('memoryIds') or data.get('useMemory'):
+            raise Error(409, '长期记忆服务尚未启用，不读取或发送旧记忆。')
+        epoch = str(p['revision']) + ':' + cfg['policyVersion'] + ':' + binding['digest']
+        history = data.get('messages', [])
+        if not isinstance(history, list):
+            raise Error(400, '会话历史格式不正确。')
+        for message in history:
+            tag = message.get('privacy') if isinstance(message, dict) else None
+            if not isinstance(tag, dict) or tag.get('accountId') != user['id'] or tag.get('consentEpoch') != epoch or tag.get('providerId') != provider_id or tag.get('providerBinding') != binding['digest'] or tag.get('policyVersion') != cfg['policyVersion'] or tag.get('source') not in ('user', 'assistant', 'report'):
+                raise Error(403, '旧会话不再自动发送，请使用当前授权开始新的请求。')
+            message_category = tag.get('category')
+            if message_category not in ('general', 'card', 'chart', 'wellbeing') or message_category in ('chart', 'wellbeing') and not p['consents'][message_category] or tag['source'] == 'report' and message_category == 'general':
+                raise Error(403, '历史消息包含未授权的资料类别，已阻止发送。')
+        for recipient in recipients:
+            db.execute('INSERT INTO privacy_transfers VALUES (?,?,?,?,?,?)',
+                       (str(uuid4()), user['id'], recipient['id'], category, cfg['policyVersion'], stamp()))
+    return clean
+
+
+def save_conversation(store, user_id, messages):
+    """Optional gateway hook; persists only when the current separate consent is on."""
+    with store.connect() as db:
+        p = preferences(db, user_id)
+        cfg = config(store)
+        binding = actual_binding(cfg, store.setting('ai'))
+        if not p['consents']['saveConversations'] or not binding or p['policyVersion'] != cfg['policyVersion'] or p['providerBinding'] != binding['digest']:
+            return False
+        if len(dump(messages)) > 100000:
+            return False
+        db.execute('INSERT INTO privacy_conversations VALUES (?,?,?,?)', (str(uuid4()), user_id, dump(messages), stamp()))
+    return True
+
+
+class Privacy:
+    def __init__(self, store, handler, error, limiter):
+        self.store, self.h, self.Error, self.rate = store, handler, error, limiter
+        self.uid = handler.user['id'] if handler.user else ''
+
+    def fail(self, status, message):
+        raise self.Error(status, message)
+
+    def public_config(self, cfg):
+        binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)
+        return {**cfg, 'configured': bool(binding), 'providerBinding': binding['digest'] if binding else '', 'activeAI': binding['details'] if binding else None, 'memoryAvailable': False,
+                'retentionConfirmed': all(v is not None for v in cfg['retention'].values())}
+
+    def response(self):
+        with self.store.connect() as db:
+            p = preferences(db, self.uid)
+        cfg = config(self.store)
+        binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)
+        acknowledged = bool(binding and p['policyVersion'] == cfg['policyVersion'] and p['providerBinding'] == binding['digest'])
+        return {**p, 'disclosure': self.public_config(cfg), 'memory': {'available': False, 'enabled': False, 'items': []},
+                'consentEpoch': str(p['revision']) + ':' + cfg['policyVersion'] + ':' + (binding['digest'] if binding else ''),
+                'authorizedCategories': ['general', 'card'] + [k for k in ('chart', 'wellbeing') if p['consents'][k]] if acknowledged else [],
+                'accountId': self.uid,
+                'policyAcknowledged': acknowledged}
+
+    def clean_config(self, data):
+        if set(data) - set(DEFAULT_CONFIG):
+            self.fail(400, '隐私配置包含未知字段。')
+        for k, limit in (('policyVersion', 80), ('controllerName', 120), ('contact', 240)):
+            if not isinstance(data.get(k), str) or len(data[k].strip()) > limit:
+                self.fail(400, '隐私配置文字格式不正确。')
+        recipients = data.get('recipients', [])
+        if not isinstance(recipients, list) or len(recipients) > 10:
+            self.fail(400, '接收方清单格式不正确。')
+        result = []
+        for r in recipients:
+            if not isinstance(r, dict) or set(r) - {'id', 'name', 'regions', 'purpose', 'policyUrl', 'retentionDays', 'deletionSupported', 'endpoint', 'models'}:
+                self.fail(400, '接收方字段不正确。')
+            if any(not isinstance(r.get(k), str) or not 1 <= len(r[k].strip()) <= n for k, n in [('id', 80), ('name', 160), ('purpose', 1000), ('policyUrl', 1500)]):
+                self.fail(400, '接收方名称、目的和政策地址必须完整。')
+            u = urlsplit(r['policyUrl'])
+            if u.scheme != 'https' or not u.hostname or u.username or u.password:
+                self.fail(400, '接收方政策须为有效HTTPS地址。')
+            if not isinstance(r.get('regions'), list) or not 1 <= len(r['regions']) <= 20 or any(not isinstance(x, str) or not 1 <= len(x) <= 120 for x in r['regions']):
+                self.fail(400, '必须明确接收方实际处理地区。')
+            endpoint = canonical_endpoint(r.get('endpoint'))
+            if not endpoint or not isinstance(r.get('models'), list) or not 1 <= len(r['models']) <= 30 or any(not isinstance(x, str) or not 1 <= len(x) <= 160 for x in r['models']):
+                self.fail(400, '接收方须填写真实HTTPS端点与允许的模型清单。')
+            days = r.get('retentionDays')
+            if days is not None and (type(days) is not int or not 0 <= days <= 36500):
+                self.fail(400, '保存天数应为整数或待确认。')
+            result.append({**r, 'endpoint': endpoint, 'models': sorted(set(r['models'])), 'regions': sorted(set(r['regions'])), 'deletionSupported': r.get('deletionSupported') is True})
+        if len({r['id'] for r in result}) != len(result):
+            self.fail(400, '接收方编号不能重复。')
+        retention = data.get('retention', {})
+        if not isinstance(retention, dict) or set(retention) != set(DEFAULT_CONFIG['retention']) or any(v is not None and (type(v) is not int or not 0 <= v <= 36500) for v in retention.values()):
+            self.fail(400, '逐类保存天数须完整填写整数或待确认。')
+        purposes = data.get('purposeDetails', DEFAULT_CONFIG['purposeDetails'])
+        if not isinstance(purposes, dict) or set(purposes) != set(DEFAULT_CONFIG['purposeDetails']) or any(not isinstance(v, str) or len(v) > 2000 for v in purposes.values()):
+            self.fail(400, '训练及营销须分别填写明确用途，未确认留空。')
+        return {**{k: data[k].strip() for k in ('policyVersion', 'controllerName', 'contact')}, 'recipients': result, 'retention': retention, 'purposeDetails': purposes}
+
+    def request_item(self, row):
+        return {'id': row['id'], 'kind': row['kind'], 'status': row['status'], 'details': json.loads(row['data']), 'createdAt': row['created'], 'updatedAt': row['updated']}
+
+    def route(self, method, path):
+        if not (path.startswith('/api/privacy/') or path.startswith('/api/admin/privacy/')):
+            return None
+        self.h.require()
+        if path.startswith('/api/admin/privacy/'):
+            return self.admin(method, path)
+        if path == '/api/privacy/preferences':
+            if method == 'GET':
+                return self.response()
+            if method != 'PATCH':
+                self.fail(405, '不支持的操作。')
+            self.rate('privacy-preferences:' + self.uid, 30)
+            data = self.h.body()
+            if set(data) - {'revision', 'consents', 'policyVersion', 'acknowledged'}:
+                self.fail(400, '授权设置包含未知字段。')
+            changes = data.get('consents', {})
+            if not isinstance(changes, dict) or set(changes) - set(CONSENTS) or any(type(v) is not bool for v in changes.values()):
+                self.fail(400, '授权项必须逐项设置为开启或关闭。')
+            withdrawal = data.get('acknowledged') is False
+            if withdrawal:
+                changes = dict.fromkeys(CONSENTS, False)
+            if changes.get('longTermMemory'):
+                self.fail(409, '长期记忆服务尚未启用。')
+            cfg = config(self.store)
+            binding = _privacy_global_binding(cfg, self.store.setting('ai'), self.store.setting('ai_gateway'), actual_binding)
+            if any(changes.get(k) and not cfg['purposeDetails'].get(k) for k in ('trainingImprovement', 'marketing')):
+                self.fail(409, '该新用途尚未单独说明，不可提前授权。')
+            acknowledged = data.get('acknowledged') is True
+            if acknowledged or any(changes.values()):
+                if not binding or data.get('policyVersion') != cfg['policyVersion']:
+                    self.fail(409, '数据处理说明尚未配置或已更新，请重新查看。')
+            with self.store.connect() as db:
+                db.execute('BEGIN IMMEDIATE')
+                p = preferences(db, self.uid)
+                if type(data.get('revision')) is not int or data['revision'] != p['revision']:
+                    self.fail(409, '授权设置已变更，请刷新后重试。')
+                if any(changes.values()) and not acknowledged and (p['policyVersion'] != cfg['policyVersion'] or p['providerBinding'] != binding['digest']):
+                    self.fail(403, '请先确认当前版本的数据处理说明。')
+                consent = {**p['consents'], **changes, 'longTermMemory': False}
+                version = '' if withdrawal else cfg['policyVersion'] if acknowledged else p['policyVersion']
+                digest = '' if withdrawal else binding['digest'] if acknowledged else p['providerBinding']
+                db.execute('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,policy_version=excluded.policy_version,revision=excluded.revision,updated=excluded.updated,provider_binding=excluded.provider_binding',
+                           (self.uid, dump(consent), version, p['revision'] + 1, stamp(), digest))
+                db.execute('INSERT INTO privacy_events VALUES (?,?,?,?,?)', (str(uuid4()), self.uid, 'preferences', dump({'changes': changes, 'policyVersion': version}), stamp()))
+                self.store.audit(db, self.uid, 'privacy.preferences', self.uid, '分项授权已更新；日志不含个人资料。')
+            return self.response()
+        if path == '/api/privacy/export' and method == 'GET':
+            self.rate('privacy-export:' + self.uid, 3)
+            return self.export()
+        if path == '/api/privacy/requests':
+            if method == 'GET':
+                with self.store.connect() as db:
+                    rows = db.execute('SELECT * FROM privacy_requests WHERE user_id=? ORDER BY created DESC LIMIT 100', (self.uid,)).fetchall()
+                return {'items': [self.request_item(r) for r in rows]}
+            if method == 'POST':
+                return self.create_request(self.h.body())
+        self.fail(404, '未找到隐私接口。')
+
+    def export(self):
+        # Explicit column allowlists; no sessions, passwords, other people's messages or payment receipts.
+        queries = {
+            'account': ('SELECT id,username,name,role,created FROM users WHERE id=?',),
+            'records': ('SELECT kind,day,data,created FROM records WHERE owner=?',),
+            'timeRecords': ('SELECT id,start_ms,end_ms,last_seen,zone FROM timer_runs WHERE owner=?',),
+            'activity': ('SELECT day,feature,visits,first_seen,last_seen,last_visit FROM activity_daily WHERE user_id=?',),
+            'myPosts': ('SELECT id,title,body,media_url,status,reason,created,updated FROM posts WHERE author_id=?',),
+            'uploadedMediaMetadata': ('SELECT id,mime,filename,created FROM media WHERE owner=?',),
+            'mySentMessages': ('SELECT body,created FROM messages WHERE sender=?',),
+            'serviceRequests': ('SELECT id,teacher_id,teacher_name,body,preferred_date,status,created FROM service_requests WHERE user_id=?',),
+            'devices': ('SELECT id,provider,device_id,map,status,consent_at FROM devices WHERE owner=?',),
+            'measurements': ('SELECT m.metric,m.value,m.unit,m.measured_at FROM measurements m JOIN devices d ON d.id=m.connection_id WHERE d.owner=?',),
+            'creatorProfile': ('SELECT data,status,teacher_id,created,updated FROM creator_profiles WHERE user_id=?',),
+            'creatorWorks': ('SELECT id,data,status,reason,version,created,updated FROM creator_works WHERE owner_id=?',),
+            'mySavedCreatorWorks': ('SELECT work_id,action,created FROM creator_actions WHERE visitor=?',),
+            'myFollows': ('SELECT creator_id,created FROM creator_follows WHERE follower_id=?',),
+            'conversations': ('SELECT id,data,created FROM privacy_conversations WHERE user_id=?',),
+            'authorizationHistory': ('SELECT event,data,created FROM privacy_events WHERE user_id=?',),
+            'transferAttempts': ('SELECT provider_id,category,policy_version,created FROM privacy_transfers WHERE user_id=?',),
+            'privacyRequests': ('SELECT id,kind,status,data,created,updated FROM privacy_requests WHERE user_id=?',),
+            'commerceOrders': ('SELECT id,environment,status,payment_status,fulfillment_status,aftersale_status,currency,subtotal_minor,shipping_minor,tax_minor,total_minor,refunded_minor,shipping_address,tracking,created,updated FROM commerce_orders WHERE owner=?',),
+            'commerceOrderItems': ('SELECT i.id,i.order_id,i.sku_id,i.product_id,i.title,i.type,i.quantity,i.price_minor,i.currency,i.content_id,i.price_version,i.refunded_quantity FROM commerce_order_items i JOIN commerce_orders o ON o.id=i.order_id WHERE o.owner=?',),
+            'commerceEntitlements': ('SELECT environment,order_id,item_id,content_id,type,quantity,remaining,status,created,updated FROM commerce_entitlements WHERE owner=?',),
+            'commerceCart': ('SELECT environment,data,updated FROM commerce_carts WHERE owner=?',),
+            'commercePaymentSummary': ('SELECT environment,order_id,kind,amount_minor,currency,items,status,created FROM commerce_payment_events WHERE owner=?',),
+            'commerceAftersaleRequests': ('SELECT id,environment,order_id,reason,quantity,status,created,updated FROM commerce_aftersale_requests WHERE owner=?',),
+            'commerceInventoryEvents': ('SELECT environment,order_id,item_id,sku_id,quantity_delta,reason,created FROM commerce_inventory_events WHERE owner=?',),
+            'afterSalesCases': ('SELECT id,environment,order_id,type,reason,rule_version,state,version,created,updated FROM after_sales_cases WHERE owner=?',),
+            'afterSalesItems': ('SELECT id,case_id,order_item_id,sku_id,type,quantity,received_quantity,restocked_quantity,snapshot_data FROM after_sales_items WHERE owner=?',),
+            'afterSalesActions': ("SELECT id,case_id,kind,json_extract(data,'$.reason') AS reason,json_extract(data,'$.note') AS note,created FROM after_sales_actions WHERE owner=?",),
+            'afterSalesShipments': ('SELECT id,case_id,carrier,tracking_number,created FROM after_sales_shipments WHERE owner=?',),
+            'afterSalesInspections': ('SELECT i.id,i.case_id,i.receipt_reference,i.note,i.created FROM after_sales_inspections i JOIN after_sales_cases c ON c.id=i.case_id WHERE c.owner=?',),
+            'afterSalesReceiptItems': ('SELECT i.id,i.inspection_id,i.case_item_id,i.received_quantity,i.restock_quantity,i.condition,i.created FROM after_sales_inspection_items i JOIN after_sales_items x ON x.id=i.case_item_id WHERE x.owner=?',),
+            'accountLifecycle': ('SELECT status,epoch,closed_at,receipt_id FROM account_lifecycle WHERE owner=?',),
+            'accountClosureReceipts': ('SELECT id,request_id,created,details FROM account_closure_receipts WHERE owner=?',),
+            'membershipSubscriptions': ('SELECT id,environment,group_id,plan_id,plan_version,status,auto_renew,period_start,period_end,grace_end,trial_end,next_charge_at,cancelled_at,version,created,updated FROM membership_subscriptions WHERE owner=?',),
+            'membershipOrderTerms': ('SELECT item_id,environment,order_id,plan_id,plan_version,group_id,data,subscription_id,payment_event_id,period_start,period_end,state,created FROM membership_order_snapshots WHERE owner=?',),
+            'membershipEvents': ('SELECT id,environment,subscription_id,request_id,kind,data,created FROM membership_events WHERE owner=?',),
+            'membershipPurchaseLocks': ('SELECT environment,group_id,order_id,subscription_id,expires FROM membership_purchase_locks WHERE owner=?',),
+            'commissionLedger': ("SELECT id,order_id,item_id,rule_id,rule_version,currency,quantity,refunded_quantity,base_minor,amount_minor,net_minor,status,freeze_until,payment_event,json_extract(data,'$.rule') AS rule_snapshot,json_extract(data,'$.orderItem') AS order_item,created,updated FROM commission_ledger WHERE beneficiary=?",),
+            'commissionAdjustments': ('SELECT id,ledger_id,currency,refunded_quantity,amount_minor,target_minor,status,reason,source_event,created FROM commission_adjustments WHERE beneficiary=?',),
+            'commissionStatements': ('SELECT id,currency,total_minor,status,version,period_from,period_to,created,updated FROM commission_statements WHERE beneficiary=?',),
+            'commissionStatementLines': ('SELECT l.statement_id,l.kind,l.source_id,l.amount_minor FROM commission_statement_lines l JOIN commission_statements s ON s.id=l.statement_id WHERE s.beneficiary=?',),
+            'commissionPaymentSummary': ("SELECT p.id,p.statement_id,p.status,json_extract(p.data,'$.actualPaid') AS actual_paid,json_extract(p.data,'$.proofVerified') AS proof_verified,p.created FROM commission_payments p JOIN commission_statements s ON s.id=p.statement_id WHERE s.beneficiary=?",),
+            'commissionOwnAttributions': ('SELECT id,code,priority,created,valid_until FROM commission_attributions WHERE owner=?',),
+            'commissionOwnInvitations': ('SELECT code,priority,status,valid_until,created FROM commission_invites WHERE beneficiary=?',),
+            'aiGatewayWallet': ('SELECT balance,reserved,updated FROM ai_gateway_wallets WHERE owner=?',),
+            'aiGatewayGrants': ('SELECT request_id,credits,created FROM ai_gateway_grants WHERE owner=?',),
+            'aiGatewayProviderPermissions': ('SELECT provider_id,provider_binding,policy_version,global_revision,categories,revision,created,updated FROM ai_gateway_provider_consents WHERE owner=?',),
+            'aiGatewayRequests': ('SELECT id,request_id,scene,environment,status,cancel_requested,reserve_credits,charged_credits,has_output,output_chars,usage,error_code,created,updated FROM ai_gateway_jobs WHERE owner=?',),
+            'aiGatewayQuotaEvents': ('SELECT job_id,action,credits,rule_version,created FROM ai_gateway_quota_events WHERE owner=?',),
+            'aiGatewayAttempts': ('SELECT job_id,provider_id,model,protocol,status,upstream_request_id,usage,cost_minor,currency,output_chars,error_code,created,updated FROM ai_gateway_attempts WHERE owner=?',),
+        }
+        result = {}
+        with self.store.connect() as db:
+            for name, (sql,) in queries.items():
+                table = sql.split(' FROM ')[1].split()[0]
+                if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone():
+                    result[name] = [dict(r) for r in db.execute(sql, (self.uid,)).fetchall()]
+            result.update(card_privacy_export(db, self.uid))
+            self.store.audit(db, self.uid, 'privacy.export', self.uid, '本人资料导出，不包含凭据或他人私信正文。')
+        return {'schemaVersion': 1, 'accountId': self.uid, 'exportedAt': stamp(), 'serverData': result,
+                'preferences': self.response(), 'exclusions': ['credentials', 'other-users-private-messages', 'full-payment-receipts'],
+                'localDataIncluded': False, 'localDataNote': '本机生辰、命盘、笔记和本机聊天未自动上传；可在本机单独合并导出。'}
+
+    def create_request(self, data):
+        self.rate('privacy-request:' + self.uid, 10)
+        if set(data) - {'kind', 'requestId', 'password', 'renewalAcknowledged'} or data.get('kind') not in KINDS:
+            self.fail(400, '隐私处理类型不正确。')
+        kind, key = data['kind'], data.get('requestId') or str(uuid4())
+        if not isinstance(key, str) or not 8 <= len(key) <= 100:
+            self.fail(400, '请求编号格式不正确。')
+        if kind == 'close-account':
+            password = data.get('password')
+            if not isinstance(password, str) or not 1 <= len(password) <= 128:
+                self.fail(400, '注销申请需要验证本人密码。')
+            stored = self.h.user['password']
+            try:
+                salt = stored.split(':')[0]
+                candidate = salt + ':' + hashlib.pbkdf2_hmac('sha256', password.encode(), bytes.fromhex(salt), 260000).hex()
+                valid = hmac.compare_digest(candidate, stored)
+            except (ValueError, TypeError):
+                valid = False
+            if not valid:
+                self.fail(403, '本人密码验证未通过。')
+            if data.get('renewalAcknowledged') is not True:
+                self.fail(400, '请确认注销申请不会自动取消Apple、Google或其他第三方续费。')
+        cfg = config(self.store)
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            old = db.execute('SELECT * FROM privacy_requests WHERE user_id=? AND request_key=?', (self.uid, key)).fetchone()
+            if old:
+                if old['kind'] != kind:
+                    self.fail(409, '请求编号已用于另一项处理。')
+                return {'item': self.request_item(old)}
+            categories = {'delete-memory': ('memory',), 'delete-conversations': ('general', 'card', 'chart', 'wellbeing'), 'delete-records': ('chart', 'wellbeing', 'card'), 'close-account': ('general', 'card', 'chart', 'wellbeing', 'memory')}[kind]
+            placeholders = ','.join('?' for _ in categories)
+            providers = [r['provider_id'] for r in db.execute('SELECT DISTINCT provider_id FROM privacy_transfers WHERE user_id=? AND category IN (' + placeholders + ')', (self.uid, *categories)).fetchall()]
+            if kind != 'delete-memory':
+                providers = sorted(set(providers) | {r['id'] for r in cfg['recipients']})
+            deleted = {}
+            if kind == 'delete-conversations':
+                deleted['conversations'] = db.execute('DELETE FROM privacy_conversations WHERE user_id=?', (self.uid,)).rowcount
+            elif kind == 'delete-records':
+                db.execute('INSERT INTO privacy_record_epochs VALUES(?,1,?) ON CONFLICT(owner) DO UPDATE SET revision=revision+1,updated=excluded.updated',(self.uid,stamp()))
+                deleted['records'] = db.execute('DELETE FROM records WHERE owner=?', (self.uid,)).rowcount
+                deleted['timeRecords'] = db.execute('DELETE FROM timer_runs WHERE owner=?', (self.uid,)).rowcount
+                deleted['activity'] = db.execute('DELETE FROM activity_daily WHERE user_id=?', (self.uid,)).rowcount
+                deleted['measurements'] = db.execute('DELETE FROM measurements WHERE connection_id IN (SELECT id FROM devices WHERE owner=?)', (self.uid,)).rowcount
+                deleted.update(card_privacy_delete_records(db, self.uid)['deletedCounts'])
+            if kind in ('delete-conversations', 'delete-records'):
+                p = preferences(db, self.uid)
+                db.execute('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET revision=privacy_preferences.revision+1,updated=excluded.updated', (self.uid, dump(p['consents']), p['policyVersion'], p['revision'] + 1, stamp(), p['providerBinding']))
+            if kind == 'close-account':
+                p = preferences(db, self.uid)
+                db.execute('INSERT INTO privacy_preferences(user_id,data,policy_version,revision,updated,provider_binding) VALUES (?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,revision=excluded.revision,updated=excluded.updated', (self.uid, dump(dict.fromkeys(CONSENTS, False)), p['policyVersion'], p['revision'] + 1, stamp(), p['providerBinding']))
+            backup_status = 'not-applicable' if kind == 'delete-memory' else 'pending-confirmation'
+            status = 'pending-review' if kind == 'close-account' else 'pending-provider' if providers else 'completed' if backup_status == 'not-applicable' else 'pending-backup'
+            details = {'local': {'status': 'not-stored' if kind == 'delete-memory' else 'pending-review' if kind == 'close-account' else 'completed', 'deletedCounts': deleted},
+                       'providers': [{'id': p, 'status': 'pending-confirmation'} for p in providers],
+                       'backups': {'status': backup_status, 'retentionDays': cfg['retention']['backupDays']},
+                       'accountClosed': False, 'thirdPartyRenewalCancelled': False,
+                       'localBrowserCleared': False, 'memoryServiceAvailable': False,
+                       'retainedCategories': ['account', 'community-messages', 'published-works', 'commerce-ledger', 'after-sales-ledger', 'commission-ledger', 'ai-request-quota-metadata', 'minimal-daily-card-quota', 'card-timezone-preferences', 'card-record-erasure-epoch'],
+                       'financeRetentionDays': cfg['retention']['financeDays'], 'cardQuotaRetentionDays': None, 'cardQuotaRetentionNotice': '仅保留最小防重额度、时区与删除代际；不保留卡义或感受，期限待确认。'}
+            request_id, created = str(uuid4()), stamp()
+            db.execute('INSERT INTO privacy_requests VALUES (?,?,?,?,?,?,?,?)', (request_id, self.uid, key, kind, status, dump(details), created, created))
+            self.store.audit(db, self.uid, 'privacy.request.' + kind, request_id, '本机浏览器另行操作；备份与供应商状态分别追踪。')
+            row = db.execute('SELECT * FROM privacy_requests WHERE id=?', (request_id,)).fetchone()
+        return {'item': self.request_item(row)}
+
+    def admin(self, method, path):
+        self.h.require(('admin',))
+        if path == '/api/admin/privacy/config':
+            if method == 'GET':
+                return {'config': self.public_config(config(self.store))}
+            if method == 'PATCH':
+                data = self.h.body()
+                clean = self.clean_config(data)
+                with self.store.connect() as db:
+                    db.execute('BEGIN IMMEDIATE')
+                    row = db.execute("SELECT data FROM settings WHERE key='privacy'").fetchone()
+                    old = {**DEFAULT_CONFIG, **(json.loads(row['data']) if row else {})}
+                    if type(data.get('revision')) is not int or data['revision'] != old['revision']:
+                        self.fail(409, '隐私配置已更新，请刷新后重试。')
+                    if old.get('policyVersion') and clean != {k: old.get(k) for k in clean} and clean['policyVersion'] == old['policyVersion']:
+                        self.fail(400, '接收方或数据处理规则变化时必须更新政策版本并重新取得确认。')
+                    clean['revision'] = old['revision'] + 1
+                    db.execute("INSERT INTO settings VALUES ('privacy',?) ON CONFLICT(key) DO UPDATE SET data=excluded.data", (dump(clean),))
+                    self.store.audit(db, self.uid, 'privacy.config', 'privacy', '数据处理配置版本已更新。')
+                return {'config': self.public_config(clean)}
+        if path == '/api/admin/privacy/requests' and method == 'GET':
+            with self.store.connect() as db:
+                rows = db.execute('SELECT * FROM privacy_requests ORDER BY created DESC LIMIT 200').fetchall()
+            return {'items': [dict(self.request_item(r), accountId=r['user_id']) for r in rows]}
+        # Provider/backup evidence requires a real operational workflow. No arbitrary complete toggle.
+        self.fail(404, '未找到隐私管理接口；处理完成须附实际供应商和备份核验证据。')

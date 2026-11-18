@@ -1,0 +1,53 @@
+PR05 本方数据库到期清理执行器：独立准备合同
+
+状态：新模块由root逐模块接入并构建；本作者未直接修改公共入口。最终验收以《负责人优化建议-到期清理-实施记录.json》的不可变快照为准，默认配置仍关闭，未部署生产定时器，不代表真实供应商或备份清理已验收。
+
+独占新源：
+04_研发源码/app/r4/backend/privacy_retention.py
+04_研发源码/app/cloud/lib/privacy-retention.ts
+04_研发源码/app/r4/privacy-retention.js
+04_研发源码/app/r4/privacy-retention.css
+04_研发源码/app/r4/privacy-retention-admin.js
+
+执行与范围：
+默认disabled、仅预览，无启动定时器、没有部署cron，也没有隐含system管理员。现有隐私settings.retention.recordsDays/conversationsDays驱动这两类；新增privacy_retention_config.retentionDays.timer/activity/measurements/cards四个独立可空期限，绝不套用recordsDays。null或非法/未确认期限跳过。管理员须以fresh users.role=admin明确确认当前policyVersion及revision后才能开启；每个实际apply仍需本人或fresh admin明确确认policyVersion与预览版本。额外专项grant不作为管理员资格。
+
+六scope与实际表：
+records → records(owner,kind,day)。
+conversations → privacy_conversations(user_id,id)；同批清理本人ai_gateway_jobs的已关联saved_conversation_id/output_text，写privacy_saved_deletions最小墓碑，旧ID不能复活。
+timer → timer_runs；end_ms非空可按跟踪年龄；end_ms空且fresh数据库时间-last_seen>45000也可按原租约认失活候选。刚心跳/真实运行排除。不调用会写库的timer_snapshot，不补时长、不先写end_ms。
+activity → activity_daily(user_id,day,feature)。
+measurements → 通过devices.owner证明归属的measurements；活跃设备连接不删除。没有归属证明的孤儿行不会猜归属。
+cards → card_draws与本人关联card_draw_actions/card_practice_events/card_draw_requests；保留最小daily quota、timezone和erasure epoch。感受/练习INSERT/UPDATE也重置父draw跟踪时间，不能按旧抽取日误删刚编辑内容。
+
+年龄/并发：
+每类真实INSERT/UPDATE由数据库触发器记录服务器时间、version与随机nonce。records.created只是初始创建时间，明确不用于猜最后编辑时间。安装前旧历史无跟踪→age-unknown默认跳过；本人/admin明确adopt-history才以当前服务器时间作为保护起点，basis=protection-start，不伪称其真实旧编辑时间。预览asOf只由服务器生成，拒绝客户端asOf。固定cutoff=asOf-days，不使用未来客户端日期。
+预览不读取目标正文，只读取目标键/跟踪元数据；新建任务/元数据target不改个人表。每预览最多1000 target并标truncated，单批100。执行在SQLite BEGIN IMMEDIATE或同D1 batch内核policy原文/executor配置/prefs revision/job version；每行再核tracking nonce/version/write_at，且timer再次核fresh45s租约。变更/缺失行跳过。并发同任务旧version不能第二次claim；相同requestId重放原回执。失败同事务回滚claim、删除及version，可用相同requestId恢复。超过1000须重新预览剩余记录，不能声称全量已清。
+
+失效与保留：
+任何本批真实正文删除均prefs revision+1，使旧AI授权引用失效；provider consent global_revision=-1并换nonce；queued/running gateway cancel_requested=1，原quota余额/预留/settle/charged事实不改。仅实际cards删除或闭户才递增卡片erasure epoch；纯会话不会无端取消在途draw。
+独立privacy_record_epochs只在非会话个人scope实际删除时++；纯会话清理不改records epoch。闭户明确清理时++。记录最后写门禁不使用普通consent revision，普通修改偏好不会妨碍保存记录。
+旧privacy delete-records同事务++由接入helper准备；generic records保存同tx/conditional UPSERT核retentionEpoch。epoch0旧客户端可省略；epoch>0缺省或旧值409，不能自动为旧载荷带新epoch重试。GET /api/records与retention state返回recordErasureEpoch。匿名visitor原epoch0保存兼容，不能通过保留cookie关闭账号而降回visitor，后者由closure后续模块门禁处理。
+前端pxSaveRecord调用时clone载荷、actor和清理generation，取epoch后若账号/本机清理generation变化不发。409只告知核对后主动重存；不自动重试。pxApi const未改。清理界面不上传/自动清本机localStorage。列表、迟到响应、旧DOM事件均绑定psToken/psCurrent与operation nonce。
+
+API：
+GET /api/privacy/retention：本人config/六范围期限、recordErasureEpoch、最近30任务和30计数回执，无目标正文。
+POST /api/privacy/retention/preview {requestId,scopes}。
+POST /api/privacy/retention/adopt-history {scopes,confirmed:true,policyVersion}。
+POST /api/privacy/retention/jobs/:id/apply {requestId,version,policyVersion,confirmed:true}。
+GET/PATCH /api/admin/privacy/retention/config；PATCH {enabled,policyVersion,revision,confirmed:true,retentionDays:{timer:null|整数,activity:null|整数,measurements:null|整数,cards:null|整数}}。0天须显式填写，范围0..36500；空白=null。
+admin代办用 /api/admin/privacy/retention/preview、/adopt-history、/jobs/:id/apply，相应POST需明确owner，数据库当前账号必须存在。GET不接受猜测其他owner，无后台全账号正文列表。
+
+账号关闭共享权威函数（不受年龄/期限未知挡住）：
+Python init_schema(db)启动时执行；append_closure_cleanup(db,owner,operation_id,now_ms)只在调用者已有BEGIN IMMEDIATE中执行，不commit，不改session/lifecycle，返回receiptId/replayed/counts/localStatus等。清records/time/activity/本人measurement/card个人正文及全部本人conversation/gateway输出；全consent=false，清policy/binding，prefs+1/provider nonce失效/card epoch+1/records epoch+1，queued/running cancel_requested=1。重复operation_id不再删或升epoch。caller撤销sessions、写account_lifecycle.closed在同事务最后。
+Cloud initPrivacyRetention(a)启动；await closureCleanupStatements(a,owner,operationId,nowMs,guard:{sql,bindings})。guard是服务端可信当前closure receipt claim存在判断，不能接收客户端SQL。返回statements已是a.stmt对象数组，可直接拼原D1 batch；receiptQuery/receiptJSONSql为只读{sql,bindings}。权威表privacy_retention_receipts；query按owner+operation_id，避免重放新candidate ID找不到旧回执。receiptJSONSql="(SELECT details FROM privacy_retention_receipts WHERE owner=? AND operation_id=? AND status='completed')"。每一条mutation都要求本批新nonce且status=claimed；guard未过或重复operation无删除。details保存真实count而无正文。不得从helper外复制清理DELETE。
+
+固定保留：账户骨架、设备连接（政策/期限未确认）、所有commerce/member/commission/after_sales与after_sales_finance_heads/actions/targets/links/reversals、库存/履约、quota/grant/attempt metadata、最小card额度时区epoch、源审计、公开作品与community messages。不做全表owner wildcard删除，不以财务期限配置执行金融台账删除。不称永久合法保留，正式保留政策仍待项目方。
+供应商删除/备份清理均pending-confirmation；本机副本未清。长记忆/向量服务未实现，不能造记忆记录或宣称清理成功。未关联/无法证明归属的历史gateway输出年龄未知，自动scope不猜测；闭户立即清本人所有gateway输出。真实供应商/备份执行连接器、部署调度身份/触发器、生产政策与期限均未验收。
+
+接入：
+06/负责人优化建议-到期清理接入准备.py 默认dry-run；计划JSON锁8共享文件before/after SHA与5新源SHA、18唯一anchor，预计算全部patch，再做Python AST、完整APP/后台JS与TS语法检查。--apply才修改，作者不执行；没有build/启动服务副作用。主route在旧Privacy/generic admin前；schema在现全部相关表后初始化；build新JS在privacy-center后，后台marker注入在现reconciliation后。保留Saved/card/B11/售后guard与原业务分支。旧privacy delete-records只增加独立records epoch，不改金融/原计数回执。
+准备阶段：内存Python、实际TS+D1接口node:sqlite事务适配器、真实新UI functions/listeners VM；它们不是运行Cloudflare或实际浏览器验收。
+06/负责人优化建议-到期清理实际专项.cjs 默认preparedOnly；root接入/build后 --run --target=python 或cloud，随机新SQLite/D1/R2自起服务，不接受--base。四语言/真实字体/截图、六scope、age unknown、编辑/heartbeat、财务额度hash、旧入口/最后写epoch、重放/越权/降权/政策失效。活动依赖只记录Git跟踪backend/lib+显式本模块源/实际build/test，排除其他尚未加载的并行untracked模块。身份guard不禁用。
+
+实际浏览器附加核验：375/430×day/night×四语共16视图，无横溢出、唯一共享返回、bo真实EW Tibetan字体及上下滚动；管理员实际导航点击后aria-current切到retention并取消原dashboard。错误timer夹具从1970起止造成56年展开已改成服务器当前时间前2分钟，保留45秒stale与独立tracking老化；原失败history/探针保留，不改计时公式，不将该夹具失败归因于藏文或SDK。

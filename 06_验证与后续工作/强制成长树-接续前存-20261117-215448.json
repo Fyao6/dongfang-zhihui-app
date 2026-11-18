@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "savedAt": "2026-11-17T20:33:29.0693507+08:00",
+  "officialVerifiedStages": 30,
+  "active": "成长树已实际接入；未知字段安全渲染兼容已修，最终双端60+专项8复验中",
+  "implementationScheduling": "先落地用户强制要求的成长树；既有SVT可靠性内存问题继续排查，未取消也未计通过",
+  "reliability": {
+    "status": "未完成",
+    "cloudSchemaShortLoad": "600/600通过",
+    "cloudSchemaSafety": "8/0通过",
+    "currentRoundFullRegression": "Python60/0，Cloud60/0",
+    "currentRoundOtherPassed": "双端B11各11，抽卡各25；Python导入迁移专项40",
+    "failure": "Cloud导入迁移专项case06完整大批分页出现原生V8 heap out of memory，原失败/bundle/metafile已保存",
+    "completed30MinuteLoad": false,
+    "stage31Frozen": false,
+    "sourceBeforeTree": "负责人优化建议-本地可靠性Cloud候选短诊断源码锚.json",
+    "partialGates": "负责人优化建议-本地可靠性Cloud复验-root六门只读复核.json",
+    "cloudFailurePreservation": "负责人优化建议-本地可靠性Cloud复验-round1-Cloud专项异常保全.json",
+    "boundedCase06": {
+      "reportSHA256": "35db93db0b245675a5f30e38938659cae8eb7ad45fe6fca3e88c2d8a0e5b000e",
+      "diffPages": 301,
+      "ndjsonBytes": 147519734,
+      "diffs": 15009,
+      "outcome": "未复现OOM，CREATE热路径未增加、rawDB/env各1、内存自然回落，原OOM根因未据此认定；原40仍未通过",
+      "pass": "1/0组件，不是40项整套",
+      "report": "负责人优化建议-本地可靠性Cloud个案06-afa51395104c4a249070319244ca2e9a.json",
+      "issues": 23002,
+      "issuePages": 461
+    }
+  },
+  "newRequirements": [
+    {
+      "id": "growth-tree-only",
+      "status": "正在接入",
+      "mandatory": true,
+      "scope": "成长记录只有实际连线树，全部原记录到节点和详情，保留账号隔离，不留旧卡片列表时间轴并列视图",
+      "candidate": "成长树-候选.js"
+    },
+    {
+      "id": "official-site",
+      "status": "本地候选，尚未接入交付",
+      "candidate": "东方智慧官网-候选.html",
+      "candidateViewports": [
+        1440,
+        390,
+        320
+      ],
+      "published": false
+    },
+    {
+      "id": "daily-entry-reminder",
+      "status": "候选准备，尚未接入验收",
+      "candidate": "每日进入提醒-候选.js",
+      "membership": "必须服务端真实资格，测试权益与正式资格区分",
+      "calendar": "LCLunar真实历法，不猜生时或新造吉凶规则"
+    }
+  ],
+  "boundaries": [
+    "未推送、未公开发布、未重打包",
+    "当前正式阶段计数仍30，不能拿候选或未完成压测加完成数",
+    "旧数据库与旧冻结字节不改，新增测试只用自有fresh state"
+  ],
+  "growthIntegration": {
+    "buildRecord": "成长树-兼容修复后稳定构建记录.json",
+    "website": "官网-接入候选.patch已备但未应用；仅/official＋根官网入口，原APP入口保留",
+    "appSHA256": "d2de6af7b8d4af8b9ff844e9aab37fabbf2371d1f3697016f489e5fd37949108",
+    "buildRecordSHA256": "9d6711915bcc8322f4a8713bd494230d927db3a4a2eba184968f45f12fdaacdc",
+    "actualFix": "answerLabel未知项返回plain可读值，HTML输出单次转义，树labels用hasOwn防prototype字段，原数据不改；focused4/0通过",
+    "firstFull": "双端60/0，旧7638构建，原报告保留",
+    "finalVerification": "最终兼容构建双端60和8项专项正在实际复验",
+    "dailyReminder": "每日进入提醒-接入候选.patch正在补所有非敏感深链自动提醒；主动入口只profile/profileSettings，home三快捷与growth不加入口；候选尚未安装",
+    "scheduling": "本轮优先交付强制树状界面，同时继续原可靠性；SVT31未完成，不计通过",
+    "cloudHTMLSHA256": "bc3f6cab4e5329e8db1e0d22b1933587974c8c094e83abf6ae50899b4fe11568",
+    "firstSpecial": "Python7/1，附加unknown字段使独立bodyHistory异常，旧报告和27份字节已保留"
+  }
+}

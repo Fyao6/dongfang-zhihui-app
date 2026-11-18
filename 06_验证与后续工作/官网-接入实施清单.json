@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-11-17T12:08:35.578049+00:00",
+  "status": "prepared-not-applied",
+  "pass": true,
+  "implementationReady": false,
+  "patchApplied": false,
+  "buildExecuted": false,
+  "servicesStarted": false,
+  "publishingPerformed": false,
+  "candidate": {
+    "path": "06_验证与后续工作/东方智慧官网-候选.html",
+    "sha256": "f968f3f609f65934a7cf06ac039db354ad231f884b0b42486618ed49ee2f326e",
+    "privacyPage": "privacyCenter",
+    "contentIsPreview": true
+  },
+  "beforeSourceBytes": {
+    "04_研发源码/app/r4/build.py": {
+      "sha256": "44380fff8259b361742ce3efcdd5c6e454fa9300403f17e70360348a0b193c21",
+      "originalBytes": {
+        "path": "06_验证与后续工作/官网-接入前-00-build.py.txt",
+        "sha256": "44380fff8259b361742ce3efcdd5c6e454fa9300403f17e70360348a0b193c21"
+      }
+    },
+    "04_研发源码/app/cloud/prepare.py": {
+      "sha256": "0d56a0fed2750c4bbda612d375a2708fb87397faa841f62b787da6321ed6402a",
+      "originalBytes": {
+        "path": "06_验证与后续工作/官网-接入前-01-prepare.py.txt",
+        "sha256": "0d56a0fed2750c4bbda612d375a2708fb87397faa841f62b787da6321ed6402a"
+      }
+    },
+    "04_研发源码/app/cloud/worker/index.ts": {
+      "sha256": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979",
+      "originalBytes": {
+        "path": "06_验证与后续工作/官网-接入前-02-index.ts.txt",
+        "sha256": "9b77a149617593b017925ae23b347836a86c4ae02a7c20b4d726d82fcf4c6979"
+      }
+    },
+    "04_研发源码/app/r4/backend/server.py": {
+      "sha256": "11fe8c416d4af0ce12195db08a364664f1b1739074c8cfd48cb3c2c8c399618a",
+      "originalBytes": {
+        "path": "06_验证与后续工作/官网-接入前-03-server.py.txt",
+        "sha256": "11fe8c416d4af0ce12195db08a364664f1b1739074c8cfd48cb3c2c8c399618a"
+      }
+    }
+  },
+  "patch": {
+    "path": "06_验证与后续工作/官网-接入候选.patch",
+    "sha256": "4e80d81f0fec4fae0f0a68d45731fcdd18038f984ab44ebe2d4708f15a6ca3e7"
+  },
+  "proposedSourceAfterSHA256": {
+    "04_研发源码/app/r4/build.py": "a72bea1fca97c9be3ab4eda8485d6c13e374cfc9fc98e821878fcd617a3382c9",
+    "04_研发源码/app/cloud/prepare.py": "0f10e4fa66d9292c92b6d0ef848116624d39ab830599f136717e3b369af3a51e",
+    "04_研发源码/app/cloud/worker/index.ts": "43a8679363e6112e38ea9b2c6ee164a1f2cd23ccaecbbb854202a482215aba56",
+    "04_研发源码/app/r4/backend/server.py": "b9268354f963bf8206ded389b937607739816f5e8919c8f87de5b407fa1c0d33"
+  },
+  "copyStep": {
+    "from": "06_验证与后续工作/东方智慧官网-候选.html",
+    "to": "04_研发源码/app/r4/official-website.html",
+    "expectedCopiedSHA256": "f968f3f609f65934a7cf06ac039db354ad231f884b0b42486618ed49ee2f326e",
+    "candidateRemainsUnchanged": true
+  },
+  "newFiles": [
+    "04_研发源码/app/r4/official-website.html",
+    "03_当前APP/东方智慧-官网.html",
+    "04_研发源码/app/cloud/generated/official.html",
+    "官网.html"
+  ],
+  "minimalRouteChanges": {
+    "python": {
+      "location": "Handler.route fixed files dictionary",
+      "route": "GET /official (trailing slash normalized by existing route)",
+      "file": "03_当前APP/东方智慧-官网.html",
+      "HEAD": "Existing 501 behavior remains; no extension to unrelated methods.",
+      "existingRootAndAppExperience": "unchanged"
+    },
+    "cloud": {
+      "location": "worker/index.ts pages map",
+      "route": "GET or HEAD /official (existing slash normalization)",
+      "import": "generated/official.html?raw",
+      "existingRootAndAppExperience": "unchanged",
+      "securityHeaders": "Existing pages no-store/nosniff/same-origin/noindex headers unchanged."
+    },
+    "rootLocalEntry": "New 官网.html links/redirects to03 official; 打开这里.html and all its original links remain byte-exact."
+  },
+  "applyOrderAfterRootWindow": [
+    "Require growth tree formal full60 and dedicated tests and owner case06 component to finish first.",
+    "Recheck all four exact source hashes and candidate hash before applying; if changed, regenerate this patch against current bytes.",
+    "Copy the exact candidate into existing r4/official-website.html.",
+    "Apply only the four-file diff and add the root 官网.html entry; no directory/project creation.",
+    "Run r4/build.py first, then cloud/prepare.py, then node scripts/run-framework.mjs build. build.py/prepare.py participate in the existing Bazi source manifest, so regenerated APP and manifests must be mutually consistent.",
+    "Verify actual local03 official links and both backend /official routes plus unchanged / /app /experience and privacyCenter target. Do not publish."
+  ],
+  "contentBoundaries": [
+    "Native CSS/SVG and drawn UI remain explicitly illustrative; no fabricated user counts, testimonials, treatment effects, prices or real supplier/payment claims.",
+    "Official page stays separate from the main APP.",
+    "Today/member reminder copy is descriptive candidate content; coordinate actual reminder implementation before describing it as delivered."
+  ],
+  "knownEdgeToReviewBeforeApplication": [
+    "The candidate currently rewrites app links only for exact /official or /official/. Existing backend normalization also accepts multiple trailing slashes; either restrict supported externalURL to the two documented forms or minimally normalize the candidate pathname when applying. No existing product route should be widened to solve this."
+  ],
+  "validationPerformedNow": [
+    "Python AST of the proposed build.py/prepare.py/server.py source text passed without execution.",
+    "Exact fixed route/import source replacements each matched once.",
+    "Four original source files stayed byte-identical after generating this06 patch."
+  ],
+  "currentStableTreeRecord": {
+    "path": "06_验证与后续工作/成长树-最终稳定构建记录.json",
+    "sha256": "7638fe5ac5666753745fe5212e418cc9e91b289c279bad98df38290ac3a48764"
+  },
+  "boundary": "Preparation only in06; no source/build/oldQA/oldreceipt change and no service startup."
+}

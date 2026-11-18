@@ -1,0 +1,37 @@
+{
+  "fixtureVersion": "privacy-domains-synthetic-only-v1",
+  "scope": "Only newly owned SQLite/D1 databases. Fixed seeds and source inspection; no deletion eligibility or receipt computation is mocked.",
+  "bulkLimit": 1200,
+  "serviceInsert": "INSERT INTO service_requests(id,user_id,teacher_id,teacher_name,body,preferred_date,status,created) VALUES(?,?,?,?,?,?,?,?)",
+  "draftInsert": "INSERT INTO creator_works(id,owner_id,data,status,reason,version,created,updated) VALUES(?,?,?,?,?,?,?,?)",
+  "profileInsert": "INSERT INTO creator_profiles(user_id,data,status,teacher_id,created,updated) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,status=excluded.status,teacher_id=excluded.teacher_id,updated=excluded.updated",
+  "domains": {
+    "creatorDrafts": {
+      "table": "creator_works",
+      "owner": "owner_id",
+      "id": "id"
+    },
+    "creatorPrivateProfiles": {
+      "table": "creator_profiles",
+      "owner": "user_id",
+      "id": "user_id"
+    },
+    "serviceRequestContent": {
+      "table": "service_requests",
+      "owner": "user_id",
+      "id": "id"
+    },
+    "privateMedia": {
+      "table": "media",
+      "owner": "owner",
+      "id": "id"
+    }
+  },
+  "canaries": {
+    "body": "PRIVACY_DOMAIN_SYNTHETIC_BODY_CANARY",
+    "otherBody": "PRIVACY_DOMAIN_OTHER_OWNER_CANARY",
+    "unknownBody": "PRIVACY_DOMAIN_UNCLASSIFIED_CANARY",
+    "gatewayOutput": "PRIVACY_DOMAIN_GATEWAY_OUTPUT_CANARY"
+  },
+  "bulkWavBase64": "UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

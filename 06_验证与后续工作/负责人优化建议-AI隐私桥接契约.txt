@@ -1,0 +1,42 @@
+AI网关 全局隐私绑定桥接契约
+
+范围
+新增 backend/privacy_gateway_bridge.py 与 cloud/lib/privacy-gateway-bridge.ts；冻结privacy.py/privacy-api.ts及公共入口尚未修改。视频源、构建、服务与测试均未触碰。
+本桥只决定“全局隐私披露是否已按当前实际处理方确认”。它不建立任何provider receipt，不发请求、不授权资料分类、不改会员或正式额度。
+
+全局绑定
+Python global_binding(cfg, legacy, gateway, legacy_binding=None)
+Cloud globalBinding(cfg, legacy, gateway, actualLegacy?)（异步）
+1. 调用旧actual_binding/actualBinding；若有效，完整原样返回原details和digest。集成点传入原函数，完全保留旧序列化与旧确认行为；gateway配置是否完整不影响有效legacy优先级。
+2. 旧绑定无效时，要求gateway.environment=local-test，四场景chat/chart/course/card的routes完整，取所有非空primary及fallback引用ID去重排序。
+3. 所有引用ID在registry唯一存在；逐个与privacy.recipients同ID匹配：合法HTTPS完整endpoint须raw完全相等，模型列入该接收方models，实际处理地区集合相同，provider.privacyPolicyVersion等于全局policyVersion。无引用、缺披露、重复ID、未知引用、字段/协议不符均fail closed。
+4. details={mode:'gateway-registry',schemaVersion:1,policyVersion,providers:[按providerId排序的必要绑定字段]}。确定性canonical JSON按Unicode码点排序key/地区，UTF-8 SHA-256；不含secretRef、密钥、提示词、额度、内部超时或网关revision。不引用的provider不进入聚合摘要。
+5. 聚合details没有单独providerId；旧客户端不能将它当作legacy出站配置。registry UI需按mode分支展示各provider，并逐个走实际网关receipt确认。
+
+完整本人响应hook
+Python bridge_privacy_response(base, legacy, gateway, legacy_binding=None, account_id=None)
+Cloud bridgePrivacyResponse(base, legacy, gateway, actualLegacy?, accountId?)（异步）
+base为冻结Privacy.response()/GET preferences完整本人结果。helper纯overlay重算disclosure.configured/providerBinding/activeAI、policyAcknowledged、consentEpoch及当前已授权资料类别；不写数据库。最后账号参数可强制匹配当前请求owner。
+供网关独立内存测试注入：Python privacy_response=lambda: bridge_privacy_response(Privacy(...).response(), store.setting('ai'), store.setting('ai_gateway'), actual_binding, owner)；Cloud a.aiGatewayPrivacyResponse()对应异步调用。
+hook不能让冻结的偏好PATCH凭空接受聚合确认；实际应用须执行下述接入脚本，使全局偏好提交和响应采用同一绑定。
+
+接入脚本（根代理在视频门禁结束后执行）
+仅生成计划：
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -B '06_验证与后续工作/负责人优化建议-AI隐私桥接接入.py'
+实际接入：
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -B '06_验证与后续工作/负责人优化建议-AI隐私桥接接入.py' --apply
+
+精确接入位置在06/负责人优化建议-AI隐私桥接接入计划.json逐项列before/after和当前行号、文件前后摘要：
+Python：Privacy.public_config、Privacy.response、偏好PATCH分支共3处，调用global_binding并注入原actual_binding。
+Cloud：preferences response闭包、admin config GET返回、admin config PATCH返回、preferences PATCH绑定共4处，调用globalBinding并注入原actualBinding。
+脚本先验证两文件所有目标位置及旧门禁函数完整保留，全部通过后才写；保留CRLF/LF，再次运行不重复添加。默认不写源码，只有--apply写上述两文件。
+明确不改：actual_binding/actualBinding、authorize_ai/authorizeAI、save_conversation/savePrivacyConversation。这些旧通道发送与保存仍须真实有效legacy绑定，不可借聚合全局确认通过。
+
+逐供应商授权仍是独立条件
+全局偏好只保存global providerBinding。网关个人receipt保存每provider自己的binding、policyVersion、globalRevision、独立nonce和categories；两种binding不能混用。
+global确认不创建个人receipt；A供应商receipt不授权B或fallback，A账号不授权B账号。全局撤回/删除使revision变化，旧receipt无效；重新确认全局也不自动恢复旧receipt。
+
+独立测试
+Python：06/负责人优化建议-AI隐私桥接专项.py；Cloud：06/负责人优化建议-AI隐私桥接专项.cjs。
+先跑Python，再跑Cloud（Cloud独立计算并对比Python的同夹具digest）。现为Python37/37、Cloud38/38；共享29个绑定夹具，以及对精确接入脚本产出的代码在内存执行真实偏好API和网关receipt hook。保存全部runs，不改冻结源字节、不连原数据库、不出站、不做业务构建。
+这些是独立helper及虚拟接入契约证据，不等同实际入口接入、HTTP/UI、双后端60、真实模型、真实SDK、生产额度或公网验收。接入后根代理仍需实际构建和真实隔离门禁。

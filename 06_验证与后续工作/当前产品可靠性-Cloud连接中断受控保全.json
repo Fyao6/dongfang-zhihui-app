@@ -1,0 +1,81 @@
+{
+  "at": "2026-11-17T15:49:57.043419+00:00",
+  "notAcceptance": true,
+  "reason": "真实GET一次ECONNRESET，0失败门禁已不满足，受控停止；原raw17010完整保留，另有1次operator取消不混算真实错误。",
+  "runId": "17f9bd7864d64f7ba270a968238a5ca7",
+  "report": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-17f9bd7864d64f7ba270a968238a5ca7.json",
+    "sha256": "812e762dd15c1dccd4354413ff62c2f99c886faa5ff26b22213a8f1e2d499b41"
+  },
+  "raw": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-17f9bd7864d64f7ba270a968238a5ca7-requests.ndjson",
+    "sha256": "e66d0d54908cbe9fd2af419a82935bcd02cbad6d060ce2705e8af04b41a677db"
+  },
+  "observation": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-cloud-17f9bd7864d64f7ba270a968238a5ca7-service-observation.ndjson",
+    "sha256": "0276fe21429ef5aa67e6ae228897b98cdd39d18268302f5a71faa42507b89ef4"
+  },
+  "partialCompleted": 17010,
+  "partialElapsedSeconds": 850.4703205000002,
+  "partialSummary": {
+    "requests": 17010,
+    "successful": 17008,
+    "failed": 2,
+    "statusCounts": {
+      "200": 17008,
+      "null": 2
+    },
+    "p50Ms": 20.489300000015646,
+    "p95Ms": 30.799400000018068,
+    "p99Ms": 37.94839999999385,
+    "ttfbP95Ms": 30.771499999973457,
+    "ttfbSampleCount": 17008,
+    "ttfbUnavailableCount": 2,
+    "errorCounts": {
+      "ECONNRESET": 1,
+      "OPERATOR_INTERRUPTED": 1
+    },
+    "maxLatencyMs": 163.36040000000503,
+    "p95ScheduleErrorMs": 14.777599999972153,
+    "bytes": 5035892,
+    "percentileMethod": "nearest-rank over every completed request, including HTTP errors and timeouts"
+  },
+  "beforeInterruptionSummary": {
+    "requests": 17009,
+    "successful": 17008,
+    "failed": 1,
+    "statusCounts": {
+      "200": 17008,
+      "null": 1
+    },
+    "p50Ms": 20.49029999994673,
+    "p95Ms": 30.799400000018068,
+    "p99Ms": 37.94839999999385,
+    "ttfbP95Ms": 30.771499999973457,
+    "ttfbSampleCount": 17008,
+    "ttfbUnavailableCount": 1,
+    "errorCounts": {
+      "ECONNRESET": 1
+    },
+    "maxLatencyMs": 163.36040000000503,
+    "p95ScheduleErrorMs": 14.777599999972153,
+    "bytes": 5035892,
+    "percentileMethod": "nearest-rank over every completed request, including HTTP errors and timeouts"
+  },
+  "stopInducedCancellationRows": 1,
+  "cleanup": {
+    "ownedServerPid": 67824,
+    "ownedServerStillAlive": false,
+    "trackedRemainingPids": [],
+    "pidInventoryComplete": true,
+    "privateVarsFilesCreated": 0,
+    "privateVarsRemaining": 0
+  },
+  "sourceIdentityUnchanged": true,
+  "originalDriver": {
+    "path": "06_验证与后续工作/负责人优化建议-当前产品可靠性-登录负载.cjs",
+    "sha256": "f4191a5c62bb236458f45dca1d216c1802efbf9e620a9b2dc1bedf41e146b3bd"
+  },
+  "measurementCaveat": "原driver仅res回调记录req.reusedSocket；无response的错误行false为初值，不能据此认定失败使用新连接。原raw不改。",
+  "thirtyMinuteCompleted": false
+}

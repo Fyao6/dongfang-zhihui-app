@@ -1,0 +1,80 @@
+负责人优化建议 隐私与AI设置模块接口说明
+
+当前为可独立集成源码，尚未修改公共入口、运行构建或执行双后端完整回归。不是模块最终验收，也未配置真实供应商、操作原数据库或发布公网。
+
+新增文件
+04_研发源码/app/r4/backend/privacy.py
+04_研发源码/app/cloud/lib/privacy-api.ts
+04_研发源码/app/r4/privacy-center.js
+04_研发源码/app/r4/privacy-center.css
+
+集成入口
+Python启动迁移调用privacy.init_schema(db)。API前置Privacy(store,handler,ApiError,rate_limit).route(method,path)，非本模块返回None。
+Cloud启动调用initPrivacy(a)；API前置privacyRoute(a,path,method,fail)，非本模块返回undefined。
+前端JS应在frame-kit及业务/账号模块之后、i18n-ui之前加载；CSS加入既有构建列表。screens.privacyCenter已注册。公共“我的”入口、导航active归类和逐级返回父路由由主代理在该模块集成时接入，父页profileSettings。
+
+本人接口
+GET /api/privacy/preferences
+返回6个独立consents、revision、当前policyVersion、providerBinding、consentEpoch、authorizedCategories、accountId、政策说明disclosure、policyAcknowledged和真实memory.available=false/items=[]。
+PATCH /api/privacy/preferences
+JSON：{revision:当前整数,policyVersion:展示版本,acknowledged:true或false,consents:{chart:false,wellbeing:false,saveConversations:false,longTermMemory:false,trainingImprovement:false,marketing:false}}
+各项默认关闭。长期记忆暂无服务，不能开启，不读取旧记忆。训练/营销若未单独填写实际用途，不能预先授权。撤回可在政策资料尚未配置或已变更时执行。acknowledged:false明确撤回总体处理同意，清空policy_version/provider_binding并关闭各项授权；revision/epoch立即失效，不保留旧普通聊天发送许可。开启须有接收方、地区、目的、政策版本与本版本确认。revision防止并发覆盖。
+GET /api/privacy/export
+返回本人账号、个人记录、计时/活动、本人发布、本人发出私信正文、服务申请、设备/测量、创作者本人资料作品、收藏关注、AI会话、授权/传输尝试/处理请求和新交易表允许字段。包含本人明确资料导出所需配送地址。完全排除密码、sessions、密钥、他人发来的私信正文、交易fingerprint及完整付款凭证。二进制素材仅元数据，不内嵌媒体BLOB。原始本机生辰命盘等未上传，不由此服务端接口冒称已导出。
+POST /api/privacy/requests
+JSON：{kind:'delete-memory'|'delete-conversations'|'delete-records'|'close-account',requestId:8至100字符幂等号}
+delete-conversations仅删除服务端已保存AI会话，社群私信属于不同域，不在此按钮清除。
+delete-records清除本人records、timer_runs、activity_daily、本人设备测量；账号、社群私信、已发布作品及交易账本分别保留。财务期限未确认时如实返回null，不自行编造保留期限。
+delete-memory无实际记忆服务时返回not-stored，未伪造记忆条目。
+close-account还需password及renewalAcknowledged:true，按各后端真实密码算法验证本人，创建pending-review任务、撤回全部可选授权并阻止后续AI出站。账号仍开放，不能声称已注销；Apple/Google等第三方续费不会自动取消。
+GET /api/privacy/requests
+仅本人请求，返回当前存储、供应商、备份各自状态。当前存储删除不能冒充全链路删除。存在已记录或当前配置供应商时保持pending-provider；备份未核实保持pending-backup。注销需后续真实运营处理。未提供任意“标记已完成”接口，避免无供应商/备份证据关闭任务。
+
+管理员配置
+GET/PATCH /api/admin/privacy/config，仅admin。
+配置为policyVersion、controllerName、contact、recipients、retention、purposeDetails、revision。
+recipients逐个包含id、name、HTTPS endpoint、models允许模型数组、regions数组、purpose、HTTPS policyUrl、retentionDays（未确认null）、deletionSupported布尔。不可填写密钥或用户数据。
+服务端setting('ai')的providerId、endpoint、model、processingRegions数组、privacyPolicyVersion必须与所选接收方清单和全局policyVersion真实匹配。只有接收方清单完整但没有实际服务端绑定时，configured仍为false，不能确认或开启授权。这不表示AI凭据和真实连接已完成。
+retention完整列recordsDays、conversationsDays、backupDays、financeDays，未确认均null；purposeDetails逐项列trainingImprovement及marketing的实际用途，未确认空字符串。
+接收方/地区/数据用途等改变必须更新政策版本，旧确认不会授权新版本。
+GET /api/admin/privacy/requests，仅admin，只列请求元数据及处理状态。
+当前后台界面尚未由本独立模块修改；配置可通过上述受保护接口完成，主代理可在集成模块中接入实际后台编辑器。
+
+AI出站门禁
+Python authorize_ai(store,user,data,Error,provider_id=None,ai_config=None) -> 净化后的context或None。
+Cloud authorizeAI(a,data,fail,providerId?,aiConfig?) -> 同。
+参数保留默认值仅为返回明确错误：实际调用providerId与服务端AI配置快照均必须传入，缺少任何一项即阻断。即使接收方清单恰好一项也绝不自动推断。
+调用方先读取一份服务端ai配置，传给门禁并在通过后使用同一个对象执行出站，不能校验后再次读取配置选择另一个端点。门禁同时与当前服务端设置比对供应商、完整端点、模型、处理地区、政策版本。客户端不能指定端点替代服务端配置。
+本人确认保存在privacy_preferences.provider_binding；端点、模型或地区变化即使仍属清单候选也使旧确认失效。初版5字段偏好表升级会补充空binding，不沿用未绑定的旧确认。
+记录privacy_transfers为尝试元数据，不声称供应商已经收到。该接口是现有单通道门禁，未把AI03双模型网关写成已完成。后续双模型须按服务器provider registry选定快照和对应授权回执，不能靠来回修改全局ai选择供应商。
+普通聊天无额外命盘/身体授权需求，但需要当前供应商处理说明已配置且用户确认本版本。
+context只接受{category:'chart'|'wellbeing'|'card'|'general',fields:{允许字段}}。
+chart：chartType,date,time,gender,pillars,palaces,bodies,aspects,summary。
+wellbeing：sleep,energy,stress,comfort,mood,note。
+card：cardId,meaning。general：question。
+字段值仅文字/数值/布尔/null或最多100个上述标量的列表，不接受嵌套个人档案，整份最多6000字符。账号名称/手机邮箱/私信/订单/地址等不在允许字段内。
+长期记忆memory/memoryIds/useMemory一律拒绝。无真实长期记忆读写服务，不声称记忆管理已全面建成。
+旧ssInterpret会将报告rows直接拼进messages，集成时须改为显式category/fields，在授权前不能先存/发敏感全文。历史自动附加消息须标记类别并在撤回后过滤，不能只移除context却继续发送旧报告全文。
+Python save_conversation(store,user_id,messages)、Cloud savePrivacyConversation(a,userId,messages)为可选真实会话保存钩子，只有独立保存授权开启且政策版本仍一致才存储。
+
+前端持久化钩子
+privacyBeforeAI(context)会先读取本人当前授权并检查政策/所选类别；返回{context,consentEpoch,policyVersion,providerId,providerBinding,authorizedCategories,accountId}，不再只返回context。不请求真实模型，不自动上传本机档案。
+privacyAIHistory(messages,authorization,token)只保留message.privacy标签完全匹配的当前授权历史；标签为{accountId,consentEpoch,providerId,providerBinding,policyVersion,source:'user'|'assistant'|'report',category:'general'|'card'|'chart'|'wellbeing'}。旧无标签历史仅显示，不自动发送。自动报告不能标为general；回答也须继承本轮敏感类别。返回带privacy标签的{role,content,privacy}列表，由服务端再次核验后再构造供应商只含role/content的输入。
+consentEpoch由偏好revision、政策版本和实际供应商绑定摘要组成；任一授权变更、政策变更或端点/模型/地区变更后旧history均不能再自动发送。晚到响应仍须同时校验psToken与本轮授权epoch，不写入新账号或新授权会话。
+privacyConversationSaveAllowed()返回本账号当前是否允许保存新会话。
+privacyConversationForStorage(currentAI)在保存关闭时返回该账号原先已保存AI会话；不把新会话写入磁盘，也不自动删除旧会话。主代理应在psSnapshot里克隆support对象后使用本函数设置ai，不能直接改运行中state。window.ewPrivacyReady用于初始加载兼容。
+明确清除本机聊天时通过ewPrivacyExplicitErase短期标记，避免保留逻辑将旧聊天回填。
+本机清除/导出只访问当前psToken.scope对应的已知key，所有异步回写由psCurrent校验。清除记录同时清空state.answers，避免hasAnswers=false只隐藏但仍把旧自评写入storage。未登录、离线、失败重试均有真实界面。所有新增UI提供简繁英藏显式文案，藏文仍需母语审校。
+本机合并导出仅在用户勾选后于浏览器生成JSON，不上传这些资料。默认服务端导出不含本机部分。其他账号key与他人私信不会混入。
+
+已执行的独立检查
+Python AST解析与JS node --check通过；Cloud privacy-api.ts独立tsc --noEmit通过。
+负责人优化建议-隐私模块隔离自检.py：44项内存数据库契约检查通过，包括默认关闭、未配披露阻断、实际供应商参数和快照必填、端点/模型/地区/政策绑定及变更阻断、旧history/错误来源标签拒绝、分项授权、撤回总体同意清空回执并阻断普通聊天、嵌套/多余字段阻断、导出隔离、12交易表查询兼容、删除幂等与账号隔离、供应商/备份待核实、密码及真实待处理注销。
+负责人优化建议-隐私前端隔离自检.cjs：21项合成VM检查通过，包括初始化不删数据、本机导出不混账号/他人私信、新会话保存开关、明确清空、旧自评删除、history仅当前授权标签通过、撤回总体同意后前端也停止发送、撤回后旧history排除、切账号令牌失效、四语页面输出。
+这些检查不连接网络、不读取原数据库、不等同真实浏览器、实机或双后端完整回归。全量门禁由主代理在本模块实际集成后执行，不能借用交易模块或旧结果宣称通过。
+
+仍须真实闭环
+供应商实际数据协议、处理地区、接收方政策、保存天数及备份清理周期未提供；不预填生产承诺。
+供应商删除、备份清理与账号正式注销需要实际运营能力和证据；目前提供真实待处理记录，不伪造完成。
+长期记忆不存在时仅显示未启用；未来真实实现后仍需本人查看/编辑/单条删除和清理向量/缓存的专项，不能把空列表当已完成长期记忆能力。
+单条AI会话删除尚需在真实会话列表界面落地；当前提供本人导出及整类清空接口。真实AI、原公网发布及资源采购未执行。

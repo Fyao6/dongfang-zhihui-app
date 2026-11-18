@@ -1,0 +1,109 @@
+{
+  "at": "2026-11-17T07:53:54.279Z",
+  "status": "aborted-load-error-and-timeline-clarification",
+  "runId": "77ae6ba7f11a449f8bddd78bbe32501c",
+  "rawSha256": "d386aaec52f9beac81625171bfd03f8bb0728527c3e0a50c10cbf6fb413b0dc1",
+  "rawBytes": 2991833,
+  "abortedPreservationSHA256": "999bbbf249dd6cc1d18880571967e680ea3acbcb46306b162b4b7e38023e286c",
+  "lastActualPreStopDriverProgress": {
+    "elapsedSeconds": 392.0844114,
+    "scheduled": 7842,
+    "completed": 7798,
+    "inflight": 44,
+    "peakInflight": 173,
+    "source": "Actual buffered original exec stdout; emitted before forced termination"
+  },
+  "definitelyBeforeLastPreStopProgress": {
+    "rows": 7798,
+    "statusCounts": {
+      "200": 575,
+      "null": 7223
+    },
+    "errorCounts": {
+      "ECONNREFUSED": 5381,
+      "REQUEST_TIMEOUT": 1842
+    },
+    "firstDispatchSeconds": 0.00035310000000754373,
+    "lastCompletionHorizonSeconds": 392.0762025000001
+  },
+  "tailAfterThatProgress": {
+    "rows": 231,
+    "statusCounts": {
+      "200": 23,
+      "null": 208
+    },
+    "errorCounts": {
+      "ECONNREFUSED": 166,
+      "REQUEST_TIMEOUT": 42
+    },
+    "firstDispatchSeconds": 382.22659500000003,
+    "lastCompletionHorizonSeconds": 404.0237184999999,
+    "relationToPhysicalServiceStop": "unknown per row; may include both pre-stop and stop-induced failures. Do not label the whole tail post-stop."
+  },
+  "rootEarlier3749PrefixRecomputedFromActualRaw": {
+    "rows": 3749,
+    "statusCounts": {
+      "200": 268,
+      "null": 3481
+    },
+    "errorCounts": {
+      "ECONNREFUSED": 2505,
+      "REQUEST_TIMEOUT": 976
+    },
+    "firstDispatchSeconds": 0.00035310000000754373,
+    "lastCompletionHorizonSeconds": 190.32986739999998
+  },
+  "overall": {
+    "rows": 8029,
+    "statusCounts": {
+      "200": 598,
+      "null": 7431
+    },
+    "errorCounts": {
+      "ECONNREFUSED": 5547,
+      "REQUEST_TIMEOUT": 1884
+    },
+    "firstDispatchSeconds": 0.00035310000000754373,
+    "lastCompletionHorizonSeconds": 404.0237184999999
+  },
+  "firstRequestTimeout": {
+    "completionOrderIndex": 116,
+    "requestIndex": 12,
+    "dispatchSeconds": 0.604388799999957,
+    "observedCompletionSeconds": 10.712196399999957,
+    "error": "REQUEST_TIMEOUT",
+    "status": null
+  },
+  "firstConnectionRefused": {
+    "completionOrderIndex": 31,
+    "requestIndex": 117,
+    "dispatchSeconds": 6.447049200000008,
+    "observedCompletionSeconds": 7.206433299999975,
+    "error": "ECONNREFUSED",
+    "status": null
+  },
+  "physicalStop": {
+    "recordedBeforeStopProcessUtc": "2026-11-17T07:46:07.9931705+00:00",
+    "method": "Stop-Process -Force service first then driver",
+    "servicePid": 24732,
+    "driverPid": 53840,
+    "exactPerRequestUtcAndStopMonotonicUnavailable": true,
+    "normalSigintOrFinally": false
+  },
+  "stderr": {
+    "captured": false,
+    "reconstructable": false,
+    "reason": "Original helper attached child.stderr data handler that discarded bytes; no retained service stderr file. No server exception or crash reason is inferred."
+  },
+  "interpretation": [
+    "status=null means no HTTP response status was observed, not automatically a timeout.",
+    "REQUEST_TIMEOUT and ECONNREFUSED are distinct actual client errors.",
+    "The first 7798 completion-order rows precede the actual last progress line, safely before the authorized forced-stop operation.",
+    "No exact UTC measurement-start marker or stop monotonic marker was persisted; tail pre/post stop classification cannot be invented."
+  ],
+  "thirtyMinuteCompleted": false,
+  "planned36000Completed": false,
+  "sourceOrOriginalFinalReportModified": false,
+  "formalAcceptance": false,
+  "productionEnabled": false
+}

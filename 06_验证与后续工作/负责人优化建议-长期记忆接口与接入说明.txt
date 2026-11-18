@@ -1,0 +1,66 @@
+PR03 本人主动维护的长期记忆：接口与接入说明
+
+编写时点为独立准备阶段。Python、Cloud新源与独立专项不是已接入的APP，也不证明真实模型联调。最终集成、构建、双端回归、实际HTTP/浏览器和视觉状态，以同名前缀的冻结实施记录为准。此文件不作为生产启用收据。
+
+需求依据与范围
+负责人原文P208—P210要求会话保存和长期记忆分别设置，记忆默认关闭，开启后可查看、修改、清除。P220要求关闭后新对话不读取既有记忆，撤回阻止后续调用。P221及P226要求删除、导出及真实行为验收。
+本模块只保存本人主动填写的条目。没有从旧聊天自动提炼、后台静默注入、自动训练、营销推断或向量检索。类别为general/card/chart/wellbeing。它不计算四柱、不变更老师规则，也不把用户记忆当作确定性排盘事实。
+唯一开关是既有privacy_preferences.consents.longTermMemory。memory_state仅存独立epoch，不另设第二份enabled。开关由既有隐私授权PATCH处理，须遵守当前政策和实际供应商绑定的确认规则，不自动代填同意。
+关闭后仍可由本人查看、修改、删除、清空或导出已保存条目。新增与用于AI需要当前隐私说明已确认及记忆明确开启。类别还须遵守命盘/身体情绪的对应授权。管理员没有因此获得浏览他人记忆正文的接口。
+
+数据与边界
+memory_entries保存本人条目的category、title、text、version和服务器时间。memory_actions记录幂等操作和最小回执，memory_tombstones防止已删除ID重建。memory_provider_consents记录实际供应商的额外记忆授权。memory_cleanup_receipts记录清理事实。
+memory_job_bindings只保存已接受job的选择ID/版本、epoch、授权绑定、原请求摘要和上下文字符数，不保存展开的记忆正文。摘要仍是与本人关联的元数据，不称匿名数据。
+当前工程上限为100条、标题80字符、单条正文2000字符；每次明确选1—5条。展开后的记忆与本次资料合计不得超过既有6000字符上下文预算。这些是输入保护上限，不是模型token报价或已批准的生产保存期限。
+新增、编辑、删除的requestId须8—100位，memoryEpoch和expectedVersion须正确整数。相同requestId及同语义操作重放原回执，变更载荷冲突；旧epoch或条目旧版本拒绝，不能自动换新版本重试旧载荷。
+普通未选择记忆的对话不查询记忆条目，也不因纯记忆epoch变化无端改动普通记录、抽卡或已保存会话。
+
+本人接口
+GET /api/memory：本人条目元数据列表及settings；列表不把正文自动送进AI。
+GET /api/memory/settings：accountId、enabled、memoryEpoch、已存数量、当前隐私版本、providerBinding、privacyRevision及工程上限。
+GET /api/memory/items/:id：本人主动查看一条正文，其他账号同ID不可读取。
+POST /api/memory：{requestId,memoryEpoch,category,title,text}。
+PATCH /api/memory/items/:id：{requestId,memoryEpoch,expectedVersion,category,title,text}。
+POST /api/memory/items/:id/delete：{requestId,memoryEpoch,expectedVersion,confirmed:true}。
+POST /api/memory/clear：{requestId,memoryEpoch,confirmed:true}。
+GET /api/memory/export：本人完整条目及当前settings；供应商和备份删除确认仍为false。
+未知字段拒绝。owner由当前登录账号决定，不接受客户端指定他人owner。普通运营、其他用户及已关闭账号没有替代访问权限。
+
+实际供应商的额外记忆授权
+GET /api/memory/providers：当前已披露接收方与基础授权快照、memoryAcknowledged及阻断原因。
+POST /api/memory/providers/:providerId/consent：{requestId,acknowledged:true,providerBinding,policyVersion,globalRevision,memoryEpoch}。
+DELETE /api/memory/providers/:providerId/consent：{requestId}。
+网关使用记忆须同时满足当前全局记忆开关、条目类别授权、该实际供应商的基础receipt和额外记忆receipt。备用供应商也须分别具备这些授权，不能从主供应商继承。
+旧legacy AI通路仍限当前实际provider/endpoint/model/regions/policy绑定，另须记忆开启和所选类别授权；不按供应商数量猜测接收方。此处不改变已接入的服务端secretRef解析或拒绝重定向保护。
+撤回使记忆授权代次失效，并取消涉及记忆的排队/进行中job。重复撤回同key不重复推进代次。已发给第三方的资料不能靠本地撤回宣称远程擦除完成。
+
+新对话的显式选择
+请求只接受memorySelection:{memoryEpoch,items:[{id,version}]}作为选择信息，不接受客户端直接提交一份旧记忆正文充当服务端读取结果。
+服务器重新读取本人指定版本的条目，校验当前授权与真实接收方后生成只读数据快照。它是用户提供的资料，不作系统指令，不发送owner、条目ID或内部授权nonce。
+Python prepare_ai_memory/check_ai_memory/memory_save_guard与Cloud prepareAIMemory/checkAIMemory/memorySaveGuard负责准备、重新核验和最终SQL条件。nonce用于授权失效，不进入对话语义指纹。
+展开的正文计入语义指纹、实际输入字符统计与6000字符预算。当前网关沿用既有固定credit规则，不在此新增按字符或token收费规则，真实上游usage与成本状态仍分别保留。
+创建job和开始stream均重读版本并核相同语义；发送、切换备用、流式事件及最终保存应接入相同检查。删除、关闭、撤回或配置变化后，旧快照不能继续发送或迟到落库。
+已存在job的同请求重放只使用最小原请求摘要核对并返回既存job状态，不读取已删除条目、不重新调用模型、不重复预占或扣额，也不返回旧正文。新的requestId带旧epoch仍拒绝。
+使用记忆产生的历史应带独立来源信息，保留查看与再次发送的区别。旧记忆历史不能因为仍在页面上就被自动恢复到新对话。
+
+删除、关闭与到期联动
+Python memory_cleanup_statements/append_memory_cleanup与Cloud memoryCleanupStatements为权威清理合同，必须在调用者已有事务或同一D1 batch内执行；函数本身不提交外层事务。
+reason只允许delete-memory、close-account或retention。retention必须传入已明确选中的id/version目标，逐项再核；不接受owner全表通配删除。
+纯记忆清理只删除对应memory_entries、写无正文tombstone/回执、失效memory epoch和有关供应商授权、取消相关job。它不删除保存会话，不推进generic record/card epoch，不改金融、库存、额度结算或公开内容。
+旧delete-memory入口、账号关闭、本人导出及到期清理须接同一权威合同，不能继续返回“记忆未存储”冒充执行。账号关闭的个人资料总范围仍以已列六类、AI输出及新增记忆为限，不能宣称其它未核对的数据域全部擦除。
+记忆期限独立memoryRetentionDays，默认null。未确认期限跳过，不套recordsDays或conversationsDays。服务器跟踪、固定预览时点、版本和最后写入复核仍须沿用到期清理门禁；编辑后不能按旧日期误删。
+供应商、备份、向量服务分别记录pending-confirmation或not-implemented。没有向量服务就不造向量记录，没有实际删除连接器就不签第三方清除完成。此前已冻结回执中的“service-not-implemented”是历史时点，不回写。
+
+集成与验收责任
+编写时尚未接入共享入口。精确helper由模块作者在所有锚点预计算、AST/JS/TS检查及原字节备份后再交root执行，不能在原库自动迁移或自行启动服务。
+需要接入的实际点包括privacy默认关闭/开启校验与状态、记忆CRUD路由、当前服务端schema、legacy发送及最终保存、gateway create/stream/备用/最终保存、选择UI与记忆历史来源、旧delete-memory/导出、closure和retention。仅接CRUD不能宣称长期记忆已完成。
+独立SQLite与TS/D1内存测试只证明独立函数；实际验收必须在最终集成源码/APP/admin/Cloud/worker/测试与真实字体身份一致时，使用自有随机SQLite/D1状态和本机合成账号，配套双端全量与专项。
+重点验收：默认关闭、拒绝/撤回、不选择不读取、跨账号/旧版本拒绝、类别AND与供应商额外授权、备用接收方、超预算不预占、删除后重试不复活、进行中请求的最终保存门禁、清空/关闭/到期独立作用域、本人导出、原金融额度事实不变，以及四语和窄屏真实操作。
+未接真实模型、受托商、生产部署或专业译审时，应分别保留待验证状态。最终record预留：负责人优化建议-长期记忆-实施记录.json。
+
+精确接入锚点、最终exports与实际验收文件：待模块作者完成helper后补充。此段不等于已经接入。
+
+
+恢复开发后的实现与验证
+PR03 已直接接入现有 Python、Cloud 与 APP 源码入口，旧接入准备脚本保留作历史。本人可从“我的 → 设置 → 隐私设置 → 长期记忆”进入，也可在登录后的 AI 对话页为下一条请求选择记忆。记忆与会话保存分别设置。保存期限取当前到期清理配置的 retentionDays.memory，期限未确认时跳过该类到期清理。
+在独立 SQLite / D1 上运行双端全量各 60 项及实际专项各 10 项。实际专项运行真实 HTTP、SSE、浏览器和服务端数据处理。模型调用由本机合成传输接收。报告、源代码与构建 SHA-256 见同目录“负责人优化建议-长期记忆-实施记录.json”。原阶段报告和 8881 预览快照仍可按交接记录核验。

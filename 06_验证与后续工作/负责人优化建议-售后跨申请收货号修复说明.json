@@ -1,0 +1,44 @@
+{
+  "at": "2026-11-12T15:53:21.385767+00:00",
+  "scope": "prepared new module only",
+  "finding": "同原订单拆case复用receiptReference可使同批次重复入库，旧原购数量上限不能区分同批实收",
+  "fix": "在after_sales_inspection_check的BEFORE INSERT内按原订单关联检查receiptReference，保持原事务/D1 batch原子回滚",
+  "concurrentResult": [
+    200,
+    409
+  ],
+  "stockDelta": 1,
+  "serialDifferentRequestSameReference": 409,
+  "moneyAndFulfillmentUnchanged": true,
+  "evidence": {
+    "python": {
+      "failedReproductions": [
+        {
+          "name": "same original order receipt cannot be counted across two cases: concurrent and serial replay leave one stock event",
+          "error": "AssertionError([{'status': 200, 'data': {'item': {'id': '70645531-b54e-403a-b9d2-60d0376e61e7', 'ownerId': 'buyer', 'environment': 'sandbox', 'sandboxOnly': True, 'productionEnabled': False, 'orderId': '9bd442d2-8688-4fe8-bac9-8b302800336d', 'type': 'return', 'reason': '合成申请理由', 'ruleVersion': 'sandbox-fixture-v1', 'status': 'received', 'version': 4, 'items': [{'id': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'itemId': '0a52a4d6-75cf-4eb9-8d52-7c3e24024246', 'skuId': '226a2981-f16a-475d-88a6-3c5d22cd0436', 'type': 'physical', 'quantity': 1, 'receivedQuantity': 1, 'restockedQuantity': 1, 'snapshot': {'currency': 'USD', 'priceMinor': 1000, 'priceVersion': 1, 'terms': {}, 'title': '沙箱合成商品', 'type': 'physical'}, 'originalQuantity': 2, 'orderItemRefundedQuantity': 0}], 'shipments': [{'id': '05f0f4a0-5c86-4367-b7f9-222b62b5a891', 'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-96e08024-4d3d-4239-819e-95c078b91642', 'created': 1794498453986, 'carrierVerified': False}], 'inspections': [{'id': '4632fc9d-d364-4024-b9bb-4a7ddc8be124', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'note': 'Same physical receipt must never be counted twice across cases', 'created': 1794498454059, 'items': [{'id': 'f611a2aa-f01c-4f5d-9f0f-80c9524f9c6d', 'caseItemId': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'receivedQuantity': 1, 'restockQuantity': 1, 'condition': 'synthetic resalable', 'inventoryEventId': 'after-sales:f611a2aa-f01c-4f5d-9f0f-80c9524f9c6d'}]}], 'history': [{'id': '1ba0c422-196c-4a08-b69d-1fe2ce7a3360', 'actorId': 'buyer', 'kind': 'submit', 'data': {'reason': '合成申请理由'}, 'created': 1794498453963}, {'id': '2983b35f-40aa-4367-a5cd-78721f8da4e0', 'actorId': 'admin', 'kind': 'accept', 'data': {'reason': '合成受理说明', 'version': 1}, 'created': 1794498453976}, {'id': '05f0f4a0-5c86-4367-b7f9-222b62b5a891', 'actorId': 'buyer', 'kind': 'return-shipping', 'data': {'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-96e08024-4d3d-4239-819e-95c078b91642', 'version': 2}, 'created': 1794498453986}, {'id': '4632fc9d-d364-4024-b9bb-4a7ddc8be124', 'actorId': 'admin', 'kind': 'inspect', 'data': {'items': [{'caseItemId': '324a38eb-b34f-4446-8776-29b2b96b35ba', 'condition': 'synthetic resalable', 'receivedQuantity': 1, 'restockQuantity': 1}], 'note': 'Same physical receipt must never be counted twice across cases', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'version': 3}, 'created': 1794498454059}], 'created': 1794498453963, 'updated': 1794498454059, 'money': {'source': 'original-commerce-payment-events', 'caseRefundLinked': False, 'caseRefundConfirmed': False, 'actualFundsMoved': False, 'orderPaymentStatus': 'paid', 'orderFulfillmentStatus': 'delivered', 'currency': 'USD', 'orderTotalMinor': 2024, 'orderRefundedMinor': 0, 'events': [{'id': '8e890596-09ba-4c1c-800a-6763cfaf9079', 'kind': 'sandbox_pay', 'amountMinor': 2024, 'currency': 'USD', 'items': [], 'status': 'applied', 'created': 1794498453936}], 'notice': '仅原统一订单的累计沙箱退款事实，不代表本售后申请已退款或真实到账。'}}, 'replayed': False}}, {'status': 200, 'data': {'item': {'id': '78e93f2b-b157-4709-b7af-6fad7f9b7255', 'ownerId': 'buyer', 'environment': 'sandbox', 'sandboxOnly': True, 'productionEnabled': False, 'orderId': '9bd442d2-8688-4fe8-bac9-8b302800336d', 'type': 'return', 'reason': '合成申请理由', 'ruleVersion': 'sandbox-fixture-v1', 'status': 'received', 'version': 4, 'items': [{'id': 'ec4c2429-968e-454b-a72b-795d6e244376', 'itemId': '0a52a4d6-75cf-4eb9-8d52-7c3e24024246', 'skuId': '226a2981-f16a-475d-88a6-3c5d22cd0436', 'type': 'physical', 'quantity': 1, 'receivedQuantity': 1, 'restockedQuantity': 1, 'snapshot': {'currency': 'USD', 'priceMinor': 1000, 'priceVersion': 1, 'terms': {}, 'title': '沙箱合成商品', 'type': 'physical'}, 'originalQuantity': 2, 'orderItemRefundedQuantity': 0}], 'shipments': [{'id': 'b6e8b7dd-bba2-4cb1-bed3-e17824a52265', 'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-c1fb63d1-d523-454e-a9af-d402b24e8519', 'created': 1794498454021, 'carrierVerified': False}], 'inspections': [{'id': '6b9849cc-6140-4e60-b277-f7bc5e6efe53', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'note': 'Same physical receipt must never be counted twice across cases', 'created': 1794498454040, 'items': [{'id': '36b6ea49-88e6-4e41-9098-2e5d530964a0', 'caseItemId': 'ec4c2429-968e-454b-a72b-795d6e244376', 'receivedQuantity': 1, 'restockQuantity': 1, 'condition': 'synthetic resalable', 'inventoryEventId': 'after-sales:36b6ea49-88e6-4e41-9098-2e5d530964a0'}]}], 'history': [{'id': '8ff78e77-4274-4c01-af55-79935e9a3e60', 'actorId': 'buyer', 'kind': 'submit', 'data': {'reason': '合成申请理由'}, 'created': 1794498453998}, {'id': 'dad6d5e3-e13b-4a4a-ac93-205716dc6457', 'actorId': 'admin', 'kind': 'accept', 'data': {'reason': '合成受理说明', 'version': 1}, 'created': 1794498454011}, {'id': 'b6e8b7dd-bba2-4cb1-bed3-e17824a52265', 'actorId': 'buyer', 'kind': 'return-shipping', 'data': {'carrier': 'sandbox-return-carrier', 'trackingNumber': 'RETURN-c1fb63d1-d523-454e-a9af-d402b24e8519', 'version': 2}, 'created': 1794498454021}, {'id': '6b9849cc-6140-4e60-b277-f7bc5e6efe53', 'actorId': 'admin', 'kind': 'inspect', 'data': {'items': [{'caseItemId': 'ec4c2429-968e-454b-a72b-795d6e244376', 'condition': 'synthetic resalable', 'receivedQuantity': 1, 'restockQuantity': 1}], 'note': 'Same physical receipt must never be counted twice across cases', 'receiptReference': 'SAME-ORDER-c8e37f1d-991d-4d90-8a22-7b7f3208d0ff', 'version': 3}, 'created': 1794498454040}], 'created': 1794498453998, 'updated': 1794498454040, 'money': {'source': 'original-commerce-payment-events', 'caseRefundLinked': False, 'caseRefundConfirmed': False, 'actualFundsMoved': False, 'orderPaymentStatus': 'paid', 'orderFulfillmentStatus': 'delivered', 'currency': 'USD', 'orderTotalMinor': 2024, 'orderRefundedMinor': 0, 'events': [{'id': '8e890596-09ba-4c1c-800a-6763cfaf9079', 'kind': 'sandbox_pay', 'amountMinor': 2024, 'currency': 'USD', 'items': [], 'status': 'applied', 'created': 1794498453936}], 'notice': '仅原统一订单的累计沙箱退款事实，不代表本售后申请已退款或真实到账。'}}, 'replayed': False}}])",
+          "ownedDatabase": "06_验证与后续工作\\负责人优化建议-售后隔离-80443668-9819-47d7-af86-a9943ad37db7.sqlite3"
+        }
+      ],
+      "finalPassed": 22,
+      "report": "负责人优化建议-售后Python隔离专项.json"
+    },
+    "cloud": {
+      "failedReproductions": [
+        {
+          "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    200,\n+   200\n-   409\n  ]\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:154:11\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:45:51)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:148:2",
+          "ownedDatabase": null
+        },
+        {
+          "name": "same original order receipt across two cases is atomic and cannot be reused under another request",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    200,\n+   200\n-   409\n  ]\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:154:11\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:45:51)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后Cloud内存专项.cjs:148:2",
+          "ownedDatabase": null
+        }
+      ],
+      "finalPassed": 23,
+      "report": "负责人优化建议-售后Cloud内存专项.json"
+    }
+  },
+  "externalCarrierVerified": false,
+  "publicIntegrationApplied": false
+}

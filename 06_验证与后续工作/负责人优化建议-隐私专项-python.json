@@ -1,0 +1,2475 @@
+{
+  "latest": {
+    "at": "2026-11-12T10:55:12.569Z",
+    "module": "负责人优化建议-隐私",
+    "target": "python",
+    "runId": "mwdflprt_53b630",
+    "syntheticDataOnly": true,
+    "productionWrites": false,
+    "providerMode": "local-process-mock",
+    "externalProviderTested": false,
+    "backendEntry": "Actual server.py with process-local urlopen replacement",
+    "coverage": {
+      "realHttp": true,
+      "realBrowser": true,
+      "realSupplier": false
+    },
+    "results": [
+      {
+        "name": "本人隐私接口须登录，管理员配置与处理元数据拒绝普通账号",
+        "pass": true,
+        "ms": 17
+      },
+      {
+        "name": "六项授权真实默认关闭，长期记忆为空且供应商未配时不冒充可发送",
+        "pass": true,
+        "ms": 35
+      },
+      {
+        "name": "实际端点模型地区与政策配置匹配后才显示可确认，管理员新规则须新版本",
+        "pass": true,
+        "ms": 50,
+        "observed": {
+          "providerMode": "local-process-mock",
+          "externalProviderTested": false
+        }
+      },
+      {
+        "name": "确认处理说明不捆绑六项授权，旧revision及新用途提前授权拒绝",
+        "pass": true,
+        "ms": 83
+      },
+      {
+        "name": "HTTP未确认和未标记旧历史在供应商调用前拒绝",
+        "pass": true,
+        "ms": 33
+      },
+      {
+        "name": "HTTP普通问答只发当前标记消息，模型负载不含隐私元数据且默认不保存会话",
+        "pass": true,
+        "ms": 46
+      },
+      {
+        "name": "命盘与身体分项授权隔离，不允许额外身份字段或嵌套整档案",
+        "pass": true,
+        "ms": 103
+      },
+      {
+        "name": "明确命盘与保存授权后真实本机mock调用，身体授权仍关闭且不用长期记忆",
+        "pass": true,
+        "ms": 76
+      },
+      {
+        "name": "撤回命盘及保存同意后旧epoch不能发送，新普通消息不会新增保存",
+        "pass": true,
+        "ms": 85
+      },
+      {
+        "name": "实际模型变更使旧确认失效，撤回仍可执行且无供应商误调用",
+        "pass": true,
+        "ms": 108
+      },
+      {
+        "name": "政策版本更新后旧同意不沿用，其他账号同意与历史不能代用",
+        "pass": true,
+        "ms": 151
+      },
+      {
+        "name": "总体处理确认可明确撤回，清空绑定及全部授权后普通聊天也不能发送",
+        "pass": true,
+        "ms": 77
+      },
+      {
+        "name": "本人导出仅含本人真实记录与保存会话，排除凭据、他人私信与未保存新问答",
+        "pass": true,
+        "ms": 178
+      },
+      {
+        "name": "删除已保存会话实际清空本账号，幂等返回原处理任务且不冒充供应商完成",
+        "pass": true,
+        "ms": 29
+      },
+      {
+        "name": "清除记录实际删除本人记录与计时，其他账号和社群私信仍保留",
+        "pass": true,
+        "ms": 70
+      },
+      {
+        "name": "删除会话和整类记录使旧epoch失效，同版本新epoch仍可正常使用",
+        "pass": true,
+        "ms": 490,
+        "observed": {
+          "oldEpochBlockedFor": [
+            "delete-conversations",
+            "delete-records"
+          ],
+          "newEpochUsable": true
+        }
+      },
+      {
+        "name": "不存在长期记忆如实记录未存储，处理清单按账号隔离且无任意完成入口",
+        "pass": true,
+        "ms": 30
+      },
+      {
+        "name": "注销须本人密码与第三方续费确认，实际待处理且撤回授权而不声称账号已关闭",
+        "pass": true,
+        "ms": 743
+      },
+      {
+        "name": "真实我的设置入口可达隐私页，全部默认关闭且记忆训练营销不能预选",
+        "pass": true,
+        "ms": 3987
+      },
+      {
+        "name": "浏览器普通提问排除旧无标签历史和整份本机资料，默认保存关闭不删除旧聊天",
+        "pass": true,
+        "ms": 246,
+        "observed": {
+          "providerMode": "browser-request-capture",
+          "actualExternalSend": false
+        }
+      },
+      {
+        "name": "浏览器保存开关真实控制新会话持久化，关闭后保留旧已保存会话",
+        "pass": true,
+        "ms": 797
+      },
+      {
+        "name": "浏览器撤回命盘授权后实际解释请求被前置阻断且旧历史不再外发",
+        "pass": true,
+        "ms": 746
+      },
+      {
+        "name": "真实下载默认仅服务端本人，显式合并本机不上传且不混他人资料",
+        "pass": true,
+        "ms": 337
+      },
+      {
+        "name": "本机聊天清除与本机记录清除实际生效，其他账号key保留且问卷资料不残留",
+        "pass": true,
+        "ms": 407
+      },
+      {
+        "name": "隐私页四宽深浅四语无横溢，离线失败可真实重试恢复",
+        "pass": true,
+        "ms": 1056,
+        "observed": {
+          "matrix": 32,
+          "languagesNeedNativeReview": true
+        }
+      },
+      {
+        "name": "账号切换后迟到AI与隐私响应不写入新账号状态或本机存储",
+        "pass": true,
+        "ms": 619,
+        "observed": {
+          "lateAIBlocked": true,
+          "latePreferencesBlocked": true
+        }
+      },
+      {
+        "name": "真实后台披露表单回读与提交保留未知期限，处理列表只展示元数据",
+        "pass": true,
+        "ms": 489
+      }
+    ],
+    "errors": [],
+    "captures": [
+      "负责人优化建议-隐私-python-mwdflprt_53b630-默认关闭.png",
+      "负责人优化建议-隐私-python-mwdflprt_53b630-清除后状态.png",
+      "负责人优化建议-隐私-python-mwdflprt_53b630-后台披露与处理元数据.png"
+    ],
+    "traffic": [
+      {
+        "method": "POST",
+        "path": "/api/auth/setup",
+        "status": 200,
+        "ms": 244
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 238
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 262
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 401,
+        "ms": 2
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 401,
+        "ms": 3
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/requests",
+        "status": 401,
+        "ms": 2
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 403,
+        "ms": 6
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/requests",
+        "status": 403,
+        "ms": 4
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 409,
+        "ms": 8
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 409,
+        "ms": 5
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 400,
+        "ms": 4
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/settings",
+        "status": 200,
+        "ms": 16
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 9
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/config",
+        "status": 400,
+        "ms": 7
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/config",
+        "status": 409,
+        "ms": 5
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 10
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 409,
+        "ms": 15
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 409,
+        "ms": 10
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 409,
+        "ms": 9
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 12
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 13
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 30
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 400,
+        "ms": 13
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 12
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 400,
+        "ms": 11
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 24
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 34
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 31
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/settings",
+        "status": 200,
+        "ms": 17
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 503,
+        "ms": 11
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 22
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/settings",
+        "status": 200,
+        "ms": 18
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 9
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/settings",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 11
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 26
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 27
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 16
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 28
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 14
+      },
+      {
+        "method": "POST",
+        "path": "/api/records",
+        "status": 200,
+        "ms": 19
+      },
+      {
+        "method": "POST",
+        "path": "/api/records",
+        "status": 200,
+        "ms": 10
+      },
+      {
+        "method": "POST",
+        "path": "/api/friends",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/friends/8ae31c05-1326-4060-85fe-ed376f999e8a",
+        "status": 200,
+        "ms": 11
+      },
+      {
+        "method": "POST",
+        "path": "/api/messages/c358e037-f676-4176-877e-39886d3ee2fd",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/messages/8ae31c05-1326-4060-85fe-ed376f999e8a",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/time-bank/heartbeat",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 24
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 24
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 8
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 409,
+        "ms": 8
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 19
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 21
+      },
+      {
+        "method": "GET",
+        "path": "/api/messages/c358e037-f676-4176-877e-39886d3ee2fd",
+        "status": 200,
+        "ms": 9
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 7
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 248
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 21
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 39
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 13
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 200,
+        "ms": 41
+      },
+      {
+        "method": "POST",
+        "path": "/api/records",
+        "status": 200,
+        "ms": 11
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 12
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 14
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/export",
+        "status": 200,
+        "ms": 25
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 13
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 5
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 7
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/admin/privacy/requests/6badef9f-c036-4fb9-aaf4-78cad47130e8",
+        "status": 404,
+        "ms": 5
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 403,
+        "ms": 230
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 400,
+        "ms": 232
+      },
+      {
+        "method": "POST",
+        "path": "/api/privacy/requests",
+        "status": 200,
+        "ms": 243
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 15
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/status",
+        "status": 200,
+        "ms": 9
+      },
+      {
+        "method": "POST",
+        "path": "/api/ai/chat",
+        "status": 403,
+        "ms": 14
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": 200,
+        "ms": 236
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 32
+      },
+      {
+        "method": "GET",
+        "path": "/api/privacy/preferences",
+        "status": 200,
+        "ms": 14
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 11
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/privacy/config",
+        "status": 200,
+        "ms": 10
+      }
+    ],
+    "identity": {
+      "sources": {
+        "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+        "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+        "04_研发源码/app/r4/privacy-center.js": "72402a0cf85977a8825c7502e07f8ac25bb7a814e9a4a27d69f91493f6deab1e",
+        "04_研发源码/app/r4/privacy-center.css": "66420e1bbb6460a9e1e4d1155944ccaaf621a7956c4432a1edf5d521ecf01063",
+        "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+        "04_研发源码/app/r4/privacy-admin.js": "7ff8236d8b9429d7487ead06ce802aec68d50b4ee6646e2929f761428b854fcc",
+        "04_研发源码/app/r4/time-bank-admin.html": "04241a72980cbdf6c9133c024fcef3980472c25d432f93bad2e705a60e627ac7",
+        "04_研发源码/app/r4/backend/server.py": "fca1a824655eed29b8a0344392e4d3567284f43e42214f2bc239aa7ab9f569b2",
+        "04_研发源码/app/cloud/lib/eastern-api.ts": "549bc9f88b2f74b065bae1e66a15be4ea89d81059b2e3cfe24353aafd9315c4e",
+        "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+        "04_研发源码/app/r4/platform.js": "006386482fae526a1450a0a679a6740d023d8afc4f4c5ad23a196bd10011a05e"
+      },
+      "builds": {
+        "03_当前APP/东方智慧-首页体验R4.html": "609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf",
+        "03_当前APP/计时后台-开发联调.html": "9f1bc53f8c35cb5b32f89b2e12960a40823028e3e666a9f7b82dffc19d73b2c9",
+        "04_研发源码/app/cloud/generated/experience.html": "79784355237280e017d6d32edbf1bb7ce0d9b345244d3de5fca29aeb089cd96c",
+        "04_研发源码/app/cloud/generated/admin.html": "ab0e3de8510f8d03a27b82d51f717902c5bf3ddfd26cfbd66dd4ecb46c3fc561",
+        "04_研发源码/app/cloud/dist/server/index.js": "12207df0d55aa738b1289b94b90011bdb1bdf8e9504f39ea08bc73ff5bc65517"
+      }
+    },
+    "testHashes": {
+      "负责人优化建议-隐私测试工具.cjs": "d06e635b72142c35afbb8582789aa274b1b9536101ba3feae2502567dd5d1e20",
+      "负责人优化建议-隐私专项.cjs": "7f96b49f3d017601fc6c92cd8d5bf120ca9d9ebaeb51ad44e15b3690ea4ceea6",
+      "负责人优化建议-隐私Python测试服务.py": "58b4730ce48a01312e57bfd12aa41cfa3d04aba58afddbaece1a073beb54d2eb",
+      "负责人优化建议-隐私Cloud测试服务.ts": "e21fbcc25bfe8e511f7ae04c3770aa4d761388017fad9cac2f2edc90b0c95e3c"
+    },
+    "ownedDatabase": "06_验证与后续工作\\负责人优化建议-隐私隔离-mwdflprt_53b630.sqlite3",
+    "base": "http://127.0.0.1:63995",
+    "servedBuildSha256": "609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf",
+    "identityUnchanged": true,
+    "pass": true,
+    "passed": 27,
+    "failed": 0
+  },
+  "runs": [
+    {
+      "at": "2026-11-12T10:47:08.758Z",
+      "module": "负责人优化建议-隐私",
+      "target": "python",
+      "runId": "mwdfbcgm_1eaac6",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "providerMode": "local-process-mock",
+      "externalProviderTested": false,
+      "backendEntry": "Actual server.py with process-local urlopen replacement",
+      "coverage": {
+        "realHttp": true,
+        "realBrowser": true,
+        "realSupplier": false
+      },
+      "results": [
+        {
+          "name": "本人隐私接口须登录，管理员配置与处理元数据拒绝普通账号",
+          "pass": true,
+          "ms": 14
+        },
+        {
+          "name": "六项授权真实默认关闭，长期记忆为空且供应商未配时不冒充可发送",
+          "pass": true,
+          "ms": 28
+        },
+        {
+          "name": "实际端点模型地区与政策配置匹配后才显示可确认，管理员新规则须新版本",
+          "pass": true,
+          "ms": 44,
+          "observed": {
+            "providerMode": "local-process-mock",
+            "externalProviderTested": false
+          }
+        },
+        {
+          "name": "确认处理说明不捆绑六项授权，旧revision及新用途提前授权拒绝",
+          "pass": true,
+          "ms": 64
+        },
+        {
+          "name": "HTTP未确认和未标记旧历史在供应商调用前拒绝",
+          "pass": true,
+          "ms": 26
+        },
+        {
+          "name": "HTTP普通问答只发当前标记消息，模型负载不含隐私元数据且默认不保存会话",
+          "pass": true,
+          "ms": 36
+        },
+        {
+          "name": "命盘与身体分项授权隔离，不允许额外身份字段或嵌套整档案",
+          "pass": true,
+          "ms": 84
+        },
+        {
+          "name": "明确命盘与保存授权后真实本机mock调用，身体授权仍关闭且不用长期记忆",
+          "pass": true,
+          "ms": 59
+        },
+        {
+          "name": "撤回命盘及保存同意后旧epoch不能发送，新普通消息不会新增保存",
+          "pass": true,
+          "ms": 64
+        },
+        {
+          "name": "实际模型变更使旧确认失效，撤回仍可执行且无供应商误调用",
+          "pass": true,
+          "ms": 86
+        },
+        {
+          "name": "政策版本更新后旧同意不沿用，其他账号同意与历史不能代用",
+          "pass": true,
+          "ms": 120
+        },
+        {
+          "name": "总体处理确认可明确撤回，清空绑定及全部授权后普通聊天也不能发送",
+          "pass": true,
+          "ms": 51
+        },
+        {
+          "name": "本人导出仅含本人真实记录与保存会话，排除凭据、他人私信与未保存新问答",
+          "pass": true,
+          "ms": 127
+        },
+        {
+          "name": "删除已保存会话实际清空本账号，幂等返回原处理任务且不冒充供应商完成",
+          "pass": true,
+          "ms": 26
+        },
+        {
+          "name": "清除记录实际删除本人记录与计时，其他账号和社群私信仍保留",
+          "pass": true,
+          "ms": 54
+        },
+        {
+          "name": "不存在长期记忆如实记录未存储，处理清单按账号隔离且无任意完成入口",
+          "pass": true,
+          "ms": 27
+        },
+        {
+          "name": "注销须本人密码与第三方续费确认，实际待处理且撤回授权而不声称账号已关闭",
+          "pass": true,
+          "ms": 599
+        },
+        {
+          "name": "真实我的设置入口可达隐私页，全部默认关闭且记忆训练营销不能预选",
+          "pass": true,
+          "ms": 2622
+        },
+        {
+          "name": "浏览器普通提问排除旧无标签历史和整份本机资料，默认保存关闭不删除旧聊天",
+          "pass": true,
+          "ms": 202,
+          "observed": {
+            "providerMode": "browser-request-capture",
+            "actualExternalSend": false
+          }
+        },
+        {
+          "name": "浏览器保存开关真实控制新会话持久化，关闭后保留旧已保存会话",
+          "pass": true,
+          "ms": 665
+        },
+        {
+          "name": "浏览器撤回命盘授权后实际解释请求被前置阻断且旧历史不再外发",
+          "pass": true,
+          "ms": 569
+        },
+        {
+          "name": "真实下载默认仅服务端本人，显式合并本机不上传且不混他人资料",
+          "pass": true,
+          "ms": 251
+        },
+        {
+          "name": "本机聊天清除与本机记录清除实际生效，其他账号key保留且问卷资料不残留",
+          "pass": true,
+          "ms": 144
+        },
+        {
+          "name": "隐私页四宽深浅四语无横溢，离线失败可真实重试恢复",
+          "pass": true,
+          "ms": 618,
+          "observed": {
+            "matrix": 32,
+            "languagesNeedNativeReview": true
+          }
+        },
+        {
+          "name": "账号切换后迟到AI与隐私响应不写入新账号状态或本机存储",
+          "pass": true,
+          "ms": 505,
+          "observed": {
+            "lateAIBlocked": true,
+            "latePreferencesBlocked": true
+          }
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-隐私-python-mwdfbcgm_1eaac6-默认关闭.png",
+        "负责人优化建议-隐私-python-mwdfbcgm_1eaac6-清除后状态.png"
+      ],
+      "traffic": [
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 198
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 203
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 206
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 401,
+          "ms": 1
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 403,
+          "ms": 4
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/requests",
+          "status": 403,
+          "ms": 4
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 8
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 3
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 400,
+          "ms": 4
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 400,
+          "ms": 6
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 409,
+          "ms": 4
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 23
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 8
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 6
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 7
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 24
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 400,
+          "ms": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 23
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 400,
+          "ms": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 28
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 18
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 24
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 503,
+          "ms": 7
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 19
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 6
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 19
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 23
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 20
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/records",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "POST",
+          "path": "/api/records",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/friends",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/friends/27f3258b-375f-4c74-950c-1664d4dd645e",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "POST",
+          "path": "/api/messages/c73eccb1-1bdb-4269-98c9-3b57f7aa81e0",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "POST",
+          "path": "/api/messages/27f3258b-375f-4c74-950c-1664d4dd645e",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 409,
+          "ms": 5
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/messages/c73eccb1-1bdb-4269-98c9-3b57f7aa81e0",
+          "status": 200,
+          "ms": 7
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 4
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 6
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 5
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/requests/98844bea-819b-4b16-8ff2-6b7cccb27dcb",
+          "status": 404,
+          "ms": 3
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 403,
+          "ms": 190
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 400,
+          "ms": 187
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 197
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 6
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 201
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 11
+        }
+      ],
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/privacy.py": "1422ae1b30595fff61ba78b02084107e0cf48574957c9846b6b5e5175d238548",
+          "04_研发源码/app/cloud/lib/privacy-api.ts": "ad543d5f4b8af6313d11ea8d95bdd978132dbdb0a8c02c5808a233506c814fa8",
+          "04_研发源码/app/r4/privacy-center.js": "f933ff899a2fb4ad164d04f8caacb2d3290734a744fd6e2f6638cdafa6f9ad78",
+          "04_研发源码/app/r4/privacy-center.css": "66420e1bbb6460a9e1e4d1155944ccaaf621a7956c4432a1edf5d521ecf01063",
+          "04_研发源码/app/r4/privacy-ai-client.js": "8eb3d880486618c6700cc7a9fb82c349f6477f1dce93eae9b6b15dbbd96d2d24",
+          "04_研发源码/app/r4/backend/server.py": "fca1a824655eed29b8a0344392e4d3567284f43e42214f2bc239aa7ab9f569b2",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "549bc9f88b2f74b065bae1e66a15be4ea89d81059b2e3cfe24353aafd9315c4e",
+          "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+          "04_研发源码/app/r4/platform.js": "006386482fae526a1450a0a679a6740d023d8afc4f4c5ad23a196bd10011a05e"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "91613d23bc17df51a630abebdebe842292dc757da23f2ec3240fb1d44a988eab",
+          "04_研发源码/app/cloud/generated/experience.html": "07d45b7d5f5aca86d07b81c7be42d49dbc44b88324fd49021c71fe4e9bd7732d",
+          "04_研发源码/app/cloud/dist/server/index.js": "d278d571393cf921ce83b3d762026fa55fd9ac0b490dbedb8bfce59c30314eb7"
+        }
+      },
+      "testHashes": {
+        "负责人优化建议-隐私测试工具.cjs": "7c0c8bcee684535e2f608e774d97d043d4f6b80a14a5bc207b25136c06204604",
+        "负责人优化建议-隐私专项.cjs": "1029b6ec95ca8e0fb2480425c33609b7a6d6a7f52f1c4fd1df88c64e003e8ced",
+        "负责人优化建议-隐私Python测试服务.py": "58b4730ce48a01312e57bfd12aa41cfa3d04aba58afddbaece1a073beb54d2eb",
+        "负责人优化建议-隐私Cloud测试服务.ts": "63890beda242a25e57d0c26674e8386785f4a3dddabb2fde23dfdabf5be663de"
+      },
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-隐私隔离-mwdfbcgm_1eaac6.sqlite3",
+      "base": "http://127.0.0.1:62030",
+      "servedBuildSha256": "91613d23bc17df51a630abebdebe842292dc757da23f2ec3240fb1d44a988eab",
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 25,
+      "failed": 0
+    },
+    {
+      "at": "2026-11-12T10:55:12.569Z",
+      "module": "负责人优化建议-隐私",
+      "target": "python",
+      "runId": "mwdflprt_53b630",
+      "syntheticDataOnly": true,
+      "productionWrites": false,
+      "providerMode": "local-process-mock",
+      "externalProviderTested": false,
+      "backendEntry": "Actual server.py with process-local urlopen replacement",
+      "coverage": {
+        "realHttp": true,
+        "realBrowser": true,
+        "realSupplier": false
+      },
+      "results": [
+        {
+          "name": "本人隐私接口须登录，管理员配置与处理元数据拒绝普通账号",
+          "pass": true,
+          "ms": 17
+        },
+        {
+          "name": "六项授权真实默认关闭，长期记忆为空且供应商未配时不冒充可发送",
+          "pass": true,
+          "ms": 35
+        },
+        {
+          "name": "实际端点模型地区与政策配置匹配后才显示可确认，管理员新规则须新版本",
+          "pass": true,
+          "ms": 50,
+          "observed": {
+            "providerMode": "local-process-mock",
+            "externalProviderTested": false
+          }
+        },
+        {
+          "name": "确认处理说明不捆绑六项授权，旧revision及新用途提前授权拒绝",
+          "pass": true,
+          "ms": 83
+        },
+        {
+          "name": "HTTP未确认和未标记旧历史在供应商调用前拒绝",
+          "pass": true,
+          "ms": 33
+        },
+        {
+          "name": "HTTP普通问答只发当前标记消息，模型负载不含隐私元数据且默认不保存会话",
+          "pass": true,
+          "ms": 46
+        },
+        {
+          "name": "命盘与身体分项授权隔离，不允许额外身份字段或嵌套整档案",
+          "pass": true,
+          "ms": 103
+        },
+        {
+          "name": "明确命盘与保存授权后真实本机mock调用，身体授权仍关闭且不用长期记忆",
+          "pass": true,
+          "ms": 76
+        },
+        {
+          "name": "撤回命盘及保存同意后旧epoch不能发送，新普通消息不会新增保存",
+          "pass": true,
+          "ms": 85
+        },
+        {
+          "name": "实际模型变更使旧确认失效，撤回仍可执行且无供应商误调用",
+          "pass": true,
+          "ms": 108
+        },
+        {
+          "name": "政策版本更新后旧同意不沿用，其他账号同意与历史不能代用",
+          "pass": true,
+          "ms": 151
+        },
+        {
+          "name": "总体处理确认可明确撤回，清空绑定及全部授权后普通聊天也不能发送",
+          "pass": true,
+          "ms": 77
+        },
+        {
+          "name": "本人导出仅含本人真实记录与保存会话，排除凭据、他人私信与未保存新问答",
+          "pass": true,
+          "ms": 178
+        },
+        {
+          "name": "删除已保存会话实际清空本账号，幂等返回原处理任务且不冒充供应商完成",
+          "pass": true,
+          "ms": 29
+        },
+        {
+          "name": "清除记录实际删除本人记录与计时，其他账号和社群私信仍保留",
+          "pass": true,
+          "ms": 70
+        },
+        {
+          "name": "删除会话和整类记录使旧epoch失效，同版本新epoch仍可正常使用",
+          "pass": true,
+          "ms": 490,
+          "observed": {
+            "oldEpochBlockedFor": [
+              "delete-conversations",
+              "delete-records"
+            ],
+            "newEpochUsable": true
+          }
+        },
+        {
+          "name": "不存在长期记忆如实记录未存储，处理清单按账号隔离且无任意完成入口",
+          "pass": true,
+          "ms": 30
+        },
+        {
+          "name": "注销须本人密码与第三方续费确认，实际待处理且撤回授权而不声称账号已关闭",
+          "pass": true,
+          "ms": 743
+        },
+        {
+          "name": "真实我的设置入口可达隐私页，全部默认关闭且记忆训练营销不能预选",
+          "pass": true,
+          "ms": 3987
+        },
+        {
+          "name": "浏览器普通提问排除旧无标签历史和整份本机资料，默认保存关闭不删除旧聊天",
+          "pass": true,
+          "ms": 246,
+          "observed": {
+            "providerMode": "browser-request-capture",
+            "actualExternalSend": false
+          }
+        },
+        {
+          "name": "浏览器保存开关真实控制新会话持久化，关闭后保留旧已保存会话",
+          "pass": true,
+          "ms": 797
+        },
+        {
+          "name": "浏览器撤回命盘授权后实际解释请求被前置阻断且旧历史不再外发",
+          "pass": true,
+          "ms": 746
+        },
+        {
+          "name": "真实下载默认仅服务端本人，显式合并本机不上传且不混他人资料",
+          "pass": true,
+          "ms": 337
+        },
+        {
+          "name": "本机聊天清除与本机记录清除实际生效，其他账号key保留且问卷资料不残留",
+          "pass": true,
+          "ms": 407
+        },
+        {
+          "name": "隐私页四宽深浅四语无横溢，离线失败可真实重试恢复",
+          "pass": true,
+          "ms": 1056,
+          "observed": {
+            "matrix": 32,
+            "languagesNeedNativeReview": true
+          }
+        },
+        {
+          "name": "账号切换后迟到AI与隐私响应不写入新账号状态或本机存储",
+          "pass": true,
+          "ms": 619,
+          "observed": {
+            "lateAIBlocked": true,
+            "latePreferencesBlocked": true
+          }
+        },
+        {
+          "name": "真实后台披露表单回读与提交保留未知期限，处理列表只展示元数据",
+          "pass": true,
+          "ms": 489
+        }
+      ],
+      "errors": [],
+      "captures": [
+        "负责人优化建议-隐私-python-mwdflprt_53b630-默认关闭.png",
+        "负责人优化建议-隐私-python-mwdflprt_53b630-清除后状态.png",
+        "负责人优化建议-隐私-python-mwdflprt_53b630-后台披露与处理元数据.png"
+      ],
+      "traffic": [
+        {
+          "method": "POST",
+          "path": "/api/auth/setup",
+          "status": 200,
+          "ms": 244
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 238
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 262
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 401,
+          "ms": 3
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 401,
+          "ms": 2
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 403,
+          "ms": 6
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/requests",
+          "status": 403,
+          "ms": 4
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 8
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 5
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 400,
+          "ms": 4
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 400,
+          "ms": 7
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 409,
+          "ms": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 15
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 10
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 409,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 30
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 400,
+          "ms": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 400,
+          "ms": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 24
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 34
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 31
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 17
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 503,
+          "ms": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 22
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 18
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/settings",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 26
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 27
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 16
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 28
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/records",
+          "status": 200,
+          "ms": 19
+        },
+        {
+          "method": "POST",
+          "path": "/api/records",
+          "status": 200,
+          "ms": 10
+        },
+        {
+          "method": "POST",
+          "path": "/api/friends",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/friends/8ae31c05-1326-4060-85fe-ed376f999e8a",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "POST",
+          "path": "/api/messages/c358e037-f676-4176-877e-39886d3ee2fd",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/messages/8ae31c05-1326-4060-85fe-ed376f999e8a",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/time-bank/heartbeat",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 24
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 24
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 8
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 409,
+          "ms": 8
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 19
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 21
+        },
+        {
+          "method": "GET",
+          "path": "/api/messages/c358e037-f676-4176-877e-39886d3ee2fd",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 7
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 248
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 21
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 39
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 13
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 200,
+          "ms": 41
+        },
+        {
+          "method": "POST",
+          "path": "/api/records",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 12
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/export",
+          "status": 200,
+          "ms": 25
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 13
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 5
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 7
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/admin/privacy/requests/6badef9f-c036-4fb9-aaf4-78cad47130e8",
+          "status": 404,
+          "ms": 5
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 403,
+          "ms": 230
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 400,
+          "ms": 232
+        },
+        {
+          "method": "POST",
+          "path": "/api/privacy/requests",
+          "status": 200,
+          "ms": 243
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 15
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": 9
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai/chat",
+          "status": 403,
+          "ms": 14
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 200,
+          "ms": 236
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 32
+        },
+        {
+          "method": "GET",
+          "path": "/api/privacy/preferences",
+          "status": 200,
+          "ms": 14
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 11
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/privacy/config",
+          "status": 200,
+          "ms": 10
+        }
+      ],
+      "identity": {
+        "sources": {
+          "04_研发源码/app/r4/backend/privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596",
+          "04_研发源码/app/cloud/lib/privacy-api.ts": "ed86bb2444dbe9ffa7768003f730875049be2fd15533c4adee39bb1e3cb60a67",
+          "04_研发源码/app/r4/privacy-center.js": "72402a0cf85977a8825c7502e07f8ac25bb7a814e9a4a27d69f91493f6deab1e",
+          "04_研发源码/app/r4/privacy-center.css": "66420e1bbb6460a9e1e4d1155944ccaaf621a7956c4432a1edf5d521ecf01063",
+          "04_研发源码/app/r4/privacy-ai-client.js": "3373bfcaf5bddc7c1687ffb91aaa35b9395482097a4245ae9b10b881207257aa",
+          "04_研发源码/app/r4/privacy-admin.js": "7ff8236d8b9429d7487ead06ce802aec68d50b4ee6646e2929f761428b854fcc",
+          "04_研发源码/app/r4/time-bank-admin.html": "04241a72980cbdf6c9133c024fcef3980472c25d432f93bad2e705a60e627ac7",
+          "04_研发源码/app/r4/backend/server.py": "fca1a824655eed29b8a0344392e4d3567284f43e42214f2bc239aa7ab9f569b2",
+          "04_研发源码/app/cloud/lib/eastern-api.ts": "549bc9f88b2f74b065bae1e66a15be4ea89d81059b2e3cfe24353aafd9315c4e",
+          "04_研发源码/app/r4/base.js": "313c9c63b9e065fdc6e304d8aeefd178d7f5a6f2e1c656275d7cab60fadf3733",
+          "04_研发源码/app/r4/platform.js": "006386482fae526a1450a0a679a6740d023d8afc4f4c5ad23a196bd10011a05e"
+        },
+        "builds": {
+          "03_当前APP/东方智慧-首页体验R4.html": "609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf",
+          "03_当前APP/计时后台-开发联调.html": "9f1bc53f8c35cb5b32f89b2e12960a40823028e3e666a9f7b82dffc19d73b2c9",
+          "04_研发源码/app/cloud/generated/experience.html": "79784355237280e017d6d32edbf1bb7ce0d9b345244d3de5fca29aeb089cd96c",
+          "04_研发源码/app/cloud/generated/admin.html": "ab0e3de8510f8d03a27b82d51f717902c5bf3ddfd26cfbd66dd4ecb46c3fc561",
+          "04_研发源码/app/cloud/dist/server/index.js": "12207df0d55aa738b1289b94b90011bdb1bdf8e9504f39ea08bc73ff5bc65517"
+        }
+      },
+      "testHashes": {
+        "负责人优化建议-隐私测试工具.cjs": "d06e635b72142c35afbb8582789aa274b1b9536101ba3feae2502567dd5d1e20",
+        "负责人优化建议-隐私专项.cjs": "7f96b49f3d017601fc6c92cd8d5bf120ca9d9ebaeb51ad44e15b3690ea4ceea6",
+        "负责人优化建议-隐私Python测试服务.py": "58b4730ce48a01312e57bfd12aa41cfa3d04aba58afddbaece1a073beb54d2eb",
+        "负责人优化建议-隐私Cloud测试服务.ts": "e21fbcc25bfe8e511f7ae04c3770aa4d761388017fad9cac2f2edc90b0c95e3c"
+      },
+      "ownedDatabase": "06_验证与后续工作\\负责人优化建议-隐私隔离-mwdflprt_53b630.sqlite3",
+      "base": "http://127.0.0.1:63995",
+      "servedBuildSha256": "609c32bc1015f7c718c32ffb8995017fc09deee564553f9390286587e93a7bbf",
+      "identityUnchanged": true,
+      "pass": true,
+      "passed": 27,
+      "failed": 0
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+'use strict';
+// Public synthetic fixture constants only. Never imported by production source; no real environment values are read.
+module.exports=Object.freeze({deviceReference:'EW_DEVICE_REGRESSION_CANARY',deviceCanary:'regression-secret-not-for-real-use',legacyReference:'EW_AI_SECRET_QA',legacyCanary:'SYNTHETIC_SECRET_REFERENCE_QA_NOT_REAL',privacyReference:'EW_AI_PRIVACY_QA',privacyCanary:'SYNTHETIC-LOCAL-QA-NOT-A-REAL-KEY',snapshotReference:'EW_AI_SNAPSHOT_QA',snapshotCanary:'SYNTHETIC_SNAPSHOT_QA_NOT_REAL',b11Reference:'EW_AI_B11_QA',b11Canary:'SYNTHETIC_B11_FIXTURE_ONLY',unitReference:'EW_AI_UNIT_TEST',unitCanary:'unit-test-only'});

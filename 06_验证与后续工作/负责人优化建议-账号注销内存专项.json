@@ -1,0 +1,775 @@
+{
+  "latest": {
+    "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+    "passed": 22,
+    "failed": 0,
+    "results": [
+      {
+        "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+        "pass": true
+      },
+      {
+        "name": "current password is mandatory and verified by actual existing Python verifier",
+        "pass": true
+      },
+      {
+        "name": "second confirmation and independent renewal acknowledgement are strict",
+        "pass": true
+      },
+      {
+        "name": "challenge binds actual owner and exact current session",
+        "pass": true
+      },
+      {
+        "name": "expired challenge rolls whole claim/cleanup/session state back",
+        "pass": true
+      },
+      {
+        "name": "password/session revocation after password check invalidates final claim",
+        "pass": true
+      },
+      {
+        "name": "same request id cannot change nonce or session",
+        "pass": true
+      },
+      {
+        "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+        "pass": true
+      },
+      {
+        "name": "two admins cannot close the last active admin even after both prepare",
+        "pass": true
+      },
+      {
+        "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+        "pass": true
+      },
+      {
+        "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+        "pass": true
+      },
+      {
+        "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+        "pass": true
+      },
+      {
+        "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+        "pass": true
+      },
+      {
+        "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+        "pass": true
+      },
+      {
+        "name": "actual Python settings require passes/body waits/other session closes/final mutation is denied",
+        "pass": true
+      },
+      {
+        "name": "actual Python role require passes/body waits/other session closes/final mutation is denied",
+        "pass": true
+      },
+      {
+        "name": "actual Python community require passes/body waits/other session closes/final mutation is denied",
+        "pass": true
+      },
+      {
+        "name": "actual Python upload require passes/body waits/other session closes/final mutation is denied",
+        "pass": true
+      },
+      {
+        "name": "guarded Python closure may revoke its own session inside one transaction; ephemeral fence empty",
+        "pass": true
+      },
+      {
+        "name": "Python final SQL checks fresh role, not cached require result",
+        "pass": true
+      },
+      {
+        "name": "closed teacher/recipient/device cannot receive new personal facts; retained messages remain",
+        "pass": true
+      },
+      {
+        "name": "verified-session internal scope survives valid password session revocation but rejects other writes",
+        "pass": true
+      }
+    ],
+    "sourceSha256": {
+      "account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+      "account_write_guard.py": "36d150d44b7bdbf2e2097b9e9fdeee2efbbc54cff9593302ced88e767549e5b9",
+      "privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849"
+    }
+  },
+  "runs": [
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 13,
+      "failed": 1,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": false,
+          "error": "Error: 上架实物须配置配送国家。"
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "6af806a2ddc0476d77df51511d884cc7b0b8c693fff6edfb097c245daf9aea92",
+        "privacy_retention.py": "945eac8c2e4f8953d9ab926c4e1d5d17b868bded5da3b0e663a1106cede55783"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 13,
+      "failed": 1,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": false,
+          "error": "AttributeError: 'Handler' object has no attribute 'path'"
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "6af806a2ddc0476d77df51511d884cc7b0b8c693fff6edfb097c245daf9aea92",
+        "privacy_retention.py": "945eac8c2e4f8953d9ab926c4e1d5d17b868bded5da3b0e663a1106cede55783"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 13,
+      "failed": 1,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": false,
+          "error": "Error: 收货信息格式错误。"
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "6af806a2ddc0476d77df51511d884cc7b0b8c693fff6edfb097c245daf9aea92",
+        "privacy_retention.py": "2fd9b27b7e17cbf56a947a24ab849a2f10a92fa177b832e77b493b2198b5b1f8"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 14,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": true
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "121a8c64ddd9ba55e417bd90f0d18ff2548d56787dc8cf936760a9809f406f22",
+        "privacy_retention.py": "2752884f9e57b890c049429cb203388183e2505aea158f95190c0538c7396d97"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": true
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        },
+        {
+          "name": "actual Python settings require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python role require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python community require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python upload require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "guarded Python closure may revoke its own session inside one transaction; ephemeral fence empty",
+          "pass": true
+        },
+        {
+          "name": "Python final SQL checks fresh role, not cached require result",
+          "pass": true
+        },
+        {
+          "name": "closed teacher/recipient/device cannot receive new personal facts; retained messages remain",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal scope survives valid password session revocation but rejects other writes",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "00956a9899b19b5adb36b79e68b577800f8fe00908f703e4360cb34ea664fe83",
+        "account_write_guard.py": "cb6a8a1e66bc835c0bd1a70d8745c1456f4e423975647a3c84b6b83bf698af56",
+        "privacy_retention.py": "1da6cd7f4a80e2082c4c9878fe4a93452047e852f6484e4b1078baccb0eb3860"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": true
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        },
+        {
+          "name": "actual Python settings require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python role require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python community require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python upload require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "guarded Python closure may revoke its own session inside one transaction; ephemeral fence empty",
+          "pass": true
+        },
+        {
+          "name": "Python final SQL checks fresh role, not cached require result",
+          "pass": true
+        },
+        {
+          "name": "closed teacher/recipient/device cannot receive new personal facts; retained messages remain",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal scope survives valid password session revocation but rejects other writes",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+        "account_write_guard.py": "cb6a8a1e66bc835c0bd1a70d8745c1456f4e423975647a3c84b6b83bf698af56",
+        "privacy_retention.py": "c8f2a33e2b736ce4d2f7ca8efde5ddfc136586d75525898414a15356b9ed9948"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": true
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        },
+        {
+          "name": "actual Python settings require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python role require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python community require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python upload require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "guarded Python closure may revoke its own session inside one transaction; ephemeral fence empty",
+          "pass": true
+        },
+        {
+          "name": "Python final SQL checks fresh role, not cached require result",
+          "pass": true
+        },
+        {
+          "name": "closed teacher/recipient/device cannot receive new personal facts; retained messages remain",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal scope survives valid password session revocation but rejects other writes",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+        "account_write_guard.py": "36d150d44b7bdbf2e2097b9e9fdeee2efbbc54cff9593302ced88e767549e5b9",
+        "privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849"
+      }
+    },
+    {
+      "scope": "fresh SQLite, real server password verifier and authoritative retention; no HTTP or original DB",
+      "passed": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual authoritative cleanup and all session tombstones are atomic; other owner and users kept",
+          "pass": true
+        },
+        {
+          "name": "current password is mandatory and verified by actual existing Python verifier",
+          "pass": true
+        },
+        {
+          "name": "second confirmation and independent renewal acknowledgement are strict",
+          "pass": true
+        },
+        {
+          "name": "challenge binds actual owner and exact current session",
+          "pass": true
+        },
+        {
+          "name": "expired challenge rolls whole claim/cleanup/session state back",
+          "pass": true
+        },
+        {
+          "name": "password/session revocation after password check invalidates final claim",
+          "pass": true
+        },
+        {
+          "name": "same request id cannot change nonce or session",
+          "pass": true
+        },
+        {
+          "name": "lost response replay works after sessions gone without duplicate cleanup; foreign replay rejected",
+          "pass": true
+        },
+        {
+          "name": "two admins cannot close the last active admin even after both prepare",
+          "pass": true
+        },
+        {
+          "name": "already-authorized late records/conversations/sessions/preferences/credentials writes cannot resurrect",
+          "pass": true
+        },
+        {
+          "name": "cleanup failure rolls back closure claim and every personal/session mutation",
+          "pass": true
+        },
+        {
+          "name": "real SQLite concurrent same challenge commits once and replays same receipt",
+          "pass": true
+        },
+        {
+          "name": "actual unified paid order/financial ledger untouched by closure; active admin can settle existing refund",
+          "pass": true
+        },
+        {
+          "name": "minimal response contains no credential/session/nonce and exported auth helper fails closed",
+          "pass": true
+        },
+        {
+          "name": "actual Python settings require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python role require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python community require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "actual Python upload require passes/body waits/other session closes/final mutation is denied",
+          "pass": true
+        },
+        {
+          "name": "guarded Python closure may revoke its own session inside one transaction; ephemeral fence empty",
+          "pass": true
+        },
+        {
+          "name": "Python final SQL checks fresh role, not cached require result",
+          "pass": true
+        },
+        {
+          "name": "closed teacher/recipient/device cannot receive new personal facts; retained messages remain",
+          "pass": true
+        },
+        {
+          "name": "verified-session internal scope survives valid password session revocation but rejects other writes",
+          "pass": true
+        }
+      ],
+      "sourceSha256": {
+        "account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+        "account_write_guard.py": "36d150d44b7bdbf2e2097b9e9fdeee2efbbc54cff9593302ced88e767549e5b9",
+        "privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849"
+      }
+    }
+  ]
+}

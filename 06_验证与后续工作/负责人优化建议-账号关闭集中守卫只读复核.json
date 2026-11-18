@@ -1,0 +1,42 @@
+{
+  "at": "2026-11-13T02:40:47.333803+00:00",
+  "mode": "independent-read-only-no-runtime-no-db-no-service",
+  "reviewer": "coverage_audit",
+  "sourceSha256": {
+    "04_研发源码/app/r4/backend/account_write_guard.py": "36d150d44b7bdbf2e2097b9e9fdeee2efbbc54cff9593302ced88e767549e5b9",
+    "04_研发源码/app/cloud/lib/account-write-guard.ts": "968b68391e1c0911dca5700de15d60672d9f9b08873dce741712533c0e15efc6",
+    "04_研发源码/app/r4/backend/account_closure.py": "34755c89363aa29956b7d2ab10b4523fd61b71c4481fa4d3ee1f9debec9250a1",
+    "04_研发源码/app/cloud/lib/account-closure.ts": "e5c9b472c180abe5ef754b09ca39c66b695e789583d643caed984f16789a1297",
+    "06_验证与后续工作/负责人优化建议-账号注销接入准备.py": "913b4b2373af6fc06c2e97366bc33c30aea0a5f8f538a11436ae209de0ccd758",
+    "04_研发源码/app/r4/backend/ai_gateway.py": "9eaf46835e66346877cd306a2091d02b36f880574084542f27ffbce89218e760",
+    "04_研发源码/app/cloud/lib/ai-gateway.ts": "c815adcc9ffb8da30383b5eac110b9c2f7c272dcc3a01655f360d8d377b0912f"
+  },
+  "findings": [
+    {
+      "priority": "P1",
+      "scope": "proposed Python closure integration",
+      "path": "04_研发源码/app/r4/backend/account_write_guard.py",
+      "function": "service_allowed gateway privacy_conversations",
+      "causalChain": [
+        "closure helper wraps real AIGateway.run after guarded queued→running claim with settlement_scope gateway",
+        "actual successful authorized-save run currently executes INSERT INTO privacy_conversations VALUES(?,?,?,?) at ai_gateway.py:379",
+        "service_allowed requires INSERT SELECT and revision/provider_binding/saveConversations tokens, therefore rejects this real save",
+        "exception is thrown from final saving transaction before job terminal/charged settlement; authorized save-enabled requests can leave running/reserved until later recovery"
+      ],
+      "suggestion": "Precise helper change of actual Python save to equivalent conditional INSERT SELECT, preserve original fresh prefs/provider nonce/settings/job guards; do not broadly allow unguarded VALUES. Add active/save-on success, save-off and closed-in-flight actual run compatibility tests.",
+      "status": "reported to root and author; no edits made"
+    }
+  ],
+  "noAdditionalSubstantiatedIssue": [
+    "same atomic SQL final role/session/closed fence covers observed await-body settings/role/community/upload paths",
+    "last active admin count is in receipt claim trigger inside same closure write transaction/batch",
+    "password-change original UPDATE+DELETE sessions remains fenced; legitimate verified-session issuance uses active target proof and closed-target INSERT trigger",
+    "original financial owner rows are retained; existing claimed job terminal settlement remains allowed after closure while personal-body triggers reject resurrection",
+    "order settlement only invoked by prepared original paid/refunded order completion; actual original fact checked; real original pay event always required"
+  ],
+  "limits": [
+    "Static review of current sources plus proposed helper only; no actual post-integration HTTP/browser/full60 verification run by reviewer",
+    "No formal external provider/backup/billing closure claims",
+    "Order validateFact includes unused sandbox_refund alias but real commerce uses refund; prior applied sandbox_pay still makes actual refunded original orders verifiable, so not treated as separate functional finding"
+  ]
+}

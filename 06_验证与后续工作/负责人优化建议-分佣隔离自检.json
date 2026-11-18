@@ -1,0 +1,312 @@
+{
+  "checks": [
+    {
+      "name": "anonymous rejected",
+      "passed": true
+    },
+    {
+      "name": "ungranted operator denied",
+      "passed": true
+    },
+    {
+      "name": "production and actual payments closed",
+      "passed": true
+    },
+    {
+      "name": "sandbox explicit enable",
+      "passed": true
+    },
+    {
+      "name": "grant finance",
+      "passed": true
+    },
+    {
+      "name": "grant business",
+      "passed": true
+    },
+    {
+      "name": "grant support",
+      "passed": true
+    },
+    {
+      "name": "business cannot change settings",
+      "passed": true
+    },
+    {
+      "name": "append author rule",
+      "passed": true
+    },
+    {
+      "name": "no arbitrary promotion beneficiary",
+      "passed": true
+    },
+    {
+      "name": "server invite created",
+      "passed": true
+    },
+    {
+      "name": "client beneficiary attribution override rejected",
+      "passed": true
+    },
+    {
+      "name": "self attribution rejected",
+      "passed": true
+    },
+    {
+      "name": "server attribution captured",
+      "passed": true
+    },
+    {
+      "name": "attribution replay stable",
+      "passed": true
+    },
+    {
+      "name": "new rule version after creation",
+      "passed": true
+    },
+    {
+      "name": "unknown channel fee waiting_facts",
+      "passed": true
+    },
+    {
+      "name": "finance fact source required",
+      "passed": true
+    },
+    {
+      "name": "explicit test fee fact resolves",
+      "passed": true
+    },
+    {
+      "name": "creation version immutable",
+      "passed": true
+    },
+    {
+      "name": "repeated sync idempotent",
+      "passed": true
+    },
+    {
+      "name": "other beneficiary isolated",
+      "passed": true
+    },
+    {
+      "name": "support amounts redacted",
+      "passed": true
+    },
+    {
+      "name": "support cannot confirm",
+      "passed": true
+    },
+    {
+      "name": "finance confirm freezes",
+      "passed": true
+    },
+    {
+      "name": "fulfilled and freeze passed advance",
+      "passed": true
+    },
+    {
+      "name": "statement reserve",
+      "passed": true
+    },
+    {
+      "name": "self approval rejected",
+      "passed": true
+    },
+    {
+      "name": "second finance/admin approves",
+      "passed": true
+    },
+    {
+      "name": "bookkeeping explicit no actual pay",
+      "passed": true
+    },
+    {
+      "name": "separate test proof register",
+      "passed": true
+    },
+    {
+      "name": "settled partial refund preserves original and recovery",
+      "passed": true
+    },
+    {
+      "name": "cumulative refunds no rounding drift",
+      "passed": true
+    },
+    {
+      "name": "CSV export redaction",
+      "passed": true
+    },
+    {
+      "name": "large integer nondivisible rounding vectors",
+      "passed": true
+    },
+    {
+      "name": "fixed amount append version",
+      "passed": true
+    },
+    {
+      "name": "fixed per unit uses integer quantity",
+      "passed": true
+    },
+    {
+      "name": "unbooked statement cancelled by partial refund",
+      "passed": true
+    },
+    {
+      "name": "duplicate commerce refund does not duplicate adjustment",
+      "passed": true
+    },
+    {
+      "name": "promotion rule uses server attribution",
+      "passed": true
+    },
+    {
+      "name": "revoking code does not rewrite captured order attribution",
+      "passed": true
+    },
+    {
+      "name": "revoked invite absent from later order snapshot",
+      "passed": true
+    },
+    {
+      "name": "owner filter cannot expose another beneficiary",
+      "passed": true
+    },
+    {
+      "name": "disabled creation snapshot cannot gain later commission",
+      "passed": true
+    },
+    {
+      "name": "missing creation hook fails closed without reconstruction",
+      "passed": true
+    },
+    {
+      "name": "locked facts cannot silently change original",
+      "passed": true
+    },
+    {
+      "name": "business cannot perform finance advancement",
+      "passed": true
+    },
+    {
+      "name": "actual payments toggle rejected independently",
+      "passed": true
+    },
+    {
+      "name": "financial evidence traceable only to finance",
+      "passed": true
+    },
+    {
+      "name": "unfulfilled physical cannot become payable",
+      "passed": true
+    },
+    {
+      "name": "actual sandbox delivery releases eligible freeze",
+      "passed": true
+    },
+    {
+      "name": "unexpired freeze cannot settle after delivery",
+      "passed": true
+    },
+    {
+      "name": "filter also limits adjustments and whole statements",
+      "passed": true
+    },
+    {
+      "name": "ordinary user cannot receive financial grant",
+      "passed": true
+    },
+    {
+      "name": "teacher cannot receive financial grant implicitly",
+      "passed": true
+    },
+    {
+      "name": "old finance grant invalid immediately after base role downgrade",
+      "passed": true
+    },
+    {
+      "name": "downgraded account only receives personal reporting scope",
+      "passed": true
+    }
+  ],
+  "vectors": [
+    {
+      "numerator": "9999000000000",
+      "denominator": "10000",
+      "rounding": "floor",
+      "result": 999900000
+    },
+    {
+      "numerator": "9999000000000",
+      "denominator": "10000",
+      "rounding": "half_up",
+      "result": 999900000
+    },
+    {
+      "numerator": "989901000000000",
+      "denominator": "10000",
+      "rounding": "floor",
+      "result": 98990100000
+    },
+    {
+      "numerator": "989901000000000",
+      "denominator": "10000",
+      "rounding": "half_up",
+      "result": 98990100000
+    },
+    {
+      "numerator": "2002",
+      "denominator": "3",
+      "rounding": "floor",
+      "result": 667
+    },
+    {
+      "numerator": "2002",
+      "denominator": "3",
+      "rounding": "half_up",
+      "result": 667
+    },
+    {
+      "numerator": "1001",
+      "denominator": "3",
+      "rounding": "floor",
+      "result": 333
+    },
+    {
+      "numerator": "1001",
+      "denominator": "3",
+      "rounding": "half_up",
+      "result": 334
+    },
+    {
+      "numerator": "1",
+      "denominator": "2",
+      "rounding": "floor",
+      "result": 0
+    },
+    {
+      "numerator": "1",
+      "denominator": "2",
+      "rounding": "half_up",
+      "result": 1
+    },
+    {
+      "numerator": "999999999",
+      "denominator": "10000",
+      "rounding": "floor",
+      "result": 99999
+    },
+    {
+      "numerator": "999999999",
+      "denominator": "10000",
+      "rounding": "half_up",
+      "result": 100000
+    }
+  ],
+  "database": ":memory:",
+  "originalDatabaseOpened": false,
+  "realPayments": false,
+  "passed": 57,
+  "failed": 0,
+  "sourceSha256": "faa3c168061b86ed7c891745d8f5bd1b85d315d19df95f5aa8f65ec3ee71cb39"
+}

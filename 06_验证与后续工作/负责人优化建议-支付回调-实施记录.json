@@ -1,0 +1,191 @@
+{
+  "at_beijing": "2026-11-16T15:47:01.446925+08:00",
+  "module": "负责人优化建议-支付回调",
+  "taskId": "PAY08",
+  "stage": 21,
+  "pass": true,
+  "status": "local-software-verified-real-channel-pending",
+  "requirement": {
+    "sourceIds": [
+      "P449",
+      "P450",
+      "P451"
+    ],
+    "title": "异步回调可靠接收",
+    "acceptance": "同事件/同交易重复通知只处理一次且有接收记录。",
+    "progressWorkbook": "06_验证与后续工作/东方智慧APP需求进度表-20261116.xlsx",
+    "progressRange": "98项明细!A77:H77",
+    "nextAtHandoff": "先做通用接收记录、幂等去重和重试，用合成事件验证。"
+  },
+  "scope": "默认关闭的沙箱HMAC签名适配、最小字段白名单与大小/时戳验证、提交后202、事件及交易双层去重和冲突审计、持久化inbox、独立消费/租约/有限退避和人工重试、数字实物沙箱事务应用、后台列表/详情/处理记录与窄屏横滑。",
+  "production": {
+    "productionEnabled": false,
+    "realProviderTested": false,
+    "actualFundsMoved": false,
+    "automaticallyScheduled": false,
+    "originalDatabaseUsed": false,
+    "sandboxFixtureOnly": true
+  },
+  "verification": {
+    "Python全量": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调-本轮全量回归结果.json",
+      "sha256": "c505b6cd4936d9f1637c8e08bdffb1fd6f2d07688c17005a3fa9a814d6d1bbf5",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T07:42:20.814Z",
+      "runId": null,
+      "scope": null,
+      "recordedIdentityChecked": false,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Cloud全量": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调-公网适配全量回归结果.json",
+      "sha256": "94a1d48d020ef1282be2924d0f1104e9f76e9b85cbaaca0c0af2913e9ac22ab6",
+      "passed": 60,
+      "failed": 0,
+      "at": "2026-11-16T07:43:00.981Z",
+      "runId": null,
+      "scope": null,
+      "recordedIdentityChecked": false,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Python专项": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调专项-python.json",
+      "sha256": "3ea8fcc751c691755506b1bcb4f4f002a465f2ca470011f57d83a21a62ecc4c3",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T07:42:31.508Z",
+      "runId": "mwiyhbv8_6f21bc",
+      "scope": "Durable, separately consumed sandbox HMAC fixture inbox. Actual persisted receipts, event/transaction deduplication, atomic sandbox settlement, finite retries, lease recovery and admin UI. No real provider, production payment, scheduler or late-payment compensation.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Cloud专项": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调专项-cloud.json",
+      "sha256": "b200891a37bccab6a311ccdda32017a5228111e31c51baa07de613b0016d11c8",
+      "passed": 16,
+      "failed": 0,
+      "at": "2026-11-16T07:43:01.191Z",
+      "runId": "mwiyhyrq_b36a84",
+      "scope": "Durable, separately consumed sandbox HMAC fixture inbox. Actual persisted receipts, event/transaction deduplication, atomic sandbox settlement, finite retries, lease recovery and admin UI. No real provider, production payment, scheduler or late-payment compensation.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Python交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调交易兼容-python.json",
+      "sha256": "2bbad3fdf3ebf31f8560e194e521e56b635b1fccd24398e4b6ab6cbbbf20e524",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T07:42:49.907Z",
+      "runId": "mwiyhq2b_cd2436",
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Cloud交易兼容": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调交易兼容-cloud.json",
+      "sha256": "ac5b2560e91ef419ee87d91fccd856f6db68a5247e5f4592f276356c4f99e79e",
+      "passed": 31,
+      "failed": 0,
+      "at": "2026-11-16T07:43:00.974Z",
+      "runId": "mwiyhylq_ff67f8",
+      "scope": "Actual isolated HTTP and browser commerce flow. Sandbox transactions remain separate from real member/media permissions.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Python补充视觉及数字权益": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python.json",
+      "sha256": "2304ed3fba1649bd615f3afd093e790e90260e51ea4400518c968f3f2d2fa472",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T07:42:50.464Z",
+      "runId": "mwiyhqhs_05a809",
+      "scope": "Supplemental native browser viewport captures of the new Chinese admin panel at 360 and 1280 widths, plus actual sandbox digital entitlement deduplication. No full-page downscaling or pixel editing.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    },
+    "Cloud补充视觉及数字权益": {
+      "path": "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud.json",
+      "sha256": "95b3b7fbfa2106fb1520c4223c7e124e86c64a4f6e4035184b8a2edabe90b07e",
+      "passed": 4,
+      "failed": 0,
+      "at": "2026-11-16T07:43:01.250Z",
+      "runId": "mwiyhyte_635fd8",
+      "scope": "Supplemental native browser viewport captures of the new Chinese admin panel at 360 and 1280 widths, plus actual sandbox digital entitlement deduplication. No full-page downscaling or pixel editing.",
+      "recordedIdentityChecked": true,
+      "finalBuildBinding": "Final local rebuild completed before this run; current source/build hashes frozen below."
+    }
+  },
+  "source_hashes": {
+    "04_研发源码/app/r4/backend/payment_callbacks.py": "ffd9b55b0cebf8da57909cbb023fc5ee6d1d87fc71afcc8d54b656b9ef1ea566",
+    "04_研发源码/app/r4/backend/server.py": "b2717a82e68512672276e6239efe2d9a26ed9903076a0faa10afac3ac8914e7e",
+    "04_研发源码/app/cloud/lib/payment-callbacks.ts": "749aed7be9ee2ed3e072f67a107f3e7701b2bb81b0aa97cd86a87a43cf22192d",
+    "04_研发源码/app/cloud/lib/eastern-api.ts": "392bef26ec082016cfa60ae1942bc1127e2a90353567aae767cd8e45e71cd01f",
+    "04_研发源码/app/r4/payment-callback-admin.js": "b4546c8ac9c377ac8eedbf8b0246ba4fcba4037ae5e70ea450690907c6a2fc97",
+    "04_研发源码/app/r4/commerce-admin.js": "434338c645d49e5e187288965cfc36dda01c7fc8b0e771ee49ef9a7894b645b4",
+    "04_研发源码/app/r4/build.py": "109e93dc74bc2516133a00f1047f4af97dd0e8ee07632b78c7fb26473b1fa6f6",
+    "04_研发源码/app/cloud/prepare.py": "8192d6c11eb2536bfbae43655a09396885958dab1fc29b44b256a699f01d9d6c",
+    "06_验证与后续工作/全量回归.cjs": "933a440fe0c5a7d4fd6a46cdffce6506b922e6a8b9438404782d0df6df3b4162",
+    "06_验证与后续工作/公网适配全量回归.cjs": "e1e268b91b430480ff2dfe76b20a9023070a8e7bd3c0a0685fc5d7adea372879",
+    "06_验证与后续工作/负责人优化建议-支付回调专项.cjs": "7f9b40d0bb9983738b87c8b289dd8fd28c343f4839bb8d840d73e9a5fa32e7d6",
+    "06_验证与后续工作/负责人优化建议-支付回调验收启动.cjs": "c4180f3ff4553ae3b39295dec13f49595aa71163cc2a6358e6602874fb1eb8ee",
+    "06_验证与后续工作/负责人优化建议-支付回调Python测试服务.py": "a559417f7a74da327cbf41e30fb7055b4bc65b7b01d5c3690594a1f27eb6130b",
+    "06_验证与后续工作/负责人优化建议-支付回调Cloud测试服务.ts": "ef8dc7397474f7c2a6ad5d61d144671568516d8675abe3371da5eae3415ba4c6",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉.cjs": "d2c01c08e6cae741f91f8755f5c2fdb38388edf019778a42b04af2a9c8736b1d",
+    "06_验证与后续工作/负责人优化建议-支付回调验收冻结.py": "35a342d1e1a4c9a71451a25835b760c5729a86b01deacc51aca3f1842a40f8f7"
+  },
+  "build_hashes": {
+    "03_当前APP/东方智慧-首页体验R4.html": "18040c7fbd4adc0ae457678b670d39f3b14fadcad629b9fe324b30a26c58f207",
+    "03_当前APP/计时后台-开发联调.html": "c02851072012baf576b3cbe32fa89e1212018123963ea7f014aab69c450c935b",
+    "03_当前APP/发给负责人-东方智慧首页R4.html": "f8c429e91efbaf659885b936d5b2e2327a54bca6e6f62413e17f9a1ef1c11ca5",
+    "03_当前APP/创作者中心.html": "59efed1a18b2f3a1b05a2964e85189de356535975052d1254dd5295926cd3a7c",
+    "04_研发源码/app/cloud/generated/experience.html": "4cdc840357f857de1255c7d09551b2ca4d33f05a77a40044379edab35b126401",
+    "04_研发源码/app/cloud/generated/admin.html": "9a836e8dc713a7a1e37a3f10d8eda14b045039574b22e46cb446ec1f2ecf157f",
+    "04_研发源码/app/cloud/dist/server/index.js": "adf6112f3b1688b539c34bfdb9827164d48cfc2a92edc56359ee031f7a7a2e7e"
+  },
+  "visualEvidenceSHA256": {
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwiyhbv8_6f21bc-后台-1280-长编号详情.png": "0d7821350d5f5fbf95280aa5d46249511e71fa84a0a7cd3a168492deb9b80ee7",
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwiyhbv8_6f21bc-后台-360-长编号详情.png": "a060bb2ac1067fd26fdc2b9998bd73bc9b90a0cb7b01a4f9aba717bf16967908",
+    "06_验证与后续工作/负责人优化建议-支付回调-python-mwiyhbv8_6f21bc-后台重试.png": "c362aab8a72cc1cab1fec5688b0bfd4cccffaff496b643929f33cf83ff352461",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwiyhyrq_b36a84-后台-1280-长编号详情.png": "65f8bffc43dab612630a5b6f4795b6680040247281721a98cfa27e286613874e",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwiyhyrq_b36a84-后台-360-长编号详情.png": "e93bb5fa76b7cf3a7d5da666b344cd71eed596498cd3982d04be27e47c8e9445",
+    "06_验证与后续工作/负责人优化建议-支付回调-cloud-mwiyhyrq_b36a84-后台重试.png": "fd5ebb813544c639495737ced5c0a73bf952c8c92c7d28932b189a65407e6ca8",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-python-mwiyhq2b_cd2436-数字购物车.png": "9a2de71384e0d3868e86d22c3f20c7fb8f4b9429d64b1ba182582d75a37a60d3",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-python-mwiyhq2b_cd2436-已支付订单.png": "680d39228085bdf7635d80fd3fd1f0673af735e8616055ab54be734e7b49d78d",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-python-mwiyhq2b_cd2436-售后申请进度.png": "d07f5d0ba9303fdc7b03ea1d6ec4f85a88af2e456d5c0ed188e7fdc554c79611",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-cloud-mwiyhylq_ff67f8-数字购物车.png": "feaf985acc13306d69566ce29b3886a8a0bb175e49023f4631e68334f24eafa7",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-cloud-mwiyhylq_ff67f8-已支付订单.png": "93c17f2f24278db1272bc2a84ba40db0d6fc712445971312a5e3627aef180b02",
+    "06_验证与后续工作/负责人优化建议-支付回调交易兼容-cloud-mwiyhylq_ff67f8-售后申请进度.png": "8a62cd9a42cdbdf5ec7c1bace7d98ee8ddcd56b2a7921e091e17c613338e94d2",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-收件箱顶部与列表.png": "5e65ee60415fe884d60799d8a1fe616712785fb68dfde6bd5e99c96a28266fd9",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-列表操作列.png": "a59b66ec7f866d8a1b12ac21489e74efff0dae482c7480e0261afd5ad1cbb009",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-收件箱顶部与列表.png": "0fa47be754a70604892266b08661192a565dce398bdac28d08db8f536053c49b",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-列表操作列.png": "0fa47be754a70604892266b08661192a565dce398bdac28d08db8f536053c49b",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-通知详情与处理记录.png": "65193b31c944c14ae77133a1c63be37eef55740914f363f3c499e75fd17ebb8c",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-1280-通知详情与处理记录.png": "ab65fb00253fc3907030b31763da91834cbcde8b02b8feae4f1e9cc95e0eaf53",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-等待重试详情.png": "104bb05c68e77e21996575e3c11409b315150336357852f3a95e4f10ee02083f",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-python-mwiyhqhs_05a809-360-重试成功与处理记录.png": "1cdf2d2349a9f5d7064cb69db71cc0b0a50df34498cb45cf2b7f8db473661da9",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-360-收件箱顶部与列表.png": "fb26c7d36d87162ad009e7cc239ad64bf767812c2bdcc647d4222b7f26adad60",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-360-列表操作列.png": "b3305ee85524767561928ec9fc0341768e694d3abbf89aab9666a4ca4219c750",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-1280-收件箱顶部与列表.png": "a538ced2ae3be4158d2d11f1fc58f98756e8adc0636d0183782c1c779e434719",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-1280-列表操作列.png": "a538ced2ae3be4158d2d11f1fc58f98756e8adc0636d0183782c1c779e434719",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-360-通知详情与处理记录.png": "55afc5e78fe67233bdc26dd50d7a14c36fcfeee5f35f3c6668785317b5f6d841",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-1280-通知详情与处理记录.png": "b00b3ab423794b12894823f0a75ff4b969c0936c78a1dd9d2941b846ab060bd1",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-360-等待重试详情.png": "0eef24ed4aa4d77fd4863026bc498dbd8a6fc5ed69a11bf18d6188d276000740",
+    "06_验证与后续工作/负责人优化建议-支付回调补充视觉-cloud-mwiyhyte_635fd8-360-重试成功与处理记录.png": "e09e3e87bb10aca92319d62e18b4e31a4de279a290b5bf2241233ea07d759c5f"
+  },
+  "limitations": [
+    "签名验证只针对本轮明确命名的sandbox HMAC fixture；Apple/Google/Stripe/PayPal等真实渠道验签、验单及收银尚未接入。",
+    "收件先持久化后202；消费由独立管理员process请求触发。未部署常驻worker/cron、自动唤醒或外部告警，不宣称生产异步调度已完成。",
+    "仅数字/实物沙箱订单安全应用。会员回调保留membership_requires_adapter，继续沿用原会员沙箱付款入口，未虚报会员回调接通。",
+    "过期、关闭、已退款、金额币种冲突等进人工核查；未实现PAY09/PAY13迟到支付补库存、真实退款或资金补偿。",
+    "Python执行过实际进程重启恢复；Cloud验证跨请求D1持久化和过期租约恢复，未执行worker进程重启或生产容灾演练。",
+    "后台桌面及360窄屏使用原生点击和真实横滑验证；本机浏览器不代表iOS/Android实机、母语审校或生产服务验收。"
+  ],
+  "failureHistory": [
+    "首轮Python专项错误JSON的测试传输被Playwright重新编码，签名字节不符；改为Buffer逐字节发送后重跑，原失败run保留。",
+    "Python初次完整脚本只选56项；原56范围报告另存，最终显式bazi-stage=4共60项通过。",
+    "Cloud首轮57/3为隔离fixture的/app review与设备canary配置缺口；未放宽产品门禁，原失败报告与截图另存，修夹具后重跑。",
+    "窄屏长编号和日期折行可读性问题已修为合理列宽与真实横滑；修复前报告/截图保留，最终两端在新构建上复验。"
+  ],
+  "frozenBytes": "UTF-8 LF; write_bytes; historical receipts and archives preserved"
+}

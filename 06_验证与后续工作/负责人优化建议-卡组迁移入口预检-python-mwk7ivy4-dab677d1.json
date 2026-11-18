@@ -1,0 +1,294 @@
+{
+  "at": "2026-11-17T04:43:14.026Z",
+  "formalAcceptance": false,
+  "scope": "Actual isolated main and self-managed closure startup/control families; a startup probe is not a full compatibility or card migration acceptance run.",
+  "preparationOnly": true,
+  "results": [
+    {
+      "name": "python/special actual startup",
+      "pass": true,
+      "observed": {
+        "target": "python",
+        "family": "main",
+        "actualOuterStartup": true,
+        "actualBootstrap": true,
+        "checks": [
+          {
+            "method": "POST",
+            "route": "/__card-migration-test/control",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/__card-migration-test/control",
+            "status": 403,
+            "expected": 403
+          },
+          {
+            "method": "POST",
+            "route": "/__privacy-domains-test/control",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/__privacy-domains-test/control",
+            "status": 403,
+            "expected": 403
+          },
+          {
+            "method": "POST",
+            "route": "/__unknown-card-migration-namespace/control",
+            "status": 404,
+            "expected": 404
+          },
+          {
+            "method": "POST",
+            "route": "/api/auth/setup",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/api/admin/cards/imports/preview",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/api/admin/cards/imports/278f440d-ab5e-4def-af65-abcc7c1b9b2b/apply",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/api/cards/legacy-migrations/preview",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/api/cards/legacy-migrations/1d0cca4f-f41a-402b-8f8f-e3a290d2d19b/apply",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "GET",
+            "route": "/api/cards/legacy-archives",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/api/cards/legacy-migrations/1d0cca4f-f41a-402b-8f8f-e3a290d2d19b/undo",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "GET",
+            "route": "/api/cards/legacy-archives",
+            "status": 200,
+            "expected": 200
+          },
+          {
+            "method": "POST",
+            "route": "/__card-migration-test/control",
+            "status": 200,
+            "expected": 200
+          }
+        ],
+        "worker": {
+          "actualPythonHttpNodeChildren": true,
+          "pids": [
+            31156,
+            37348,
+            13592,
+            15160,
+            16796,
+            23176,
+            72352,
+            64100
+          ],
+          "stdoutBytes": [
+            726,
+            5322,
+            826,
+            90,
+            5322,
+            290,
+            97,
+            96
+          ],
+          "nodeSha256": "c0b01496cf3da5cceca86eb6e1b2ef5d088cd46ad4e97cf502e2c937fa7f56b9",
+          "workerSha256": "b95d57edf07d81a174de5bf7f651d49a106dc7b3b1ffaf77909e62ca942abad5",
+          "environmentKeysOnly": [
+            "LANG",
+            "PATH",
+            "SystemRoot",
+            "TEMP",
+            "TMP",
+            "TZ",
+            "WINDIR"
+          ]
+        }
+      }
+    },
+    {
+      "name": "python/closure-compat actual startup",
+      "pass": true,
+      "observed": {
+        "target": "python",
+        "family": "closure",
+        "actualSelfManagedStartup": true,
+        "actualBootstrap": false,
+        "probeReport": "负责人优化建议-卡组迁移注销兼容入口组件-python-mwk7ioi8-5817d3ad.json",
+        "probeReportSha256": "481ba3b73064531480807fa7af032448506193043d513a8d2ee23a8420705fad",
+        "privateControlAndWrongTokenCovered": true,
+        "ownedState": null,
+        "ownedDatabase": "06_验证与后续工作\\负责人优化建议-卡组迁移注销兼容隔离-mwk7iows_42ec45.sqlite3"
+      }
+    }
+  ],
+  "artifacts": [],
+  "pendingFixedQaInputs": [
+    "版本专项.cjs",
+    "原生专项.cjs",
+    "补充视觉.cjs"
+  ],
+  "entries": [
+    {
+      "target": "python",
+      "suite": "full",
+      "expectedCount": 60,
+      "entry": "06_验证与后续工作/全量回归.cjs",
+      "module": "负责人优化建议-卡组迁移",
+      "report": "负责人优化建议-卡组迁移-本轮全量回归结果.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\全量回归.cjs",
+        "--module=负责人优化建议-卡组迁移",
+        "--bazi-stage=4",
+        "--admin"
+      ],
+      "family": "product-full",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "special",
+      "expectedCount": 40,
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移专项.cjs",
+      "module": "负责人优化建议-卡组迁移专项",
+      "report": "负责人优化建议-卡组迁移专项-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移专项.cjs",
+        "--module=负责人优化建议-卡组迁移专项",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移专项-python.json"
+      ],
+      "family": "main",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "visual",
+      "expectedCount": 4,
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移补充视觉.cjs",
+      "module": "负责人优化建议-卡组迁移补充视觉",
+      "report": "负责人优化建议-卡组迁移补充视觉-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移补充视觉.cjs",
+        "--module=负责人优化建议-卡组迁移补充视觉",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移补充视觉-python.json"
+      ],
+      "family": "main",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "b11-compat",
+      "expectedCount": 11,
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移B11兼容.cjs",
+      "module": "负责人优化建议-卡组迁移B11兼容",
+      "report": "负责人优化建议-卡组迁移B11兼容-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移B11兼容.cjs",
+        "--module=负责人优化建议-卡组迁移B11兼容",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移B11兼容-python.json"
+      ],
+      "family": "main",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "card-compat",
+      "expectedCount": 25,
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移抽卡兼容.cjs",
+      "module": "负责人优化建议-卡组迁移抽卡兼容",
+      "report": "负责人优化建议-卡组迁移抽卡兼容-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移抽卡兼容.cjs",
+        "--module=负责人优化建议-卡组迁移抽卡兼容",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移抽卡兼容-python.json"
+      ],
+      "family": "main",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "privacy-compat",
+      "expectedCount": 28,
+      "entry": "06_验证与后续工作/负责人优化建议-隐私逐域专项.cjs",
+      "module": "负责人优化建议-卡组迁移逐域兼容",
+      "report": "负责人优化建议-卡组迁移逐域兼容-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-隐私逐域专项.cjs",
+        "--module=负责人优化建议-卡组迁移逐域兼容",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移逐域兼容-python.json"
+      ],
+      "family": "main",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    },
+    {
+      "target": "python",
+      "suite": "closure-compat",
+      "expectedCount": 27,
+      "entry": "06_验证与后续工作/负责人优化建议-卡组迁移注销兼容.cjs",
+      "module": "负责人优化建议-卡组迁移注销兼容",
+      "report": "负责人优化建议-卡组迁移注销兼容-python.json",
+      "argv": [
+        "C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移注销兼容.cjs",
+        "--module=负责人优化建议-卡组迁移注销兼容",
+        "--target=python",
+        "--report=负责人优化建议-卡组迁移注销兼容-python.json"
+      ],
+      "family": "closure",
+      "databasePrefix": "负责人优化建议-卡组迁移隔离-",
+      "reportNamespace": "负责人优化建议-卡组迁移"
+    }
+  ],
+  "pythonFullDatabaseSelection": {
+    "source": "06_验证与后续工作/全量回归.cjs",
+    "sourceSha256": "ea1cfa319f7f86e98d3729d6180dd23ac4501d30083f1f83fb2dc18df40253ca",
+    "module": "负责人优化建议-卡组迁移",
+    "regex": "/^负责人优化建议-(长期记忆|支付客服|支付回调|支付恢复|迟到补偿|会员额度|数字权益|隐私逐域|任务告警|支付路由|八字样本|卡组迁移)/",
+    "namespaceMatchesFreshBranch": true,
+    "selectedBasenamePattern": "isolated-full-<crypto.randomUUID()>.sqlite3",
+    "legacyNamedDatabaseSelected": false,
+    "actualSourceAstVerified": true,
+    "opensOrCreatesDatabase": false,
+    "scope": "Static proof of the actual child source selection. The separate formal full gate starts and tests its fresh database."
+  },
+  "pass": false,
+  "error": "AssertionError [ERR_ASSERTION]: Unresolved actual import: 06_验证与后续工作/负责人优化建议-卡组迁移专项.cjs -> ./负责人优化建议-卡组迁移版本专项.cjs\n    at sourceFiles (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移测试工具.cjs:12:341)\n    at identity (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移测试工具.cjs:15:49)\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移入口预检.cjs:61:30\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+}

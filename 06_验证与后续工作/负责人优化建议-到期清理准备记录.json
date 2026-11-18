@@ -1,0 +1,85 @@
+{
+  "preparedAt": "2026-11-13T02:34:55.805494+00:00",
+  "module": "PR05 local retention",
+  "preparedOnly": true,
+  "businessSourcesFrozen": true,
+  "sharedEntryModified": false,
+  "buildExecuted": false,
+  "actualRunnerExecuted": false,
+  "sourceHashes": {
+    "04_研发源码/app/r4/backend/privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849",
+    "04_研发源码/app/cloud/lib/privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6",
+    "04_研发源码/app/r4/privacy-retention.js": "a49824c2ba53607932c55bb481bf9c93c9d3fc0d255362bc22c5042dfeffc574",
+    "04_研发源码/app/r4/privacy-retention.css": "f7f0aac2f479858f57a34a68d383d66b550b8b42edd50b2deac4cbba42b4af91",
+    "04_研发源码/app/r4/privacy-retention-admin.js": "80d7b1e63feedf6008410c7d9cb479c2d0a9e577b6d4078a351180e627861b62"
+  },
+  "verification": [
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理Python内存结果.json",
+      "sha256": "b2c9166b11ab8661c7c6a68b7464c181d35eb0b52c23661c3d87df5a8613db6c",
+      "passed": 46,
+      "failed": 0,
+      "scope": "in-memory SQLite; no live service or original DB"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理Cloud内存结果.json",
+      "sha256": "4640372cc8624dd47a804b5ab19973dc1cc330e6fb902de3106e414647371d6d",
+      "passed": 50,
+      "failed": 0,
+      "scope": "real TypeScript via transactional node:sqlite D1 adapter; not real Cloudflare service"
+    },
+    {
+      "path": "06_验证与后续工作/负责人优化建议-到期清理UI结果.json",
+      "sha256": "8fe8bbd515c990b455adabc952c54f0ce3424c8b0e2b2441894918ef22195ad3",
+      "passed": 16,
+      "failed": 0,
+      "scope": "actual new frontend functions/listeners in isolated VM; no live browser or service"
+    }
+  ],
+  "integrationHelper": "06_验证与后续工作/负责人优化建议-到期清理接入准备.py",
+  "helperDefaultDryRun": true,
+  "helperFiles": 8,
+  "helperAnchors": 18,
+  "guide": "06_验证与后续工作/负责人优化建议-到期清理接入说明.txt",
+  "limits": [
+    "Provider and backup deletion pending confirmation",
+    "No long-term-memory service",
+    "No cron deployment",
+    "Actual gate requires parent integration + fresh random SQLite/D1/R2 services"
+  ],
+  "preparationHistory": [
+    {
+      "at": "2026-11-13T02:39:11.816600+00:00",
+      "previousSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy_retention.py": "c8f2a33e2b736ce4d2f7ca8efde5ddfc136586d75525898414a15356b9ed9948",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "c80404ba76151d1245b6fd5d5018acbdbc8dbee92fdad004b5ca9c5a61185f99",
+        "04_研发源码/app/r4/privacy-retention.js": "0783c37320564aeb9b2e6135628d6f1f51ecfc7e0e78028244889d517239a7f1",
+        "04_研发源码/app/r4/privacy-retention.css": "6e4e6e8dd4b04faa240aef26d6f47561e5657a504cfd5e9e135f1184b1ffe707",
+        "04_研发源码/app/r4/privacy-retention-admin.js": "5b22ed79e8e08951a9916f6ba5560562714e3a50d5e79b6d489482b37bcc4788"
+      },
+      "reason": "card erasure epoch narrowed to actual card deletion or closure; conversation-only keeps pending draw epoch"
+    },
+    {
+      "at": "2026-11-13T02:59:12.952405+00:00",
+      "previousSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6",
+        "04_研发源码/app/r4/privacy-retention.js": "0783c37320564aeb9b2e6135628d6f1f51ecfc7e0e78028244889d517239a7f1",
+        "04_研发源码/app/r4/privacy-retention.css": "6e4e6e8dd4b04faa240aef26d6f47561e5657a504cfd5e9e135f1184b1ffe707",
+        "04_研发源码/app/r4/privacy-retention-admin.js": "5b22ed79e8e08951a9916f6ba5560562714e3a50d5e79b6d489482b37bcc4788"
+      },
+      "reason": "one root page includes shared back header; bounded fieldset grid intrinsic sizing; real-font static DOM diagnostics"
+    },
+    {
+      "at": "2026-11-13T03:19:46.000684+00:00",
+      "previousSourceHashes": {
+        "04_研发源码/app/r4/backend/privacy_retention.py": "552ab9fa92b2e5c6cf621965f77c965b225597adaaf114143b5e2391b4776849",
+        "04_研发源码/app/cloud/lib/privacy-retention.ts": "4e3aa7563db62d6c7dee9d189f8cf0ffa1dc98bff9c885d102c7ba342d7901b6",
+        "04_研发源码/app/r4/privacy-retention.js": "a49824c2ba53607932c55bb481bf9c93c9d3fc0d255362bc22c5042dfeffc574",
+        "04_研发源码/app/r4/privacy-retention.css": "f7f0aac2f479858f57a34a68d383d66b550b8b42edd50b2deac4cbba42b4af91",
+        "04_研发源码/app/r4/privacy-retention-admin.js": "5b22ed79e8e08951a9916f6ba5560562714e3a50d5e79b6d489482b37bcc4788"
+      },
+      "reason": "admin load synchronizes nav aria-current; no other business changes"
+    }
+  ]
+}

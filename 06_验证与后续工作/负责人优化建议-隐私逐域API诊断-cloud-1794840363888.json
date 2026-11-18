@@ -1,0 +1,39 @@
+{
+  "at": "2026-11-16T14:46:03.887Z",
+  "formalAcceptance": false,
+  "target": "cloud",
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\privacy-domains-mwjdic12-b7865ee5",
+  "actualWrangler": true,
+  "actualD1": true,
+  "actualHttp": true,
+  "seededRows": 2,
+  "actualUploadedWave": true,
+  "observations": [
+    {
+      "path": "/api/auth/register",
+      "status": 200
+    },
+    {
+      "path": "/__privacy-domains-test/control",
+      "status": 200
+    },
+    {
+      "path": "/api/media",
+      "status": 401
+    },
+    {
+      "path": "/api/privacy/domains",
+      "status": 401,
+      "error": "请先登录账号。"
+    },
+    {
+      "path": "/api/privacy/domains/preview",
+      "status": 401,
+      "error": "请先登录账号。"
+    }
+  ],
+  "nativeErrors": [],
+  "processStopped": true,
+  "temporaryDevVarsRemoved": true,
+  "secretsIncluded": false
+}

@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "setId": "synthetic-template",
+  "version": "example-v1",
+  "title": "导入格式示例（合成输入，未提供老师标准答案）",
+  "source": {
+    "kind": "synthetic",
+    "reference": "仅示例，不是真实出生资料或老师已确认样本。expected为空表示未覆盖，不代表算法通过。",
+    "documentSha256": null,
+    "permissionReference": null
+  },
+  "cases": [
+    {
+      "caseId": "example-known-time",
+      "label": "合成示例：已知时间",
+      "tags": [
+        "ordinary",
+        "male"
+      ],
+      "input": {
+        "date": "1990-06-15",
+        "time": "23:30",
+        "sex": "male"
+      },
+      "context": {
+        "mode": "shared-current",
+        "legacyTimezone": null,
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {},
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    },
+    {
+      "caseId": "example-unknown-time",
+      "label": "合成示例：未知时间（完整命盘应阻断）",
+      "tags": [
+        "ordinary",
+        "female",
+        "unknown-time"
+      ],
+      "input": {
+        "date": "1990-06-15",
+        "time": null,
+        "sex": "female"
+      },
+      "context": {
+        "mode": "shared-current",
+        "legacyTimezone": null,
+        "archivedUtc": null,
+        "sourceRecordSha256": null,
+        "ambiguity": "reject",
+        "asOfUtc": "2026-06-15T04:00:00.000Z"
+      },
+      "options": {
+        "daySect": 2,
+        "yunSect": 2,
+        "trueSolarTime": false
+      },
+      "selection": {
+        "mode": "current",
+        "period": null,
+        "year": null,
+        "month": null
+      },
+      "expected": {},
+      "expectedRuleIdentity": null,
+      "teacherApproval": {
+        "claimedReviewer": null,
+        "evidenceReference": null,
+        "evidenceSha256": null,
+        "verification": "unverified-external-claim"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+import{t as e}from"./framework~index~layout~page~app-page-cache-render~app-page-cache~app-route-handler-dispatch-BCjUw-U6.js";var t=e();function n(){return(0,t.jsxs)(`main`,{children:[(0,t.jsx)(`h1`,{children:`东方智慧`}),(0,t.jsx)(`p`,{children:`让智慧，成为日常的陪伴。`}),(0,t.jsx)(`a`,{href:`/experience`,children:`进入体验`})]})}export{n as default};

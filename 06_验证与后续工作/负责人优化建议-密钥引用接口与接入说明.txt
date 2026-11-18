@@ -1,0 +1,49 @@
+PR06 服务端受控环境凭据引用——独立准备，尚未接入/部署
+
+真实原协议
+Python与Cloud的legacy AI都把凭据放在Authorization Bearer头；原设备测量接口也是Authorization Bearer，并非HMAC消息签名（hmac.compare_digest仅恒时字符串比较）。AI与设备因此均按完整合法Bearer token校验，拒全空白、任何控制符/内部空白/非Bearer字符，不trim、不改变值。设备保留原24..500长度，AI1..500。此实现不是通用opaque/HMAC key解析器。
+
+4新源
+r4/backend/secret_references.py
+cloud/lib/secret-references.ts
+r4/secret-references-admin.js / secret-references-admin.css
+所有服务端值只从受控用途的运行进程env/Cloud Worker显式env绑定解析：AI apiKeyRef=EW_AI_[A-Z0-9_]{1,80}；设备secretRef=EW_DEVICE_[A-Z0-9_]{1,80}。不接受HOME/PATH等任意变量名。无远程KMS/IAM/MFA/真实轮换/生产TLS或实际供应商连接证明，不探测unknown ref。
+原明文非空时拒绝调用，即使同时有可解析ref也无plain fallback。未迁移不冒称已删除或已就绪。
+
+接口（均fresh active admin，真实users.role和account_lifecycle最终批内再核）
+GET /api/admin/settings -> {ai:metadata+apiKeyRef+hasCredential/refReady/unmigrated,integrations:{id:{secretRef,fieldMap,hasCredential,refReady,unmigrated}},theme,secretConfigRevision}
+POST/PATCH /api/admin/settings {requestId,expectedRevision,ai?,integrations?,theme?}。AI允许原业务metadata及apiKeyRef，设备只secretRef/fieldMap。apiKey/secret/clearApiKey/clearSecret字段即使空也400；引用不是原值输入框。完整payload先验证，版本/原配置CAS通过才写，仅审计摘要不写正文。严格同key同payload重放，变载荷409，未知字段/旧版本拒绝。
+空引用明确停用对应调用，refReady=false、public.aiReady=false，不回退明文。
+GET /api/admin/secret-references -> {revision,items:[kind/providerId/reference和3boolean],managedCloudVerified:false,providerRequestsMade:false,automaticMigration:false}
+POST /api/admin/secret-references/plans {requestId,expectedRevision,mappings:[{kind:'ai'|'device',providerId:AI空/设备明确ID,reference}]} -> {item:{id,expectedRevision,status:'prepared'|'blocked',targets:仅元数据,appliedActionId,createdAt,dryRun},replayed}
+GET /api/admin/secret-references/plans/:id 仅创建该计划管理员；另一管理员404。
+POST /api/admin/secret-references/plans/:id/apply {requestId,expectedRevision,confirmed:true} -> {actionId,revision,replayed,status:inventory}
+预览只写计划元数据/内部原配置hash/原版本，不删旧值，不导出原值或原hash。不自动迁移旧库。
+真正apply在同transaction/batch中重新解析env，并逐项恒时exact匹配旧值、核原配置hash及version；任一失配整批不变；只有匹配目标原位SQL json_remove旧字段/json_set引用。没有把旧secret复制到计划、审计、导出、报告或新JS配置。
+整设备组只要还有一个非空legacy secret，普通integrations编辑整组409，防编辑B时重新序列化A旧明文；主题独立修改仍可用。显式单目标迁移仍支持，只移除匹配目标字段，其余旧值保留且普通编辑继续受阻；UI四语告知此范围。
+
+3新表与CAS
+secret_reference_state: opaque revision；settings(ai/integrations/theme)任意直接增改删均触发版本变化。
+secret_reference_plans: actor/requestId唯一、targets仅引用和状态、sources_hash内部使用，prepared/blocked/applied不可任改。
+secret_reference_actions: actor/requestId唯一、plan唯一、settings/migration动作，无凭据正文。最终trigger再核active admin、expected revision、plan ownership。原凭据只存在旧原settings直到真实匹配删除，不另建密钥数据库。
+Cloud以同D1 read batch取原settings/revision/theme，最终写batch通过sourceCAS、action存在约束和trigger；并发同key重放同原动作，异常后回读本人动作且再核当前权限。
+
+legacy AI专用无重定向transport
+新增NoRedirectHandler/open_legacy_ai，任何301/302/303/307/308，包括同host或降http，均拒绝；不跟第二次Location，不把Authorization越过已披露endpoint。仅实际legacy AI调用使用每次构建的专用opener；不install_opener、不影响媒体或其它urlopen。Cloud保留现有redirect:'error'。
+测试仅mock明确open_legacy_ai入口，或用本机fake HTTP/HTTPS handler响应链+socket硬拒绝证明真实opener不二次请求；不接外网。privacy实际provider/endpoint/model/regions/policy5字段绑定保持，不把secret/ref值加到模型context或privacy actualBinding。
+
+精确接入（默认dry，root顺序finance→secret→memory）
+负责人优化建议-密钥引用接入准备.py：当前5文件24锚点。server/easternAPI在原吞路径前路由，旧settings setter整个方法/branch委托新服务；init紧随实际finance；默认apiKey字段改apiKeyRef；public/legacy readiness和设备认证用同resolver；Python实际legacy transport替换。后台模板/build/prepare仅注册新admin组件/CSS，主APP仅需要既有server public.aiReady。
+负责人优化建议-密钥引用回归兼容准备.py：当前3文件10锚点，只拟议全量回归.cjs/公网适配全量回归.cjs/原后台单元回归.py。原分支保留，ref模式配置opaque版本+requestId，设备真header/clear503/非法provider拒绝/界面字段映射断言保留增强，禁用私有plain fixture。
+Python full60测试child仅在测试进程注入合成EW_DEVICE_REGRESSION_CANARY。Cloud full60由root启动全新测试服务时显式vars同名合成值，见负责人优化建议-密钥引用测试环境.cjs；该文件不可导入生产源。值是公开synthetic canary，不是用户凭据。
+原后台5unit保留真实Store.connect/users/session/require，只有明确open_legacy_ai transport mock，新增合成EW_AI_UNIT_TEST与Authorization精确断言。拟议源码已在内存+新独立SQLite执行5/5，不写共享源码、不替换require。
+所有helper先唯一锚点/全文件预计算/AST或JS/TS语法再落盘，平铺原始字节备份，拒不同源，默认不apply/不build/不服务。
+
+测试边界
+独立Python28（fresh native SQLite）、Cloud29（真实源+D1原子batch adapter）、Chromium13组件，含端口/空白控制、组级旧secret、单目标部分迁移、15种redirect链不二次请求、角色/关闭/晚到/版本/并发、合成canary API/审计/元数据零原值。失败runs保留：fake响应最初遗漏urllib的msg属性；Playwright fieldset.isDisabled改查DOM disabled及真实button有效禁用。未因夹具失败放宽安全断言。
+负责人优化建议-密钥引用实际专项.cjs 仅准备，接受--target=python|cloud，自起独立新SQLite/D1状态/随机端口，禁止已有--base；12HTTP+8browser共20，7图/16布局视图/4藏文字体，实际APP/admin/worker/source/test/font锁hash。仅测试进程随机合成canary和明确.invalid transport，无真实供应商请求；尚未执行，不算最终门禁。
+既有隐私/保存快照/B11实际报告是历史冻结证据。旧Python wrapper若曾patch actual.urlopen或seed apiKey，未来专门重跑需改为受控apiKeyRef+测试env及明确actual.open_legacy_ai hook；不能拿旧plain fixture失败来允许fallback。此次compat helper仅root指定当前full60和原5unit，不改历史冻结报告或无关source。
+尚需root apply两helper→APP/Cloud构建→原5unit+双full60+fresh双20+真实截图/字体→不可覆盖最终实施记录。未到该阶段不宣称集成完成/真实迁移/生产可用。
+最终record预留：负责人优化建议-密钥引用-实施记录.json（当前不写）。
+
+最终输入顺序：先真实当前admin/closed授权，再完整校验请求允许字段，最后原设备组旧值409门禁。旧组和已迁移组中新apiKey/secret/clear字段均400，未授权/closed仍优先403/401；不为400读取/输出凭据。此顺序已在双端原明文负例上验证。

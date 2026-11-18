@@ -1,0 +1,69 @@
+B11 实际 AI 解读与本机版本关联桥（独立源，等待接入与真实门禁）
+
+新增唯一业务源：04_研发源码/app/r4/bazi-interpretation-bridge.js。
+不修改 B11 四源、生命排盘计算、共享 AI 客户端、服务器、入口、数据库或当前构建。
+接入准备：负责人优化建议-B11解读桥接入准备.py，默认 dry-run。
+--apply 仅在唯一 build.py 中将桥追加到最终 bazi-result-version-release.js 后。
+全文件 AST 和唯一静态列表/顺序先验证；幂等，不锁易变化的整个入口 SHA。
+root 批准后自行 apply/build/prepare/build，不由本脚本启动服务。
+
+入口与出站（gateway首次未加载时先展示原额度区，原客户端仅加载后返回，用户再次发送才调用）
+实际原代码 ssInterpret 仅紫微/身心，四柱没有 AI 入口。本桥包装可变 lcResultActions，
+只在四柱“更多”工具/操作区新增 data-b11-ai-action=interpret，不在默认盘面首屏增加横幅。
+包装可变 pxAsk 和 renderNow；从不重赋 const pxApi，不修改任何已有客户端函数源。
+操作按钮保留渲染当时 actor、epoch、真实页面和计算/selection 标识；旧 DOM 不跨账号使用。
+context 仅 category:'chart', fields:{chartType:'bazi',pillars:[四柱干支],summary?:选中大运/流年/流月}。
+默认不发送姓名、精确出生日期/时间、UTC、完整 normalized/result、recordId、任何本机指纹或 manifest。
+继续使用原隐私门禁、独立 provider receipt 和网关额度规则，无配置/无授权不会制造回复。
+context 用 WeakMap 对应点击当时 normalized/UTC/options/result/selection，之后切盘不重新认领。
+已有 privacyAIHistory 仅映射 role/content/privacy，本机 baziInterpretation 属性不在模型请求中。
+
+只关联实际回复
+必须 pxAsk 实际新增一个 assistant 对象，真实 message.id 或 gatewayJobId，原 actor/run、
+所选 context、当前完整计算和 selection 均未变化；必须当前本人 privacy/chart/assistant 标签。
+gateway 还查询实际 job.status=succeeded，部分输出、失败、停止、无输出、旧 job restored 不绑定。
+所有哈希工作完成后再并行读取本人 fresh preferences、实际 provider receipt 与 job；核对
+policyAcknowledged、chart、policyVersion、globalRevision/globalBinding、provider epoch/binding。
+最后同步检查目标 message 的 id/jobId/text/privacy 仍与哈希前完全一致，再写本机 metadata。
+没有真实新回复不生成模型内容，不制造存档或请求记录。
+
+版本与来源
+已保存源必须是真实本人 lcRecords 行，且与当前 b11Record 完整 canonical 一致。
+当前完整 provenance 可关联 current；完整旧 provenance 保留原 manifest/cacheKey/outputFingerprint，
+关联仍为 historical、不可复用。旧无 provenance 或损坏记录保持 unbound，绝不用当前 release
+重新给旧 result 盖当前版本。只有本次真实新算、calculatedAt 有效、非 readonly、无 b11Record 的
+未保存计算可 capture 当前版本；纯辅助 transient id 不保存到档案，对外 recordId 明确 null。
+selection 变化、不同结果/存档、release 变化或存档删除后，既有链接为 historical/不可复用。
+本机原始 source/result/normalized 只在 WeakMap；纯 metadata 无出生值或回复正文。
+
+保存与恢复
+默认 saveConversations=false：仅 WeakMap，不给消息加可枚举绑定字段，不额外 persist。
+仅 fresh 与本机最新偏好都仍开启会话保存、原 actor/run/consentEpoch/message/目标计算一致时，
+实际新 assistant.baziInterpretation 获得纯元数据，并同步调用原 persist()。原 persist 拒绝或报错
+即撤回新属性，仍只内存，不伪称保存成功。不建新库、键、档案或自动保存开关。
+字段：schema/origin、accountId、messageId/gatewayJobId/interpretationId、recordId|null、
+cacheKey/outputFingerprint/selectedViewFingerprint/replyFingerprint、原 manifest、selection索引/模式、
+当时 provider/policy/consent epoch 与 global revision/binding。metadata 不进入 privacy 标签。
+刷新只对本来已带 metadata 的本人新 assistant 做 restore，不重写原对象和存储。
+restore 校验真实源/完整性/原 manifest、原回复正文 hash、selection hash、新鲜本人授权和 provider
+receipt，读请求回来的 actor/run/对象/source/manifest 仍一致；保存撤回、删除、换号或 tamper 拒绝。
+已保存源可追溯；未保存源须当前存在同 release 的实际新计算且 cache/output 匹配才恢复。
+没有可验证源则 unbound；完整旧源 historical；不同版本/流运不能直接复用。
+无 metadata 的原聊天、API/server-only 快照、restored job 继续 unbound，不声称已迁移。
+此处 current 仅表示排盘来源/版本匹配，不表示新的供应商调用授权，调用仍每次走原门禁。
+
+导出 API
+globalThis.BaziInterpretationBridge：installed、schema、storage='existing-consent-only'、
+interpretCurrent()、status(message)、restore(message)。status 不调用模型、不自行持久化。
+UI badge data-b11-ai-status=current|historical|unbound，真实 id 为 data-b11-ai-reply。
+
+测试与执行（等待 root 通知最终构建后才跑 actual）
+负责人优化建议-B11解读桥VM专项.cjs：独立 VM 明示对象夹具，24组；const pxApi 防重赋盲点。
+负责人优化建议-B11解读桥专项.cjs --target=python 或 --target=cloud：独立 fresh 服务、真实 APP/
+HTTP/原 legacy+gateway 客户端与 SSE，仅测试进程 .invalid/constructor transport，无真实供应商。
+配套 B11解读桥测试工具.cjs、B11解读桥Python测试服务.py、B11解读桥Cloud测试服务.ts。
+拒绝 --base；Python DB 在06新随机文件、Cloud全新 bq* D1/R2 state，不碰原库或 root8878。
+报告/截图独立模块前缀，每个实际 case 写 checkpoint；失败 runs 累积不覆盖；结束仅清理 owned进程。
+记录实际源码/构建 SHA，Cloud public/assets 和实际 EW Tibetan 字体响应哈希。
+报告不记录 prompt，只保留本机 provider 是否出现授权标签/本机metadata/出生canary 的布尔值。
+真实供应商、真实专业规则、teacher confirmed 及外部缓存/供应商清理均未验，不能据此宣称完成。

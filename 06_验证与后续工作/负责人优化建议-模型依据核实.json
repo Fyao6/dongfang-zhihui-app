@@ -1,0 +1,183 @@
+{
+  "report": "负责人优化建议 模型依据核实",
+  "checked_at_beijing": "2026-11-12 17:19:04 +08:00",
+  "scope": "文档S01–S03指定的DeepSeek版本、公开权重、MIT及官方本地推理说明；补充Claude官方API协议供适配设计",
+  "source_document": {
+    "path": "02_需求与设计参考/负责人优化建议-逐段原文.json",
+    "paragraphs": [
+      "P172",
+      "P183",
+      "P661",
+      "P662",
+      "P663"
+    ],
+    "claim": "文档建议验证DeepSeek-V4.1-Flash-1017，并称官方已发布、提供开源权重且模型仓库MIT。",
+    "model_replaced": false,
+    "extracted_json_sha256": "d0ca0bbf58dbb2744bc50375ed2ed44e02ff703d477d509bade645186f2a3f55"
+  },
+  "method": [
+    "从原文JSON中P661–P663的fields读取准确URL，逐页用网络浏览工具打开正文，不只依赖搜索摘要。",
+    "从官方发布页跟随同名Hugging Face链接，检查模型卡、公开文件树、LICENSE正文、推理README正文及提交页面。",
+    "额外浏览Anthropic官方API概览、Messages创建接口与流式说明。",
+    "未购买或申请GPU、未下载模型权重、未安装或运行推理代码、未向模型发送请求、未读取或索取任何凭据、未修改业务源码或公网。"
+  ],
+  "conclusion": {
+    "deepseek_model_identity": "已确认指定名称的官方发布页与同名官方模型仓库可公开读取，未发现原文S01–S03指向404或其他版本。",
+    "weights_and_license": "已确认官方发布页提供开源入口，仓库公开列出safetensors权重文件；模型卡明示仓库与权重采用MIT，LICENSE正文为MIT。",
+    "inference_entry": "已确认inference/README.md存在并提供权重转换、交互生成及多机启动说明；其正文明确是参考实现，不是生产推理服务。",
+    "what_remains_unverified": "未下载或校验任何权重字节，也未测试硬件/推理兼容性、内容质量、吞吐、时延、成本或生产可用性；AI02不能据此标记自部署已完成。",
+    "claude_protocol": "官方直连为Messages协议，可流式返回；紫微团队是否原生Messages、兼容Responses或其他代理协议仍未提供，不能据官方协议假定其具体接入形态。"
+  },
+  "deepseek_evidence": [
+    {
+      "source_id": "S01",
+      "source_paragraph": "P661",
+      "url": "https://api-docs.deepseek.com/news/news261017/",
+      "page_title": "DeepSeek-V4.1-Flash-1017: Wish-Driven Programming Made Real",
+      "result": "正文可读取；名称吻合",
+      "confirmed": [
+        "官方导航标注2026/10/17发布，标题为文档指定版本。",
+        "开源发布段直接链接deepseek-ai/DeepSeek-V4.1-Flash-1017的Hugging Face及ModelScope入口。"
+      ],
+      "limits": "公开公告不证明本项目已获得API访问权限或已完成自部署。"
+    },
+    {
+      "source_id": "S02",
+      "source_paragraph": "P662",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "page_title": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "result": "模型卡可读取；官方发布页交叉链接确认来源",
+      "confirmed": [
+        "模型卡顶部license=mit，License段明确仓库与模型权重均适用MIT。",
+        "Minimal Inference段指向inference目录；Prompt Encoding段另指向deepseek-recipe。"
+      ],
+      "limits": "仓库标注/文件列表与真实文件下载校验、可运行性能是不同验收项；本次没有下载权重。"
+    },
+    {
+      "source_id": "S02-FILES",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/tree/main",
+      "result": "公开文件树可读取",
+      "confirmed": [
+        "文件树列出encoding、inference、LICENSE、config.json及model-00001-of-00048.safetensors等权重分片。",
+        "页面显示仓库约510GB；这是仓库页面元信息，不是GPU显存或部署容量结论。"
+      ],
+      "observed_main_commit": "08c8657f02291e11b6f6b63e0e16014f8e748518",
+      "observed_commit_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/commit/08c8657f02291e11b6f6b63e0e16014f8e748518",
+      "observed_commit_message": "Add chat template (#11)",
+      "limits": "main会变动，观察到的提交不是项目已选择的生产固定版本；未取得各权重分片校验值或下载完整清单。"
+    },
+    {
+      "source_id": "S02-LICENSE",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/blob/main/LICENSE",
+      "result": "LICENSE正文可读取，为MIT License",
+      "confirmed": [
+        "文本含DeepSeek版权、使用/修改/分发/销售许可、保留版权及许可通知条件和无担保条款。"
+      ],
+      "broken_related_link": {
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/tree/main/LICENSE",
+        "result": "模型卡中MIT相对链接跳到该tree路径时返回404。",
+        "resolution": "通过文件树打开实际blob/main/LICENSE成功并读取正文；不是S01–S03原始链接失效，也不据该错误认定许可证缺失。"
+      }
+    },
+    {
+      "source_id": "S03",
+      "source_paragraph": "P663",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/blob/main/inference/README.md",
+      "raw_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/raw/main/inference/README.md",
+      "result": "页面与原始文本均可读取",
+      "confirmed": [
+        "说明明确定位为可读的参考实现，不是生产服务引擎。",
+        "提供依赖安装入口、按tensor-parallel rank转换权重、MP=8示例、fp4专家转换、torchrun交互/多节点参数。",
+        "Self-test使用未初始化权重检查形状与kernel连接，不能当成数值正确性或模型效果测试。"
+      ],
+      "file_last_change_commit": "1bae0e1088993b9b82de08f59de5be5a34e42170",
+      "file_last_change_commit_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/commit/1bae0e1088993b9b82de08f59de5be5a34e42170",
+      "limits": "MP=8是示例，不代表本项目所需GPU数量、型号或足够容量；未运行示例。"
+    },
+    {
+      "source_id": "S03-RECIPE",
+      "url": "https://github.com/deepseek-ai/deepseek-recipe",
+      "result": "由模型卡引用的DeepSeek官方仓库可读取",
+      "confirmed": [
+        "提供Rust库及Python绑定，对Messages、Chat Completions、Responses请求/响应和流式格式做转换。",
+        "调用者仍需提供模型推理、工具执行及HTTP传输。"
+      ],
+      "design_implication": "可作为协议适配研究依据，不能当作已完成GPU推理或可直接交付的完整生产服务。"
+    }
+  ],
+  "access_limitations": [
+    {
+      "url": "https://huggingface.co/api/models/deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "result": "浏览工具报告不可访问；没有返回可读取的模型元数据JSON。",
+      "impact": "没有据该端点取得完整分片元数据或校验值，不把此工具限制写成仓库404或模型不存在。"
+    },
+    {
+      "url_pattern": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/raw/08c8657f02291e11b6f6b63e0e16014f8e748518/...",
+      "paths_attempted": [
+        "config.json",
+        "inference/requirements.txt",
+        "inference/run.sh",
+        "LICENSE"
+      ],
+      "result": "这些额外的固定提交raw URL被浏览工具报告不可访问。",
+      "impact": "已读取main的原文及提交页面，但未据固定提交raw内容做逐文件校验；正式选型仍需取得不可变revision、权重/推理配置/许可文件的校验清单。"
+    }
+  ],
+  "claude_official_protocol": {
+    "identity": "Anthropic官方直连API，不代表紫微团队代理合同或接口",
+    "sources": [
+      {
+        "title": "API overview",
+        "url": "https://platform.claude.com/docs/en/api/overview"
+      },
+      {
+        "title": "Create a Message",
+        "url": "https://platform.claude.com/docs/en/api/http/messages/create"
+      },
+      {
+        "title": "Streaming messages",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/streaming"
+      }
+    ],
+    "confirmed": [
+      "官方直连入口为POST https://api.anthropic.com/v1/messages，采用Messages请求结构，而非本项目当前限定的/responses。",
+      "当前概览以Authorization: Bearer凭据为主，x-api-key作为仍支持的兼容方式；需固定anthropic-version，官方当前示例2026-10-21；某些凭据还需workspace请求头。",
+      "请求按实际模型填写model、messages、max_tokens等，system为独立字段；响应content块、stop_reason、usage须分别解析，不能沿用Responses的output/output_text路径。",
+      "stream=true使用SSE；应识别message_start、content_block_start/delta/stop、message_delta、message_stop，并容忍ping及未知事件。",
+      "流中可能出现error；message_delta的usage计数为累计值，不能每条相加重复计费。",
+      "响应request-id用于追踪，适配层应保留上游request-id与本方唯一请求号的对应。"
+    ],
+    "not_confirmed": [
+      "紫微团队实际服务地址、model_id、鉴权头、API版本、workspace、流式格式、计量/重试计费和超时/并发规则。",
+      "紫微团队是否直连、二级代理、使用Anthropic云平台、保存数据、训练用途及删除能力。",
+      "没有进行任何真实接口鉴权或联调，不表示Claude已连接。"
+    ],
+    "adapter_recommendation": [
+      "统一内部请求/事件/用量对象，供应商协议使用显式适配器类型；根据真实接口资料选择anthropic_messages、chat_completions或responses，不从模型名称猜测协议。",
+      "endpoint、鉴权模式、API版本、实际model_id、流式能力和数据接收方独立配置；凭据只用服务端密钥引用，APP不持密钥。",
+      "公开文档能支撑适配框架开发；紫微资料未齐时保留未配置状态，不切换为另一个模型假装该通道完成。"
+    ]
+  },
+  "remaining_blockers": [
+    {
+      "task": "AI02 / SV02 / SVT02",
+      "status": "未完成",
+      "required": "确认实际GPU供应/配额/预算、固定revision和权重校验清单、依赖及量化配置；隔离部署并做本项目文本质量/性能/稳定性评测。"
+    },
+    {
+      "task": "AI01 / AI03 / AI04",
+      "status": "紫微资料待提供",
+      "required": "真实协议、测试生产地址、实际模型、计量/计费、版本/并发/超时、错误和流式样例、接收方地区及数据条款。"
+    },
+    {
+      "task": "AI05 / PR02",
+      "status": "业务规则待确认",
+      "required": "用户额度、失败/部分输出扣次、上游费用、授权接收方、故障切换及保留删除规则。"
+    }
+  ],
+  "task_status_implication": {
+    "may_mark_complete": "AI02中指定版本存在性、官方开源入口、MIT依据及参考推理说明的公开资料核实子项。",
+    "must_not_mark_complete": "DeepSeek自部署/实际性能、Claude真实接通、双模型生产路由、生产密钥管理、权限/隐私和额度结算验收。",
+    "original_sources_need_correction": "S01–S03没有发现模型名不符或原URL404；仅补充模型卡LICENSE相对链接错误与当前main已变化，避免生产依赖移动分支。"
+  }
+}

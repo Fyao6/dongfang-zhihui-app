@@ -1,0 +1,69 @@
+{
+  "at": "2026-11-17T03:52:36.139Z",
+  "formalAcceptance": false,
+  "scope": "Pure actual shared-engine API only; no backend, Node IPC, browser, rights, translation or production acceptance.",
+  "engineVersion": "card-import-1",
+  "source": "04_研发源码/app/r4/card-import-engine.js",
+  "sourceSha256": "c58abb57de5e4bf2c7ccd03e12c819cddf3fd448a3f0e643789d3f23e2a0bcbe",
+  "sameSource": true,
+  "teacherApproval": false,
+  "productionMaterialsVerifiedBySystem": false,
+  "results": [
+    {
+      "name": "Strict decoded duplicate/prototype/BOM/nonfinite/unsafe integer/unpaired surrogate protection",
+      "pass": true,
+      "observed": {
+        "negativeInputs": 11,
+        "rawEscapeLexemesKept": true
+      }
+    },
+    {
+      "name": "Unicode codepoint canonical order, numeric-looking keys and equivalent JSON spellings",
+      "pass": true
+    },
+    {
+      "name": "Real JSON depth32 accepted / depth33 rejected",
+      "pass": true
+    },
+    {
+      "name": "Draft gaps remain explicit publish blockers and never invent approval/materials/count",
+      "pass": true,
+      "observed": {
+        "issues": 14,
+        "publishBlocked": true,
+        "automaticApproval": false
+      }
+    },
+    {
+      "name": "Multiple independent bad cards aggregate every issue without first-error truncation",
+      "pass": true,
+      "observed": {
+        "cards": 7,
+        "issues": 101
+      }
+    },
+    {
+      "name": "Every valid JSON malformed parent returns complete diagnostics rather than throwing",
+      "pass": true,
+      "observed": {
+        "actualEngineInvocations": 50
+      }
+    },
+    {
+      "name": "Explicit null in old-clean string/object fields cannot produce a falsely applicable preview",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: Explicit null conflicts with the reused old clean_deck contract\n+ actual - expected\n\n+ [\n+   'name',\n+   'rightsReference',\n+   'artReviewNote',\n+   'text',\n+   'alt',\n+   'frontUrl',\n+   'backUrl',\n+   'author',\n+   'licenseReference',\n+   'licenseScope'\n+ ]\n- []\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移结构组件.cjs:14:551\n    at check (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移结构组件.cjs:6:46)\n    at Object.<anonymous> (C:\\Users\\Administrator\\Desktop\\东方智慧APP_20261116_120935\\06_验证与后续工作\\负责人优化建议-卡组迁移结构组件.cjs:14:1)\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "Added/removed language and card diffs expose all five leaf fields; source declarations have visible diff",
+      "pass": true,
+      "observed": {
+        "addedDiffs": 41,
+        "removedDiffs": 36
+      }
+    }
+  ],
+  "passed": 7,
+  "failed": 1,
+  "pass": false
+}

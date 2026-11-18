@@ -1,0 +1,115 @@
+{
+  "at": "2026-11-12T16:18:03.661235+00:00",
+  "classification": "两个明确QA合同/作用域错误，原失败完整留存，未认定业务丢字段/读写失败",
+  "changes": [
+    "原订单购买条款在case.items[].snapshot.terms中，断言改为terms.refundPolicy",
+    "真实APP有常驻role=status，等待仅绑定.af-page内部加载状态，不干扰其他模块；原验收步骤因等待中断而未执行导致导出验收数0，后续重新完整执行"
+  ],
+  "firstRuns": {
+    "python": {
+      "runId": "mwdqwg9x_55413a",
+      "passed": 23,
+      "failed": 6,
+      "identityUnchanged": true,
+      "errors": [],
+      "failures": [
+        {
+          "name": "实际已付原单按项快照与幂等；异载荷同编号409，正式申请403",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- '成交时售后测试条款，不是正式政策。'\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后HTTP专项.cjs:51:10\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后HTTP专项.cjs:48:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:232"
+        },
+        {
+          "name": "实际本人物流→后台实收0入库表单；原资金不变且库存事件为0",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:56:75\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:52:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际环境切换：沙箱旧GET晚到不进入关闭的正式视图",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:71:74\n    at async hold (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:22:7)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:69:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:67:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际四语375/430日夜64视图：真实藏文字体、表单/进度无横溢",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:97:118\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:94:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际导出只本人申请/收货，不含全站配置与他人申请",
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(own.afterSalesInspections.length>0)\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:113:54\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:111:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际cookie换账号/Bootstrap后旧本人申请GET晚到不跨账号显示",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:124:39\n    at async hold (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:22:7)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:118:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:116:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        }
+      ]
+    },
+    "cloud": {
+      "runId": "mwdqwg9x_3873cf",
+      "passed": 23,
+      "failed": 6,
+      "identityUnchanged": true,
+      "errors": [],
+      "failures": [
+        {
+          "name": "实际已付原单按项快照与幂等；异载荷同编号409，正式申请403",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- '成交时售后测试条款，不是正式政策。'\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后HTTP专项.cjs:51:10\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后HTTP专项.cjs:48:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:232"
+        },
+        {
+          "name": "实际本人物流→后台实收0入库表单；原资金不变且库存事件为0",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:56:75\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:52:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际环境切换：沙箱旧GET晚到不进入关闭的正式视图",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:71:74\n    at async hold (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:22:7)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:69:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:67:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际四语375/430日夜64视图：真实藏文字体、表单/进度无横溢",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:97:118\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:94:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际导出只本人申请/收货，不含全站配置与他人申请",
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(own.afterSalesInspections.length>0)\n\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:113:54\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:111:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        },
+        {
+          "name": "实际cookie换账号/Bootstrap后旧本人申请GET晚到不跨账号显示",
+          "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:124:39\n    at async hold (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:22:7)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:118:3\n    at async check (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:28:35)\n    at async module.exports (C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后浏览器专项.cjs:116:2)\n    at async C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-售后实际专项.cjs:68:275"
+        }
+      ]
+    }
+  },
+  "businessSourceModified": false,
+  "status": "repeat whole fresh29 after QA fix",
+  "secondRuns": {
+    "python": {
+      "runId": "mwdr6wrz_b1d8f6",
+      "passed": 27,
+      "failed": 2,
+      "identityUnchanged": true,
+      "errors": [],
+      "failures": [
+        {
+          "name": "实际本人物流→后台实收0入库表单；原资金不变且库存事件为0",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+        },
+        {
+          "name": "实际导出只本人申请/收货，不含全站配置与他人申请",
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        }
+      ]
+    },
+    "cloud": {
+      "runId": "mwdr6ws4_ee59a3",
+      "passed": 27,
+      "failed": 2,
+      "identityUnchanged": true,
+      "errors": [],
+      "failures": [
+        {
+          "name": "实际本人物流→后台实收0入库表单；原资金不变且库存事件为0",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+        },
+        {
+          "name": "实际导出只本人申请/收货，不含全站配置与他人申请",
+          "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+        }
+      ]
+    }
+  },
+  "causalWaitCorrection": "无loading状态不能证明POST完成；物流步骤改为等新单号出现在服务端刷新后的详情正文（input.value不算正文），再核真实returning与后续admin验收。"
+}

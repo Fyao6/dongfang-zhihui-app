@@ -1,0 +1,179 @@
+{
+  "kind": "isolated-memory-and-explicit-transport-fixtures",
+  "realModelRequests": 0,
+  "productionDatabaseAccess": false,
+  "passed": 40,
+  "failed": 1,
+  "checks": [
+    {
+      "name": "default config refuses unconfigured scene without transport",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed public charge rules stay unknown",
+      "pass": true
+    },
+    {
+      "name": "public charge rules and deadline reflect explicit test config",
+      "pass": true
+    },
+    {
+      "name": "provider receipt required",
+      "pass": true
+    },
+    {
+      "name": "operator cannot configure or grant",
+      "pass": true
+    },
+    {
+      "name": "grant replay never increases balance twice",
+      "pass": true
+    },
+    {
+      "name": "conflicting grant request rejected",
+      "pass": true
+    },
+    {
+      "name": "public capabilities never exposes endpoint or secret reference",
+      "pass": true
+    },
+    {
+      "name": "unsupported write tool denied",
+      "pass": true
+    },
+    {
+      "name": "tool cannot select another account",
+      "pass": true
+    },
+    {
+      "name": "AI wellbeing summary requires separate category",
+      "pass": true
+    },
+    {
+      "name": "job replay returns same ID and one reservation",
+      "pass": true
+    },
+    {
+      "name": "job ID conflict rejects changed prompt",
+      "pass": true
+    },
+    {
+      "name": "cross-account job read is 404",
+      "pass": true
+    },
+    {
+      "name": "cross-account cancel is 404",
+      "pass": true
+    },
+    {
+      "name": "real parser fixture succeeds and settles once",
+      "pass": true
+    },
+    {
+      "name": "no-save defaults keep prompt and output out of job storage",
+      "pass": true
+    },
+    {
+      "name": "repeat stream never starts upstream again",
+      "pass": true
+    },
+    {
+      "name": "old history lacking privacy tag denied",
+      "pass": true
+    },
+    {
+      "name": "queued cancellation uses explicit nonzero cancellation rule",
+      "pass": true
+    },
+    {
+      "name": "partial output cannot silently fallback and uses partial rule",
+      "pass": true
+    },
+    {
+      "name": "running cancellation is not assumed free",
+      "pass": true
+    },
+    {
+      "name": "unconsented fallback receives no request",
+      "pass": true
+    },
+    {
+      "name": "separately consented fallback is sequential and charged once",
+      "pass": true
+    },
+    {
+      "name": "missing upstream usage and cost stay unknown",
+      "pass": true
+    },
+    {
+      "name": "Anthropic cumulative usage is replaced not summed",
+      "pass": true
+    },
+    {
+      "name": "one-shot provider is labelled once, never fake streamed",
+      "pass": true
+    },
+    {
+      "name": "lost-worker cancellation recovers with cancel charge",
+      "pass": true
+    },
+    {
+      "name": "provider consent withdrawal blocks later requests",
+      "pass": true
+    },
+    {
+      "name": "global revision invalidates provider receipt",
+      "pass": true
+    },
+    {
+      "name": "mid-stream receipt withdrawal stops before completion",
+      "pass": true
+    },
+    {
+      "name": "withdraw-and-reconfirm nonce cannot revive old stream",
+      "pass": true
+    },
+    {
+      "name": "registry disable stops further stream consumption",
+      "pass": true
+    },
+    {
+      "name": "explicit saved output uses privacy conversation storage",
+      "pass": true
+    },
+    {
+      "name": "privacy conversation deletion removes job text readback",
+      "pass": true
+    },
+    {
+      "name": "new consent cannot save a prior stream",
+      "pass": true
+    },
+    {
+      "name": "unknown failed attempt prevents misleading final-only usage total",
+      "pass": true
+    },
+    {
+      "name": "queued snapshot cannot start after registry revision changes",
+      "pass": true
+    },
+    {
+      "name": "concurrent replay reserves once and distinct requests cannot overspend",
+      "pass": true
+    },
+    {
+      "name": "recent list contains only own last20 redacted metadata",
+      "pass": false,
+      "errorType": "AssertionError",
+      "error": ""
+    },
+    {
+      "name": "schema v1 upgrade adds nonce and shared conversation link idempotently",
+      "pass": true
+    }
+  ],
+  "sourceSha256": {
+    "04_研发源码\\app\\r4\\backend\\ai_gateway.py": "facab50a6f60b4ddd69dede5e931b906ee57a629756ee0011c0301b1071939c8",
+    "04_研发源码\\app\\r4\\backend\\privacy.py": "e131fdb2ccb919425e4380eab7bd43e16c4dbdce377bb949f0059e2e7ee6c596"
+  }
+}

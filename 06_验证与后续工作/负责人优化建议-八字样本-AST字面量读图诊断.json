@@ -1,0 +1,36 @@
+{
+  "at_beijing": "2026-11-17T09:16:08.269684+08:00",
+  "stage": 29,
+  "formalAcceptance": false,
+  "pass": false,
+  "operation": "Independent pre-acceptance AST graph comparison",
+  "observedHarnessInputs": 445,
+  "independentRequiredInputs": 461,
+  "missingFromHarness": {
+    "04_研发源码/app/cloud/dist/server/_next/static/app-page-cache-CX_tXgKp.js": "3a9fe1c74d053a2f981b7023b5392349e91fb688155a9858b9e721b1956f7604",
+    "04_研发源码/app/cloud/dist/server/_next/static/app-page-cache-render-hrT46bw6.js": "91176627b622f6081e58596b4c7b760c8302897a95eff6589cfdd969ee4190e2",
+    "04_研发源码/app/cloud/dist/server/_next/static/app-prerender-endpoints-DeefQUK7.js": "acbb7108039885a339fae4c0838913471cb270933b21f5621312d009f380bc78",
+    "04_研发源码/app/cloud/dist/server/_next/static/app-route-handler-dispatch-ihGHSlfG.js": "cc75fa8457002759ca3a6aaaf85e1782333623dcc3a2d64a6a60856a7051e411",
+    "04_研发源码/app/cloud/dist/server/_next/static/app-static-generation-Cz2cfjjU.js": "71451721ae4a42108e9ed32567cd9d9861beb4952215b0fd57ffc373cd3edc01",
+    "04_研发源码/app/cloud/dist/server/_next/static/navigation-runtime-CwrO-6qm.js": "ee39b5a31c24d8e3b2407ea2c84b461c1c1b87fafeb605ee8b9a1cb9449c20f2",
+    "04_研发源码/app/cloud/dist/server/_next/static/page-DU370biB.js": "062d5d6890f78ece55c60cfdfa4060353e9a9a7d0e508684fd23f7d9191be602",
+    "04_研发源码/app/cloud/dist/server/ssr/__vite_rsc_assets_manifest.js": "2923ee84d007e6e503b065d6a06359a9ec748d1b84ce0267e9acdb76b3410d31",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/app-prefetch-fetch-queue-BTKEsFpn.js": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/app-router-scroll-CAnSvlwI.js": "8aa68c48f347896ce1bc31ef186746a7cd9ae043f3e4e39a3856f13d1061bb3c",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/error-boundary-mJ-SsUww.js": "013dad3c0ea62859d75ef290703dc2547d9df0b1222d9235cc9c6011c5b1d806",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/layout-segment-context-DpkjgvEb.js": "1621400fe5e17f387c4d38c41080771328053992ebc7c01f43b5ea78225580d6",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/static.edge-IqRtACPa.js": "9aa4706e79212b5ce4072eb3d7600afd525dc33bf2f7a66f64a94ffbc9fd7149",
+    "04_研发源码/app/cloud/dist/server/ssr/_next/static/streamed-icons-C-LGb6Fs.js": "bc2f0e070a49732231e8516fd3b78f49de63dff63b5d27db4b5b5f7ea2a4b228",
+    "04_研发源码/app/cloud/dist/server/ssr/index.js": "ad389285fde381fcd453ac897703d2b17588e3d5f3ccac2bd40ade1aedf3eb3f",
+    "04_研发源码/app/cloud/dist/server/ssr/vinext-client-assets.js": "1662974d95c6cf2e43b5dcc065823499b54e3a1fadbdc46b0587ba14b503e3c0"
+  },
+  "harnessAdditional": [],
+  "reason": "Current emitted JS uses actual import with a NoSubstitutionTemplateLiteral. The new harness AST only accepted StringLiteral, missing16 real imports. Ordinary embedded string content must remain data.",
+  "evidence": [
+    "import(`./ssr/index.js`)",
+    "import(`./_next/static/app-page-cache-CX_tXgKp.js`)"
+  ],
+  "correctionRequired": "Accept both string literal and no-substitution template literal actual AST nodes. Bind SSR subgraph and recompare before final snapshot. Do not modify frozen old readers or product source.",
+  "productSourcesChanged": false,
+  "fullRegressionExecuted": false
+}

@@ -1,0 +1,113 @@
+{
+  "at": "2026-11-16T18:38:46.892Z",
+  "scope": "actual native Miniflare D1 same-batch component; not full HTTP/auth/bootstrap integration",
+  "productionEnabled": false,
+  "sourceSha256": "891c00982b238230a3158e9cd2d67fdf9fd36615638049652713a126267cd6fc",
+  "notificationQaSha256": "2a3908aa8501ec69a7b3c27049b540031b97af9911089d7cbf4077297e296199",
+  "ownedState": "04_研发源码\\app\\cloud\\.wrangler\\ops-budget-1794854326892-d5dd2311",
+  "cases": [
+    {
+      "name": "Current valid dual leases allow exactly one unit",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 60000,
+      "actualScheduleRemainingAtSetupMs": 60000,
+      "delayBeforeBatchMs": 0,
+      "allowed": true,
+      "attemptDelta": 1,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "Captured long run cannot override two actual 500ms leases",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 500,
+      "actualScheduleRemainingAtSetupMs": 500,
+      "delayBeforeBatchMs": 0,
+      "allowed": false,
+      "attemptDelta": 0,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "Actual run budget alone is independently enforced",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 500,
+      "actualScheduleRemainingAtSetupMs": 60000,
+      "delayBeforeBatchMs": 0,
+      "allowed": false,
+      "attemptDelta": 0,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "Actual schedule budget alone is independently enforced",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 60000,
+      "actualScheduleRemainingAtSetupMs": 500,
+      "delayBeforeBatchMs": 0,
+      "allowed": false,
+      "attemptDelta": 0,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "New network unit requires actual 9000ms budget",
+      "deadlineMs": 8000,
+      "requiredBudgetMs": 9000,
+      "actualRunRemainingAtSetupMs": 2500,
+      "actualScheduleRemainingAtSetupMs": 2500,
+      "delayBeforeBatchMs": 0,
+      "allowed": false,
+      "attemptDelta": 0,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "Sufficient network budget allows one unit",
+      "deadlineMs": 8000,
+      "requiredBudgetMs": 9000,
+      "actualRunRemainingAtSetupMs": 15000,
+      "actualScheduleRemainingAtSetupMs": 15000,
+      "delayBeforeBatchMs": 0,
+      "allowed": true,
+      "attemptDelta": 1,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "Post-IO default fence retains 1000ms budget",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 2500,
+      "actualScheduleRemainingAtSetupMs": 2500,
+      "delayBeforeBatchMs": 0,
+      "allowed": true,
+      "attemptDelta": 1,
+      "proofRows": 0,
+      "pass": true
+    },
+    {
+      "name": "SQL clock evaluates budget after queue delay",
+      "deadlineMs": 0,
+      "requiredBudgetMs": 1000,
+      "actualRunRemainingAtSetupMs": 1200,
+      "actualScheduleRemainingAtSetupMs": 1200,
+      "delayBeforeBatchMs": 350,
+      "allowed": false,
+      "attemptDelta": 0,
+      "proofRows": 0,
+      "pass": true
+    }
+  ],
+  "identityUnchanged": true,
+  "bundleSha256": "9874cdf55bf0ee6c3da66764de54ab833f61dda29d97444d09def365e6eb2f75",
+  "harnessSha256": "f14e906bcc55557fa34f754184b443f94173cefb77fdd4cab1bf12f4c0bf6a58",
+  "nativeD1SameBatch": true,
+  "passed": 8,
+  "failed": 0,
+  "pass": true
+}

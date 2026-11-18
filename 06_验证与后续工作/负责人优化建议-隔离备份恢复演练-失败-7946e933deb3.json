@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-12T12:24:28.911679+00:00",
+  "runId": "7946e933deb3",
+  "scope": "Local SQLite and actual read/write HTTP API only",
+  "syntheticDataOnly": true,
+  "productionDatabaseOpened": false,
+  "externalRequests": 0,
+  "paymentRecoveryVerified": false,
+  "providerRecoveryVerified": false,
+  "multiAZFailoverVerified": false,
+  "error": "HTTPError: HTTP Error 404: Not Found",
+  "pass": false,
+  "checks": [],
+  "passed": 0,
+  "failed": 0,
+  "testFiles": [
+    "06_验证与后续工作\\负责人优化建议-隔离恢复-7946e933deb3-live.sqlite3",
+    "06_验证与后续工作\\负责人优化建议-隔离恢复-7946e933deb3-backup.sqlite3",
+    "06_验证与后续工作\\负责人优化建议-隔离恢复-7946e933deb3-restored.sqlite3"
+  ],
+  "limitations": [
+    "Only newly created isolated SQLite databases were opened.",
+    "The post-backup acknowledged write is intentionally absent after restore; no zero-loss claim.",
+    "No PostgreSQL/PITR, Cloud D1 backup, cross-region, live payments, real GPU interruption or production RPO/RTO was exercised."
+  ]
+}

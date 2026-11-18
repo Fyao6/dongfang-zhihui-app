@@ -1,0 +1,158 @@
+{
+  "kind": "owned-http-component-not-formal",
+  "runId": "77b8618bb6394a69919ca9a479deb441",
+  "at": 1794875434.8564918,
+  "base": "http://127.0.0.1:64960",
+  "database": "06_验证与后续工作\\bazi-http-component-77b8618bb6394a69919ca9a479deb441.sqlite3",
+  "results": [
+    {
+      "name": "anonymous denied",
+      "pass": true,
+      "evidence": {
+        "error": "请先登录账号。"
+      }
+    },
+    {
+      "name": "actual original UTF8 bytes SHA",
+      "pass": true,
+      "evidence": {
+        "equal": true
+      }
+    },
+    {
+      "name": "canonical same version preserves first bytes",
+      "pass": true,
+      "evidence": {
+        "sameId": true,
+        "sameSHA": true
+      }
+    },
+    {
+      "name": "duplicate decoded key rejected",
+      "pass": true,
+      "evidence": {
+        "error": "duplicate_key:/schema"
+      }
+    },
+    {
+      "name": "BOM rejected",
+      "pass": true,
+      "evidence": {
+        "error": "invalid_json"
+      }
+    },
+    {
+      "name": "full caseIds header",
+      "pass": true,
+      "evidence": {
+        "count": 1
+      }
+    },
+    {
+      "name": "actual managed Node compute committed",
+      "pass": true,
+      "evidence": {
+        "processed": 1,
+        "state": "succeeded"
+      }
+    },
+    {
+      "name": "process intent replay does not advance",
+      "pass": true,
+      "evidence": {
+        "sameResult": true,
+        "processed": 1
+      }
+    },
+    {
+      "name": "default name redaction, explicit full export",
+      "pass": true,
+      "evidence": {
+        "defaultNameAbsent": true,
+        "fullNameRetained": true
+      }
+    },
+    {
+      "name": "all 10 raw periods restore frozen SHA",
+      "pass": true,
+      "evidence": {
+        "periods": 10,
+        "hashMatches": true
+      }
+    },
+    {
+      "name": "lazy frozen fields 50 and same-scope cursor",
+      "pass": true,
+      "evidence": {
+        "first": 50,
+        "second": 50
+      }
+    },
+    {
+      "name": "detail preserves original input for explicit APP comparison",
+      "pass": true,
+      "evidence": {
+        "sameName": true
+      }
+    },
+    {
+      "name": "real privacy clear proof same TX",
+      "pass": true,
+      "evidence": {
+        "cases": 1,
+        "results": 1,
+        "rawChunks": 11,
+        "reviews": 0,
+        "retentionDays": null,
+        "secureWipe": false
+      }
+    },
+    {
+      "name": "erased version inaccessible",
+      "pass": true,
+      "evidence": {
+        "error": "sample_erased"
+      }
+    },
+    {
+      "name": "actual private rows deleted, transient guards zero",
+      "pass": true,
+      "evidence": {
+        "bazi_sample_cases": 0,
+        "bazi_sample_results": 0,
+        "bazi_sample_raw_chunks": 0,
+        "bazi_sample_field_results": 0,
+        "bazi_sample_reviews": 0,
+        "bazi_sample_erase_guards": 0
+      }
+    },
+    {
+      "name": "DB integrity",
+      "pass": true,
+      "evidence": {
+        "integrity": "ok"
+      }
+    }
+  ],
+  "professionalValidation": false,
+  "teacherConfirmed": false,
+  "priorFailure": {
+    "code": "schema_path_used_parent_with_name",
+    "fixed": true,
+    "originalFailedOwnedDatabase": "bazi-component-schema-owned.sqlite3"
+  },
+  "rawProof": {
+    "sha256": "20dd4ad250da402da8bd7c4795c86dc4dfbbe93ecdf8507cdf8d60366a3d3fb2",
+    "byteLength": 135762,
+    "periodCount": 10,
+    "domStatus": "not_run"
+  },
+  "passed": 16,
+  "failed": 0,
+  "ownedServerStopped": true,
+  "actualFullReadyRun": true,
+  "sourceHashes": {
+    "04_研发源码\\app\\r4\\backend\\bazi_samples.py": "0c1dfbd9d61f1d3ae2cffff0f30093ff67be4928530aa5a7bd8ccdafe069fe22",
+    "04_研发源码\\app\\r4\\backend\\bazi_samples_schema.sql": "24a156bc9fafc9ff0870b997a52b21cd0d9be5807549273b344e5056a7b5ffb1"
+  }
+}

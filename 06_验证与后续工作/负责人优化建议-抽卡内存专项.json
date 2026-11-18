@@ -1,0 +1,238 @@
+{
+  "latest": {
+    "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+    "productionWrites": false,
+    "passed": 7,
+    "failed": 0,
+    "pass": true,
+    "results": [
+      {
+        "name": "defaults are closed with unknown rules and no seeded formal deck",
+        "pass": true
+      },
+      {
+        "name": "server result, idempotency, theme changes and quota have one draw only",
+        "pass": true
+      },
+      {
+        "name": "concurrent different request IDs still produce one authoritative daily result",
+        "pass": true
+      },
+      {
+        "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+        "pass": true
+      },
+      {
+        "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+        "pass": true
+      },
+      {
+        "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+        "pass": true
+      },
+      {
+        "name": "publication gates do not seed/enable production or claim external artwork verification",
+        "pass": true
+      }
+    ],
+    "sourceSha256": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692"
+  },
+  "runs": [
+    {
+      "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+      "productionWrites": false,
+      "passed": 1,
+      "failed": 6,
+      "pass": false,
+      "results": [
+        {
+          "name": "defaults are closed with unknown rules and no seeded formal deck",
+          "pass": true
+        },
+        {
+          "name": "server result, idempotency, theme changes and quota have one draw only",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 126, in draw_idempotence\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        },
+        {
+          "name": "concurrent different request IDs still produce one authoritative daily result",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 143, in concurrent\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        },
+        {
+          "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 157, in snapshots_and_withdrawal\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        },
+        {
+          "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 182, in actions_and_privacy\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        },
+        {
+          "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 213, in timezone_and_dst\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        },
+        {
+          "name": "publication gates do not seed/enable production or claim external artwork verification",
+          "pass": false,
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 108, in check\n    function()\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 233, in publishing_and_media\n    s, admin, u, other, clock, random, cfg, payload, item = fixture()\n                                                            ^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 90, in fixture\n    cfg = call(admin, 'PATCH', '/api/admin/cards/config', cfg)['config']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\06_验证与后续工作\\负责人优化建议-抽卡内存专项.py\", line 67, in call\n    return service.route(method, path.split('?')[0])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 403, in route\n    return self.admin(method, path)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Administrator\\Desktop\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\东方智慧APP完整概念方向包-2026-10-23-18时27分11秒\\04_研发源码\\app\\r4\\backend\\card_service.py\", line 312, in admin\n    db.execute('BEGIN IMMEDIATE')\nsqlite3.OperationalError: cannot start a transaction within a transaction\n"
+        }
+      ],
+      "sourceSha256": "1f71bee7fa8b46ed1d767739673e48b8023053764cc4cf2856ecfc0e9d46307d"
+    },
+    {
+      "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+      "productionWrites": false,
+      "passed": 7,
+      "failed": 0,
+      "pass": true,
+      "results": [
+        {
+          "name": "defaults are closed with unknown rules and no seeded formal deck",
+          "pass": true
+        },
+        {
+          "name": "server result, idempotency, theme changes and quota have one draw only",
+          "pass": true
+        },
+        {
+          "name": "concurrent different request IDs still produce one authoritative daily result",
+          "pass": true
+        },
+        {
+          "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+          "pass": true
+        },
+        {
+          "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+          "pass": true
+        },
+        {
+          "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+          "pass": true
+        },
+        {
+          "name": "publication gates do not seed/enable production or claim external artwork verification",
+          "pass": true
+        }
+      ],
+      "sourceSha256": "1f71bee7fa8b46ed1d767739673e48b8023053764cc4cf2856ecfc0e9d46307d"
+    },
+    {
+      "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+      "productionWrites": false,
+      "passed": 7,
+      "failed": 0,
+      "pass": true,
+      "results": [
+        {
+          "name": "defaults are closed with unknown rules and no seeded formal deck",
+          "pass": true
+        },
+        {
+          "name": "server result, idempotency, theme changes and quota have one draw only",
+          "pass": true
+        },
+        {
+          "name": "concurrent different request IDs still produce one authoritative daily result",
+          "pass": true
+        },
+        {
+          "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+          "pass": true
+        },
+        {
+          "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+          "pass": true
+        },
+        {
+          "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+          "pass": true
+        },
+        {
+          "name": "publication gates do not seed/enable production or claim external artwork verification",
+          "pass": true
+        }
+      ],
+      "sourceSha256": "823c8751e5937652bca597c56ced35638619a993d6cca8650ba6e4540f398a61"
+    },
+    {
+      "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+      "productionWrites": false,
+      "passed": 7,
+      "failed": 0,
+      "pass": true,
+      "results": [
+        {
+          "name": "defaults are closed with unknown rules and no seeded formal deck",
+          "pass": true
+        },
+        {
+          "name": "server result, idempotency, theme changes and quota have one draw only",
+          "pass": true
+        },
+        {
+          "name": "concurrent different request IDs still produce one authoritative daily result",
+          "pass": true
+        },
+        {
+          "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+          "pass": true
+        },
+        {
+          "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+          "pass": true
+        },
+        {
+          "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+          "pass": true
+        },
+        {
+          "name": "publication gates do not seed/enable production or claim external artwork verification",
+          "pass": true
+        }
+      ],
+      "sourceSha256": "8efa1eebacc609583ea90ee90930af339405dc712a63071414d8fb6a46c58ed3"
+    },
+    {
+      "scope": "Python in-memory explicit synthetic sandbox deck; no public integration, build, original DB, actual card content or production enablement.",
+      "productionWrites": false,
+      "passed": 7,
+      "failed": 0,
+      "pass": true,
+      "results": [
+        {
+          "name": "defaults are closed with unknown rules and no seeded formal deck",
+          "pass": true
+        },
+        {
+          "name": "server result, idempotency, theme changes and quota have one draw only",
+          "pass": true
+        },
+        {
+          "name": "concurrent different request IDs still produce one authoritative daily result",
+          "pass": true
+        },
+        {
+          "name": "published versions are immutable; updated decks and withdrawals never reroll history",
+          "pass": true
+        },
+        {
+          "name": "owner actions/practice/minimal AI/share and erasure preserve quota without restoring private content",
+          "pass": true
+        },
+        {
+          "name": "timezone cooldown/effective boundary cannot advance eligibility; DST uses natural-day boundaries",
+          "pass": true
+        },
+        {
+          "name": "publication gates do not seed/enable production or claim external artwork verification",
+          "pass": true
+        }
+      ],
+      "sourceSha256": "27c3852202dc4d45bed367a55164312a22c05378fd920627d43ce84df6698692"
+    }
+  ]
+}

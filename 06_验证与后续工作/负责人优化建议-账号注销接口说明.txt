@@ -1,0 +1,79 @@
+PR04 最终本地账号关闭与全会话撤销：独立准备态
+当前新源与精确接入计划已完成独立验证；公共入口尚未apply，未构建、未启服务、未操作原账号/原数据库或真实供应商。实际HTTP/浏览器runner已准备，必须等主代理完成retention→closure串行接入及新构建后再执行。不能把下列内存/VM通过说成实际部署已通过。
+
+新增业务源（均在已有目录）
+r4/backend/account_closure.py
+r4/backend/account_write_guard.py
+cloud/lib/account-closure.ts
+cloud/lib/account-write-guard.ts
+r4/account-closure.js
+r4/account-closure.css
+
+数据合同
+account_lifecycle(owner,status,epoch,closed_at,receipt_id)：无行视为active；closed不可恢复，保留users.id/username/role及业务归属，不释放用户名、不新建替身身份。
+account_closure_challenges：短期300秒、owner+当前会话hash绑定、nonce仅SHA256保存、同owner/request_id唯一；本人当前密码必须由原后端真实verifier核验。Python原PBKDF2与Cloud原WebCrypto算法分别复用，不混用算法。
+account_closure_receipts：唯一challenge与owner/request_id，仅保存无正文权威清理回执。原客户端64位hex随机nonce用于最小回执重放，不是重新登录权限。
+account_revoked_sessions：仅已撤销会话hash/owner/时间，使原有效cookie不能被降成visitor写资料。不能据此声称已擦除其他设备cookie字节。
+account_action_fences：同事务/D1 batch先核当前actor、会话有效期和fresh role，再提交用户写入；AFTER INSERT立即自删，不积累会话hash。
+
+本人接口
+GET /api/account-closure/status
+{accountId,accountClosed:false,canClose,lastActiveAdmin,passwordConfirmationSeconds:300,providersStatus:'pending-confirmation',backupsStatus:'pending-confirmation',thirdPartyRenewalCancelled:false}
+仅本人当前有效session。最后一个有效admin必须先移交权限，最终claim触发器再作事务内计数；两位已准备管理员并发关闭时也不能把最后一位关掉。
+
+POST /api/account-closure/prepare
+{requestId:8..100位字母数字_.:-,nonce:64位hex,password:本人当前密码}
+只验证近期密码并签发绑定当前会话的challenge，返回{challengeId,expiresAt,secondConfirmationRequired:true,accountClosed:false}，不关闭账号。相同requestId只重放同nonce/会话挑战，不延长过期时间；异nonce/会话409。
+
+POST /api/account-closure/confirm
+{requestId,nonce,challengeId,confirmed:true,renewalAcknowledged:true}
+最终同BEGIN IMMEDIATE / 同D1 batch：
+1. claim触发器核本人、原会话、未消费、有效期、active和最后管理员；
+2. 调用retention权威append_closure_cleanup / closureCleanupStatements，实际清已明确可删本人记录、测量、卡片私有记录、AI已保存快照与job正文关联；撤回六项授权、清policy/binding、prefs revision+1/provider receipt nonce失效、record/card erasure epoch+1、在途AI cancel_requested=1；
+3. users.password替换成独立随机盐+随机失效校验值，原口令不再可验证，不记录旧/新值；
+4. 消耗本人全部closure challenge，记录原会话hash墓碑，DELETE全部sessions；
+5. 最后写closed/epoch，整个过程失败全部回滚。
+返回{receipt:{id,status:'closed',accountClosed:true,sessionsRevoked:true,credentialVerifierInvalidated:true,closedAt,local,providersStatus,backupsStatus,thirdPartyRenewalCancelled:false,localBrowserCleared:false},reauthenticate:true}。
+完成后原强nonce同语义重放可返回同最小回执；不需要已撤销session。异nonce/异request/已登录其他账号重放404。重放不再清数据、升epoch或改变新账号。
+confirm不盲发过期Set-Cookie，避免旧回复迟到抹掉新账号cookie。服务端已删除/否决旧会话；前端只在真实receipt.accountClosed且actor一致时清本人已知本机键、转guest。换账号后迟到回复不得清/退出新号。关闭表单后同账号成功仍执行停用收尾。没有真实回执时页面不显示“已关闭”。
+
+最终写边界
+Python Store.connect返回guarded connection；请求begin捕获actor，require新鲜重查session/role/closed，finally在setup/请求/流式异常后清ContextVar。首次用户DML先BEGIN IMMEDIATE并插入临时fence，整个事务期间保持写锁；多条同事务写不会因为关闭动作在本批最后撤会话而误拒。
+Cloud API.db使用prepare/run/DML RETURNING first/all/raw及batch代理；非只读批次前置fence与原语句同D1 batch，require的roles进入fresh SQL核验。不是只在route开始检查缓存user。
+个人records/conversations/prefs/provider receipts/card/设备测量及新job等另有closed INSERT/UPDATE触发器，阻止已require后排队的资料复活。closed users不能靠改role重新激活。
+好友/私信target、真实老师creator/profile映射和设备owner有最终触发器。关闭老师从新预约目录排除；不擅自下架其公开作品或擦除社群历史。原履约/金融事实仍可由有效人员处理。
+
+受信内部路径（没有HTTP bypass字段）
+verifiedSessionApi / Python session settlement_scope只由原authenticate实际密码验证后的login调用，仅允许目标active的sessions INSERT/DELETE；不得改users/settings，原新session INSERT closed触发器仍生效。
+已接受gateway job在成功受保护claim之后才进入现有job派生的受限运行/结算adapter：允许job/attempt/传输元数据/源审计与保留epoch条件的会话保存，不能新建job、改settings/商品/支付或无条件存正文。Python原VALUES保存会在helper中改为条件INSERT SELECT，并保留原同事务所有prefs/provider nonce/settings验证、再核closed；不放宽白名单。关闭后不晚存正文，取消仍按原规则扣次、释放reserve；未收到完整上游usage保持unknown，不报0金额。
+已提交统一sandbox_pay或真实kind=refund的原订单，会员/佣金回调可用受限order adapter补接；不能新造商品、付款、退款或个人正文。买家closed不抹原账，active admin可安全处理既有退款。公开回执不声称真实资金到账。
+不可变源audit允许在已提交动作之后追加，避免动作完成后闭户导致审计丢失；没有用户直接写audit的接口。
+
+保留与未知状态
+权威cleanup与retention模块共享，closure不复制DELETE或重复递增epoch。
+保留users身份/用户名归属、订单/付款退款/权益/库存/会员/分佣/售后（含新case finance 5表）、钱包/额度/尝试元数据、公开作品、社群消息、源审计、最小防重quota/时区/erasure epoch、必要会话撤销和关闭回执。设备连接元数据按当前明确边界保留且政策未确认，测量实际清除；不谎称所有内容全擦除。
+供应商删除/向量及长期记忆服务、备份/WAL历史、法定财务留存天数与第三方真实续费仍pending/unknown。当前不存在真实长期记忆服务，不能把空列表称为已清外部记忆。原第三方订阅须到官方渠道另行管理；已闭户不代表取消Apple/Google/Stripe/PayPal。
+前端仅清本账号已知localStorage键，保留其他账号和全局偏好。本版其他标签通过closed marker失效旧token并停止持久化；未升级旧版本标签不构成全站CAS保证。
+
+接入
+06/负责人优化建议-账号注销接入准备.py 默认dry-run；9个文件39个精确锚点。--apply只在主代理retention最终门禁之后由主代理执行。先完整预计算、唯一anchor、Python AST、Cloud/JS parse、原字节SHA/TOCTOU；备份在现有06平铺，绝不新建版本/备份目录。保持原始换行策略和字节备份。
+涉及server.py、eastern-api.ts、ai_gateway.py、ai-gateway.ts、commerce-api.ts、build.py和隐私双端owner导出白名单。Cloud prepare沿用当前APP产物，无无意义改动；5个计算源不改。
+Python init_account_closure_schema(db)在个人schema齐备后；Cloud cookie读取前initAccountClosure(this,false)，所有模块初始化后initAccountClosure(this)。本人导出只加lifecycle/receipt允许字段，不导出challenge/session hash/nonce/fence或他人资料。
+root会统一接入/构建/双全量60后，再运行本模块实际专项。
+
+已通过与准备门禁
+负责人优化建议-账号注销内存专项.py：22项；fresh生成SQLite，原server密码算法、权威清理、并发重放、最后admin、真实付款/退款保留、4个真实Python handler require→body等待→闭户→最终拒绝、role fence/session专用途径。
+负责人优化建议-账号注销Cloud内存专项.cjs：26项；真实TS与native SQLite/D1 batch，包括4个真实方法body/arrayBuffer竞态、prepare.run/first/all/batch、fresh role、wallet结算、纯refund事实识别。
+负责人优化建议-账号注销前端专项.cjs：11项；两阶段、口令不持久化、强nonce重试、跨号迟到、模态框关闭后收尾、本人已知键清理/其他账号保留、四语和假回执拒绝。
+负责人优化建议-账号注销网关接入内存专项.py：3项；仅执行helper拟议gateway源：save=true成功且结算、save=false不存、真实权威闭户中途发生后不复活正文且扣次/释放预占。不是公共源码已apply的证据。
+new TS strict noEmit、JS/Python syntax和helper default dry已通过。保留历次夹具失败runs，不删除、不冒充实际服务通过。
+
+真实专项已备（27项/端，尚未执行）
+node 06_验证与后续工作/负责人优化建议-账号注销专项.cjs --target=python 或cloud
+自启随机fresh SQLite/D1、随机端口、本地实际APP/实际API，拒绝外部--base，Cloud显式ASSETS绑定并核藏文字体字节。只使用进程内明示.invalid模型夹具，不连接真实供应商；不替换业务guard/handler。QA-only timing gate仅在原body读取点等待，原业务继续执行并决定拒绝/提交。
+包含非最后admin关闭/最后admin拒绝、真实已付订单关闭前后原账对比及有效admin退款、4个require已过body等待后关闭、2个body等待后降权、实际密码变更新登录/旧challenge拒绝、旧cookie不能visitor写、在途gateway取消扣次/释放预占/不存正文、强凭证回执重放、真实两阶段UI/64视图/字体、同版双tab、真实换cookie登录后迟到confirm不退出新号。源身份只跟踪实际加载依赖/当前build列表，不包含尚未接入的并行finance文件全glob。
+任何实际门禁尚未执行，必须等主代理通知；失败原runs/图保留，由主代理判断夹具或真实缺陷后再处理。
+
+最终冻结：负责人优化建议-账号注销验收冻结.py 默认仅validate；--write须双full60、双实际27、64视图/64字体及两端16张逐张视觉核验同源全过。平铺四个不可变快照+统一负责人优化建议-账号注销-实施记录.json，无真实门禁不得写pass。
+
+按root追加第9文件仅拟议修复《后台单元回归.py》的Responses单元：真实fresh Store/users/session并补handler身份，Configuration.connect委托真实DB，保留原全部payload/store/save断言，不mock require。已在独立随机06 DB执行拟议server+原五单元5/5，未写当前测试、未碰本轮固定unitDB；见负责人优化建议-账号注销后台原五单元拟议核验.json。

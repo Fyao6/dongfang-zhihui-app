@@ -1,0 +1,68 @@
+{
+  "at": "2026-11-17T03:54:27.995Z",
+  "formalAcceptance": false,
+  "scope": "Pure actual shared-engine API only; no backend, Node IPC, browser, rights, translation or production acceptance.",
+  "engineVersion": "card-import-1",
+  "source": "04_研发源码/app/r4/card-import-engine.js",
+  "sourceSha256": "6ada86fda67ae0ee7be9f7dff830ca9d2cb684444db4d275dd359a0931e28830",
+  "sameSource": true,
+  "teacherApproval": false,
+  "productionMaterialsVerifiedBySystem": false,
+  "results": [
+    {
+      "name": "Strict decoded duplicate/prototype/BOM/nonfinite/unsafe integer/unpaired surrogate protection",
+      "pass": true,
+      "observed": {
+        "negativeInputs": 11,
+        "rawEscapeLexemesKept": true
+      }
+    },
+    {
+      "name": "Unicode codepoint canonical order, numeric-looking keys and equivalent JSON spellings",
+      "pass": true
+    },
+    {
+      "name": "Real JSON depth32 accepted / depth33 rejected",
+      "pass": true
+    },
+    {
+      "name": "Draft gaps remain explicit publish blockers and never invent approval/materials/count",
+      "pass": true,
+      "observed": {
+        "issues": 14,
+        "publishBlocked": true,
+        "automaticApproval": false
+      }
+    },
+    {
+      "name": "Multiple independent bad cards aggregate every issue without first-error truncation",
+      "pass": true,
+      "observed": {
+        "cards": 7,
+        "issues": 101
+      }
+    },
+    {
+      "name": "Every valid JSON malformed parent returns complete diagnostics rather than throwing",
+      "pass": true,
+      "observed": {
+        "actualEngineInvocations": 50
+      }
+    },
+    {
+      "name": "Explicit null in old-clean string/object fields cannot produce a falsely applicable preview",
+      "pass": true
+    },
+    {
+      "name": "Added/removed language and card diffs expose all five leaf fields; source declarations have visible diff",
+      "pass": true,
+      "observed": {
+        "addedDiffs": 41,
+        "removedDiffs": 36
+      }
+    }
+  ],
+  "passed": 8,
+  "failed": 0,
+  "pass": true
+}
