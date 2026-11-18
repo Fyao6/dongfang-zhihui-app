@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+from contextlib import closing
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -30,6 +31,10 @@ RECEIPT_REL = '06_验证与后续工作/成长统计-本地验收记录.json'
 PRIVATE_REL = '06_验证与后续工作/负责人优化建议-当前产品可靠性-实施记录.json'
 MANIFEST_NAME = '包内文件清单.json'
 TZ = timezone(timedelta(hours=8))
+LOCAL_DOCUMENTS_NOT_AUTHORIZED_FOR_PUBLIC_GIT = {
+    '06_验证与后续工作/APP名称核查总表-20261118.pdf',
+    '06_验证与后续工作/APP名称核查总表-20261118.xlsx',
+}
 SKIP_DIRS = {
     '.git', 'node_modules', '.wrangler', '.agents', '.codex', '__pycache__',
     '.pytest_cache', '.venv', 'venv', '.next', '.vinext', '.cache',
@@ -171,6 +176,8 @@ def reason_for(path: Path, private: set[str]) -> str | None:
         return 'database or sidecar; authorized consistent preview snapshot inserted once'
     if low in SKIP_LEAVES or path.suffix.lower() in SKIP_SUFFIXES:
         return 'credential, installer, log, cache or system file'
+    if low.endswith('.inspect.ndjson'):
+        return 'document runtime inspection cache; authored document retained'
     if in06 and path.suffix.lower() in MEDIA:
         return 'historical verification media; original reports and rerun scripts retained'
     if in06 and low.endswith('.原字节'):
@@ -284,8 +291,9 @@ def audit(aliases: dict[str, str], entry_baseline: Path | None = None) -> dict:
             'privateValuesPrinted': False, 'independentReportReviewRequired': True,
         }, 'integrity': integrity,
         'authorizedPreviewSnapshot': {'archivePath': aliases.get(DB_REL, DB_REL), 'deferredUntilPackaging': True, 'publicGitIncluded': False},
-        'publicGitCandidates': [row['path'] for row in included],
-        'gitFiles': list(included),
+        'publicGitCandidates': [row['path'] for row in included if row['path'] not in LOCAL_DOCUMENTS_NOT_AUTHORIZED_FOR_PUBLIC_GIT],
+        'gitFiles': [row for row in included if row['path'] not in LOCAL_DOCUMENTS_NOT_AUTHORIZED_FOR_PUBLIC_GIT],
+        'localDocumentsNotPublicGit': [row['path'] for row in included if row['path'] in LOCAL_DOCUMENTS_NOT_AUTHORIZED_FOR_PUBLIC_GIT],
         'sourceBytes': sum(row['bytes'] for row in included),
         'candidateCount': len(included),
         'excludedByReason': dict(collections.Counter(row['reason'] for row in excluded)),
@@ -314,8 +322,8 @@ def package(document: dict, aliases: dict[str, str], preflight_path: Path) -> di
     manifest['files'] = list(document['files'])
     with tempfile.TemporaryDirectory(prefix='delivery-snapshot-', dir=git_dir) as work:
         snapshot = Path(work) / 'preview.sqlite3'
-        with sqlite3.connect(source.as_uri() + '?mode=ro', uri=True) as original:
-            with sqlite3.connect(snapshot) as copied:
+        with closing(sqlite3.connect(source.as_uri() + '?mode=ro', uri=True)) as original:
+            with closing(sqlite3.connect(snapshot)) as copied:
                 original.backup(copied, pages=256, sleep=0.02)
                 result = copied.execute('PRAGMA integrity_check').fetchone()[0]
                 if result != 'ok':

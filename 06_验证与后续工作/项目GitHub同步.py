@@ -27,7 +27,8 @@ def stage(plan_path):
     plan = json.loads(plan_path.read_bytes())
     assert plan['pass'] is True and not plan['credentialScan']['issues']
     files = plan['gitFiles']
-    assert files and files == plan['files']
+    assert files and {x['path'] for x in files} <= {x['path'] for x in plan['files']}
+    assert all(x in plan['files'] for x in files)
     for item in files:
         path = ROOT / item['path']
         assert path.resolve().is_relative_to(ROOT) and not path.is_symlink()
