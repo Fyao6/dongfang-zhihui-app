@@ -26,6 +26,5 @@ Windows运行[启动APP.cmd](启动APP.cmd)，调用根[start-app.ps1](start-app
 
 复用[Fyao6/dongfang-zhihui-app](https://github.com/Fyao6/dongfang-zhihui-app)。[Pages静态预览](https://fyao6.github.io/dongfang-zhihui-app/)及[评审模式](https://fyao6.github.io/dongfang-zhihui-app/?view=review)沿用既有地址；静态预览不运行账号、数据库或真实支付。当前源码已同步main并完成逐文件核对，见[本次同步记录](06_验证与后续工作/GitHub本次同步记录.json)。正常项目交付包的最终Git提交、完整文件清单和SHA在ZIP内“包内文件清单.json”；外部校验记录另含ZIP整体SHA及CRC结果。
 
-负责人新增官网要求（2026-11-18）：官网主要功能与操作逻辑约80%与APP一致，当前展示官网尚未满足，列为待实施；原66项验证只证明展示官网原范围。待办：06_验证与后续工作/官网功能一致性-待办.json。
 
 官网最新视觉要求：视觉和主题与APP约80%一致，重点为配色、字体、图形语言和整体气质。不是功能或流程覆盖率；不增加本轮业务功能范围。主题对齐和用户评价待完成，见06_验证与后续工作/官网视觉主题-需求.json及两份表追加需求行。
